@@ -174,12 +174,19 @@ bool operator==(const ExportedMethod& a, const ExportedMethod& b) {
 
 struct ExportedClass {
     std::string name;
+    std::string filename;
     std::vector<std::string> namespaces;
     std::vector<ExportedMethod> methods;
 };
 
+struct ExportedFile {
+    std::string name;
+    std::unordered_map<std::string, cppmm::ExportedClass> classes;
+};
+
 } // namespace cppmm
 
+std::unordered_map<std::string, std::vector<std::string>> ex_files;
 std::unordered_map<std::string, cppmm::ExportedClass> ex_classes;
 
 bool is_builtin(const QualType& qt) {
@@ -483,9 +490,19 @@ class MatchExportsCallback : public MatchFinder::MatchCallback {
             }
 
             if (ex_classes.find(class_name) == ex_classes.end()) {
+                ASTContext& ctx = method->getASTContext();
+                SourceManager& sm = ctx.getSourceManager();
+
+                std::string filename = sm.getFilename(method->getBeginLoc());
+
                 auto namespaces = get_namespaces(method->getParent());
                 ex_classes[class_name] =
-                    cppmm::ExportedClass{class_name, namespaces, {}};
+                    cppmm::ExportedClass{class_name, filename, namespaces, {}};
+
+                if (ex_files.find(filename) == ex_files.end()) {
+                    ex_files[filename] = {};
+                }
+                ex_files[filename].push_back(class_name);
             }
 
             ex_classes[class_name].methods.push_back(ex_method);
@@ -554,7 +571,7 @@ int main(int argc, const char** argv) {
     int result = Tool.run(match_exports_action.get());
 
     for (const auto& ex_cls : ex_classes) {
-        fmt::print("{}\n", ex_cls.first);
+        fmt::print("{} ({})\n", ex_cls.first, ex_cls.second.filename);
         for (const auto& method : ex_cls.second.methods) {
             // fmt::print("    auto {}({}) -> {}\n", method.name,
             //            ps::join(", ", method.params), method.return_type);
@@ -567,114 +584,125 @@ int main(int argc, const char** argv) {
 
     fmt::print("{:-^30}\n", " OUTPUT ");
 
-    std::string declarations;
-    std::string definitions;
+    for (const auto& bind_file: ex_files) {
 
-    for (const auto& cls : classes) {
-        fmt::print("{}\n", cls.first);
+        std::string declarations;
+        std::string definitions;
 
-        std::string class_type = fmt::format(
-            "{}{}", prefix_from_namespaces(cls.second.namespaces, "_"),
-            cls.first);
+        // for (const auto& cls : classes) {
+        for (const auto& file_class_name: bind_file.second) {
+            const auto& cls = classes[file_class_name];
+            fmt::print("{}\n", cls.name);
 
-        declarations = fmt::format("{0}\n\ntypedef struct {1} {1};",
-                                   declarations, class_type);
+            std::string class_type = fmt::format(
+                "{}{}", prefix_from_namespaces(cls.namespaces, "_"),
+                cls.name);
 
-        std::string method_prefix = fmt::format(
-            "{}{}", prefix_from_namespaces(cls.second.namespaces, "_"),
-            cls.first);
+            declarations = fmt::format("{0}\n\ntypedef struct {1} {1};",
+                                    declarations, class_type);
 
-        for (auto method_pair : cls.second.methods) {
-            const auto& method = method_pair.second;
-            auto c_method_name =
-                fmt::format("{}_{}", method_prefix, method.name);
-            fmt::print("    {}\n", c_method_name);
+            std::string method_prefix = fmt::format(
+                "{}{}", prefix_from_namespaces(cls.namespaces, "_"),
+                cls.name);
 
-            std::vector<std::string> param_decls;
-            std::transform(method.params.begin(), method.params.end(),
-                           std::back_inserter(param_decls),
-                           cppmm::get_c_function_decl);
+            for (auto method_pair : cls.methods) {
+                const auto& method = method_pair.second;
+                auto c_method_name =
+                    fmt::format("{}_{}", method_prefix, method.name);
+                fmt::print("    {}\n", c_method_name);
 
-            std::string ret = cppmm::get_c_function_decl(method.return_type);
+                std::vector<std::string> param_decls;
+                std::transform(method.params.begin(), method.params.end(),
+                            std::back_inserter(param_decls),
+                            cppmm::get_c_function_decl);
 
-            std::string declaration;
-            if (method.is_static) {
-                declaration = fmt::format("{} {}({})", ret, c_method_name,
-                                          ps::join(", ", param_decls));
-            } else {
-                std::string constqual;
-                if (method.is_const) {
-                    constqual = "const ";
-                }
-                declaration = fmt::format("{} {}({}{}* self", ret,
-                                          c_method_name, constqual, class_type);
-                if (param_decls.size()) {
-                    declaration = fmt::format("{}, {})", declaration,
-                                              ps::join(", ", param_decls));
+                std::string ret = cppmm::get_c_function_decl(method.return_type);
+
+                std::string declaration;
+                if (method.is_static) {
+                    declaration = fmt::format("{} {}({})", ret, c_method_name,
+                                            ps::join(", ", param_decls));
                 } else {
-                    declaration = fmt::format("{})", declaration);
+                    std::string constqual;
+                    if (method.is_const) {
+                        constqual = "const ";
+                    }
+                    declaration = fmt::format("{} {}({}{}* self", ret,
+                                            c_method_name, constqual, class_type);
+                    if (param_decls.size()) {
+                        declaration = fmt::format("{}, {})", declaration,
+                                                ps::join(", ", param_decls));
+                    } else {
+                        declaration = fmt::format("{})", declaration);
+                    }
                 }
-            }
 
-            declarations = fmt::format("{}\n{}\n{};\n", declarations,
-                                       method.comment, declaration);
+                declarations = fmt::format("{}\n{}\n{};\n", declarations,
+                                        method.comment, declaration);
 
-            std::string body = "    return ";
-            if (method.return_type.requires_cast) {
-                body += "to_c(";
-            }
-            if (method.is_static) {
-                body += prefix_from_namespaces(cls.second.namespaces, "::") +
-                        cls.first + "::";
-            } else {
-                body += "to_cpp(self)->";
-            }
-            body += method.name;
-            std::vector<std::string> call_params;
-            for (const auto& p : method.params) {
-                call_params.push_back(cppmm::get_c_function_call(p));
-            }
-            body += fmt::format("({})", ps::join(", ", call_params));
-            if (method.return_type.is_uptr) {
-                body += ".release()";
-            }
-            if (method.return_type.requires_cast) {
-                body += ")";
-            }
-            body += ";";
+                std::string body = "    return ";
+                if (method.return_type.requires_cast) {
+                    body += "to_c(";
+                }
+                if (method.is_static) {
+                    body += prefix_from_namespaces(cls.namespaces, "::") +
+                            cls.name + "::";
+                } else {
+                    body += "to_cpp(self)->";
+                }
+                body += method.name;
+                std::vector<std::string> call_params;
+                for (const auto& p : method.params) {
+                    call_params.push_back(cppmm::get_c_function_call(p));
+                }
+                body += fmt::format("({})", ps::join(", ", call_params));
+                if (method.return_type.is_uptr) {
+                    body += ".release()";
+                }
+                if (method.return_type.requires_cast) {
+                    body += ")";
+                }
+                body += ";";
 
-            std::string definition =
-                fmt::format("{} {{\n{}\n}}", declaration, body);
+                std::string definition =
+                    fmt::format("{} {{\n{}\n}}", declaration, body);
 
-            definitions = fmt::format("{}\n\n\n{}\n", definitions, definition);
+                definitions = fmt::format("{}\n\n\n{}\n", definitions, definition);
+            }
         }
+
+        const auto basename = ps::os::path::basename(bind_file.first);
+        std::string root, ext;
+        ps::os::path::splitext(root, ext, basename);
+        const auto header = fmt::format("{}.h", root);
+        const auto implementation = fmt::format("{}.cpp", root);
+
+        auto out = fopen(implementation.c_str(), "w");
+        fprintf(out, "%s", definitions.c_str());
+
+        out = fopen(header.c_str(), "w");
+        fprintf(out, "#pragma once\n\n");
+        fprintf(out, "#ifdef __cplusplus\nextern \"C\" {\n#endif\n\n");
+        fprintf(out, "%s", declarations.c_str());
+        fprintf(out, "#ifdef __cplusplus\n}\n#endif\n\n");
+
+        declarations = fmt::format(
+            R"#(
+    #pragma once
+
+    #ifdef __cplusplus
+    extern "C" {{
+    #endif
+
+    {}
+
+    #ifdef __cplusplus
+    }}
+    #endif
+    )#",
+            declarations);
+
     }
-
-    auto out = fopen("testbind.cpp", "w");
-    fprintf(out, "%s", definitions.c_str());
-
-    out = fopen("testbind.h", "w");
-    fprintf(out, "#pragma once\n\n");
-    fprintf(out, "#ifdef __cplusplus\nextern \"C\" {\n#endif\n\n");
-    fprintf(out, "%s", declarations.c_str());
-    fprintf(out, "#ifdef __cplusplus\n}\n#endif\n\n");
-
-    declarations = fmt::format(
-        R"#(
-#pragma once
-
-#ifdef __cplusplus
-extern "C" {{
-#endif
-
-{}
-
-#ifdef __cplusplus
-}}
-#endif
-)#",
-        declarations);
-
     // fmt::print("{}\n", declarations);
     // fmt::print("{}\n", definitions);
 
