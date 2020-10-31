@@ -72,8 +72,10 @@ struct Param {
     std::string name;
     Type type;
     bool is_ptr = false;
+    bool is_uptr = false;
     bool is_ref = false;
     bool is_const = false;
+    bool requires_cast = false;
 };
 
 std::string get_c_function_decl(const Param& param) {
@@ -87,9 +89,12 @@ std::string get_c_function_decl(const Param& param) {
     } else if (param.type.name == "string_view") {
         result += "const char*";
     } else {
+        if (param.is_const) {
+            result += "const ";
+        }
         result += prefix_from_namespaces(param.type.namespaces, "_") +
                   param.type.name;
-        if (param.is_ptr || param.is_ref) {
+        if (param.is_ptr || param.is_ref || param.is_uptr) {
             result += "*";
         }
     }
@@ -97,6 +102,25 @@ std::string get_c_function_decl(const Param& param) {
     result += " ";
     result += param.name;
 
+    return result;
+}
+
+std::string get_c_function_call(const Param& param) {
+    std::string result;
+    if (param.is_ref && !(param.type.name == "basic_string" ||
+                          param.type.name == "string_view")) {
+        if (param.requires_cast) {
+            result = fmt::format("*to_cpp({})", param.name);
+        } else {
+            result = fmt::format("*{}", param.name);
+        }
+    } else {
+        if (param.requires_cast) {
+            result = fmt::format("to_cpp({})", param.name);
+        } else {
+            result = param.name;
+        }
+    }
     return result;
 }
 
@@ -113,6 +137,7 @@ struct Method {
     bool is_static = false;
     Param return_type;
     std::vector<Param> params;
+    std::string comment;
 };
 
 struct Class {
@@ -133,7 +158,6 @@ struct ExportedMethod {
         is_const = method->isConst();
         is_static = method->isStatic();
     }
-
     std::string name;
     std::string return_type;
     // vector of canonical typenames that are this method's parameters.
@@ -201,12 +225,24 @@ cppmm::Param process_param_type(const std::string& param_name,
 
     if (is_builtin(qt)) {
         result.type = cppmm::Type{qt.getAsString(), {}};
+        result.requires_cast = false;
     } else if (qt->isRecordType()) {
         const CXXRecordDecl* crd = qt->getAsCXXRecordDecl();
-        result.type = cppmm::Type{crd->getNameAsString(),
-                                  get_namespaces(qt->getAsCXXRecordDecl())};
+        if (crd->getNameAsString() == "unique_ptr") {
+            const auto* tst = qt->getAs<TemplateSpecializationType>();
+            result =
+                process_param_type(param_name, tst->getArgs()->getAsType());
+            result.is_uptr = true;
+        } else {
+            const CXXRecordDecl* crd = qt->getAsCXXRecordDecl();
+            result.type = cppmm::Type{crd->getNameAsString(),
+                                    get_namespaces(qt->getAsCXXRecordDecl())};
+            result.requires_cast = !(crd->getNameAsString() == "basic_string" ||
+                                     crd->getNameAsString() == "string_view");
+        }
     } else if (is_recordpointer(qt)) {
         result.is_const = qt->getPointeeType().isConstQualified();
+        result.requires_cast = true;
         const CXXRecordDecl* crd = qt->getPointeeType()->getAsCXXRecordDecl();
         if (crd) {
             result.type =
@@ -214,78 +250,9 @@ cppmm::Param process_param_type(const std::string& param_name,
         } else {
             result.type = cppmm::Type{qt.getAsString(), {}};
         }
+        result.requires_cast = !(crd->getNameAsString() == "basic_string" ||
+                                 crd->getNameAsString() == "string_view");
     }
-
-#if 0
-    std::string str_const = "";
-    // if (qt.isConstQualified()) {
-    //     str_const = "CONST";
-    // }
-
-    if (is_builtin(qt)) {
-#if defined(DEBUG_PRINT)
-        fmt::print("PARAM {} BUILTIN {} {} ({})\n", param_name, str_const,
-                   qt.getAsString(), qt.getCanonicalType().getAsString());
-#endif
-
-        result.cpp_type = qt.getAsString();
-        result.c_type = qt.getCanonicalType().getAsString();
-
-    } else if (qt->isRecordType()) {
-        const CXXRecordDecl* crd = qt->getAsCXXRecordDecl();
-#if defined(DEBUG_PRINT)
-        fmt::print("PARAM {} CXXRecordDecl {} NAME {} QNAME {}\n", param_name,
-                   str_const, crd->getNameAsString(),
-                   crd->getQualifiedNameAsString());
-#endif
-
-        if (crd->getNameAsString() == "basic_string" ||
-            crd->getNameAsString() == "string_view") {
-            result.cpp_type = crd->getNameAsString();
-            result.c_type = "char";
-            result.is_const = true;
-            result.is_pointer = true;
-        } else {
-            result.cpp_type = crd->getQualifiedNameAsString();
-            result.c_type =
-                ps::replace(crd->getQualifiedNameAsString(), "::", "_");
-            result.is_const = qt.isConstQualified();
-            result.is_pointer = false;
-        }
-
-    } else if (is_recordpointer(qt)) {
-        const CXXRecordDecl* crd = qt->getPointeeType()->getAsCXXRecordDecl();
-
-        result.is_pointer = true;
-        std::string str_ptr_const("");
-        if (qt->getPointeeType().isConstQualified()) {
-            str_ptr_const = "CONST";
-            result.is_const = true;
-        }
-        if (qt->isReferenceType()) {
-            str_ptr_const += " REF";
-            if (crd->getNameAsString() == "basic_string" ||
-                crd->getNameAsString() == "string_view") {
-                result.cpp_type = crd->getNameAsString();
-                result.c_type = "char";
-                result.is_const = true;
-                result.is_pointer = true;
-                return result;
-            }
-
-        } else {
-            str_ptr_const += " PTR";
-        }
-#if defined(DEBUG_PRINT)
-        fmt::print("PARAM {} CXXRecordDecl {} {} NAME {} QNAME {}\n",
-                   param_name, str_const, str_ptr_const, crd->getNameAsString(),
-                   crd->getQualifiedNameAsString());
-#endif
-
-        result.cpp_type = crd->getQualifiedNameAsString();
-        result.c_type = ps::replace(crd->getQualifiedNameAsString(), "::", "_");
-    }
-#endif
 
     return result;
 }
@@ -358,6 +325,26 @@ std::ostream& operator<<(std::ostream& os,
 }
 } // namespace fmt
 
+std::string get_method_comment(const CXXMethodDecl* method) {
+    ASTContext& ctx = method->getASTContext();
+    SourceManager& sm = ctx.getSourceManager();
+    const RawComment* rc = ctx.getRawCommentForDeclNoCache(method);
+    std::string result;
+    if (rc) {
+        std::string raw = rc->getRawText(sm);
+        // dedent lines
+        std::vector<std::string> lines;
+        ps::splitlines(raw, lines);
+        for (auto& line : lines) {
+            line = ps::strip(line);
+        }
+
+        result = ps::join("\n", lines);
+    }
+
+    return result;
+}
+
 cppmm::Method process_method(const CXXMethodDecl* method) {
     // const auto return_param = process_param_type("RET",
     // method->getReturnType());
@@ -371,13 +358,15 @@ cppmm::Method process_method(const CXXMethodDecl* method) {
         // p->getType().getCanonicalType().getAsString(), param_name);
     }
 
-    return cppmm::Method{
-        .name = method->getNameAsString(),
-        .is_const = method->isConst(),
-        .is_static = method->isStatic(),
-        .return_type = process_param_type("", method->getReturnType()),
-        .params = params,
-    };
+    std::string comment = get_method_comment(method);
+
+    return cppmm::Method{.name = method->getNameAsString(),
+                         .is_const = method->isConst(),
+                         .is_static = method->isStatic(),
+                         .return_type =
+                             process_param_type("", method->getReturnType()),
+                         .params = params,
+                         .comment = comment};
 }
 
 class CppmmMatchHandler : public MatchFinder::MatchCallback {
@@ -571,6 +560,9 @@ int main(int argc, const char** argv) {
 
     fmt::print("{:-^30}\n", " OUTPUT ");
 
+    std::string declarations;
+    std::string definitions;
+
     for (const auto& cls : classes) {
 
         std::string class_type = fmt::format(
@@ -581,12 +573,10 @@ int main(int argc, const char** argv) {
             "{}{}", prefix_from_namespaces(cls.second.namespaces, "_"),
             cls.first);
 
-        // fmt::print("{}\n", cls.first);
         for (auto method : cls.second.methods) {
             auto c_method_name =
                 fmt::format("{}_{}", method_prefix, method.name);
 
-            // fmt::print("    {}\n", method);
             std::vector<std::string> param_decls;
             std::transform(method.params.begin(), method.params.end(),
                            std::back_inserter(param_decls),
@@ -603,37 +593,61 @@ int main(int argc, const char** argv) {
                 if (method.is_const) {
                     constqual = "const ";
                 }
-                declaration = fmt::format("{} {}({}{}* self, {})", ret,
-                                          c_method_name, constqual, class_type,
-                                          ps::join(", ", param_decls));
+                declaration = fmt::format("{} {}({}{}* self", ret,
+                                          c_method_name, constqual, class_type);
+                if (param_decls.size()) {
+                    declaration = fmt::format("{}, {})", declaration,
+                                              ps::join(", ", param_decls));
+                } else {
+                    declaration = fmt::format("{})", declaration);
+                }
             }
 
-            fmt::print("// decl\n{};\n", declaration);
+            // fmt::print("// decl\n{};\n", declaration);
+            fmt::print("{}\n", method.comment);
+            fmt::print("{};\n", declaration);
+
+            declarations = fmt::format("{}\n{}\n{};\n", declarations,
+                                       method.comment, declaration);
 
             std::string body = "    return ";
+            if (method.return_type.requires_cast) {
+                body += "to_c(";
+            }
             if (method.is_static) {
                 body += prefix_from_namespaces(cls.second.namespaces, "::") +
                         cls.first + "::";
             } else {
-                body += "self->";
+                body += "to_cpp(self)->";
             }
             body += method.name;
             std::vector<std::string> call_params;
             for (const auto& p : method.params) {
-                if (p.is_ref) {
-                    call_params.push_back("*" + p.name);
-                } else {
-                    call_params.push_back(p.name);
-                }
+                call_params.push_back(cppmm::get_c_function_call(p));
             }
-            body += fmt::format("({});", ps::join(", ", call_params));
+            body += fmt::format("({})", ps::join(", ", call_params));
+            if (method.return_type.is_uptr) {
+                body += ".release()";
+            }
+            if (method.return_type.requires_cast) {
+                body += ")";
+            }
+            body += ";";
 
             std::string definition =
                 fmt::format("{} {{\n{}\n}}", declaration, body);
 
             fmt::print("// def\n{}\n\n", definition);
+
+            definitions = fmt::format("{}\n\n\n{}\n", definitions, definition);
         }
     }
+
+    auto out = fopen("testbind.c", "w");
+    fprintf(out, "%s", definitions.c_str());
+
+    out = fopen("testbind.h", "w");
+    fprintf(out, "%s", declarations.c_str());
 
     return result;
 }

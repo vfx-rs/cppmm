@@ -16,15 +16,15 @@ namespace OIIO {
         bool valid_file(const std::string& filename) const;
         bool open(const std::string& name, ::OIIO::ImageSpec& newspec,
                   const ::OIIO::ImageSpec& config);
-        // const ::OIIO::ImageSpec& spec() const;
+        const ::OIIO::ImageSpec& spec() const;
+
         // __attribute__((annotate("cppm:rename:spec_copy")))::OIIO::ImageSpec
         // spec(int subimage, int miplevel);
 
         // Could specify we have a manual definition for this method, which will
         // which will be found in the namespace cppmm_manual below
         // __attribute__((annotate("cppm:manual:OIIO_ImageInput_geterror")))
-        // std::string
-        // geterror() const;
+        // std::string geterror() const;
     };
 
     bool getattribute(::OIIO::string_view, ::OIIO::TypeDesc, void*);
