@@ -569,7 +569,8 @@ int main(int argc, const char** argv) {
             "{}{}", prefix_from_namespaces(cls.second.namespaces, "_"),
             cls.first);
 
-        declarations = fmt::format("typedef struct {0} {0};", class_type);
+        declarations = fmt::format("{}\n\ntypedef struct {1} {1};",
+                                   declarations, class_type);
 
         std::string method_prefix = fmt::format(
             "{}{}", prefix_from_namespaces(cls.second.namespaces, "_"),
