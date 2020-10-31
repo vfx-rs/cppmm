@@ -1,5 +1,5 @@
-#include <OpenImageIO/imageio.h>
 #include <OpenImageIO/filesystem.h>
+#include <OpenImageIO/imageio.h>
 
 // FIXME: attributes in macros don't work
 // #define CPPMM_IGNORE        __attribute__((annotate("cppmm:ignore")))
@@ -8,22 +8,15 @@
 namespace cppmm_bind {
 namespace OIIO {
 
-class ImageSpec {
-    void default_channel_names();
-};
-
 class ImageInput {
     static std::unique_ptr<::OIIO::ImageInput>
     create(::OIIO::string_view, bool, const ::OIIO::ImageSpec*,
            ::OIIO::Filesystem::IOProxy*, ::OIIO::string_view);
 
     int supports(::OIIO::string_view feature) const;
-
     bool valid_file(const std::string& filename) const;
-
     bool open(const std::string& name, ::OIIO::ImageSpec& newspec,
               const ::OIIO::ImageSpec& config);
-
     const ::OIIO::ImageSpec& spec() const;
 
     // __attribute__((annotate("cppm:rename:spec_copy")))::OIIO::ImageSpec
@@ -33,14 +26,14 @@ class ImageInput {
     // which will be found in the namespace cppmm_manual below
     // __attribute__((annotate("cppm:manual:OIIO_ImageInput_geterror")))
     // std::string geterror() const;
-    };
+};
 
-    bool getattribute(::OIIO::string_view, ::OIIO::TypeDesc, void*);
-}
-}
+bool getattribute(::OIIO::string_view, ::OIIO::TypeDesc, void*);
+} // namespace OIIO
+} // namespace cppmm_bind
 
 namespace cppmm_manual {
-    void OIIO_ImageInput_geterror(char* errormsg, int len, bool clear) {
-        //
-    }
+void OIIO_ImageInput_geterror(char* errormsg, int len, bool clear) {
+    //
 }
+} // namespace cppmm_manual

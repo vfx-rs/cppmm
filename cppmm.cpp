@@ -143,7 +143,7 @@ struct Method {
 struct Class {
     std::string name;
     std::vector<std::string> namespaces;
-    std::vector<Method> methods;
+    std::unordered_map<std::string, Method> methods;
 };
 
 struct ExportedMethod {
@@ -414,7 +414,11 @@ class CppmmMatchHandler : public MatchFinder::MatchCallback {
                        method->getQualifiedNameAsString());
 
             // now grab the method parameters for further processing
-            classes[class_name].methods.push_back(process_method(method));
+            if (classes[class_name].methods.find(method_name) ==
+                classes[class_name].methods.end()) {
+                classes[class_name].methods[method_name] =
+                    process_method(method);
+            }
         }
     }
 };
@@ -541,6 +545,9 @@ int main(int argc, const char** argv) {
     ClangTool Tool(OptionsParser.getCompilations(),
                    OptionsParser.getSourcePathList());
 
+    fmt::print("source files: [{}]\n",
+               ps::join(", ", OptionsParser.getSourcePathList()));
+
     namespace_renames["OpenImageIO_v2_2"] = "OIIO";
 
     auto match_exports_action = newFrontendActionFactory<MatchExportsAction>();
@@ -564,21 +571,24 @@ int main(int argc, const char** argv) {
     std::string definitions;
 
     for (const auto& cls : classes) {
+        fmt::print("{}\n", cls.first);
 
         std::string class_type = fmt::format(
             "{}{}", prefix_from_namespaces(cls.second.namespaces, "_"),
             cls.first);
 
-        declarations = fmt::format("{}\n\ntypedef struct {1} {1};",
+        declarations = fmt::format("{0}\n\ntypedef struct {1} {1};",
                                    declarations, class_type);
 
         std::string method_prefix = fmt::format(
             "{}{}", prefix_from_namespaces(cls.second.namespaces, "_"),
             cls.first);
 
-        for (auto method : cls.second.methods) {
+        for (auto method_pair : cls.second.methods) {
+            const auto& method = method_pair.second;
             auto c_method_name =
                 fmt::format("{}_{}", method_prefix, method.name);
+            fmt::print("    {}\n", c_method_name);
 
             std::vector<std::string> param_decls;
             std::transform(method.params.begin(), method.params.end(),
@@ -605,10 +615,6 @@ int main(int argc, const char** argv) {
                     declaration = fmt::format("{})", declaration);
                 }
             }
-
-            // fmt::print("// decl\n{};\n", declaration);
-            fmt::print("{}\n", method.comment);
-            fmt::print("{};\n", declaration);
 
             declarations = fmt::format("{}\n{}\n{};\n", declarations,
                                        method.comment, declaration);
@@ -640,8 +646,6 @@ int main(int argc, const char** argv) {
             std::string definition =
                 fmt::format("{} {{\n{}\n}}", declaration, body);
 
-            fmt::print("// def\n{}\n\n", definition);
-
             definitions = fmt::format("{}\n\n\n{}\n", definitions, definition);
         }
     }
@@ -654,6 +658,25 @@ int main(int argc, const char** argv) {
     fprintf(out, "#ifdef __cplusplus\nextern \"C\" {\n#endif\n\n");
     fprintf(out, "%s", declarations.c_str());
     fprintf(out, "#ifdef __cplusplus\n}\n#endif\n\n");
+
+    declarations = fmt::format(
+        R"#(
+#pragma once
+
+#ifdef __cplusplus
+extern "C" {{
+#endif
+
+{}
+
+#ifdef __cplusplus
+}}
+#endif
+)#",
+        declarations);
+
+    // fmt::print("{}\n", declarations);
+    // fmt::print("{}\n", definitions);
 
     return result;
 }
