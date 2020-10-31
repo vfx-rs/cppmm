@@ -569,6 +569,8 @@ int main(int argc, const char** argv) {
             "{}{}", prefix_from_namespaces(cls.second.namespaces, "_"),
             cls.first);
 
+        declarations = fmt::format("typedef struct {0} {0};", class_type);
+
         std::string method_prefix = fmt::format(
             "{}{}", prefix_from_namespaces(cls.second.namespaces, "_"),
             cls.first);
@@ -643,11 +645,14 @@ int main(int argc, const char** argv) {
         }
     }
 
-    auto out = fopen("testbind.c", "w");
+    auto out = fopen("testbind.cpp", "w");
     fprintf(out, "%s", definitions.c_str());
 
     out = fopen("testbind.h", "w");
+    fprintf(out, "#pragma once\n\n");
+    fprintf(out, "#ifdef __cplusplus\nextern \"C\" {\n#endif\n\n");
     fprintf(out, "%s", declarations.c_str());
+    fprintf(out, "#ifdef __cplusplus\n}\n#endif\n\n");
 
     return result;
 }
