@@ -128,6 +128,8 @@ std::string get_c_function_decl(const Param& param) {
         }
     } else if (param.type.name == "string_view") {
         result += "const char*";
+    } else if (param.type.name == "const char *") {
+        result += "const char*";
     } else if (param.type.name == "void *") {
         result += "void*";
     } else {
@@ -531,7 +533,7 @@ public:
             // (or we'll get duplicates)
             DeclarationMatcher decl_matcher =
                 cxxMethodDecl(
-                    ofClass(hasName(input_class.first)),
+                    isPublic(), ofClass(hasName(input_class.first)),
                     unless(hasAncestor(namespaceDecl(hasName("cppmm_bind")))))
                     .bind("methodDecl");
             _match_finder.addMatcher(decl_matcher, &_handler);
@@ -887,14 +889,21 @@ const CTYPE* to_c(const CPPTYPE* ptr) {                     \
     // fmt::print("{}\n", definitions);
 
     if (opt_warn_unbound) {
-        fmt::print("\n");
-        fmt::print("The following methods were not bound, ignored or manually "
-                   "overriden:\n");
+        size_t total = 0;
         for (const auto& ex_class : ex_classes) {
-            fmt::print("{}\n", ex_class.second.name);
-            for (const auto& rejected_method :
-                 ex_class.second.rejected_methods) {
-                fmt::print("    {}\n", rejected_method);
+            total += ex_class.second.rejected_methods.size();
+        }
+        if (total != 0) {
+            fmt::print("The following methods were not bound, ignored or manually "
+                    "overriden:\n");
+            for (const auto& ex_class : ex_classes) {
+                if (ex_class.second.rejected_methods.size()) {
+                    fmt::print("{}\n", ex_class.second.name);
+                    for (const auto& rejected_method :
+                        ex_class.second.rejected_methods) {
+                        fmt::print("    {}\n", rejected_method);
+                    }
+                }
             }
         }
     }
