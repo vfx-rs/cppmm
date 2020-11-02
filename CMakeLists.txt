@@ -6,7 +6,7 @@ set(CMAKE_PREFIX_PATH "${LLVM_ROOT}/lib/cmake/clang")
 find_package(Clang REQUIRED CONFIG)
 
 # Use the same C++ standard as LLVM does
-set(CMAKE_CXX_STANDARD 14 CACHE STRING "")
+set(CMAKE_CXX_STANDARD 17 CACHE STRING "")
 
 # LLVM is normally built without RTTI. Be consistent with that.
 if(NOT LLVM_ENABLE_RTTI)
