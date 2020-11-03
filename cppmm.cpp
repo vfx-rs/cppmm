@@ -104,8 +104,12 @@ struct CType {
 
 struct Type {
     std::string name;
-    std::vector<std::string> namespaces;
+    std::vector<std::string> namespaces = {};
     // std::vector<Param> template_params;
+    bool is_builtin = false;
+    bool is_enum = false;
+    bool is_func_proto = false;
+    std::vector<std::pair<std::string, uint64_t>> enumerators = {};
 };
 
 struct Param {
@@ -261,6 +265,7 @@ struct ExportedFile {
 
 std::unordered_map<std::string, cppmm::ExportedFile> ex_files;
 std::unordered_map<std::string, cppmm::ExportedClass> ex_classes;
+std::unordered_map<std::string, std::unique_ptr<cppmm::Type>> ex_types;
 
 bool is_builtin(const QualType& qt) {
     return (qt->isBuiltinType() ||
@@ -272,9 +277,12 @@ bool is_recordpointer(const QualType& qt) {
             qt->getPointeeType()->isRecordType());
 }
 
-std::vector<std::string> get_namespaces(const CXXRecordDecl* crd) {
+std::string qualified_type_name(const cppmm::Type& type) {
+    return prefix_from_namespaces(type.namespaces, "::") + type.name;
+}
+
+std::vector<std::string> get_namespaces(const DeclContext* parent) {
     std::vector<std::string> result;
-    const DeclContext* parent = crd->getParent();
 
     while (parent) {
         if (parent->isNamespace()) {
@@ -283,6 +291,10 @@ std::vector<std::string> get_namespaces(const CXXRecordDecl* crd) {
                 break;
             }
             result.push_back(ns->getNameAsString());
+            parent = parent->getParent();
+        } else if (parent->isRecord()) {
+            const RecordDecl* rd = static_cast<const RecordDecl*>(parent);
+            result.push_back(rd->getNameAsString());
             parent = parent->getParent();
         } else {
             break;
@@ -295,43 +307,89 @@ std::vector<std::string> get_namespaces(const CXXRecordDecl* crd) {
 
 // #define DEBUG_PRINT
 
-cppmm::Param process_param_type(const std::string& param_name,
-                                const QualType& qt) {
+cppmm::Param process_pointee_type(const std::string& param_name,
+                                  const QualType& qt) {
     cppmm::Param result;
     result.name = param_name;
-    result.is_const = qt.isConstQualified();
-    result.is_ptr = qt->isPointerType();
-    result.is_ref = qt->isReferenceType();
 
     if (is_builtin(qt)) {
-        result.type = cppmm::Type{qt.getAsString(), {}};
+        std::string name = qt.getAsString();
+        result.type = cppmm::Type{qt.getTypePtr()
+                                      ->getUnqualifiedDesugaredType()
+                                      ->getAs<BuiltinType>()
+                                      ->desugar()
+                                      .getAsString(),
+                                  {},
+                                  .is_builtin = true};
         result.requires_cast = false;
     } else if (qt->isRecordType()) {
         const CXXRecordDecl* crd = qt->getAsCXXRecordDecl();
         if (crd->getNameAsString() == "unique_ptr") {
             const auto* tst = qt->getAs<TemplateSpecializationType>();
             result =
-                process_param_type(param_name, tst->getArgs()->getAsType());
+                process_pointee_type(param_name, tst->getArgs()->getAsType());
             result.is_uptr = true;
         } else {
             const CXXRecordDecl* crd = qt->getAsCXXRecordDecl();
-            result.type = cppmm::Type{crd->getNameAsString(),
-                                      get_namespaces(qt->getAsCXXRecordDecl())};
+            if (crd->getNameAsString().find("ImageInput") !=
+                std::string::npos) {
+            }
+            result.type = cppmm::Type{
+                crd->getNameAsString(),
+                get_namespaces(qt->getAsCXXRecordDecl()->getParent())};
             result.requires_cast = !(crd->getNameAsString() == "basic_string" ||
                                      crd->getNameAsString() == "string_view");
+
+            // store the type for later processing
+            if (result.type.name != "basic_string" &&
+                result.type.name != "string_view" &&
+                result.type.name != "vector") {
+                std::string qname = qualified_type_name(result.type);
+                ex_types[qname] = std::make_unique<cppmm::Type>(result.type);
+            }
         }
-    } else if (is_recordpointer(qt)) {
-        result.is_const = qt->getPointeeType().isConstQualified();
-        result.requires_cast = true;
-        const CXXRecordDecl* crd = qt->getPointeeType()->getAsCXXRecordDecl();
-        if (crd) {
-            result.type =
-                cppmm::Type{crd->getNameAsString(), get_namespaces(crd)};
-        } else {
-            result.type = cppmm::Type{qt.getAsString(), {}};
+    } else if (qt->isEnumeralType()) {
+        const auto* enum_decl = qt->getAs<EnumType>()->getDecl();
+        const auto ns = get_namespaces(enum_decl->getParent());
+        std::vector<std::pair<std::string, uint64_t>> enumerators;
+        for (const auto& ecd : enum_decl->enumerators()) {
+            enumerators.push_back(std::make_pair<std::string, uint64_t>(
+                ecd->getNameAsString(), ecd->getInitVal().getLimitedValue()));
         }
-        result.requires_cast = !(crd->getNameAsString() == "basic_string" ||
-                                 crd->getNameAsString() == "string_view");
+
+        result.type = cppmm::Type{enum_decl->getNameAsString(), ns,
+                                  .is_enum = true, .enumerators = enumerators};
+        std::string qname = qualified_type_name(result.type);
+        ex_types[qname] = std::make_unique<cppmm::Type>(result.type);
+
+    } else {
+        fmt::print("Unhandled type: {}\n", qt.getAsString());
+        qt->dump();
+    }
+
+    result.is_const = qt.isConstQualified();
+    return result;
+}
+
+cppmm::Param process_param_type(const std::string& param_name,
+                                const QualType& qt) {
+    cppmm::Param result;
+    bool is_ptr = qt->isPointerType();
+    bool is_ref = qt->isReferenceType();
+
+    if (is_ptr || is_ref) {
+        result = process_pointee_type(param_name, qt->getPointeeType());
+        result.is_ptr = is_ptr;
+        result.is_ref = is_ref;
+    } else if (is_builtin(qt)) {
+        result = process_pointee_type(param_name, qt);
+    } else if (qt->isRecordType()) {
+        result = process_pointee_type(param_name, qt);
+    } else if (qt->isEnumeralType()) {
+        result = process_pointee_type(param_name, qt);
+    } else {
+        fmt::print("ERROR unhandled param type {}\n", qt.getAsString());
+        qt->dump();
     }
 
     return result;
@@ -430,10 +488,7 @@ cppmm::Method process_method(const CXXMethodDecl* method,
     std::vector<cppmm::Param> params;
     for (const auto& p : method->parameters()) {
         const auto param_name = p->getNameAsString();
-        // TODO: we get the canonical type here to see through typedefs but
-        // do we want to parse them properly and redeclare a C version?
-        params.push_back(
-            process_param_type(param_name, p->getType().getCanonicalType()));
+        params.push_back(process_param_type(param_name, p->getType()));
     }
 
     std::string comment = get_method_comment(method);
@@ -472,7 +527,8 @@ class CppmmMatchHandler : public MatchFinder::MatchCallback {
             // the bindings, as well as error if something is used but not
             // declared for binding
             if (classes.find(class_name) == classes.end()) {
-                auto namespaces = get_namespaces(method->getParent());
+                auto namespaces =
+                    get_namespaces(method->getParent()->getParent());
                 classes[class_name] = cppmm::Class{class_name, namespaces, {}};
             }
 
@@ -575,7 +631,7 @@ class MatchExportsCallback : public MatchFinder::MatchCallback {
             cppmm::ExportedMethod ex_method(method, attrs);
             const auto class_name = method->getParent()->getNameAsString();
 
-            // check if we've seen the class this metho belongs to before, and
+            // check if we've seen the class this method belongs to before, and
             // if not process it
             if (ex_classes.find(class_name) == ex_classes.end()) {
                 ASTContext& ctx = method->getASTContext();
@@ -583,7 +639,8 @@ class MatchExportsCallback : public MatchFinder::MatchCallback {
 
                 std::string filename = sm.getFilename(method->getBeginLoc());
 
-                auto namespaces = get_namespaces(method->getParent());
+                auto namespaces =
+                    get_namespaces(method->getParent()->getParent());
                 ex_classes[class_name] =
                     cppmm::ExportedClass{class_name, filename, namespaces, {}};
 
@@ -693,27 +750,22 @@ int main(int argc, const char** argv) {
     //--------------------------------------------------------------------------
     // First pass - find all declarations in namespace cppmm_bind that will tell
     // us what we want to bind
+    // fmt::print("1st pass ----------\n");
     auto match_exports_action = newFrontendActionFactory<MatchExportsAction>();
     int result = Tool.run(match_exports_action.get());
-
-    /*
-    for (const auto& ex_cls : ex_classes) {
-        fmt::print("{} ({})\n", ex_cls.first, ex_cls.second.filename);
-        for (const auto& method : ex_cls.second.methods) {
-            // fmt::print("    auto {}({}) -> {}\n", method.name,
-            //            ps::join(", ", method.params), method.return_type);
-            fmt::print("    {}\n", method);
-        }
-    }
-    */
 
     //--------------------------------------------------------------------------
     // Second pass - find matching methods to the ones declared in the first
     // pass and filter out the ones we want to generate bindings for
+    // fmt::print("2nd pass ----------\n");
     auto cppmm_action = newFrontendActionFactory<CppmmAction>();
     result = Tool.run(cppmm_action.get());
 
     // fmt::print("{:-^30}\n", " OUTPUT ");
+    // fmt::print("Types: \n");
+    // for (const auto& type : ex_types) {
+    //     fmt::print("    {}\n", type.second->name);
+    // }
 
     std::string casts_macro_invocaions;
 
@@ -745,7 +797,6 @@ int main(int argc, const char** argv) {
                 const auto& method = method_pair.second;
                 auto c_method_name =
                     fmt::format("{}_{}", method_prefix, method.c_name);
-                // fmt::print("    {}\n", c_method_name);
 
                 std::vector<std::string> param_decls;
                 std::transform(method.params.begin(), method.params.end(),
@@ -894,13 +945,14 @@ const CTYPE* to_c(const CPPTYPE* ptr) {                     \
             total += ex_class.second.rejected_methods.size();
         }
         if (total != 0) {
-            fmt::print("The following methods were not bound, ignored or manually "
-                    "overriden:\n");
+            fmt::print(
+                "The following methods were not bound, ignored or manually "
+                "overriden:\n");
             for (const auto& ex_class : ex_classes) {
                 if (ex_class.second.rejected_methods.size()) {
                     fmt::print("{}\n", ex_class.second.name);
                     for (const auto& rejected_method :
-                        ex_class.second.rejected_methods) {
+                         ex_class.second.rejected_methods) {
                         fmt::print("    {}\n", rejected_method);
                     }
                 }

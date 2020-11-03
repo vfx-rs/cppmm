@@ -8,8 +8,6 @@
 namespace cppmm_bind {
 namespace OIIO {
 
-using ::OIIO::imagesize_t;
-using ::OIIO::stride_t;
 using ::OIIO::string_view;
 
 class ImageSpec {
@@ -49,28 +47,31 @@ class ImageSpec {
     size_t pixel_bytes(int chbegin, int chend, bool native) const noexcept
         __attribute__((annotate("cppmm:rename:pixel_bytes_for")));
 
-    imagesize_t scanline_bytes(bool native) const noexcept;
+    ::OIIO::imagesize_t scanline_bytes(bool native) const noexcept;
 
-    imagesize_t tile_pixels() const noexcept;
+    ::OIIO::imagesize_t tile_pixels() const noexcept;
 
-    imagesize_t tile_bytes(bool native) const noexcept;
+    ::OIIO::imagesize_t tile_bytes(bool native) const noexcept;
 
-    imagesize_t image_pixels() const noexcept;
+    ::OIIO::imagesize_t image_pixels() const noexcept;
 
-    imagesize_t image_bytes(bool native) const noexcept;
+    ::OIIO::imagesize_t image_bytes(bool native) const noexcept;
 
     bool size_t_safe() const noexcept;
 
-    static void auto_stride(stride_t& xstride, stride_t& ystride,
-                            stride_t& zstride, stride_t channelsize,
-                            int nchannels, int width, int height) noexcept;
+    static void auto_stride(::OIIO::stride_t& xstride,
+                            ::OIIO::stride_t& ystride,
+                            ::OIIO::stride_t& zstride,
+                            ::OIIO::stride_t channelsize, int nchannels,
+                            int width, int height) noexcept;
 
-    static void auto_stride(stride_t& xstride, stride_t& ystride,
-                            stride_t& zstride, ::OIIO::TypeDesc format,
+    static void auto_stride(::OIIO::stride_t& xstride,
+                            ::OIIO::stride_t& ystride,
+                            ::OIIO::stride_t& zstride, ::OIIO::TypeDesc format,
                             int nchannels, int width, int height) noexcept
         __attribute__((annotate("cppmm:ignore")));
 
-    static void auto_stride(stride_t& xstride, ::OIIO::TypeDesc format,
+    static void auto_stride(::OIIO::stride_t& xstride, ::OIIO::TypeDesc format,
                             int nchannels) noexcept
         __attribute__((annotate("cppmm:rename:auto_stride_x")));
 
@@ -122,6 +123,10 @@ class ImageSpec {
     string_view get_string_attribute(string_view name,
                                      string_view defaultval) const
         __attribute__((annotate("cppmm:ignore")));
+
+    // TODO: enums
+    enum SerialFormat {};
+    enum SerialVerbose {};
 
     // TODO: returning strings
     static std::string metadata_val(const ::OIIO::ParamValue& p, bool human);
@@ -270,19 +275,22 @@ class ImageInput {
         __attribute__((annotate("cppmm:ignore")));
 
     bool read_image(int subimage, int miplevel, int chbegin, int chend,
-                    ::OIIO::TypeDesc format, void* data, stride_t xstride,
-                    stride_t ystride, stride_t zstride,
+                    ::OIIO::TypeDesc format, void* data,
+                    ::OIIO::stride_t xstride, ::OIIO::stride_t ystride,
+                    ::OIIO::stride_t zstride,
                     ::OIIO::ProgressCallback progress_callback,
                     void* progress_callback_data);
 
     // DEPRECATED versions of read_image (pre-1.9 OIIO).
-    bool read_image(::OIIO::TypeDesc format, void* data, stride_t xstride,
-                    stride_t ystride, stride_t zstride,
+    bool read_image(::OIIO::TypeDesc format, void* data,
+                    ::OIIO::stride_t xstride, ::OIIO::stride_t ystride,
+                    ::OIIO::stride_t zstride,
                     ::OIIO::ProgressCallback progress_callback,
                     void* progress_callback_data)
         __attribute__((annotate("cppmm:ignore")));
     bool read_image(int chbegin, int chend, ::OIIO::TypeDesc format, void* data,
-                    stride_t xstride, stride_t ystride, stride_t zstride,
+                    ::OIIO::stride_t xstride, ::OIIO::stride_t ystride,
+                    ::OIIO::stride_t zstride,
                     ::OIIO::ProgressCallback progress_callback,
                     void* progress_callback_data)
         __attribute__((annotate("cppmm:ignore")));
