@@ -13,6 +13,7 @@ if(NOT LLVM_ENABLE_RTTI)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-rtti")
 endif()
 
+add_subdirectory(fmt)
 
 add_executable(cppmm cppmm.cpp pystring.cpp)
 target_link_libraries(cppmm clangTooling clangBasic clangASTMatchers fmt)

@@ -29,6 +29,9 @@ This will generate `c-imageio.cpp`, `c-imageio.h` and `casts.h` in the build dir
 - [ ] Add type registry and warn on missing type declarations
 - [ ] Add parameter names for copy constructors and assignment operators
 - [ ] Add support for declaring enums
+- [ ] Add support for free functions
+- [ ] Add support for returning strings
+- [ ] Add support for vector
 - [ ] Add support for generating C versions of C++ types (value types)
 - [ ] Add Rust -sys crate output
 - [ ] Figure out how to parse attributes inside macros

@@ -8,7 +8,10 @@
 namespace cppmm_bind {
 namespace OIIO {
 
+using ::OIIO::imagesize_t;
+using ::OIIO::stride_t;
 using ::OIIO::string_view;
+using ::OIIO::ProgressCallback;
 
 class ImageSpec {
     ImageSpec(::OIIO::TypeDesc format) noexcept
@@ -47,27 +50,24 @@ class ImageSpec {
     size_t pixel_bytes(int chbegin, int chend, bool native) const noexcept
         __attribute__((annotate("cppmm:rename:pixel_bytes_for")));
 
-    ::OIIO::imagesize_t scanline_bytes(bool native) const noexcept;
+    imagesize_t scanline_bytes(bool native) const noexcept;
 
-    ::OIIO::imagesize_t tile_pixels() const noexcept;
+    imagesize_t tile_pixels() const noexcept;
 
-    ::OIIO::imagesize_t tile_bytes(bool native) const noexcept;
+    imagesize_t tile_bytes(bool native) const noexcept;
 
-    ::OIIO::imagesize_t image_pixels() const noexcept;
+    imagesize_t image_pixels() const noexcept;
 
-    ::OIIO::imagesize_t image_bytes(bool native) const noexcept;
+    imagesize_t image_bytes(bool native) const noexcept;
 
     bool size_t_safe() const noexcept;
 
-    static void auto_stride(::OIIO::stride_t& xstride,
-                            ::OIIO::stride_t& ystride,
-                            ::OIIO::stride_t& zstride,
-                            ::OIIO::stride_t channelsize, int nchannels,
-                            int width, int height) noexcept;
+    static void auto_stride(stride_t& xstride, stride_t& ystride,
+                            stride_t& zstride, stride_t channelsize,
+                            int nchannels, int width, int height) noexcept;
 
-    static void auto_stride(::OIIO::stride_t& xstride,
-                            ::OIIO::stride_t& ystride,
-                            ::OIIO::stride_t& zstride, ::OIIO::TypeDesc format,
+    static void auto_stride(stride_t& xstride, stride_t& ystride,
+                            stride_t& zstride, ::OIIO::TypeDesc format,
                             int nchannels, int width, int height) noexcept
         __attribute__((annotate("cppmm:ignore")));
 
@@ -230,28 +230,25 @@ class ImageInput {
         __attribute__((annotate("cppmm:ignore")));
 
     bool read_scanline(int y, int z, ::OIIO::TypeDesc format, void* data,
-                       ::OIIO::stride_t xstride);
+                       stride_t xstride);
     bool read_scanline(int y, int z, float* data)
         __attribute__((annotate("cppmm:ignore")));
 
     bool read_scanlines(int subimage, int miplevel, int ybegin, int yend, int z,
                         int chbegin, int chend, ::OIIO::TypeDesc format,
-                        void* data, ::OIIO::stride_t xstride,
-                        ::OIIO::stride_t ystride);
+                        void* data, stride_t xstride, stride_t ystride);
 
     // deprecrated versions
     bool read_scanlines(int ybegin, int yend, int z, ::OIIO::TypeDesc format,
-                        void* data, ::OIIO::stride_t xstrid,
-                        ::OIIO::stride_t ystrid)
+                        void* data, stride_t xstrid, stride_t ystrid)
         __attribute__((annotate("cppmm:ignore")));
     bool read_scanlines(int ybegin, int yend, int z, int chbegin, int chend,
-                        ::OIIO::TypeDesc format, void* data,
-                        ::OIIO::stride_t xstride, ::OIIO::stride_t ystride)
+                        ::OIIO::TypeDesc format, void* data, stride_t xstride,
+                        stride_t ystride)
         __attribute__((annotate("cppmm:ignore")));
 
     bool read_tile(int x, int y, int z, ::OIIO::TypeDesc format, void* data,
-                   ::OIIO::stride_t xstride, ::OIIO::stride_t ystride,
-                   ::OIIO::stride_t zstride);
+                   stride_t xstride, stride_t ystride, stride_t zstride);
 
     bool read_tile(int x, int y, int z, float* data)
         __attribute__((annotate("cppmm:ignore")));
@@ -259,39 +256,33 @@ class ImageInput {
     bool read_tiles(int subimage, int miplevel, int xbegin, int xend,
                     int ybegin, int yend, int zbegin, int zend, int chbegin,
                     int chend, ::OIIO::TypeDesc format, void* data,
-                    ::OIIO::stride_t xstride, ::OIIO::stride_t ystride,
-                    ::OIIO::stride_t zstride);
+                    stride_t xstride, stride_t ystride, stride_t zstride);
 
     // Deprecated versions
     bool read_tiles(int xbegin, int xend, int ybegin, int yend, int zbegin,
                     int zend, ::OIIO::TypeDesc format, void* data,
-                    ::OIIO::stride_t xstride, ::OIIO::stride_t ystride,
-                    ::OIIO::stride_t zstride)
+                    stride_t xstride, stride_t ystride, stride_t zstride)
         __attribute__((annotate("cppmm:ignore")));
     bool read_tiles(int xbegin, int xend, int ybegin, int yend, int zbegin,
                     int zend, int chbegin, int chend, ::OIIO::TypeDesc format,
-                    void* data, ::OIIO::stride_t xstride,
-                    ::OIIO::stride_t ystride, ::OIIO::stride_t zstride)
-        __attribute__((annotate("cppmm:ignore")));
+                    void* data, stride_t xstride, stride_t ystride,
+                    stride_t zstride) __attribute__((annotate("cppmm:ignore")));
 
     bool read_image(int subimage, int miplevel, int chbegin, int chend,
-                    ::OIIO::TypeDesc format, void* data,
-                    ::OIIO::stride_t xstride, ::OIIO::stride_t ystride,
-                    ::OIIO::stride_t zstride,
-                    ::OIIO::ProgressCallback progress_callback,
+                    ::OIIO::TypeDesc format, void* data, stride_t xstride,
+                    stride_t ystride, stride_t zstride,
+                    ProgressCallback progress_callback,
                     void* progress_callback_data);
 
     // DEPRECATED versions of read_image (pre-1.9 OIIO).
-    bool read_image(::OIIO::TypeDesc format, void* data,
-                    ::OIIO::stride_t xstride, ::OIIO::stride_t ystride,
-                    ::OIIO::stride_t zstride,
-                    ::OIIO::ProgressCallback progress_callback,
+    bool read_image(::OIIO::TypeDesc format, void* data, stride_t xstride,
+                    stride_t ystride, stride_t zstride,
+                    ProgressCallback progress_callback,
                     void* progress_callback_data)
         __attribute__((annotate("cppmm:ignore")));
     bool read_image(int chbegin, int chend, ::OIIO::TypeDesc format, void* data,
-                    ::OIIO::stride_t xstride, ::OIIO::stride_t ystride,
-                    ::OIIO::stride_t zstride,
-                    ::OIIO::ProgressCallback progress_callback,
+                    stride_t xstride, stride_t ystride, stride_t zstride,
+                    ProgressCallback progress_callback,
                     void* progress_callback_data)
         __attribute__((annotate("cppmm:ignore")));
     bool read_image(float* data) __attribute__((annotate("cppmm:ignore")));

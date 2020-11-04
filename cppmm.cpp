@@ -60,6 +60,19 @@ prefix_from_namespaces(const std::vector<std::string>& cpp_namespaces,
     return prefix;
 }
 
+bool match_namespaces(const std::vector<std::string>& a,
+                      const std::vector<std::string>& b) {
+    if (a.size() != b.size()) {
+        return false;
+    }
+    for (int i = 0; i < a.size(); ++i) {
+        if (rename_namespace(a[i]) != rename_namespace(b[i])) {
+            return false;
+        }
+    }
+    return true;
+}
+
 struct AttrDesc {
     enum Kind {
         Ignore,
@@ -189,23 +202,37 @@ struct Method {
     std::string comment;
 };
 
+struct Function {
+    std::string cpp_name;
+    std::string c_name;
+    Param return_type;
+    std::vector<Param> params;
+    std::string comment;
+    std::vector<std::string> namespaces;
+};
+
 struct Class {
     std::string name;
     std::vector<std::string> namespaces;
     std::unordered_map<std::string, Method> methods;
 };
 
-struct ExportedMethod {
-    ExportedMethod(const CXXMethodDecl* method, std::vector<AttrDesc> attrs)
-        : attrs(attrs) {
-        method = method->getCanonicalDecl();
-        cpp_name = method->getNameAsString();
-        return_type = method->getReturnType().getCanonicalType().getAsString();
-        for (const auto& p : method->parameters()) {
+struct File {
+    std::unordered_map<std::string, Function> functions;
+};
+
+struct ExportedFunction {
+    ExportedFunction(const FunctionDecl* function, std::vector<AttrDesc> attrs,
+                     std::vector<std::string> namespaces = {})
+        : attrs(attrs), namespaces(namespaces) {
+        function = function->getCanonicalDecl();
+        cpp_name = function->getNameAsString();
+        return_type =
+            function->getReturnType().getCanonicalType().getAsString();
+        for (const auto& p : function->parameters()) {
             params.push_back(p->getType().getCanonicalType().getAsString());
         }
-        is_const = method->isConst();
-        is_static = method->isStatic();
+        is_static = function->isStatic();
 
         c_name = cpp_name;
         for (const auto& attr : attrs) {
@@ -237,9 +264,24 @@ struct ExportedMethod {
     // vector of canonical typenames that are this method's parameters.
     std::vector<std::string> params;
     std::vector<AttrDesc> attrs;
-    bool is_const = false;
+    std::vector<std::string> namespaces; //< only used for free functions (ugh)
     bool is_static = false;
 };
+
+struct ExportedMethod : public ExportedFunction {
+    ExportedMethod(const CXXMethodDecl* method, std::vector<AttrDesc> attrs)
+        : ExportedFunction(dyn_cast<FunctionDecl>(method), attrs) {
+        is_const = method->isConst();
+    }
+
+    bool is_const = false;
+};
+
+bool operator==(const ExportedFunction& a, const ExportedFunction& b) {
+    return a.cpp_name == b.cpp_name && a.return_type == b.return_type &&
+           a.params == b.params && a.is_static == b.is_static &&
+           match_namespaces(a.namespaces, b.namespaces);
+}
 
 bool operator==(const ExportedMethod& a, const ExportedMethod& b) {
     return a.cpp_name == b.cpp_name && a.return_type == b.return_type &&
@@ -259,6 +301,8 @@ struct ExportedFile {
     std::string name;
     std::vector<std::string> classes;
     std::vector<std::string> includes;
+    std::vector<ExportedFunction> functions;
+    std::vector<ExportedFunction> rejected_functions;
 };
 
 } // namespace cppmm
@@ -266,6 +310,9 @@ struct ExportedFile {
 std::unordered_map<std::string, cppmm::ExportedFile> ex_files;
 std::unordered_map<std::string, cppmm::ExportedClass> ex_classes;
 std::unordered_map<std::string, std::unique_ptr<cppmm::Type>> ex_types;
+
+std::unordered_map<std::string, cppmm::Class> classes;
+std::unordered_map<std::string, cppmm::File> files;
 
 bool is_builtin(const QualType& qt) {
     return (qt->isBuiltinType() ||
@@ -395,8 +442,6 @@ cppmm::Param process_param_type(const std::string& param_name,
     return result;
 }
 
-std::unordered_map<std::string, cppmm::Class> classes;
-
 namespace fmt {
 std::ostream& operator<<(std::ostream& os, const cppmm::Param& param) {
     if (param.is_const) {
@@ -450,6 +495,17 @@ std::ostream& operator<<(std::ostream& os, const cppmm::Method& method) {
 }
 
 std::ostream& operator<<(std::ostream& os,
+                         const cppmm::ExportedFunction& method) {
+    if (method.is_static) {
+        os << "static ";
+    }
+    auto ns = prefix_from_namespaces(method.namespaces, "::");
+    os << "auto " << ns << method.cpp_name << "("
+       << ps::join(", ", method.params) << ") -> " << method.return_type;
+    return os;
+}
+
+std::ostream& operator<<(std::ostream& os,
                          const cppmm::ExportedMethod& method) {
     if (method.is_static) {
         os << "static ";
@@ -463,10 +519,10 @@ std::ostream& operator<<(std::ostream& os,
 }
 } // namespace fmt
 
-std::string get_method_comment(const CXXMethodDecl* method) {
-    ASTContext& ctx = method->getASTContext();
+std::string get_decl_comment(const Decl* decl) {
+    ASTContext& ctx = decl->getASTContext();
     SourceManager& sm = ctx.getSourceManager();
-    const RawComment* rc = ctx.getRawCommentForDeclNoCache(method);
+    const RawComment* rc = ctx.getRawCommentForDeclNoCache(decl);
     std::string result;
     if (rc) {
         std::string raw = rc->getRawText(sm);
@@ -483,6 +539,26 @@ std::string get_method_comment(const CXXMethodDecl* method) {
     return result;
 }
 
+cppmm::Function process_function(const FunctionDecl* function,
+                                 const cppmm::ExportedFunction& ex_function,
+                                 std::vector<std::string> namespaces) {
+    std::vector<cppmm::Param> params;
+    for (const auto& p : function->parameters()) {
+        const auto param_name = p->getNameAsString();
+        params.push_back(process_param_type(param_name, p->getType()));
+    }
+
+    std::string comment = get_decl_comment(function);
+
+    return cppmm::Function{
+        .cpp_name = ex_function.cpp_name,
+        .c_name = ex_function.c_name,
+        .return_type = process_param_type("", function->getReturnType()),
+        .params = params,
+        .comment = comment,
+        .namespaces = namespaces};
+}
+
 cppmm::Method process_method(const CXXMethodDecl* method,
                              const cppmm::ExportedMethod& ex_method) {
     std::vector<cppmm::Param> params;
@@ -491,7 +567,7 @@ cppmm::Method process_method(const CXXMethodDecl* method,
         params.push_back(process_param_type(param_name, p->getType()));
     }
 
-    std::string comment = get_method_comment(method);
+    std::string comment = get_decl_comment(method);
 
     return cppmm::Method{.cpp_name = ex_method.cpp_name,
                          .c_name = ex_method.c_name,
@@ -507,73 +583,141 @@ class CppmmMatchHandler : public MatchFinder::MatchCallback {
     virtual void run(const MatchFinder::MatchResult& result) {
         if (const CXXMethodDecl* method =
                 result.Nodes.getNodeAs<CXXMethodDecl>("methodDecl")) {
-            const auto method_name = method->getNameAsString();
-            const auto class_name = method->getParent()->getNameAsString();
+            handle_method(method);
+        } else if (const FunctionDecl* function =
+                       result.Nodes.getNodeAs<FunctionDecl>("functionDecl")) {
+            handle_function(function);
+        }
+    }
 
-            // first make sure this method is on a class we want to export
-            // this should never return if we're filtering correctly at the
-            // top level.
-            auto it_class = ex_classes.find(class_name);
-            if (it_class == ex_classes.end()) {
-                return;
-            }
+    void handle_function(const FunctionDecl* function) {
+        // convert this method so we can match it against our stored ones
+        auto namespaces = get_namespaces(function->getParent());
+        const auto this_ex_function =
+            cppmm::ExportedFunction(function, {}, namespaces);
 
-            auto& ex_class = it_class->second;
+        // now see if we can find the function in the exported functions on
+        // the exported class
+        const cppmm::ExportedFunction* matched_ex_function = nullptr;
+        std::string matched_file;
+        bool rejected = true;
+        for (const auto& ex_file : ex_files) {
+            for (const auto& ex_function : ex_file.second.functions) {
+                if (this_ex_function.cpp_name == ex_function.cpp_name &&
+                    match_namespaces(this_ex_function.namespaces,
+                                     ex_function.namespaces)) {
+                    matched_file = ex_file.first;
+                }
 
-            // see if we have a converted class already and if not, make one
-            // currently this doesn't do anything useful, ultimately we want
-            // to store a table of classes that we're converting and where
-            // they're declared so we can include the appropriate C headers in
-            // the bindings, as well as error if something is used but not
-            // declared for binding
-            if (classes.find(class_name) == classes.end()) {
-                auto namespaces =
-                    get_namespaces(method->getParent()->getParent());
-                classes[class_name] = cppmm::Class{class_name, namespaces, {}};
-            }
-
-            // convert this method so we can match it against our stored ones
-            const auto this_ex_method = cppmm::ExportedMethod(method, {});
-
-            // now see if we can find the method in the exported methods on
-            // the exported class
-            const cppmm::ExportedMethod* matched_ex_method = nullptr;
-            bool rejected = true;
-            for (const auto& ex_method : ex_class.methods) {
-                if (this_ex_method == ex_method) {
-                    // found a matching exported method (but may still be
+                if (this_ex_function == ex_function) {
+                    // found a matching exported function (but may still be
                     // ignored)
                     rejected = false;
-                    if (!(ex_method.is_ignored() || ex_method.is_manual())) {
+                    if (!(ex_function.is_ignored() ||
+                          ex_function.is_manual())) {
                         // not ignored, this is the one we'll use
-                        matched_ex_method = &ex_method;
+                        matched_ex_function = &ex_function;
                         break;
                     }
+                    // } else {
+                    // if (this_ex_function.cpp_name == ex_function.cpp_name) {
+                    //     fmt::print("REJECTED {}\n", this_ex_function);
+                    // }
                 }
             }
+        }
 
-            // store the rejected method on the class so we can warn that we
-            // didn't find a match
-            if (rejected) {
-                ex_class.rejected_methods.push_back(this_ex_method);
+        // store the rejected function on the class so we can warn that we
+        // didn't find a match
+        if (rejected) {
+            ex_files[matched_file].rejected_functions.push_back(
+                this_ex_function);
+        }
+
+        // we don't want to bind this function so bail
+        if (matched_ex_function == nullptr) {
+            return;
+        }
+
+        if (files.find(matched_file) == files.end()) {
+            files[matched_file] = {};
+        }
+        auto& file = files[matched_file];
+        if (file.functions.find(matched_ex_function->c_name) ==
+            file.functions.end()) {
+            file.functions[matched_ex_function->c_name] =
+                process_function(function, *matched_ex_function, namespaces);
+        }
+        // fmt::print("        MATCHED {} {}\n", function->getNameAsString(),
+        //            function->getQualifiedNameAsString());
+    }
+
+    void handle_method(const CXXMethodDecl* method) {
+        const auto method_name = method->getNameAsString();
+        const auto class_name = method->getParent()->getNameAsString();
+
+        // first make sure this method is on a class we want to export
+        // this should never return if we're filtering correctly at the
+        // top level.
+        auto it_class = ex_classes.find(class_name);
+        if (it_class == ex_classes.end()) {
+            return;
+        }
+
+        auto& ex_class = it_class->second;
+
+        // see if we have a converted class already and if not, make one
+        // currently this doesn't do anything useful, ultimately we want
+        // to store a table of classes that we're converting and where
+        // they're declared so we can include the appropriate C headers in
+        // the bindings, as well as error if something is used but not
+        // declared for binding
+        if (classes.find(class_name) == classes.end()) {
+            auto namespaces = get_namespaces(method->getParent()->getParent());
+            classes[class_name] = cppmm::Class{class_name, namespaces, {}};
+        }
+
+        // convert this method so we can match it against our stored ones
+        const auto this_ex_method = cppmm::ExportedMethod(method, {});
+
+        // now see if we can find the method in the exported methods on
+        // the exported class
+        const cppmm::ExportedMethod* matched_ex_method = nullptr;
+        bool rejected = true;
+        for (const auto& ex_method : ex_class.methods) {
+            if (this_ex_method == ex_method) {
+                // found a matching exported method (but may still be
+                // ignored)
+                rejected = false;
+                if (!(ex_method.is_ignored() || ex_method.is_manual())) {
+                    // not ignored, this is the one we'll use
+                    matched_ex_method = &ex_method;
+                    break;
+                }
             }
+        }
 
-            // we don't want to bind this method so bail
-            if (matched_ex_method == nullptr) {
-                return;
-            }
+        // store the rejected method on the class so we can warn that we
+        // didn't find a match
+        if (rejected) {
+            ex_class.rejected_methods.push_back(this_ex_method);
+        }
 
-            // fmt::print("        MATCHED {} {}\n", method_name,
-            //            method->getQualifiedNameAsString());
+        // we don't want to bind this method so bail
+        if (matched_ex_method == nullptr) {
+            return;
+        }
 
-            // now grab the method parameters for further processing
-            // if we don't already have a method definition for the C version
-            // of this method
-            if (classes[class_name].methods.find(matched_ex_method->c_name) ==
-                classes[class_name].methods.end()) {
-                classes[class_name].methods[matched_ex_method->c_name] =
-                    process_method(method, *matched_ex_method);
-            }
+        // fmt::print("        MATCHED {} {}\n", method_name,
+        //            method->getQualifiedNameAsString());
+
+        // now grab the method parameters for further processing
+        // if we don't already have a method definition for the C version
+        // of this method
+        if (classes[class_name].methods.find(matched_ex_method->c_name) ==
+            classes[class_name].methods.end()) {
+            classes[class_name].methods[matched_ex_method->c_name] =
+                process_method(method, *matched_ex_method);
         }
     }
 };
@@ -587,13 +731,21 @@ public:
         for (const auto& input_class : ex_classes) {
             // Match all class methods that are NOT in the cppmm_bind namespace
             // (or we'll get duplicates)
-            DeclarationMatcher decl_matcher =
+            DeclarationMatcher method_decl_matcher =
                 cxxMethodDecl(
                     isPublic(), ofClass(hasName(input_class.first)),
                     unless(hasAncestor(namespaceDecl(hasName("cppmm_bind")))))
                     .bind("methodDecl");
-            _match_finder.addMatcher(decl_matcher, &_handler);
+            _match_finder.addMatcher(method_decl_matcher, &_handler);
         }
+
+        // match all function declarations
+        DeclarationMatcher function_decl_matcher =
+            functionDecl(
+                unless(hasAncestor(namespaceDecl(hasName("cppmm_bind")))),
+                unless(hasAncestor(recordDecl())))
+                .bind("functionDecl");
+        _match_finder.addMatcher(function_decl_matcher, &_handler);
     }
 
     virtual void HandleTranslationUnit(ASTContext& context) {
@@ -610,53 +762,80 @@ public:
     }
 };
 
-class MatchExportsCallback : public MatchFinder::MatchCallback {
-    CompilerInstance& _compiler;
-    virtual void run(const MatchFinder::MatchResult& result) {
-        if (const CXXMethodDecl* method =
-                result.Nodes.getNodeAs<CXXMethodDecl>("methodDecl")) {
-
-            // If there are attributes, parse them looking for cppmm annotations
-            std::vector<AttrDesc> attrs;
-            if (method->hasAttrs()) {
-                for (const auto& attr : method->attrs()) {
-                    const auto src = Lexer::getSourceText(
-                        CharSourceRange::getTokenRange(attr->getRange()),
-                        _compiler.getSourceManager(), _compiler.getLangOpts());
-                    if (auto opt = parse_attributes(src.str())) {
-                        attrs.push_back(*opt);
-                    }
-                }
+std::vector<AttrDesc> get_attrs(const Decl* decl) {
+    std::vector<AttrDesc> attrs;
+    if (decl->hasAttrs()) {
+        ASTContext& ctx = decl->getASTContext();
+        for (const auto& attr : decl->attrs()) {
+            const auto src = Lexer::getSourceText(
+                CharSourceRange::getTokenRange(attr->getRange()),
+                ctx.getSourceManager(), ctx.getLangOpts());
+            if (auto opt = parse_attributes(src.str())) {
+                attrs.push_back(*opt);
             }
-            cppmm::ExportedMethod ex_method(method, attrs);
-            const auto class_name = method->getParent()->getNameAsString();
-
-            // check if we've seen the class this method belongs to before, and
-            // if not process it
-            if (ex_classes.find(class_name) == ex_classes.end()) {
-                ASTContext& ctx = method->getASTContext();
-                SourceManager& sm = ctx.getSourceManager();
-
-                std::string filename = sm.getFilename(method->getBeginLoc());
-
-                auto namespaces =
-                    get_namespaces(method->getParent()->getParent());
-                ex_classes[class_name] =
-                    cppmm::ExportedClass{class_name, filename, namespaces, {}};
-
-                if (ex_files.find(filename) == ex_files.end()) {
-                    ex_files[filename] = {};
-                }
-                ex_files[filename].classes.push_back(class_name);
-            }
-
-            // store this method signiature to match against in the second pass
-            ex_classes[class_name].methods.push_back(ex_method);
         }
     }
 
-public:
-    MatchExportsCallback(CompilerInstance& compiler) : _compiler(compiler) {}
+    return attrs;
+}
+
+class MatchExportsCallback : public MatchFinder::MatchCallback {
+    virtual void run(const MatchFinder::MatchResult& result) {
+        if (const CXXMethodDecl* method =
+                result.Nodes.getNodeAs<CXXMethodDecl>("methodDecl")) {
+            handle_method(method);
+        } else if (const FunctionDecl* function =
+                       result.Nodes.getNodeAs<FunctionDecl>("functionDecl")) {
+            handle_function(function);
+        }
+    }
+
+    void handle_function(const FunctionDecl* function) {
+        fmt::print("GOT FUNCTION: {}\n", function->getNameAsString());
+        std::vector<AttrDesc> attrs = get_attrs(function);
+
+        // figure out which file we're in
+        ASTContext& ctx = function->getASTContext();
+        SourceManager& sm = ctx.getSourceManager();
+        std::string filename = sm.getFilename(function->getBeginLoc());
+
+        auto namespaces = get_namespaces(function->getParent());
+
+        cppmm::ExportedFunction ex_function(function, attrs, namespaces);
+
+        if (ex_files.find(filename) == ex_files.end()) {
+            ex_files[filename] = {};
+        }
+        ex_files[filename].functions.push_back(ex_function);
+    }
+
+    void handle_method(const CXXMethodDecl* method) {
+        // If there are attributes, parse them looking for cppmm annotations
+        std::vector<AttrDesc> attrs = get_attrs(method);
+        cppmm::ExportedMethod ex_method(method, attrs);
+        const auto class_name = method->getParent()->getNameAsString();
+
+        // check if we've seen the class this method belongs to before, and
+        // if not process it
+        if (ex_classes.find(class_name) == ex_classes.end()) {
+            ASTContext& ctx = method->getASTContext();
+            SourceManager& sm = ctx.getSourceManager();
+
+            std::string filename = sm.getFilename(method->getBeginLoc());
+
+            auto namespaces = get_namespaces(method->getParent()->getParent());
+            ex_classes[class_name] =
+                cppmm::ExportedClass{class_name, filename, namespaces, {}};
+
+            if (ex_files.find(filename) == ex_files.end()) {
+                ex_files[filename] = {};
+            }
+            ex_files[filename].classes.push_back(class_name);
+        }
+
+        // store this method signiature to match against in the second pass
+        ex_classes[class_name].methods.push_back(ex_method);
+    }
 };
 
 class MatchExportsConsumer : public ASTConsumer {
@@ -664,14 +843,19 @@ class MatchExportsConsumer : public ASTConsumer {
     MatchExportsCallback _handler;
 
 public:
-    explicit MatchExportsConsumer(ASTContext* context,
-                                  CompilerInstance& compiler)
-        : _handler(compiler) {
+    explicit MatchExportsConsumer(ASTContext* context) {
         // match all method declrations in the cppmm_bind namespace
-        DeclarationMatcher decl_matcher =
+        DeclarationMatcher method_decl_matcher =
             cxxMethodDecl(hasAncestor(namespaceDecl(hasName("cppmm_bind"))))
                 .bind("methodDecl");
-        _match_finder.addMatcher(decl_matcher, &_handler);
+        _match_finder.addMatcher(method_decl_matcher, &_handler);
+
+        // match all function declarations
+        DeclarationMatcher function_decl_matcher =
+            functionDecl(hasAncestor(namespaceDecl(hasName("cppmm_bind"))),
+                         unless(hasAncestor(recordDecl())))
+                .bind("functionDecl");
+        _match_finder.addMatcher(function_decl_matcher, &_handler);
     }
 
     virtual void HandleTranslationUnit(ASTContext& context) {
@@ -684,7 +868,7 @@ public:
     virtual std::unique_ptr<ASTConsumer>
     CreateASTConsumer(CompilerInstance& compiler, StringRef in_file) {
         return std::unique_ptr<ASTConsumer>(
-            new MatchExportsConsumer(&compiler.getASTContext(), compiler));
+            new MatchExportsConsumer(&compiler.getASTContext()));
     }
 };
 
@@ -754,6 +938,13 @@ int main(int argc, const char** argv) {
     auto match_exports_action = newFrontendActionFactory<MatchExportsAction>();
     int result = Tool.run(match_exports_action.get());
 
+    for (const auto& ex_file : ex_files) {
+        fmt::print("FILE: {}\n", ex_file.first);
+        for (const auto& ex_fun : ex_file.second.functions) {
+            fmt::print("    {}\n", ex_fun);
+        }
+    }
+
     //--------------------------------------------------------------------------
     // Second pass - find matching methods to the ones declared in the first
     // pass and filter out the ones we want to generate bindings for
@@ -777,6 +968,26 @@ int main(int argc, const char** argv) {
 
         std::string declarations;
         std::string definitions;
+
+        for (const auto& it_function : files[bind_file.first].functions) {
+            const auto& function = it_function.second;
+            std::string c_function_name = fmt::format(
+                "{}{}", prefix_from_namespaces(function.namespaces, "_"),
+                function.c_name);
+
+            std::vector<std::string> param_decls;
+            std::transform(function.params.begin(), function.params.end(),
+                           std::back_inserter(param_decls),
+                           cppmm::get_c_function_decl);
+
+            std::string ret = cppmm::get_c_function_decl(function.return_type);
+
+            std::string declaration = fmt::format(
+                "{} {}({})", ret, c_function_name, ps::join(", ", param_decls));
+
+            declarations = fmt::format("{}\n{}\n{};\n", declarations,
+                                       function.comment, declaration);
+        }
 
         for (const auto& file_class_name : bind_file.second.classes) {
             const auto& cls = classes[file_class_name];
