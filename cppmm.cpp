@@ -1090,6 +1090,8 @@ static cl::extrahelp CommonHelp(CommonOptionsParser::HelpMessage);
 static cl::extrahelp MoreHelp("\nMore help text...\n");
 
 static cl::opt<bool> opt_warn_unbound("u", cl::desc("Warn on unbound methods"));
+static cl::list<std::string>
+    opt_rename_namespace("n", cl::desc("Rename namespace <to>=<from>"));
 
 std::string bind_file_root(const std::string& filename) {
     const auto basename = ps::os::path::basename(filename);
@@ -1118,7 +1120,14 @@ int main(int argc, const char** argv) {
 
     // TODO: we need to declare this properly somehow, maybe a special namespace
     // where we can do a namespace OIIO = OpenImageIO_v2_2?
-    namespace_renames["OpenImageIO_v2_2"] = "OIIO";
+    for (const auto& o : opt_rename_namespace) {
+        std::vector<std::string> toks;
+        ps::split(o, toks, "=");
+        if (toks.size() == 2) {
+            fmt::print("RENAME {} -> {}\n", toks[1], toks[0]);
+            namespace_renames[toks[1]] = toks[0];
+        }
+    }
 
     //--------------------------------------------------------------------------
     // First pass - find all declarations in namespace cppmm_bind that will tell
@@ -1333,8 +1342,7 @@ extern "C" {{
 }}
 #endif
     )#",
-    include_stmts,
-            declarations);
+            include_stmts, declarations);
 
         fprintf(out, "%s", declarations.c_str());
     }
