@@ -431,13 +431,15 @@ cppmm::Record* process_record(const CXXRecordDecl* record) {
     std::vector<cppmm::Param> fields;
     for (const auto* field : record->fields()) {
         std::string field_name = field->getNameAsString();
-        fmt::print("    field: {}\n", field->getNameAsString());
+        // fmt::print("    field: {}\n", field->getNameAsString());
         cppmm::Param field_param =
             process_param_type(field_name, field->getType());
         fields.push_back(field_param);
-        fmt::print("    {}\n", field_param);
+        // fmt::print("    {}\n", field_param);
     }
 
+    fmt::print("Processed record {} -> {} in {}\n", cpp_name, c_name,
+               it_ex_record->second.filename);
     records[c_name] = cppmm::Record{.cpp_name = cpp_name,
                                     .namespaces = namespaces,
                                     .c_name = c_name,
@@ -481,7 +483,7 @@ cppmm::Param process_pointee_type(const std::string& param_name,
             result.type = cppmm::Type{
                 crd->getNameAsString(),
                 get_namespaces(qt->getAsCXXRecordDecl()->getParent()),
-                .record = nullptr};
+                .record = record_ptr};
             result.requires_cast = !(crd->getNameAsString() == "basic_string" ||
                                      crd->getNameAsString() == "string_view");
         }
@@ -1089,6 +1091,13 @@ static cl::extrahelp MoreHelp("\nMore help text...\n");
 
 static cl::opt<bool> opt_warn_unbound("u", cl::desc("Warn on unbound methods"));
 
+std::string bind_file_root(const std::string& filename) {
+    const auto basename = ps::os::path::basename(filename);
+    std::string root, ext;
+    ps::os::path::splitext(root, ext, basename);
+    return root;
+}
+
 int main(int argc, const char** argv) {
     CommonOptionsParser OptionsParser(argc, argv, CppmmCategory);
     ClangTool Tool(OptionsParser.getCompilations(),
@@ -1272,15 +1281,19 @@ int main(int argc, const char** argv) {
             }
         }
 
-        const auto basename = ps::os::path::basename(bind_file.first);
-        std::string root, ext;
-        ps::os::path::splitext(root, ext, basename);
+        const std::string root = bind_file_root(bind_file.first);
         const auto header = fmt::format("{}.h", root);
         const auto implementation = fmt::format("{}.cpp", root);
 
-        fmt::print("INCLUDES FOR {}\n", root);
+        // fmt::print("INCLUDES FOR {}\n", root);
+        std::string include_stmts;
         for (const auto& i : includes) {
-            fmt::print("    {}\n", i);
+            const std::string include_root = bind_file_root(i);
+            if (include_root != root) {
+                // fmt::print("    {}.h\n", include_root);
+                include_stmts +=
+                    fmt::format("#include \"{}.h\"\n", include_root);
+            }
         }
 
         definitions = fmt::format(
@@ -1308,6 +1321,8 @@ extern "C" {{
         declarations = fmt::format(
             R"#(#pragma once
 
+{}
+
 #ifdef __cplusplus
 extern "C" {{
 #endif
@@ -1318,6 +1333,7 @@ extern "C" {{
 }}
 #endif
     )#",
+    include_stmts,
             declarations);
 
         fprintf(out, "%s", declarations.c_str());
