@@ -78,6 +78,9 @@ struct AttrDesc {
         Ignore,
         Rename,
         Manual,
+        OpaquePtr,
+        OpaqueBytes,
+        ValueType,
     };
 
     std::string params;
@@ -85,9 +88,6 @@ struct AttrDesc {
 };
 
 std::optional<AttrDesc> parse_attributes(std::string attr_src) {
-    auto first = attr_src.find("\"");
-    auto second = attr_src.find("\"", first + 1);
-    attr_src = attr_src.substr(first + 1, second - first - 1);
     // fmt::print("Got attr_src {}\n", attr_src);
     std::vector<std::string> toks;
     ps::split(attr_src, toks, ":");
@@ -102,6 +102,12 @@ std::optional<AttrDesc> parse_attributes(std::string attr_src) {
         return AttrDesc{{}, AttrDesc::Kind::Manual};
     } else if (toks[1] == "rename") {
         return AttrDesc{toks[2], AttrDesc::Kind::Rename};
+    } else if (toks[1] == "opaqueptr") {
+        return AttrDesc{{}, AttrDesc::Kind::OpaquePtr};
+    } else if (toks[1] == "opaquebytes") {
+        return AttrDesc{{}, AttrDesc::Kind::OpaqueBytes};
+    } else if (toks[1] == "valuetype") {
+        return AttrDesc{{}, AttrDesc::Kind::ValueType};
     }
 
     fmt::print("Warning Could not parse attribute '{}'\n", attr_src);
@@ -115,6 +121,10 @@ struct CType {
     std::string name;
 };
 
+enum TypeKind { OpaquePtr = 0, OpaqueBytes = 1, ValueType = 2 };
+
+class Record;
+
 struct Type {
     std::string name;
     std::vector<std::string> namespaces = {};
@@ -123,6 +133,9 @@ struct Type {
     bool is_enum = false;
     bool is_func_proto = false;
     std::vector<std::pair<std::string, uint64_t>> enumerators = {};
+    Record* record = nullptr;
+
+    bool is_pod() const;
 };
 
 struct Param {
@@ -134,6 +147,38 @@ struct Param {
     bool is_const = false;
     bool requires_cast = false;
 };
+
+struct Record {
+    std::string cpp_name;
+    std::vector<std::string> namespaces;
+    std::string c_name;
+    TypeKind kind;
+    std::string filename;
+    std::vector<cppmm::Param> fields;
+
+    bool is_pod() const {
+        for (const auto& p : fields) {
+            if (!p.type.is_pod()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+};
+
+bool Type::is_pod() const {
+    if (is_builtin || is_enum || is_func_proto) {
+        return true;
+    }
+
+    if (record) {
+        return record->is_pod();
+    }
+
+    assert(false && "TYPE POD FALLTHROUGH");
+    return false;
+}
 
 std::string get_c_function_decl(const Param& param) {
     std::string result;
@@ -219,6 +264,7 @@ struct Class {
 
 struct File {
     std::unordered_map<std::string, Function> functions;
+    std::unordered_map<std::string, Record> records;
 };
 
 struct ExportedFunction {
@@ -277,6 +323,14 @@ struct ExportedMethod : public ExportedFunction {
     bool is_const = false;
 };
 
+struct ExportedRecord {
+    std::string cpp_name;
+    std::vector<std::string> namespaces;
+    std::string c_name;
+    TypeKind kind;
+    std::string filename;
+};
+
 bool operator==(const ExportedFunction& a, const ExportedFunction& b) {
     return a.cpp_name == b.cpp_name && a.return_type == b.return_type &&
            a.params == b.params && a.is_static == b.is_static &&
@@ -303,16 +357,18 @@ struct ExportedFile {
     std::vector<std::string> includes;
     std::vector<ExportedFunction> functions;
     std::vector<ExportedFunction> rejected_functions;
+    std::unordered_map<std::string, ExportedRecord*> records;
 };
 
 } // namespace cppmm
 
 std::unordered_map<std::string, cppmm::ExportedFile> ex_files;
 std::unordered_map<std::string, cppmm::ExportedClass> ex_classes;
-std::unordered_map<std::string, std::unique_ptr<cppmm::Type>> ex_types;
+std::unordered_map<std::string, cppmm::ExportedRecord> ex_records;
 
 std::unordered_map<std::string, cppmm::Class> classes;
 std::unordered_map<std::string, cppmm::File> files;
+std::unordered_map<std::string, cppmm::Record> records;
 
 bool is_builtin(const QualType& qt) {
     return (qt->isBuiltinType() ||
@@ -352,7 +408,50 @@ std::vector<std::string> get_namespaces(const DeclContext* parent) {
     return result;
 }
 
-// #define DEBUG_PRINT
+cppmm::Param process_param_type(const std::string& param_name,
+                                const QualType& qt);
+
+cppmm::Record* process_record(const CXXRecordDecl* record) {
+    std::string cpp_name = record->getNameAsString();
+    std::vector<std::string> namespaces = get_namespaces(record->getParent());
+
+    const auto c_name = prefix_from_namespaces(namespaces, "_") + cpp_name;
+    if (records.find(c_name) != records.end()) {
+        // already done this type, return
+        return &records[c_name];
+    }
+
+    auto it_ex_record = ex_records.find(c_name);
+    if (it_ex_record == ex_records.end()) {
+        // fmt::print("WARNING: record '{}' has no export definition\n",
+        // c_name);
+        return nullptr;
+    }
+
+    std::vector<cppmm::Param> fields;
+    for (const auto* field : record->fields()) {
+        std::string field_name = field->getNameAsString();
+        fmt::print("    field: {}\n", field->getNameAsString());
+        cppmm::Param field_param =
+            process_param_type(field_name, field->getType());
+        fields.push_back(field_param);
+        fmt::print("    {}\n", field_param);
+    }
+
+    records[c_name] = cppmm::Record{.cpp_name = cpp_name,
+                                    .namespaces = namespaces,
+                                    .c_name = c_name,
+                                    .kind = it_ex_record->second.kind,
+                                    .filename = it_ex_record->second.filename,
+                                    .fields = fields};
+    const auto* rptr = &records[c_name];
+    if (rptr->kind == cppmm::TypeKind::ValueType && !rptr->is_pod()) {
+        fmt::print("ERROR: {} is valuetype but not POD\n", rptr->c_name);
+    }
+    fmt::print("MATCHED: {}\n", cpp_name);
+
+    return &records[c_name];
+}
 
 cppmm::Param process_pointee_type(const std::string& param_name,
                                   const QualType& qt) {
@@ -378,22 +477,13 @@ cppmm::Param process_pointee_type(const std::string& param_name,
             result.is_uptr = true;
         } else {
             const CXXRecordDecl* crd = qt->getAsCXXRecordDecl();
-            if (crd->getNameAsString().find("ImageInput") !=
-                std::string::npos) {
-            }
+            cppmm::Record* record_ptr = process_record(crd);
             result.type = cppmm::Type{
                 crd->getNameAsString(),
-                get_namespaces(qt->getAsCXXRecordDecl()->getParent())};
+                get_namespaces(qt->getAsCXXRecordDecl()->getParent()),
+                .record = nullptr};
             result.requires_cast = !(crd->getNameAsString() == "basic_string" ||
                                      crd->getNameAsString() == "string_view");
-
-            // store the type for later processing
-            if (result.type.name != "basic_string" &&
-                result.type.name != "string_view" &&
-                result.type.name != "vector") {
-                std::string qname = qualified_type_name(result.type);
-                ex_types[qname] = std::make_unique<cppmm::Type>(result.type);
-            }
         }
     } else if (qt->isEnumeralType()) {
         const auto* enum_decl = qt->getAs<EnumType>()->getDecl();
@@ -407,7 +497,6 @@ cppmm::Param process_pointee_type(const std::string& param_name,
         result.type = cppmm::Type{enum_decl->getNameAsString(), ns,
                                   .is_enum = true, .enumerators = enumerators};
         std::string qname = qualified_type_name(result.type);
-        ex_types[qname] = std::make_unique<cppmm::Type>(result.type);
 
     } else {
         fmt::print("Unhandled type: {}\n", qt.getAsString());
@@ -517,6 +606,19 @@ std::ostream& operator<<(std::ostream& os,
     }
     return os;
 }
+
+std::ostream& operator<<(std::ostream& os, const cppmm::ExportedRecord& type) {
+    os << "struct " << type.c_name;
+    if (type.kind == cppmm::TypeKind::OpaquePtr) {
+        os << " //< opaque ptr";
+    } else if (type.kind == cppmm::TypeKind::OpaqueBytes) {
+        os << " //< opaque bytes";
+    } else if (type.kind == cppmm::TypeKind::ValueType) {
+        os << " //< value type";
+    }
+    return os;
+}
+
 } // namespace fmt
 
 std::string get_decl_comment(const Decl* decl) {
@@ -587,8 +689,13 @@ class CppmmMatchHandler : public MatchFinder::MatchCallback {
         } else if (const FunctionDecl* function =
                        result.Nodes.getNodeAs<FunctionDecl>("functionDecl")) {
             handle_function(function);
+        } else if (const CXXRecordDecl* record =
+                       result.Nodes.getNodeAs<CXXRecordDecl>("recordDecl")) {
+            handle_record(record);
         }
     }
+
+    void handle_record(const CXXRecordDecl* record) { process_record(record); }
 
     void handle_function(const FunctionDecl* function) {
         // convert this method so we can match it against our stored ones
@@ -728,6 +835,19 @@ class CppmmConsumer : public ASTConsumer {
 
 public:
     explicit CppmmConsumer(ASTContext* context) {
+        // match all record (custom type) declarations in all files
+        for (const auto& ex_file : ex_files) {
+            for (const auto& record : ex_file.second.records) {
+                DeclarationMatcher record_decl_matcher =
+                    cxxRecordDecl(hasName(record.second->cpp_name),
+                                  unless(hasAncestor(
+                                      namespaceDecl(hasName("cppmm_bind")))),
+                                  unless(isImplicit()))
+                        .bind("recordDecl");
+                _match_finder.addMatcher(record_decl_matcher, &_handler);
+            }
+        }
+
         for (const auto& input_class : ex_classes) {
             // Match all class methods that are NOT in the cppmm_bind namespace
             // (or we'll get duplicates)
@@ -767,11 +887,11 @@ std::vector<AttrDesc> get_attrs(const Decl* decl) {
     if (decl->hasAttrs()) {
         ASTContext& ctx = decl->getASTContext();
         for (const auto& attr : decl->attrs()) {
-            const auto src = Lexer::getSourceText(
-                CharSourceRange::getTokenRange(attr->getRange()),
-                ctx.getSourceManager(), ctx.getLangOpts());
-            if (auto opt = parse_attributes(src.str())) {
-                attrs.push_back(*opt);
+            const AnnotateAttr* ann = cast<const AnnotateAttr>(attr);
+            if (ann) {
+                if (auto opt = parse_attributes(ann->getAnnotation().str())) {
+                    attrs.push_back(*opt);
+                }
             }
         }
     }
@@ -781,12 +901,65 @@ std::vector<AttrDesc> get_attrs(const Decl* decl) {
 
 class MatchExportsCallback : public MatchFinder::MatchCallback {
     virtual void run(const MatchFinder::MatchResult& result) {
-        if (const CXXMethodDecl* method =
-                result.Nodes.getNodeAs<CXXMethodDecl>("methodDecl")) {
+        if (const CXXRecordDecl* record =
+                result.Nodes.getNodeAs<CXXRecordDecl>("recordDecl")) {
+            handle_record(record);
+        } else if (const CXXMethodDecl* method =
+                       result.Nodes.getNodeAs<CXXMethodDecl>("methodDecl")) {
             handle_method(method);
         } else if (const FunctionDecl* function =
                        result.Nodes.getNodeAs<FunctionDecl>("functionDecl")) {
             handle_function(function);
+        }
+    }
+
+    void handle_record(const CXXRecordDecl* record) {
+        cppmm::ExportedRecord ex_record;
+
+        ex_record.cpp_name = record->getNameAsString();
+        ex_record.namespaces = get_namespaces(record->getParent());
+        ex_record.c_name = prefix_from_namespaces(ex_record.namespaces, "_") +
+                           ex_record.cpp_name;
+
+        if (ex_records.find(ex_record.c_name) != ex_records.end()) {
+            fmt::print("WARNING: Ignoring duplicate definition for {}\n",
+                       ex_record.c_name);
+            return;
+        }
+
+        std::vector<AttrDesc> attrs = get_attrs(record);
+        for (const auto& attr : attrs) {
+            if (attr.kind == AttrDesc::Kind::OpaquePtr) {
+                ex_record.kind = cppmm::TypeKind::OpaquePtr;
+            } else if (attr.kind == AttrDesc::Kind::OpaqueBytes) {
+                ex_record.kind = cppmm::TypeKind::OpaqueBytes;
+            } else if (attr.kind == AttrDesc::Kind::ValueType) {
+                ex_record.kind = cppmm::TypeKind::ValueType;
+            }
+        }
+
+        fmt::print("record {}\n", ex_record.cpp_name);
+        // record->dump();
+        ASTContext& ctx = record->getASTContext();
+        SourceManager& sm = ctx.getSourceManager();
+        const auto& loc = record->getLocation();
+        std::string filename = sm.getFilename(loc);
+        fmt::print("    {}:{}:{}\n", filename, sm.getSpellingLineNumber(loc),
+                   sm.getSpellingColumnNumber(loc));
+
+        ex_record.filename = filename;
+
+        ex_records[ex_record.c_name] = ex_record;
+        cppmm::ExportedRecord* ex_record_ptr = &ex_records[ex_record.c_name];
+
+        if (ex_files.find(filename) == ex_files.end()) {
+            ex_files[filename] = {};
+        }
+
+        auto& ex_file = ex_files[filename];
+        if (ex_file.records.find(ex_record.c_name) == ex_file.records.end()) {
+            ex_file.records[ex_record.c_name] = ex_record_ptr;
+            fmt::print("GOT TYPE: {}\n", ex_record);
         }
     }
 
@@ -844,6 +1017,13 @@ class MatchExportsConsumer : public ASTConsumer {
 
 public:
     explicit MatchExportsConsumer(ASTContext* context) {
+        // match all record declrations in the cppmm_bind namespace
+        DeclarationMatcher record_decl_matcher =
+            cxxRecordDecl(hasAncestor(namespaceDecl(hasName("cppmm_bind"))),
+                          unless(isImplicit()))
+                .bind("recordDecl");
+        _match_finder.addMatcher(record_decl_matcher, &_handler);
+
         // match all method declrations in the cppmm_bind namespace
         DeclarationMatcher method_decl_matcher =
             cxxMethodDecl(hasAncestor(namespaceDecl(hasName("cppmm_bind"))))
@@ -969,6 +1149,23 @@ int main(int argc, const char** argv) {
         std::string declarations;
         std::string definitions;
 
+        std::set<std::string> includes;
+
+        for (const auto& rec_pair : bind_file.second.records) {
+            const auto& record = records[rec_pair.first];
+            if (record.kind == cppmm::TypeKind::OpaquePtr) {
+                declarations +=
+                    fmt::format("typedef struct {0} {0};\n\n", record.c_name);
+            } else if (record.kind == cppmm::TypeKind::ValueType) {
+                declarations += fmt::format("typedef struct {{\n");
+                for (const auto& field : record.fields) {
+                    declarations += fmt::format("    {} {};\n", field.type.name,
+                                                field.name);
+                }
+                declarations += fmt::format("}} {};\n\n", record.c_name);
+            }
+        }
+
         for (const auto& it_function : files[bind_file.first].functions) {
             const auto& function = it_function.second;
             std::string c_function_name = fmt::format(
@@ -996,9 +1193,6 @@ int main(int argc, const char** argv) {
             std::string class_type = fmt::format(
                 "{}{}", prefix_from_namespaces(cls.namespaces, "_"), cls.name);
 
-            declarations = fmt::format("{0}\n\ntypedef struct {1} {1};",
-                                       declarations, class_type);
-
             std::string method_prefix = fmt::format(
                 "{}{}", prefix_from_namespaces(cls.namespaces, "_"), cls.name);
 
@@ -1013,6 +1207,12 @@ int main(int argc, const char** argv) {
                 std::transform(method.params.begin(), method.params.end(),
                                std::back_inserter(param_decls),
                                cppmm::get_c_function_decl);
+
+                for (const auto& param : method.params) {
+                    if (param.type.record) {
+                        includes.insert(param.type.record->filename);
+                    }
+                }
 
                 std::string ret =
                     cppmm::get_c_function_decl(method.return_type);
@@ -1077,6 +1277,11 @@ int main(int argc, const char** argv) {
         ps::os::path::splitext(root, ext, basename);
         const auto header = fmt::format("{}.h", root);
         const auto implementation = fmt::format("{}.cpp", root);
+
+        fmt::print("INCLUDES FOR {}\n", root);
+        for (const auto& i : includes) {
+            fmt::print("    {}\n", i);
+        }
 
         definitions = fmt::format(
             R"#(//
