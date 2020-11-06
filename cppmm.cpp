@@ -208,10 +208,14 @@ std::string get_c_function_decl(const Param& param) {
         if (param.is_const) {
             result += "const ";
         }
-        result += prefix_from_namespaces(param.type.namespaces, "_") +
-                  param.type.name;
-        if (param.is_ptr || param.is_ref || param.is_uptr) {
-            result += "*";
+        if (param.type.enm) {
+            result += "int";
+        } else {
+            result += prefix_from_namespaces(param.type.namespaces, "_") +
+                    param.type.name;
+            if (param.is_ptr || param.is_ref || param.is_uptr) {
+                result += "*";
+            }
         }
     }
 
@@ -239,6 +243,8 @@ std::string get_c_function_call(const Param& param) {
                 prefix_from_namespaces(param.type.record->namespaces, "::") +
                     param.type.name,
                 param.name);
+        } else if (param.type.enm) {
+            result = fmt::format("({}){}", prefix_from_namespaces(param.type.enm->namespaces, "::") + param.type.enm->cpp_name, param.name);
         } else if (param.requires_cast) {
             result = fmt::format("to_cpp({})", param.name);
         } else {
@@ -527,12 +533,17 @@ cppmm::Param process_pointee_type(const std::string& param_name,
     result.name = param_name;
 
     if (is_builtin(qt)) {
-        std::string name = qt.getAsString();
-        result.type = cppmm::Type{qt.getTypePtr()
+        std::string name = qt.getTypePtr()
                                       ->getUnqualifiedDesugaredType()
                                       ->getAs<BuiltinType>()
                                       ->desugar()
-                                      .getAsString(),
+                                      .getAsString();
+
+        // C++ doesn't like _Bool but we can include stdbool.h for C
+        if (name == "_Bool") {
+            name = "bool";
+        }
+        result.type = cppmm::Type{name,
                                   {},
                                   .is_builtin = true};
         result.requires_cast = false;
@@ -1393,8 +1404,14 @@ int main(int argc, const char** argv) {
                     }
                 }
 
-                std::string ret =
-                    cppmm::get_c_function_decl(method.return_type);
+                std::string ret;
+                if (method.return_type.type.name == "basic_string") {
+                    ret = "void";
+                    param_decls.push_back("char* _result_buffer_ptr");
+                    param_decls.push_back("int _result_buffer_len");
+                } else {
+                    ret = cppmm::get_c_function_decl(method.return_type);
+                }
 
                 std::string declaration;
                 if (method.is_static) {
@@ -1419,7 +1436,15 @@ int main(int argc, const char** argv) {
                 declarations = fmt::format("{}\n{}\n{};\n", declarations,
                                            method.comment, declaration);
 
-                std::string body = "    return ";
+                std::string body;
+                if (method.return_type.type.name == "basic_string") {
+                    // need to copy to the out parameters
+                    body = "    const std::string result = ";
+                } else if (method.return_type.type.name != "void") {
+                    body = "    return ";
+                } else {
+                    body = "    ";
+                }
                 if (method.return_type.requires_cast) {
                     body += "to_c(";
                 }
@@ -1442,6 +1467,10 @@ int main(int argc, const char** argv) {
                     body += ")";
                 }
                 body += ";";
+
+                if (method.return_type.type.name == "basic_string") {
+                    body += "\n    safe_strcpy(_result_buffer_ptr, result, _result_buffer_len);";
+                }
 
                 std::string definition =
                     fmt::format("{} {{\n{}\n}}", declaration, body);
@@ -1496,6 +1525,8 @@ extern "C" {{
 
 #ifdef __cplusplus
 extern "C" {{
+#else
+#include <stdbool.h>
 #endif
 
 {}
@@ -1515,19 +1546,19 @@ extern "C" {{
 // save us from eye-gougingly verbose casts everywhere
 #define CPPMM_DEFINE_POINTER_CASTS(CPPTYPE, CTYPE)          \
 CPPTYPE* to_cpp(CTYPE* ptr) {                               \
-    return retinterpret_cast<CPPTYPE*>(ptr)                 \
+    return reinterpret_cast<CPPTYPE*>(ptr);                 \
 }                                                           \
                                                             \
 const CPPTYPE* to_cpp(const CTYPE* ptr) {                   \
-    return retinterpret_cast<const CPPTYPE*>(ptr)           \
+    return reinterpret_cast<const CPPTYPE*>(ptr);           \
 }                                                           \
                                                             \
 CTYPE* to_c(CPPTYPE* ptr) {                                 \
-    return retinterpret_cast<CTYPE*>(ptr)                   \
+    return reinterpret_cast<CTYPE*>(ptr);                   \
 }                                                           \
                                                             \
 const CTYPE* to_c(const CPPTYPE* ptr) {                     \
-    return retinterpret_cast<const CTYPE*>(ptr)             \
+    return reinterpret_cast<const CTYPE*>(ptr);             \
 }                                                           \
                                                             \
 
@@ -1541,6 +1572,11 @@ TO bit_cast(FROM f) {
     return result;
 }
 
+void safe_strcpy(char* dst, const std::string& str, int buffer_size) {
+    int last_char = std::min((size_t)buffer_size - 1, str.size());
+    memcpy(dst, str.c_str(), last_char);
+    dst[last_char] = '\0';
+}
     )#";
 
     auto out = fopen("casts.h", "w");
