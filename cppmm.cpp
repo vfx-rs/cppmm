@@ -124,6 +124,7 @@ struct CType {
 enum TypeKind { OpaquePtr = 0, OpaqueBytes = 1, ValueType = 2 };
 
 class Record;
+class Enum;
 
 struct Type {
     std::string name;
@@ -132,8 +133,9 @@ struct Type {
     bool is_builtin = false;
     bool is_enum = false;
     bool is_func_proto = false;
-    std::vector<std::pair<std::string, uint64_t>> enumerators = {};
+    // std::vector<std::pair<std::string, uint64_t>> enumerators = {};
     Record* record = nullptr;
+    const Enum* enm = nullptr;
 
     bool is_pod() const;
 };
@@ -165,6 +167,14 @@ struct Record {
 
         return true;
     }
+};
+
+struct Enum {
+    std::string cpp_name;
+    std::vector<std::string> namespaces;
+    std::string c_name;
+    std::string filename;
+    std::vector<std::pair<std::string, uint64_t>> enumerators;
 };
 
 bool Type::is_pod() const {
@@ -331,6 +341,13 @@ struct ExportedRecord {
     std::string filename;
 };
 
+struct ExportedEnum {
+    std::string cpp_name;
+    std::vector<std::string> namespaces;
+    std::string c_name;
+    std::string filename;
+};
+
 bool operator==(const ExportedFunction& a, const ExportedFunction& b) {
     return a.cpp_name == b.cpp_name && a.return_type == b.return_type &&
            a.params == b.params && a.is_static == b.is_static &&
@@ -358,6 +375,7 @@ struct ExportedFile {
     std::vector<ExportedFunction> functions;
     std::vector<ExportedFunction> rejected_functions;
     std::unordered_map<std::string, ExportedRecord*> records;
+    std::unordered_map<std::string, ExportedEnum*> enums;
 };
 
 } // namespace cppmm
@@ -365,10 +383,12 @@ struct ExportedFile {
 std::unordered_map<std::string, cppmm::ExportedFile> ex_files;
 std::unordered_map<std::string, cppmm::ExportedClass> ex_classes;
 std::unordered_map<std::string, cppmm::ExportedRecord> ex_records;
+std::unordered_map<std::string, cppmm::ExportedEnum> ex_enums;
 
 std::unordered_map<std::string, cppmm::Class> classes;
 std::unordered_map<std::string, cppmm::File> files;
 std::unordered_map<std::string, cppmm::Record> records;
+std::unordered_map<std::string, cppmm::Enum> enums;
 
 bool is_builtin(const QualType& qt) {
     return (qt->isBuiltinType() ||
@@ -455,6 +475,44 @@ cppmm::Record* process_record(const CXXRecordDecl* record) {
     return &records[c_name];
 }
 
+cppmm::Enum* process_enum(const EnumDecl* enum_decl) {
+    std::string cpp_name = enum_decl->getNameAsString();
+    std::vector<std::string> namespaces =
+        get_namespaces(enum_decl->getParent());
+
+    const auto c_name = prefix_from_namespaces(namespaces, "_") + cpp_name;
+    if (enums.find(c_name) != enums.end()) {
+        // already done this type, return
+        return &enums[c_name];
+    }
+
+    auto it_ex_enum = ex_enums.find(c_name);
+    if (it_ex_enum == ex_enums.end()) {
+        // fmt::print("WARNING: enum '{}' has no export definition\n",
+        // c_name);
+        return nullptr;
+    }
+
+    fmt::print("Processed enum {} -> {} in {}\n", cpp_name, c_name,
+               it_ex_enum->second.filename);
+
+    std::vector<std::pair<std::string, uint64_t>> enumerators;
+    for (const auto& ecd : enum_decl->enumerators()) {
+        enumerators.push_back(std::make_pair<std::string, uint64_t>(
+            ecd->getNameAsString(), ecd->getInitVal().getLimitedValue()));
+    }
+
+    enums[c_name] = cppmm::Enum{.cpp_name = cpp_name,
+                                .namespaces = namespaces,
+                                .c_name = c_name,
+                                .filename = it_ex_enum->second.filename,
+                                .enumerators = enumerators};
+
+    fmt::print("MATCHED: {}\n", cpp_name);
+
+    return &enums[c_name];
+}
+
 cppmm::Param process_pointee_type(const std::string& param_name,
                                   const QualType& qt) {
     cppmm::Param result;
@@ -488,16 +546,19 @@ cppmm::Param process_pointee_type(const std::string& param_name,
                                      crd->getNameAsString() == "string_view");
         }
     } else if (qt->isEnumeralType()) {
+        // const auto* enum_decl = qt->getAs<EnumType>()->getDecl();
+        // const auto ns = get_namespaces(enum_decl->getParent());
+        // std::vector<std::pair<std::string, uint64_t>> enumerators;
+        // for (const auto& ecd : enum_decl->enumerators()) {
+        //     enumerators.push_back(std::make_pair<std::string, uint64_t>(
+        //         ecd->getNameAsString(),
+        //         ecd->getInitVal().getLimitedValue()));
+        // }
         const auto* enum_decl = qt->getAs<EnumType>()->getDecl();
-        const auto ns = get_namespaces(enum_decl->getParent());
-        std::vector<std::pair<std::string, uint64_t>> enumerators;
-        for (const auto& ecd : enum_decl->enumerators()) {
-            enumerators.push_back(std::make_pair<std::string, uint64_t>(
-                ecd->getNameAsString(), ecd->getInitVal().getLimitedValue()));
-        }
+        const cppmm::Enum* enm = process_enum(enum_decl);
 
-        result.type = cppmm::Type{enum_decl->getNameAsString(), ns,
-                                  .is_enum = true, .enumerators = enumerators};
+        result.type = cppmm::Type{enm->cpp_name, enm->namespaces,
+                                  .is_enum = true, .enm = enm};
         std::string qname = qualified_type_name(result.type);
 
     } else {
@@ -688,6 +749,9 @@ class CppmmMatchHandler : public MatchFinder::MatchCallback {
         if (const CXXMethodDecl* method =
                 result.Nodes.getNodeAs<CXXMethodDecl>("methodDecl")) {
             handle_method(method);
+        } else if (const EnumDecl* enum_decl =
+                       result.Nodes.getNodeAs<EnumDecl>("enumDecl")) {
+            handle_enum(enum_decl);
         } else if (const FunctionDecl* function =
                        result.Nodes.getNodeAs<FunctionDecl>("functionDecl")) {
             handle_function(function);
@@ -698,6 +762,7 @@ class CppmmMatchHandler : public MatchFinder::MatchCallback {
     }
 
     void handle_record(const CXXRecordDecl* record) { process_record(record); }
+    void handle_enum(const EnumDecl* enum_decl) { process_enum(enum_decl); }
 
     void handle_function(const FunctionDecl* function) {
         // convert this method so we can match it against our stored ones
@@ -850,6 +915,16 @@ public:
             }
         }
 
+        for (const auto& ex_enum : ex_enums) {
+            DeclarationMatcher enum_decl_matcher =
+                enumDecl(
+                    hasName(ex_enum.second.cpp_name),
+                    unless(hasAncestor(namespaceDecl(hasName("cppmm_bind")))),
+                    unless(isImplicit()))
+                    .bind("enumDecl");
+            _match_finder.addMatcher(enum_decl_matcher, &_handler);
+        }
+
         for (const auto& input_class : ex_classes) {
             // Match all class methods that are NOT in the cppmm_bind namespace
             // (or we'll get duplicates)
@@ -906,12 +981,55 @@ class MatchExportsCallback : public MatchFinder::MatchCallback {
         if (const CXXRecordDecl* record =
                 result.Nodes.getNodeAs<CXXRecordDecl>("recordDecl")) {
             handle_record(record);
+        } else if (const EnumDecl* enum_decl =
+                       result.Nodes.getNodeAs<EnumDecl>("enumDecl")) {
+            handle_enum(enum_decl);
         } else if (const CXXMethodDecl* method =
                        result.Nodes.getNodeAs<CXXMethodDecl>("methodDecl")) {
             handle_method(method);
         } else if (const FunctionDecl* function =
                        result.Nodes.getNodeAs<FunctionDecl>("functionDecl")) {
             handle_function(function);
+        }
+    }
+
+    void handle_enum(const EnumDecl* enum_decl) {
+        const auto ns = get_namespaces(enum_decl->getParent());
+        std::vector<std::pair<std::string, uint64_t>> enumerators;
+        // for (const auto& ecd : enum_decl->enumerators()) {
+        //     enumerators.push_back(std::make_pair<std::string, uint64_t>(
+        //         ecd->getNameAsString(),
+        //         ecd->getInitVal().getLimitedValue()));
+        // }
+
+        ASTContext& ctx = enum_decl->getASTContext();
+        SourceManager& sm = ctx.getSourceManager();
+        const auto& loc = enum_decl->getLocation();
+        std::string filename = sm.getFilename(loc);
+
+        cppmm::ExportedEnum ex_enum;
+        ex_enum.cpp_name = enum_decl->getNameAsString();
+        ex_enum.c_name = prefix_from_namespaces(ns, "_") + ex_enum.cpp_name;
+        fmt::print("Found enum: {}\n", ex_enum.c_name);
+        ex_enum.namespaces = ns;
+        ex_enum.filename = filename;
+
+        if (ex_enums.find(ex_enum.c_name) != ex_enums.end()) {
+            fmt::print("WARNING: Ignoring duplicate definition for {}\n",
+                       ex_enum.c_name);
+            return;
+        }
+
+        ex_enums[ex_enum.c_name] = ex_enum;
+
+        if (ex_files.find(filename) == ex_files.end()) {
+            ex_files[filename] = {};
+        }
+
+        auto& ex_file = ex_files[filename];
+        if (ex_file.enums.find(ex_enum.c_name) == ex_file.enums.end()) {
+            ex_file.enums[ex_enum.c_name] = &ex_enums[ex_enum.c_name];
+            // fmt::print("GOT TYPE: {}\n", ex_record);
         }
     }
 
@@ -940,7 +1058,7 @@ class MatchExportsCallback : public MatchFinder::MatchCallback {
             }
         }
 
-        fmt::print("record {}\n", ex_record.cpp_name);
+        // fmt::print("record {}\n", ex_record.cpp_name);
         // record->dump();
         ASTContext& ctx = record->getASTContext();
         SourceManager& sm = ctx.getSourceManager();
@@ -961,12 +1079,12 @@ class MatchExportsCallback : public MatchFinder::MatchCallback {
         auto& ex_file = ex_files[filename];
         if (ex_file.records.find(ex_record.c_name) == ex_file.records.end()) {
             ex_file.records[ex_record.c_name] = ex_record_ptr;
-            fmt::print("GOT TYPE: {}\n", ex_record);
+            // fmt::print("GOT TYPE: {}\n", ex_record);
         }
     }
 
     void handle_function(const FunctionDecl* function) {
-        fmt::print("GOT FUNCTION: {}\n", function->getNameAsString());
+        // fmt::print("GOT FUNCTION: {}\n", function->getNameAsString());
         std::vector<AttrDesc> attrs = get_attrs(function);
 
         // figure out which file we're in
@@ -1019,6 +1137,13 @@ class MatchExportsConsumer : public ASTConsumer {
 
 public:
     explicit MatchExportsConsumer(ASTContext* context) {
+        // match all record declrations in the cppmm_bind namespace
+        DeclarationMatcher enum_decl_matcher =
+            enumDecl(hasAncestor(namespaceDecl(hasName("cppmm_bind"))),
+                     unless(isImplicit()))
+                .bind("enumDecl");
+        _match_finder.addMatcher(enum_decl_matcher, &_handler);
+
         // match all record declrations in the cppmm_bind namespace
         DeclarationMatcher record_decl_matcher =
             cxxRecordDecl(hasAncestor(namespaceDecl(hasName("cppmm_bind"))),
@@ -1184,6 +1309,19 @@ int main(int argc, const char** argv) {
             }
         }
 
+        for (const auto& enm_pair : bind_file.second.enums) {
+            const auto& enm = enums[enm_pair.first];
+            declarations += fmt::format("enum {} {{\n", enm.c_name);
+
+            for (const auto& ecd : enm.enumerators) {
+                std::string c_name = enm.c_name + "_" + ecd.first;
+                declarations +=
+                    fmt::format("    {} = {},\n", c_name, ecd.second);
+            }
+
+            declarations += "};\n\n";
+        }
+
         for (const auto& it_function : files[bind_file.first].functions) {
             const auto& function = it_function.second;
             std::string c_function_name = fmt::format(
@@ -1229,6 +1367,8 @@ int main(int argc, const char** argv) {
                 for (const auto& param : method.params) {
                     if (param.type.record) {
                         includes.insert(param.type.record->filename);
+                    } else if (param.type.enm) {
+                        includes.insert(param.type.enm->filename);
                     }
                 }
 
