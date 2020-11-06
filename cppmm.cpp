@@ -231,7 +231,15 @@ std::string get_c_function_call(const Param& param) {
             result = fmt::format("*{}", param.name);
         }
     } else {
-        if (param.requires_cast) {
+        if (param.type.record &&
+            param.type.record->kind == cppmm::TypeKind::ValueType) {
+            // need to bit-cast this
+            result = fmt::format(
+                "bit_cast<{}>({})",
+                prefix_from_namespaces(param.type.record->namespaces, "::") +
+                    param.type.name,
+                param.name);
+        } else if (param.requires_cast) {
             result = fmt::format("to_cpp({})", param.name);
         } else {
             result = param.name;
@@ -546,14 +554,6 @@ cppmm::Param process_pointee_type(const std::string& param_name,
                                      crd->getNameAsString() == "string_view");
         }
     } else if (qt->isEnumeralType()) {
-        // const auto* enum_decl = qt->getAs<EnumType>()->getDecl();
-        // const auto ns = get_namespaces(enum_decl->getParent());
-        // std::vector<std::pair<std::string, uint64_t>> enumerators;
-        // for (const auto& ecd : enum_decl->enumerators()) {
-        //     enumerators.push_back(std::make_pair<std::string, uint64_t>(
-        //         ecd->getNameAsString(),
-        //         ecd->getInitVal().getLimitedValue()));
-        // }
         const auto* enum_decl = qt->getAs<EnumType>()->getDecl();
         const cppmm::Enum* enm = process_enum(enum_decl);
 
@@ -1301,10 +1301,31 @@ int main(int argc, const char** argv) {
                     fmt::format("typedef struct {0} {0};\n\n", record.c_name);
             } else if (record.kind == cppmm::TypeKind::ValueType) {
                 declarations += fmt::format("typedef struct {{\n");
+
+                std::string qname =
+                    prefix_from_namespaces(record.namespaces, "::") +
+                    record.cpp_name;
+                definitions += fmt::format(
+                    "static_assert(sizeof({}) == sizeof({}), \"sizes do not "
+                    "match\");\n",
+                    qname, record.c_name);
+                definitions += fmt::format("static_assert(alignof({}) == "
+                                           "alignof({}), \"alignments do not "
+                                           "match\");\n",
+                                           qname, record.c_name);
+
                 for (const auto& field : record.fields) {
                     declarations += fmt::format("    {} {};\n", field.type.name,
                                                 field.name);
+
+                    definitions +=
+                        fmt::format("static_assert(offsetof({0}, {2}) == "
+                                    "offsetof({1}, {2}), "
+                                    "\"field offset does not match\");\n",
+                                    qname, record.c_name, field.name);
                 }
+                definitions += "\n";
+                fmt::print("DEF: {}\n", definitions);
                 declarations += fmt::format("}} {};\n\n", record.c_name);
             }
         }
@@ -1434,12 +1455,12 @@ int main(int argc, const char** argv) {
         const auto header = fmt::format("{}.h", root);
         const auto implementation = fmt::format("{}.cpp", root);
 
-        // fmt::print("INCLUDES FOR {}\n", root);
+        fmt::print("INCLUDES FOR {}\n", root);
         std::string include_stmts;
         for (const auto& i : includes) {
             const std::string include_root = bind_file_root(i);
             if (include_root != root) {
-                // fmt::print("    {}.h\n", include_root);
+                fmt::print("    {}.h\n", include_root);
                 include_stmts +=
                     fmt::format("#include \"{}.h\"\n", include_root);
             }
@@ -1447,6 +1468,7 @@ int main(int argc, const char** argv) {
 
         definitions = fmt::format(
             R"#(//
+#include "{}.h"
 {}
 
 namespace {{
@@ -1458,7 +1480,7 @@ namespace {{
 extern "C" {{
 {}
 }}
-    )#",
+    )#", root,
             ps::join("\n", bind_file.second.includes), casts_macro_invocaions,
             definitions);
 
@@ -1508,6 +1530,16 @@ const CTYPE* to_c(const CPPTYPE* ptr) {                     \
     return retinterpret_cast<const CTYPE*>(ptr)             \
 }                                                           \
                                                             \
+
+template <typename TO, typename FROM>
+TO bit_cast(FROM f) {
+    static_assert(sizeof(TO) == sizeof(FROM), "sizes do not match");
+    static_assert(alignof(TO) == alignof(FROM), "alignments do not match");
+
+    TO result;
+    memcpy((void*)&result, (void*)&f, sizeof(f));
+    return result;
+}
 
     )#";
 
