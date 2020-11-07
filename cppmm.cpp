@@ -160,6 +160,10 @@ struct Method {
     std::string comment;
     bool is_constructor = false;
     bool is_copy_constructor = false;
+    bool is_copy_assignment = false;
+    bool is_operator = false;
+    bool is_conversion_operator = false;
+    std::string op;
 };
 
 struct Record {
@@ -350,6 +354,15 @@ get_opaqueptr_constructor_body(const std::vector<std::string>& call_params,
                        ps::join(", ", call_params));
 }
 
+std::string
+get_valuetype_constructor_body(const std::vector<std::string>& call_params,
+                               const std::string& class_name,
+                               const std::vector<std::string>& namespaces) {
+    return fmt::format("    self = to_c(new (self) {}({}));",
+                       prefix_from_namespaces(namespaces, "::") + class_name,
+                       ps::join(", ", call_params));
+}
+
 std::string get_method_definition(const Method& method,
                                   const std::string& declaration,
                                   const std::string& class_name,
@@ -365,6 +378,25 @@ std::string get_method_definition(const Method& method,
     if (method.is_constructor && class_kind == TypeKind::OpaquePtr) {
         body =
             get_opaqueptr_constructor_body(call_params, class_name, namespaces);
+    } else if (method.is_constructor && class_kind == TypeKind::ValueType) {
+        body =
+            get_valuetype_constructor_body(call_params, class_name, namespaces);
+    } else if (method.is_copy_assignment) {
+        body = "    *to_cpp(self) = ";
+        body += call_params[0] + ";\n    return self;";
+    } else if (method.is_operator) {
+        if (class_kind == TypeKind::OpaquePtr && call_params.size() == 0) {
+            // unary operator can't work for an opqaue pointer without allocating
+            // FIXME: what do we want to do here?
+            fmt::print("WARNING: method {} is a unary operator but its parent class is of kind OpaquePtr and so cannot be autobound without allocating. It will be ignored.\n", declaration);
+        } else if (class_kind == TypeKind::OpaquePtr && method.op.find("=") == std::string::npos) {
+            // Similarly, any non-assigning operator can't work for the same reason
+            // FIXME: what do we want to do here?
+            fmt::print("WARNING: method {} is a non-assigning operator (i.e. it returns a copy) but its rparent class is of kind OpaquePtr and so cannot be autobound without allocating. It will be ignored.\n", declaration);
+        } else {
+            body = fmt::format("    *to_cpp(self) {} ", method.op);
+            body += call_params[0] + ";\n    return self;";
+        }
     } else {
         if (method.return_type.type.name == "basic_string") {
             // need to copy to the out parameters
@@ -374,7 +406,10 @@ std::string get_method_definition(const Method& method,
         } else {
             body = "    ";
         }
-        if (method.return_type.requires_cast) {
+        bool bitcast_return_type = method.return_type.type.record && method.return_type.type.record->kind == TypeKind::ValueType;
+        if (bitcast_return_type) {
+            body += fmt::format("bit_cast<{}>(", method.return_type.type.record->c_name);
+        } else if (method.return_type.requires_cast) {
             body += "to_c(";
         }
         if (method.is_static) {
@@ -388,7 +423,7 @@ std::string get_method_definition(const Method& method,
         if (method.return_type.is_uptr) {
             body += ".release()";
         }
-        if (method.return_type.requires_cast) {
+        if (method.return_type.requires_cast || bitcast_return_type) {
             body += ")";
         }
         body += ";";
@@ -410,13 +445,6 @@ struct Function {
     std::string comment;
     std::vector<std::string> namespaces;
 };
-
-// struct Class {
-//     std::string name;
-//     std::vector<std::string> namespaces;
-//     std::unordered_map<std::string, Method> methods;
-//     TypeKind kind;
-// };
 
 struct File {
     std::unordered_map<std::string, Function> functions;
@@ -736,6 +764,24 @@ cppmm::Param process_param_type(const std::string& param_name,
 }
 
 namespace fmt {
+std::ostream& operator<<(std::ostream& os, const cppmm::TypeKind& kind) {
+    switch (kind) {
+    case cppmm::TypeKind::OpaquePtr:
+        os << "OpaquePtr";
+        break;
+    case cppmm::TypeKind::OpaqueBytes:
+        os << "OpaqueBytes";
+        break;
+    case cppmm::TypeKind::ValueType:
+        os << "ValueType";
+        break;
+    default:
+        os << "Unknown";
+        break;
+    }
+    return os;
+}
+
 std::ostream& operator<<(std::ostream& os, const cppmm::Param& param) {
     if (param.is_const) {
         os << "const ";
@@ -877,16 +923,35 @@ cppmm::Method process_method(const CXXMethodDecl* method,
 
     bool is_constructor = false;
     bool is_copy_constructor = false;
+    bool is_copy_assignment = method->isCopyAssignmentOperator();
+    bool is_operator = false;
+    bool is_conversion_operator = false;
+    std::string op;
 
     if (isa<CXXConstructorDecl>(method)) {
         const auto* ctor = cast<CXXConstructorDecl>(method);
         is_constructor = true;
         is_copy_constructor = ctor->isCopyConstructor();
+    } else if (ex_method.cpp_name.find("operator") == 0) {
+        // we assume that clang always concatenates the operator name with the
+        // symbols so we can use this to tell the difference with a conversion
+        // operator. FIXME: is this true?
+        std::vector<std::string> toks;
+        ps::split(ex_method.cpp_name, toks);
+        if (toks.size() == 1) {
+            op = ex_method.cpp_name.substr(8, 100);
+            is_operator = true;
+            // fmt::print("Got operator '{}'\n", op);
+        } else {
+            op = toks[1];
+            is_conversion_operator = true;
+            // fmt::print("Got conversion op to '{}'\n", op);
+        }
     }
 
-    // do some parameter patching. clang ignores the parameter name but we want
-    // one.
-    if (is_copy_constructor) {
+    // do some parameter patching. clang ignores the parameter name for copy
+    // ctor and assignment but we need one so just use "other"
+    if (is_copy_constructor || is_copy_assignment) {
         params[0].name = "other";
     }
 
@@ -899,7 +964,15 @@ cppmm::Method process_method(const CXXMethodDecl* method,
         .params = params,
         .comment = comment,
         .is_constructor = is_constructor,
-        .is_copy_constructor = is_copy_constructor};
+        .is_copy_constructor = is_copy_constructor,
+        .is_copy_assignment = is_copy_assignment,
+        .is_operator = is_operator,
+        .is_conversion_operator = is_conversion_operator,
+        .op = op};
+
+    if (is_constructor) {
+        fmt::print("CONSTRUCTOR: {}\n", result);
+    }
 
     return result;
 }
@@ -1034,75 +1107,6 @@ class CppmmMatchHandler : public MatchFinder::MatchCallback {
             record->methods[matched_ex_method->c_name] =
                 process_method(method, *matched_ex_method);
         }
-
-        /*
-        const auto method_name = method->getNameAsString();
-        const auto class_name = method->getParent()->getNameAsString();
-
-        // first make sure this method is on a class we want to export
-        // this should never return if we're filtering correctly at the
-        // top level.
-        auto it_class = ex_classes.find(class_name);
-        if (it_class == ex_classes.end()) {
-            return;
-        }
-
-        auto& ex_class = it_class->second;
-
-        // see if we have a converted class already and if not, make one
-        // currently this doesn't do anything useful, ultimately we want
-        // to store a table of classes that we're converting and where
-        // they're declared so we can include the appropriate C headers in
-        // the bindings, as well as error if something is used but not
-        // declared for binding
-        if (classes.find(class_name) == classes.end()) {
-            auto namespaces = get_namespaces(method->getParent()->getParent());
-            classes[class_name] = cppmm::Class{class_name, namespaces, {}};
-        }
-
-        // convert this method so we can match it against our stored ones
-        const auto this_ex_method = cppmm::ExportedMethod(method, {});
-
-        // now see if we can find the method in the exported methods on
-        // the exported class
-        const cppmm::ExportedMethod* matched_ex_method = nullptr;
-        bool rejected = true;
-        for (const auto& ex_method : ex_class.methods) {
-            if (this_ex_method == ex_method) {
-                // found a matching exported method (but may still be
-                // ignored)
-                rejected = false;
-                if (!(ex_method.is_ignored() || ex_method.is_manual())) {
-                    // not ignored, this is the one we'll use
-                    matched_ex_method = &ex_method;
-                    break;
-                }
-            }
-        }
-
-        // store the rejected method on the class so we can warn that we
-        // didn't find a match
-        if (rejected) {
-            ex_class.rejected_methods.push_back(this_ex_method);
-        }
-
-        // we don't want to bind this method so bail
-        if (matched_ex_method == nullptr) {
-            return;
-        }
-
-        // fmt::print("        MATCHED {} {}\n", method_name,
-        //            method->getQualifiedNameAsString());
-
-        // now grab the method parameters for further processing
-        // if we don't already have a method definition for the C version
-        // of this method
-        if (classes[class_name].methods.find(matched_ex_method->c_name) ==
-            classes[class_name].methods.end()) {
-            classes[class_name].methods[matched_ex_method->c_name] =
-                process_method(method, *matched_ex_method);
-        }
-    */
     }
 };
 
@@ -1258,15 +1262,15 @@ class MatchExportsCallback : public MatchFinder::MatchCallback {
         }
 
         std::vector<AttrDesc> attrs = get_attrs(record);
+        ex_record.kind = cppmm::TypeKind::OpaquePtr;
         for (const auto& attr : attrs) {
-            if (attr.kind == AttrDesc::Kind::OpaquePtr) {
-                ex_record.kind = cppmm::TypeKind::OpaquePtr;
+            if (attr.kind == AttrDesc::Kind::ValueType) {
+                ex_record.kind = cppmm::TypeKind::ValueType;
             } else if (attr.kind == AttrDesc::Kind::OpaqueBytes) {
                 ex_record.kind = cppmm::TypeKind::OpaqueBytes;
-            } else if (attr.kind == AttrDesc::Kind::ValueType) {
-                ex_record.kind = cppmm::TypeKind::ValueType;
             }
         }
+        fmt::print("{} is a {}\n", ex_record.c_name, ex_record.kind);
 
         // fmt::print("record {}\n", ex_record.cpp_name);
         // record->dump();

@@ -6,34 +6,28 @@
 namespace cppmm_bind {
 namespace Imath {
 class half {
-    half() CPPMM_RENAME(create_default);
-    half(float f) CPPMM_RENAME(create_from_float);
-    ~half() CPPMM_RENAME(delete);
+    half() CPPMM_RENAME(ctor);
+    half(float f) CPPMM_RENAME(from_float);
+    ~half() CPPMM_RENAME(dtor);
     half(const ::Imath::half& other) CPPMM_RENAME(copy);
     half(::Imath::half&& other) CPPMM_IGNORE;
     operator float() const CPPMM_RENAME(to_float);
 
-    // NOTE: Not binding
-    ::Imath::half operator-() const CPPMM_RENAME(unary_minus);
+    ::Imath::half operator-() const CPPMM_RENAME(neg);
+    // ::Imath::half operator-() const CPPMM_IGNORE;
     ::Imath::half& operator=(const ::Imath::half& h) CPPMM_RENAME(assign);
     ::Imath::half& operator=(::Imath::half&& h) noexcept CPPMM_IGNORE;
     ::Imath::half& operator=(float f) CPPMM_IGNORE;
-    ::Imath::half& operator+=(::Imath::half h)
-        CPPMM_RENAME(add_in_place_from_half);
-    ::Imath::half& operator+=(float f) CPPMM_RENAME(add_in_place_from_float);
-    ::Imath::half& operator-=(::Imath::half h)
-        CPPMM_RENAME(subtract_in_place_from_half);
-    ::Imath::half& operator-=(float f)
-        CPPMM_RENAME(subtract_in_place_from_float);
-    ::Imath::half& operator*=(::Imath::half h)
-        CPPMM_RENAME(multiply_in_place_from_half);
-    ::Imath::half& operator*=(float f)
-        CPPMM_RENAME(multiply_in_place_from_float);
-    ::Imath::half& operator/=(::Imath::half h)
-        CPPMM_RENAME(divide_in_place_from_half);
-    ::Imath::half& operator/=(float f) CPPMM_RENAME(divide_in_place_from_float);
-    ::Imath::half round(unsigned int n) const CPPMM_RENAME(round);
-    // END NOTE
+    ::Imath::half& operator+=(::Imath::half h) CPPMM_RENAME(add_assign);
+    ::Imath::half& operator+=(float f) CPPMM_RENAME(add_assign_float);
+    ::Imath::half& operator-=(::Imath::half h) CPPMM_RENAME(sub_assign);
+    ::Imath::half& operator-=(float f) CPPMM_RENAME(sub_assign_float);
+    ::Imath::half& operator*=(::Imath::half h) CPPMM_RENAME(mul_assign);
+    ::Imath::half& operator*=(float f) CPPMM_RENAME(mul_assign_float);
+    ::Imath::half& operator/=(::Imath::half h) CPPMM_RENAME(div_assign);
+    ::Imath::half& operator/=(float f) CPPMM_RENAME(div_assign_float);
+
+    ::Imath::half round(unsigned int n) const;
 
     bool isFinite() const;
     bool isNormalized() const;
@@ -43,12 +37,10 @@ class half {
     bool isInfinity() const;
     bool isNegative() const;
 
-    // NOTE: Not binding
     static ::Imath::half posInf();
     static ::Imath::half negInf();
     static ::Imath::half qNan();
     static ::Imath::half sNan();
-    // END NOTE
 
     unsigned short bits() const;
     void setBits(unsigned short bits);

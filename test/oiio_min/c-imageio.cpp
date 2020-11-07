@@ -16,20 +16,35 @@ using ::OIIO::ProgressCallback;
 using ::OIIO::stride_t;
 using ::OIIO::string_view;
 
+struct ROI {
+    constexpr ROI() noexcept CPPMM_RENAME(default);
+    constexpr bool defined() const noexcept;
+
+    constexpr int width () const noexcept;
+    constexpr int height () const noexcept;
+    constexpr int depth () const noexcept;
+    constexpr int nchannels () const noexcept;
+    constexpr imagesize_t npixels () const noexcept;
+
+    static constexpr ::OIIO::ROI All () noexcept;
+
+    friend constexpr bool operator== (const ::OIIO::ROI &a, const ::OIIO::ROI &b) noexcept;
+    friend constexpr bool operator!= (const ::OIIO::ROI &a, const ::OIIO::ROI &b) noexcept;
+} CPPMM_VALUETYPE;
+
 class ImageSpec {
     ImageSpec(::OIIO::TypeDesc format) noexcept CPPMM_RENAME(new);
 
     // ~ImageSpec() __attribute__((annotate("cppmm:manual:delete")));
 
-    // ImageSpec(int xres, int yres, int nchans, ::OIIO::TypeDesc fmt) noexcept
-    //     __attribute__((annotate("cppmm:manual:new_with_dimensions")));
+    ImageSpec(int xres, int yres, int nchans, ::OIIO::TypeDesc fmt) noexcept
+        CPPMM_RENAME(new_with_dimensions);
 
     // TODO: assign name for copy ctor arg (gets lost)
-    ImageSpec(const ::OIIO::ImageSpec& other)
-        __attribute__((annotate("cppmm:rename:copy")));
+    ImageSpec(const ::OIIO::ImageSpec& other) CPPMM_RENAME(copy);
 
-    // ::OIIO::ImageSpec& operator=(const ::OIIO::ImageSpec& other)
-    //     __attribute__((annotate("cppmm:rename:assign")));
+    ::OIIO::ImageSpec& operator=(const ::OIIO::ImageSpec& other)
+        CPPMM_RENAME(assign);
 
     ImageSpec(::OIIO::ImageSpec&& other) CPPMM_IGNORE;
 
