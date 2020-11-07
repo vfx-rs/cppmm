@@ -150,6 +150,18 @@ struct Param {
     bool requires_cast = false;
 };
 
+struct Method {
+    std::string cpp_name;
+    std::string c_name;
+    bool is_const = false;
+    bool is_static = false;
+    Param return_type;
+    std::vector<Param> params;
+    std::string comment;
+    bool is_constructor = false;
+    bool is_copy_constructor = false;
+};
+
 struct Record {
     std::string cpp_name;
     std::vector<std::string> namespaces;
@@ -157,6 +169,7 @@ struct Record {
     TypeKind kind;
     std::string filename;
     std::vector<cppmm::Param> fields;
+    std::unordered_map<std::string, Method> methods;
 
     bool is_pod() const {
         for (const auto& p : fields) {
@@ -212,7 +225,7 @@ std::string get_c_function_decl(const Param& param) {
             result += "int";
         } else {
             result += prefix_from_namespaces(param.type.namespaces, "_") +
-                    param.type.name;
+                      param.type.name;
             if (param.is_ptr || param.is_ref || param.is_uptr) {
                 result += "*";
             }
@@ -244,7 +257,11 @@ std::string get_c_function_call(const Param& param) {
                     param.type.name,
                 param.name);
         } else if (param.type.enm) {
-            result = fmt::format("({}){}", prefix_from_namespaces(param.type.enm->namespaces, "::") + param.type.enm->cpp_name, param.name);
+            result = fmt::format(
+                "({}){}",
+                prefix_from_namespaces(param.type.enm->namespaces, "::") +
+                    param.type.enm->cpp_name,
+                param.name);
         } else if (param.requires_cast) {
             result = fmt::format("to_cpp({})", param.name);
         } else {
@@ -261,15 +278,129 @@ struct CParam {
     bool is_const = false;
 };
 
-struct Method {
-    std::string cpp_name;
-    std::string c_name;
-    bool is_const = false;
-    bool is_static = false;
-    Param return_type;
-    std::vector<Param> params;
-    std::string comment;
-};
+std::string get_opaqueptr_constructor_declaration(
+    const std::string& c_method_name, const std::string& class_type,
+    const std::vector<std::string>& param_decls) {
+    return fmt::format("{}* {}({})", class_type, c_method_name,
+                       ps::join(", ", param_decls));
+}
+
+std::string get_method_declaration(const Method& method,
+                                   const std::string& class_type,
+                                   TypeKind class_kind,
+                                   const std::string& method_prefix,
+                                   std::set<std::string>& includes) {
+    std::vector<std::string> param_decls;
+
+    auto c_method_name = fmt::format("{}_{}", method_prefix, method.c_name);
+    for (const auto& param : method.params) {
+        if (param.type.record) {
+            includes.insert(param.type.record->filename);
+        } else if (param.type.enm) {
+            includes.insert(param.type.enm->filename);
+        }
+
+        std::string pdecl = get_c_function_decl(param);
+        param_decls.push_back(pdecl);
+    }
+
+    std::string declaration;
+
+    if (method.is_constructor && class_kind == TypeKind::OpaquePtr) {
+        return get_opaqueptr_constructor_declaration(c_method_name, class_type,
+                                                     param_decls);
+    } else {
+        std::string ret;
+        if (method.return_type.type.name == "basic_string") {
+            ret = "void";
+            param_decls.push_back("char* _result_buffer_ptr");
+            param_decls.push_back("int _result_buffer_len");
+        } else {
+            ret = get_c_function_decl(method.return_type);
+        }
+
+        if (method.is_static) {
+            declaration = fmt::format("{} {}({})", ret, c_method_name,
+                                      ps::join(", ", param_decls));
+        } else {
+            std::string constqual;
+            if (method.is_const) {
+                constqual = "const ";
+            }
+            declaration = fmt::format("{} {}({}{}* self", ret, c_method_name,
+                                      constqual, class_type);
+            if (param_decls.size()) {
+                declaration = fmt::format("{}, {})", declaration,
+                                          ps::join(", ", param_decls));
+            } else {
+                declaration = fmt::format("{})", declaration);
+            }
+        }
+
+        return declaration;
+    }
+}
+
+std::string
+get_opaqueptr_constructor_body(const std::vector<std::string>& call_params,
+                               const std::string& class_name,
+                               const std::vector<std::string>& namespaces) {
+    return fmt::format("    return to_c(new {}({}));",
+                       prefix_from_namespaces(namespaces, "::") + class_name,
+                       ps::join(", ", call_params));
+}
+
+std::string get_method_definition(const Method& method,
+                                  const std::string& declaration,
+                                  const std::string& class_name,
+                                  TypeKind class_kind,
+                                  const std::vector<std::string>& namespaces) {
+    std::vector<std::string> call_params;
+    for (const auto& p : method.params) {
+        call_params.push_back(get_c_function_call(p));
+    }
+
+    std::string body;
+
+    if (method.is_constructor && class_kind == TypeKind::OpaquePtr) {
+        body =
+            get_opaqueptr_constructor_body(call_params, class_name, namespaces);
+    } else {
+        if (method.return_type.type.name == "basic_string") {
+            // need to copy to the out parameters
+            body = "    const std::string result = ";
+        } else if (method.return_type.type.name != "void") {
+            body = "    return ";
+        } else {
+            body = "    ";
+        }
+        if (method.return_type.requires_cast) {
+            body += "to_c(";
+        }
+        if (method.is_static) {
+            body +=
+                prefix_from_namespaces(namespaces, "::") + class_name + "::";
+        } else {
+            body += "to_cpp(self)->";
+        }
+        body += method.cpp_name;
+        body += fmt::format("({})", ps::join(", ", call_params));
+        if (method.return_type.is_uptr) {
+            body += ".release()";
+        }
+        if (method.return_type.requires_cast) {
+            body += ")";
+        }
+        body += ";";
+
+        if (method.return_type.type.name == "basic_string") {
+            body += "\n    safe_strcpy(_result_buffer_ptr, result, "
+                    "_result_buffer_len);";
+        }
+    }
+
+    return fmt::format("{} {{\n{}\n}}", declaration, body);
+}
 
 struct Function {
     std::string cpp_name;
@@ -280,11 +411,12 @@ struct Function {
     std::vector<std::string> namespaces;
 };
 
-struct Class {
-    std::string name;
-    std::vector<std::string> namespaces;
-    std::unordered_map<std::string, Method> methods;
-};
+// struct Class {
+//     std::string name;
+//     std::vector<std::string> namespaces;
+//     std::unordered_map<std::string, Method> methods;
+//     TypeKind kind;
+// };
 
 struct File {
     std::unordered_map<std::string, Function> functions;
@@ -399,7 +531,7 @@ std::unordered_map<std::string, cppmm::ExportedClass> ex_classes;
 std::unordered_map<std::string, cppmm::ExportedRecord> ex_records;
 std::unordered_map<std::string, cppmm::ExportedEnum> ex_enums;
 
-std::unordered_map<std::string, cppmm::Class> classes;
+// std::unordered_map<std::string, cppmm::Class> classes;
 std::unordered_map<std::string, cppmm::File> files;
 std::unordered_map<std::string, cppmm::Record> records;
 std::unordered_map<std::string, cppmm::Enum> enums;
@@ -534,18 +666,16 @@ cppmm::Param process_pointee_type(const std::string& param_name,
 
     if (is_builtin(qt)) {
         std::string name = qt.getTypePtr()
-                                      ->getUnqualifiedDesugaredType()
-                                      ->getAs<BuiltinType>()
-                                      ->desugar()
-                                      .getAsString();
+                               ->getUnqualifiedDesugaredType()
+                               ->getAs<BuiltinType>()
+                               ->desugar()
+                               .getAsString();
 
         // C++ doesn't like _Bool but we can include stdbool.h for C
         if (name == "_Bool") {
             name = "bool";
         }
-        result.type = cppmm::Type{name,
-                                  {},
-                                  .is_builtin = true};
+        result.type = cppmm::Type{name, {}, .is_builtin = true};
         result.requires_cast = false;
     } else if (qt->isRecordType()) {
         const CXXRecordDecl* crd = qt->getAsCXXRecordDecl();
@@ -745,14 +875,27 @@ cppmm::Method process_method(const CXXMethodDecl* method,
 
     std::string comment = get_decl_comment(method);
 
-    return cppmm::Method{.cpp_name = ex_method.cpp_name,
-                         .c_name = ex_method.c_name,
-                         .is_const = method->isConst(),
-                         .is_static = method->isStatic(),
-                         .return_type =
-                             process_param_type("", method->getReturnType()),
-                         .params = params,
-                         .comment = comment};
+    bool is_constructor = false;
+    bool is_copy_constructor = false;
+
+    if (isa<CXXConstructorDecl>(method)) {
+        const auto* ctor = cast<CXXConstructorDecl>(method);
+        is_constructor = true;
+        is_copy_constructor = ctor->isCopyConstructor();
+    }
+
+    cppmm::Method result = cppmm::Method{
+        .cpp_name = ex_method.cpp_name,
+        .c_name = ex_method.c_name,
+        .is_const = method->isConst(),
+        .is_static = method->isStatic(),
+        .return_type = process_param_type("", method->getReturnType()),
+        .params = params,
+        .comment = comment,
+        .is_constructor = is_constructor,
+        .is_copy_constructor = is_copy_constructor};
+
+    return result;
 }
 
 class CppmmMatchHandler : public MatchFinder::MatchCallback {
@@ -839,6 +982,55 @@ class CppmmMatchHandler : public MatchFinder::MatchCallback {
 
     void handle_method(const CXXMethodDecl* method) {
         const auto method_name = method->getNameAsString();
+        auto* record = process_record(method->getParent());
+        assert(record);
+
+        auto it_class = ex_classes.find(record->cpp_name);
+        if (it_class == ex_classes.end()) {
+            return;
+        }
+
+        auto& ex_class = it_class->second;
+
+        // convert this method so we can match it against our stored ones
+        const auto this_ex_method = cppmm::ExportedMethod(method, {});
+
+        // now see if we can find the method in the exported methods on
+        // the exported class
+        const cppmm::ExportedMethod* matched_ex_method = nullptr;
+        bool rejected = true;
+        for (const auto& ex_method : ex_class.methods) {
+            if (this_ex_method == ex_method) {
+                // found a matching exported method (but may still be
+                // ignored)
+                rejected = false;
+                if (!(ex_method.is_ignored() || ex_method.is_manual())) {
+                    // not ignored, this is the one we'll use
+                    matched_ex_method = &ex_method;
+                    break;
+                }
+            }
+        }
+
+        // store the rejected method on the class so we can warn that we
+        // didn't find a match
+        if (rejected) {
+            ex_class.rejected_methods.push_back(this_ex_method);
+        }
+
+        // we don't want to bind this method so bail
+        if (matched_ex_method == nullptr) {
+            return;
+        }
+
+        if (record->methods.find(matched_ex_method->c_name) ==
+            record->methods.end()) {
+            record->methods[matched_ex_method->c_name] =
+                process_method(method, *matched_ex_method);
+        }
+
+        /*
+        const auto method_name = method->getNameAsString();
         const auto class_name = method->getParent()->getNameAsString();
 
         // first make sure this method is on a class we want to export
@@ -904,6 +1096,7 @@ class CppmmMatchHandler : public MatchFinder::MatchCallback {
             classes[class_name].methods[matched_ex_method->c_name] =
                 process_method(method, *matched_ex_method);
         }
+    */
     }
 };
 
@@ -937,8 +1130,8 @@ public:
         }
 
         for (const auto& input_class : ex_classes) {
-            // Match all class methods that are NOT in the cppmm_bind namespace
-            // (or we'll get duplicates)
+            // Match all class methods that are NOT in the cppmm_bind
+            // namespace (or we'll get duplicates)
             DeclarationMatcher method_decl_matcher =
                 cxxMethodDecl(
                     isPublic(), ofClass(hasName(input_class.first)),
@@ -1194,8 +1387,8 @@ std::vector<std::string> get_includes(const std::string& filename) {
     std::ifstream file(filename);
     std::string line;
     std::vector<std::string> result;
-    // TODO: we probably want to do this with a preprocessor callback, but for
-    // now do the dumb way
+    // TODO: we probably want to do this with a preprocessor callback, but
+    // for now do the dumb way
     while (std::getline(file, line)) {
         if (line.find("#include") == 0) {
             result.push_back(line);
@@ -1205,10 +1398,11 @@ std::vector<std::string> get_includes(const std::string& filename) {
     return result;
 }
 
-std::string create_casts(const cppmm::Class& cls) {
+std::string create_casts(const cppmm::Record& cls) {
     std::string cpp_type =
-        prefix_from_namespaces(cls.namespaces, "::") + cls.name;
-    std::string c_type = prefix_from_namespaces(cls.namespaces, "_") + cls.name;
+        prefix_from_namespaces(cls.namespaces, "::") + cls.cpp_name;
+    std::string c_type =
+        prefix_from_namespaces(cls.namespaces, "_") + cls.cpp_name;
     return fmt::format("CPPMM_DEFINE_POINTER_CASTS({}, {})\n", cpp_type,
                        c_type);
 }
@@ -1254,8 +1448,8 @@ int main(int argc, const char** argv) {
         ex_files[src_path].includes = includes;
     }
 
-    // TODO: we need to declare this properly somehow, maybe a special namespace
-    // where we can do a namespace OIIO = OpenImageIO_v2_2?
+    // TODO: we need to declare this properly somehow, maybe a special
+    // namespace where we can do a namespace OIIO = OpenImageIO_v2_2?
     for (const auto& o : opt_rename_namespace) {
         std::vector<std::string> toks;
         ps::split(o, toks, "=");
@@ -1266,9 +1460,8 @@ int main(int argc, const char** argv) {
     }
 
     //--------------------------------------------------------------------------
-    // First pass - find all declarations in namespace cppmm_bind that will tell
-    // us what we want to bind
-    // fmt::print("1st pass ----------\n");
+    // First pass - find all declarations in namespace cppmm_bind that will
+    // tell us what we want to bind fmt::print("1st pass ----------\n");
     auto match_exports_action = newFrontendActionFactory<MatchExportsAction>();
     int result = Tool.run(match_exports_action.get());
 
@@ -1295,9 +1488,10 @@ int main(int argc, const char** argv) {
     std::string casts_macro_invocaions;
 
     //--------------------------------------------------------------------------
-    // Finally - process the filtered methods to generate the actual bindings
-    // we'll generate one file of bindings for each file of input, and stick
-    // all the bindings in that output, together with all the necessary includes
+    // Finally - process the filtered methods to generate the actual
+    // bindings we'll generate one file of bindings for each file of input,
+    // and stick all the bindings in that output, together with all the
+    // necessary includes
     for (const auto& bind_file : ex_files) {
 
         std::string declarations;
@@ -1316,10 +1510,10 @@ int main(int argc, const char** argv) {
                 std::string qname =
                     prefix_from_namespaces(record.namespaces, "::") +
                     record.cpp_name;
-                definitions += fmt::format(
-                    "static_assert(sizeof({}) == sizeof({}), \"sizes do not "
-                    "match\");\n",
-                    qname, record.c_name);
+                definitions += fmt::format("static_assert(sizeof({}) == "
+                                           "sizeof({}), \"sizes do not "
+                                           "match\");\n",
+                                           qname, record.c_name);
                 definitions += fmt::format("static_assert(alignof({}) == "
                                            "alignof({}), \"alignments do not "
                                            "match\");\n",
@@ -1374,106 +1568,34 @@ int main(int argc, const char** argv) {
                                        function.comment, declaration);
         }
 
-        for (const auto& file_class_name : bind_file.second.classes) {
-            const auto& cls = classes[file_class_name];
+        for (const auto& record_pair : bind_file.second.records) {
+            // const auto& cls = classes[file_class_name];
+            // const cppmm::Record& record = record_pair.second;
+            const cppmm::Record& record = records[record_pair.second->c_name];
             // fmt::print("{}\n", cls.name);
 
             std::string class_type = fmt::format(
-                "{}{}", prefix_from_namespaces(cls.namespaces, "_"), cls.name);
+                "{}{}", prefix_from_namespaces(record.namespaces, "_"),
+                record.cpp_name);
 
             std::string method_prefix = fmt::format(
-                "{}{}", prefix_from_namespaces(cls.namespaces, "_"), cls.name);
+                "{}{}", prefix_from_namespaces(record.namespaces, "_"),
+                record.cpp_name);
 
-            casts_macro_invocaions += create_casts(cls);
+            casts_macro_invocaions += create_casts(record);
 
-            for (auto method_pair : cls.methods) {
+            for (auto method_pair : record.methods) {
                 const auto& method = method_pair.second;
-                auto c_method_name =
-                    fmt::format("{}_{}", method_prefix, method.c_name);
 
-                std::vector<std::string> param_decls;
-                std::transform(method.params.begin(), method.params.end(),
-                               std::back_inserter(param_decls),
-                               cppmm::get_c_function_decl);
-
-                for (const auto& param : method.params) {
-                    if (param.type.record) {
-                        includes.insert(param.type.record->filename);
-                    } else if (param.type.enm) {
-                        includes.insert(param.type.enm->filename);
-                    }
-                }
-
-                std::string ret;
-                if (method.return_type.type.name == "basic_string") {
-                    ret = "void";
-                    param_decls.push_back("char* _result_buffer_ptr");
-                    param_decls.push_back("int _result_buffer_len");
-                } else {
-                    ret = cppmm::get_c_function_decl(method.return_type);
-                }
-
-                std::string declaration;
-                if (method.is_static) {
-                    declaration = fmt::format("{} {}({})", ret, c_method_name,
-                                              ps::join(", ", param_decls));
-                } else {
-                    std::string constqual;
-                    if (method.is_const) {
-                        constqual = "const ";
-                    }
-                    declaration =
-                        fmt::format("{} {}({}{}* self", ret, c_method_name,
-                                    constqual, class_type);
-                    if (param_decls.size()) {
-                        declaration = fmt::format("{}, {})", declaration,
-                                                  ps::join(", ", param_decls));
-                    } else {
-                        declaration = fmt::format("{})", declaration);
-                    }
-                }
+                std::string declaration = cppmm::get_method_declaration(
+                    method, class_type, record.kind, method_prefix, includes);
 
                 declarations = fmt::format("{}\n{}\n{};\n", declarations,
                                            method.comment, declaration);
 
-                std::string body;
-                if (method.return_type.type.name == "basic_string") {
-                    // need to copy to the out parameters
-                    body = "    const std::string result = ";
-                } else if (method.return_type.type.name != "void") {
-                    body = "    return ";
-                } else {
-                    body = "    ";
-                }
-                if (method.return_type.requires_cast) {
-                    body += "to_c(";
-                }
-                if (method.is_static) {
-                    body += prefix_from_namespaces(cls.namespaces, "::") +
-                            cls.name + "::";
-                } else {
-                    body += "to_cpp(self)->";
-                }
-                body += method.cpp_name;
-                std::vector<std::string> call_params;
-                for (const auto& p : method.params) {
-                    call_params.push_back(cppmm::get_c_function_call(p));
-                }
-                body += fmt::format("({})", ps::join(", ", call_params));
-                if (method.return_type.is_uptr) {
-                    body += ".release()";
-                }
-                if (method.return_type.requires_cast) {
-                    body += ")";
-                }
-                body += ";";
-
-                if (method.return_type.type.name == "basic_string") {
-                    body += "\n    safe_strcpy(_result_buffer_ptr, result, _result_buffer_len);";
-                }
-
-                std::string definition =
-                    fmt::format("{} {{\n{}\n}}", declaration, body);
+                std::string definition = cppmm::get_method_definition(
+                    method, declaration, record.cpp_name, record.kind,
+                    record.namespaces);
 
                 definitions =
                     fmt::format("{}\n{}\n\n\n", definitions, definition);
@@ -1509,9 +1631,9 @@ namespace {{
 extern "C" {{
 {}
 }}
-    )#", root,
-            ps::join("\n", bind_file.second.includes), casts_macro_invocaions,
-            definitions);
+    )#",
+            root, ps::join("\n", bind_file.second.includes),
+            casts_macro_invocaions, definitions);
 
         auto out = fopen(implementation.c_str(), "w");
         fprintf(out, "%s", definitions.c_str());
@@ -1573,7 +1695,7 @@ TO bit_cast(FROM f) {
 }
 
 void safe_strcpy(char* dst, const std::string& str, int buffer_size) {
-    int last_char = std::min((size_t)buffer_size - 1, str.size());
+    size_t last_char = std::min((size_t)buffer_size - 1, str.size());
     memcpy(dst, str.c_str(), last_char);
     dst[last_char] = '\0';
 }

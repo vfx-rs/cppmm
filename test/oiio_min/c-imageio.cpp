@@ -17,8 +17,7 @@ using ::OIIO::stride_t;
 using ::OIIO::string_view;
 
 class ImageSpec {
-    // ImageSpec(::OIIO::TypeDesc format) noexcept
-    //     __attribute__((annotate("cppmm:manual:new")));
+    ImageSpec(::OIIO::TypeDesc format) noexcept CPPMM_RENAME(new);
 
     // ~ImageSpec() __attribute__((annotate("cppmm:manual:delete")));
 
