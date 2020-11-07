@@ -1170,6 +1170,16 @@ int main(int argc, const char** argv) {
         std::set<std::string> includes;
 
         for (const auto& rec_pair : bind_file.second.records) {
+            if (records.find(rec_pair.first) == records.end()) {
+                fmt::print("Could not find record {}.\nAvailable records are:\n", rec_pair.first);
+
+                for (const auto& records_pair : records) {
+                    fmt::print("\t{}\n", records_pair.first);
+                }
+
+                return 1;
+            }
+
             const auto& record = records[rec_pair.first];
             if (record.kind == cppmm::TypeKind::OpaquePtr) {
                 declarations +=
