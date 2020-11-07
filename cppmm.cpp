@@ -884,6 +884,12 @@ cppmm::Method process_method(const CXXMethodDecl* method,
         is_copy_constructor = ctor->isCopyConstructor();
     }
 
+    // do some parameter patching. clang ignores the parameter name but we want
+    // one.
+    if (is_copy_constructor) {
+        params[0].name = "other";
+    }
+
     cppmm::Method result = cppmm::Method{
         .cpp_name = ex_method.cpp_name,
         .c_name = ex_method.c_name,

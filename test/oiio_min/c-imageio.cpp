@@ -24,9 +24,9 @@ class ImageSpec {
     // ImageSpec(int xres, int yres, int nchans, ::OIIO::TypeDesc fmt) noexcept
     //     __attribute__((annotate("cppmm:manual:new_with_dimensions")));
 
-    // // TODO: assign name for copy ctor arg (gets lost)
-    // ImageSpec(const ::OIIO::ImageSpec& other)
-    //     __attribute__((annotate("cppmm:rename:copy")));
+    // TODO: assign name for copy ctor arg (gets lost)
+    ImageSpec(const ::OIIO::ImageSpec& other)
+        __attribute__((annotate("cppmm:rename:copy")));
 
     // ::OIIO::ImageSpec& operator=(const ::OIIO::ImageSpec& other)
     //     __attribute__((annotate("cppmm:rename:assign")));
