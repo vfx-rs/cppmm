@@ -386,13 +386,23 @@ std::string get_method_definition(const Method& method,
         body += call_params[0] + ";\n    return self;";
     } else if (method.is_operator) {
         if (class_kind == TypeKind::OpaquePtr && call_params.size() == 0) {
-            // unary operator can't work for an opqaue pointer without allocating
+            // unary operator can't work for an opqaue pointer without
+            // allocating
             // FIXME: what do we want to do here?
-            fmt::print("WARNING: method {} is a unary operator but its parent class is of kind OpaquePtr and so cannot be autobound without allocating. It will be ignored.\n", declaration);
-        } else if (class_kind == TypeKind::OpaquePtr && method.op.find("=") == std::string::npos) {
-            // Similarly, any non-assigning operator can't work for the same reason
+            fmt::print("WARNING: method {} is a unary operator but its parent "
+                       "class is of kind OpaquePtr and so cannot be autobound "
+                       "without allocating. It will be ignored.\n",
+                       declaration);
+        } else if (class_kind == TypeKind::OpaquePtr &&
+                   method.op.find("=") == std::string::npos) {
+            // Similarly, any non-assigning operator can't work for the same
+            // reason
             // FIXME: what do we want to do here?
-            fmt::print("WARNING: method {} is a non-assigning operator (i.e. it returns a copy) but its rparent class is of kind OpaquePtr and so cannot be autobound without allocating. It will be ignored.\n", declaration);
+            fmt::print("WARNING: method {} is a non-assigning operator (i.e. "
+                       "it returns a copy) but its rparent class is of kind "
+                       "OpaquePtr and so cannot be autobound without "
+                       "allocating. It will be ignored.\n",
+                       declaration);
         } else {
             body = fmt::format("    *to_cpp(self) {} ", method.op);
             body += call_params[0] + ";\n    return self;";
@@ -406,9 +416,12 @@ std::string get_method_definition(const Method& method,
         } else {
             body = "    ";
         }
-        bool bitcast_return_type = method.return_type.type.record && method.return_type.type.record->kind == TypeKind::ValueType;
+        bool bitcast_return_type =
+            method.return_type.type.record &&
+            method.return_type.type.record->kind == TypeKind::ValueType;
         if (bitcast_return_type) {
-            body += fmt::format("bit_cast<{}>(", method.return_type.type.record->c_name);
+            body += fmt::format("bit_cast<{}>(",
+                                method.return_type.type.record->c_name);
         } else if (method.return_type.requires_cast) {
             body += "to_c(";
         }
@@ -445,6 +458,54 @@ struct Function {
     std::string comment;
     std::vector<std::string> namespaces;
 };
+
+std::string
+get_function_definition(const Function& function, const std::string& declaration,
+                        const std::vector<std::string>& namespaces) {
+
+    std::vector<std::string> call_params;
+    for (const auto& p : function.params) {
+        call_params.push_back(get_c_function_call(p));
+    }
+
+    std::string body;
+    if (function.return_type.type.name == "basic_string") {
+        // need to copy to the out parameters
+        body = "    const std::string result = ";
+    } else if (function.return_type.type.name != "void") {
+        body = "    return ";
+    } else {
+        body = "    ";
+    }
+
+    bool bitcast_return_type =
+        function.return_type.type.record &&
+        function.return_type.type.record->kind == TypeKind::ValueType;
+    if (bitcast_return_type) {
+        body += fmt::format("bit_cast<{}>(",
+                            function.return_type.type.record->c_name);
+    } else if (function.return_type.requires_cast) {
+        body += "to_c(";
+    }
+
+    body += prefix_from_namespaces(namespaces, "::") + function.cpp_name;
+    body += fmt::format("({})", ps::join(", ", call_params));
+
+    if (function.return_type.is_uptr) {
+        body += ".release()";
+    }
+    if (function.return_type.requires_cast || bitcast_return_type) {
+        body += ")";
+    }
+    body += ";";
+
+    if (function.return_type.type.name == "basic_string") {
+        body += "\n    safe_strcpy(_result_buffer_ptr, result, "
+                "_result_buffer_len);";
+    }
+
+    return fmt::format("{} {{\n{}\n}}", declaration, body);
+}
 
 struct File {
     std::unordered_map<std::string, Function> functions;
@@ -632,8 +693,8 @@ cppmm::Record* process_record(const CXXRecordDecl* record) {
         // fmt::print("    {}\n", field_param);
     }
 
-    fmt::print("Processed record {} -> {} in {}\n", cpp_name, c_name,
-               it_ex_record->second.filename);
+    // fmt::print("Processed record {} -> {} in {}\n", cpp_name, c_name,
+    //    it_ex_record->second.filename);
     records[c_name] = cppmm::Record{.cpp_name = cpp_name,
                                     .namespaces = namespaces,
                                     .c_name = c_name,
@@ -644,7 +705,7 @@ cppmm::Record* process_record(const CXXRecordDecl* record) {
     if (rptr->kind == cppmm::TypeKind::ValueType && !rptr->is_pod()) {
         fmt::print("ERROR: {} is valuetype but not POD\n", rptr->c_name);
     }
-    fmt::print("MATCHED: {}\n", cpp_name);
+    // fmt::print("MATCHED: {}\n", cpp_name);
 
     return &records[c_name];
 }
@@ -667,8 +728,8 @@ cppmm::Enum* process_enum(const EnumDecl* enum_decl) {
         return nullptr;
     }
 
-    fmt::print("Processed enum {} -> {} in {}\n", cpp_name, c_name,
-               it_ex_enum->second.filename);
+    // fmt::print("Processed enum {} -> {} in {}\n", cpp_name, c_name,
+    //    it_ex_enum->second.filename);
 
     std::vector<std::pair<std::string, uint64_t>> enumerators;
     for (const auto& ecd : enum_decl->enumerators()) {
@@ -682,7 +743,7 @@ cppmm::Enum* process_enum(const EnumDecl* enum_decl) {
                                 .filename = it_ex_enum->second.filename,
                                 .enumerators = enumerators};
 
-    fmt::print("MATCHED: {}\n", cpp_name);
+    // fmt::print("MATCHED: {}\n", cpp_name);
 
     return &enums[c_name];
 }
@@ -970,9 +1031,9 @@ cppmm::Method process_method(const CXXMethodDecl* method,
         .is_conversion_operator = is_conversion_operator,
         .op = op};
 
-    if (is_constructor) {
-        fmt::print("CONSTRUCTOR: {}\n", result);
-    }
+    // if (is_constructor) {
+    //     fmt::print("CONSTRUCTOR: {}\n", result);
+    // }
 
     return result;
 }
@@ -1224,7 +1285,7 @@ class MatchExportsCallback : public MatchFinder::MatchCallback {
         cppmm::ExportedEnum ex_enum;
         ex_enum.cpp_name = enum_decl->getNameAsString();
         ex_enum.c_name = prefix_from_namespaces(ns, "_") + ex_enum.cpp_name;
-        fmt::print("Found enum: {}\n", ex_enum.c_name);
+        // fmt::print("Found enum: {}\n", ex_enum.c_name);
         ex_enum.namespaces = ns;
         ex_enum.filename = filename;
 
@@ -1270,7 +1331,7 @@ class MatchExportsCallback : public MatchFinder::MatchCallback {
                 ex_record.kind = cppmm::TypeKind::OpaqueBytes;
             }
         }
-        fmt::print("{} is a {}\n", ex_record.c_name, ex_record.kind);
+        // fmt::print("{} is a {}\n", ex_record.c_name, ex_record.kind);
 
         // fmt::print("record {}\n", ex_record.cpp_name);
         // record->dump();
@@ -1278,8 +1339,8 @@ class MatchExportsCallback : public MatchFinder::MatchCallback {
         SourceManager& sm = ctx.getSourceManager();
         const auto& loc = record->getLocation();
         std::string filename = sm.getFilename(loc);
-        fmt::print("    {}:{}:{}\n", filename, sm.getSpellingLineNumber(loc),
-                   sm.getSpellingColumnNumber(loc));
+        // fmt::print("    {}:{}:{}\n", filename, sm.getSpellingLineNumber(loc),
+        //            sm.getSpellingColumnNumber(loc));
 
         ex_record.filename = filename;
 
@@ -1464,7 +1525,7 @@ int main(int argc, const char** argv) {
         std::vector<std::string> toks;
         ps::split(o, toks, "=");
         if (toks.size() == 2) {
-            fmt::print("RENAME {} -> {}\n", toks[1], toks[0]);
+            // fmt::print("RENAME {} -> {}\n", toks[1], toks[0]);
             namespace_renames[toks[1]] = toks[0];
         }
     }
@@ -1475,12 +1536,12 @@ int main(int argc, const char** argv) {
     auto match_exports_action = newFrontendActionFactory<MatchExportsAction>();
     int result = Tool.run(match_exports_action.get());
 
-    for (const auto& ex_file : ex_files) {
-        fmt::print("FILE: {}\n", ex_file.first);
-        for (const auto& ex_fun : ex_file.second.functions) {
-            fmt::print("    {}\n", ex_fun);
-        }
-    }
+    // for (const auto& ex_file : ex_files) {
+    //     fmt::print("FILE: {}\n", ex_file.first);
+    //     for (const auto& ex_fun : ex_file.second.functions) {
+    //         fmt::print("    {}\n", ex_fun);
+    //     }
+    // }
 
     //--------------------------------------------------------------------------
     // Second pass - find matching methods to the ones declared in the first
@@ -1540,7 +1601,6 @@ int main(int argc, const char** argv) {
                                     qname, record.c_name, field.name);
                 }
                 definitions += "\n";
-                fmt::print("DEF: {}\n", definitions);
                 declarations += fmt::format("}} {};\n\n", record.c_name);
             }
         }
@@ -1574,8 +1634,13 @@ int main(int argc, const char** argv) {
             std::string declaration = fmt::format(
                 "{} {}({})", ret, c_function_name, ps::join(", ", param_decls));
 
+            std::string definition = cppmm::get_function_definition(function, declaration, function.namespaces);
+
             declarations = fmt::format("{}\n{}\n{};\n", declarations,
                                        function.comment, declaration);
+
+            definitions =
+                fmt::format("{}\n{}\n\n\n", definitions, definition);
         }
 
         for (const auto& record_pair : bind_file.second.records) {
@@ -1616,12 +1681,12 @@ int main(int argc, const char** argv) {
         const auto header = fmt::format("{}.h", root);
         const auto implementation = fmt::format("{}.cpp", root);
 
-        fmt::print("INCLUDES FOR {}\n", root);
+        // fmt::print("INCLUDES FOR {}\n", root);
         std::string include_stmts;
         for (const auto& i : includes) {
             const std::string include_root = bind_file_root(i);
             if (include_root != root) {
-                fmt::print("    {}.h\n", include_root);
+                // fmt::print("    {}.h\n", include_root);
                 include_stmts +=
                     fmt::format("#include \"{}.h\"\n", include_root);
             }

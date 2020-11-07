@@ -28,9 +28,13 @@ struct ROI {
 
     static constexpr ::OIIO::ROI All () noexcept;
 
+    // FIXME: how do we match these?
     friend constexpr bool operator== (const ::OIIO::ROI &a, const ::OIIO::ROI &b) noexcept;
     friend constexpr bool operator!= (const ::OIIO::ROI &a, const ::OIIO::ROI &b) noexcept;
 } CPPMM_VALUETYPE;
+
+constexpr ::OIIO::ROI roi_union (const ::OIIO::ROI &A, const ::OIIO::ROI &B) noexcept;
+constexpr ::OIIO::ROI roi_intersection (const ::OIIO::ROI &A, const ::OIIO::ROI &B) noexcept;
 
 class ImageSpec {
     ImageSpec(::OIIO::TypeDesc format) noexcept CPPMM_RENAME(new);
@@ -86,11 +90,11 @@ class ImageInput {
     ImageInput() CPPMM_IGNORE;
 
     // TODO: Ctors and assigments
-    // ImageInput(const ::OIIO::ImageInput& other)
-    //     __attribute__((annotate("cppmm:rename:copy")));
+    ImageInput(const ::OIIO::ImageInput& other)
+        CPPMM_RENAME(copy);
 
-    // ::OIIO::ImageInput& operator=(const ::OIIO::ImageInput& other)
-    //     __attribute__((annotate("cppmm:rename:assign")));
+    ::OIIO::ImageInput& operator=(const ::OIIO::ImageInput& other)
+        CPPMM_RENAME(assign);
 
     const char* format_name(void) const;
 
