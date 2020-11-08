@@ -117,10 +117,6 @@ std::optional<AttrDesc> parse_attributes(std::string attr_src) {
 
 namespace cppmm {
 
-struct CType {
-    std::string name;
-};
-
 enum TypeKind { OpaquePtr = 0, OpaqueBytes = 1, ValueType = 2 };
 
 class Record;
@@ -129,11 +125,9 @@ class Enum;
 struct Type {
     std::string name;
     std::vector<std::string> namespaces = {};
-    // std::vector<Param> template_params;
     bool is_builtin = false;
     bool is_enum = false;
     bool is_func_proto = false;
-    // std::vector<std::pair<std::string, uint64_t>> enumerators = {};
     Record* record = nullptr;
     const Enum* enm = nullptr;
 
@@ -174,6 +168,8 @@ struct Record {
     std::string filename;
     std::vector<cppmm::Param> fields;
     std::unordered_map<std::string, Method> methods;
+    size_t size;
+    size_t alignment;
 
     bool is_pod() const {
         for (const auto& p : fields) {
@@ -253,7 +249,8 @@ std::string get_c_function_call(const Param& param) {
         }
     } else {
         if (param.type.record &&
-            param.type.record->kind == cppmm::TypeKind::ValueType) {
+            (param.type.record->kind == cppmm::TypeKind::ValueType ||
+             param.type.record->kind == cppmm::TypeKind::OpaqueBytes)) {
             // need to bit-cast this
             result = fmt::format(
                 "bit_cast<{}>({})",
@@ -274,13 +271,6 @@ std::string get_c_function_call(const Param& param) {
     }
     return result;
 }
-
-struct CParam {
-    std::string name;
-    CType type;
-    bool is_ptr = false;
-    bool is_const = false;
-};
 
 std::string get_opaqueptr_constructor_declaration(
     const std::string& c_method_name, const std::string& class_type,
@@ -378,34 +368,57 @@ std::string get_method_definition(const Method& method,
     if (method.is_constructor && class_kind == TypeKind::OpaquePtr) {
         body =
             get_opaqueptr_constructor_body(call_params, class_name, namespaces);
-    } else if (method.is_constructor && class_kind == TypeKind::ValueType) {
+    } else if (method.is_constructor && (class_kind == TypeKind::ValueType ||
+                                         class_kind == TypeKind::OpaqueBytes)) {
         body =
             get_valuetype_constructor_body(call_params, class_name, namespaces);
     } else if (method.is_copy_assignment) {
         body = "    *to_cpp(self) = ";
         body += call_params[0] + ";\n    return self;";
     } else if (method.is_operator) {
-        if (class_kind == TypeKind::OpaquePtr && call_params.size() == 0) {
-            // unary operator can't work for an opqaue pointer without
-            // allocating
-            // FIXME: what do we want to do here?
-            fmt::print("WARNING: method {} is a unary operator but its parent "
-                       "class is of kind OpaquePtr and so cannot be autobound "
-                       "without allocating. It will be ignored.\n",
-                       declaration);
-        } else if (class_kind == TypeKind::OpaquePtr &&
-                   method.op.find("=") == std::string::npos) {
-            // Similarly, any non-assigning operator can't work for the same
-            // reason
-            // FIXME: what do we want to do here?
-            fmt::print("WARNING: method {} is a non-assigning operator (i.e. "
-                       "it returns a copy) but its rparent class is of kind "
-                       "OpaquePtr and so cannot be autobound without "
-                       "allocating. It will be ignored.\n",
-                       declaration);
+        if (class_kind == TypeKind::OpaquePtr) {
+            if (call_params.size() == 0) {
+                // unary operator can't work for an opqaue pointer without
+                // allocating
+                // FIXME: what do we want to do here?
+                fmt::print(
+                    "WARNING: method {} is a unary operator but its parent "
+                    "class is of kind OpaquePtr and so cannot be autobound "
+                    "without allocating. It will be ignored.\n",
+                    declaration);
+            } else if (method.op.find("=") == std::string::npos) {
+                // Similarly, any non-assigning operator can't work for the same
+                // reason
+                // FIXME: what do we want to do here?
+                fmt::print(
+                    "WARNING: method {} is a non-assigning operator (i.e. "
+                    "it returns a copy) but its parent class is of kind "
+                    "OpaquePtr and so cannot be autobound without "
+                    "allocating. It will be ignored.\n",
+                    declaration);
+            } else {
+                body = fmt::format("    *to_cpp(self) {} ", method.op);
+                body += call_params[0] + ";\n    return self;";
+            }
         } else {
-            body = fmt::format("    *to_cpp(self) {} ", method.op);
-            body += call_params[0] + ";\n    return self;";
+            // opaquebytes or valuetype
+            if (call_params.size() > 0 &&
+                method.op.find("=") != std::string::npos) {
+                // assigning operator
+                body = fmt::format("    *to_cpp(self) {} ", method.op);
+                body += call_params[0] + ";\n    return self;";
+            } else if (call_params.size() > 0) {
+                // copying operator
+                body = fmt::format(
+                    "    return bit_cast<{}>(*to_cpp(self) {} {});",
+                    prefix_from_namespaces(namespaces, "_") + class_name,
+                    method.op, call_params[0]);
+            } else {
+                body = fmt::format(
+                    "    return bit_cast<{}>({}(*to_cpp(self)));",
+                    prefix_from_namespaces(namespaces, "_") + class_name,
+                    method.op);
+            }
         }
     } else {
         if (method.return_type.type.name == "basic_string") {
@@ -416,9 +429,12 @@ std::string get_method_definition(const Method& method,
         } else {
             body = "    ";
         }
+
         bool bitcast_return_type =
             method.return_type.type.record &&
-            method.return_type.type.record->kind == TypeKind::ValueType;
+            (method.return_type.type.record->kind == TypeKind::ValueType ||
+             method.return_type.type.record->kind == TypeKind::OpaqueBytes);
+
         if (bitcast_return_type) {
             body += fmt::format("bit_cast<{}>(",
                                 method.return_type.type.record->c_name);
@@ -460,7 +476,8 @@ struct Function {
 };
 
 std::string
-get_function_definition(const Function& function, const std::string& declaration,
+get_function_definition(const Function& function,
+                        const std::string& declaration,
                         const std::vector<std::string>& namespaces) {
 
     std::vector<std::string> call_params;
@@ -480,7 +497,9 @@ get_function_definition(const Function& function, const std::string& declaration
 
     bool bitcast_return_type =
         function.return_type.type.record &&
-        function.return_type.type.record->kind == TypeKind::ValueType;
+        (function.return_type.type.record->kind == TypeKind::ValueType ||
+         function.return_type.type.record->kind == TypeKind::OpaqueBytes);
+
     if (bitcast_return_type) {
         body += fmt::format("bit_cast<{}>(",
                             function.return_type.type.record->c_name);
@@ -693,18 +712,33 @@ cppmm::Record* process_record(const CXXRecordDecl* record) {
         // fmt::print("    {}\n", field_param);
     }
 
+    // get size and alignment info
+    // clang returns in bits so divide by 8 to get bytes
+    ASTContext& ctx = record->getASTContext();
+    size_t size = ctx.getTypeSize(record->getTypeForDecl()) / 8;
+    size_t alignment = ctx.getTypeAlign(record->getTypeForDecl()) / 8;
+
     // fmt::print("Processed record {} -> {} in {}\n", cpp_name, c_name,
     //    it_ex_record->second.filename);
-    records[c_name] = cppmm::Record{.cpp_name = cpp_name,
-                                    .namespaces = namespaces,
-                                    .c_name = c_name,
-                                    .kind = it_ex_record->second.kind,
-                                    .filename = it_ex_record->second.filename,
-                                    .fields = fields};
-    const auto* rptr = &records[c_name];
-    if (rptr->kind == cppmm::TypeKind::ValueType && !rptr->is_pod()) {
-        fmt::print("ERROR: {} is valuetype but not POD\n", rptr->c_name);
+    auto rec = cppmm::Record{.cpp_name = cpp_name,
+                             .namespaces = namespaces,
+                             .c_name = c_name,
+                             .kind = it_ex_record->second.kind,
+                             .filename = it_ex_record->second.filename,
+                             .fields = fields,
+                             .methods = {},
+                             .size = size,
+                             .alignment = alignment};
+
+    if (rec.kind == cppmm::TypeKind::ValueType && !rec.is_pod()) {
+        fmt::print("ERROR: {} is valuetype but not POD\n", rec.c_name);
+        return nullptr;
+    } else if (rec.kind == cppmm::TypeKind::OpaqueBytes && !rec.is_pod()) {
+        fmt::print("ERROR: {} is opaquebytes but not POD\n", rec.c_name);
+        return nullptr;
     }
+
+    records[c_name] = rec;
     // fmt::print("MATCHED: {}\n", cpp_name);
 
     return &records[c_name];
@@ -776,10 +810,20 @@ cppmm::Param process_pointee_type(const std::string& param_name,
         } else {
             const CXXRecordDecl* crd = qt->getAsCXXRecordDecl();
             cppmm::Record* record_ptr = process_record(crd);
-            result.type = cppmm::Type{
-                crd->getNameAsString(),
-                get_namespaces(qt->getAsCXXRecordDecl()->getParent()),
-                .record = record_ptr};
+            if (record_ptr == nullptr) {
+                // fmt::print("ERROR: could not process record for {}\n",
+                //            crd->getNameAsString());
+            }
+            std::string type_name = crd->getNameAsString();
+            result.type =
+                cppmm::Type{.name = type_name,
+                            .namespaces = get_namespaces(
+                                qt->getAsCXXRecordDecl()->getParent()),
+                            .is_builtin = false,
+                            .is_enum = false,
+                            .is_func_proto = false,
+                            .record = record_ptr,
+                            .enm = nullptr};
             result.requires_cast = !(crd->getNameAsString() == "basic_string" ||
                                      crd->getNameAsString() == "string_view");
         }
@@ -787,8 +831,13 @@ cppmm::Param process_pointee_type(const std::string& param_name,
         const auto* enum_decl = qt->getAs<EnumType>()->getDecl();
         const cppmm::Enum* enm = process_enum(enum_decl);
 
-        result.type = cppmm::Type{enm->cpp_name, enm->namespaces,
-                                  .is_enum = true, .enm = enm};
+        result.type = cppmm::Type{.name = enm->cpp_name,
+                                  .namespaces = enm->namespaces,
+                                  .is_builtin = false,
+                                  .is_enum = true,
+                                  .is_func_proto = false,
+                                  .record = nullptr,
+                                  .enm = enm};
         std::string qname = qualified_type_name(result.type);
 
     } else {
@@ -856,20 +905,6 @@ std::ostream& operator<<(std::ostream& os, const cppmm::Param& param) {
         os << "* ";
     } else if (param.is_ref) {
         os << "& ";
-    } else {
-        os << " ";
-    }
-    os << param.name;
-    return os;
-}
-
-std::ostream& operator<<(std::ostream& os, const cppmm::CParam& param) {
-    if (param.is_const) {
-        os << "const ";
-    }
-    os << param.type.name;
-    if (param.is_ptr) {
-        os << "* ";
     } else {
         os << " ";
     }
@@ -1123,7 +1158,11 @@ class CppmmMatchHandler : public MatchFinder::MatchCallback {
     void handle_method(const CXXMethodDecl* method) {
         const auto method_name = method->getNameAsString();
         auto* record = process_record(method->getParent());
-        assert(record);
+        if (record == nullptr) {
+            fmt::print("ERROR could not process record for {}\n",
+                       method->getParent()->getNameAsString());
+            abort();
+        }
 
         auto it_class = ex_classes.find(record->cpp_name);
         if (it_class == ex_classes.end()) {
@@ -1575,6 +1614,23 @@ int main(int argc, const char** argv) {
             if (record.kind == cppmm::TypeKind::OpaquePtr) {
                 declarations +=
                     fmt::format("typedef struct {0} {0};\n\n", record.c_name);
+            } else if (record.kind == cppmm::TypeKind::OpaqueBytes) {
+                declarations +=
+                    fmt::format("typedef struct {{ char _private[{}]; }} {} "
+                                "CPPMM_ALIGN({});\n",
+                                record.size, record.c_name, record.alignment);
+
+                std::string qname =
+                    prefix_from_namespaces(record.namespaces, "::") +
+                    record.cpp_name;
+
+                definitions += fmt::format("static_assert(sizeof({}) == "
+                                           "sizeof({}), \"sizes do not match\");\n",
+                                           qname, record.c_name);
+                definitions +=
+                    fmt::format("static_assert(alignof({}) == alignof({}), "
+                                "\"alignments do not match\");\n",
+                                qname, record.c_name);
             } else if (record.kind == cppmm::TypeKind::ValueType) {
                 declarations += fmt::format("typedef struct {{\n");
 
@@ -1634,13 +1690,13 @@ int main(int argc, const char** argv) {
             std::string declaration = fmt::format(
                 "{} {}({})", ret, c_function_name, ps::join(", ", param_decls));
 
-            std::string definition = cppmm::get_function_definition(function, declaration, function.namespaces);
+            std::string definition = cppmm::get_function_definition(
+                function, declaration, function.namespaces);
 
             declarations = fmt::format("{}\n{}\n{};\n", declarations,
                                        function.comment, declaration);
 
-            definitions =
-                fmt::format("{}\n{}\n\n\n", definitions, definition);
+            definitions = fmt::format("{}\n{}\n\n\n", definitions, definition);
         }
 
         for (const auto& record_pair : bind_file.second.records) {
@@ -1726,7 +1782,15 @@ extern "C" {{
 #include <stdbool.h>
 #endif
 
+#if defined(_WIN32) || defined(__CYGWIN__)
+#define CPPMM_ALIGN(x) __declspec(align(x))
+#else
+#define CPPMM_ALIGN(x) __attribute__((aligned(x)))
+#endif
+
 {}
+
+#undef CPPMM_ALIGN
 
 #ifdef __cplusplus
 }}
@@ -1738,7 +1802,7 @@ extern "C" {{
     }
 
     std::string casts_implementation = R"#(#pragma once
-
+#include <string.h>
 // Macro to define short conversion functions between C and C++ API types to
 // save us from eye-gougingly verbose casts everywhere
 #define CPPMM_DEFINE_POINTER_CASTS(CPPTYPE, CTYPE)          \
