@@ -279,17 +279,27 @@ std::string get_opaqueptr_constructor_declaration(
                        ps::join(", ", param_decls));
 }
 
-std::string get_method_declaration(const Method& method,
-                                   const std::string& class_type,
-                                   TypeKind class_kind,
-                                   const std::string& method_prefix,
-                                   std::set<std::string>& includes) {
+std::string create_casts(const cppmm::Record& cls) {
+    std::string cpp_type =
+        prefix_from_namespaces(cls.namespaces, "::") + cls.cpp_name;
+    std::string c_type =
+        prefix_from_namespaces(cls.namespaces, "_") + cls.cpp_name;
+    return fmt::format("CPPMM_DEFINE_POINTER_CASTS({}, {})\n", cpp_type,
+                       c_type);
+}
+
+std::string
+get_method_declaration(const Method& method, const std::string& class_type,
+                       TypeKind class_kind, const std::string& method_prefix,
+                       std::set<std::string>& includes,
+                       std::set<std::string>& casts_macro_invocations) {
     std::vector<std::string> param_decls;
 
     auto c_method_name = fmt::format("{}_{}", method_prefix, method.c_name);
     for (const auto& param : method.params) {
         if (param.type.record) {
             includes.insert(param.type.record->filename);
+            casts_macro_invocations.insert(create_casts(*param.type.record));
         } else if (param.type.enm) {
             includes.insert(param.type.enm->filename);
         }
@@ -307,11 +317,15 @@ std::string get_method_declaration(const Method& method,
         std::string ret;
         if (method.return_type.type.name == "basic_string" &&
             !method.return_type.is_ref && !method.return_type.is_ptr) {
-            ret = "void";
+            ret = "int";
             param_decls.push_back("char* _result_buffer_ptr");
             param_decls.push_back("int _result_buffer_len");
         } else {
             ret = get_c_function_decl(method.return_type);
+            if (method.return_type.type.record) {
+                casts_macro_invocations.insert(
+                    create_casts(*method.return_type.type.record));
+            }
         }
 
         if (method.is_static) {
@@ -468,7 +482,7 @@ std::string get_method_definition(const Method& method,
 
         if (return_string_copy) {
             body += "\n    safe_strcpy(_result_buffer_ptr, result, "
-                    "_result_buffer_len);";
+                    "_result_buffer_len);\n    return result.size();";
         }
     }
 
@@ -484,25 +498,40 @@ struct Function {
     std::vector<std::string> namespaces;
 };
 
-std::string get_function_declaration(const Function& function) {
+std::string
+get_function_declaration(const Function& function,
+                         std::set<std::string>& includes,
+                         std::set<std::string>& casts_macro_invocations) {
     std::string c_function_name =
         fmt::format("{}{}", prefix_from_namespaces(function.namespaces, "_"),
                     function.c_name);
 
     std::vector<std::string> param_decls;
-    std::transform(function.params.begin(), function.params.end(),
-                   std::back_inserter(param_decls), cppmm::get_c_function_decl);
+    for (const auto& param : function.params) {
+        if (param.type.record) {
+            includes.insert(param.type.record->filename);
+            casts_macro_invocations.insert(create_casts(*param.type.record));
+        } else if (param.type.enm) {
+            includes.insert(param.type.enm->filename);
+        }
+
+        std::string pdecl = get_c_function_decl(param);
+        param_decls.push_back(pdecl);
+    }
 
     std::string ret;
     if (function.return_type.type.name == "basic_string" &&
         !function.return_type.is_ref && !function.return_type.is_ptr) {
-        ret = "void";
+        ret = "int";
         param_decls.push_back("char* _result_buffer_ptr");
         param_decls.push_back("int _result_buffer_len");
     } else {
         ret = get_c_function_decl(function.return_type);
+        if (function.return_type.type.record) {
+            casts_macro_invocations.insert(
+                create_casts(*function.return_type.type.record));
+        }
     }
-
 
     return fmt::format("{} {}({})", ret, c_function_name,
                        ps::join(", ", param_decls));
@@ -555,7 +584,7 @@ std::string get_function_definition(const Function& function,
 
     if (return_string_copy) {
         body += "\n    safe_strcpy(_result_buffer_ptr, result, "
-                "_result_buffer_len);";
+                "_result_buffer_len);\n    return result.size();";
     }
 
     return fmt::format("{} {{\n{}\n}}", declaration, body);
@@ -1543,15 +1572,6 @@ std::vector<std::string> get_includes(const std::string& filename) {
     return result;
 }
 
-std::string create_casts(const cppmm::Record& cls) {
-    std::string cpp_type =
-        prefix_from_namespaces(cls.namespaces, "::") + cls.cpp_name;
-    std::string c_type =
-        prefix_from_namespaces(cls.namespaces, "_") + cls.cpp_name;
-    return fmt::format("CPPMM_DEFINE_POINTER_CASTS({}, {})\n", cpp_type,
-                       c_type);
-}
-
 // Apply a custom category to all command-line options so that they are the
 // only ones displayed.
 static llvm::cl::OptionCategory CppmmCategory("cppmm options");
@@ -1630,7 +1650,7 @@ int main(int argc, const char** argv) {
     //     fmt::print("    {}\n", type.second->name);
     // }
 
-    std::string casts_macro_invocaions;
+    std::set<std::string> casts_macro_invocations;
 
     //--------------------------------------------------------------------------
     // Finally - process the filtered methods to generate the actual
@@ -1649,6 +1669,7 @@ int main(int argc, const char** argv) {
             if (record.kind == cppmm::TypeKind::OpaquePtr) {
                 declarations +=
                     fmt::format("typedef struct {0} {0};\n\n", record.c_name);
+                casts_macro_invocations.insert(create_casts(record));
             } else if (record.kind == cppmm::TypeKind::OpaqueBytes) {
                 declarations +=
                     fmt::format("typedef struct {{ char _private[{}]; }} {} "
@@ -1713,7 +1734,8 @@ int main(int argc, const char** argv) {
         for (const auto& it_function : files[bind_file.first].functions) {
             const auto& function = it_function.second;
 
-            std::string declaration = cppmm::get_function_declaration(function);
+            std::string declaration = cppmm::get_function_declaration(
+                function, includes, casts_macro_invocations);
 
             std::string definition =
                 cppmm::get_function_definition(function, declaration);
@@ -1738,13 +1760,14 @@ int main(int argc, const char** argv) {
                 "{}{}", prefix_from_namespaces(record.namespaces, "_"),
                 record.cpp_name);
 
-            casts_macro_invocaions += create_casts(record);
+            // casts_macro_invocaions += create_casts(record);
 
             for (auto method_pair : record.methods) {
                 const auto& method = method_pair.second;
 
                 std::string declaration = cppmm::get_method_declaration(
-                    method, class_type, record.kind, method_prefix, includes);
+                    method, class_type, record.kind, method_prefix, includes,
+                    casts_macro_invocations);
 
                 declarations = fmt::format("{}\n{}\n{};\n", declarations,
                                            method.comment, declaration);
@@ -1773,6 +1796,11 @@ int main(int argc, const char** argv) {
             }
         }
 
+        std::string casts;
+        for (const auto& s : casts_macro_invocations) {
+            casts += s;
+        }
+
         definitions = fmt::format(
             R"#(//
 #include "{}.h"
@@ -1780,6 +1808,7 @@ int main(int argc, const char** argv) {
 
 namespace {{
 #include "casts.h"
+
 {}
 #undef CPPMM_DEFINE_POINTER_CASTS
 }}
@@ -1788,8 +1817,8 @@ extern "C" {{
 {}
 }}
     )#",
-            root, ps::join("\n", bind_file.second.includes),
-            casts_macro_invocaions, definitions);
+            root, ps::join("\n", bind_file.second.includes), casts,
+            definitions);
 
         auto out = fopen(implementation.c_str(), "w");
         fprintf(out, "%s", definitions.c_str());

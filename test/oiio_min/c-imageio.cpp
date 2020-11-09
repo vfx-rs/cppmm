@@ -89,18 +89,11 @@ class ImageInput {
 
     ImageInput() CPPMM_IGNORE;
 
-    // TODO: Ctors and assigments
-    ImageInput(const ::OIIO::ImageInput& other)
-        CPPMM_RENAME(copy);
-
-    ::OIIO::ImageInput& operator=(const ::OIIO::ImageInput& other)
-        CPPMM_RENAME(assign);
-
     const char* format_name(void) const;
 
-    // static unique_ptr open(const std::string& filename,
-    //                        const ::OIIO::ImageSpec* config,
-    //                        ::OIIO::Filesystem::IOProxy* ioproxy);
+    static unique_ptr open(const std::string& filename,
+                           const ::OIIO::ImageSpec* config,
+                           ::OIIO::Filesystem::IOProxy* ioproxy);
 
     // static std::unique_ptr<::OIIO::ImageInput>
     // create(::OIIO::string_view, bool, const ::OIIO::ImageSpec*,
@@ -112,7 +105,7 @@ class ImageInput {
     //                 ProgressCallback progress_callback,
     //                 void* progress_callback_data);
 
-    std::string geterror() const CPPMM_MANUAL(geterror);
+    std::string geterror() const;
 } CPPMM_OPAQUEPTR;
 
 bool getattribute(::OIIO::string_view, ::OIIO::TypeDesc, void*);
