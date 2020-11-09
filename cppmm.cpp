@@ -305,7 +305,8 @@ std::string get_method_declaration(const Method& method,
                                                      param_decls);
     } else {
         std::string ret;
-        if (method.return_type.type.name == "basic_string") {
+        if (method.return_type.type.name == "basic_string" &&
+            !method.return_type.is_ref && !method.return_type.is_ptr) {
             ret = "void";
             param_decls.push_back("char* _result_buffer_ptr");
             param_decls.push_back("int _result_buffer_len");
@@ -421,7 +422,13 @@ std::string get_method_definition(const Method& method,
             }
         }
     } else {
-        if (method.return_type.type.name == "basic_string") {
+        bool return_string_ref =
+            method.return_type.type.name == "basic_string" &&
+            method.return_type.is_ref;
+        bool return_string_copy =
+            method.return_type.type.name == "basic_string" &&
+            !method.return_type.is_ref;
+        if (return_string_copy) {
             // need to copy to the out parameters
             body = "    const std::string result = ";
         } else if (method.return_type.type.name != "void") {
@@ -451,13 +458,15 @@ std::string get_method_definition(const Method& method,
         body += fmt::format("({})", ps::join(", ", call_params));
         if (method.return_type.is_uptr) {
             body += ".release()";
+        } else if (return_string_ref) {
+            body += ".c_str()";
         }
         if (method.return_type.requires_cast || bitcast_return_type) {
             body += ")";
         }
         body += ";";
 
-        if (method.return_type.type.name == "basic_string") {
+        if (return_string_copy) {
             body += "\n    safe_strcpy(_result_buffer_ptr, result, "
                     "_result_buffer_len);";
         }
@@ -475,10 +484,32 @@ struct Function {
     std::vector<std::string> namespaces;
 };
 
-std::string
-get_function_definition(const Function& function,
-                        const std::string& declaration,
-                        const std::vector<std::string>& namespaces) {
+std::string get_function_declaration(const Function& function) {
+    std::string c_function_name =
+        fmt::format("{}{}", prefix_from_namespaces(function.namespaces, "_"),
+                    function.c_name);
+
+    std::vector<std::string> param_decls;
+    std::transform(function.params.begin(), function.params.end(),
+                   std::back_inserter(param_decls), cppmm::get_c_function_decl);
+
+    std::string ret;
+    if (function.return_type.type.name == "basic_string" &&
+        !function.return_type.is_ref && !function.return_type.is_ptr) {
+        ret = "void";
+        param_decls.push_back("char* _result_buffer_ptr");
+        param_decls.push_back("int _result_buffer_len");
+    } else {
+        ret = get_c_function_decl(function.return_type);
+    }
+
+
+    return fmt::format("{} {}({})", ret, c_function_name,
+                       ps::join(", ", param_decls));
+}
+
+std::string get_function_definition(const Function& function,
+                                    const std::string& declaration) {
 
     std::vector<std::string> call_params;
     for (const auto& p : function.params) {
@@ -486,7 +517,10 @@ get_function_definition(const Function& function,
     }
 
     std::string body;
-    if (function.return_type.type.name == "basic_string") {
+    bool return_string_copy =
+        function.return_type.type.name == "basic_string" &&
+        !function.return_type.is_ref && !function.return_type.is_ptr;
+    if (return_string_copy) {
         // need to copy to the out parameters
         body = "    const std::string result = ";
     } else if (function.return_type.type.name != "void") {
@@ -507,7 +541,8 @@ get_function_definition(const Function& function,
         body += "to_c(";
     }
 
-    body += prefix_from_namespaces(namespaces, "::") + function.cpp_name;
+    body +=
+        prefix_from_namespaces(function.namespaces, "::") + function.cpp_name;
     body += fmt::format("({})", ps::join(", ", call_params));
 
     if (function.return_type.is_uptr) {
@@ -518,7 +553,7 @@ get_function_definition(const Function& function,
     }
     body += ";";
 
-    if (function.return_type.type.name == "basic_string") {
+    if (return_string_copy) {
         body += "\n    safe_strcpy(_result_buffer_ptr, result, "
                 "_result_buffer_len);";
     }
@@ -1624,9 +1659,10 @@ int main(int argc, const char** argv) {
                     prefix_from_namespaces(record.namespaces, "::") +
                     record.cpp_name;
 
-                definitions += fmt::format("static_assert(sizeof({}) == "
-                                           "sizeof({}), \"sizes do not match\");\n",
-                                           qname, record.c_name);
+                definitions +=
+                    fmt::format("static_assert(sizeof({}) == "
+                                "sizeof({}), \"sizes do not match\");\n",
+                                qname, record.c_name);
                 definitions +=
                     fmt::format("static_assert(alignof({}) == alignof({}), "
                                 "\"alignments do not match\");\n",
@@ -1676,22 +1712,11 @@ int main(int argc, const char** argv) {
 
         for (const auto& it_function : files[bind_file.first].functions) {
             const auto& function = it_function.second;
-            std::string c_function_name = fmt::format(
-                "{}{}", prefix_from_namespaces(function.namespaces, "_"),
-                function.c_name);
 
-            std::vector<std::string> param_decls;
-            std::transform(function.params.begin(), function.params.end(),
-                           std::back_inserter(param_decls),
-                           cppmm::get_c_function_decl);
+            std::string declaration = cppmm::get_function_declaration(function);
 
-            std::string ret = cppmm::get_c_function_decl(function.return_type);
-
-            std::string declaration = fmt::format(
-                "{} {}({})", ret, c_function_name, ps::join(", ", param_decls));
-
-            std::string definition = cppmm::get_function_definition(
-                function, declaration, function.namespaces);
+            std::string definition =
+                cppmm::get_function_definition(function, declaration);
 
             declarations = fmt::format("{}\n{}\n{};\n", declarations,
                                        function.comment, declaration);
