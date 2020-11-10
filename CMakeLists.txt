@@ -24,6 +24,7 @@ add_executable(cppmm
   attributes.cpp
   record.cpp
   function.cpp
+  enum.cpp
   )
 
 target_link_libraries(cppmm clangTooling clangBasic clangASTMatchers fmt)

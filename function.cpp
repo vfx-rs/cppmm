@@ -11,7 +11,7 @@ namespace cppmm {
 
 namespace ps = pystring;
 
-std::string Function::get_function_declaration(
+std::string Function::get_declaration(
     std::set<std::string>& includes,
     std::set<std::string>& casts_macro_invocations) const {
     std::string c_function_name =
@@ -52,7 +52,7 @@ std::string Function::get_function_declaration(
 }
 
 std::string
-Function::get_function_definition(const std::string& declaration) const {
+Function::get_definition(const std::string& declaration) const {
 
     std::vector<std::string> call_params;
     for (const auto& p : params) {

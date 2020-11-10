@@ -55,101 +55,6 @@ struct Vec {
     Type element_type;
 };
 
-std::string
-get_function_declaration(const Function& function,
-                         std::set<std::string>& includes,
-                         std::set<std::string>& casts_macro_invocations) {
-    std::string c_function_name =
-        fmt::format("{}{}", prefix_from_namespaces(function.namespaces, "_"),
-                    function.c_name);
-
-    std::vector<std::string> param_decls;
-    for (const auto& param : function.params) {
-        if (param.qtype.type.record) {
-            includes.insert(param.qtype.type.record->filename);
-            casts_macro_invocations.insert(
-                param.qtype.type.record->create_casts());
-        } else if (param.qtype.type.enm) {
-            includes.insert(param.qtype.type.enm->filename);
-        }
-
-        std::string pdecl = param.create_c_declaration();
-        param_decls.push_back(pdecl);
-    }
-
-    std::string ret;
-    if (function.return_type.qtype.type.name == "basic_string" &&
-        !function.return_type.qtype.is_ref &&
-        !function.return_type.qtype.is_ptr) {
-        ret = "int";
-        param_decls.push_back("char* _result_buffer_ptr");
-        param_decls.push_back("int _result_buffer_len");
-    } else {
-        ret = function.return_type.create_c_declaration();
-        if (function.return_type.qtype.type.record) {
-            casts_macro_invocations.insert(
-                function.return_type.qtype.type.record->create_casts());
-        }
-    }
-
-    return fmt::format("{} {}({})", ret, c_function_name,
-                       ps::join(", ", param_decls));
-}
-
-std::string get_function_definition(const Function& function,
-                                    const std::string& declaration) {
-
-    std::vector<std::string> call_params;
-    for (const auto& p : function.params) {
-        call_params.push_back(p.create_c_call());
-    }
-
-    std::string body;
-    bool return_string_copy =
-        function.return_type.qtype.type.name == "basic_string" &&
-        !function.return_type.qtype.is_ref &&
-        !function.return_type.qtype.is_ptr;
-    if (return_string_copy) {
-        // need to copy to the out parameters
-        body = "    const std::string result = ";
-    } else if (function.return_type.qtype.type.name != "void") {
-        body = "    return ";
-    } else {
-        body = "    ";
-    }
-
-    bool bitcast_return_type =
-        function.return_type.qtype.type.record &&
-        (function.return_type.qtype.type.record->kind == TypeKind::ValueType ||
-         function.return_type.qtype.type.record->kind == TypeKind::OpaqueBytes);
-
-    if (bitcast_return_type) {
-        body += fmt::format("bit_cast<{}>(",
-                            function.return_type.qtype.type.record->c_name);
-    } else if (function.return_type.qtype.requires_cast) {
-        body += "to_c(";
-    }
-
-    body +=
-        prefix_from_namespaces(function.namespaces, "::") + function.cpp_name;
-    body += fmt::format("({})", ps::join(", ", call_params));
-
-    if (function.return_type.qtype.is_uptr) {
-        body += ".release()";
-    }
-    if (function.return_type.qtype.requires_cast || bitcast_return_type) {
-        body += ")";
-    }
-    body += ";";
-
-    if (return_string_copy) {
-        body += "\n    safe_strcpy(_result_buffer_ptr, result, "
-                "_result_buffer_len);\n    return result.size();";
-    }
-
-    return fmt::format("{} {{\n{}\n}}", declaration, body);
-}
-
 struct File {
     std::unordered_map<std::string, Function> functions;
     std::unordered_map<std::string, Record> records;
@@ -471,8 +376,6 @@ cppmm::Param process_pointee_type(const std::string& param_name,
                                         .is_func_proto = false,
                                         .record = nullptr,
                                         .enm = enm};
-        std::string qname = qualified_type_name(result.qtype.type);
-
     } else {
         fmt::print("Unhandled type: {}\n", qt.getAsString());
         qt->dump();
@@ -1192,13 +1095,11 @@ int main(int argc, const char** argv) {
         ex_files[src_path].includes = includes;
     }
 
-    // TODO: we need to declare this properly somehow, maybe a special
-    // namespace where we can do a namespace OIIO = OpenImageIO_v2_2?
+    // Get namespace renames from command-line options
     for (const auto& o : opt_rename_namespace) {
         std::vector<std::string> toks;
         ps::split(o, toks, "=");
         if (toks.size() == 2) {
-            // fmt::print("RENAME {} -> {}\n", toks[1], toks[0]);
             cppmm::add_namespace_rename(toks[1], toks[0]);
         }
     }
@@ -1245,79 +1146,23 @@ int main(int argc, const char** argv) {
 
         for (const auto& rec_pair : bind_file.second.records) {
             const auto& record = records[rec_pair.first];
-            if (record.kind == cppmm::TypeKind::OpaquePtr) {
-                declarations +=
-                    fmt::format("typedef struct {0} {0};\n\n", record.c_name);
-                casts_macro_invocations.insert(record.create_casts());
-            } else if (record.kind == cppmm::TypeKind::OpaqueBytes) {
-                declarations +=
-                    fmt::format("typedef struct {{ char _private[{}]; }} {} "
-                                "CPPMM_ALIGN({});\n",
-                                record.size, record.c_name, record.alignment);
-
-                std::string qname =
-                    cppmm::prefix_from_namespaces(record.namespaces, "::") +
-                    record.cpp_name;
-
-                definitions +=
-                    fmt::format("static_assert(sizeof({}) == "
-                                "sizeof({}), \"sizes do not match\");\n",
-                                qname, record.c_name);
-                definitions +=
-                    fmt::format("static_assert(alignof({}) == alignof({}), "
-                                "\"alignments do not match\");\n",
-                                qname, record.c_name);
-            } else if (record.kind == cppmm::TypeKind::ValueType) {
-                declarations += fmt::format("typedef struct {{\n");
-
-                std::string qname =
-                    cppmm::prefix_from_namespaces(record.namespaces, "::") +
-                    record.cpp_name;
-                definitions += fmt::format("static_assert(sizeof({}) == "
-                                           "sizeof({}), \"sizes do not "
-                                           "match\");\n",
-                                           qname, record.c_name);
-                definitions += fmt::format("static_assert(alignof({}) == "
-                                           "alignof({}), \"alignments do not "
-                                           "match\");\n",
-                                           qname, record.c_name);
-
-                for (const auto& field : record.fields) {
-                    declarations += fmt::format(
-                        "    {} {};\n", field.qtype.type.name, field.name);
-
-                    definitions +=
-                        fmt::format("static_assert(offsetof({0}, {2}) == "
-                                    "offsetof({1}, {2}), "
-                                    "\"field offset does not match\");\n",
-                                    qname, record.c_name, field.name);
-                }
-                definitions += "\n";
-                declarations += fmt::format("}} {};\n\n", record.c_name);
-            }
+            declarations += record.get_declaration(casts_macro_invocations);
+            definitions += record.get_definition();
         }
 
         for (const auto& enm_pair : bind_file.second.enums) {
             const auto& enm = enums[enm_pair.first];
-            declarations += fmt::format("enum {} {{\n", enm.c_name);
-
-            for (const auto& ecd : enm.enumerators) {
-                std::string c_name = enm.c_name + "_" + ecd.first;
-                declarations +=
-                    fmt::format("    {} = {},\n", c_name, ecd.second);
-            }
-
-            declarations += "};\n\n";
+            declarations += enm.get_declaration();
         }
 
         for (const auto& it_function : files[bind_file.first].functions) {
             const auto& function = it_function.second;
 
-            std::string declaration = cppmm::get_function_declaration(
-                function, includes, casts_macro_invocations);
+            std::string declaration = function.get_declaration(
+                includes, casts_macro_invocations);
 
             std::string definition =
-                cppmm::get_function_definition(function, declaration);
+                function.get_definition(declaration);
 
             declarations = fmt::format("{}\n{}\n{};\n", declarations,
                                        function.comment, declaration);

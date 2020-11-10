@@ -50,6 +50,9 @@ struct Record {
 
     std::string get_method_definition(const Method& method,
                                       const std::string& declaration) const;
+
+    std::string get_definition() const;
+    std::string get_declaration(std::set<std::string>& casts_macro_invocations) const;
 };
 
 } // namespace cppmm
