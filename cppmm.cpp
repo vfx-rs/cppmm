@@ -311,13 +311,12 @@ cppmm::Enum* process_enum(const EnumDecl* enum_decl) {
     }
 
     enums[c_qname] = cppmm::Enum{.cpp_name = cpp_name,
-                                .namespaces = namespaces,
-                                .c_name = c_name,
-                                .filename = it_ex_enum->second.filename,
-                                .enumerators = enumerators,
-                                .cpp_qname = cpp_qname,
-                                .c_qname = c_qname
-                                };
+                                 .namespaces = namespaces,
+                                 .c_name = c_name,
+                                 .filename = it_ex_enum->second.filename,
+                                 .enumerators = enumerators,
+                                 .cpp_qname = cpp_qname,
+                                 .c_qname = c_qname};
 
     // fmt::print("MATCHED: {}\n", cpp_name);
 
@@ -548,7 +547,7 @@ cppmm::Function process_function(const FunctionDecl* function,
         params,
         comment,
         namespaces,
-        };
+    };
 }
 
 cppmm::Method process_method(const CXXMethodDecl* method,
@@ -596,28 +595,23 @@ cppmm::Method process_method(const CXXMethodDecl* method,
         params[0].name = "other";
     }
 
-    cppmm::Method result = cppmm::Method{
-        .cpp_name = ex_method.cpp_name,
-        .c_name = ex_method.c_name,
-        .is_const = method->isConst(),
-        .is_static = method->isStatic(),
-        .return_type = process_param_type("", method->getReturnType()),
-        .params = params,
-        .comment = comment,
-        .is_constructor = is_constructor,
-        .is_copy_constructor = is_copy_constructor,
-        .is_copy_assignment = is_copy_assignment,
-        .is_operator = is_operator,
-        .is_conversion_operator = is_conversion_operator,
-        .op = op,
-        .cpp_qname = record->cpp_qname + "::" + ex_method.cpp_name,
-        .c_qname = record->c_qname + "_" + ex_method.c_name};
+    std::vector<std::string> namespaces = record->namespaces;
+    namespaces.push_back(record->c_name);
 
-    // if (is_constructor) {
-    //     fmt::print("CONSTRUCTOR: {}\n", result);
-    // }
-
-    return result;
+    return cppmm::Method{ex_method.cpp_name,
+                         ex_method.c_name,
+                         process_param_type("", method->getReturnType()),
+                         params,
+                         comment,
+                         namespaces,
+                         method->isConst(),
+                         method->isStatic(),
+                         is_constructor,
+                         is_copy_constructor,
+                         is_copy_assignment,
+                         is_operator,
+                         is_conversion_operator,
+                         op};
 }
 
 class CppmmMatchHandler : public MatchFinder::MatchCallback {
@@ -872,7 +866,8 @@ class MatchExportsCallback : public MatchFinder::MatchCallback {
         cppmm::ExportedEnum ex_enum;
         ex_enum.cpp_name = enum_decl->getNameAsString();
         ex_enum.c_name = ex_enum.cpp_name;
-        ex_enum.c_qname = cppmm::prefix_from_namespaces(ns, "_") + ex_enum.c_name;
+        ex_enum.c_qname =
+            cppmm::prefix_from_namespaces(ns, "_") + ex_enum.c_name;
 
         // fmt::print("Found enum: {}\n", ex_enum.c_qname);
         ex_enum.namespaces = ns;

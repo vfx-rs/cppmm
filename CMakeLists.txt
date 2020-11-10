@@ -24,6 +24,7 @@ add_executable(cppmm
   attributes.cpp
   record.cpp
   function.cpp
+  method.cpp
   enum.cpp
   )
 
