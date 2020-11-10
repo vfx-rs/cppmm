@@ -1,0 +1,39 @@
+#include "attributes.hpp"
+
+#include "pystring.h"
+
+#include <fmt/format.h>
+
+namespace cppmm {
+
+namespace ps = pystring;
+
+std::optional<AttrDesc> parse_attributes(std::string attr_src) {
+    // fmt::print("Got attr_src {}\n", attr_src);
+    std::vector<std::string> toks;
+    ps::split(attr_src, toks, ":");
+    // fmt::print("toks: [{}]\n", ps::join(", ", toks));
+    if (toks.size() == 0 || toks[0] != "cppmm") {
+        return std::nullopt;
+    }
+
+    if (toks[1] == "ignore") {
+        return AttrDesc{{}, AttrDesc::Kind::Ignore};
+    } else if (toks[1] == "manual") {
+        return AttrDesc{{}, AttrDesc::Kind::Manual};
+    } else if (toks[1] == "rename") {
+        return AttrDesc{toks[2], AttrDesc::Kind::Rename};
+    } else if (toks[1] == "opaqueptr") {
+        return AttrDesc{{}, AttrDesc::Kind::OpaquePtr};
+    } else if (toks[1] == "opaquebytes") {
+        return AttrDesc{{}, AttrDesc::Kind::OpaqueBytes};
+    } else if (toks[1] == "valuetype") {
+        return AttrDesc{{}, AttrDesc::Kind::ValueType};
+    }
+
+    fmt::print("Warning Could not parse attribute '{}'\n", attr_src);
+
+    return std::nullopt;
+}
+
+}

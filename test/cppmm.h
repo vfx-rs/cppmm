@@ -22,13 +22,13 @@ extern "C" {
 #define CPPMM_API __attribute__((visbility("default")))
 #endif
 
-struct cppmm_VecString {
+struct cppmm_Vec_string {
     char _private[24];
 } CPPMM_ALIGN(8);
 
-CPPMM_API int cppmm_VecString_size(cppmm_VecString* self);
-CPPMM_API const char* cppmm_VecString_get(cppmm_VecString* self, int index);
-CPPMM_API void cppmm_VecString_destroy(cppmm_VecString* self);
+CPPMM_API int cppmm_Vec_string_size(cppmm_Vec_string* self);
+CPPMM_API const char* cppmm_Vec_string_get(cppmm_Vec_string* self, int index);
+CPPMM_API void cppmm_Vec_string_destroy(cppmm_Vec_string* self);
 
 
 #undef CPPMM_ALIGN

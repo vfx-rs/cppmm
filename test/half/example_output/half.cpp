@@ -4,6 +4,7 @@
 
 namespace {
 #include "casts.h"
+
 CPPMM_DEFINE_POINTER_CASTS(Imath::half, Imath_half)
 
 #undef CPPMM_DEFINE_POINTER_CASTS

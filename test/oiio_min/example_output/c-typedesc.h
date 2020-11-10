@@ -8,6 +8,12 @@ extern "C" {
 #include <stdbool.h>
 #endif
 
+#if defined(_WIN32) || defined(__CYGWIN__)
+#define CPPMM_ALIGN(x) __declspec(align(x))
+#else
+#define CPPMM_ALIGN(x) __attribute__((aligned(x)))
+#endif
+
 typedef struct {
     unsigned char basetype;
     unsigned char aggregate;
@@ -65,6 +71,8 @@ enum OIIO_TypeDesc_AGGREGATE {
 };
 
 
+
+#undef CPPMM_ALIGN
 
 #ifdef __cplusplus
 }

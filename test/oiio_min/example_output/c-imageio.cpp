@@ -5,10 +5,13 @@
 
 namespace {
 #include "casts.h"
-CPPMM_DEFINE_POINTER_CASTS(OIIO::TypeDesc, OIIO_TypeDesc)
+
+CPPMM_DEFINE_POINTER_CASTS(OIIO::Filesystem::IOMemReader, OIIO_Filesystem_IOMemReader)
+CPPMM_DEFINE_POINTER_CASTS(OIIO::Filesystem::IOProxy, OIIO_Filesystem_IOProxy)
 CPPMM_DEFINE_POINTER_CASTS(OIIO::ImageInput, OIIO_ImageInput)
-CPPMM_DEFINE_POINTER_CASTS(OIIO::ROI, OIIO_ROI)
 CPPMM_DEFINE_POINTER_CASTS(OIIO::ImageSpec, OIIO_ImageSpec)
+CPPMM_DEFINE_POINTER_CASTS(OIIO::ROI, OIIO_ROI)
+CPPMM_DEFINE_POINTER_CASTS(OIIO::TypeDesc, OIIO_TypeDesc)
 
 #undef CPPMM_DEFINE_POINTER_CASTS
 }
@@ -44,21 +47,22 @@ OIIO_ROI  OIIO_roi_intersection(const OIIO_ROI* A, const OIIO_ROI* B) {
 
 
 
-OIIO_ImageInput*  OIIO_ImageInput_assign(OIIO_ImageInput* self, const OIIO_ImageInput* other) {
-    *to_cpp(self) = *to_cpp(other);
-    return self;
+int OIIO_ImageInput_geterror(const OIIO_ImageInput* self, char* _result_buffer_ptr, int _result_buffer_len) {
+    const std::string result = to_cpp(self)->geterror();
+    safe_strcpy(_result_buffer_ptr, result, _result_buffer_len);
+    return result.size();
+}
+
+
+
+OIIO_ImageInput*  OIIO_ImageInput_open(const char* filename, const OIIO_ImageSpec* config, OIIO_Filesystem_IOProxy* ioproxy) {
+    return to_c(OIIO::ImageInput::open(filename, to_cpp(config), to_cpp(ioproxy)).release());
 }
 
 
 
 const char*  OIIO_ImageInput_format_name(const OIIO_ImageInput* self) {
     return to_cpp(self)->format_name();
-}
-
-
-
-OIIO_ImageInput* OIIO_ImageInput_copy(const OIIO_ImageInput* other) {
-    return to_c(new OIIO::ImageInput(*to_cpp(other)));
 }
 
 
@@ -117,9 +121,10 @@ OIIO_ImageSpec* OIIO_ImageSpec_copy(const OIIO_ImageSpec* other) {
 
 
 
-void OIIO_ImageSpec_serialize(const OIIO_ImageSpec* self, int format, int verbose, char* _result_buffer_ptr, int _result_buffer_len) {
+int OIIO_ImageSpec_serialize(const OIIO_ImageSpec* self, int format, int verbose, char* _result_buffer_ptr, int _result_buffer_len) {
     const std::string result = to_cpp(self)->serialize((OIIO::ImageSpec::SerialFormat)format, (OIIO::ImageSpec::SerialVerbose)verbose);
     safe_strcpy(_result_buffer_ptr, result, _result_buffer_len);
+    return result.size();
 }
 
 

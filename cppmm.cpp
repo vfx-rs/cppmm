@@ -24,6 +24,15 @@
 
 #include "pystring.h"
 
+#include "attributes.hpp"
+#include "enum.hpp"
+#include "function.hpp"
+#include "method.hpp"
+#include "namespaces.hpp"
+#include "param.hpp"
+#include "record.hpp"
+#include "type.hpp"
+
 using namespace clang::tooling;
 using namespace llvm;
 using namespace clang;
@@ -34,258 +43,23 @@ namespace ps = pystring;
 std::string internal_namespace_name = "OpenImageIO_v2_2";
 std::string external_namespace_name = "OIIO";
 
-std::unordered_map<std::string, std::string> namespace_renames;
-
-const std::string& rename_namespace(const std::string& in) {
-    if (namespace_renames.find(in) != namespace_renames.end()) {
-        return namespace_renames[in];
-    } else {
-        return in;
-    }
-}
-
-const std::string
-prefix_from_namespaces(const std::vector<std::string>& cpp_namespaces,
-                       const std::string& sep) {
-    std::string prefix;
-    if (cpp_namespaces.size() != 0) {
-        std::vector<std::string> namespaces;
-        namespaces.reserve(cpp_namespaces.size());
-        for (const auto& ns : cpp_namespaces) {
-            namespaces.push_back(rename_namespace(ns));
-        }
-        prefix = fmt::format("{}{}{}", ps::join(sep, namespaces), sep, prefix);
-    }
-
-    return prefix;
-}
-
-bool match_namespaces(const std::vector<std::string>& a,
-                      const std::vector<std::string>& b) {
-    if (a.size() != b.size()) {
-        return false;
-    }
-    for (int i = 0; i < a.size(); ++i) {
-        if (rename_namespace(a[i]) != rename_namespace(b[i])) {
-            return false;
-        }
-    }
-    return true;
-}
-
-struct AttrDesc {
-    enum Kind {
-        Ignore,
-        Rename,
-        Manual,
-        OpaquePtr,
-        OpaqueBytes,
-        ValueType,
-    };
-
-    std::string params;
-    Kind kind;
-};
-
-std::optional<AttrDesc> parse_attributes(std::string attr_src) {
-    // fmt::print("Got attr_src {}\n", attr_src);
-    std::vector<std::string> toks;
-    ps::split(attr_src, toks, ":");
-    // fmt::print("toks: [{}]\n", ps::join(", ", toks));
-    if (toks.size() == 0 || toks[0] != "cppmm") {
-        return std::nullopt;
-    }
-
-    if (toks[1] == "ignore") {
-        return AttrDesc{{}, AttrDesc::Kind::Ignore};
-    } else if (toks[1] == "manual") {
-        return AttrDesc{{}, AttrDesc::Kind::Manual};
-    } else if (toks[1] == "rename") {
-        return AttrDesc{toks[2], AttrDesc::Kind::Rename};
-    } else if (toks[1] == "opaqueptr") {
-        return AttrDesc{{}, AttrDesc::Kind::OpaquePtr};
-    } else if (toks[1] == "opaquebytes") {
-        return AttrDesc{{}, AttrDesc::Kind::OpaqueBytes};
-    } else if (toks[1] == "valuetype") {
-        return AttrDesc{{}, AttrDesc::Kind::ValueType};
-    }
-
-    fmt::print("Warning Could not parse attribute '{}'\n", attr_src);
-
-    return std::nullopt;
-}
-
 namespace cppmm {
-
-enum TypeKind { OpaquePtr = 0, OpaqueBytes = 1, ValueType = 2 };
 
 class Record;
 class Enum;
+class Vec;
 
-struct Type {
-    std::string name;
-    std::vector<std::string> namespaces = {};
-    bool is_builtin = false;
-    bool is_enum = false;
-    bool is_func_proto = false;
-    Record* record = nullptr;
-    const Enum* enm = nullptr;
-
-    bool is_pod() const;
-};
-
-struct Param {
-    std::string name;
-    Type type;
-    bool is_ptr = false;
-    bool is_uptr = false;
-    bool is_ref = false;
-    bool is_const = false;
-    bool requires_cast = false;
-};
-
-struct Method {
-    std::string cpp_name;
+// vector wrapper
+struct Vec {
     std::string c_name;
-    bool is_const = false;
-    bool is_static = false;
-    Param return_type;
-    std::vector<Param> params;
-    std::string comment;
-    bool is_constructor = false;
-    bool is_copy_constructor = false;
-    bool is_copy_assignment = false;
-    bool is_operator = false;
-    bool is_conversion_operator = false;
-    std::string op;
+    Type element_type;
 };
-
-struct Record {
-    std::string cpp_name;
-    std::vector<std::string> namespaces;
-    std::string c_name;
-    TypeKind kind;
-    std::string filename;
-    std::vector<cppmm::Param> fields;
-    std::unordered_map<std::string, Method> methods;
-    size_t size;
-    size_t alignment;
-
-    bool is_pod() const {
-        for (const auto& p : fields) {
-            if (!p.type.is_pod()) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-};
-
-struct Enum {
-    std::string cpp_name;
-    std::vector<std::string> namespaces;
-    std::string c_name;
-    std::string filename;
-    std::vector<std::pair<std::string, uint64_t>> enumerators;
-};
-
-bool Type::is_pod() const {
-    if (is_builtin || is_enum || is_func_proto) {
-        return true;
-    }
-
-    if (record) {
-        return record->is_pod();
-    }
-
-    assert(false && "TYPE POD FALLTHROUGH");
-    return false;
-}
-
-std::string get_c_function_decl(const Param& param) {
-    std::string result;
-    if (param.type.name == "basic_string") {
-        if (param.is_const) {
-            result += "const char*";
-        } else {
-            result += "char*";
-        }
-    } else if (param.type.name == "string_view") {
-        result += "const char*";
-    } else if (param.type.name == "const char *") {
-        result += "const char*";
-    } else if (param.type.name == "void *") {
-        result += "void*";
-    } else {
-        if (param.is_const) {
-            result += "const ";
-        }
-        if (param.type.enm) {
-            result += "int";
-        } else {
-            result += prefix_from_namespaces(param.type.namespaces, "_") +
-                      param.type.name;
-            if (param.is_ptr || param.is_ref || param.is_uptr) {
-                result += "*";
-            }
-        }
-    }
-
-    result += " ";
-    result += param.name;
-
-    return result;
-}
-
-std::string get_c_function_call(const Param& param) {
-    std::string result;
-    if (param.is_ref && !(param.type.name == "basic_string" ||
-                          param.type.name == "string_view")) {
-        if (param.requires_cast) {
-            result = fmt::format("*to_cpp({})", param.name);
-        } else {
-            result = fmt::format("*{}", param.name);
-        }
-    } else {
-        if (param.type.record &&
-            (param.type.record->kind == cppmm::TypeKind::ValueType ||
-             param.type.record->kind == cppmm::TypeKind::OpaqueBytes)) {
-            // need to bit-cast this
-            result = fmt::format(
-                "bit_cast<{}>({})",
-                prefix_from_namespaces(param.type.record->namespaces, "::") +
-                    param.type.name,
-                param.name);
-        } else if (param.type.enm) {
-            result = fmt::format(
-                "({}){}",
-                prefix_from_namespaces(param.type.enm->namespaces, "::") +
-                    param.type.enm->cpp_name,
-                param.name);
-        } else if (param.requires_cast) {
-            result = fmt::format("to_cpp({})", param.name);
-        } else {
-            result = param.name;
-        }
-    }
-    return result;
-}
 
 std::string get_opaqueptr_constructor_declaration(
     const std::string& c_method_name, const std::string& class_type,
     const std::vector<std::string>& param_decls) {
     return fmt::format("{}* {}({})", class_type, c_method_name,
                        ps::join(", ", param_decls));
-}
-
-std::string create_casts(const cppmm::Record& cls) {
-    std::string cpp_type =
-        prefix_from_namespaces(cls.namespaces, "::") + cls.cpp_name;
-    std::string c_type =
-        prefix_from_namespaces(cls.namespaces, "_") + cls.cpp_name;
-    return fmt::format("CPPMM_DEFINE_POINTER_CASTS({}, {})\n", cpp_type,
-                       c_type);
 }
 
 std::string
@@ -297,14 +71,15 @@ get_method_declaration(const Method& method, const std::string& class_type,
 
     auto c_method_name = fmt::format("{}_{}", method_prefix, method.c_name);
     for (const auto& param : method.params) {
-        if (param.type.record) {
-            includes.insert(param.type.record->filename);
-            casts_macro_invocations.insert(create_casts(*param.type.record));
-        } else if (param.type.enm) {
-            includes.insert(param.type.enm->filename);
+        if (param.qtype.type.record) {
+            includes.insert(param.qtype.type.record->filename);
+            casts_macro_invocations.insert(
+                param.qtype.type.record->create_casts());
+        } else if (param.qtype.type.enm) {
+            includes.insert(param.qtype.type.enm->filename);
         }
 
-        std::string pdecl = get_c_function_decl(param);
+        std::string pdecl = param.create_c_declaration();
         param_decls.push_back(pdecl);
     }
 
@@ -315,16 +90,17 @@ get_method_declaration(const Method& method, const std::string& class_type,
                                                      param_decls);
     } else {
         std::string ret;
-        if (method.return_type.type.name == "basic_string" &&
-            !method.return_type.is_ref && !method.return_type.is_ptr) {
+        if (method.return_type.qtype.type.name == "basic_string" &&
+            !method.return_type.qtype.is_ref &&
+            !method.return_type.qtype.is_ptr) {
             ret = "int";
             param_decls.push_back("char* _result_buffer_ptr");
             param_decls.push_back("int _result_buffer_len");
         } else {
-            ret = get_c_function_decl(method.return_type);
-            if (method.return_type.type.record) {
+            ret = method.return_type.create_c_declaration();
+            if (method.return_type.qtype.type.record) {
                 casts_macro_invocations.insert(
-                    create_casts(*method.return_type.type.record));
+                    method.return_type.qtype.type.record->create_casts());
             }
         }
 
@@ -351,42 +127,39 @@ get_method_declaration(const Method& method, const std::string& class_type,
 }
 
 std::string
-get_opaqueptr_constructor_body(const std::vector<std::string>& call_params,
-                               const std::string& class_name,
+get_opaqueptr_constructor_body(const Record& record, const std::vector<std::string>& call_params,
                                const std::vector<std::string>& namespaces) {
     return fmt::format("    return to_c(new {}({}));",
-                       prefix_from_namespaces(namespaces, "::") + class_name,
+                       record.cpp_qname,
                        ps::join(", ", call_params));
 }
 
 std::string
-get_valuetype_constructor_body(const std::vector<std::string>& call_params,
-                               const std::string& class_name,
+get_valuetype_constructor_body(const Record& record, const std::vector<std::string>& call_params,
                                const std::vector<std::string>& namespaces) {
     return fmt::format("    self = to_c(new (self) {}({}));",
-                       prefix_from_namespaces(namespaces, "::") + class_name,
+                       record.cpp_qname,
                        ps::join(", ", call_params));
 }
 
-std::string get_method_definition(const Method& method,
+std::string get_method_definition(const Record& record, const Method& method,
                                   const std::string& declaration,
-                                  const std::string& class_name,
                                   TypeKind class_kind,
                                   const std::vector<std::string>& namespaces) {
     std::vector<std::string> call_params;
     for (const auto& p : method.params) {
-        call_params.push_back(get_c_function_call(p));
+        call_params.push_back(p.create_c_call());
     }
 
     std::string body;
 
     if (method.is_constructor && class_kind == TypeKind::OpaquePtr) {
         body =
-            get_opaqueptr_constructor_body(call_params, class_name, namespaces);
+            get_opaqueptr_constructor_body(record, call_params, namespaces);
     } else if (method.is_constructor && (class_kind == TypeKind::ValueType ||
                                          class_kind == TypeKind::OpaqueBytes)) {
         body =
-            get_valuetype_constructor_body(call_params, class_name, namespaces);
+            get_valuetype_constructor_body(record, call_params, namespaces);
     } else if (method.is_copy_assignment) {
         body = "    *to_cpp(self) = ";
         body += call_params[0] + ";\n    return self;";
@@ -426,56 +199,58 @@ std::string get_method_definition(const Method& method,
                 // copying operator
                 body = fmt::format(
                     "    return bit_cast<{}>(*to_cpp(self) {} {});",
-                    prefix_from_namespaces(namespaces, "_") + class_name,
+                    record.c_qname,
                     method.op, call_params[0]);
             } else {
                 body = fmt::format(
                     "    return bit_cast<{}>({}(*to_cpp(self)));",
-                    prefix_from_namespaces(namespaces, "_") + class_name,
+                    record.c_qname,
                     method.op);
             }
         }
     } else {
         bool return_string_ref =
-            method.return_type.type.name == "basic_string" &&
-            method.return_type.is_ref;
+            method.return_type.qtype.type.name == "basic_string" &&
+            method.return_type.qtype.is_ref;
         bool return_string_copy =
-            method.return_type.type.name == "basic_string" &&
-            !method.return_type.is_ref;
+            method.return_type.qtype.type.name == "basic_string" &&
+            !method.return_type.qtype.is_ref;
         if (return_string_copy) {
             // need to copy to the out parameters
             body = "    const std::string result = ";
-        } else if (method.return_type.type.name != "void") {
+        } else if (method.return_type.qtype.type.name != "void") {
             body = "    return ";
         } else {
             body = "    ";
         }
 
         bool bitcast_return_type =
-            method.return_type.type.record &&
-            (method.return_type.type.record->kind == TypeKind::ValueType ||
-             method.return_type.type.record->kind == TypeKind::OpaqueBytes);
+            method.return_type.qtype.type.record &&
+            (method.return_type.qtype.type.record->kind ==
+                 TypeKind::ValueType ||
+             method.return_type.qtype.type.record->kind ==
+                 TypeKind::OpaqueBytes);
 
         if (bitcast_return_type) {
             body += fmt::format("bit_cast<{}>(",
-                                method.return_type.type.record->c_name);
-        } else if (method.return_type.requires_cast) {
+                                method.return_type.qtype.type.record->c_name);
+        } else if (method.return_type.qtype.requires_cast) {
             body += "to_c(";
         }
         if (method.is_static) {
             body +=
-                prefix_from_namespaces(namespaces, "::") + class_name + "::";
+                record.cpp_qname + "::";
         } else {
             body += "to_cpp(self)->";
         }
         body += method.cpp_name;
         body += fmt::format("({})", ps::join(", ", call_params));
-        if (method.return_type.is_uptr) {
+        if (method.return_type.qtype.is_uptr) {
             body += ".release()";
         } else if (return_string_ref) {
             body += ".c_str()";
         }
-        if (method.return_type.requires_cast || bitcast_return_type) {
+        if (method.return_type.qtype.requires_cast || bitcast_return_type) {
             body += ")";
         }
         body += ";";
@@ -489,15 +264,6 @@ std::string get_method_definition(const Method& method,
     return fmt::format("{} {{\n{}\n}}", declaration, body);
 }
 
-struct Function {
-    std::string cpp_name;
-    std::string c_name;
-    Param return_type;
-    std::vector<Param> params;
-    std::string comment;
-    std::vector<std::string> namespaces;
-};
-
 std::string
 get_function_declaration(const Function& function,
                          std::set<std::string>& includes,
@@ -508,28 +274,30 @@ get_function_declaration(const Function& function,
 
     std::vector<std::string> param_decls;
     for (const auto& param : function.params) {
-        if (param.type.record) {
-            includes.insert(param.type.record->filename);
-            casts_macro_invocations.insert(create_casts(*param.type.record));
-        } else if (param.type.enm) {
-            includes.insert(param.type.enm->filename);
+        if (param.qtype.type.record) {
+            includes.insert(param.qtype.type.record->filename);
+            casts_macro_invocations.insert(
+                param.qtype.type.record->create_casts());
+        } else if (param.qtype.type.enm) {
+            includes.insert(param.qtype.type.enm->filename);
         }
 
-        std::string pdecl = get_c_function_decl(param);
+        std::string pdecl = param.create_c_declaration();
         param_decls.push_back(pdecl);
     }
 
     std::string ret;
-    if (function.return_type.type.name == "basic_string" &&
-        !function.return_type.is_ref && !function.return_type.is_ptr) {
+    if (function.return_type.qtype.type.name == "basic_string" &&
+        !function.return_type.qtype.is_ref &&
+        !function.return_type.qtype.is_ptr) {
         ret = "int";
         param_decls.push_back("char* _result_buffer_ptr");
         param_decls.push_back("int _result_buffer_len");
     } else {
-        ret = get_c_function_decl(function.return_type);
-        if (function.return_type.type.record) {
+        ret = function.return_type.create_c_declaration();
+        if (function.return_type.qtype.type.record) {
             casts_macro_invocations.insert(
-                create_casts(*function.return_type.type.record));
+                function.return_type.qtype.type.record->create_casts());
         }
     }
 
@@ -542,31 +310,32 @@ std::string get_function_definition(const Function& function,
 
     std::vector<std::string> call_params;
     for (const auto& p : function.params) {
-        call_params.push_back(get_c_function_call(p));
+        call_params.push_back(p.create_c_call());
     }
 
     std::string body;
     bool return_string_copy =
-        function.return_type.type.name == "basic_string" &&
-        !function.return_type.is_ref && !function.return_type.is_ptr;
+        function.return_type.qtype.type.name == "basic_string" &&
+        !function.return_type.qtype.is_ref &&
+        !function.return_type.qtype.is_ptr;
     if (return_string_copy) {
         // need to copy to the out parameters
         body = "    const std::string result = ";
-    } else if (function.return_type.type.name != "void") {
+    } else if (function.return_type.qtype.type.name != "void") {
         body = "    return ";
     } else {
         body = "    ";
     }
 
     bool bitcast_return_type =
-        function.return_type.type.record &&
-        (function.return_type.type.record->kind == TypeKind::ValueType ||
-         function.return_type.type.record->kind == TypeKind::OpaqueBytes);
+        function.return_type.qtype.type.record &&
+        (function.return_type.qtype.type.record->kind == TypeKind::ValueType ||
+         function.return_type.qtype.type.record->kind == TypeKind::OpaqueBytes);
 
     if (bitcast_return_type) {
         body += fmt::format("bit_cast<{}>(",
-                            function.return_type.type.record->c_name);
-    } else if (function.return_type.requires_cast) {
+                            function.return_type.qtype.type.record->c_name);
+    } else if (function.return_type.qtype.requires_cast) {
         body += "to_c(";
     }
 
@@ -574,10 +343,10 @@ std::string get_function_definition(const Function& function,
         prefix_from_namespaces(function.namespaces, "::") + function.cpp_name;
     body += fmt::format("({})", ps::join(", ", call_params));
 
-    if (function.return_type.is_uptr) {
+    if (function.return_type.qtype.is_uptr) {
         body += ".release()";
     }
-    if (function.return_type.requires_cast || bitcast_return_type) {
+    if (function.return_type.qtype.requires_cast || bitcast_return_type) {
         body += ")";
     }
     body += ";";
@@ -719,7 +488,7 @@ bool is_recordpointer(const QualType& qt) {
 }
 
 std::string qualified_type_name(const cppmm::Type& type) {
-    return prefix_from_namespaces(type.namespaces, "::") + type.name;
+    return cppmm::prefix_from_namespaces(type.namespaces, "::") + type.name;
 }
 
 std::vector<std::string> get_namespaces(const DeclContext* parent) {
@@ -753,7 +522,8 @@ cppmm::Record* process_record(const CXXRecordDecl* record) {
     std::string cpp_name = record->getNameAsString();
     std::vector<std::string> namespaces = get_namespaces(record->getParent());
 
-    const auto c_name = prefix_from_namespaces(namespaces, "_") + cpp_name;
+    const auto c_name =
+        cppmm::prefix_from_namespaces(namespaces, "_") + cpp_name;
     if (records.find(c_name) != records.end()) {
         // already done this type, return
         return &records[c_name];
@@ -784,15 +554,19 @@ cppmm::Record* process_record(const CXXRecordDecl* record) {
 
     // fmt::print("Processed record {} -> {} in {}\n", cpp_name, c_name,
     //    it_ex_record->second.filename);
-    auto rec = cppmm::Record{.cpp_name = cpp_name,
-                             .namespaces = namespaces,
-                             .c_name = c_name,
-                             .kind = it_ex_record->second.kind,
-                             .filename = it_ex_record->second.filename,
-                             .fields = fields,
-                             .methods = {},
-                             .size = size,
-                             .alignment = alignment};
+    auto rec = cppmm::Record{
+        .cpp_name = cpp_name,
+        .namespaces = namespaces,
+        .c_name = c_name,
+        .kind = it_ex_record->second.kind,
+        .filename = it_ex_record->second.filename,
+        .fields = fields,
+        .methods = {},
+        .size = size,
+        .alignment = alignment,
+        .cpp_qname = cppmm::prefix_from_namespaces(namespaces, "::") + cpp_name,
+        .c_qname = c_name,
+    };
 
     if (rec.kind == cppmm::TypeKind::ValueType && !rec.is_pod()) {
         fmt::print("ERROR: {} is valuetype but not POD\n", rec.c_name);
@@ -813,7 +587,8 @@ cppmm::Enum* process_enum(const EnumDecl* enum_decl) {
     std::vector<std::string> namespaces =
         get_namespaces(enum_decl->getParent());
 
-    const auto c_name = prefix_from_namespaces(namespaces, "_") + cpp_name;
+    const auto c_name =
+        cppmm::prefix_from_namespaces(namespaces, "_") + cpp_name;
     if (enums.find(c_name) != enums.end()) {
         // already done this type, return
         return &enums[c_name];
@@ -862,15 +637,17 @@ cppmm::Param process_pointee_type(const std::string& param_name,
         if (name == "_Bool") {
             name = "bool";
         }
-        result.type = cppmm::Type{name, {}, .is_builtin = true};
-        result.requires_cast = false;
+        result.qtype.type = cppmm::Type{name, {}, .is_builtin = true};
+        result.qtype.requires_cast = false;
     } else if (qt->isRecordType()) {
         const CXXRecordDecl* crd = qt->getAsCXXRecordDecl();
         if (crd->getNameAsString() == "unique_ptr") {
             const auto* tst = qt->getAs<TemplateSpecializationType>();
             result =
                 process_pointee_type(param_name, tst->getArgs()->getAsType());
-            result.is_uptr = true;
+            result.qtype.is_uptr = true;
+        } else if (crd->getNameAsString() == "vector") {
+
         } else {
             const CXXRecordDecl* crd = qt->getAsCXXRecordDecl();
             cppmm::Record* record_ptr = process_record(crd);
@@ -879,7 +656,7 @@ cppmm::Param process_pointee_type(const std::string& param_name,
                 //            crd->getNameAsString());
             }
             std::string type_name = crd->getNameAsString();
-            result.type =
+            result.qtype.type =
                 cppmm::Type{.name = type_name,
                             .namespaces = get_namespaces(
                                 qt->getAsCXXRecordDecl()->getParent()),
@@ -888,28 +665,29 @@ cppmm::Param process_pointee_type(const std::string& param_name,
                             .is_func_proto = false,
                             .record = record_ptr,
                             .enm = nullptr};
-            result.requires_cast = !(crd->getNameAsString() == "basic_string" ||
-                                     crd->getNameAsString() == "string_view");
+            result.qtype.requires_cast =
+                !(crd->getNameAsString() == "basic_string" ||
+                  crd->getNameAsString() == "string_view");
         }
     } else if (qt->isEnumeralType()) {
         const auto* enum_decl = qt->getAs<EnumType>()->getDecl();
         const cppmm::Enum* enm = process_enum(enum_decl);
 
-        result.type = cppmm::Type{.name = enm->cpp_name,
-                                  .namespaces = enm->namespaces,
-                                  .is_builtin = false,
-                                  .is_enum = true,
-                                  .is_func_proto = false,
-                                  .record = nullptr,
-                                  .enm = enm};
-        std::string qname = qualified_type_name(result.type);
+        result.qtype.type = cppmm::Type{.name = enm->cpp_name,
+                                        .namespaces = enm->namespaces,
+                                        .is_builtin = false,
+                                        .is_enum = true,
+                                        .is_func_proto = false,
+                                        .record = nullptr,
+                                        .enm = enm};
+        std::string qname = qualified_type_name(result.qtype.type);
 
     } else {
         fmt::print("Unhandled type: {}\n", qt.getAsString());
         qt->dump();
     }
 
-    result.is_const = qt.isConstQualified();
+    result.qtype.is_const = qt.isConstQualified();
     return result;
 }
 
@@ -921,8 +699,8 @@ cppmm::Param process_param_type(const std::string& param_name,
 
     if (is_ptr || is_ref) {
         result = process_pointee_type(param_name, qt->getPointeeType());
-        result.is_ptr = is_ptr;
-        result.is_ref = is_ref;
+        result.qtype.is_ptr = is_ptr;
+        result.qtype.is_ref = is_ref;
     } else if (is_builtin(qt)) {
         result = process_pointee_type(param_name, qt);
     } else if (qt->isRecordType()) {
@@ -957,17 +735,17 @@ std::ostream& operator<<(std::ostream& os, const cppmm::TypeKind& kind) {
 }
 
 std::ostream& operator<<(std::ostream& os, const cppmm::Param& param) {
-    if (param.is_const) {
+    if (param.qtype.is_const) {
         os << "const ";
     }
-    auto& ns = param.type.namespaces;
+    auto& ns = param.qtype.type.namespaces;
     if (ns.size()) {
         os << ps::join("::", ns) << "::";
     }
-    os << param.type.name;
-    if (param.is_ptr) {
+    os << param.qtype.type.name;
+    if (param.qtype.is_ptr) {
         os << "* ";
-    } else if (param.is_ref) {
+    } else if (param.qtype.is_ref) {
         os << "& ";
     } else {
         os << " ";
@@ -998,7 +776,7 @@ std::ostream& operator<<(std::ostream& os,
     if (method.is_static) {
         os << "static ";
     }
-    auto ns = prefix_from_namespaces(method.namespaces, "::");
+    auto ns = cppmm::prefix_from_namespaces(method.namespaces, "::");
     os << "auto " << ns << method.cpp_name << "("
        << ps::join(", ", method.params) << ") -> " << method.return_type;
     return os;
@@ -1068,11 +846,15 @@ cppmm::Function process_function(const FunctionDecl* function,
         .return_type = process_param_type("", function->getReturnType()),
         .params = params,
         .comment = comment,
-        .namespaces = namespaces};
+        .namespaces = namespaces,
+        .cpp_qname = cppmm::prefix_from_namespaces(namespaces, "::") + ex_function.cpp_name,
+        .c_qname = cppmm::prefix_from_namespaces(namespaces, "_") + ex_function.c_name
+    };
 }
 
 cppmm::Method process_method(const CXXMethodDecl* method,
-                             const cppmm::ExportedMethod& ex_method) {
+                             const cppmm::ExportedMethod& ex_method,
+                             const cppmm::Record* record) {
     std::vector<cppmm::Param> params;
     for (const auto& p : method->parameters()) {
         const auto param_name = p->getNameAsString();
@@ -1128,7 +910,10 @@ cppmm::Method process_method(const CXXMethodDecl* method,
         .is_copy_assignment = is_copy_assignment,
         .is_operator = is_operator,
         .is_conversion_operator = is_conversion_operator,
-        .op = op};
+        .op = op,
+        .cpp_qname = record->cpp_qname + "::" + ex_method.cpp_name,
+        .c_qname = record->c_qname + "_" + ex_method.c_name
+        };
 
     // if (is_constructor) {
     //     fmt::print("CONSTRUCTOR: {}\n", result);
@@ -1171,8 +956,8 @@ class CppmmMatchHandler : public MatchFinder::MatchCallback {
         for (const auto& ex_file : ex_files) {
             for (const auto& ex_function : ex_file.second.functions) {
                 if (this_ex_function.cpp_name == ex_function.cpp_name &&
-                    match_namespaces(this_ex_function.namespaces,
-                                     ex_function.namespaces)) {
+                    cppmm::match_namespaces(this_ex_function.namespaces,
+                                            ex_function.namespaces)) {
                     matched_file = ex_file.first;
                 }
 
@@ -1269,7 +1054,7 @@ class CppmmMatchHandler : public MatchFinder::MatchCallback {
         if (record->methods.find(matched_ex_method->c_name) ==
             record->methods.end()) {
             record->methods[matched_ex_method->c_name] =
-                process_method(method, *matched_ex_method);
+                process_method(method, *matched_ex_method, record);
         }
     }
 };
@@ -1337,14 +1122,15 @@ public:
     }
 };
 
-std::vector<AttrDesc> get_attrs(const Decl* decl) {
-    std::vector<AttrDesc> attrs;
+std::vector<cppmm::AttrDesc> get_attrs(const Decl* decl) {
+    std::vector<cppmm::AttrDesc> attrs;
     if (decl->hasAttrs()) {
         ASTContext& ctx = decl->getASTContext();
         for (const auto& attr : decl->attrs()) {
             const AnnotateAttr* ann = cast<const AnnotateAttr>(attr);
             if (ann) {
-                if (auto opt = parse_attributes(ann->getAnnotation().str())) {
+                if (auto opt =
+                        cppmm::parse_attributes(ann->getAnnotation().str())) {
                     attrs.push_back(*opt);
                 }
             }
@@ -1387,7 +1173,8 @@ class MatchExportsCallback : public MatchFinder::MatchCallback {
 
         cppmm::ExportedEnum ex_enum;
         ex_enum.cpp_name = enum_decl->getNameAsString();
-        ex_enum.c_name = prefix_from_namespaces(ns, "_") + ex_enum.cpp_name;
+        ex_enum.c_name =
+            cppmm::prefix_from_namespaces(ns, "_") + ex_enum.cpp_name;
         // fmt::print("Found enum: {}\n", ex_enum.c_name);
         ex_enum.namespaces = ns;
         ex_enum.filename = filename;
@@ -1416,8 +1203,9 @@ class MatchExportsCallback : public MatchFinder::MatchCallback {
 
         ex_record.cpp_name = record->getNameAsString();
         ex_record.namespaces = get_namespaces(record->getParent());
-        ex_record.c_name = prefix_from_namespaces(ex_record.namespaces, "_") +
-                           ex_record.cpp_name;
+        ex_record.c_name =
+            cppmm::prefix_from_namespaces(ex_record.namespaces, "_") +
+            ex_record.cpp_name;
 
         if (ex_records.find(ex_record.c_name) != ex_records.end()) {
             fmt::print("WARNING: Ignoring duplicate definition for {}\n",
@@ -1425,12 +1213,12 @@ class MatchExportsCallback : public MatchFinder::MatchCallback {
             return;
         }
 
-        std::vector<AttrDesc> attrs = get_attrs(record);
+        std::vector<cppmm::AttrDesc> attrs = get_attrs(record);
         ex_record.kind = cppmm::TypeKind::OpaquePtr;
         for (const auto& attr : attrs) {
-            if (attr.kind == AttrDesc::Kind::ValueType) {
+            if (attr.kind == cppmm::AttrDesc::Kind::ValueType) {
                 ex_record.kind = cppmm::TypeKind::ValueType;
-            } else if (attr.kind == AttrDesc::Kind::OpaqueBytes) {
+            } else if (attr.kind == cppmm::AttrDesc::Kind::OpaqueBytes) {
                 ex_record.kind = cppmm::TypeKind::OpaqueBytes;
             }
         }
@@ -1463,7 +1251,7 @@ class MatchExportsCallback : public MatchFinder::MatchCallback {
 
     void handle_function(const FunctionDecl* function) {
         // fmt::print("GOT FUNCTION: {}\n", function->getNameAsString());
-        std::vector<AttrDesc> attrs = get_attrs(function);
+        std::vector<cppmm::AttrDesc> attrs = get_attrs(function);
 
         // figure out which file we're in
         ASTContext& ctx = function->getASTContext();
@@ -1482,7 +1270,7 @@ class MatchExportsCallback : public MatchFinder::MatchCallback {
 
     void handle_method(const CXXMethodDecl* method) {
         // If there are attributes, parse them looking for cppmm annotations
-        std::vector<AttrDesc> attrs = get_attrs(method);
+        std::vector<cppmm::AttrDesc> attrs = get_attrs(method);
         cppmm::ExportedMethod ex_method(method, attrs);
         const auto class_name = method->getParent()->getNameAsString();
 
@@ -1620,7 +1408,7 @@ int main(int argc, const char** argv) {
         ps::split(o, toks, "=");
         if (toks.size() == 2) {
             // fmt::print("RENAME {} -> {}\n", toks[1], toks[0]);
-            namespace_renames[toks[1]] = toks[0];
+            cppmm::add_namespace_rename(toks[1], toks[0]);
         }
     }
 
@@ -1669,7 +1457,7 @@ int main(int argc, const char** argv) {
             if (record.kind == cppmm::TypeKind::OpaquePtr) {
                 declarations +=
                     fmt::format("typedef struct {0} {0};\n\n", record.c_name);
-                casts_macro_invocations.insert(create_casts(record));
+                casts_macro_invocations.insert(record.create_casts());
             } else if (record.kind == cppmm::TypeKind::OpaqueBytes) {
                 declarations +=
                     fmt::format("typedef struct {{ char _private[{}]; }} {} "
@@ -1677,7 +1465,7 @@ int main(int argc, const char** argv) {
                                 record.size, record.c_name, record.alignment);
 
                 std::string qname =
-                    prefix_from_namespaces(record.namespaces, "::") +
+                    cppmm::prefix_from_namespaces(record.namespaces, "::") +
                     record.cpp_name;
 
                 definitions +=
@@ -1692,7 +1480,7 @@ int main(int argc, const char** argv) {
                 declarations += fmt::format("typedef struct {{\n");
 
                 std::string qname =
-                    prefix_from_namespaces(record.namespaces, "::") +
+                    cppmm::prefix_from_namespaces(record.namespaces, "::") +
                     record.cpp_name;
                 definitions += fmt::format("static_assert(sizeof({}) == "
                                            "sizeof({}), \"sizes do not "
@@ -1704,8 +1492,8 @@ int main(int argc, const char** argv) {
                                            qname, record.c_name);
 
                 for (const auto& field : record.fields) {
-                    declarations += fmt::format("    {} {};\n", field.type.name,
-                                                field.name);
+                    declarations += fmt::format(
+                        "    {} {};\n", field.qtype.type.name, field.name);
 
                     definitions +=
                         fmt::format("static_assert(offsetof({0}, {2}) == "
@@ -1753,11 +1541,11 @@ int main(int argc, const char** argv) {
             // fmt::print("{}\n", cls.name);
 
             std::string class_type = fmt::format(
-                "{}{}", prefix_from_namespaces(record.namespaces, "_"),
+                "{}{}", cppmm::prefix_from_namespaces(record.namespaces, "_"),
                 record.cpp_name);
 
             std::string method_prefix = fmt::format(
-                "{}{}", prefix_from_namespaces(record.namespaces, "_"),
+                "{}{}", cppmm::prefix_from_namespaces(record.namespaces, "_"),
                 record.cpp_name);
 
             // casts_macro_invocaions += create_casts(record);
@@ -1772,8 +1560,8 @@ int main(int argc, const char** argv) {
                 declarations = fmt::format("{}\n{}\n{};\n", declarations,
                                            method.comment, declaration);
 
-                std::string definition = cppmm::get_method_definition(
-                    method, declaration, record.cpp_name, record.kind,
+                std::string definition = cppmm::get_method_definition(record,
+                    method, declaration, record.kind,
                     record.namespaces);
 
                 definitions =

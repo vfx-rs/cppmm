@@ -15,7 +15,16 @@ endif()
 
 add_subdirectory(fmt)
 
-add_executable(cppmm cppmm.cpp pystring.cpp)
+add_executable(cppmm
+  cppmm.cpp
+  pystring.cpp
+  param.cpp
+  namespaces.cpp
+  type.cpp
+  attributes.cpp
+  record.cpp
+  )
+
 target_link_libraries(cppmm clangTooling clangBasic clangASTMatchers fmt)
 target_include_directories(cppmm PRIVATE ${LLVM_INCLUDE_DIRS})
 # target_link_libraries(cppmm PRIVATE ${LLVM_ROOT}/lib/libclangTooling.a ${LLVM_ROOT}/lib/libclang.so)

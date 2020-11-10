@@ -1,5 +1,6 @@
 #pragma once
 
+#include "c-filesystem.h"
 #include "c-typedesc.h"
 
 
@@ -7,6 +8,12 @@
 extern "C" {
 #else
 #include <stdbool.h>
+#endif
+
+#if defined(_WIN32) || defined(__CYGWIN__)
+#define CPPMM_ALIGN(x) __declspec(align(x))
+#else
+#define CPPMM_ALIGN(x) __attribute__((aligned(x)))
 #endif
 
 typedef struct OIIO_ImageInput OIIO_ImageInput;
@@ -112,14 +119,51 @@ OIIO_ROI  OIIO_roi_union(const OIIO_ROI* A, const OIIO_ROI* B);
 /// Intersection of two regions.
 OIIO_ROI  OIIO_roi_intersection(const OIIO_ROI* A, const OIIO_ROI* B);
 
+/// If any of the API routines returned false indicating an error, this
+/// method will return the error string (and clear any error flags).  If
+/// no error has occurred since the last time `geterror()` was called,
+/// it will return an empty string.
+int OIIO_ImageInput_geterror(const OIIO_ImageInput* self, char* _result_buffer_ptr, int _result_buffer_len);
 
-OIIO_ImageInput*  OIIO_ImageInput_assign(OIIO_ImageInput* self, const OIIO_ImageInput* other);
+/// Create an ImageInput subclass instance that is able to read the
+/// given file and open it, returning a `unique_ptr` to the ImageInput
+/// if successful.  The `unique_ptr` is set up with an appropriate
+/// deleter so the ImageInput will be properly closed and deleted when
+/// the `unique_ptr` goes out of scope or is reset. If the open fails,
+/// return an empty `unique_ptr` and set an error that can be retrieved
+/// by `OIIO::geterror()`.
+///
+/// The `config`, if not nullptr, points to an ImageSpec giving hints,
+/// requests, or special instructions.  ImageInput implementations are
+/// free to not respond to any such requests, so the default
+/// implementation is just to ignore `config`.
+///
+/// `open()` will first try to make an ImageInput corresponding to
+/// the format implied by the file extension (for example, `"foo.tif"`
+/// will try the TIFF plugin), but if one is not found or if the
+/// inferred one does not open the file, every known ImageInput type
+/// will be tried until one is found that will open the file.
+///
+/// @param filename
+///         The name of the file to open.
+///
+/// @param config
+///         Optional pointer to an ImageSpec whose metadata contains
+///         "configuration hints."
+///
+/// @param ioproxy
+///         Optional pointer to an IOProxy to use (not supported by all
+///         formats, see `supports("ioproxy")`). The caller retains
+///         ownership of the proxy.
+///
+/// @returns
+///         A `unique_ptr` that will close and free the ImageInput when
+///         it exits scope or is reset. The pointer will be empty if the
+///         required writer was not able to be created.
+OIIO_ImageInput*  OIIO_ImageInput_open(const char* filename, const OIIO_ImageSpec* config, OIIO_Filesystem_IOProxy* ioproxy);
 
 /// Return the name of the format implemented by this class.
 const char*  OIIO_ImageInput_format_name(const OIIO_ImageInput* self);
-
-
-OIIO_ImageInput* OIIO_ImageInput_copy(const OIIO_ImageInput* other);
 
 /// All() is an alias for the default constructor, which indicates that
 /// it means "all" of the image, or no region restriction.  For example,
@@ -165,7 +209,7 @@ OIIO_ImageSpec* OIIO_ImageSpec_copy(const OIIO_ImageSpec* other);
 /// (contains all metadata in original form), or
 /// `ImageSpec::SerialDetailedHuman` (contains all metadata, in many
 /// cases with human-readable explanation).
-void OIIO_ImageSpec_serialize(const OIIO_ImageSpec* self, int format, int verbose, char* _result_buffer_ptr, int _result_buffer_len);
+int OIIO_ImageSpec_serialize(const OIIO_ImageSpec* self, int format, int verbose, char* _result_buffer_ptr, int _result_buffer_len);
 
 /// Adjust the stride values, if set to AutoStride, to be the right
 /// sizes for contiguous data with the given format, channels,
@@ -223,6 +267,8 @@ void  OIIO_ImageSpec_attribute(OIIO_ImageSpec* self, const char* name, OIIO_Type
 /// channel as stored in the file.
 unsigned long  OIIO_ImageSpec_channel_bytes_for(const OIIO_ImageSpec* self, int chan, bool native);
 
+
+#undef CPPMM_ALIGN
 
 #ifdef __cplusplus
 }

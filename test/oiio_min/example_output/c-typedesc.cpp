@@ -4,7 +4,7 @@
 
 namespace {
 #include "casts.h"
-CPPMM_DEFINE_POINTER_CASTS(OIIO::TypeDesc, OIIO_TypeDesc)
+
 
 #undef CPPMM_DEFINE_POINTER_CASTS
 }
