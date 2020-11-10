@@ -1,5 +1,6 @@
 #pragma once
 
+#include <set>
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -33,11 +34,19 @@ struct Record {
 
     std::string create_casts() const;
 
+    std::string get_opaqueptr_constructor_declaration(
+        const std::string& c_method_name,
+        const std::vector<std::string>& param_decls) const;
+
     std::string get_opaqueptr_constructor_body(
         const std::vector<std::string>& call_params) const;
 
     std::string get_valuetype_constructor_body(
         const std::vector<std::string>& call_params) const;
+
+    std::string get_method_declaration(
+        const Method& method, std::set<std::string>& includes,
+        std::set<std::string>& casts_macro_invocations) const;
 
     std::string get_method_definition(const Method& method,
                                       const std::string& declaration) const;

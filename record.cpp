@@ -1,4 +1,5 @@
 #include "record.hpp"
+#include "enum.hpp"
 #include "namespaces.hpp"
 
 #include "pystring.h"
@@ -26,8 +27,77 @@ std::string Record::get_valuetype_constructor_body(
                        ps::join(", ", call_params));
 }
 
-std::string Record::get_method_definition(const Method& method,
-                                  const std::string& declaration) const {
+std::string Record::get_opaqueptr_constructor_declaration(
+    const std::string& c_method_name,
+    const std::vector<std::string>& param_decls) const {
+    return fmt::format("{}* {}({})", c_qname, c_method_name,
+                       ps::join(", ", param_decls));
+}
+
+std::string Record::get_method_declaration(
+    const Method& method, std::set<std::string>& includes,
+    std::set<std::string>& casts_macro_invocations) const {
+    std::vector<std::string> param_decls;
+
+    auto c_method_name = fmt::format("{}_{}", c_qname, method.c_name);
+    for (const auto& param : method.params) {
+        if (param.qtype.type.record) {
+            includes.insert(param.qtype.type.record->filename);
+            casts_macro_invocations.insert(
+                param.qtype.type.record->create_casts());
+        } else if (param.qtype.type.enm) {
+            includes.insert(param.qtype.type.enm->filename);
+        }
+
+        std::string pdecl = param.create_c_declaration();
+        param_decls.push_back(pdecl);
+    }
+
+    std::string declaration;
+
+    if (method.is_constructor && kind == TypeKind::OpaquePtr) {
+        return get_opaqueptr_constructor_declaration(c_method_name,
+                                                     param_decls);
+    } else {
+        std::string ret;
+        if (method.return_type.qtype.type.name == "basic_string" &&
+            !method.return_type.qtype.is_ref &&
+            !method.return_type.qtype.is_ptr) {
+            ret = "int";
+            param_decls.push_back("char* _result_buffer_ptr");
+            param_decls.push_back("int _result_buffer_len");
+        } else {
+            ret = method.return_type.create_c_declaration();
+            if (method.return_type.qtype.type.record) {
+                casts_macro_invocations.insert(
+                    method.return_type.qtype.type.record->create_casts());
+            }
+        }
+
+        if (method.is_static) {
+            declaration = fmt::format("{} {}({})", ret, c_method_name,
+                                      ps::join(", ", param_decls));
+        } else {
+            std::string constqual;
+            if (method.is_const) {
+                constqual = "const ";
+            }
+            declaration = fmt::format("{} {}({}{}* self", ret, c_method_name,
+                                      constqual, c_qname);
+            if (param_decls.size()) {
+                declaration = fmt::format("{}, {})", declaration,
+                                          ps::join(", ", param_decls));
+            } else {
+                declaration = fmt::format("{})", declaration);
+            }
+        }
+
+        return declaration;
+    }
+}
+std::string
+Record::get_method_definition(const Method& method,
+                              const std::string& declaration) const {
     std::vector<std::string> call_params;
     for (const auto& p : method.params) {
         call_params.push_back(p.create_c_call());
@@ -37,8 +107,8 @@ std::string Record::get_method_definition(const Method& method,
 
     if (method.is_constructor && kind == TypeKind::OpaquePtr) {
         body = get_opaqueptr_constructor_body(call_params);
-    } else if (method.is_constructor && (kind == TypeKind::ValueType ||
-                                         kind == TypeKind::OpaqueBytes)) {
+    } else if (method.is_constructor &&
+               (kind == TypeKind::ValueType || kind == TypeKind::OpaqueBytes)) {
         body = get_valuetype_constructor_body(call_params);
     } else if (method.is_copy_assignment) {
         body = "    *to_cpp(self) = ";

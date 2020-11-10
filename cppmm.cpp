@@ -55,77 +55,6 @@ struct Vec {
     Type element_type;
 };
 
-std::string get_opaqueptr_constructor_declaration(
-    const std::string& c_method_name, const std::string& class_type,
-    const std::vector<std::string>& param_decls) {
-    return fmt::format("{}* {}({})", class_type, c_method_name,
-                       ps::join(", ", param_decls));
-}
-
-std::string
-get_method_declaration(const Method& method, const std::string& class_type,
-                       TypeKind class_kind, const std::string& method_prefix,
-                       std::set<std::string>& includes,
-                       std::set<std::string>& casts_macro_invocations) {
-    std::vector<std::string> param_decls;
-
-    auto c_method_name = fmt::format("{}_{}", method_prefix, method.c_name);
-    for (const auto& param : method.params) {
-        if (param.qtype.type.record) {
-            includes.insert(param.qtype.type.record->filename);
-            casts_macro_invocations.insert(
-                param.qtype.type.record->create_casts());
-        } else if (param.qtype.type.enm) {
-            includes.insert(param.qtype.type.enm->filename);
-        }
-
-        std::string pdecl = param.create_c_declaration();
-        param_decls.push_back(pdecl);
-    }
-
-    std::string declaration;
-
-    if (method.is_constructor && class_kind == TypeKind::OpaquePtr) {
-        return get_opaqueptr_constructor_declaration(c_method_name, class_type,
-                                                     param_decls);
-    } else {
-        std::string ret;
-        if (method.return_type.qtype.type.name == "basic_string" &&
-            !method.return_type.qtype.is_ref &&
-            !method.return_type.qtype.is_ptr) {
-            ret = "int";
-            param_decls.push_back("char* _result_buffer_ptr");
-            param_decls.push_back("int _result_buffer_len");
-        } else {
-            ret = method.return_type.create_c_declaration();
-            if (method.return_type.qtype.type.record) {
-                casts_macro_invocations.insert(
-                    method.return_type.qtype.type.record->create_casts());
-            }
-        }
-
-        if (method.is_static) {
-            declaration = fmt::format("{} {}({})", ret, c_method_name,
-                                      ps::join(", ", param_decls));
-        } else {
-            std::string constqual;
-            if (method.is_const) {
-                constqual = "const ";
-            }
-            declaration = fmt::format("{} {}({}{}* self", ret, c_method_name,
-                                      constqual, class_type);
-            if (param_decls.size()) {
-                declaration = fmt::format("{}, {})", declaration,
-                                          ps::join(", ", param_decls));
-            } else {
-                declaration = fmt::format("{})", declaration);
-            }
-        }
-
-        return declaration;
-    }
-}
-
 std::string
 get_function_declaration(const Function& function,
                          std::set<std::string>& includes,
@@ -1402,22 +1331,11 @@ int main(int argc, const char** argv) {
             const cppmm::Record& record = records[record_pair.second->c_name];
             // fmt::print("{}\n", cls.name);
 
-            std::string class_type = fmt::format(
-                "{}{}", cppmm::prefix_from_namespaces(record.namespaces, "_"),
-                record.cpp_name);
-
-            std::string method_prefix = fmt::format(
-                "{}{}", cppmm::prefix_from_namespaces(record.namespaces, "_"),
-                record.cpp_name);
-
-            // casts_macro_invocaions += create_casts(record);
-
             for (auto method_pair : record.methods) {
                 const auto& method = method_pair.second;
 
-                std::string declaration = cppmm::get_method_declaration(
-                    method, class_type, record.kind, method_prefix, includes,
-                    casts_macro_invocations);
+                std::string declaration = record.get_method_declaration(
+                    method, includes, casts_macro_invocations);
 
                 declarations = fmt::format("{}\n{}\n{};\n", declarations,
                                            method.comment, declaration);
