@@ -8,6 +8,7 @@
 namespace cppmm {
 
 struct Method {
+
     std::string cpp_name;
     std::string c_name;
     bool is_const = false;

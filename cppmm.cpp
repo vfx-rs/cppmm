@@ -535,16 +535,13 @@ cppmm::Function process_function(const FunctionDecl* function,
     std::string comment = get_decl_comment(function);
 
     return cppmm::Function{
-        .cpp_name = ex_function.cpp_name,
-        .c_name = ex_function.c_name,
-        .return_type = process_param_type("", function->getReturnType()),
-        .params = params,
-        .comment = comment,
-        .namespaces = namespaces,
-        .cpp_qname = cppmm::prefix_from_namespaces(namespaces, "::") +
-                     ex_function.cpp_name,
-        .c_qname = cppmm::prefix_from_namespaces(namespaces, "_") +
-                   ex_function.c_name};
+        ex_function.cpp_name,
+        ex_function.c_name,
+        process_param_type("", function->getReturnType()),
+        params,
+        comment,
+        namespaces,
+        };
 }
 
 cppmm::Method process_method(const CXXMethodDecl* method,
@@ -1039,7 +1036,7 @@ public:
     }
 };
 
-std::vector<std::string> get_includes(const std::string& filename) {
+std::vector<std::string> parse_file_includes(const std::string& filename) {
     std::ifstream file(filename);
     std::string line;
     std::vector<std::string> result;
@@ -1197,7 +1194,7 @@ int main(int argc, const char** argv) {
 
     for (const auto& src : OptionsParser.getSourcePathList()) {
         const auto src_path = ps::os::path::join(cwd, src);
-        const auto includes = get_includes(src_path);
+        const auto includes = parse_file_includes(src_path);
         ex_files[src_path] = {};
         ex_files[src_path].includes = includes;
     }
@@ -1265,8 +1262,8 @@ int main(int argc, const char** argv) {
         for (const auto& it_function : files[bind_file.first].functions) {
             const auto& function = it_function.second;
 
-            std::string declaration =
-                function.get_declaration(header_includes, casts_macro_invocations);
+            std::string declaration = function.get_declaration(
+                header_includes, casts_macro_invocations);
 
             std::string definition = function.get_definition(declaration);
 

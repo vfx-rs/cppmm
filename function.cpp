@@ -1,6 +1,6 @@
 #include "function.hpp"
-#include "namespaces.hpp"
 #include "enum.hpp"
+#include "namespaces.hpp"
 #include "record.hpp"
 
 #include "pystring.h"
@@ -11,12 +11,18 @@ namespace cppmm {
 
 namespace ps = pystring;
 
+Function::Function(std::string cpp_name, std::string c_name, Param return_type,
+                   std::vector<Param> params, std::string comment,
+                   std::vector<std::string> namespaces)
+    : cpp_name(cpp_name), c_name(c_name), return_type(return_type),
+      params(params), comment(comment) {
+    cpp_qname = prefix_from_namespaces(namespaces, "::") + cpp_name;
+    c_qname = prefix_from_namespaces(namespaces, "_") + c_name;
+}
+
 std::string Function::get_declaration(
     std::set<std::string>& includes,
     std::set<std::string>& casts_macro_invocations) const {
-    std::string c_function_name =
-        fmt::format("{}{}", prefix_from_namespaces(namespaces, "_"),
-                    c_name);
 
     std::vector<std::string> param_decls;
     for (const auto& param : params) {
@@ -34,8 +40,7 @@ std::string Function::get_declaration(
 
     std::string ret;
     if (return_type.qtype.type.name == "basic_string" &&
-        !return_type.qtype.is_ref &&
-        !return_type.qtype.is_ptr) {
+        !return_type.qtype.is_ref && !return_type.qtype.is_ptr) {
         ret = "int";
         param_decls.push_back("char* _result_buffer_ptr");
         param_decls.push_back("int _result_buffer_len");
@@ -47,12 +52,10 @@ std::string Function::get_declaration(
         }
     }
 
-    return fmt::format("{} {}({})", ret, c_function_name,
-                       ps::join(", ", param_decls));
+    return fmt::format("{} {}({})", ret, c_qname, ps::join(", ", param_decls));
 }
 
-std::string
-Function::get_definition(const std::string& declaration) const {
+std::string Function::get_definition(const std::string& declaration) const {
 
     std::vector<std::string> call_params;
     for (const auto& p : params) {
@@ -60,10 +63,9 @@ Function::get_definition(const std::string& declaration) const {
     }
 
     std::string body;
-    bool return_string_copy =
-        return_type.qtype.type.name == "basic_string" &&
-        !return_type.qtype.is_ref &&
-        !return_type.qtype.is_ptr;
+    bool return_string_copy = return_type.qtype.type.name == "basic_string" &&
+                              !return_type.qtype.is_ref &&
+                              !return_type.qtype.is_ptr;
     if (return_string_copy) {
         // need to copy to the out parameters
         body = "    const std::string result = ";
@@ -79,15 +81,13 @@ Function::get_definition(const std::string& declaration) const {
          return_type.qtype.type.record->kind == TypeKind::OpaqueBytes);
 
     if (bitcast_return_type) {
-        body += fmt::format("bit_cast<{}>(",
-                            return_type.qtype.type.record->c_name);
+        body +=
+            fmt::format("bit_cast<{}>(", return_type.qtype.type.record->c_name);
     } else if (return_type.qtype.requires_cast) {
         body += "to_c(";
     }
 
-    body +=
-        prefix_from_namespaces(namespaces, "::") + cpp_name;
-    body += fmt::format("({})", ps::join(", ", call_params));
+    body += fmt::format("{}({})", cpp_qname, ps::join(", ", call_params));
 
     if (return_type.qtype.is_uptr) {
         body += ".release()";

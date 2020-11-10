@@ -39,7 +39,6 @@ std::string Record::get_method_declaration(
     std::set<std::string>& casts_macro_invocations) const {
     std::vector<std::string> param_decls;
 
-    auto c_method_name = fmt::format("{}_{}", c_qname, method.c_name);
     for (const auto& param : method.params) {
         if (param.qtype.type.record) {
             includes.insert(param.qtype.type.record->filename);
@@ -56,7 +55,7 @@ std::string Record::get_method_declaration(
     std::string declaration;
 
     if (method.is_constructor && kind == TypeKind::OpaquePtr) {
-        return get_opaqueptr_constructor_declaration(c_method_name,
+        return get_opaqueptr_constructor_declaration(method.c_qname,
                                                      param_decls);
     } else {
         std::string ret;
@@ -75,14 +74,14 @@ std::string Record::get_method_declaration(
         }
 
         if (method.is_static) {
-            declaration = fmt::format("{} {}({})", ret, c_method_name,
+            declaration = fmt::format("{} {}({})", ret, method.c_qname,
                                       ps::join(", ", param_decls));
         } else {
             std::string constqual;
             if (method.is_const) {
                 constqual = "const ";
             }
-            declaration = fmt::format("{} {}({}{}* self", ret, c_method_name,
+            declaration = fmt::format("{} {}({}{}* self", ret, method.c_qname,
                                       constqual, c_qname);
             if (param_decls.size()) {
                 declaration = fmt::format("{}, {})", declaration,
