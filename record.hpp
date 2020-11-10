@@ -1,11 +1,11 @@
 #pragma once
 
 #include <string>
-#include <vector>
 #include <unordered_map>
+#include <vector>
 
-#include "param.hpp"
 #include "method.hpp"
+#include "param.hpp"
 
 namespace cppmm {
 struct Record {
@@ -32,6 +32,15 @@ struct Record {
     }
 
     std::string create_casts() const;
+
+    std::string get_opaqueptr_constructor_body(
+        const std::vector<std::string>& call_params) const;
+
+    std::string get_valuetype_constructor_body(
+        const std::vector<std::string>& call_params) const;
+
+    std::string get_method_definition(const Method& method,
+                                      const std::string& declaration) const;
 };
 
-}
+} // namespace cppmm

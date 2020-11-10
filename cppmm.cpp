@@ -127,144 +127,6 @@ get_method_declaration(const Method& method, const std::string& class_type,
 }
 
 std::string
-get_opaqueptr_constructor_body(const Record& record, const std::vector<std::string>& call_params,
-                               const std::vector<std::string>& namespaces) {
-    return fmt::format("    return to_c(new {}({}));",
-                       record.cpp_qname,
-                       ps::join(", ", call_params));
-}
-
-std::string
-get_valuetype_constructor_body(const Record& record, const std::vector<std::string>& call_params,
-                               const std::vector<std::string>& namespaces) {
-    return fmt::format("    self = to_c(new (self) {}({}));",
-                       record.cpp_qname,
-                       ps::join(", ", call_params));
-}
-
-std::string get_method_definition(const Record& record, const Method& method,
-                                  const std::string& declaration,
-                                  TypeKind class_kind,
-                                  const std::vector<std::string>& namespaces) {
-    std::vector<std::string> call_params;
-    for (const auto& p : method.params) {
-        call_params.push_back(p.create_c_call());
-    }
-
-    std::string body;
-
-    if (method.is_constructor && class_kind == TypeKind::OpaquePtr) {
-        body =
-            get_opaqueptr_constructor_body(record, call_params, namespaces);
-    } else if (method.is_constructor && (class_kind == TypeKind::ValueType ||
-                                         class_kind == TypeKind::OpaqueBytes)) {
-        body =
-            get_valuetype_constructor_body(record, call_params, namespaces);
-    } else if (method.is_copy_assignment) {
-        body = "    *to_cpp(self) = ";
-        body += call_params[0] + ";\n    return self;";
-    } else if (method.is_operator) {
-        if (class_kind == TypeKind::OpaquePtr) {
-            if (call_params.size() == 0) {
-                // unary operator can't work for an opqaue pointer without
-                // allocating
-                // FIXME: what do we want to do here?
-                fmt::print(
-                    "WARNING: method {} is a unary operator but its parent "
-                    "class is of kind OpaquePtr and so cannot be autobound "
-                    "without allocating. It will be ignored.\n",
-                    declaration);
-            } else if (method.op.find("=") == std::string::npos) {
-                // Similarly, any non-assigning operator can't work for the same
-                // reason
-                // FIXME: what do we want to do here?
-                fmt::print(
-                    "WARNING: method {} is a non-assigning operator (i.e. "
-                    "it returns a copy) but its parent class is of kind "
-                    "OpaquePtr and so cannot be autobound without "
-                    "allocating. It will be ignored.\n",
-                    declaration);
-            } else {
-                body = fmt::format("    *to_cpp(self) {} ", method.op);
-                body += call_params[0] + ";\n    return self;";
-            }
-        } else {
-            // opaquebytes or valuetype
-            if (call_params.size() > 0 &&
-                method.op.find("=") != std::string::npos) {
-                // assigning operator
-                body = fmt::format("    *to_cpp(self) {} ", method.op);
-                body += call_params[0] + ";\n    return self;";
-            } else if (call_params.size() > 0) {
-                // copying operator
-                body = fmt::format(
-                    "    return bit_cast<{}>(*to_cpp(self) {} {});",
-                    record.c_qname,
-                    method.op, call_params[0]);
-            } else {
-                body = fmt::format(
-                    "    return bit_cast<{}>({}(*to_cpp(self)));",
-                    record.c_qname,
-                    method.op);
-            }
-        }
-    } else {
-        bool return_string_ref =
-            method.return_type.qtype.type.name == "basic_string" &&
-            method.return_type.qtype.is_ref;
-        bool return_string_copy =
-            method.return_type.qtype.type.name == "basic_string" &&
-            !method.return_type.qtype.is_ref;
-        if (return_string_copy) {
-            // need to copy to the out parameters
-            body = "    const std::string result = ";
-        } else if (method.return_type.qtype.type.name != "void") {
-            body = "    return ";
-        } else {
-            body = "    ";
-        }
-
-        bool bitcast_return_type =
-            method.return_type.qtype.type.record &&
-            (method.return_type.qtype.type.record->kind ==
-                 TypeKind::ValueType ||
-             method.return_type.qtype.type.record->kind ==
-                 TypeKind::OpaqueBytes);
-
-        if (bitcast_return_type) {
-            body += fmt::format("bit_cast<{}>(",
-                                method.return_type.qtype.type.record->c_name);
-        } else if (method.return_type.qtype.requires_cast) {
-            body += "to_c(";
-        }
-        if (method.is_static) {
-            body +=
-                record.cpp_qname + "::";
-        } else {
-            body += "to_cpp(self)->";
-        }
-        body += method.cpp_name;
-        body += fmt::format("({})", ps::join(", ", call_params));
-        if (method.return_type.qtype.is_uptr) {
-            body += ".release()";
-        } else if (return_string_ref) {
-            body += ".c_str()";
-        }
-        if (method.return_type.qtype.requires_cast || bitcast_return_type) {
-            body += ")";
-        }
-        body += ";";
-
-        if (return_string_copy) {
-            body += "\n    safe_strcpy(_result_buffer_ptr, result, "
-                    "_result_buffer_len);\n    return result.size();";
-        }
-    }
-
-    return fmt::format("{} {{\n{}\n}}", declaration, body);
-}
-
-std::string
 get_function_declaration(const Function& function,
                          std::set<std::string>& includes,
                          std::set<std::string>& casts_macro_invocations) {
@@ -847,9 +709,10 @@ cppmm::Function process_function(const FunctionDecl* function,
         .params = params,
         .comment = comment,
         .namespaces = namespaces,
-        .cpp_qname = cppmm::prefix_from_namespaces(namespaces, "::") + ex_function.cpp_name,
-        .c_qname = cppmm::prefix_from_namespaces(namespaces, "_") + ex_function.c_name
-    };
+        .cpp_qname = cppmm::prefix_from_namespaces(namespaces, "::") +
+                     ex_function.cpp_name,
+        .c_qname = cppmm::prefix_from_namespaces(namespaces, "_") +
+                   ex_function.c_name};
 }
 
 cppmm::Method process_method(const CXXMethodDecl* method,
@@ -912,8 +775,7 @@ cppmm::Method process_method(const CXXMethodDecl* method,
         .is_conversion_operator = is_conversion_operator,
         .op = op,
         .cpp_qname = record->cpp_qname + "::" + ex_method.cpp_name,
-        .c_qname = record->c_qname + "_" + ex_method.c_name
-        };
+        .c_qname = record->c_qname + "_" + ex_method.c_name};
 
     // if (is_constructor) {
     //     fmt::print("CONSTRUCTOR: {}\n", result);
@@ -1560,9 +1422,8 @@ int main(int argc, const char** argv) {
                 declarations = fmt::format("{}\n{}\n{};\n", declarations,
                                            method.comment, declaration);
 
-                std::string definition = cppmm::get_method_definition(record,
-                    method, declaration, record.kind,
-                    record.namespaces);
+                std::string definition =
+                    record.get_method_definition(method, declaration);
 
                 definitions =
                     fmt::format("{}\n{}\n\n\n", definitions, definition);
