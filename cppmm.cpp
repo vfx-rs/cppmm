@@ -130,6 +130,7 @@ struct ExportedEnum {
     std::vector<std::string> namespaces;
     std::string c_name;
     std::string filename;
+    std::string c_qname;
 };
 
 bool operator==(const ExportedFunction& a, const ExportedFunction& b) {
@@ -283,22 +284,24 @@ cppmm::Enum* process_enum(const EnumDecl* enum_decl) {
     std::string cpp_name = enum_decl->getNameAsString();
     std::vector<std::string> namespaces =
         get_namespaces(enum_decl->getParent());
-
-    const auto c_name =
-        cppmm::prefix_from_namespaces(namespaces, "_") + cpp_name;
-    if (enums.find(c_name) != enums.end()) {
+    const auto c_name = cpp_name;
+    const auto cpp_qname =
+        cppmm::prefix_from_namespaces(namespaces, "::") + cpp_name;
+    const auto c_qname =
+        cppmm::prefix_from_namespaces(namespaces, "_") + c_name;
+    if (enums.find(c_qname) != enums.end()) {
         // already done this type, return
-        return &enums[c_name];
+        return &enums[c_qname];
     }
 
-    auto it_ex_enum = ex_enums.find(c_name);
+    auto it_ex_enum = ex_enums.find(c_qname);
     if (it_ex_enum == ex_enums.end()) {
         // fmt::print("WARNING: enum '{}' has no export definition\n",
-        // c_name);
+        // c_qname);
         return nullptr;
     }
 
-    // fmt::print("Processed enum {} -> {} in {}\n", cpp_name, c_name,
+    // fmt::print("Processed enum {} -> {} in {}\n", cpp_name, c_qname,
     //    it_ex_enum->second.filename);
 
     std::vector<std::pair<std::string, uint64_t>> enumerators;
@@ -307,15 +310,18 @@ cppmm::Enum* process_enum(const EnumDecl* enum_decl) {
             ecd->getNameAsString(), ecd->getInitVal().getLimitedValue()));
     }
 
-    enums[c_name] = cppmm::Enum{.cpp_name = cpp_name,
+    enums[c_qname] = cppmm::Enum{.cpp_name = cpp_name,
                                 .namespaces = namespaces,
                                 .c_name = c_name,
                                 .filename = it_ex_enum->second.filename,
-                                .enumerators = enumerators};
+                                .enumerators = enumerators,
+                                .cpp_qname = cpp_qname,
+                                .c_qname = c_qname
+                                };
 
     // fmt::print("MATCHED: {}\n", cpp_name);
 
-    return &enums[c_name];
+    return &enums[c_qname];
 }
 
 cppmm::Param process_pointee_type(const std::string& param_name,
@@ -865,27 +871,28 @@ class MatchExportsCallback : public MatchFinder::MatchCallback {
 
         cppmm::ExportedEnum ex_enum;
         ex_enum.cpp_name = enum_decl->getNameAsString();
-        ex_enum.c_name =
-            cppmm::prefix_from_namespaces(ns, "_") + ex_enum.cpp_name;
-        // fmt::print("Found enum: {}\n", ex_enum.c_name);
+        ex_enum.c_name = ex_enum.cpp_name;
+        ex_enum.c_qname = cppmm::prefix_from_namespaces(ns, "_") + ex_enum.c_name;
+
+        // fmt::print("Found enum: {}\n", ex_enum.c_qname);
         ex_enum.namespaces = ns;
         ex_enum.filename = filename;
 
-        if (ex_enums.find(ex_enum.c_name) != ex_enums.end()) {
+        if (ex_enums.find(ex_enum.c_qname) != ex_enums.end()) {
             fmt::print("WARNING: Ignoring duplicate definition for {}\n",
-                       ex_enum.c_name);
+                       ex_enum.c_qname);
             return;
         }
 
-        ex_enums[ex_enum.c_name] = ex_enum;
+        ex_enums[ex_enum.c_qname] = ex_enum;
 
         if (ex_files.find(filename) == ex_files.end()) {
             ex_files[filename] = {};
         }
 
         auto& ex_file = ex_files[filename];
-        if (ex_file.enums.find(ex_enum.c_name) == ex_file.enums.end()) {
-            ex_file.enums[ex_enum.c_name] = &ex_enums[ex_enum.c_name];
+        if (ex_file.enums.find(ex_enum.c_qname) == ex_file.enums.end()) {
+            ex_file.enums[ex_enum.c_qname] = &ex_enums[ex_enum.c_qname];
             // fmt::print("GOT TYPE: {}\n", ex_record);
         }
     }
@@ -915,7 +922,7 @@ class MatchExportsCallback : public MatchFinder::MatchCallback {
                 ex_record.kind = cppmm::TypeKind::OpaqueBytes;
             }
         }
-        // fmt::print("{} is a {}\n", ex_record.c_name, ex_record.kind);
+        // fmt::print("{} is a {}\n", ex_record.c_qname, ex_record.kind);
 
         // fmt::print("record {}\n", ex_record.cpp_name);
         // record->dump();

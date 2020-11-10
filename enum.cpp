@@ -5,10 +5,10 @@
 namespace cppmm {
 std::string Enum::get_declaration() const {
     std::string declarations;
-    declarations += fmt::format("enum {} {{\n", c_name);
+    declarations += fmt::format("enum {} {{\n", c_qname);
 
     for (const auto& ecd : enumerators) {
-        std::string qname = c_name + "_" + ecd.first;
+        std::string qname = c_qname + "_" + ecd.first;
         declarations += fmt::format("    {} = {},\n", qname, ecd.second);
     }
 
