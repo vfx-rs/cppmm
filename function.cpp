@@ -82,7 +82,7 @@ std::string Function::get_definition(const std::string& declaration) const {
 
     if (bitcast_return_type) {
         body +=
-            fmt::format("bit_cast<{}>(", return_type.qtype.type.record->c_name);
+            fmt::format("bit_cast<{}>(", return_type.qtype.type.record->c_qname);
     } else if (return_type.qtype.requires_cast) {
         body += "to_c(";
     }

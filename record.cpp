@@ -180,7 +180,7 @@ Record::get_method_definition(const Method& method,
 
         if (bitcast_return_type) {
             body += fmt::format("bit_cast<{}>(",
-                                method.return_type.qtype.type.record->c_name);
+                                method.return_type.qtype.type.record->c_qname);
         } else if (method.return_type.qtype.requires_cast) {
             body += "to_c(";
         }
@@ -216,25 +216,25 @@ std::string Record::get_definition() const {
     } else if (kind == cppmm::TypeKind::OpaqueBytes) {
         definitions += fmt::format("static_assert(sizeof({}) == "
                                    "sizeof({}), \"sizes do not match\");\n",
-                                   cpp_qname, c_name);
+                                   cpp_qname, c_qname);
         definitions += fmt::format("static_assert(alignof({}) == alignof({}), "
                                    "\"alignments do not match\");\n",
-                                   cpp_qname, c_name);
+                                   cpp_qname, c_qname);
     } else if (kind == cppmm::TypeKind::ValueType) {
         definitions += fmt::format("static_assert(sizeof({}) == "
                                    "sizeof({}), \"sizes do not "
                                    "match\");\n",
-                                   cpp_qname, c_name);
+                                   cpp_qname, c_qname);
         definitions += fmt::format("static_assert(alignof({}) == "
                                    "alignof({}), \"alignments do not "
                                    "match\");\n",
-                                   cpp_qname, c_name);
+                                   cpp_qname, c_qname);
 
         for (const auto& field : fields) {
             definitions += fmt::format("static_assert(offsetof({0}, {2}) == "
                                        "offsetof({1}, {2}), "
                                        "\"field offset does not match\");\n",
-                                       cpp_qname, c_name, field.name);
+                                       cpp_qname, c_qname, field.name);
         }
         definitions += "\n";
     }
@@ -246,13 +246,13 @@ std::string
 Record::get_declaration(std::set<std::string>& casts_macro_invocations) const {
     std::string declarations;
     if (kind == cppmm::TypeKind::OpaquePtr) {
-        declarations += fmt::format("typedef struct {0} {0};\n\n", c_name);
+        declarations += fmt::format("typedef struct {0} {0};\n\n", c_qname);
         casts_macro_invocations.insert(create_casts());
     } else if (kind == cppmm::TypeKind::OpaqueBytes) {
         declarations +=
             fmt::format("typedef struct {{ char _private[{}]; }} {} "
                         "CPPMM_ALIGN({});\n",
-                        size, c_name, alignment);
+                        size, c_qname, alignment);
 
     } else if (kind == cppmm::TypeKind::ValueType) {
         declarations += fmt::format("typedef struct {{\n");
@@ -261,7 +261,7 @@ Record::get_declaration(std::set<std::string>& casts_macro_invocations) const {
             declarations +=
                 fmt::format("    {} {};\n", field.qtype.type.name, field.name);
         }
-        declarations += fmt::format("}} {};\n\n", c_name);
+        declarations += fmt::format("}} {};\n\n", c_qname);
     }
 
     return declarations;

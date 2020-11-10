@@ -122,6 +122,7 @@ struct ExportedRecord {
     std::string c_name;
     TypeKind kind;
     std::string filename;
+    std::string c_qname;
 };
 
 struct ExportedEnum {
@@ -218,14 +219,14 @@ cppmm::Record* process_record(const CXXRecordDecl* record) {
     std::string cpp_name = record->getNameAsString();
     std::vector<std::string> namespaces = get_namespaces(record->getParent());
 
-    const auto c_name =
+    const auto c_qname =
         cppmm::prefix_from_namespaces(namespaces, "_") + cpp_name;
-    if (records.find(c_name) != records.end()) {
+    if (records.find(c_qname) != records.end()) {
         // already done this type, return
-        return &records[c_name];
+        return &records[c_qname];
     }
 
-    auto it_ex_record = ex_records.find(c_name);
+    auto it_ex_record = ex_records.find(c_qname);
     if (it_ex_record == ex_records.end()) {
         // fmt::print("WARNING: record '{}' has no export definition\n",
         // c_name);
@@ -248,12 +249,12 @@ cppmm::Record* process_record(const CXXRecordDecl* record) {
     size_t size = ctx.getTypeSize(record->getTypeForDecl()) / 8;
     size_t alignment = ctx.getTypeAlign(record->getTypeForDecl()) / 8;
 
-    // fmt::print("Processed record {} -> {} in {}\n", cpp_name, c_name,
+    // fmt::print("Processed record {} -> {} in {}\n", cpp_name, c_qname,
     //    it_ex_record->second.filename);
     auto rec = cppmm::Record{
         .cpp_name = cpp_name,
         .namespaces = namespaces,
-        .c_name = c_name,
+        .c_name = cpp_name,
         .kind = it_ex_record->second.kind,
         .filename = it_ex_record->second.filename,
         .fields = fields,
@@ -261,21 +262,21 @@ cppmm::Record* process_record(const CXXRecordDecl* record) {
         .size = size,
         .alignment = alignment,
         .cpp_qname = cppmm::prefix_from_namespaces(namespaces, "::") + cpp_name,
-        .c_qname = c_name,
+        .c_qname = c_qname,
     };
 
     if (rec.kind == cppmm::TypeKind::ValueType && !rec.is_pod()) {
-        fmt::print("ERROR: {} is valuetype but not POD\n", rec.c_name);
+        fmt::print("ERROR: {} is valuetype but not POD\n", rec.c_qname);
         return nullptr;
     } else if (rec.kind == cppmm::TypeKind::OpaqueBytes && !rec.is_pod()) {
-        fmt::print("ERROR: {} is opaquebytes but not POD\n", rec.c_name);
+        fmt::print("ERROR: {} is opaquebytes but not POD\n", rec.c_qname);
         return nullptr;
     }
 
-    records[c_name] = rec;
+    records[c_qname] = rec;
     // fmt::print("MATCHED: {}\n", cpp_name);
 
-    return &records[c_name];
+    return &records[c_qname];
 }
 
 cppmm::Enum* process_enum(const EnumDecl* enum_decl) {
@@ -893,14 +894,15 @@ class MatchExportsCallback : public MatchFinder::MatchCallback {
         cppmm::ExportedRecord ex_record;
 
         ex_record.cpp_name = record->getNameAsString();
+        ex_record.c_name = ex_record.cpp_name;
         ex_record.namespaces = get_namespaces(record->getParent());
-        ex_record.c_name =
+        ex_record.c_qname =
             cppmm::prefix_from_namespaces(ex_record.namespaces, "_") +
-            ex_record.cpp_name;
+            ex_record.c_name;
 
-        if (ex_records.find(ex_record.c_name) != ex_records.end()) {
+        if (ex_records.find(ex_record.c_qname) != ex_records.end()) {
             fmt::print("WARNING: Ignoring duplicate definition for {}\n",
-                       ex_record.c_name);
+                       ex_record.c_qname);
             return;
         }
 
@@ -926,16 +928,16 @@ class MatchExportsCallback : public MatchFinder::MatchCallback {
 
         ex_record.filename = filename;
 
-        ex_records[ex_record.c_name] = ex_record;
-        cppmm::ExportedRecord* ex_record_ptr = &ex_records[ex_record.c_name];
+        ex_records[ex_record.c_qname] = ex_record;
+        cppmm::ExportedRecord* ex_record_ptr = &ex_records[ex_record.c_qname];
 
         if (ex_files.find(filename) == ex_files.end()) {
             ex_files[filename] = {};
         }
 
         auto& ex_file = ex_files[filename];
-        if (ex_file.records.find(ex_record.c_name) == ex_file.records.end()) {
-            ex_file.records[ex_record.c_name] = ex_record_ptr;
+        if (ex_file.records.find(ex_record.c_qname) == ex_file.records.end()) {
+            ex_file.records[ex_record.c_qname] = ex_record_ptr;
             // fmt::print("GOT TYPE: {}\n", ex_record);
         }
     }
@@ -1274,7 +1276,7 @@ int main(int argc, const char** argv) {
         }
 
         for (const auto& record_pair : bind_file.second.records) {
-            const cppmm::Record& record = records[record_pair.second->c_name];
+            const cppmm::Record& record = records[record_pair.second->c_qname];
 
             for (auto method_pair : record.methods) {
                 const auto& method = method_pair.second;
