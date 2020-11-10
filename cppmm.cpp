@@ -1077,6 +1077,113 @@ std::string bind_file_root(const std::string& filename) {
     return root;
 }
 
+void write_header(const std::string& filename, const std::string& declarations,
+                  const std::string& include_stmts) {
+
+    std::string out_str = fmt::format(
+        R"#(#pragma once
+
+{}
+
+#ifdef __cplusplus
+extern "C" {{
+#else
+#include <stdbool.h>
+#endif
+
+#if defined(_WIN32) || defined(__CYGWIN__)
+#define CPPMM_ALIGN(x) __declspec(align(x))
+#else
+#define CPPMM_ALIGN(x) __attribute__((aligned(x)))
+#endif
+
+{}
+
+#undef CPPMM_ALIGN
+
+#ifdef __cplusplus
+}}
+#endif
+    )#",
+        include_stmts, declarations);
+
+    auto out = fopen(filename.c_str(), "w");
+    fprintf(out, "%s", out_str.c_str());
+    fclose(out);
+}
+
+void write_implementation(const std::string& filename, const std::string& root,
+                          const std::vector<std::string>& includes,
+                          const std::string& casts,
+                          const std::string& definitions) {
+    std::string out_str = fmt::format(
+        R"#(//
+#include "{}.h"
+{}
+
+namespace {{
+#include "casts.h"
+
+{}
+#undef CPPMM_DEFINE_POINTER_CASTS
+}}
+
+extern "C" {{
+{}
+}}
+    )#",
+        root, ps::join("\n", includes), casts, definitions);
+
+    auto out = fopen(filename.c_str(), "w");
+    fprintf(out, "%s", out_str.c_str());
+    fclose(out);
+}
+
+void write_casts_header(const std::string& filename) {
+    std::string casts_header = R"#(#pragma once
+#include <string.h>
+// Macro to define short conversion functions between C and C++ API types to
+// save us from eye-gougingly verbose casts everywhere
+#define CPPMM_DEFINE_POINTER_CASTS(CPPTYPE, CTYPE)          \
+CPPTYPE* to_cpp(CTYPE* ptr) {                               \
+    return reinterpret_cast<CPPTYPE*>(ptr);                 \
+}                                                           \
+                                                            \
+const CPPTYPE* to_cpp(const CTYPE* ptr) {                   \
+    return reinterpret_cast<const CPPTYPE*>(ptr);           \
+}                                                           \
+                                                            \
+CTYPE* to_c(CPPTYPE* ptr) {                                 \
+    return reinterpret_cast<CTYPE*>(ptr);                   \
+}                                                           \
+                                                            \
+const CTYPE* to_c(const CPPTYPE* ptr) {                     \
+    return reinterpret_cast<const CTYPE*>(ptr);             \
+}                                                           \
+                                                            \
+
+template <typename TO, typename FROM>
+TO bit_cast(FROM f) {
+    static_assert(sizeof(TO) == sizeof(FROM), "sizes do not match");
+    static_assert(alignof(TO) == alignof(FROM), "alignments do not match");
+
+    TO result;
+    memcpy((void*)&result, (void*)&f, sizeof(f));
+    return result;
+}
+
+void safe_strcpy(char* dst, const std::string& str, int buffer_size) {
+    size_t last_char = std::min((size_t)buffer_size - 1, str.size());
+    memcpy(dst, str.c_str(), last_char);
+    dst[last_char] = '\0';
+}
+    )#";
+
+    auto out = fopen(filename.c_str(), "w");
+    fprintf(out, "%s", casts_header.c_str());
+    fclose(out);
+}
+
 int main(int argc, const char** argv) {
     CommonOptionsParser OptionsParser(argc, argv, CppmmCategory);
     ClangTool Tool(OptionsParser.getCompilations(),
@@ -1142,7 +1249,7 @@ int main(int argc, const char** argv) {
         std::string declarations;
         std::string definitions;
 
-        std::set<std::string> includes;
+        std::set<std::string> header_includes;
 
         for (const auto& rec_pair : bind_file.second.records) {
             const auto& record = records[rec_pair.first];
@@ -1158,11 +1265,10 @@ int main(int argc, const char** argv) {
         for (const auto& it_function : files[bind_file.first].functions) {
             const auto& function = it_function.second;
 
-            std::string declaration = function.get_declaration(
-                includes, casts_macro_invocations);
+            std::string declaration =
+                function.get_declaration(header_includes, casts_macro_invocations);
 
-            std::string definition =
-                function.get_definition(declaration);
+            std::string definition = function.get_definition(declaration);
 
             declarations = fmt::format("{}\n{}\n{};\n", declarations,
                                        function.comment, declaration);
@@ -1171,22 +1277,19 @@ int main(int argc, const char** argv) {
         }
 
         for (const auto& record_pair : bind_file.second.records) {
-            // const auto& cls = classes[file_class_name];
-            // const cppmm::Record& record = record_pair.second;
             const cppmm::Record& record = records[record_pair.second->c_name];
-            // fmt::print("{}\n", cls.name);
 
             for (auto method_pair : record.methods) {
                 const auto& method = method_pair.second;
 
                 std::string declaration = record.get_method_declaration(
-                    method, includes, casts_macro_invocations);
-
-                declarations = fmt::format("{}\n{}\n{};\n", declarations,
-                                           method.comment, declaration);
+                    method, header_includes, casts_macro_invocations);
 
                 std::string definition =
                     record.get_method_definition(method, declaration);
+
+                declarations = fmt::format("{}\n{}\n{};\n", declarations,
+                                           method.comment, declaration);
 
                 definitions =
                     fmt::format("{}\n{}\n\n\n", definitions, definition);
@@ -1198,12 +1301,12 @@ int main(int argc, const char** argv) {
         const auto implementation = fmt::format("{}.cpp", root);
 
         // fmt::print("INCLUDES FOR {}\n", root);
-        std::string include_stmts;
-        for (const auto& i : includes) {
+        std::string header_include_stmts;
+        for (const auto& i : header_includes) {
             const std::string include_root = bind_file_root(i);
             if (include_root != root) {
                 // fmt::print("    {}.h\n", include_root);
-                include_stmts +=
+                header_include_stmts +=
                     fmt::format("#include \"{}.h\"\n", include_root);
             }
         }
@@ -1213,106 +1316,12 @@ int main(int argc, const char** argv) {
             casts += s;
         }
 
-        definitions = fmt::format(
-            R"#(//
-#include "{}.h"
-{}
-
-namespace {{
-#include "casts.h"
-
-{}
-#undef CPPMM_DEFINE_POINTER_CASTS
-}}
-
-extern "C" {{
-{}
-}}
-    )#",
-            root, ps::join("\n", bind_file.second.includes), casts,
-            definitions);
-
-        auto out = fopen(implementation.c_str(), "w");
-        fprintf(out, "%s", definitions.c_str());
-
-        out = fopen(header.c_str(), "w");
-
-        declarations = fmt::format(
-            R"#(#pragma once
-
-{}
-
-#ifdef __cplusplus
-extern "C" {{
-#else
-#include <stdbool.h>
-#endif
-
-#if defined(_WIN32) || defined(__CYGWIN__)
-#define CPPMM_ALIGN(x) __declspec(align(x))
-#else
-#define CPPMM_ALIGN(x) __attribute__((aligned(x)))
-#endif
-
-{}
-
-#undef CPPMM_ALIGN
-
-#ifdef __cplusplus
-}}
-#endif
-    )#",
-            include_stmts, declarations);
-
-        fprintf(out, "%s", declarations.c_str());
+        write_header(header, declarations, header_include_stmts);
+        write_implementation(implementation, root, bind_file.second.includes,
+                             casts, definitions);
     }
 
-    std::string casts_implementation = R"#(#pragma once
-#include <string.h>
-// Macro to define short conversion functions between C and C++ API types to
-// save us from eye-gougingly verbose casts everywhere
-#define CPPMM_DEFINE_POINTER_CASTS(CPPTYPE, CTYPE)          \
-CPPTYPE* to_cpp(CTYPE* ptr) {                               \
-    return reinterpret_cast<CPPTYPE*>(ptr);                 \
-}                                                           \
-                                                            \
-const CPPTYPE* to_cpp(const CTYPE* ptr) {                   \
-    return reinterpret_cast<const CPPTYPE*>(ptr);           \
-}                                                           \
-                                                            \
-CTYPE* to_c(CPPTYPE* ptr) {                                 \
-    return reinterpret_cast<CTYPE*>(ptr);                   \
-}                                                           \
-                                                            \
-const CTYPE* to_c(const CPPTYPE* ptr) {                     \
-    return reinterpret_cast<const CTYPE*>(ptr);             \
-}                                                           \
-                                                            \
-
-template <typename TO, typename FROM>
-TO bit_cast(FROM f) {
-    static_assert(sizeof(TO) == sizeof(FROM), "sizes do not match");
-    static_assert(alignof(TO) == alignof(FROM), "alignments do not match");
-
-    TO result;
-    memcpy((void*)&result, (void*)&f, sizeof(f));
-    return result;
-}
-
-void safe_strcpy(char* dst, const std::string& str, int buffer_size) {
-    size_t last_char = std::min((size_t)buffer_size - 1, str.size());
-    memcpy(dst, str.c_str(), last_char);
-    dst[last_char] = '\0';
-}
-    )#";
-
-    auto out = fopen("casts.h", "w");
-    fprintf(out, "%s", casts_implementation.c_str());
-
-    // fmt::print("{}\n", casts_implementation);
-
-    // fmt::print("{}\n", declarations);
-    // fmt::print("{}\n", definitions);
+    write_casts_header("casts.h");
 
     if (opt_warn_unbound) {
         size_t total = 0;
