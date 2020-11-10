@@ -23,6 +23,7 @@ add_executable(cppmm
   type.cpp
   attributes.cpp
   record.cpp
+  function.cpp
   )
 
 target_link_libraries(cppmm clangTooling clangBasic clangASTMatchers fmt)

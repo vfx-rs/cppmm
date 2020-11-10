@@ -1,5 +1,6 @@
 #pragma once
 
+#include <set>
 #include <string>
 #include <vector>
 
@@ -16,7 +17,13 @@ struct Function {
     std::vector<std::string> namespaces;
     std::string cpp_qname;
     std::string c_qname;
-};
 
+    std::string get_function_declaration(
+        std::set<std::string>& includes,
+        std::set<std::string>& casts_macro_invocations) const;
+
+    std::string
+    get_function_definition(const std::string& declaration) const;
+};
 
 }
