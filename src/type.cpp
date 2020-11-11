@@ -1,7 +1,11 @@
 #include <cassert>
+#include <iostream>
 
-#include "type.hpp"
+#include <fmt/format.h>
+
 #include "record.hpp"
+#include "type.hpp"
+
 
 namespace cppmm {
 
@@ -17,4 +21,26 @@ bool Type::is_pod() const {
     assert(false && "TYPE POD FALLTHROUGH");
     return false;
 }
+} // namespace cppmm
+
+namespace fmt {
+
+std::ostream& operator<<(std::ostream& os, const cppmm::TypeKind& kind) {
+    switch (kind) {
+    case cppmm::TypeKind::OpaquePtr:
+        os << "OpaquePtr";
+        break;
+    case cppmm::TypeKind::OpaqueBytes:
+        os << "OpaqueBytes";
+        break;
+    case cppmm::TypeKind::ValueType:
+        os << "ValueType";
+        break;
+    default:
+        os << "Unknown";
+        break;
+    }
+    return os;
 }
+
+} // namespace fmt

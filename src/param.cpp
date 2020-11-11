@@ -1,10 +1,12 @@
-#include <fmt/format.h>
-
-#include "param.hpp"
-#include "namespaces.hpp"
-#include "type.hpp"
-#include "record.hpp"
 #include "enum.hpp"
+#include "namespaces.hpp"
+#include "param.hpp"
+#include "record.hpp"
+#include "type.hpp"
+
+#include "pystring.h"
+
+#include <fmt/format.h>
 
 namespace cppmm {
 std::string Param::create_c_declaration() const {
@@ -75,4 +77,27 @@ std::string Param::create_c_call() const {
     }
     return result;
 }
+} // namespace cppmm
+
+namespace fmt {
+std::ostream& operator<<(std::ostream& os, const cppmm::Param& param) {
+    if (param.qtype.is_const) {
+        os << "const ";
+    }
+    auto& ns = param.qtype.type.namespaces;
+    if (ns.size()) {
+        os << pystring::join("::", ns) << "::";
+    }
+    os << param.qtype.type.name;
+    if (param.qtype.is_ptr) {
+        os << "* ";
+    } else if (param.qtype.is_ref) {
+        os << "& ";
+    } else {
+        os << " ";
+    }
+    os << param.name;
+    return os;
 }
+
+} // namespace fmt

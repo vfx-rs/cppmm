@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <iostream>
 
 #include "type.hpp"
 
@@ -16,4 +17,8 @@ struct Param {
     std::string create_c_call() const;
 };
 
+} // namespace cppmm
+
+namespace fmt {
+std::ostream& operator<<(std::ostream& os, const cppmm::Param& param);
 }

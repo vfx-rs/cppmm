@@ -28,6 +28,8 @@ add_executable(cppmm
   src/enum.cpp
   src/exports.cpp
   src/match_bindings.cpp
+  src/match_decls.cpp
+  src/decls.cpp
   )
 
 target_link_libraries(cppmm clangTooling clangBasic clangASTMatchers fmt)
