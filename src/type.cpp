@@ -6,7 +6,9 @@
 #include "record.hpp"
 #include "type.hpp"
 #include "enum.hpp"
+#include "namespaces.hpp"
 
+#include "pystring.h"
 
 namespace cppmm {
 
@@ -24,6 +26,39 @@ bool Type::is_pod() const {
     assert(false && "TYPE POD FALLTHROUGH");
     return false;
 }
+
+std::string QualifiedType::create_c_declaration() const {
+    std::string result;
+    if (type.name == "basic_string") {
+        if (is_const) {
+            result += "const char*";
+        } else {
+            result += "char*";
+        }
+    } else if (type.name == "string_view") {
+        result += "const char*";
+    } else if (type.name == "const char *") {
+        result += "const char*";
+    } else if (type.name == "void *") {
+        result += "void*";
+    } else {
+        if (is_const) {
+            result += "const ";
+        }
+        if (type.var.is<Enum>()) {
+            result += "int";
+        } else {
+            result += prefix_from_namespaces(type.namespaces, "_") +
+                      type.name;
+            if (is_ptr || is_ref || is_uptr) {
+                result += "*";
+            }
+        }
+    }
+
+    return result;
+}
+
 } // namespace cppmm
 
 namespace fmt {
@@ -42,6 +77,23 @@ std::ostream& operator<<(std::ostream& os, const cppmm::RecordKind& kind) {
     default:
         os << "Unknown";
         break;
+    }
+    return os;
+}
+
+std::ostream& operator<<(std::ostream& os, const cppmm::QualifiedType& qtype) {
+    if (qtype.is_const) {
+        os << "const ";
+    }
+    auto& ns = qtype.type.namespaces;
+    if (ns.size()) {
+        os << pystring::join("::", ns) << "::";
+    }
+    os << qtype.type.name;
+    if (qtype.is_ptr) {
+        os << "*";
+    } else if (qtype.is_ref) {
+        os << "&";
     }
     return os;
 }

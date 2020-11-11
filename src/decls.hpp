@@ -26,6 +26,7 @@ bool is_builtin(const clang::QualType& qt);
 
 bool is_recordpointer(const clang::QualType& qt);
 
+QualifiedType process_qualified_type(const clang::QualType& qt);
 Param process_param_type(const std::string& param_name,
                          const clang::QualType& qt);
 

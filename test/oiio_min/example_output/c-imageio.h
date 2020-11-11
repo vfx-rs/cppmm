@@ -111,13 +111,13 @@ enum OIIO_ImageSpec_SerialFormat {
 ///        IBA::resize                  20   0.24s   (avg  12.18ms)
 ///        IBA::zero                     8   0.66ms  (avg   0.08ms)
 ///
-bool  OIIO_getattribute(const char* name, OIIO_TypeDesc type, void* val);
+bool OIIO_getattribute(const char* name, OIIO_TypeDesc type, void* val);
 
 /// Union of two regions, the smallest region containing both.
-OIIO_ROI  OIIO_roi_union(const OIIO_ROI* A, const OIIO_ROI* B);
+OIIO_ROI OIIO_roi_union(const OIIO_ROI* A, const OIIO_ROI* B);
 
 /// Intersection of two regions.
-OIIO_ROI  OIIO_roi_intersection(const OIIO_ROI* A, const OIIO_ROI* B);
+OIIO_ROI OIIO_roi_intersection(const OIIO_ROI* A, const OIIO_ROI* B);
 
 /// If any of the API routines returned false indicating an error, this
 /// method will return the error string (and clear any error flags).  If
@@ -160,43 +160,43 @@ int OIIO_ImageInput_geterror(const OIIO_ImageInput* self, char* _result_buffer_p
 ///         A `unique_ptr` that will close and free the ImageInput when
 ///         it exits scope or is reset. The pointer will be empty if the
 ///         required writer was not able to be created.
-OIIO_ImageInput*  OIIO_ImageInput_open(const char* filename, const OIIO_ImageSpec* config, OIIO_Filesystem_IOProxy* ioproxy);
+OIIO_ImageInput* OIIO_ImageInput_open(const char* filename, const OIIO_ImageSpec* config, OIIO_Filesystem_IOProxy* ioproxy);
 
 /// Return the name of the format implemented by this class.
-const char*  OIIO_ImageInput_format_name(const OIIO_ImageInput* self);
+const char* OIIO_ImageInput_format_name(const OIIO_ImageInput* self);
 
 /// All() is an alias for the default constructor, which indicates that
 /// it means "all" of the image, or no region restriction.  For example,
 ///     float myfunc (ImageBuf &buf, ROI roi = ROI::All());
 /// Note that this is equivalent to:
 ///     float myfunc (ImageBuf &buf, ROI roi = {});
-OIIO_ROI  OIIO_ROI_All();
+OIIO_ROI OIIO_ROI_All();
 
 /// Total number of pixels in the region.
-unsigned long  OIIO_ROI_npixels(const OIIO_ROI* self);
+unsigned long OIIO_ROI_npixels(const OIIO_ROI* self);
 
 /// Default constructor is an undefined region. Note that this is also
 /// interpreted as All().
-void  OIIO_ROI_default(OIIO_ROI* self);
+void OIIO_ROI_default(OIIO_ROI* self);
 
 /// Number of channels in the region.  Beware -- this defaults to a
 /// huge number, and to be meaningful you must consider
 /// std::min (imagebuf.nchannels(), roi.nchannels()).
-int  OIIO_ROI_nchannels(const OIIO_ROI* self);
+int OIIO_ROI_nchannels(const OIIO_ROI* self);
 
 ///@{
 /// @name Spatial size functions.
 /// The width, height, and depth of the region.
-int  OIIO_ROI_width(const OIIO_ROI* self);
+int OIIO_ROI_width(const OIIO_ROI* self);
 
 
-int  OIIO_ROI_height(const OIIO_ROI* self);
+int OIIO_ROI_height(const OIIO_ROI* self);
 
 /// Is a region defined?
-bool  OIIO_ROI_defined(const OIIO_ROI* self);
+bool OIIO_ROI_defined(const OIIO_ROI* self);
 
 
-int  OIIO_ROI_depth(const OIIO_ROI* self);
+int OIIO_ROI_depth(const OIIO_ROI* self);
 
 
 OIIO_ImageSpec* OIIO_ImageSpec_copy(const OIIO_ImageSpec* other);
@@ -214,7 +214,7 @@ int OIIO_ImageSpec_serialize(const OIIO_ImageSpec* self, int format, int verbose
 /// Adjust the stride values, if set to AutoStride, to be the right
 /// sizes for contiguous data with the given format, channels,
 /// width, height.
-void  OIIO_ImageSpec_auto_stride(long* xstride, long* ystride, long* zstride, long channelsize, int nchannels, int width, int height);
+void OIIO_ImageSpec_auto_stride(long* xstride, long* ystride, long* zstride, long channelsize, int nchannels, int width, int height);
 
 /// Constructs an `ImageSpec` with the given x and y resolution, number
 /// of channels, and pixel data format.
@@ -230,13 +230,13 @@ OIIO_ImageSpec* OIIO_ImageSpec_new_with_dimensions(int xres, int yres, int nchan
 /// Returns the number of bytes comprising each channel of each pixel
 /// (i.e., the size of a single value of the type described by the
 /// `format` field).
-unsigned long  OIIO_ImageSpec_channel_bytes(const OIIO_ImageSpec* self);
+unsigned long OIIO_ImageSpec_channel_bytes(const OIIO_ImageSpec* self);
 
 /// Returns the number of bytes comprising each scanline, i.e.,
 /// `pixel_bytes(native) * width` This will return
 /// `std::numeric_limits<imagesize_t>::max()` in the event of an
 /// overflow where it's not representable in an `imagesize_t`.
-unsigned long  OIIO_ImageSpec_scanline_bytes(const OIIO_ImageSpec* self, bool native);
+unsigned long OIIO_ImageSpec_scanline_bytes(const OIIO_ImageSpec* self, bool native);
 
 /// Constructor: given just the data format, set all other fields to
 /// something reasonable.
@@ -246,26 +246,26 @@ OIIO_ImageSpec* OIIO_ImageSpec_new(OIIO_TypeDesc format);
 /// channels.  Specifically, channel names are set to "R", "G", "B,"
 /// and "A" (up to and including 4 channels, beyond that they are named
 /// "channel*n*".
-void  OIIO_ImageSpec_default_channel_names(OIIO_ImageSpec* self);
+void OIIO_ImageSpec_default_channel_names(OIIO_ImageSpec* self);
 
 
-OIIO_ImageSpec*  OIIO_ImageSpec_assign(OIIO_ImageSpec* self, const OIIO_ImageSpec* other);
+OIIO_ImageSpec* OIIO_ImageSpec_assign(OIIO_ImageSpec* self, const OIIO_ImageSpec* other);
 
 /// Set the data format, and clear any per-channel format information
 /// in `channelformats`.
-void  OIIO_ImageSpec_set_format(OIIO_ImageSpec* self, OIIO_TypeDesc fmt);
+void OIIO_ImageSpec_set_format(OIIO_ImageSpec* self, OIIO_TypeDesc fmt);
 
 /// Add a metadata attribute to `extra_attribs`, with the given name and
 /// data type. The `value` pointer specifies the address of the data to
 /// be copied.
-void  OIIO_ImageSpec_attribute(OIIO_ImageSpec* self, const char* name, OIIO_TypeDesc type, const void* value);
+void OIIO_ImageSpec_attribute(OIIO_ImageSpec* self, const char* name, OIIO_TypeDesc type, const void* value);
 
 /// Return the number of bytes needed for the single specified
 /// channel.  If native is false (default), compute the size of one
 /// channel of `this->format`, but if native is true, compute the size
 /// of the channel in terms of the "native" data format of that
 /// channel as stored in the file.
-unsigned long  OIIO_ImageSpec_channel_bytes_for(const OIIO_ImageSpec* self, int chan, bool native);
+unsigned long OIIO_ImageSpec_channel_bytes_for(const OIIO_ImageSpec* self, int chan, bool native);
 
 
 #undef CPPMM_ALIGN

@@ -44,10 +44,12 @@ struct QualifiedType {
     bool requires_cast = false;
 
     bool is_pod() const { return type.is_pod(); }
+    std::string create_c_declaration() const;
 };
 
 } // namespace cppmm
 
 namespace fmt {
 std::ostream& operator<<(std::ostream& os, const cppmm::RecordKind& kind);
+std::ostream& operator<<(std::ostream& os, const cppmm::QualifiedType& qtype);
 }

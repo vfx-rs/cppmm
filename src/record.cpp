@@ -60,16 +60,16 @@ std::string Record::get_method_declaration(
                                                      param_decls);
     } else {
         std::string ret;
-        if (method.return_type.qtype.type.name == "basic_string" &&
-            !method.return_type.qtype.is_ref &&
-            !method.return_type.qtype.is_ptr) {
+        if (method.return_type.type.name == "basic_string" &&
+            !method.return_type.is_ref &&
+            !method.return_type.is_ptr) {
             ret = "int";
             param_decls.push_back("char* _result_buffer_ptr");
             param_decls.push_back("int _result_buffer_len");
         } else {
             ret = method.return_type.create_c_declaration();
             if (const Record* record =
-                    method.return_type.qtype.type.var.cast_or_null<Record>()) {
+                    method.return_type.type.var.cast_or_null<Record>()) {
                 casts_macro_invocations.insert(record->create_casts());
             }
         }
@@ -158,21 +158,21 @@ Record::get_method_definition(const Method& method,
         }
     } else {
         bool return_string_ref =
-            method.return_type.qtype.type.name == "basic_string" &&
-            method.return_type.qtype.is_ref;
+            method.return_type.type.name == "basic_string" &&
+            method.return_type.is_ref;
         bool return_string_copy =
-            method.return_type.qtype.type.name == "basic_string" &&
-            !method.return_type.qtype.is_ref;
+            method.return_type.type.name == "basic_string" &&
+            !method.return_type.is_ref;
         if (return_string_copy) {
             // need to copy to the out parameters
             body = "    const std::string result = ";
-        } else if (method.return_type.qtype.type.name != "void") {
+        } else if (method.return_type.type.name != "void") {
             body = "    return ";
         } else {
             body = "    ";
         }
 
-        const TypeVariant& return_var = method.return_type.qtype.type.var;
+        const TypeVariant& return_var = method.return_type.type.var;
         bool bitcast_return_type = false;
         if (const Record* record = return_var.cast_or_null<Record>()) {
             bitcast_return_type =
@@ -183,7 +183,7 @@ Record::get_method_definition(const Method& method,
         if (bitcast_return_type) {
             body += fmt::format("bit_cast<{}>(",
                                 return_var.cast<Record>()->c_qname);
-        } else if (method.return_type.qtype.requires_cast) {
+        } else if (method.return_type.requires_cast) {
             body += "to_c(";
         }
         if (method.is_static) {
@@ -193,12 +193,12 @@ Record::get_method_definition(const Method& method,
         }
         body += method.cpp_name;
         body += fmt::format("({})", ps::join(", ", call_params));
-        if (method.return_type.qtype.is_uptr) {
+        if (method.return_type.is_uptr) {
             body += ".release()";
         } else if (return_string_ref) {
             body += ".c_str()";
         }
-        if (method.return_type.qtype.requires_cast || bitcast_return_type) {
+        if (method.return_type.requires_cast || bitcast_return_type) {
             body += ")";
         }
         body += ";";

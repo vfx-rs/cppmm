@@ -9,7 +9,7 @@
 namespace cppmm {
 
 struct Method : public Function {
-    Method(std::string cpp_name, std::string c_name, Param return_type,
+    Method(std::string cpp_name, std::string c_name, QualifiedType return_type,
            std::vector<Param> params, std::string comment,
            std::vector<std::string> namespaces, bool is_const, bool is_static,
            bool is_constructor, bool is_copy_constructor,

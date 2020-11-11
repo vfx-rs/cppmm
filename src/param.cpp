@@ -10,38 +10,7 @@
 
 namespace cppmm {
 std::string Param::create_c_declaration() const {
-    std::string result;
-    if (qtype.type.name == "basic_string") {
-        if (qtype.is_const) {
-            result += "const char*";
-        } else {
-            result += "char*";
-        }
-    } else if (qtype.type.name == "string_view") {
-        result += "const char*";
-    } else if (qtype.type.name == "const char *") {
-        result += "const char*";
-    } else if (qtype.type.name == "void *") {
-        result += "void*";
-    } else {
-        if (qtype.is_const) {
-            result += "const ";
-        }
-        if (qtype.type.var.is<Enum>()) {
-            result += "int";
-        } else {
-            result += prefix_from_namespaces(qtype.type.namespaces, "_") +
-                      qtype.type.name;
-            if (qtype.is_ptr || qtype.is_ref || qtype.is_uptr) {
-                result += "*";
-            }
-        }
-    }
-
-    result += " ";
-    result += name;
-
-    return result;
+    return fmt::format("{} {}", qtype.create_c_declaration(), name);
 }
 
 std::string Param::create_c_call() const {
@@ -83,22 +52,7 @@ std::string Param::create_c_call() const {
 
 namespace fmt {
 std::ostream& operator<<(std::ostream& os, const cppmm::Param& param) {
-    if (param.qtype.is_const) {
-        os << "const ";
-    }
-    auto& ns = param.qtype.type.namespaces;
-    if (ns.size()) {
-        os << pystring::join("::", ns) << "::";
-    }
-    os << param.qtype.type.name;
-    if (param.qtype.is_ptr) {
-        os << "* ";
-    } else if (param.qtype.is_ref) {
-        os << "& ";
-    } else {
-        os << " ";
-    }
-    os << param.name;
+    os << param.qtype << " " << param.name;
     return os;
 }
 
