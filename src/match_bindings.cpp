@@ -101,12 +101,12 @@ void MatchBindingsCallback::handle_record(const CXXRecordDecl* record) {
     }
 
     std::vector<cppmm::AttrDesc> attrs = get_attrs(record);
-    ex_record.kind = cppmm::TypeKind::OpaquePtr;
+    ex_record.kind = cppmm::RecordKind::OpaquePtr;
     for (const auto& attr : attrs) {
         if (attr.kind == cppmm::AttrDesc::Kind::ValueType) {
-            ex_record.kind = cppmm::TypeKind::ValueType;
+            ex_record.kind = cppmm::RecordKind::ValueType;
         } else if (attr.kind == cppmm::AttrDesc::Kind::OpaqueBytes) {
-            ex_record.kind = cppmm::TypeKind::OpaqueBytes;
+            ex_record.kind = cppmm::RecordKind::OpaqueBytes;
         }
     }
     // fmt::print("{} is a {}\n", ex_record.c_qname, ex_record.kind);

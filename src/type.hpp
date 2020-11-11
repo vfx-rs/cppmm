@@ -3,23 +3,34 @@
 #include <string>
 #include <vector>
 
+#include "tagged_pointer.hpp"
+
 namespace cppmm {
 
-enum TypeKind { OpaquePtr = 0, OpaqueBytes = 1, ValueType = 2 };
+enum RecordKind { OpaquePtr = 0, OpaqueBytes = 1, ValueType = 2 };
 
 class Record;
 class Enum;
 class Vec;
+class Builtin {};
+class FuncProto {};
+
+extern Builtin builtin_int;
+
+struct TypeVariant
+    : public TaggedPointer<Builtin, FuncProto, Record, Enum, Vec> {
+    using TaggedPointer::TaggedPointer;
+};
 
 struct Type {
+    template <typename T>
+    Type(const std::string& name, T* t,
+         std::vector<std::string> namespaces = {})
+        : name(name), var(t), namespaces(namespaces) {}
+
     std::string name;
     std::vector<std::string> namespaces = {};
-    bool is_builtin = false;
-    bool is_enum = false;
-    bool is_func_proto = false;
-    Record* record = nullptr;
-    const Enum* enm = nullptr;
-    Vec* vec = nullptr;
+    TypeVariant var;
 
     bool is_pod() const;
 };
@@ -38,5 +49,5 @@ struct QualifiedType {
 } // namespace cppmm
 
 namespace fmt {
-std::ostream& operator<<(std::ostream& os, const cppmm::TypeKind& kind);
+std::ostream& operator<<(std::ostream& os, const cppmm::RecordKind& kind);
 }

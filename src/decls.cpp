@@ -36,7 +36,8 @@ cppmm::Param process_param_type(const std::string& param_name,
 
 cppmm::Record* process_record(const CXXRecordDecl* record) {
     std::string cpp_name = record->getNameAsString();
-    std::vector<std::string> namespaces = cppmm::get_namespaces(record->getParent());
+    std::vector<std::string> namespaces =
+        cppmm::get_namespaces(record->getParent());
 
     const auto c_qname =
         cppmm::prefix_from_namespaces(namespaces, "_") + cpp_name;
@@ -84,10 +85,10 @@ cppmm::Record* process_record(const CXXRecordDecl* record) {
         .c_qname = c_qname,
     };
 
-    if (rec.kind == cppmm::TypeKind::ValueType && !rec.is_pod()) {
+    if (rec.kind == cppmm::RecordKind::ValueType && !rec.is_pod()) {
         fmt::print("ERROR: {} is valuetype but not POD\n", rec.c_qname);
         return nullptr;
-    } else if (rec.kind == cppmm::TypeKind::OpaqueBytes && !rec.is_pod()) {
+    } else if (rec.kind == cppmm::RecordKind::OpaqueBytes && !rec.is_pod()) {
         fmt::print("ERROR: {} is opaquebytes but not POD\n", rec.c_qname);
         return nullptr;
     }
@@ -143,9 +144,6 @@ cppmm::Enum* process_enum(const EnumDecl* enum_decl) {
 
 cppmm::Param process_pointee_type(const std::string& param_name,
                                   const QualType& qt) {
-    cppmm::Param result;
-    result.name = param_name;
-
     if (is_builtin(qt)) {
         std::string name = qt.getTypePtr()
                                ->getUnqualifiedDesugaredType()
@@ -157,17 +155,21 @@ cppmm::Param process_pointee_type(const std::string& param_name,
         if (name == "_Bool") {
             name = "bool";
         }
-        result.qtype.type = cppmm::Type{name, {}, .is_builtin = true};
+        Param result{param_name, cppmm::Type{name, &builtin_int}};
         result.qtype.requires_cast = false;
+        result.qtype.is_const = qt.isConstQualified();
+        return result;
     } else if (qt->isRecordType()) {
         const CXXRecordDecl* crd = qt->getAsCXXRecordDecl();
         if (crd->getNameAsString() == "unique_ptr") {
             const auto* tst = qt->getAs<TemplateSpecializationType>();
-            result =
+            Param result =
                 process_pointee_type(param_name, tst->getArgs()->getAsType());
             result.qtype.is_uptr = true;
-        } else if (crd->getNameAsString() == "vector") {
-
+            result.qtype.is_const = qt.isConstQualified();
+            return result;
+        // } else if (crd->getNameAsString() == "vector") {
+        //     throw std::runtime_error("got vector");
         } else {
             const CXXRecordDecl* crd = qt->getAsCXXRecordDecl();
             cppmm::Record* record_ptr = process_record(crd);
@@ -176,61 +178,54 @@ cppmm::Param process_pointee_type(const std::string& param_name,
                 //            crd->getNameAsString());
             }
             std::string type_name = crd->getNameAsString();
-            result.qtype.type =
-                cppmm::Type{.name = type_name,
-                            .namespaces = cppmm::get_namespaces(
-                                qt->getAsCXXRecordDecl()->getParent()),
-                            .is_builtin = false,
-                            .is_enum = false,
-                            .is_func_proto = false,
-                            .record = record_ptr,
-                            .enm = nullptr};
+            Param result(param_name,
+                         Type{type_name, record_ptr,
+                              cppmm::get_namespaces(
+                                  qt->getAsCXXRecordDecl()->getParent())});
             result.qtype.requires_cast =
                 !(crd->getNameAsString() == "basic_string" ||
                   crd->getNameAsString() == "string_view");
+            result.qtype.is_const = qt.isConstQualified();
+            return result;
         }
     } else if (qt->isEnumeralType()) {
         const auto* enum_decl = qt->getAs<EnumType>()->getDecl();
         const cppmm::Enum* enm = process_enum(enum_decl);
 
-        result.qtype.type = cppmm::Type{.name = enm->cpp_name,
-                                        .namespaces = enm->namespaces,
-                                        .is_builtin = false,
-                                        .is_enum = true,
-                                        .is_func_proto = false,
-                                        .record = nullptr,
-                                        .enm = enm};
+        Param result(param_name, Type{enm->cpp_name, enm, enm->namespaces});
+        result.qtype.is_const = qt.isConstQualified();
+        return result;
     } else {
         fmt::print("Unhandled type: {}\n", qt.getAsString());
         qt->dump();
+        throw std::runtime_error("unahndled type");
     }
-
-    result.qtype.is_const = qt.isConstQualified();
-    return result;
 }
 
 cppmm::Param process_param_type(const std::string& param_name,
                                 const QualType& qt) {
-    cppmm::Param result;
     bool is_ptr = qt->isPointerType();
     bool is_ref = qt->isReferenceType();
 
     if (is_ptr || is_ref) {
-        result = process_pointee_type(param_name, qt->getPointeeType());
+        Param result = process_pointee_type(param_name, qt->getPointeeType());
         result.qtype.is_ptr = is_ptr;
         result.qtype.is_ref = is_ref;
+        return result;
     } else if (is_builtin(qt)) {
-        result = process_pointee_type(param_name, qt);
+        Param result = process_pointee_type(param_name, qt);
+        return result;
     } else if (qt->isRecordType()) {
-        result = process_pointee_type(param_name, qt);
+        Param result = process_pointee_type(param_name, qt);
+        return result;
     } else if (qt->isEnumeralType()) {
-        result = process_pointee_type(param_name, qt);
+        Param result = process_pointee_type(param_name, qt);
+        return result;
     } else {
         fmt::print("ERROR unhandled param type {}\n", qt.getAsString());
         qt->dump();
+        throw std::runtime_error("unahndled type");
     }
-
-    return result;
 }
 
 std::string get_decl_comment(const Decl* decl) {

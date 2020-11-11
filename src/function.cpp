@@ -26,12 +26,13 @@ std::string Function::get_declaration(
 
     std::vector<std::string> param_decls;
     for (const auto& param : params) {
-        if (param.qtype.type.record) {
-            includes.insert(param.qtype.type.record->filename);
-            casts_macro_invocations.insert(
-                param.qtype.type.record->create_casts());
-        } else if (param.qtype.type.enm) {
-            includes.insert(param.qtype.type.enm->filename);
+        if (const Record* record =
+                param.qtype.type.var.cast_or_null<Record>()) {
+            includes.insert(record->filename);
+            casts_macro_invocations.insert(record->create_casts());
+        } else if (const Enum* enm =
+                       param.qtype.type.var.cast_or_null<Enum>()) {
+            includes.insert(enm->filename);
         }
 
         std::string pdecl = param.create_c_declaration();
@@ -46,9 +47,9 @@ std::string Function::get_declaration(
         param_decls.push_back("int _result_buffer_len");
     } else {
         ret = return_type.create_c_declaration();
-        if (return_type.qtype.type.record) {
-            casts_macro_invocations.insert(
-                return_type.qtype.type.record->create_casts());
+        if (const Record* record =
+                return_type.qtype.type.var.cast_or_null<Record>()) {
+            casts_macro_invocations.insert(record->create_casts());
         }
     }
 
@@ -75,14 +76,17 @@ std::string Function::get_definition(const std::string& declaration) const {
         body = "    ";
     }
 
-    bool bitcast_return_type =
-        return_type.qtype.type.record &&
-        (return_type.qtype.type.record->kind == TypeKind::ValueType ||
-         return_type.qtype.type.record->kind == TypeKind::OpaqueBytes);
+    const TypeVariant& return_var = return_type.qtype.type.var;
+    bool bitcast_return_type = false;
+    if (const Record* record = return_var.cast_or_null<Record>()) {
+        bitcast_return_type =
+            (return_var.cast<Record>()->kind == RecordKind::ValueType ||
+             return_var.cast<Record>()->kind == RecordKind::OpaqueBytes);
+    }
 
     if (bitcast_return_type) {
-        body +=
-            fmt::format("bit_cast<{}>(", return_type.qtype.type.record->c_qname);
+        body += fmt::format("bit_cast<{}>(",
+                            return_type.qtype.type.var.cast<Record>()->c_qname);
     } else if (return_type.qtype.requires_cast) {
         body += "to_c(";
     }

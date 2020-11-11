@@ -40,12 +40,13 @@ std::string Record::get_method_declaration(
     std::vector<std::string> param_decls;
 
     for (const auto& param : method.params) {
-        if (param.qtype.type.record) {
-            includes.insert(param.qtype.type.record->filename);
-            casts_macro_invocations.insert(
-                param.qtype.type.record->create_casts());
-        } else if (param.qtype.type.enm) {
-            includes.insert(param.qtype.type.enm->filename);
+        if (const Record* record =
+                param.qtype.type.var.cast_or_null<Record>()) {
+            includes.insert(record->filename);
+            casts_macro_invocations.insert(record->create_casts());
+        } else if (const Enum* enm =
+                       param.qtype.type.var.cast_or_null<Enum>()) {
+            includes.insert(enm->filename);
         }
 
         std::string pdecl = param.create_c_declaration();
@@ -54,7 +55,7 @@ std::string Record::get_method_declaration(
 
     std::string declaration;
 
-    if (method.is_constructor && kind == TypeKind::OpaquePtr) {
+    if (method.is_constructor && kind == RecordKind::OpaquePtr) {
         return get_opaqueptr_constructor_declaration(method.c_qname,
                                                      param_decls);
     } else {
@@ -67,9 +68,9 @@ std::string Record::get_method_declaration(
             param_decls.push_back("int _result_buffer_len");
         } else {
             ret = method.return_type.create_c_declaration();
-            if (method.return_type.qtype.type.record) {
-                casts_macro_invocations.insert(
-                    method.return_type.qtype.type.record->create_casts());
+            if (const Record* record =
+                    method.return_type.qtype.type.var.cast_or_null<Record>()) {
+                casts_macro_invocations.insert(record->create_casts());
             }
         }
 
@@ -104,16 +105,16 @@ Record::get_method_definition(const Method& method,
 
     std::string body;
 
-    if (method.is_constructor && kind == TypeKind::OpaquePtr) {
+    if (method.is_constructor && kind == RecordKind::OpaquePtr) {
         body = get_opaqueptr_constructor_body(call_params);
-    } else if (method.is_constructor &&
-               (kind == TypeKind::ValueType || kind == TypeKind::OpaqueBytes)) {
+    } else if (method.is_constructor && (kind == RecordKind::ValueType ||
+                                         kind == RecordKind::OpaqueBytes)) {
         body = get_valuetype_constructor_body(call_params);
     } else if (method.is_copy_assignment) {
         body = "    *to_cpp(self) = ";
         body += call_params[0] + ";\n    return self;";
     } else if (method.is_operator) {
-        if (kind == TypeKind::OpaquePtr) {
+        if (kind == RecordKind::OpaquePtr) {
             if (call_params.size() == 0) {
                 // unary operator can't work for an opqaue pointer without
                 // allocating
@@ -171,16 +172,17 @@ Record::get_method_definition(const Method& method,
             body = "    ";
         }
 
-        bool bitcast_return_type =
-            method.return_type.qtype.type.record &&
-            (method.return_type.qtype.type.record->kind ==
-                 TypeKind::ValueType ||
-             method.return_type.qtype.type.record->kind ==
-                 TypeKind::OpaqueBytes);
+        const TypeVariant& return_var = method.return_type.qtype.type.var;
+        bool bitcast_return_type = false;
+        if (const Record* record = return_var.cast_or_null<Record>()) {
+            bitcast_return_type =
+                (return_var.cast<Record>()->kind == RecordKind::ValueType ||
+                 return_var.cast<Record>()->kind == RecordKind::OpaqueBytes);
+        }
 
         if (bitcast_return_type) {
             body += fmt::format("bit_cast<{}>(",
-                                method.return_type.qtype.type.record->c_qname);
+                                return_var.cast<Record>()->c_qname);
         } else if (method.return_type.qtype.requires_cast) {
             body += "to_c(";
         }
@@ -212,15 +214,15 @@ Record::get_method_definition(const Method& method,
 
 std::string Record::get_definition() const {
     std::string definitions;
-    if (kind == cppmm::TypeKind::OpaquePtr) {
-    } else if (kind == cppmm::TypeKind::OpaqueBytes) {
+    if (kind == cppmm::RecordKind::OpaquePtr) {
+    } else if (kind == cppmm::RecordKind::OpaqueBytes) {
         definitions += fmt::format("static_assert(sizeof({}) == "
                                    "sizeof({}), \"sizes do not match\");\n",
                                    cpp_qname, c_qname);
         definitions += fmt::format("static_assert(alignof({}) == alignof({}), "
                                    "\"alignments do not match\");\n",
                                    cpp_qname, c_qname);
-    } else if (kind == cppmm::TypeKind::ValueType) {
+    } else if (kind == cppmm::RecordKind::ValueType) {
         definitions += fmt::format("static_assert(sizeof({}) == "
                                    "sizeof({}), \"sizes do not "
                                    "match\");\n",
@@ -245,16 +247,16 @@ std::string Record::get_definition() const {
 std::string
 Record::get_declaration(std::set<std::string>& casts_macro_invocations) const {
     std::string declarations;
-    if (kind == cppmm::TypeKind::OpaquePtr) {
+    if (kind == cppmm::RecordKind::OpaquePtr) {
         declarations += fmt::format("typedef struct {0} {0};\n\n", c_qname);
         casts_macro_invocations.insert(create_casts());
-    } else if (kind == cppmm::TypeKind::OpaqueBytes) {
+    } else if (kind == cppmm::RecordKind::OpaqueBytes) {
         declarations +=
             fmt::format("typedef struct {{ char _private[{}]; }} {} "
                         "CPPMM_ALIGN({});\n",
                         size, c_qname, alignment);
 
-    } else if (kind == cppmm::TypeKind::ValueType) {
+    } else if (kind == cppmm::RecordKind::ValueType) {
         declarations += fmt::format("typedef struct {{\n");
 
         for (const auto& field : fields) {

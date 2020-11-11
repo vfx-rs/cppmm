@@ -13,7 +13,7 @@ struct Record {
     std::string cpp_name;
     std::vector<std::string> namespaces;
     std::string c_name;
-    TypeKind kind;
+    RecordKind kind;
     std::string filename;
     std::vector<cppmm::Param> fields;
     std::unordered_map<std::string, Method> methods;

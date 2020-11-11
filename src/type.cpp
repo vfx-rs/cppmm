@@ -5,16 +5,19 @@
 
 #include "record.hpp"
 #include "type.hpp"
+#include "enum.hpp"
 
 
 namespace cppmm {
 
+Builtin builtin_int{};
+
 bool Type::is_pod() const {
-    if (is_builtin || is_enum || is_func_proto) {
+    if (var.is<Builtin>() || var.is<Enum>() || var.is<FuncProto>()) {
         return true;
     }
 
-    if (record) {
+    if (const Record* record = var.cast_or_null<Record>()) {
         return record->is_pod();
     }
 
@@ -25,15 +28,15 @@ bool Type::is_pod() const {
 
 namespace fmt {
 
-std::ostream& operator<<(std::ostream& os, const cppmm::TypeKind& kind) {
+std::ostream& operator<<(std::ostream& os, const cppmm::RecordKind& kind) {
     switch (kind) {
-    case cppmm::TypeKind::OpaquePtr:
+    case cppmm::RecordKind::OpaquePtr:
         os << "OpaquePtr";
         break;
-    case cppmm::TypeKind::OpaqueBytes:
+    case cppmm::RecordKind::OpaqueBytes:
         os << "OpaqueBytes";
         break;
-    case cppmm::TypeKind::ValueType:
+    case cppmm::RecordKind::ValueType:
         os << "ValueType";
         break;
     default:

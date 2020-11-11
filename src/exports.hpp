@@ -58,7 +58,7 @@ struct ExportedRecord {
     std::string cpp_name;
     std::vector<std::string> namespaces;
     std::string c_name;
-    TypeKind kind;
+    RecordKind kind;
     std::string filename;
     std::string c_qname;
 };

@@ -1,6 +1,6 @@
+#include "param.hpp"
 #include "enum.hpp"
 #include "namespaces.hpp"
-#include "param.hpp"
 #include "record.hpp"
 #include "type.hpp"
 
@@ -27,7 +27,7 @@ std::string Param::create_c_declaration() const {
         if (qtype.is_const) {
             result += "const ";
         }
-        if (qtype.type.enm) {
+        if (qtype.type.var.is<Enum>()) {
             result += "int";
         } else {
             result += prefix_from_namespaces(qtype.type.namespaces, "_") +
@@ -54,21 +54,23 @@ std::string Param::create_c_call() const {
             result = fmt::format("*{}", name);
         }
     } else {
-        if (qtype.type.record &&
-            (qtype.type.record->kind == cppmm::TypeKind::ValueType ||
-             qtype.type.record->kind == cppmm::TypeKind::OpaqueBytes)) {
-            // need to bit-cast this
-            result = fmt::format(
-                "bit_cast<{}>({})",
-                prefix_from_namespaces(qtype.type.record->namespaces, "::") +
-                    qtype.type.name,
-                name);
-        } else if (qtype.type.enm) {
-            result = fmt::format(
-                "({}){}",
-                prefix_from_namespaces(qtype.type.enm->namespaces, "::") +
-                    qtype.type.enm->cpp_name,
-                name);
+        if (const Record* record = qtype.type.var.cast_or_null<Record>()) {
+            if (record->kind == cppmm::RecordKind::ValueType ||
+                record->kind == cppmm::RecordKind::OpaqueBytes) {
+                // need to bit-cast this
+                result = fmt::format(
+                    "bit_cast<{}>({})",
+                    prefix_from_namespaces(record->namespaces, "::") +
+                        qtype.type.name,
+                    name);
+            } else {
+                result = fmt::format("to_cpp({})", name);
+            }
+        } else if (const Enum* enm = qtype.type.var.cast_or_null<Enum>()) {
+            result = fmt::format("({}){}",
+                                 prefix_from_namespaces(enm->namespaces, "::") +
+                                     enm->cpp_name,
+                                 name);
         } else if (qtype.requires_cast) {
             result = fmt::format("to_cpp({})", name);
         } else {

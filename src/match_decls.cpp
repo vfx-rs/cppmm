@@ -87,8 +87,11 @@ void MatchDeclsHandler::handle_function(const FunctionDecl* function) {
     auto& file = cppmm::files[matched_file];
     if (file.functions.find(matched_ex_function->c_name) ==
         file.functions.end()) {
-        file.functions[matched_ex_function->c_name] =
-            process_function(function, *matched_ex_function, namespaces);
+        // file.functions[matched_ex_function->c_name] =
+        //     process_function(function, *matched_ex_function, namespaces);
+        file.functions.insert(std::make_pair(
+            matched_ex_function->c_name,
+            process_function(function, *matched_ex_function, namespaces)));
     }
     // fmt::print("        MATCHED {} {}\n", function->getNameAsString(),
     //            function->getQualifiedNameAsString());
@@ -143,8 +146,9 @@ void MatchDeclsHandler::handle_method(const CXXMethodDecl* method) {
 
     if (record->methods.find(matched_ex_method->c_name) ==
         record->methods.end()) {
-        record->methods[matched_ex_method->c_name] =
-            process_method(method, *matched_ex_method, record);
+        record->methods.insert(
+            std::make_pair(matched_ex_method->c_name,
+                           process_method(method, *matched_ex_method, record)));
     }
 }
 
