@@ -34,8 +34,6 @@ Record* process_record(const clang::CXXRecordDecl* record);
 Enum* process_enum(const clang::EnumDecl* enum_decl);
 Param process_pointee_type(const std::string& param_name,
                            const clang::QualType& qt);
-Param process_param_type(const std::string& param_name,
-                         const clang::QualType& qt);
 Function process_function(const clang::FunctionDecl* function,
                           const ExportedFunction& ex_function,
                           std::vector<std::string> namespaces);

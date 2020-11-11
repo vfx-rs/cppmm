@@ -8,7 +8,7 @@
 namespace cppmm {
 
 struct Param {
-    Param(std::string name, Type type) : name(name), qtype(QualifiedType{type}) {}
+    Param(std::string name, QualifiedType qtype) : name(name), qtype(qtype) {}
 
     std::string name;
     QualifiedType qtype;
