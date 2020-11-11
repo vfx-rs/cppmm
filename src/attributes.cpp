@@ -8,13 +8,13 @@ namespace cppmm {
 
 namespace ps = pystring;
 
-std::optional<AttrDesc> parse_attributes(std::string attr_src) {
+tl::optional<AttrDesc> parse_attributes(std::string attr_src) {
     // fmt::print("Got attr_src {}\n", attr_src);
     std::vector<std::string> toks;
     ps::split(attr_src, toks, ":");
     // fmt::print("toks: [{}]\n", ps::join(", ", toks));
     if (toks.size() == 0 || toks[0] != "cppmm") {
-        return std::nullopt;
+        return tl::nullopt;
     }
 
     if (toks[1] == "ignore") {
@@ -33,7 +33,7 @@ std::optional<AttrDesc> parse_attributes(std::string attr_src) {
 
     fmt::print("Warning Could not parse attribute '{}'\n", attr_src);
 
-    return std::nullopt;
+    return tl::nullopt;
 }
 
 }

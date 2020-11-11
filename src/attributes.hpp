@@ -2,7 +2,7 @@
 
 #include <string>
 #include <vector>
-#include <optional>
+#include "optional.hpp"
 
 
 namespace cppmm {
@@ -21,5 +21,5 @@ struct AttrDesc {
     Kind kind;
 };
 
-std::optional<AttrDesc> parse_attributes(std::string attr_src);
+tl::optional<AttrDesc> parse_attributes(std::string attr_src);
 }
