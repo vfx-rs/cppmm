@@ -3,6 +3,8 @@
 #include <vector>
 #include <string>
 
+#include <clang/AST/DeclCXX.h>
+
 namespace cppmm {
 
 void add_namespace_rename(const std::string& from, const std::string& to);
@@ -15,4 +17,6 @@ prefix_from_namespaces(const std::vector<std::string>& cpp_namespaces,
 
 bool match_namespaces(const std::vector<std::string>& a,
                       const std::vector<std::string>& b);
+
+std::vector<std::string> get_namespaces(const clang::DeclContext* parent);
 }

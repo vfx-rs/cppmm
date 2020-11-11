@@ -32,6 +32,8 @@
 #include "param.hpp"
 #include "record.hpp"
 #include "type.hpp"
+#include "exports.hpp"
+#include "match_bindings.hpp"
 
 using namespace clang::tooling;
 using namespace llvm;
@@ -60,115 +62,7 @@ struct File {
     std::unordered_map<std::string, Record> records;
 };
 
-struct ExportedFunction {
-    ExportedFunction(const FunctionDecl* function, std::vector<AttrDesc> attrs,
-                     std::vector<std::string> namespaces = {})
-        : attrs(attrs), namespaces(namespaces) {
-        function = function->getCanonicalDecl();
-        cpp_name = function->getNameAsString();
-        return_type =
-            function->getReturnType().getCanonicalType().getAsString();
-        for (const auto& p : function->parameters()) {
-            params.push_back(p->getType().getCanonicalType().getAsString());
-        }
-        is_static = function->isStatic();
-
-        c_name = cpp_name;
-        for (const auto& attr : attrs) {
-            if (attr.kind == AttrDesc::Kind::Rename) {
-                c_name = attr.params;
-            }
-        }
-    }
-
-    bool is_ignored() const {
-        for (const auto& attr : attrs) {
-            if (attr.kind == AttrDesc::Kind::Ignore)
-                return true;
-        }
-        return false;
-    }
-
-    bool is_manual() const {
-        for (const auto& attr : attrs) {
-            if (attr.kind == AttrDesc::Kind::Manual)
-                return true;
-        }
-        return false;
-    }
-
-    std::string cpp_name;
-    std::string c_name; //< may be different if we rename it
-    std::string return_type;
-    // vector of canonical typenames that are this method's parameters.
-    std::vector<std::string> params;
-    std::vector<AttrDesc> attrs;
-    std::vector<std::string> namespaces; //< only used for free functions (ugh)
-    bool is_static = false;
-};
-
-struct ExportedMethod : public ExportedFunction {
-    ExportedMethod(const CXXMethodDecl* method, std::vector<AttrDesc> attrs)
-        : ExportedFunction(dyn_cast<FunctionDecl>(method), attrs) {
-        is_const = method->isConst();
-    }
-
-    bool is_const = false;
-};
-
-struct ExportedRecord {
-    std::string cpp_name;
-    std::vector<std::string> namespaces;
-    std::string c_name;
-    TypeKind kind;
-    std::string filename;
-    std::string c_qname;
-};
-
-struct ExportedEnum {
-    std::string cpp_name;
-    std::vector<std::string> namespaces;
-    std::string c_name;
-    std::string filename;
-    std::string c_qname;
-};
-
-bool operator==(const ExportedFunction& a, const ExportedFunction& b) {
-    return a.cpp_name == b.cpp_name && a.return_type == b.return_type &&
-           a.params == b.params && a.is_static == b.is_static &&
-           match_namespaces(a.namespaces, b.namespaces);
-}
-
-bool operator==(const ExportedMethod& a, const ExportedMethod& b) {
-    return a.cpp_name == b.cpp_name && a.return_type == b.return_type &&
-           a.params == b.params && a.is_const == b.is_const &&
-           a.is_static == b.is_static;
-}
-
-struct ExportedClass {
-    std::string name;
-    std::string filename;
-    std::vector<std::string> namespaces;
-    std::vector<ExportedMethod> methods;
-    std::vector<ExportedMethod> rejected_methods;
-};
-
-struct ExportedFile {
-    std::string name;
-    std::vector<std::string> classes;
-    std::vector<std::string> includes;
-    std::vector<ExportedFunction> functions;
-    std::vector<ExportedFunction> rejected_functions;
-    std::unordered_map<std::string, ExportedRecord*> records;
-    std::unordered_map<std::string, ExportedEnum*> enums;
-};
-
 } // namespace cppmm
-
-std::unordered_map<std::string, cppmm::ExportedFile> ex_files;
-std::unordered_map<std::string, cppmm::ExportedClass> ex_classes;
-std::unordered_map<std::string, cppmm::ExportedRecord> ex_records;
-std::unordered_map<std::string, cppmm::ExportedEnum> ex_enums;
 
 // std::unordered_map<std::string, cppmm::Class> classes;
 std::unordered_map<std::string, cppmm::File> files;
@@ -189,36 +83,12 @@ std::string qualified_type_name(const cppmm::Type& type) {
     return cppmm::prefix_from_namespaces(type.namespaces, "::") + type.name;
 }
 
-std::vector<std::string> get_namespaces(const DeclContext* parent) {
-    std::vector<std::string> result;
-
-    while (parent) {
-        if (parent->isNamespace()) {
-            const NamespaceDecl* ns = static_cast<const NamespaceDecl*>(parent);
-            if (ns->getNameAsString() == "cppmm_bind") {
-                break;
-            }
-            result.push_back(ns->getNameAsString());
-            parent = parent->getParent();
-        } else if (parent->isRecord()) {
-            const RecordDecl* rd = static_cast<const RecordDecl*>(parent);
-            result.push_back(rd->getNameAsString());
-            parent = parent->getParent();
-        } else {
-            break;
-        }
-    }
-
-    std::reverse(result.begin(), result.end());
-    return result;
-}
-
 cppmm::Param process_param_type(const std::string& param_name,
                                 const QualType& qt);
 
 cppmm::Record* process_record(const CXXRecordDecl* record) {
     std::string cpp_name = record->getNameAsString();
-    std::vector<std::string> namespaces = get_namespaces(record->getParent());
+    std::vector<std::string> namespaces = cppmm::get_namespaces(record->getParent());
 
     const auto c_qname =
         cppmm::prefix_from_namespaces(namespaces, "_") + cpp_name;
@@ -227,8 +97,8 @@ cppmm::Record* process_record(const CXXRecordDecl* record) {
         return &records[c_qname];
     }
 
-    auto it_ex_record = ex_records.find(c_qname);
-    if (it_ex_record == ex_records.end()) {
+    auto it_ex_record = cppmm::ex_records.find(c_qname);
+    if (it_ex_record == cppmm::ex_records.end()) {
         // fmt::print("WARNING: record '{}' has no export definition\n",
         // c_name);
         return nullptr;
@@ -283,7 +153,7 @@ cppmm::Record* process_record(const CXXRecordDecl* record) {
 cppmm::Enum* process_enum(const EnumDecl* enum_decl) {
     std::string cpp_name = enum_decl->getNameAsString();
     std::vector<std::string> namespaces =
-        get_namespaces(enum_decl->getParent());
+        cppmm::get_namespaces(enum_decl->getParent());
     const auto c_name = cpp_name;
     const auto cpp_qname =
         cppmm::prefix_from_namespaces(namespaces, "::") + cpp_name;
@@ -294,8 +164,8 @@ cppmm::Enum* process_enum(const EnumDecl* enum_decl) {
         return &enums[c_qname];
     }
 
-    auto it_ex_enum = ex_enums.find(c_qname);
-    if (it_ex_enum == ex_enums.end()) {
+    auto it_ex_enum = cppmm::ex_enums.find(c_qname);
+    if (it_ex_enum == cppmm::ex_enums.end()) {
         // fmt::print("WARNING: enum '{}' has no export definition\n",
         // c_qname);
         return nullptr;
@@ -360,7 +230,7 @@ cppmm::Param process_pointee_type(const std::string& param_name,
             std::string type_name = crd->getNameAsString();
             result.qtype.type =
                 cppmm::Type{.name = type_name,
-                            .namespaces = get_namespaces(
+                            .namespaces = cppmm::get_namespaces(
                                 qt->getAsCXXRecordDecl()->getParent()),
                             .is_builtin = false,
                             .is_enum = false,
@@ -470,43 +340,6 @@ std::ostream& operator<<(std::ostream& os, const cppmm::Method& method) {
     }
     return os;
 }
-
-std::ostream& operator<<(std::ostream& os,
-                         const cppmm::ExportedFunction& method) {
-    if (method.is_static) {
-        os << "static ";
-    }
-    auto ns = cppmm::prefix_from_namespaces(method.namespaces, "::");
-    os << "auto " << ns << method.cpp_name << "("
-       << ps::join(", ", method.params) << ") -> " << method.return_type;
-    return os;
-}
-
-std::ostream& operator<<(std::ostream& os,
-                         const cppmm::ExportedMethod& method) {
-    if (method.is_static) {
-        os << "static ";
-    }
-    os << "auto " << method.cpp_name << "(" << ps::join(", ", method.params)
-       << ") -> " << method.return_type;
-    if (method.is_const) {
-        os << " const";
-    }
-    return os;
-}
-
-std::ostream& operator<<(std::ostream& os, const cppmm::ExportedRecord& type) {
-    os << "struct " << type.c_name;
-    if (type.kind == cppmm::TypeKind::OpaquePtr) {
-        os << " //< opaque ptr";
-    } else if (type.kind == cppmm::TypeKind::OpaqueBytes) {
-        os << " //< opaque bytes";
-    } else if (type.kind == cppmm::TypeKind::ValueType) {
-        os << " //< value type";
-    }
-    return os;
-}
-
 } // namespace fmt
 
 std::string get_decl_comment(const Decl* decl) {
@@ -636,7 +469,7 @@ class CppmmMatchHandler : public MatchFinder::MatchCallback {
 
     void handle_function(const FunctionDecl* function) {
         // convert this method so we can match it against our stored ones
-        auto namespaces = get_namespaces(function->getParent());
+        auto namespaces = cppmm::get_namespaces(function->getParent());
         const auto this_ex_function =
             cppmm::ExportedFunction(function, {}, namespaces);
 
@@ -645,7 +478,7 @@ class CppmmMatchHandler : public MatchFinder::MatchCallback {
         const cppmm::ExportedFunction* matched_ex_function = nullptr;
         std::string matched_file;
         bool rejected = true;
-        for (const auto& ex_file : ex_files) {
+        for (const auto& ex_file : cppmm::ex_files) {
             for (const auto& ex_function : ex_file.second.functions) {
                 if (this_ex_function.cpp_name == ex_function.cpp_name &&
                     cppmm::match_namespaces(this_ex_function.namespaces,
@@ -674,7 +507,7 @@ class CppmmMatchHandler : public MatchFinder::MatchCallback {
         // store the rejected function on the class so we can warn that we
         // didn't find a match
         if (rejected) {
-            ex_files[matched_file].rejected_functions.push_back(
+            cppmm::ex_files[matched_file].rejected_functions.push_back(
                 this_ex_function);
         }
 
@@ -705,8 +538,8 @@ class CppmmMatchHandler : public MatchFinder::MatchCallback {
             abort();
         }
 
-        auto it_class = ex_classes.find(record->cpp_name);
-        if (it_class == ex_classes.end()) {
+        auto it_class = cppmm::ex_classes.find(record->cpp_name);
+        if (it_class == cppmm::ex_classes.end()) {
             return;
         }
 
@@ -758,7 +591,7 @@ class CppmmConsumer : public ASTConsumer {
 public:
     explicit CppmmConsumer(ASTContext* context) {
         // match all record (custom type) declarations in all files
-        for (const auto& ex_file : ex_files) {
+        for (const auto& ex_file : cppmm::ex_files) {
             for (const auto& record : ex_file.second.records) {
                 DeclarationMatcher record_decl_matcher =
                     cxxRecordDecl(hasName(record.second->cpp_name),
@@ -770,7 +603,7 @@ public:
             }
         }
 
-        for (const auto& ex_enum : ex_enums) {
+        for (const auto& ex_enum : cppmm::ex_enums) {
             DeclarationMatcher enum_decl_matcher =
                 enumDecl(
                     hasName(ex_enum.second.cpp_name),
@@ -780,7 +613,7 @@ public:
             _match_finder.addMatcher(enum_decl_matcher, &_handler);
         }
 
-        for (const auto& input_class : ex_classes) {
+        for (const auto& input_class : cppmm::ex_classes) {
             // Match all class methods that are NOT in the cppmm_bind
             // namespace (or we'll get duplicates)
             DeclarationMatcher method_decl_matcher =
@@ -811,232 +644,6 @@ public:
     CreateASTConsumer(CompilerInstance& compiler, StringRef in_file) {
         return std::unique_ptr<ASTConsumer>(
             new CppmmConsumer(&compiler.getASTContext()));
-    }
-};
-
-std::vector<cppmm::AttrDesc> get_attrs(const Decl* decl) {
-    std::vector<cppmm::AttrDesc> attrs;
-    if (decl->hasAttrs()) {
-        ASTContext& ctx = decl->getASTContext();
-        for (const auto& attr : decl->attrs()) {
-            const AnnotateAttr* ann = cast<const AnnotateAttr>(attr);
-            if (ann) {
-                if (auto opt =
-                        cppmm::parse_attributes(ann->getAnnotation().str())) {
-                    attrs.push_back(*opt);
-                }
-            }
-        }
-    }
-
-    return attrs;
-}
-
-class MatchExportsCallback : public MatchFinder::MatchCallback {
-    virtual void run(const MatchFinder::MatchResult& result) {
-        if (const CXXRecordDecl* record =
-                result.Nodes.getNodeAs<CXXRecordDecl>("recordDecl")) {
-            handle_record(record);
-        } else if (const EnumDecl* enum_decl =
-                       result.Nodes.getNodeAs<EnumDecl>("enumDecl")) {
-            handle_enum(enum_decl);
-        } else if (const CXXMethodDecl* method =
-                       result.Nodes.getNodeAs<CXXMethodDecl>("methodDecl")) {
-            handle_method(method);
-        } else if (const FunctionDecl* function =
-                       result.Nodes.getNodeAs<FunctionDecl>("functionDecl")) {
-            handle_function(function);
-        }
-    }
-
-    void handle_enum(const EnumDecl* enum_decl) {
-        const auto ns = get_namespaces(enum_decl->getParent());
-        std::vector<std::pair<std::string, uint64_t>> enumerators;
-        // for (const auto& ecd : enum_decl->enumerators()) {
-        //     enumerators.push_back(std::make_pair<std::string, uint64_t>(
-        //         ecd->getNameAsString(),
-        //         ecd->getInitVal().getLimitedValue()));
-        // }
-
-        ASTContext& ctx = enum_decl->getASTContext();
-        SourceManager& sm = ctx.getSourceManager();
-        const auto& loc = enum_decl->getLocation();
-        std::string filename = sm.getFilename(loc);
-
-        cppmm::ExportedEnum ex_enum;
-        ex_enum.cpp_name = enum_decl->getNameAsString();
-        ex_enum.c_name = ex_enum.cpp_name;
-        ex_enum.c_qname =
-            cppmm::prefix_from_namespaces(ns, "_") + ex_enum.c_name;
-
-        // fmt::print("Found enum: {}\n", ex_enum.c_qname);
-        ex_enum.namespaces = ns;
-        ex_enum.filename = filename;
-
-        if (ex_enums.find(ex_enum.c_qname) != ex_enums.end()) {
-            fmt::print("WARNING: Ignoring duplicate definition for {}\n",
-                       ex_enum.c_qname);
-            return;
-        }
-
-        ex_enums[ex_enum.c_qname] = ex_enum;
-
-        if (ex_files.find(filename) == ex_files.end()) {
-            ex_files[filename] = {};
-        }
-
-        auto& ex_file = ex_files[filename];
-        if (ex_file.enums.find(ex_enum.c_qname) == ex_file.enums.end()) {
-            ex_file.enums[ex_enum.c_qname] = &ex_enums[ex_enum.c_qname];
-            // fmt::print("GOT TYPE: {}\n", ex_record);
-        }
-    }
-
-    void handle_record(const CXXRecordDecl* record) {
-        cppmm::ExportedRecord ex_record;
-
-        ex_record.cpp_name = record->getNameAsString();
-        ex_record.c_name = ex_record.cpp_name;
-        ex_record.namespaces = get_namespaces(record->getParent());
-        ex_record.c_qname =
-            cppmm::prefix_from_namespaces(ex_record.namespaces, "_") +
-            ex_record.c_name;
-
-        if (ex_records.find(ex_record.c_qname) != ex_records.end()) {
-            fmt::print("WARNING: Ignoring duplicate definition for {}\n",
-                       ex_record.c_qname);
-            return;
-        }
-
-        std::vector<cppmm::AttrDesc> attrs = get_attrs(record);
-        ex_record.kind = cppmm::TypeKind::OpaquePtr;
-        for (const auto& attr : attrs) {
-            if (attr.kind == cppmm::AttrDesc::Kind::ValueType) {
-                ex_record.kind = cppmm::TypeKind::ValueType;
-            } else if (attr.kind == cppmm::AttrDesc::Kind::OpaqueBytes) {
-                ex_record.kind = cppmm::TypeKind::OpaqueBytes;
-            }
-        }
-        // fmt::print("{} is a {}\n", ex_record.c_qname, ex_record.kind);
-
-        // fmt::print("record {}\n", ex_record.cpp_name);
-        // record->dump();
-        ASTContext& ctx = record->getASTContext();
-        SourceManager& sm = ctx.getSourceManager();
-        const auto& loc = record->getLocation();
-        std::string filename = sm.getFilename(loc);
-        // fmt::print("    {}:{}:{}\n", filename, sm.getSpellingLineNumber(loc),
-        //            sm.getSpellingColumnNumber(loc));
-
-        ex_record.filename = filename;
-
-        ex_records[ex_record.c_qname] = ex_record;
-        cppmm::ExportedRecord* ex_record_ptr = &ex_records[ex_record.c_qname];
-
-        if (ex_files.find(filename) == ex_files.end()) {
-            ex_files[filename] = {};
-        }
-
-        auto& ex_file = ex_files[filename];
-        if (ex_file.records.find(ex_record.c_qname) == ex_file.records.end()) {
-            ex_file.records[ex_record.c_qname] = ex_record_ptr;
-            // fmt::print("GOT TYPE: {}\n", ex_record);
-        }
-    }
-
-    void handle_function(const FunctionDecl* function) {
-        // fmt::print("GOT FUNCTION: {}\n", function->getNameAsString());
-        std::vector<cppmm::AttrDesc> attrs = get_attrs(function);
-
-        // figure out which file we're in
-        ASTContext& ctx = function->getASTContext();
-        SourceManager& sm = ctx.getSourceManager();
-        std::string filename = sm.getFilename(function->getBeginLoc());
-
-        auto namespaces = get_namespaces(function->getParent());
-
-        cppmm::ExportedFunction ex_function(function, attrs, namespaces);
-
-        if (ex_files.find(filename) == ex_files.end()) {
-            ex_files[filename] = {};
-        }
-        ex_files[filename].functions.push_back(ex_function);
-    }
-
-    void handle_method(const CXXMethodDecl* method) {
-        // If there are attributes, parse them looking for cppmm annotations
-        std::vector<cppmm::AttrDesc> attrs = get_attrs(method);
-        cppmm::ExportedMethod ex_method(method, attrs);
-        const auto class_name = method->getParent()->getNameAsString();
-
-        // check if we've seen the class this method belongs to before, and
-        // if not process it
-        if (ex_classes.find(class_name) == ex_classes.end()) {
-            ASTContext& ctx = method->getASTContext();
-            SourceManager& sm = ctx.getSourceManager();
-
-            std::string filename = sm.getFilename(method->getBeginLoc());
-
-            auto namespaces = get_namespaces(method->getParent()->getParent());
-            ex_classes[class_name] =
-                cppmm::ExportedClass{class_name, filename, namespaces, {}};
-
-            if (ex_files.find(filename) == ex_files.end()) {
-                ex_files[filename] = {};
-            }
-            ex_files[filename].classes.push_back(class_name);
-        }
-
-        // store this method signiature to match against in the second pass
-        ex_classes[class_name].methods.push_back(ex_method);
-    }
-};
-
-class MatchExportsConsumer : public ASTConsumer {
-    MatchFinder _match_finder;
-    MatchExportsCallback _handler;
-
-public:
-    explicit MatchExportsConsumer(ASTContext* context) {
-        // match all record declrations in the cppmm_bind namespace
-        DeclarationMatcher enum_decl_matcher =
-            enumDecl(hasAncestor(namespaceDecl(hasName("cppmm_bind"))),
-                     unless(isImplicit()))
-                .bind("enumDecl");
-        _match_finder.addMatcher(enum_decl_matcher, &_handler);
-
-        // match all record declrations in the cppmm_bind namespace
-        DeclarationMatcher record_decl_matcher =
-            cxxRecordDecl(hasAncestor(namespaceDecl(hasName("cppmm_bind"))),
-                          unless(isImplicit()))
-                .bind("recordDecl");
-        _match_finder.addMatcher(record_decl_matcher, &_handler);
-
-        // match all method declrations in the cppmm_bind namespace
-        DeclarationMatcher method_decl_matcher =
-            cxxMethodDecl(hasAncestor(namespaceDecl(hasName("cppmm_bind"))))
-                .bind("methodDecl");
-        _match_finder.addMatcher(method_decl_matcher, &_handler);
-
-        // match all function declarations
-        DeclarationMatcher function_decl_matcher =
-            functionDecl(hasAncestor(namespaceDecl(hasName("cppmm_bind"))),
-                         unless(hasAncestor(recordDecl())))
-                .bind("functionDecl");
-        _match_finder.addMatcher(function_decl_matcher, &_handler);
-    }
-
-    virtual void HandleTranslationUnit(ASTContext& context) {
-        _match_finder.matchAST(context);
-    }
-};
-
-class MatchExportsAction : public ASTFrontendAction {
-public:
-    virtual std::unique_ptr<ASTConsumer>
-    CreateASTConsumer(CompilerInstance& compiler, StringRef in_file) {
-        return std::unique_ptr<ASTConsumer>(
-            new MatchExportsConsumer(&compiler.getASTContext()));
     }
 };
 
@@ -1199,8 +806,8 @@ int main(int argc, const char** argv) {
     for (const auto& src : OptionsParser.getSourcePathList()) {
         const auto src_path = ps::os::path::join(cwd, src);
         const auto includes = parse_file_includes(src_path);
-        ex_files[src_path] = {};
-        ex_files[src_path].includes = includes;
+        cppmm::ex_files[src_path] = {};
+        cppmm::ex_files[src_path].includes = includes;
     }
 
     // Get namespace renames from command-line options
@@ -1215,7 +822,7 @@ int main(int argc, const char** argv) {
     //--------------------------------------------------------------------------
     // First pass - find all declarations in namespace cppmm_bind that will
     // tell us what we want to bind fmt::print("1st pass ----------\n");
-    auto match_exports_action = newFrontendActionFactory<MatchExportsAction>();
+    auto match_exports_action = newFrontendActionFactory<cppmm::MatchBindingsAction>();
     int result = Tool.run(match_exports_action.get());
 
     // for (const auto& ex_file : ex_files) {
@@ -1245,7 +852,7 @@ int main(int argc, const char** argv) {
     // bindings we'll generate one file of bindings for each file of input,
     // and stick all the bindings in that output, together with all the
     // necessary includes
-    for (const auto& bind_file : ex_files) {
+    for (const auto& bind_file : cppmm::ex_files) {
 
         std::string declarations;
         std::string definitions;
@@ -1326,14 +933,14 @@ int main(int argc, const char** argv) {
 
     if (opt_warn_unbound) {
         size_t total = 0;
-        for (const auto& ex_class : ex_classes) {
+        for (const auto& ex_class : cppmm::ex_classes) {
             total += ex_class.second.rejected_methods.size();
         }
         if (total != 0) {
             fmt::print(
                 "The following methods were not bound, ignored or manually "
                 "overriden:\n");
-            for (const auto& ex_class : ex_classes) {
+            for (const auto& ex_class : cppmm::ex_classes) {
                 if (ex_class.second.rejected_methods.size()) {
                     fmt::print("{}\n", ex_class.second.name);
                     for (const auto& rejected_method :

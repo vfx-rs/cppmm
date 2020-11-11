@@ -6,6 +6,7 @@
 
 #include "namespaces.hpp"
 
+
 namespace cppmm {
 
 namespace ps = pystring;
@@ -51,6 +52,30 @@ bool match_namespaces(const std::vector<std::string>& a,
         }
     }
     return true;
+}
+
+std::vector<std::string> get_namespaces(const clang::DeclContext* parent) {
+    std::vector<std::string> result;
+
+    while (parent) {
+        if (parent->isNamespace()) {
+            const clang::NamespaceDecl* ns = static_cast<const clang::NamespaceDecl*>(parent);
+            if (ns->getNameAsString() == "cppmm_bind") {
+                break;
+            }
+            result.push_back(ns->getNameAsString());
+            parent = parent->getParent();
+        } else if (parent->isRecord()) {
+            const clang::RecordDecl* rd = static_cast<const clang::RecordDecl*>(parent);
+            result.push_back(rd->getNameAsString());
+            parent = parent->getParent();
+        } else {
+            break;
+        }
+    }
+
+    std::reverse(result.begin(), result.end());
+    return result;
 }
 
 }
