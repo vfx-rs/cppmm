@@ -186,7 +186,9 @@ void {0}_dtor(const {0}* vec);
 void {0}_get(const {0}* vec, int index, {1}* element);
 void {0}_set({0}* vec, int index, {1}* element);
 int {0}_size(const {0}* vec);
-{1}* {0}_data({0}* vec);)#",
+{1}* {0}_data({0}* vec);
+
+)#",
         vec.c_qname, vec.element_type.type.get_c_qname());
 }
 
@@ -227,7 +229,9 @@ int {0}_size(const {0}* vec) {{
 
 {1}* {0}_data({0}* vec) {{
     return to_c(to_cpp(vec)->data());
-}})#",
+}}
+
+)#",
         vec.c_qname,                            //< 0: C vector name
         vec.element_type.type.get_c_qname(),    //< 1: C element name
         vec.element_type.type.get_cpp_qname()); //< 2: C++ element
@@ -249,10 +253,10 @@ extern "C" {
 #endif
 
 
-typedef struct cppmm_Vector_string cppmm_Vector_string;
+typedef struct cppmm_string_vector cppmm_string_vector;
 
-const char* cppmm_Vector_string_get(const cppmm_Vector_string* vec, int index);
-int cppmm_Vector_string_size(const cppmm_Vector_string* vec);
+const char* cppmm_string_vector_get(const cppmm_string_vector* vec, int index);
+int cppmm_string_vector_size(const cppmm_string_vector* vec);
 
 
 #ifdef __cplusplus
@@ -274,7 +278,7 @@ void write_containers_implementation(const std::string& filename) {
 namespace {
 #include "casts.h"
 
-CPPMM_DEFINE_POINTER_CASTS(std::vector<std::string>, cppmm_Vector_string);
+CPPMM_DEFINE_POINTER_CASTS(std::vector<std::string>, cppmm_string_vector);
 
 
 #undef CPPMM_DEFINE_POINTER_CASTS
@@ -282,11 +286,11 @@ CPPMM_DEFINE_POINTER_CASTS(std::vector<std::string>, cppmm_Vector_string);
 
 extern "C" {
 
-void cppmm_Vector_string_get(const cppmm_Vector_string* vec, int index) {
+void cppmm_string_vector_get(const cppmm_string_vector* vec, int index) {
     return *to_cpp(vec))[index].c_str();
 }
 
-int cppmm_Vector_string_size(const cppmm_Vector_string* vec) {
+int cppmm_string_vector_size(const cppmm_string_vector* vec) {
     return to_cpp(vec)->size();
 }
 

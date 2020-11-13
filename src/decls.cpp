@@ -143,10 +143,13 @@ Enum* process_enum(const EnumDecl* enum_decl) {
 }
 
 Vector* process_vector(const QualifiedType& element_type) {
-    std::string ename = element_type.type.name;
-    if (ename == "basic_string")
-        ename = "string";
-    std::string c_qname = fmt::format("cppmm_Vector_{}", ename);
+    std::string ename;
+    if (ename == "basic_string") {
+        ename = "cppmm_string";
+    } else {
+        ename = element_type.type.get_c_qname();
+    }
+    std::string c_qname = fmt::format("{}_vector", ename);
     auto it_vec = vectors.find(c_qname);
     if (it_vec != vectors.end()) {
         return &it_vec->second;
