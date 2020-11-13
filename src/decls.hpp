@@ -19,10 +19,15 @@ struct File {
     std::unordered_map<std::string, Record> records;
 };
 
-extern std::unordered_map<std::string, cppmm::File> files;
-extern std::unordered_map<std::string, cppmm::Record> records;
-extern std::unordered_map<std::string, cppmm::Enum> enums;
-extern std::unordered_map<std::string, cppmm::Vector> vectors;
+using FileMap = std::unordered_map<std::string, File>;
+using RecordMap = std::unordered_map<std::string, Record>;
+using EnumMap = std::unordered_map<std::string, Enum>;
+using VectorMap = std::unordered_map<std::string, Vector>;
+
+extern FileMap files;
+extern RecordMap records;
+extern EnumMap enums;
+extern VectorMap vectors;
 
 bool is_builtin(const clang::QualType& qt);
 

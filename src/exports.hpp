@@ -89,10 +89,15 @@ struct ExportedFile {
     std::unordered_map<std::string, ExportedEnum*> enums;
 };
 
-extern std::unordered_map<std::string, ExportedFile> ex_files;
-extern std::unordered_map<std::string, ExportedClass> ex_classes;
-extern std::unordered_map<std::string, ExportedRecord> ex_records;
-extern std::unordered_map<std::string, ExportedEnum> ex_enums;
+using ExportedFileMap = std::unordered_map<std::string, ExportedFile>;
+using ExportedClassMap = std::unordered_map<std::string, ExportedClass>;
+using ExportedRecordMap = std::unordered_map<std::string, ExportedRecord>;
+using ExportedEnumMap = std::unordered_map<std::string, ExportedEnum>;
+
+extern ExportedFileMap ex_files;
+extern ExportedClassMap ex_classes;
+extern ExportedRecordMap ex_records;
+extern ExportedEnumMap ex_enums;
 
 // ExportedRecord* find_ex_record(const std::string& c_qname);
 // ExportedRecord* insert_ex_record(const std::string& c_qname,
