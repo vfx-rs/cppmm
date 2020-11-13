@@ -6,12 +6,12 @@
 namespace {
 #include "casts.h"
 
-CPPMM_DEFINE_POINTER_CASTS(OIIO::Filesystem::IOMemReader, OIIO_Filesystem_IOMemReader)
 CPPMM_DEFINE_POINTER_CASTS(OIIO::Filesystem::IOProxy, OIIO_Filesystem_IOProxy)
 CPPMM_DEFINE_POINTER_CASTS(OIIO::ImageInput, OIIO_ImageInput)
 CPPMM_DEFINE_POINTER_CASTS(OIIO::ImageSpec, OIIO_ImageSpec)
 CPPMM_DEFINE_POINTER_CASTS(OIIO::ROI, OIIO_ROI)
 CPPMM_DEFINE_POINTER_CASTS(OIIO::TypeDesc, OIIO_TypeDesc)
+CPPMM_DEFINE_POINTER_CASTS(std::vector<OIIO::TypeDesc>, OIIO_TypeDesc_vector);
 
 #undef CPPMM_DEFINE_POINTER_CASTS
 }
@@ -111,6 +111,12 @@ bool OIIO_ROI_defined(const OIIO_ROI* self) {
 
 int OIIO_ROI_depth(const OIIO_ROI* self) {
     return to_cpp(self)->depth();
+}
+
+
+
+void OIIO_ImageSpec_get_channelformats(const OIIO_ImageSpec* self, OIIO_TypeDesc_vector * formats) {
+    to_cpp(self)->get_channelformats(*to_cpp(formats));
 }
 
 
