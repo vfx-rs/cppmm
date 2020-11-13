@@ -12,7 +12,6 @@
 ./cppmm                                                             \
     ../test/half/half.cpp                                           \
     -u                                                              \
-    -n Imath=Imath_3_0                                              \
     --                                                              \
     -I/home/anders/packages/imath/3.0.0/include                     \
     -I/home/anders/packages/llvm/10.0.1/lib/clang/10.0.1/include

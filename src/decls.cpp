@@ -1,6 +1,7 @@
 #include "decls.hpp"
 #include "exports.hpp"
 #include "namespaces.hpp"
+#include "vector.hpp"
 
 #include "pystring.h"
 
@@ -16,6 +17,7 @@ namespace cppmm {
 std::unordered_map<std::string, cppmm::File> files;
 std::unordered_map<std::string, cppmm::Record> records;
 std::unordered_map<std::string, cppmm::Enum> enums;
+std::unordered_map<std::string, cppmm::Vector> vectors;
 
 bool is_builtin(const QualType& qt) {
     return (qt->isBuiltinType() ||
@@ -31,12 +33,11 @@ std::string qualified_type_name(const cppmm::Type& type) {
     return cppmm::prefix_from_namespaces(type.namespaces, "::") + type.name;
 }
 
-cppmm::Param process_param_type(const std::string& param_name,
-                                const QualType& qt);
-
 cppmm::Record* process_record(const CXXRecordDecl* record) {
+    // fmt::print("process_record {}\n", record->getQualifiedNameAsString());
     std::string cpp_name = record->getNameAsString();
-    std::vector<std::string> namespaces = cppmm::get_namespaces(record->getParent());
+    std::vector<std::string> namespaces =
+        cppmm::get_namespaces(record->getParent());
 
     const auto c_qname =
         cppmm::prefix_from_namespaces(namespaces, "_") + cpp_name;
@@ -84,10 +85,10 @@ cppmm::Record* process_record(const CXXRecordDecl* record) {
         .c_qname = c_qname,
     };
 
-    if (rec.kind == cppmm::TypeKind::ValueType && !rec.is_pod()) {
+    if (rec.kind == cppmm::RecordKind::ValueType && !rec.is_pod()) {
         fmt::print("ERROR: {} is valuetype but not POD\n", rec.c_qname);
         return nullptr;
-    } else if (rec.kind == cppmm::TypeKind::OpaqueBytes && !rec.is_pod()) {
+    } else if (rec.kind == cppmm::RecordKind::OpaqueBytes && !rec.is_pod()) {
         fmt::print("ERROR: {} is opaquebytes but not POD\n", rec.c_qname);
         return nullptr;
     }
@@ -98,7 +99,7 @@ cppmm::Record* process_record(const CXXRecordDecl* record) {
     return &records[c_qname];
 }
 
-cppmm::Enum* process_enum(const EnumDecl* enum_decl) {
+Enum* process_enum(const EnumDecl* enum_decl) {
     std::string cpp_name = enum_decl->getNameAsString();
     std::vector<std::string> namespaces =
         cppmm::get_namespaces(enum_decl->getParent());
@@ -141,11 +142,22 @@ cppmm::Enum* process_enum(const EnumDecl* enum_decl) {
     return &enums[c_qname];
 }
 
-cppmm::Param process_pointee_type(const std::string& param_name,
-                                  const QualType& qt) {
-    cppmm::Param result;
-    result.name = param_name;
+Vector* process_vector(const QualifiedType& element_type) {
+    std::string ename = element_type.type.name;
+    if (ename == "basic_string")
+        ename = "string";
+    std::string c_qname = fmt::format("cppmm_Vector_{}", ename);
+    auto it_vec = vectors.find(c_qname);
+    if (it_vec != vectors.end()) {
+        return &it_vec->second;
+    } else {
+        auto p = vectors.insert(std::make_pair(element_type.type.get_c_qname(),
+                                               Vector{element_type, c_qname}));
+        return &p.first->second;
+    }
+}
 
+QualifiedType process_pointee_type(const QualType& qt) {
     if (is_builtin(qt)) {
         std::string name = qt.getTypePtr()
                                ->getUnqualifiedDesugaredType()
@@ -157,17 +169,39 @@ cppmm::Param process_pointee_type(const std::string& param_name,
         if (name == "_Bool") {
             name = "bool";
         }
-        result.qtype.type = cppmm::Type{name, {}, .is_builtin = true};
-        result.qtype.requires_cast = false;
+        QualifiedType qtype{cppmm::Type{name, &builtin_int}};
+        qtype.requires_cast = false;
+        qtype.is_const = qt.isConstQualified();
+        return qtype;
     } else if (qt->isRecordType()) {
         const CXXRecordDecl* crd = qt->getAsCXXRecordDecl();
         if (crd->getNameAsString() == "unique_ptr") {
             const auto* tst = qt->getAs<TemplateSpecializationType>();
-            result =
-                process_pointee_type(param_name, tst->getArgs()->getAsType());
-            result.qtype.is_uptr = true;
+            QualifiedType qtype =
+                process_pointee_type(tst->getArgs()->getAsType());
+            qtype.is_uptr = true;
+            qtype.is_const = qt.isConstQualified();
+            return qtype;
         } else if (crd->getNameAsString() == "vector") {
+            const auto* tst = qt->getAs<TemplateSpecializationType>();
+            QualifiedType element_type =
+                process_pointee_type(tst->getArgs()->getAsType());
+            Vector* vec = process_vector(element_type);
 
+            QualifiedType qtype{Type{vec->c_qname, vec}};
+            qtype.requires_cast = true;
+            qtype.is_const = qt.isConstQualified();
+
+            return qtype;
+        } else if (crd->getNameAsString() == "basic_string") {
+            const CXXRecordDecl* crd = qt->getAsCXXRecordDecl();
+            std::string type_name = crd->getNameAsString();
+            QualifiedType qtype{Type{
+                type_name, &builtin_string,
+                cppmm::get_namespaces(qt->getAsCXXRecordDecl()->getParent())}};
+            qtype.requires_cast = false;
+            qtype.is_const = qt.isConstQualified();
+            return qtype;
         } else {
             const CXXRecordDecl* crd = qt->getAsCXXRecordDecl();
             cppmm::Record* record_ptr = process_record(crd);
@@ -176,61 +210,56 @@ cppmm::Param process_pointee_type(const std::string& param_name,
                 //            crd->getNameAsString());
             }
             std::string type_name = crd->getNameAsString();
-            result.qtype.type =
-                cppmm::Type{.name = type_name,
-                            .namespaces = cppmm::get_namespaces(
-                                qt->getAsCXXRecordDecl()->getParent()),
-                            .is_builtin = false,
-                            .is_enum = false,
-                            .is_func_proto = false,
-                            .record = record_ptr,
-                            .enm = nullptr};
-            result.qtype.requires_cast =
-                !(crd->getNameAsString() == "basic_string" ||
-                  crd->getNameAsString() == "string_view");
+            QualifiedType qtype{Type{
+                type_name, record_ptr,
+                cppmm::get_namespaces(qt->getAsCXXRecordDecl()->getParent())}};
+            qtype.requires_cast = !(crd->getNameAsString() == "basic_string" ||
+                                    crd->getNameAsString() == "string_view");
+            qtype.is_const = qt.isConstQualified();
+            return qtype;
         }
     } else if (qt->isEnumeralType()) {
         const auto* enum_decl = qt->getAs<EnumType>()->getDecl();
         const cppmm::Enum* enm = process_enum(enum_decl);
 
-        result.qtype.type = cppmm::Type{.name = enm->cpp_name,
-                                        .namespaces = enm->namespaces,
-                                        .is_builtin = false,
-                                        .is_enum = true,
-                                        .is_func_proto = false,
-                                        .record = nullptr,
-                                        .enm = enm};
+        QualifiedType qtype{Type{enm->cpp_name, enm, enm->namespaces}};
+        qtype.is_const = qt.isConstQualified();
+        return qtype;
     } else {
         fmt::print("Unhandled type: {}\n", qt.getAsString());
         qt->dump();
+        throw std::runtime_error("unahndled type");
     }
-
-    result.qtype.is_const = qt.isConstQualified();
-    return result;
 }
 
-cppmm::Param process_param_type(const std::string& param_name,
-                                const QualType& qt) {
-    cppmm::Param result;
+QualifiedType process_qualified_type(const QualType& qt) {
     bool is_ptr = qt->isPointerType();
     bool is_ref = qt->isReferenceType();
 
     if (is_ptr || is_ref) {
-        result = process_pointee_type(param_name, qt->getPointeeType());
-        result.qtype.is_ptr = is_ptr;
-        result.qtype.is_ref = is_ref;
+        QualifiedType result = process_pointee_type(qt->getPointeeType());
+        result.is_ptr = is_ptr;
+        result.is_ref = is_ref;
+        return result;
     } else if (is_builtin(qt)) {
-        result = process_pointee_type(param_name, qt);
+        QualifiedType result = process_pointee_type(qt);
+        return result;
     } else if (qt->isRecordType()) {
-        result = process_pointee_type(param_name, qt);
+        QualifiedType result = process_pointee_type(qt);
+        return result;
     } else if (qt->isEnumeralType()) {
-        result = process_pointee_type(param_name, qt);
+        QualifiedType result = process_pointee_type(qt);
+        return result;
     } else {
         fmt::print("ERROR unhandled param type {}\n", qt.getAsString());
         qt->dump();
+        throw std::runtime_error("unahndled type");
     }
+}
 
-    return result;
+Param process_param_type(const std::string& param_name, const QualType& qt) {
+    QualifiedType qtype = process_qualified_type(qt);
+    return Param{param_name, qtype};
 }
 
 std::string get_decl_comment(const Decl* decl) {
@@ -256,6 +285,8 @@ std::string get_decl_comment(const Decl* decl) {
 cppmm::Function process_function(const FunctionDecl* function,
                                  const cppmm::ExportedFunction& ex_function,
                                  std::vector<std::string> namespaces) {
+    // fmt::print("process_function {}\n",
+    // function->getQualifiedNameAsString());
     std::vector<cppmm::Param> params;
     for (const auto& p : function->parameters()) {
         const auto param_name = p->getNameAsString();
@@ -267,7 +298,7 @@ cppmm::Function process_function(const FunctionDecl* function,
     return cppmm::Function{
         ex_function.cpp_name,
         ex_function.c_name,
-        process_param_type("", function->getReturnType()),
+        process_qualified_type(function->getReturnType()),
         params,
         comment,
         namespaces,
@@ -277,6 +308,7 @@ cppmm::Function process_function(const FunctionDecl* function,
 cppmm::Method process_method(const CXXMethodDecl* method,
                              const cppmm::ExportedMethod& ex_method,
                              const cppmm::Record* record) {
+    // fmt::print("process_method {}\n", method->getQualifiedNameAsString());
     std::vector<cppmm::Param> params;
     for (const auto& p : method->parameters()) {
         const auto param_name = p->getNameAsString();
@@ -324,7 +356,7 @@ cppmm::Method process_method(const CXXMethodDecl* method,
 
     return cppmm::Method{ex_method.cpp_name,
                          ex_method.c_name,
-                         process_param_type("", method->getReturnType()),
+                         process_qualified_type(method->getReturnType()),
                          params,
                          comment,
                          namespaces,

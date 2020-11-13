@@ -5,6 +5,7 @@
 #include "function.hpp"
 #include "method.hpp"
 #include "record.hpp"
+#include "vector.hpp"
 
 #include <clang/AST/DeclCXX.h>
 #include <clang/AST/Type.h>
@@ -21,11 +22,13 @@ struct File {
 extern std::unordered_map<std::string, cppmm::File> files;
 extern std::unordered_map<std::string, cppmm::Record> records;
 extern std::unordered_map<std::string, cppmm::Enum> enums;
+extern std::unordered_map<std::string, cppmm::Vector> vectors;
 
 bool is_builtin(const clang::QualType& qt);
 
 bool is_recordpointer(const clang::QualType& qt);
 
+QualifiedType process_qualified_type(const clang::QualType& qt);
 Param process_param_type(const std::string& param_name,
                          const clang::QualType& qt);
 
@@ -34,8 +37,6 @@ Record* process_record(const clang::CXXRecordDecl* record);
 Enum* process_enum(const clang::EnumDecl* enum_decl);
 Param process_pointee_type(const std::string& param_name,
                            const clang::QualType& qt);
-Param process_param_type(const std::string& param_name,
-                         const clang::QualType& qt);
 Function process_function(const clang::FunctionDecl* function,
                           const ExportedFunction& ex_function,
                           std::vector<std::string> namespaces);

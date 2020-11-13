@@ -5,7 +5,10 @@
 #define CPPMM_OPAQUEBYTES __attribute__((annotate("cppmm:opaquebytes")))
 
 namespace cppmm_bind {
-namespace Imath {
+namespace IMATH_INTERNAL_NAMESPACE {
+
+namespace Imath = IMATH_INTERNAL_NAMESPACE;
+
 class half {
     half() CPPMM_RENAME(ctor);
     half(float f) CPPMM_RENAME(from_float);
@@ -16,16 +19,16 @@ class half {
 
     ::Imath::half operator-() const CPPMM_RENAME(neg);
     // ::Imath::half operator-() const CPPMM_IGNORE;
-    ::Imath::half& operator=(const ::Imath::half& h) CPPMM_RENAME(assign);
-    ::Imath::half& operator=(::Imath::half&& h) noexcept CPPMM_IGNORE;
+    ::Imath::half& operator=(const ::Imath_3_0::half& h) CPPMM_RENAME(assign);
+    ::Imath::half& operator=(::Imath_3_0::half&& h) noexcept CPPMM_IGNORE;
     ::Imath::half& operator=(float f) CPPMM_IGNORE;
-    ::Imath::half& operator+=(::Imath::half h) CPPMM_RENAME(add_assign);
+    ::Imath::half& operator+=(::Imath_3_0::half h) CPPMM_RENAME(add_assign);
     ::Imath::half& operator+=(float f) CPPMM_RENAME(add_assign_float);
-    ::Imath::half& operator-=(::Imath::half h) CPPMM_RENAME(sub_assign);
+    ::Imath::half& operator-=(::Imath_3_0::half h) CPPMM_RENAME(sub_assign);
     ::Imath::half& operator-=(float f) CPPMM_RENAME(sub_assign_float);
-    ::Imath::half& operator*=(::Imath::half h) CPPMM_RENAME(mul_assign);
+    ::Imath::half& operator*=(::Imath_3_0::half h) CPPMM_RENAME(mul_assign);
     ::Imath::half& operator*=(float f) CPPMM_RENAME(mul_assign_float);
-    ::Imath::half& operator/=(::Imath::half h) CPPMM_RENAME(div_assign);
+    ::Imath::half& operator/=(::Imath_3_0::half h) CPPMM_RENAME(div_assign);
     ::Imath::half& operator/=(float f) CPPMM_RENAME(div_assign_float);
 
     ::Imath::half round(unsigned int n) const;

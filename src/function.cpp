@@ -11,7 +11,7 @@ namespace cppmm {
 
 namespace ps = pystring;
 
-Function::Function(std::string cpp_name, std::string c_name, Param return_type,
+Function::Function(std::string cpp_name, std::string c_name, QualifiedType return_type,
                    std::vector<Param> params, std::string comment,
                    std::vector<std::string> namespaces)
     : cpp_name(cpp_name), c_name(c_name), return_type(return_type),
@@ -26,12 +26,13 @@ std::string Function::get_declaration(
 
     std::vector<std::string> param_decls;
     for (const auto& param : params) {
-        if (param.qtype.type.record) {
-            includes.insert(param.qtype.type.record->filename);
-            casts_macro_invocations.insert(
-                param.qtype.type.record->create_casts());
-        } else if (param.qtype.type.enm) {
-            includes.insert(param.qtype.type.enm->filename);
+        if (const Record* record =
+                param.qtype.type.var.cast_or_null<Record>()) {
+            includes.insert(record->filename);
+            casts_macro_invocations.insert(record->create_casts());
+        } else if (const Enum* enm =
+                       param.qtype.type.var.cast_or_null<Enum>()) {
+            includes.insert(enm->filename);
         }
 
         std::string pdecl = param.create_c_declaration();
@@ -39,16 +40,16 @@ std::string Function::get_declaration(
     }
 
     std::string ret;
-    if (return_type.qtype.type.name == "basic_string" &&
-        !return_type.qtype.is_ref && !return_type.qtype.is_ptr) {
+    if (return_type.type.name == "basic_string" &&
+        !return_type.is_ref && !return_type.is_ptr) {
         ret = "int";
         param_decls.push_back("char* _result_buffer_ptr");
         param_decls.push_back("int _result_buffer_len");
     } else {
         ret = return_type.create_c_declaration();
-        if (return_type.qtype.type.record) {
-            casts_macro_invocations.insert(
-                return_type.qtype.type.record->create_casts());
+        if (const Record* record =
+                return_type.type.var.cast_or_null<Record>()) {
+            casts_macro_invocations.insert(record->create_casts());
         }
     }
 
@@ -63,36 +64,39 @@ std::string Function::get_definition(const std::string& declaration) const {
     }
 
     std::string body;
-    bool return_string_copy = return_type.qtype.type.name == "basic_string" &&
-                              !return_type.qtype.is_ref &&
-                              !return_type.qtype.is_ptr;
+    bool return_string_copy = return_type.type.name == "basic_string" &&
+                              !return_type.is_ref &&
+                              !return_type.is_ptr;
     if (return_string_copy) {
         // need to copy to the out parameters
         body = "    const std::string result = ";
-    } else if (return_type.qtype.type.name != "void") {
+    } else if (return_type.type.name != "void") {
         body = "    return ";
     } else {
         body = "    ";
     }
 
-    bool bitcast_return_type =
-        return_type.qtype.type.record &&
-        (return_type.qtype.type.record->kind == TypeKind::ValueType ||
-         return_type.qtype.type.record->kind == TypeKind::OpaqueBytes);
+    const TypeVariant& return_var = return_type.type.var;
+    bool bitcast_return_type = false;
+    if (const Record* record = return_var.cast_or_null<Record>()) {
+        bitcast_return_type =
+            (return_var.cast<Record>()->kind == RecordKind::ValueType ||
+             return_var.cast<Record>()->kind == RecordKind::OpaqueBytes);
+    }
 
     if (bitcast_return_type) {
-        body +=
-            fmt::format("bit_cast<{}>(", return_type.qtype.type.record->c_qname);
-    } else if (return_type.qtype.requires_cast) {
+        body += fmt::format("bit_cast<{}>(",
+                            return_type.type.var.cast<Record>()->c_qname);
+    } else if (return_type.requires_cast) {
         body += "to_c(";
     }
 
     body += fmt::format("{}({})", cpp_qname, ps::join(", ", call_params));
 
-    if (return_type.qtype.is_uptr) {
+    if (return_type.is_uptr) {
         body += ".release()";
     }
-    if (return_type.qtype.requires_cast || bitcast_return_type) {
+    if (return_type.requires_cast || bitcast_return_type) {
         body += ")";
     }
     body += ";";

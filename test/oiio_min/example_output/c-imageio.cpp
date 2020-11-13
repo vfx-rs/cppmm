@@ -29,19 +29,19 @@ static_assert(offsetof(OIIO::ROI, chbegin) == offsetof(OIIO_ROI, chbegin), "fiel
 static_assert(offsetof(OIIO::ROI, chend) == offsetof(OIIO_ROI, chend), "field offset does not match");
 
 
-bool  OIIO_getattribute(const char* name, OIIO_TypeDesc type, void* val) {
+bool OIIO_getattribute(const char* name, OIIO_TypeDesc type, void* val) {
     return OIIO::getattribute(name, bit_cast<OIIO::TypeDesc>(type), val);
 }
 
 
 
-OIIO_ROI  OIIO_roi_union(const OIIO_ROI* A, const OIIO_ROI* B) {
+OIIO_ROI OIIO_roi_union(const OIIO_ROI* A, const OIIO_ROI* B) {
     return bit_cast<OIIO_ROI>(OIIO::roi_union(*to_cpp(A), *to_cpp(B)));
 }
 
 
 
-OIIO_ROI  OIIO_roi_intersection(const OIIO_ROI* A, const OIIO_ROI* B) {
+OIIO_ROI OIIO_roi_intersection(const OIIO_ROI* A, const OIIO_ROI* B) {
     return bit_cast<OIIO_ROI>(OIIO::roi_intersection(*to_cpp(A), *to_cpp(B)));
 }
 
@@ -55,61 +55,61 @@ int OIIO_ImageInput_geterror(const OIIO_ImageInput* self, char* _result_buffer_p
 
 
 
-OIIO_ImageInput*  OIIO_ImageInput_open(const char* filename, const OIIO_ImageSpec* config, OIIO_Filesystem_IOProxy* ioproxy) {
+OIIO_ImageInput* OIIO_ImageInput_open(const char* filename, const OIIO_ImageSpec* config, OIIO_Filesystem_IOProxy* ioproxy) {
     return to_c(OIIO::ImageInput::open(filename, to_cpp(config), to_cpp(ioproxy)).release());
 }
 
 
 
-const char*  OIIO_ImageInput_format_name(const OIIO_ImageInput* self) {
+const char* OIIO_ImageInput_format_name(const OIIO_ImageInput* self) {
     return to_cpp(self)->format_name();
 }
 
 
 
-OIIO_ROI  OIIO_ROI_All() {
+OIIO_ROI OIIO_ROI_All() {
     return bit_cast<OIIO_ROI>(OIIO::ROI::All());
 }
 
 
 
-unsigned long  OIIO_ROI_npixels(const OIIO_ROI* self) {
+unsigned long OIIO_ROI_npixels(const OIIO_ROI* self) {
     return to_cpp(self)->npixels();
 }
 
 
 
-void  OIIO_ROI_default(OIIO_ROI* self) {
+void OIIO_ROI_default(OIIO_ROI* self) {
     self = to_c(new (self) OIIO::ROI());
 }
 
 
 
-int  OIIO_ROI_nchannels(const OIIO_ROI* self) {
+int OIIO_ROI_nchannels(const OIIO_ROI* self) {
     return to_cpp(self)->nchannels();
 }
 
 
 
-int  OIIO_ROI_width(const OIIO_ROI* self) {
+int OIIO_ROI_width(const OIIO_ROI* self) {
     return to_cpp(self)->width();
 }
 
 
 
-int  OIIO_ROI_height(const OIIO_ROI* self) {
+int OIIO_ROI_height(const OIIO_ROI* self) {
     return to_cpp(self)->height();
 }
 
 
 
-bool  OIIO_ROI_defined(const OIIO_ROI* self) {
+bool OIIO_ROI_defined(const OIIO_ROI* self) {
     return to_cpp(self)->defined();
 }
 
 
 
-int  OIIO_ROI_depth(const OIIO_ROI* self) {
+int OIIO_ROI_depth(const OIIO_ROI* self) {
     return to_cpp(self)->depth();
 }
 
@@ -129,7 +129,7 @@ int OIIO_ImageSpec_serialize(const OIIO_ImageSpec* self, int format, int verbose
 
 
 
-void  OIIO_ImageSpec_auto_stride(long* xstride, long* ystride, long* zstride, long channelsize, int nchannels, int width, int height) {
+void OIIO_ImageSpec_auto_stride(long* xstride, long* ystride, long* zstride, long channelsize, int nchannels, int width, int height) {
     OIIO::ImageSpec::auto_stride(*xstride, *ystride, *zstride, channelsize, nchannels, width, height);
 }
 
@@ -141,13 +141,13 @@ OIIO_ImageSpec* OIIO_ImageSpec_new_with_dimensions(int xres, int yres, int nchan
 
 
 
-unsigned long  OIIO_ImageSpec_channel_bytes(const OIIO_ImageSpec* self) {
+unsigned long OIIO_ImageSpec_channel_bytes(const OIIO_ImageSpec* self) {
     return to_cpp(self)->channel_bytes();
 }
 
 
 
-unsigned long  OIIO_ImageSpec_scanline_bytes(const OIIO_ImageSpec* self, bool native) {
+unsigned long OIIO_ImageSpec_scanline_bytes(const OIIO_ImageSpec* self, bool native) {
     return to_cpp(self)->scanline_bytes(native);
 }
 
@@ -159,32 +159,32 @@ OIIO_ImageSpec* OIIO_ImageSpec_new(OIIO_TypeDesc format) {
 
 
 
-void  OIIO_ImageSpec_default_channel_names(OIIO_ImageSpec* self) {
+void OIIO_ImageSpec_default_channel_names(OIIO_ImageSpec* self) {
     to_cpp(self)->default_channel_names();
 }
 
 
 
-OIIO_ImageSpec*  OIIO_ImageSpec_assign(OIIO_ImageSpec* self, const OIIO_ImageSpec* other) {
+OIIO_ImageSpec* OIIO_ImageSpec_assign(OIIO_ImageSpec* self, const OIIO_ImageSpec* other) {
     *to_cpp(self) = *to_cpp(other);
     return self;
 }
 
 
 
-void  OIIO_ImageSpec_set_format(OIIO_ImageSpec* self, OIIO_TypeDesc fmt) {
+void OIIO_ImageSpec_set_format(OIIO_ImageSpec* self, OIIO_TypeDesc fmt) {
     to_cpp(self)->set_format(bit_cast<OIIO::TypeDesc>(fmt));
 }
 
 
 
-void  OIIO_ImageSpec_attribute(OIIO_ImageSpec* self, const char* name, OIIO_TypeDesc type, const void* value) {
+void OIIO_ImageSpec_attribute(OIIO_ImageSpec* self, const char* name, OIIO_TypeDesc type, const void* value) {
     to_cpp(self)->attribute(name, bit_cast<OIIO::TypeDesc>(type), value);
 }
 
 
 
-unsigned long  OIIO_ImageSpec_channel_bytes_for(const OIIO_ImageSpec* self, int chan, bool native) {
+unsigned long OIIO_ImageSpec_channel_bytes_for(const OIIO_ImageSpec* self, int chan, bool native) {
     return to_cpp(self)->channel_bytes(chan, native);
 }
 

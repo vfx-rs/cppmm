@@ -145,11 +145,11 @@ std::ostream& operator<<(std::ostream& os,
 
 std::ostream& operator<<(std::ostream& os, const cppmm::ExportedRecord& type) {
     os << "struct " << type.c_name;
-    if (type.kind == cppmm::TypeKind::OpaquePtr) {
+    if (type.kind == cppmm::RecordKind::OpaquePtr) {
         os << " //< opaque ptr";
-    } else if (type.kind == cppmm::TypeKind::OpaqueBytes) {
+    } else if (type.kind == cppmm::RecordKind::OpaqueBytes) {
         os << " //< opaque bytes";
-    } else if (type.kind == cppmm::TypeKind::ValueType) {
+    } else if (type.kind == cppmm::RecordKind::ValueType) {
         os << " //< value type";
     }
     return os;

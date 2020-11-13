@@ -10,15 +10,13 @@ namespace cppmm {
 
 struct Function {
 
-    Function() {}
-
-    Function(std::string cpp_name, std::string c_name, Param return_type,
+    Function(std::string cpp_name, std::string c_name, QualifiedType return_type,
              std::vector<Param> params, std::string comment,
              std::vector<std::string> namespaces);
 
     std::string cpp_name;
     std::string c_name;
-    Param return_type;
+    QualifiedType return_type;
     std::vector<Param> params;
     std::string comment;
     std::string cpp_qname;
