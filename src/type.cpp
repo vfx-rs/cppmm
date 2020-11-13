@@ -3,20 +3,26 @@
 
 #include <fmt/format.h>
 
-#include "record.hpp"
-#include "type.hpp"
 #include "enum.hpp"
 #include "namespaces.hpp"
+#include "record.hpp"
+#include "type.hpp"
+#include "vector.hpp"
 
 #include "pystring.h"
 
 namespace cppmm {
 
 Builtin builtin_int{};
+String builtin_string{};
 
 bool Type::is_pod() const {
     if (var.is<Builtin>() || var.is<Enum>() || var.is<FuncProto>()) {
         return true;
+    }
+
+    if (var.is<Vector>()) {
+        return false;
     }
 
     if (const Record* record = var.cast_or_null<Record>()) {
@@ -25,6 +31,32 @@ bool Type::is_pod() const {
 
     assert(false && "TYPE POD FALLTHROUGH");
     return false;
+}
+
+const char* Type::get_c_qname() const {
+    if (const Builtin* builtin = var.cast_or_null<Builtin>()) {
+        return name.c_str();
+    } else if (const Record* record = var.cast_or_null<Record>()) {
+            return record->c_qname.c_str();
+    } else if (const String* str = var.cast_or_null<String>()) {
+            return "string";
+    } else if (const Enum* enm = var.cast_or_null<Enum>()) {
+        return enm->c_qname.c_str();
+    }
+    return "UNHANDLED";
+}
+
+std::string Type::get_cpp_qname() const {
+    if (const Builtin* builtin = var.cast_or_null<Builtin>()) {
+        return name;
+    } else if (const Record* record = var.cast_or_null<Record>()) {
+        return record->cpp_qname;
+    } else if (const String* str = var.cast_or_null<String>()) {
+            return "std::string";
+    } else if (const Enum* enm = var.cast_or_null<Enum>()) {
+        return enm->cpp_qname;
+    }
+    return "UNHANDLED";
 }
 
 std::string QualifiedType::create_c_declaration() const {
@@ -47,9 +79,10 @@ std::string QualifiedType::create_c_declaration() const {
         }
         if (type.var.is<Enum>()) {
             result += "int";
+        } else if (const Vector* vec = type.var.cast_or_null<Vector>()) {
+            result += fmt::format("{} *", vec->c_qname);
         } else {
-            result += prefix_from_namespaces(type.namespaces, "_") +
-                      type.name;
+            result += prefix_from_namespaces(type.namespaces, "_") + type.name;
             if (is_ptr || is_ref || is_uptr) {
                 result += "*";
             }

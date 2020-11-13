@@ -11,14 +11,16 @@ enum RecordKind { OpaquePtr = 0, OpaqueBytes = 1, ValueType = 2 };
 
 class Record;
 class Enum;
-class Vec;
+class Vector;
 class Builtin {};
 class FuncProto {};
+class String {};
 
 extern Builtin builtin_int;
+extern String builtin_string;
 
 struct TypeVariant
-    : public TaggedPointer<Builtin, FuncProto, Record, Enum, Vec> {
+    : public TaggedPointer<Builtin, FuncProto, Record, Enum, Vector, String> {
     using TaggedPointer::TaggedPointer;
 };
 
@@ -33,6 +35,8 @@ struct Type {
     TypeVariant var;
 
     bool is_pod() const;
+    const char* get_c_qname() const;
+    std::string get_cpp_qname() const;
 };
 
 struct QualifiedType {

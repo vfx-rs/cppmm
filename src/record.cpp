@@ -1,6 +1,7 @@
 #include "record.hpp"
 #include "enum.hpp"
 #include "namespaces.hpp"
+#include "vector.hpp"
 
 #include "pystring.h"
 
@@ -47,6 +48,8 @@ std::string Record::get_method_declaration(
         } else if (const Enum* enm =
                        param.qtype.type.var.cast_or_null<Enum>()) {
             includes.insert(enm->filename);
+        } else if (const Vector* vector = param.qtype.type.var.cast_or_null<Vector>()) {
+            casts_macro_invocations.insert(vector->create_casts());
         }
 
         std::string pdecl = param.create_c_declaration();

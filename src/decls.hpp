@@ -5,6 +5,7 @@
 #include "function.hpp"
 #include "method.hpp"
 #include "record.hpp"
+#include "vector.hpp"
 
 #include <clang/AST/DeclCXX.h>
 #include <clang/AST/Type.h>
@@ -21,6 +22,7 @@ struct File {
 extern std::unordered_map<std::string, cppmm::File> files;
 extern std::unordered_map<std::string, cppmm::Record> records;
 extern std::unordered_map<std::string, cppmm::Enum> enums;
+extern std::unordered_map<std::string, cppmm::Vector> vectors;
 
 bool is_builtin(const clang::QualType& qt);
 

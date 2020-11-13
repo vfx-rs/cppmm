@@ -78,7 +78,7 @@ class ImageSpec {
                           ::OIIO::ImageSpec::SerialVerbose verbose) const;
 
     // TODO: returning arrays with an out pointer
-    // void get_channelformats(std::vector<::OIIO::TypeDesc>& formats) const;
+    void get_channelformats(std::vector<::OIIO::TypeDesc>& formats) const;
 
     void default_channel_names();
 } CPPMM_OPAQUEPTR;

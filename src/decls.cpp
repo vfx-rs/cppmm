@@ -1,6 +1,7 @@
 #include "decls.hpp"
 #include "exports.hpp"
 #include "namespaces.hpp"
+#include "vector.hpp"
 
 #include "pystring.h"
 
@@ -16,6 +17,7 @@ namespace cppmm {
 std::unordered_map<std::string, cppmm::File> files;
 std::unordered_map<std::string, cppmm::Record> records;
 std::unordered_map<std::string, cppmm::Enum> enums;
+std::unordered_map<std::string, cppmm::Vector> vectors;
 
 bool is_builtin(const QualType& qt) {
     return (qt->isBuiltinType() ||
@@ -32,6 +34,7 @@ std::string qualified_type_name(const cppmm::Type& type) {
 }
 
 cppmm::Record* process_record(const CXXRecordDecl* record) {
+    // fmt::print("process_record {}\n", record->getQualifiedNameAsString());
     std::string cpp_name = record->getNameAsString();
     std::vector<std::string> namespaces =
         cppmm::get_namespaces(record->getParent());
@@ -96,7 +99,7 @@ cppmm::Record* process_record(const CXXRecordDecl* record) {
     return &records[c_qname];
 }
 
-cppmm::Enum* process_enum(const EnumDecl* enum_decl) {
+Enum* process_enum(const EnumDecl* enum_decl) {
     std::string cpp_name = enum_decl->getNameAsString();
     std::vector<std::string> namespaces =
         cppmm::get_namespaces(enum_decl->getParent());
@@ -139,6 +142,21 @@ cppmm::Enum* process_enum(const EnumDecl* enum_decl) {
     return &enums[c_qname];
 }
 
+Vector* process_vector(const QualifiedType& element_type) {
+    std::string ename = element_type.type.name;
+    if (ename == "basic_string")
+        ename = "string";
+    std::string c_qname = fmt::format("cppmm_Vector_{}", ename);
+    auto it_vec = vectors.find(c_qname);
+    if (it_vec != vectors.end()) {
+        return &it_vec->second;
+    } else {
+        auto p = vectors.insert(std::make_pair(element_type.type.get_c_qname(),
+                                               Vector{element_type, c_qname}));
+        return &p.first->second;
+    }
+}
+
 QualifiedType process_pointee_type(const QualType& qt) {
     if (is_builtin(qt)) {
         std::string name = qt.getTypePtr()
@@ -164,8 +182,26 @@ QualifiedType process_pointee_type(const QualType& qt) {
             qtype.is_uptr = true;
             qtype.is_const = qt.isConstQualified();
             return qtype;
-            // } else if (crd->getNameAsString() == "vector") {
-            //     throw std::runtime_error("got vector");
+        } else if (crd->getNameAsString() == "vector") {
+            const auto* tst = qt->getAs<TemplateSpecializationType>();
+            QualifiedType element_type =
+                process_pointee_type(tst->getArgs()->getAsType());
+            Vector* vec = process_vector(element_type);
+
+            QualifiedType qtype{Type{vec->c_qname, vec}};
+            qtype.requires_cast = true;
+            qtype.is_const = qt.isConstQualified();
+
+            return qtype;
+        } else if (crd->getNameAsString() == "basic_string") {
+            const CXXRecordDecl* crd = qt->getAsCXXRecordDecl();
+            std::string type_name = crd->getNameAsString();
+            QualifiedType qtype{Type{
+                type_name, &builtin_string,
+                cppmm::get_namespaces(qt->getAsCXXRecordDecl()->getParent())}};
+            qtype.requires_cast = false;
+            qtype.is_const = qt.isConstQualified();
+            return qtype;
         } else {
             const CXXRecordDecl* crd = qt->getAsCXXRecordDecl();
             cppmm::Record* record_ptr = process_record(crd);
@@ -221,8 +257,7 @@ QualifiedType process_qualified_type(const QualType& qt) {
     }
 }
 
-Param process_param_type(const std::string& param_name,
-                                const QualType& qt) {
+Param process_param_type(const std::string& param_name, const QualType& qt) {
     QualifiedType qtype = process_qualified_type(qt);
     return Param{param_name, qtype};
 }
@@ -250,6 +285,8 @@ std::string get_decl_comment(const Decl* decl) {
 cppmm::Function process_function(const FunctionDecl* function,
                                  const cppmm::ExportedFunction& ex_function,
                                  std::vector<std::string> namespaces) {
+    // fmt::print("process_function {}\n",
+    // function->getQualifiedNameAsString());
     std::vector<cppmm::Param> params;
     for (const auto& p : function->parameters()) {
         const auto param_name = p->getNameAsString();
@@ -271,6 +308,7 @@ cppmm::Function process_function(const FunctionDecl* function,
 cppmm::Method process_method(const CXXMethodDecl* method,
                              const cppmm::ExportedMethod& ex_method,
                              const cppmm::Record* record) {
+    // fmt::print("process_method {}\n", method->getQualifiedNameAsString());
     std::vector<cppmm::Param> params;
     for (const auto& p : method->parameters()) {
         const auto param_name = p->getNameAsString();

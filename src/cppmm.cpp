@@ -4,29 +4,30 @@
 #include <unistd.h>
 #include <unordered_map>
 
-#include "clang/Frontend/FrontendActions.h"
-#include "clang/Tooling/Tooling.h"
 #include "clang/Frontend/FrontendAction.h"
+#include "clang/Frontend/FrontendActions.h"
 #include "clang/Tooling/CommonOptionsParser.h"
+#include "clang/Tooling/Tooling.h"
 #include "llvm/Support/CommandLine.h"
 
 #include <fmt/format.h>
 #include <fmt/printf.h>
 
+#include "filesystem.hpp"
 #include "pystring.h"
 
 #include "attributes.hpp"
+#include "decls.hpp"
 #include "enum.hpp"
+#include "exports.hpp"
 #include "function.hpp"
+#include "match_bindings.hpp"
+#include "match_decls.hpp"
 #include "method.hpp"
 #include "namespaces.hpp"
 #include "param.hpp"
 #include "record.hpp"
 #include "type.hpp"
-#include "exports.hpp"
-#include "match_bindings.hpp"
-#include "match_decls.hpp"
-#include "decls.hpp"
 
 using namespace clang::tooling;
 using namespace llvm;
@@ -34,6 +35,7 @@ using namespace clang;
 using namespace clang::ast_matchers;
 
 namespace ps = pystring;
+namespace fs = ghc::filesystem;
 
 namespace cppmm {
 
@@ -44,7 +46,6 @@ struct Vec {
 };
 
 } // namespace cppmm
-
 
 std::vector<std::string> parse_file_includes(const std::string& filename) {
     std::ifstream file(filename);
@@ -61,16 +62,12 @@ std::vector<std::string> parse_file_includes(const std::string& filename) {
     return result;
 }
 
-
-
 std::string bind_file_root(const std::string& filename) {
     const auto basename = ps::os::path::basename(filename);
     std::string root, ext;
     ps::os::path::splitext(root, ext, basename);
     return root;
 }
-
-
 
 void write_header(const std::string& filename, const std::string& declarations,
                   const std::string& include_stmts) {
@@ -107,8 +104,6 @@ extern "C" {{
     fclose(out);
 }
 
-
-
 void write_implementation(const std::string& filename, const std::string& root,
                           const std::vector<std::string>& includes,
                           const std::string& casts,
@@ -135,8 +130,6 @@ extern "C" {{
     fprintf(out, "%s", out_str.c_str());
     fclose(out);
 }
-
-
 
 void write_casts_header(const std::string& filename) {
     std::string casts_header = R"#(#pragma once
@@ -183,7 +176,127 @@ void safe_strcpy(char* dst, const std::string& str, int buffer_size) {
     fclose(out);
 }
 
+std::string get_vector_declaration(const cppmm::Vector& vec) {
+    return fmt::format(
+        R"#(
+typedef struct {{ char _private[24]; }} {0} CPPMM_ALIGN(8);
 
+void {0}_ctor({0}* vec);
+void {0}_dtor(const {0}* vec);
+void {0}_get(const {0}* vec, int index, {1}* element);
+void {0}_set({0}* vec, int index, {1}* element);
+int {0}_size(const {0}* vec);
+{1}* {0}_data({0}* vec);)#",
+        vec.c_qname, vec.element_type.type.get_c_qname());
+}
+
+std::string
+get_vector_implementation(const cppmm::Vector& vec,
+                          std::set<std::string>& casts_macro_invocations) {
+    // casts for the vector
+    casts_macro_invocations.insert(vec.create_casts());
+    // casts for the element
+    if (const cppmm::Record* record = vec.element_type.type.var.cast_or_null<cppmm::Record>()) {
+        casts_macro_invocations.insert(record->create_casts());
+    }
+
+    return fmt::format(
+        R"#(
+
+void {0}_ctor({0}* vec) {{
+    new (vec) std::vector<{2}>();
+}}
+
+void {0}_dtor(const {0}* vec) {{
+    to_cpp(vec)->~vector();
+}}
+
+void {0}_get(const {0}* vec, int index, {1}* element) {{
+    const std::vector<{2}>& v = *to_cpp(vec);
+    const {2}* p = &v[index];
+    *element = *to_c(p);
+}}
+
+void {0}_set({0}* vec, int index, {1}* element) {{
+    (*to_cpp(vec))[index] = *to_cpp(element);
+}}
+
+int {0}_size(const {0}* vec) {{
+    return to_cpp(vec)->size();
+}}
+
+{1}* {0}_data({0}* vec) {{
+    return to_c(to_cpp(vec)->data());
+}})#",
+        vec.c_qname,                            //< 0: C vector name
+        vec.element_type.type.get_c_qname(),    //< 1: C element name
+        vec.element_type.type.get_cpp_qname()); //< 2: C++ element
+}
+
+void write_containers_header(const std::string& filename) {
+    const std::string header = R"#(
+#pragma once
+#ifdef __cplusplus
+extern "C" {
+#else
+#include <stdbool.h>
+#endif
+
+#if defined(_WIN32) || defined(__CYGWIN__)
+#define CPPMM_ALIGN(x) __declspec(align(x))
+#else
+#define CPPMM_ALIGN(x) __attribute__((aligned(x)))
+#endif
+
+
+typedef struct cppmm_Vector_string cppmm_Vector_string;
+
+const char* cppmm_Vector_string_get(const cppmm_Vector_string* vec, int index);
+int cppmm_Vector_string_size(const cppmm_Vector_string* vec);
+
+
+#ifdef __cplusplus
+}
+#endif
+    )#";
+
+    auto out = fopen(filename.c_str(), "w");
+    fprintf(out, "%s", header.c_str());
+    fclose(out);
+}
+
+void write_containers_implementation(const std::string& filename) {
+    const std::string src = R"#(
+#include "cppmm_containers.h"
+#include <string>
+#include <vector>
+
+namespace {
+#include "casts.h"
+
+CPPMM_DEFINE_POINTER_CASTS(std::vector<std::string>, cppmm_Vector_string);
+
+
+#undef CPPMM_DEFINE_POINTER_CASTS
+}
+
+extern "C" {
+
+void cppmm_Vector_string_get(const cppmm_Vector_string* vec, int index) {
+    return *to_cpp(vec))[index].c_str();
+}
+
+int cppmm_Vector_string_size(const cppmm_Vector_string* vec) {
+    return to_cpp(vec)->size();
+}
+
+}
+    )#";
+
+    auto out = fopen(filename.c_str(), "w");
+    fprintf(out, "%s", src.c_str());
+    fclose(out);
+}
 
 // Apply a custom category to all command-line options so that they are the
 // only ones displayed.
@@ -201,8 +314,6 @@ static cl::opt<bool> opt_warn_unbound("u", cl::desc("Warn on unbound methods"));
 static cl::list<std::string>
     opt_rename_namespace("n", cl::desc("Rename namespace <to>=<from>"));
 
-
-
 int main(int argc, const char** argv) {
     CommonOptionsParser OptionsParser(argc, argv, CppmmCategory);
     ClangTool Tool(OptionsParser.getCompilations(),
@@ -211,8 +322,7 @@ int main(int argc, const char** argv) {
     // fmt::print("source files: [{}]\n",
     //            ps::join(", ", OptionsParser.getSourcePathList()));
 
-    char buf[2048];
-    std::string cwd = getcwd(buf, sizeof(buf));
+    std::string cwd = fs::current_path();
 
     for (const auto& src : OptionsParser.getSourcePathList()) {
         const auto src_path = ps::os::path::join(cwd, src);
@@ -233,7 +343,8 @@ int main(int argc, const char** argv) {
     //--------------------------------------------------------------------------
     // First pass - find all declarations in namespace cppmm_bind that will
     // tell us what we want to bind fmt::print("1st pass ----------\n");
-    auto match_exports_action = newFrontendActionFactory<cppmm::MatchBindingsAction>();
+    auto match_exports_action =
+        newFrontendActionFactory<cppmm::MatchBindingsAction>();
     int result = Tool.run(match_exports_action.get());
 
     // for (const auto& ex_file : ex_files) {
@@ -256,8 +367,6 @@ int main(int argc, const char** argv) {
     //     fmt::print("    {}\n", type.second->name);
     // }
 
-    std::set<std::string> casts_macro_invocations;
-
     //--------------------------------------------------------------------------
     // Finally - process the filtered methods to generate the actual
     // bindings we'll generate one file of bindings for each file of input,
@@ -265,6 +374,7 @@ int main(int argc, const char** argv) {
     // necessary includes
     for (const auto& bind_file : cppmm::ex_files) {
 
+        std::set<std::string> casts_macro_invocations;
         std::string declarations;
         std::string definitions;
 
@@ -273,6 +383,18 @@ int main(int argc, const char** argv) {
         for (const auto& rec_pair : bind_file.second.records) {
             const auto& record = cppmm::records[rec_pair.first];
             declarations += record.get_declaration(casts_macro_invocations);
+
+            const auto it_vec = cppmm::vectors.find(record.c_qname);
+            if (it_vec != cppmm::vectors.end()) {
+                if (it_vec->second.element_type.type.name == "basic_string") {
+                    header_includes.insert("cppmm_containers.h");
+                } else {
+                    declarations += get_vector_declaration(it_vec->second);
+                    definitions += get_vector_implementation(
+                        it_vec->second, casts_macro_invocations);
+                }
+            }
+
             definitions += record.get_definition();
         }
 
@@ -281,7 +403,8 @@ int main(int argc, const char** argv) {
             declarations += enm.get_declaration();
         }
 
-        for (const auto& it_function : cppmm::files[bind_file.first].functions) {
+        for (const auto& it_function :
+             cppmm::files[bind_file.first].functions) {
             const auto& function = it_function.second;
 
             std::string declaration = function.get_declaration(
@@ -296,7 +419,8 @@ int main(int argc, const char** argv) {
         }
 
         for (const auto& record_pair : bind_file.second.records) {
-            const cppmm::Record& record = cppmm::records[record_pair.second->c_qname];
+            const cppmm::Record& record =
+                cppmm::records[record_pair.second->c_qname];
 
             for (auto method_pair : record.methods) {
                 const auto& method = method_pair.second;
@@ -341,6 +465,8 @@ int main(int argc, const char** argv) {
     }
 
     write_casts_header("casts.h");
+    write_containers_header("cppmm_containers.h");
+    write_containers_implementation("cppmm_containers.cpp");
 
     if (opt_warn_unbound) {
         size_t total = 0;
