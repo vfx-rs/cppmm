@@ -53,6 +53,17 @@ std::vector<std::string> parse_file_includes(const std::string& filename) {
     return result;
 }
 
+std::vector<std::string> parse_project_includes(int argc, const char** argv) {
+    std::vector<std::string> result;
+    for (int i = 0; i < argc; ++i) {
+        std::string a(argv[i]);
+        if (a.find("-I") == 0) {
+            result.push_back(a.substr(2, std::string::npos));
+        }
+    }
+    return result;
+}
+
 // Apply a custom category to all command-line options so that they are the
 // only ones displayed.
 static llvm::cl::OptionCategory CppmmCategory("cppmm options");
@@ -66,20 +77,65 @@ static cl::extrahelp CommonHelp(CommonOptionsParser::HelpMessage);
 static cl::extrahelp MoreHelp("\nMore help text...\n");
 
 static cl::opt<bool> opt_warn_unbound("u", cl::desc("Warn on unbound methods"));
+static cl::opt<std::string> opt_output_directory(
+    "o",
+    cl::desc(
+        "Directory under which output project directories will be written"));
 static cl::list<std::string>
     opt_rename_namespace("n", cl::desc("Rename namespace <to>=<from>"));
 
+static cl::list<std::string> opt_includes("i", cl::desc("Extra includes for the project"));
+static cl::list<std::string> opt_libraries("l", cl::desc("Libraries to link against"));
+
 int main(int argc, const char** argv) {
+    std::vector<std::string> project_includes = parse_project_includes(argc, argv);
     CommonOptionsParser OptionsParser(argc, argv, CppmmCategory);
+
+    std::string cwd = fs::current_path();
+    ArrayRef<std::string> src_path = OptionsParser.getSourcePathList();
+    std::vector<std::string> dir_paths;
+    if (src_path.size() == 1 && fs::is_directory(src_path[0])) {
+        // we've been supplied a single directory to start from, find all the
+        // cpp files under it to use as binding files
+        // TODO: figure out a better directory structure, e.g.
+        // /bind
+        // /config.toml
+        for (const auto& entry : fs::directory_iterator(src_path[0])) {
+            if (entry.path().extension() == ".cpp") {
+                dir_paths.push_back(entry.path().string());
+            }
+        }
+    } else {
+        // otherwise we'll assume we've been given a list of source files to
+        // work with (old behaviour)
+        // TODO: can we reliably keep this working?
+        for (const auto& s : src_path) {
+            dir_paths.push_back(s);
+        }
+    }
     ClangTool Tool(OptionsParser.getCompilations(),
-                   OptionsParser.getSourcePathList());
+                   ArrayRef<std::string>(dir_paths));
+
+    std::string output_dir = cwd;
+    if (opt_output_directory != "") {
+        output_dir = opt_output_directory;
+    }
+
+    for (const auto& i: opt_includes) {
+        project_includes.push_back(i);
+    }
+
+    std::vector<std::string> project_libraries;
+    for (const auto& l: opt_libraries) {
+        project_libraries.push_back(l);
+    }
 
     // fmt::print("source files: [{}]\n",
     //            ps::join(", ", OptionsParser.getSourcePathList()));
 
-    std::string cwd = fs::current_path();
-
-    for (const auto& src : OptionsParser.getSourcePathList()) {
+    // get direct includes from the binding files to re-insert into the
+    // generated bindings
+    for (const auto& src : dir_paths) {
         const auto src_path = ps::os::path::join(cwd, src);
         const auto includes = parse_file_includes(src_path);
         cppmm::ex_files[src_path] = {};
@@ -122,6 +178,12 @@ int main(int argc, const char** argv) {
     //     fmt::print("    {}\n", type.second->name);
     // }
 
+    if (!fs::exists(output_dir) && !fs::create_directories(output_dir)) {
+        fmt::print("ERROR: could not create output directory '{}'\n",
+                   output_dir);
+        return -2;
+    }
+
     //--------------------------------------------------------------------------
     // Finally - process the filtered methods to generate the actual
     // bindings we'll generate one file of bindings for each file of input,
@@ -132,8 +194,9 @@ int main(int argc, const char** argv) {
         std::unique_ptr<cppmm::Generator>(new cppmm::GeneratorC()));
 
     for (const auto& g : generators) {
-        g->generate(cppmm::ex_files, cppmm::files, cppmm::records, cppmm::enums,
-                    cppmm::vectors);
+        g->generate(output_dir, cppmm::ex_files, cppmm::files, cppmm::records,
+                    cppmm::enums, cppmm::vectors, project_includes,
+                    project_libraries);
     }
 
     if (opt_warn_unbound) {

@@ -1,9 +1,11 @@
 #include "generator_c.hpp"
+#include "filesystem.hpp"
 #include "pystring.h"
 
 namespace cppmm {
 
 namespace ps = pystring;
+namespace fs = ghc::filesystem;
 
 std::string bind_file_root(const std::string& filename) {
     const auto basename = ps::os::path::basename(filename);
@@ -120,20 +122,36 @@ void safe_strcpy(char* dst, const std::string& str, int buffer_size) {
 }
 
 std::string get_vector_declaration(const cppmm::Vector& vec) {
-    return fmt::format(
+    std::string format_str =
         R"#(
 typedef struct {{ char _private[24]; }} {0} CPPMM_ALIGN(8);
 
 void {0}_ctor({0}* vec);
 void {0}_dtor(const {0}* vec);
-void {0}_get(const {0}* vec, int index, {1}* element);
-void {0}_set({0}* vec, int index, {1}* element);
 int {0}_size(const {0}* vec);
 {1}* {0}_data({0}* vec);
+)#";
 
-)#",
-        vec.c_qname, vec.element_type.type.get_c_qname());
-}
+    if (vec.element_type.type.var.is<Record>() &&
+        vec.element_type.type.var.cast<Record>()->kind ==
+            RecordKind::OpaquePtr) {
+        format_str +=
+            R"#(
+void {0}_get(const {0}* vec, int index, {1}** element);
+void {0}_set({0}* vec, int index, {1}* element);
+)#";
+
+    } else {
+        format_str +=
+            R"#(
+void {0}_get(const {0}* vec, int index, {1}* element);
+void {0}_set({0}* vec, int index, {1}* element);
+)#";
+    }
+
+    return fmt::format(format_str, vec.c_qname,
+                       vec.element_type.type.get_c_qname());
+} // namespace cppmm
 
 std::string
 get_vector_implementation(const cppmm::Vector& vec,
@@ -146,25 +164,14 @@ get_vector_implementation(const cppmm::Vector& vec,
         casts_macro_invocations.insert(record->create_casts());
     }
 
-    return fmt::format(
+    std::string format_str =
         R"#(
-
 void {0}_ctor({0}* vec) {{
     new (vec) std::vector<{2}>();
 }}
 
 void {0}_dtor(const {0}* vec) {{
     to_cpp(vec)->~vector();
-}}
-
-void {0}_get(const {0}* vec, int index, {1}* element) {{
-    const std::vector<{2}>& v = *to_cpp(vec);
-    const {2}* p = &v[index];
-    *element = *to_c(p);
-}}
-
-void {0}_set({0}* vec, int index, {1}* element) {{
-    (*to_cpp(vec))[index] = *to_cpp(element);
 }}
 
 int {0}_size(const {0}* vec) {{
@@ -174,8 +181,41 @@ int {0}_size(const {0}* vec) {{
 {1}* {0}_data({0}* vec) {{
     return to_c(to_cpp(vec)->data());
 }}
+)#";
 
-)#",
+    if (vec.element_type.type.var.is<Record>() &&
+        vec.element_type.type.var.cast<Record>()->kind ==
+            RecordKind::OpaquePtr) {
+        format_str +=
+            R"#(
+void {0}_get(const {0}* vec, int index, {1}** element) {{
+    const std::vector<{2}>& v = *to_cpp(vec);
+    const {2}* p = &v[index];
+    *element = to_c(p);
+}}
+
+void {0}_set({0}* vec, int index, {1}* element) {{
+    (*to_cpp(vec))[index] = *to_cpp(element);
+}}
+)#";
+
+    } else {
+        format_str +=
+            R"#(
+void {0}_get(const {0}* vec, int index, {1}* element) {{
+    const std::vector<{2}>& v = *to_cpp(vec);
+    const {2}* p = &v[index];
+    *element = *to_c(p);
+}}
+
+void {0}_set({0}* vec, int index, {1}* element) {{
+    (*to_cpp(vec))[index] = *to_cpp(element);
+}}
+)#";
+    }
+
+    return fmt::format(
+        format_str,
         vec.c_qname,                            //< 0: C vector name
         vec.element_type.type.get_c_qname(),    //< 1: C element name
         vec.element_type.type.get_cpp_qname()); //< 2: C++ element
@@ -230,8 +270,8 @@ CPPMM_DEFINE_POINTER_CASTS(std::vector<std::string>, cppmm_string_vector);
 
 extern "C" {
 
-void cppmm_string_vector_get(const cppmm_string_vector* vec, int index) {
-    return *to_cpp(vec))[index].c_str();
+const char* cppmm_string_vector_get(const cppmm_string_vector* vec, int index) {
+    return (*to_cpp(vec))[index].c_str();
 }
 
 int cppmm_string_vector_size(const cppmm_string_vector* vec) {
@@ -246,19 +286,62 @@ int cppmm_string_vector_size(const cppmm_string_vector* vec) {
     fclose(out);
 }
 
+void write_cmakelists(const std::string& filename,
+                      const std::string& project_name,
+                      const std::vector<std::string> source_files,
+                      const std::vector<std::string>& includes,
+                      const std::vector<std::string>& libraries) {
+    const std::string src =
+        fmt::format(R"#(cmake_minimum_required(VERSION 3.5)
+project({0})
+
+add_library({0} STATIC
+  {1}
+)
+
+target_compile_options({0} PRIVATE
+  -fno-strict-aliasing
+)
+
+target_include_directories({0} PUBLIC
+  {2}
+)
+
+target_link_libraries({0} PUBLIC
+  {3}
+)
+)#",
+                    project_name, ps::join("\n  ", source_files),
+                    ps::join("\n  ", includes), ps::join("\n  ", libraries));
+    auto out = fopen(filename.c_str(), "w");
+    fprintf(out, "%s", src.c_str());
+    fclose(out);
+}
+
 // FIXME: the logic of what things end up in what maps is a bit gnarly here.
 // We should really move everythign that's in ExportedFile into File during
 // the second phase, and clarify what's expected to be in what maps exactly.
-void GeneratorC::generate(const ExportedFileMap& ex_files, const FileMap& files,
+void GeneratorC::generate(const std::string& output_dir,
+                          const ExportedFileMap& ex_files, const FileMap& files,
                           const RecordMap& records, const EnumMap& enums,
-                          const VectorMap& vectors) {
-    for (const auto& bind_file : ex_files) {
+                          const VectorMap& vectors,
+                          const std::vector<std::string>& project_includes,
+                          const std::vector<std::string>& project_libraries) {
+    std::vector<std::string> source_files;
+    fs::path output_dir_path = fs::path(output_dir);
+    std::string project_name = output_dir_path.stem();
 
+    for (const auto& bind_file : ex_files) {
         std::set<std::string> casts_macro_invocations;
         std::string declarations;
         std::string definitions;
 
         std::set<std::string> header_includes;
+
+        if (bind_file.first == "") {
+            // FIXME: how is this getting in there?
+            continue;
+        }
 
         for (const auto& rec_pair : bind_file.second.records) {
             const auto it_record = records.find(rec_pair.first);
@@ -360,14 +443,24 @@ void GeneratorC::generate(const ExportedFileMap& ex_files, const FileMap& files,
             casts += s;
         }
 
-        write_header(header, declarations, header_include_stmts);
-        write_implementation(implementation, root, bind_file.second.includes,
-                             casts, definitions);
+        write_header(output_dir_path / header, declarations,
+                     header_include_stmts);
+
+        std::string implementation_path = output_dir_path / implementation;
+        write_implementation(implementation_path, root,
+                             bind_file.second.includes, casts, definitions);
+        source_files.push_back(implementation);
     }
 
-    write_casts_header("casts.h");
-    write_containers_header("cppmm_containers.h");
-    write_containers_implementation("cppmm_containers.cpp");
+    write_casts_header(fs::path(output_dir) / "casts.h");
+    write_containers_header(fs::path(output_dir) / "cppmm_containers.h");
+    std::string containers_implementation =
+        fs::path(output_dir) / "cppmm_containers.cpp";
+    write_containers_implementation(containers_implementation);
+    source_files.push_back("cppmm_containers.cpp");
+
+    write_cmakelists(output_dir_path / "CMakeLists.txt", project_name,
+                     source_files, project_includes, project_libraries);
 }
 
 } // namespace cppmm

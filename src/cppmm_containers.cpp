@@ -13,7 +13,7 @@ CPPMM_DEFINE_POINTER_CASTS(std::vector<std::string>, cppmm_Vector_string);
 
 extern "C" {
 
-void cppmm_Vector_string_get(const cppmm_Vector_string* vec, int index) {
+const char* cppmm_Vector_string_get(const cppmm_Vector_string* vec, int index) {
     return *to_cpp(vec))[index].c_str();
 }
 
