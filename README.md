@@ -6,24 +6,56 @@ C-plus-plus-minus-minus
 `cppmm` is a binding generator for creating C and Rust interfaces to C++ libraries. It is targeting a very small subset of libraries--just those in consideration by the `vfx-rs` project--and is not expected to work for anything else and will have assumptions about the C++ it will accept based on the types and idioms found in those libraries baked into it.
 
 ## Quick start
-You must have LLVM and clang installed, as well as fmtlib. I've tested it with llvm 10.0.1 only. To run the test you'll need OIIO 2.2.8 and openexr 2.4.0 (other versions may work but are untested)
+You must have LLVM and clang installed. I've tested it with llvm 10.0.1 only. To run the test you'll need OIIO 2.2.8 and openexr 2.4.0 (other versions may work but are untested)
+
+### Checkout
+The repository includes fmtlib 4.1.0 as a submodule, so clone with `--recursive`:
+```bash
+git clone --recursive git@github.com:vfx-rs/cppmm.git
+```
+Or if you already have it cloned:
+```bash
+git submodule update --init
+```
+
+### Build
+To build:
 ```
 mkdir build && cd build
 env LLVM_ROOT=</path/to/llvm/installation> cmake ..
-./cppmm ../test/oiio/c-imageio.cpp -u -- \
-    -I</path/to/oiio/includes>           \
-    -I</path/to/openexr/includes>        \
-    -I</path/to/libc++/includes>
+make
+```
+
+### Run
+Then to run:
+```
+./cppmm ../test/half/bind -u            \
+    -l </path/to/half/library>          \
+    -o </path/to/generated/project>     \
+    --                                  \
+    -I</path/to/imath/includes>         \
+    -isystem </path/to/libc++/includes>
 ```
 for me this is:
 ```
-./cppmm ../test/oiio/c-imageio.cpp -u  --                         \
-    -I/home/anders/packages/oiio/2.2.8/include                    \
-    -I/home/anders/packages/openexr/2.4.0/include                 \
-    -I/home/anders/packages/llvm/10.0.1/lib/clang/10.0.1/include/
+./cppmm ../test/half/bind -u                                    \
+    -l /home/anders/packages/imath/3.0.0/lib/libhalf.so         \
+    -o half-c                                                   \
+    --                                                          \
+    -I/home/anders/packages/openexr/3.0.0/include               \
+    -isystem /home/anders/packages/llvm/10.0.1/lib/clang/10.0.1/include/
 ```
+Note the use of `-isystem` to specify the clang includes. This is necessary to stop the generator passing that include directory to the C library build, which is probably not what you want.
 
-This will generate `c-imageio.cpp`, `c-imageio.h` and `casts.h` in the build directory. They will not currently compile but should give you an idea of what the output will look like.
+This will generate a CMake project called `half-c` in the build directory, which you can build in the usual way.
+
+### Testsuite
+If you want to run the automated tests, do this from the `build` directory:
+```bash
+../test/bindandtest/sh
+```
+Note you'll first need to modify the commands in bindandtest.sh to modify your local environment. This script just binds the tests `half`, `oiio_min` and `containers` and diffs their output against the pre-generated projects in each test's `ref` directory. If you get no output, that means everything matches.
+
 
 ## Todo
 - [ ] Add Rust -sys crate output
