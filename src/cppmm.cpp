@@ -22,6 +22,7 @@
 #include "exports.hpp"
 #include "function.hpp"
 #include "generator_c.hpp"
+#include "generator_rust-sys.hpp"
 #include "match_bindings.hpp"
 #include "match_decls.hpp"
 #include "method.hpp"
@@ -83,6 +84,10 @@ static cl::opt<std::string> opt_output_directory(
         "Directory under which output project directories will be written"));
 static cl::list<std::string>
     opt_rename_namespace("n", cl::desc("Rename namespace <to>=<from>"));
+static cl::opt<std::string> opt_rust_sys_directory(
+    "rust-sys",
+    cl::desc(
+        "Directory under which rust-sys project will be written"));
 
 static cl::list<std::string> opt_includes("i", cl::desc("Extra includes for the project"));
 static cl::list<std::string> opt_libraries("l", cl::desc("Libraries to link against"));
@@ -191,10 +196,21 @@ int main(int argc, const char** argv) {
     // necessary includes
     std::vector<std::unique_ptr<cppmm::Generator>> generators;
     generators.push_back(
-        std::unique_ptr<cppmm::Generator>(new cppmm::GeneratorC()));
+        std::unique_ptr<cppmm::Generator>(new cppmm::GeneratorC(output_dir)));
+
+    if (opt_rust_sys_directory != "") {
+        std::string output_dir = opt_rust_sys_directory;
+        if (!fs::exists(output_dir) && !fs::create_directories(output_dir)) {
+            fmt::print("ERROR: could not create output directory '{}'\n",
+                       output_dir);
+            return -2;
+        }
+
+        generators.push_back(std::unique_ptr<cppmm::Generator>(new cppmm::GeneratorRustSys(output_dir)));
+    }
 
     for (const auto& g : generators) {
-        g->generate(output_dir, cppmm::ex_files, cppmm::files, cppmm::records,
+        g->generate(cppmm::ex_files, cppmm::files, cppmm::records,
                     cppmm::enums, cppmm::vectors, project_includes,
                     project_libraries);
     }

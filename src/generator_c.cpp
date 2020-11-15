@@ -2,10 +2,9 @@
 #include "filesystem.hpp"
 #include "pystring.h"
 
-namespace cppmm {
-
 namespace ps = pystring;
-namespace fs = ghc::filesystem;
+
+namespace {
 
 std::string bind_file_root(const std::string& filename) {
     const auto basename = ps::os::path::basename(filename);
@@ -13,6 +12,11 @@ std::string bind_file_root(const std::string& filename) {
     ps::os::path::splitext(root, ext, basename);
     return root;
 }
+} // namespace
+
+namespace cppmm {
+
+namespace fs = ghc::filesystem;
 
 void write_header(const std::string& filename, const std::string& declarations,
                   const std::string& include_stmts) {
@@ -321,14 +325,13 @@ target_link_libraries({0} PUBLIC
 // FIXME: the logic of what things end up in what maps is a bit gnarly here.
 // We should really move everythign that's in ExportedFile into File during
 // the second phase, and clarify what's expected to be in what maps exactly.
-void GeneratorC::generate(const std::string& output_dir,
-                          const ExportedFileMap& ex_files, const FileMap& files,
+void GeneratorC::generate(const ExportedFileMap& ex_files, const FileMap& files,
                           const RecordMap& records, const EnumMap& enums,
                           const VectorMap& vectors,
                           const std::vector<std::string>& project_includes,
                           const std::vector<std::string>& project_libraries) {
     std::vector<std::string> source_files;
-    fs::path output_dir_path = fs::path(output_dir);
+    fs::path output_dir_path = fs::path(_output_dir);
     std::string project_name = output_dir_path.stem();
 
     for (const auto& bind_file : ex_files) {
@@ -452,10 +455,10 @@ void GeneratorC::generate(const std::string& output_dir,
         source_files.push_back(implementation);
     }
 
-    write_casts_header(fs::path(output_dir) / "casts.h");
-    write_containers_header(fs::path(output_dir) / "cppmm_containers.h");
+    write_casts_header(output_dir_path / "casts.h");
+    write_containers_header(output_dir_path / "cppmm_containers.h");
     std::string containers_implementation =
-        fs::path(output_dir) / "cppmm_containers.cpp";
+        output_dir_path / "cppmm_containers.cpp";
     write_containers_implementation(containers_implementation);
     source_files.push_back("cppmm_containers.cpp");
 
