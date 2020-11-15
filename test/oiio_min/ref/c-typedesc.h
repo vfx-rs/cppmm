@@ -1,5 +1,6 @@
 #pragma once
 
+#include "cppmm_containers.h"
 
 
 #ifdef __cplusplus
@@ -27,11 +28,11 @@ typedef struct { char _private[24]; } OIIO_TypeDesc_vector CPPMM_ALIGN(8);
 
 void OIIO_TypeDesc_vector_ctor(OIIO_TypeDesc_vector* vec);
 void OIIO_TypeDesc_vector_dtor(const OIIO_TypeDesc_vector* vec);
-void OIIO_TypeDesc_vector_get(const OIIO_TypeDesc_vector* vec, int index, OIIO_TypeDesc* element);
-void OIIO_TypeDesc_vector_set(OIIO_TypeDesc_vector* vec, int index, OIIO_TypeDesc* element);
 int OIIO_TypeDesc_vector_size(const OIIO_TypeDesc_vector* vec);
 OIIO_TypeDesc* OIIO_TypeDesc_vector_data(OIIO_TypeDesc_vector* vec);
 
+void OIIO_TypeDesc_vector_get(const OIIO_TypeDesc_vector* vec, int index, OIIO_TypeDesc* element);
+void OIIO_TypeDesc_vector_set(OIIO_TypeDesc_vector* vec, int index, OIIO_TypeDesc* element);
 enum OIIO_TypeDesc_VECSEMANTICS {
     OIIO_TypeDesc_VECSEMANTICS_NOXFORM = 0,
     OIIO_TypeDesc_VECSEMANTICS_NOSEMANTICS = 0,

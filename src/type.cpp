@@ -37,9 +37,11 @@ const char* Type::get_c_qname() const {
     if (const Builtin* builtin = var.cast_or_null<Builtin>()) {
         return name.c_str();
     } else if (const Record* record = var.cast_or_null<Record>()) {
-            return record->c_qname.c_str();
+        return record->c_qname.c_str();
+    } else if (const Vector* vector = var.cast_or_null<Vector>()) {
+        return vector->c_qname.c_str();
     } else if (const String* str = var.cast_or_null<String>()) {
-            return "string";
+        return "string";
     } else if (const Enum* enm = var.cast_or_null<Enum>()) {
         return enm->c_qname.c_str();
     }
@@ -51,8 +53,11 @@ std::string Type::get_cpp_qname() const {
         return name;
     } else if (const Record* record = var.cast_or_null<Record>()) {
         return record->cpp_qname;
+    } else if (const Vector* vector = var.cast_or_null<Vector>()) {
+        return fmt::format("std::vector<{}>",
+                           vector->element_type.type.get_cpp_qname());
     } else if (const String* str = var.cast_or_null<String>()) {
-            return "std::string";
+        return "std::string";
     } else if (const Enum* enm = var.cast_or_null<Enum>()) {
         return enm->cpp_qname;
     }
@@ -80,7 +85,10 @@ std::string QualifiedType::create_c_declaration() const {
         if (type.var.is<Enum>()) {
             result += "int";
         } else if (const Vector* vec = type.var.cast_or_null<Vector>()) {
-            result += fmt::format("{} *", vec->c_qname);
+            result += fmt::format("{}", vec->c_qname);
+            if (is_ptr || is_ref || is_uptr) {
+                result += "*";
+            }
         } else {
             result += prefix_from_namespaces(type.namespaces, "_") + type.name;
             if (is_ptr || is_ref || is_uptr) {

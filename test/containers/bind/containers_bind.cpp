@@ -25,7 +25,9 @@ class CustomElement {
 } CPPMM_OPAQUEBYTES;
 
 class Containers {
-    // void takes_const_vec_string_ref(const std::vector<std::string>& vec);
+    static void takes_const_vec_string_ref(const std::vector<std::string>& vec);
+    static std::vector<std::string> returns_vec_string();
+    static void takes_mut_vec_string_ref(std::vector<std::string>& vec);
     void takes_const_vec_custom_ref(const std::vector<::containers::CustomElement>& vec);
     void testint(int a);
 

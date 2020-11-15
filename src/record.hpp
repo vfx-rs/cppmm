@@ -44,6 +44,42 @@ struct Record {
     std::string get_valuetype_constructor_body(
         const std::vector<std::string>& call_params) const;
 
+    std::string
+    get_operator_body(const Method& method, const std::string& declaration,
+                      const std::vector<std::string>& call_params) const;
+
+    std::string
+    get_return_string_ref_body(const Method& method,
+                      const std::vector<std::string>& call_params) const;
+
+    std::string
+    get_return_string_copy_body(const Method& method,
+                      const std::vector<std::string>& call_params) const;
+
+    std::string
+    get_return_valuetype_body(const Method& method,
+                      const std::vector<std::string>& call_params) const;
+
+    std::string
+    get_return_opaquebytes_body(const Method& method,
+                      const std::vector<std::string>& call_params) const;
+
+    std::string
+    get_return_opaqueptr_body(const Method& method,
+                      const std::vector<std::string>& call_params) const;
+
+    std::string
+    get_return_uniqueptr_body(const Method& method,
+                      const std::vector<std::string>& call_params) const;
+
+    std::string
+    get_return_builtin_body(const Method& method,
+                      const std::vector<std::string>& call_params) const;
+
+    std::string
+    get_return_void_body(const Method& method,
+                      const std::vector<std::string>& call_params) const;
+
     std::string get_method_declaration(
         const Method& method, std::set<std::string>& includes,
         std::set<std::string>& casts_macro_invocations) const;
@@ -52,7 +88,8 @@ struct Record {
                                       const std::string& declaration) const;
 
     std::string get_definition() const;
-    std::string get_declaration(std::set<std::string>& casts_macro_invocations) const;
+    std::string
+    get_declaration(std::set<std::string>& casts_macro_invocations) const;
 };
 
 } // namespace cppmm

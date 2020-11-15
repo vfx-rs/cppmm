@@ -144,7 +144,7 @@ Enum* process_enum(const EnumDecl* enum_decl) {
 
 Vector* process_vector(const QualifiedType& element_type) {
     std::string ename;
-    if (ename == "basic_string") {
+    if (element_type.type.name == "basic_string") {
         ename = "cppmm_string";
     } else {
         ename = element_type.type.get_c_qname();

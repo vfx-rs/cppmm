@@ -237,7 +237,7 @@ extern "C" {
 #endif
 
 
-typedef struct cppmm_string_vector cppmm_string_vector;
+typedef struct { char _private[24]; } cppmm_string_vector CPPMM_ALIGN(8);
 
 const char* cppmm_string_vector_get(const cppmm_string_vector* vec, int index);
 int cppmm_string_vector_size(const cppmm_string_vector* vec);
@@ -337,6 +337,7 @@ void GeneratorC::generate(const std::string& output_dir,
         std::string definitions;
 
         std::set<std::string> header_includes;
+        header_includes.insert("cppmm_containers.h");
 
         if (bind_file.first == "") {
             // FIXME: how is this getting in there?
@@ -357,7 +358,6 @@ void GeneratorC::generate(const std::string& output_dir,
             const auto it_vec = vectors.find(record.c_qname);
             if (it_vec != vectors.end()) {
                 if (it_vec->second.element_type.type.name == "basic_string") {
-                    header_includes.insert("cppmm_containers.h");
                 } else {
                     declarations += get_vector_declaration(it_vec->second);
                     definitions += get_vector_implementation(

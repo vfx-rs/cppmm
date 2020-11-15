@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 ./cppmm                                                             \
-    ../test/oiio_min                                                \
+    ../test/oiio_min/bind                                           \
     -n OIIO=OpenImageIO_v2_2                                        \
     -o oiio_min-c                                                   \
     -l /home/anders/packages/oiio/2.2.8/lib/libOpenImageIO.so       \
@@ -10,12 +10,19 @@
     -isystem /home/anders/packages/llvm/10.0.1/lib/clang/10.0.1/include/
 
 ./cppmm                                                             \
-    ../test/half                                                    \
+    ../test/half/bind                                               \
     -o half-c                                                       \
     -u                                                              \
     -l /home/anders/packages/imath/3.0.0/lib/libhalf.so             \
     --                                                              \
     -I/home/anders/packages/imath/3.0.0/include                     \
+    -isystem /home/anders/packages/llvm/10.0.1/lib/clang/10.0.1/include
+
+./cppmm                                                             \
+    ../test/containers/bind                                         \
+    -o containers-c                                                 \
+    --                                                              \
+    -I/home/anders/code/cppmm/test/containers                       \
     -isystem /home/anders/packages/llvm/10.0.1/lib/clang/10.0.1/include
 
 ../test/diff.sh

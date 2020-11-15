@@ -21,19 +21,28 @@ void Imath_3_0_half_setBits(Imath_3_0_half* self, unsigned short bits) {
 
 
 Imath_3_0_half Imath_3_0_half_sNan() {
-    return bit_cast<Imath_3_0_half>(Imath_3_0::half::sNan());
+    Imath_3_0::half tmp = Imath_3_0::half::sNan();
+    Imath_3_0_half ret;
+    new (&ret) Imath_3_0::half(std::move(tmp));
+    return ret;
 }
 
 
 
 Imath_3_0_half Imath_3_0_half_qNan() {
-    return bit_cast<Imath_3_0_half>(Imath_3_0::half::qNan());
+    Imath_3_0::half tmp = Imath_3_0::half::qNan();
+    Imath_3_0_half ret;
+    new (&ret) Imath_3_0::half(std::move(tmp));
+    return ret;
 }
 
 
 
 Imath_3_0_half Imath_3_0_half_posInf() {
-    return bit_cast<Imath_3_0_half>(Imath_3_0::half::posInf());
+    Imath_3_0::half tmp = Imath_3_0::half::posInf();
+    Imath_3_0_half ret;
+    new (&ret) Imath_3_0::half(std::move(tmp));
+    return ret;
 }
 
 
@@ -63,7 +72,10 @@ void Imath_3_0_half_dtor(Imath_3_0_half* self) {
 
 
 Imath_3_0_half Imath_3_0_half_negInf() {
-    return bit_cast<Imath_3_0_half>(Imath_3_0::half::negInf());
+    Imath_3_0::half tmp = Imath_3_0::half::negInf();
+    Imath_3_0_half ret;
+    new (&ret) Imath_3_0::half(std::move(tmp));
+    return ret;
 }
 
 
@@ -75,7 +87,10 @@ Imath_3_0_half Imath_3_0_half_neg(const Imath_3_0_half* self) {
 
 
 Imath_3_0_half Imath_3_0_half_round(const Imath_3_0_half* self, unsigned int n) {
-    return bit_cast<Imath_3_0_half>(to_cpp(self)->round(n));
+    Imath_3_0::half tmp = to_cpp(self)->round(n);
+    Imath_3_0_half ret;
+    new (&ret) Imath_3_0::half(std::move(tmp));
+    return ret;
 }
 
 

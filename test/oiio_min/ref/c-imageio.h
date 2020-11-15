@@ -2,6 +2,7 @@
 
 #include "c-filesystem.h"
 #include "c-typedesc.h"
+#include "cppmm_containers.h"
 
 
 #ifdef __cplusplus
@@ -202,7 +203,7 @@ int OIIO_ROI_depth(const OIIO_ROI* self);
 /// the image.  (Note that this differs slightly from the member
 /// data channelformats, which is empty if there are not separate
 /// per-channel formats.)
-void OIIO_ImageSpec_get_channelformats(const OIIO_ImageSpec* self, OIIO_TypeDesc_vector * formats);
+void OIIO_ImageSpec_get_channelformats(const OIIO_ImageSpec* self, OIIO_TypeDesc_vector* formats);
 
 
 OIIO_ImageSpec* OIIO_ImageSpec_copy(const OIIO_ImageSpec* other);

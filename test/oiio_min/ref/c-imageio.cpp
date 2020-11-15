@@ -115,7 +115,7 @@ int OIIO_ROI_depth(const OIIO_ROI* self) {
 
 
 
-void OIIO_ImageSpec_get_channelformats(const OIIO_ImageSpec* self, OIIO_TypeDesc_vector * formats) {
+void OIIO_ImageSpec_get_channelformats(const OIIO_ImageSpec* self, OIIO_TypeDesc_vector* formats) {
     to_cpp(self)->get_channelformats(*to_cpp(formats));
 }
 
