@@ -13,7 +13,7 @@ extern "C" {
 #endif
 
 
-typedef struct cppmm_string_vector cppmm_string_vector;
+typedef struct { char _private[24]; } cppmm_string_vector CPPMM_ALIGN(8);
 
 const char* cppmm_string_vector_get(const cppmm_string_vector* vec, int index);
 int cppmm_string_vector_size(const cppmm_string_vector* vec);
