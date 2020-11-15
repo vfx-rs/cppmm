@@ -26,13 +26,14 @@ for me this is:
 This will generate `c-imageio.cpp`, `c-imageio.h` and `casts.h` in the build directory. They will not currently compile but should give you an idea of what the output will look like.
 
 ## Todo
-- [ ] Add type registry and warn on missing type declarations
-- [ ] Add parameter names for copy constructors and assignment operators
-- [ ] Add support for declaring enums
-- [ ] Add support for free functions
-- [ ] Add support for returning strings
-- [ ] Add support for vector
-- [ ] Add support for generating C versions of C++ types (value types)
 - [ ] Add Rust -sys crate output
-- [ ] Figure out how to parse attributes inside macros
 - [ ] Add support for binding straight from the original C++ headers with attributes
+- [ ] Add automatic tests including test runners (rely on Rust for this?)
+- [x] Add type registry and warn on missing type declarations
+- [x] Add parameter names for copy constructors and assignment operators
+- [x] Add support for declaring enums
+- [x] Add support for free functions
+- [x] Add support for returning strings
+- [x] Add support for vector
+- [x] Add support for generating C versions of C++ types (value types)
+- [x] Figure out how to parse attributes inside macros
