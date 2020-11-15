@@ -2,6 +2,7 @@
 #include "enum.hpp"
 #include "namespaces.hpp"
 #include "record.hpp"
+#include "vector.hpp"
 
 #include "pystring.h"
 
@@ -11,9 +12,9 @@ namespace cppmm {
 
 namespace ps = pystring;
 
-Function::Function(std::string cpp_name, std::string c_name, QualifiedType return_type,
-                   std::vector<Param> params, std::string comment,
-                   std::vector<std::string> namespaces)
+Function::Function(std::string cpp_name, std::string c_name,
+                   QualifiedType return_type, std::vector<Param> params,
+                   std::string comment, std::vector<std::string> namespaces)
     : cpp_name(cpp_name), c_name(c_name), return_type(return_type),
       params(params), comment(comment) {
     cpp_qname = prefix_from_namespaces(namespaces, "::") + cpp_name;
@@ -40,8 +41,8 @@ std::string Function::get_declaration(
     }
 
     std::string ret;
-    if (return_type.type.name == "basic_string" &&
-        !return_type.is_ref && !return_type.is_ptr) {
+    if (return_type.type.name == "basic_string" && !return_type.is_ref &&
+        !return_type.is_ptr) {
         ret = "int";
         param_decls.push_back("char* _result_buffer_ptr");
         param_decls.push_back("int _result_buffer_len");
@@ -64,49 +65,115 @@ std::string Function::get_definition(const std::string& declaration) const {
     }
 
     std::string body;
-    bool return_string_copy = return_type.type.name == "basic_string" &&
-                              !return_type.is_ref &&
-                              !return_type.is_ptr;
-    if (return_string_copy) {
-        // need to copy to the out parameters
-        body = "    const std::string result = ";
-    } else if (return_type.type.name != "void") {
-        body = "    return ";
-    } else {
-        body = "    ";
-    }
-
+    const std::string call_prefix = cpp_qname;
     const TypeVariant& return_var = return_type.type.var;
-    bool bitcast_return_type = false;
-    if (const Record* record = return_var.cast_or_null<Record>()) {
-        bitcast_return_type =
-            (return_var.cast<Record>()->kind == RecordKind::ValueType ||
-             return_var.cast<Record>()->kind == RecordKind::OpaqueBytes);
-    }
 
-    if (bitcast_return_type) {
-        body += fmt::format("bit_cast<{}>(",
-                            return_type.type.var.cast<Record>()->c_qname);
-    } else if (return_type.requires_cast) {
-        body += "to_c(";
-    }
-
-    body += fmt::format("{}({})", cpp_qname, ps::join(", ", call_params));
-
-    if (return_type.is_uptr) {
-        body += ".release()";
-    }
-    if (return_type.requires_cast || bitcast_return_type) {
-        body += ")";
-    }
-    body += ";";
-
-    if (return_string_copy) {
-        body += "\n    safe_strcpy(_result_buffer_ptr, result, "
-                "_result_buffer_len);\n    return result.size();";
+    if (return_type.type.name == "basic_string" && return_type.is_ref) {
+        body = get_return_string_ref_body(*this, call_prefix, call_params);
+    } else if (return_type.type.name == "basic_string" && !return_type.is_ref) {
+        body = get_return_string_copy_body(*this, call_prefix, call_params);
+    } else if (return_type.is_uptr) {
+        body = get_return_uniqueptr_body(*this, call_prefix, call_params);
+    } else if (const Record* record = return_var.cast_or_null<Record>()) {
+        if (record->kind == RecordKind::ValueType) {
+            body = get_return_valuetype_body(*this, call_prefix, call_params);
+        } else if (record->kind == RecordKind::OpaqueBytes) {
+            body = get_return_opaquebytes_body(*this, call_prefix, call_params);
+        } else {
+            body = get_return_opaqueptr_body(*this, call_prefix, call_params);
+        }
+    } else if (return_var.is<Vector>()) {
+        body = get_return_opaquebytes_body(*this, call_prefix, call_params);
+    } else if (return_type.type.name == "void") {
+        body = get_return_void_body(*this, call_prefix, call_params);
+    } else {
+        body = get_return_builtin_body(*this, call_prefix, call_params);
     }
 
     return fmt::format("{} {{\n{}\n}}", declaration, body);
+}
+
+std::string
+get_return_string_ref_body(const Function& function,
+                           const std::string& call_prefix,
+                           const std::vector<std::string>& call_params) {
+    // just get the char* from the string ref
+    return fmt::format("    return {}({}).c_str();", call_prefix,
+                       ps::join(", ", call_params));
+}
+
+std::string
+get_return_string_copy_body(const Function& function,
+                            const std::string& call_prefix,
+                            const std::vector<std::string>& call_params) {
+    // assign the return value to a temporary string, then copy the chars into
+    // the out parameters we added to the call params
+    return fmt::format(R"#(    const std::string result = {}({});
+    safe_strcpy(_result_buffer_ptr, result, _result_buffer_len);
+    return result.size();)#",
+                       call_prefix, ps::join(", ", call_params));
+}
+
+std::string
+get_return_valuetype_body(const Function& function,
+                          const std::string& call_prefix,
+                          const std::vector<std::string>& call_params) {
+    // just bit_cast the return value
+    return fmt::format("    return bit_cast<{}>({}({}));",
+                       function.return_type.type.get_c_qname(), call_prefix,
+                       ps::join(", ", call_params));
+}
+
+std::string
+get_return_opaquebytes_body(const Function& function,
+                            const std::string& call_prefix,
+                            const std::vector<std::string>& call_params) {
+    // here we need to assign to a temporary variable, then placement new the
+    // move constructor into our opaque bytes struct so that the temp does not
+    // try and clean up after itself (assuming that the type has implemented
+    // move constructors correctly)
+    return fmt::format(R"#(    {0} tmp = {1}({2});
+    {3} ret;
+    new (&ret) {0}(std::move(tmp));
+    return ret;)#",
+
+                       function.return_type.type.get_cpp_qname(), call_prefix,
+                       ps::join(", ", call_params),
+                       function.return_type.type.get_c_qname());
+}
+
+std::string
+get_return_opaqueptr_body(const Function& function,
+                          const std::string& call_prefix,
+                          const std::vector<std::string>& call_params) {
+    // Just cast the pointer.
+    // FIXME: what if the function returns an opaqueptr type on the stack?
+    return fmt::format("    return to_c({}({}));", call_prefix,
+                       ps::join(", ", call_params));
+}
+
+std::string
+get_return_uniqueptr_body(const Function& function,
+                          const std::string& call_prefix,
+                          const std::vector<std::string>& call_params) {
+    // FIXME: this assumes that what's stored in the uniqueptr is not a
+    // builtin, which is almost certainly always true, but might not be.
+    return fmt::format("    return to_c({}({}).release());", call_prefix,
+                       ps::join(", ", call_params));
+}
+
+std::string
+get_return_builtin_body(const Function& function,
+                        const std::string& call_prefix,
+                        const std::vector<std::string>& call_params) {
+    return fmt::format("    return {}({});", call_prefix,
+                       ps::join(", ", call_params));
+}
+
+std::string get_return_void_body(const Function& function,
+                                 const std::string& call_prefix,
+                                 const std::vector<std::string>& call_params) {
+    return fmt::format("    {}({});", call_prefix, ps::join(", ", call_params));
 }
 
 } // namespace cppmm

@@ -2,6 +2,7 @@
 #include "enum.hpp"
 #include "namespaces.hpp"
 #include "vector.hpp"
+#include "function.hpp"
 
 #include "pystring.h"
 
@@ -145,124 +146,6 @@ Record::get_operator_body(const Method& method, const std::string& declaration,
     return body;
 }
 
-std::string Record::get_return_string_ref_body(
-    const Method& method, const std::vector<std::string>& call_params) const {
-    // just get the char* from the string ref
-    std::string call_prefix;
-    if (method.is_static) {
-        call_prefix = cpp_qname + "::";
-    } else {
-        call_prefix = "to_cpp(self)->";
-    }
-    return fmt::format("    return {}{}({}).c_str();", call_prefix,
-                       method.cpp_name, ps::join(", ", call_params));
-}
-
-std::string Record::get_return_string_copy_body(
-    const Method& method, const std::vector<std::string>& call_params) const {
-    // assign the return value to a temporary string, then copy the chars into
-    // the out parameters we added to the call params
-    std::string call_prefix;
-    if (method.is_static) {
-        call_prefix = cpp_qname + "::";
-    } else {
-        call_prefix = "to_cpp(self)->";
-    }
-    return fmt::format(R"#(    const std::string result = {}{}({});
-    safe_strcpy(_result_buffer_ptr, result, _result_buffer_len);
-    return result.size();)#",
-                       call_prefix, method.cpp_name,
-                       ps::join(", ", call_params));
-}
-
-std::string Record::get_return_valuetype_body(
-    const Method& method, const std::vector<std::string>& call_params) const {
-    // just bit_cast the return value
-    std::string call_prefix;
-    if (method.is_static) {
-        call_prefix = cpp_qname + "::";
-    } else {
-        call_prefix = "to_cpp(self)->";
-    }
-    return fmt::format("    return bit_cast<{}>({}{}({}));",
-                       method.return_type.type.get_c_qname(), call_prefix,
-                       method.cpp_name, ps::join(", ", call_params));
-}
-
-std::string Record::get_return_opaquebytes_body(
-    const Method& method, const std::vector<std::string>& call_params) const {
-    std::string call_prefix;
-    if (method.is_static) {
-        call_prefix = cpp_qname + "::";
-    } else {
-        call_prefix = "to_cpp(self)->";
-    }
-    // here we need to assign to a temporary variable, then placement new the
-    // move constructor into our opaque bytes struct so that the temp does not
-    // try and clean up after itself (assuming that the type has implemented
-    // move constructors correctly)
-    return fmt::format(R"#(    {0} tmp = {1}{2}({3});
-    {4} ret;
-    new (&ret) {0}(std::move(tmp));
-    return ret;)#",
-
-                       method.return_type.type.get_cpp_qname(), call_prefix,
-                       method.cpp_name, ps::join(", ", call_params),
-                       method.return_type.type.get_c_qname());
-}
-
-std::string Record::get_return_opaqueptr_body(
-    const Method& method, const std::vector<std::string>& call_params) const {
-    std::string call_prefix;
-    // Just cast the pointer.
-    // FIXME: what if the function returns an opaqueptr type on the stack?
-    if (method.is_static) {
-        call_prefix = cpp_qname + "::";
-    } else {
-        call_prefix = "to_cpp(self)->";
-    }
-    return fmt::format("    return to_c({}{}({}));", call_prefix,
-                       method.cpp_name, ps::join(", ", call_params));
-}
-
-std::string Record::get_return_uniqueptr_body(
-    const Method& method, const std::vector<std::string>& call_params) const {
-    std::string call_prefix;
-    if (method.is_static) {
-        call_prefix = cpp_qname + "::";
-    } else {
-        call_prefix = "to_cpp(self)->";
-    }
-    // FIXME: this assumes that what's stored in the uniqueptr is not a
-    // builtin, which is almost certainly always true, but might not be.
-    return fmt::format("    return to_c({}{}({}).release());", call_prefix,
-                       method.cpp_name, ps::join(", ", call_params));
-}
-
-std::string Record::get_return_builtin_body(
-    const Method& method, const std::vector<std::string>& call_params) const {
-    std::string call_prefix;
-    if (method.is_static) {
-        call_prefix = cpp_qname + "::";
-    } else {
-        call_prefix = "to_cpp(self)->";
-    }
-    return fmt::format("    return {}{}({});", call_prefix, method.cpp_name,
-                       ps::join(", ", call_params));
-}
-
-std::string Record::get_return_void_body(
-    const Method& method, const std::vector<std::string>& call_params) const {
-    std::string call_prefix;
-    if (method.is_static) {
-        call_prefix = cpp_qname + "::";
-    } else {
-        call_prefix = "to_cpp(self)->";
-    }
-    return fmt::format("    {}{}({});", call_prefix, method.cpp_name,
-                       ps::join(", ", call_params));
-}
-
 std::string
 Record::get_method_definition(const Method& method,
                               const std::string& declaration) const {
@@ -273,6 +156,12 @@ Record::get_method_definition(const Method& method,
 
     std::string body;
     const TypeVariant& return_var = method.return_type.type.var;
+    std::string call_prefix;
+    if (method.is_static) {
+        call_prefix = cpp_qname + "::" + method.cpp_name;
+    } else {
+        call_prefix = "to_cpp(self)->" + method.cpp_name;
+    }
 
     if (method.is_constructor && kind == RecordKind::OpaquePtr) {
         body = get_opaqueptr_constructor_body(call_params);
@@ -286,26 +175,27 @@ Record::get_method_definition(const Method& method,
         body = get_operator_body(method, declaration, call_params);
     } else if (method.return_type.type.name == "basic_string" &&
                method.return_type.is_ref) {
-        body = get_return_string_ref_body(method, call_params);
+        body = get_return_string_ref_body(method, call_prefix, call_params);
     } else if (method.return_type.type.name == "basic_string" &&
                !method.return_type.is_ref) {
-        body = get_return_string_copy_body(method, call_params);
+        body = get_return_string_copy_body(method, call_prefix, call_params);
     } else if (method.return_type.is_uptr) {
-        body = get_return_uniqueptr_body(method, call_params);
+        body = get_return_uniqueptr_body(method, call_prefix, call_params);
     } else if (const Record* record = return_var.cast_or_null<Record>()) {
         if (record->kind == RecordKind::ValueType) {
-            body = get_return_valuetype_body(method, call_params);
+            body = get_return_valuetype_body(method, call_prefix, call_params);
         } else if (record->kind == RecordKind::OpaqueBytes) {
-            body = get_return_opaquebytes_body(method, call_params);
+            body =
+                get_return_opaquebytes_body(method, call_prefix, call_params);
         } else {
-            body = get_return_opaqueptr_body(method, call_params);
+            body = get_return_opaqueptr_body(method, call_prefix, call_params);
         }
     } else if (return_var.is<Vector>()) {
-        body = get_return_opaquebytes_body(method, call_params);
+        body = get_return_opaquebytes_body(method, call_prefix, call_params);
     } else if (method.return_type.type.name == "void") {
-        body = get_return_void_body(method, call_params);
+        body = get_return_void_body(method, call_prefix, call_params);
     } else {
-        body = get_return_builtin_body(method, call_params);
+        body = get_return_builtin_body(method, call_prefix, call_params);
     }
 
     return fmt::format("{} {{\n{}\n}}", declaration, body);
