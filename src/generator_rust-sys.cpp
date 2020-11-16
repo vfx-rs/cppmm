@@ -255,9 +255,19 @@ std::string get_rust_qtype(const QualifiedType& qtype) {
     return result;
 }
 
+const std::vector<std::string> _rust_keywords = {
+    "as",     "break",  "const",    "continue", "crate",  "else",    "enum",
+    "extern", "false",  "fn",       "for",      "if",     "impl",    "in",
+    "let",    "loop",   "match",    "mod",      "move",   "mut",     "pub",
+    "ref",    "return", "self",     "Self",     "static", "struct",  "super",
+    "trait",  "true",   "type",     "unsafe",   "use",    "where",   "while",
+    "async",  "await",  "dyn",      "abstract", "become", "box",     "do",
+    "final",  "macro",  "override", "priv",     "typeof", "unsized", "virtual",
+    "yield",  "try",    "union"};
+
 std::string sanitize_param_name(const std::string name) {
-    // FIXME: fill out this list
-    if (name == "type" || name == "self") {
+    if (std::find(_rust_keywords.begin(), _rust_keywords.end(), name) !=
+        _rust_keywords.end()) {
         return std::string("_") + name;
     }
 
@@ -383,8 +393,8 @@ void write_build_rs(const std::string& filename,
     // that have funny names or a lack of prefixes because their developers
     // thought they were special.
     // Also: Windows...
-    // TODO: Probably want to add support for rpath as well, which means creating
-    // a project-local .cargo/config.toml with the rpath per target
+    // TODO: Probably want to add support for rpath as well, which means
+    // creating a project-local .cargo/config.toml with the rpath per target
     std::string link_lines;
     for (const auto& l : libs) {
         std::string head, tail;
@@ -393,9 +403,9 @@ void write_build_rs(const std::string& filename,
         ps::os::path::splitext(root, ext, tail);
         link_lines += fmt::format(
             "    println!(\"cargo:rustc-link-search=native={}\");\n", head);
-        link_lines += fmt::format(
-            "    println!(\"cargo:rustc-link-lib=dylib={}\");\n",
-            root.substr(3, std::string::npos));
+        link_lines +=
+            fmt::format("    println!(\"cargo:rustc-link-lib=dylib={}\");\n",
+                        root.substr(3, std::string::npos));
     }
 
     // The rest of the build.rs just uses the cmake crate to build the C wrapper
