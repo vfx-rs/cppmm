@@ -314,6 +314,8 @@ target_include_directories({0} PUBLIC
 target_link_libraries({0} PUBLIC
   {3}
 )
+
+install(TARGETS {0} DESTINATION ${{CMAKE_INSTALL_PREFIX}})
 )#",
                     project_name, ps::join("\n  ", source_files),
                     ps::join("\n  ", includes), ps::join("\n  ", libraries));
@@ -333,6 +335,14 @@ void GeneratorC::generate(const ExportedFileMap& ex_files, const FileMap& files,
     std::vector<std::string> source_files;
     fs::path output_dir_path = fs::path(_output_dir);
     std::string project_name = output_dir_path.stem();
+
+    if (!fs::exists(output_dir_path)) {
+        if (!fs::create_directories(output_dir_path)) {
+            fmt::print("ERROR: could not create output directory '{}'\n",
+                       output_dir_path.string());
+            abort();
+        }
+    }
 
     for (const auto& bind_file : ex_files) {
         std::set<std::string> casts_macro_invocations;

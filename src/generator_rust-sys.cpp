@@ -27,6 +27,9 @@ version = "0.1.0"
 authors = ["Anders Langlands <anderslanglands@gmail.com>"]
 edition = "2018"
 
+[build-dependencies]
+cmake = "0.1"
+
 [dependencies]
 )#",
         project_name);
@@ -370,7 +373,49 @@ pub fn cppmm_string_vector_size(vec: *const cppmm_string_vector) -> i32;
     fclose(out);
 }
 
+void write_build_rs(const std::string& filename,
+                    const std::vector<std::string>& libs) {
+
+    std::string link_lines;
+    for (const auto& l : libs) {
+        std::string head, tail;
+        ps::os::path::split(head, tail, l);
+        std::string root, ext;
+        ps::os::path::splitext(root, ext, tail);
+        link_lines += fmt::format(
+            "    println!(\"cargo:rustc-link-search=native={}\");\n", head);
+        link_lines += fmt::format(
+            "    println!(\"cargo:rustc-link-lib=dylib={}\");\n",
+            root.substr(3, std::string::npos));
+    }
+
+    std::string src = fmt::format(
+        R"#(
+fn main() {{
+    let dst = cmake::Config::new("clib").build();
+    println!("cargo:rustc-link-search=native={{}}", dst.display());
+    println!("cargo:rustc-link-lib=static=clib");
+
+{}
+
+    #[cfg(target_os = "linux")]
+    println!("cargo:rustc-link-lib=dylib=stdc++");
+    #[cfg(target_os = "macos")]
+    println!("cargo:rustc-link-lib=dylib=c++");
+}}
+)#",
+        link_lines);
+
+    auto out = fopen(filename.c_str(), "w");
+    fprintf(out, "%s", src.c_str());
+    fclose(out);
+}
+
 } // namespace
+
+GeneratorRustSys::GeneratorRustSys(std::string output_dir)
+    : Generator(output_dir),
+      _c_generator((fs::path(output_dir) / "clib").string()) {}
 
 void GeneratorRustSys::generate(
     const ExportedFileMap& ex_files, const FileMap& files,
@@ -388,6 +433,10 @@ void GeneratorRustSys::generate(
             abort();
         }
     }
+
+    // generate the inbuilt C library
+    _c_generator.generate(ex_files, files, records, enums, vectors,
+                          project_includes, project_libraries);
 
     std::vector<std::string> mods;
     mods.push_back("cppmm_containers");
@@ -483,5 +532,7 @@ void GeneratorRustSys::generate(
     write_lib_rs(output_dir_path / "src" / "lib.rs", mods);
     write_containers_implementation(output_dir_path / "src" /
                                     "cppmm_containers.rs");
+
+    write_build_rs(output_dir_path / "build.rs", project_libraries);
 }
 } // namespace cppmm

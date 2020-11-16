@@ -1,15 +1,15 @@
 #pragma once
 
 #include "generator.hpp"
+#include "generator_c.hpp"
 
 namespace cppmm {
 
 class GeneratorRustSys : public Generator {
+    GeneratorC _c_generator;
 public:
-    GeneratorRustSys(std::string output_dir) : Generator(output_dir) {}
-    // FIXME: the logic of what things end up in what maps is a bit gnarly here.
-    // We should really move everythign that's in ExportedFile into File during
-    // the second phase, and clarify what's expected to be in what maps exactly.
+    GeneratorRustSys(std::string output_dir);
+
     virtual void
     generate( const ExportedFileMap& ex_files,
              const FileMap& files, const RecordMap& records,
