@@ -305,6 +305,7 @@ cppmm::Function process_function(const FunctionDecl* function,
         params,
         comment,
         namespaces,
+        ex_function.filename
     };
 }
 

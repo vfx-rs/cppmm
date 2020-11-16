@@ -147,7 +147,7 @@ void MatchBindingsCallback::handle_function(const FunctionDecl* function) {
 
     auto namespaces = get_namespaces(function->getParent());
 
-    cppmm::ExportedFunction ex_function(function, attrs, namespaces);
+    cppmm::ExportedFunction ex_function(function, filename, attrs, namespaces);
 
     if (ex_files.find(filename) == ex_files.end()) {
         ex_files[filename] = {};

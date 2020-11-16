@@ -13,9 +13,10 @@ std::unordered_map<std::string, cppmm::ExportedRecord> ex_records;
 std::unordered_map<std::string, cppmm::ExportedEnum> ex_enums;
 
 ExportedFunction::ExportedFunction(const clang::FunctionDecl* function,
+        std::string filename,
                                    std::vector<AttrDesc> attrs,
                                    std::vector<std::string> namespaces)
-    : attrs(attrs), namespaces(namespaces) {
+    : filename(filename), attrs(attrs), namespaces(namespaces) {
     function = function->getCanonicalDecl();
     cpp_name = function->getNameAsString();
     return_type = function->getReturnType().getCanonicalType().getAsString();

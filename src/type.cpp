@@ -64,6 +64,9 @@ std::string Type::get_cpp_qname() const {
     return "UNHANDLED";
 }
 
+// FIXME: really need to swap the types out at a lower level and store the
+// original type as well as the converted type rather than doing all this
+// string replacement shenanigans
 std::string QualifiedType::create_c_declaration() const {
     std::string result;
     if (type.name == "basic_string") {

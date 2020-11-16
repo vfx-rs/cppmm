@@ -14,6 +14,7 @@ namespace cppmm {
 
 struct ExportedFunction {
     ExportedFunction(const clang::FunctionDecl* function,
+                     std::string filename,
                      std::vector<AttrDesc> attrs,
                      std::vector<std::string> namespaces = {});
 
@@ -41,12 +42,13 @@ struct ExportedFunction {
     std::vector<AttrDesc> attrs;
     std::vector<std::string> namespaces; //< only used for free functions (ugh)
     bool is_static = false;
+    std::string filename;
 };
 
 struct ExportedMethod : public ExportedFunction {
     ExportedMethod(const clang::CXXMethodDecl* method,
                    std::vector<AttrDesc> attrs)
-        : ExportedFunction(clang::dyn_cast<clang::FunctionDecl>(method),
+        : ExportedFunction(clang::dyn_cast<clang::FunctionDecl>(method), "",
                            attrs) {
         is_const = method->isConst();
     }

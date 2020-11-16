@@ -36,8 +36,11 @@ void MatchDeclsHandler::handle_enum(const EnumDecl* enum_decl) {
 void MatchDeclsHandler::handle_function(const FunctionDecl* function) {
     // convert this method so we can match it against our stored ones
     auto namespaces = cppmm::get_namespaces(function->getParent());
+    ASTContext& ctx = function->getASTContext();
+    SourceManager& sm = ctx.getSourceManager();
+    std::string filename = sm.getFilename(function->getBeginLoc());
     const auto this_ex_function =
-        cppmm::ExportedFunction(function, {}, namespaces);
+        cppmm::ExportedFunction(function, filename, {}, namespaces);
 
     // now see if we can find the function in the exported functions on
     // the exported class

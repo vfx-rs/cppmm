@@ -14,9 +14,9 @@ namespace ps = pystring;
 
 Function::Function(std::string cpp_name, std::string c_name,
                    QualifiedType return_type, std::vector<Param> params,
-                   std::string comment, std::vector<std::string> namespaces)
+                   std::string comment, std::vector<std::string> namespaces, std::string filename)
     : cpp_name(cpp_name), c_name(c_name), return_type(return_type),
-      params(params), comment(comment) {
+      params(params), comment(comment), filename(filename) {
     cpp_qname = prefix_from_namespaces(namespaces, "::") + cpp_name;
     c_qname = prefix_from_namespaces(namespaces, "_") + c_name;
 }

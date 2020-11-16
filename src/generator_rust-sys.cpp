@@ -37,8 +37,14 @@ edition = "2018"
 }
 
 void write_source_file(const std::string& filename,
-                       const std::string& declarations) {
-    std::string src = declarations;
+                       const std::string& declarations,
+                       const std::set<std::string>& use_stmts) {
+    std::string src;
+    for (const auto& use : use_stmts) {
+        src += use;
+    }
+
+    src += declarations;
 
     auto out = fopen(filename.c_str(), "w");
     fprintf(out, "%s", src.c_str());
@@ -48,14 +54,15 @@ void write_source_file(const std::string& filename,
 void write_lib_rs(const std::string& filename,
                   const std::vector<std::string>& mods) {
     std::string src =
-R"#(#![allow(non_upper_case_globals)]
+        R"#(#![allow(non_upper_case_globals)]
 #![allow(non_camel_case_types)]
 #![allow(non_snake_case)]
 
 )#";
     for (const auto& mod : mods) {
-        src += "pub mod " + mod + ";\n";
-        src += "pub use " + mod + "::*;\n";
+        const auto rmod = ps::replace(mod, "-", "_");
+        src += "pub mod " + rmod + ";\n";
+        src += "pub use " + rmod + "::*;\n";
     }
     src += "\n";
 
@@ -87,6 +94,8 @@ std::string rust_type_name(const std::string& c_qname) {
         return "f32";
     } else if (c_qname == "double") {
         return "f64";
+    } else if (c_qname == "void") {
+        return "std::os::raw::c_void";
     } else {
         return c_qname;
     }
@@ -164,6 +173,203 @@ extern "C" {{
     return fmt::format(format_str, vec.c_qname,
                        rust_type_name(vec.element_type.type.get_c_qname()));
 }
+
+std::string get_enum_declaration(const Enum& enm) {
+    std::string declarations;
+    declarations += fmt::format("#[repr(i32)]\npub enum {} {{\n", enm.c_qname);
+
+    std::set<uint64_t> emitted_variants;
+    for (const auto& ecd : enm.enumerators) {
+        // std::string qname = enm.c_qname + "_" + ecd.first;
+        std::string qname = ecd.first;
+        if (emitted_variants.find(ecd.second) == emitted_variants.end()) {
+            declarations += fmt::format("    {} = {},\n", qname, ecd.second);
+            emitted_variants.insert(ecd.second);
+        } else {
+            fmt::print("WARNING: ignoring duplicate enum variant {} = {}\n",
+                       qname, ecd.second);
+            declarations += fmt::format("//  {} = {},\n", qname, ecd.second);
+        }
+    }
+
+    declarations += "}\n\n";
+    return declarations;
+}
+
+std::string get_rust_qtype(const QualifiedType& qtype) {
+    std::string result;
+
+    if (qtype.type.name == "basic_string") {
+        if (qtype.is_const) {
+            result = "*const std::os::raw::c_char";
+        } else {
+            result = "*mut std::os::raw::c_char";
+        }
+
+    } else if (qtype.type.name == "string_view") {
+        result = "*const std::os::raw::c_char";
+    } else if (qtype.type.name == "const char *") {
+        result = "*const std::os::raw::c_char";
+    } else if (qtype.type.name == "char *") {
+        result = "*mut std::os::raw::c_char";
+    } else if (qtype.type.name == "void *") {
+        result = "*mut std::os::raw::c_void";
+    } else if (qtype.type.var.is<Enum>()) {
+        result = "i32";
+    } else if (const Vector* vec = qtype.type.var.cast_or_null<Vector>()) {
+        if (qtype.is_ptr || qtype.is_ref || qtype.is_uptr) {
+            if (qtype.is_const) {
+                result = "*const ";
+            } else {
+                result = "*mut ";
+            }
+        }
+        result += vec->c_qname;
+    } else if (const Record* record = qtype.type.var.cast_or_null<Record>()) {
+        if (qtype.is_ptr || qtype.is_ref || qtype.is_uptr) {
+            if (qtype.is_const) {
+                result = "*const ";
+            } else {
+                result = "*mut ";
+            }
+        }
+        result += record->c_qname;
+    } else if (qtype.type.var.is<Builtin>()) {
+        if (qtype.is_ptr || qtype.is_ref || qtype.is_uptr) {
+            if (qtype.is_const) {
+                result = "*const ";
+            } else {
+                result = "*mut ";
+            }
+        }
+        result += rust_type_name(qtype.type.name);
+    } else {
+        return "UNHANDLED";
+    }
+
+    return result;
+}
+
+std::string sanitize_param_name(const std::string name) {
+    // FIXME: fill out this list
+    if (name == "type" || name == "self") {
+        return std::string("_") + name;
+    }
+
+    return name;
+}
+
+std::string get_param_declaration(const Param& param) {
+    return fmt::format("{}: {}", sanitize_param_name(param.name),
+                       get_rust_qtype(param.qtype));
+}
+
+std::string get_function_declaration(const Function& function,
+                                     std::set<std::string>& use_stmts) {
+    std::vector<std::string> param_decls;
+    for (const auto& param : function.params) {
+        std::string pdecl = get_param_declaration(param);
+        param_decls.push_back(pdecl);
+    }
+
+    std::string ret;
+    if (function.return_type.type.name == "basic_string" &&
+        !function.return_type.is_ref && !function.return_type.is_ptr) {
+        ret = "i32";
+        param_decls.push_back("_result_buffer_ptr: *mut std::os::raw::c_char");
+        param_decls.push_back("_result_buffer_len: i32");
+    } else {
+        ret = get_rust_qtype(function.return_type);
+    }
+
+    return fmt::format("pub fn {}({}) -> {}", function.c_qname,
+                       ps::join(", ", param_decls), ret);
+}
+
+std::string get_opaqueptr_constructor_declaration(
+    const Record& record, const std::string& c_method_name,
+    const std::vector<std::string>& param_decls) {
+    return fmt::format("pub fn {}({}) -> *mut {}", c_method_name,
+                       ps::join(", ", param_decls), record.c_qname);
+}
+
+std::string get_method_declaration(const Record& record, const Method& method,
+                                   std::set<std::string>& use_stmts) {
+    std::vector<std::string> param_decls;
+    std::string declaration;
+
+    for (const auto& param : method.params) {
+        std::string pdecl = get_param_declaration(param);
+        param_decls.push_back(pdecl);
+    }
+
+    if (method.is_constructor && record.kind == RecordKind::OpaquePtr) {
+        return get_opaqueptr_constructor_declaration(record, method.c_qname,
+                                                     param_decls);
+    } else {
+        std::string ret;
+        if (method.return_type.type.name == "basic_string" &&
+            !method.return_type.is_ref && !method.return_type.is_ptr) {
+            ret = "i32";
+            param_decls.push_back(
+                "_result_buffer_ptr: *mut std::os::raw::c_char");
+            param_decls.push_back("_result_buffer_len: i32");
+        } else {
+            ret = get_rust_qtype(method.return_type);
+            // if (const Record* record =
+            //         method.return_type.type.var.cast_or_null<Record>()) {
+            //     use_stmts.insert(fmt::format("use crate::{}::{};\n",
+            //                                  bind_file_root(record->filename),
+            //                                  record->c_qname));
+            // }
+        }
+
+        if (method.is_static) {
+            declaration = fmt::format("pub fn {}({})", method.c_qname,
+                                      ps::join(", ", param_decls));
+        } else {
+            std::string constqual;
+            if (method.is_const) {
+                constqual = "const";
+            } else {
+                constqual = "mut";
+            }
+            declaration = fmt::format("pub fn {}(_self: *{} {}", method.c_qname,
+                                      constqual, record.c_qname);
+            if (param_decls.size()) {
+                declaration = fmt::format("{}, {})", declaration,
+                                          ps::join(", ", param_decls));
+            } else {
+                declaration = fmt::format("{})", declaration);
+            }
+        }
+
+        if (ret != "void") {
+            declaration += fmt::format(" -> {}", ret);
+        }
+
+        return declaration;
+    }
+}
+
+void write_containers_implementation(const std::string& filename) {
+    const std::string src =
+        R"#(#[repr(C, align(8))]
+pub struct cppmm_string_vector { unused: [u8; 24] }
+
+extern "C" {
+
+pub fn cppmm_string_vector_get(vec: *const cppmm_string_vector, index: i32) -> *const std::os::raw::c_char;
+pub fn cppmm_string_vector_size(vec: *const cppmm_string_vector) -> i32;
+
+}
+)#";
+
+    auto out = fopen(filename.c_str(), "w");
+    fprintf(out, "%s", src.c_str());
+    fclose(out);
+}
+
 } // namespace
 
 void GeneratorRustSys::generate(
@@ -184,6 +390,7 @@ void GeneratorRustSys::generate(
     }
 
     std::vector<std::string> mods;
+    mods.push_back("cppmm_containers");
 
     for (const auto& bind_file : ex_files) {
         std::string declarations;
@@ -214,14 +421,67 @@ void GeneratorRustSys::generate(
             }
         }
 
-        const std::string root = bind_file_root(bind_file.first);
+        for (const auto& enm_pair : bind_file.second.enums) {
+            const auto it_enum = enums.find(enm_pair.first);
+            if (it_enum == enums.end()) {
+                fmt::print("ERROR: enum {} not found in enums map\n",
+                           enm_pair.first);
+                continue;
+            }
+            const auto& enm = it_enum->second;
+            declarations += get_enum_declaration(enm);
+        }
+
+        std::set<std::string> use_stmts;
+        use_stmts.insert("use crate::*;\n");
+
+        const auto it_file = files.find(bind_file.first);
+        declarations += "extern \"C\" {\n";
+        if (it_file != files.end()) {
+            for (const auto& it_function : it_file->second.functions) {
+                const auto& function = it_function.second;
+
+                std::string declaration =
+                    get_function_declaration(function, use_stmts);
+
+                declarations =
+                    fmt::format("{}\n{};\n", declarations, declaration);
+            }
+        }
+
+        for (const auto& record_pair : bind_file.second.records) {
+            const auto it_record = records.find(record_pair.second->c_qname);
+            if (it_record == records.end()) {
+                fmt::print("ERROR: record {} not found in records map\n",
+                           record_pair.second->c_qname);
+                continue;
+            }
+            const auto& record = it_record->second;
+
+            for (auto method_pair : record.methods) {
+                const auto& method = method_pair.second;
+
+                std::string declaration =
+                    get_method_declaration(record, method, use_stmts);
+
+                declarations =
+                    fmt::format("{}\n{};\n", declarations, declaration);
+            }
+        }
+
+        declarations += "}\n";
+
+        const std::string root =
+            ps::replace(bind_file_root(bind_file.first), "-", "_");
         const auto src_file = fmt::format("{}.rs", root);
         const auto src_path = output_dir_path / "src" / src_file;
-        write_source_file(src_path.string(), declarations);
+        write_source_file(src_path.string(), declarations, use_stmts);
         mods.push_back(root);
     }
 
     write_cargo_toml(output_dir_path / "Cargo.toml", project_name);
     write_lib_rs(output_dir_path / "src" / "lib.rs", mods);
+    write_containers_implementation(output_dir_path / "src" /
+                                    "cppmm_containers.rs");
 }
 } // namespace cppmm
