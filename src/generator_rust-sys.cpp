@@ -183,6 +183,8 @@ std::string get_enum_declaration(const Enum& enm) {
 
     std::set<uint64_t> emitted_variants;
     for (const auto& ecd : enm.enumerators) {
+        // We can re-namespace the enums here since we're guaranteed to have
+        // unique names (I think?)
         // std::string qname = enm.c_qname + "_" + ecd.first;
         std::string qname = ecd.first;
         if (emitted_variants.find(ecd.second) == emitted_variants.end()) {
@@ -375,7 +377,14 @@ pub fn cppmm_string_vector_size(vec: *const cppmm_string_vector) -> i32;
 
 void write_build_rs(const std::string& filename,
                     const std::vector<std::string>& libs) {
-
+    // Generate linker directives for Cargo by splitting up the absolute paths
+    // we get from top-level CMake.
+    // FIXME: need to support static libs here and surely there'll be some libs
+    // that have funny names or a lack of prefixes because their developers
+    // thought they were special.
+    // Also: Windows...
+    // TODO: Probably want to add support for rpath as well, which means creating
+    // a project-local .cargo/config.toml with the rpath per target
     std::string link_lines;
     for (const auto& l : libs) {
         std::string head, tail;
@@ -389,6 +398,9 @@ void write_build_rs(const std::string& filename,
             root.substr(3, std::string::npos));
     }
 
+    // The rest of the build.rs just uses the cmake crate to build the C wrapper
+    // which we call 'clib' by default for simplicity's sake
+    // TODO: what stdlib do we want to link to on Windows?
     std::string src = fmt::format(
         R"#(
 fn main() {{
@@ -441,6 +453,7 @@ void GeneratorRustSys::generate(
     std::vector<std::string> mods;
     mods.push_back("cppmm_containers");
 
+    // For each binding file we'll generate one rust source file (module)
     for (const auto& bind_file : ex_files) {
         std::string declarations;
 
@@ -449,7 +462,8 @@ void GeneratorRustSys::generate(
             continue;
         }
 
-        // First, record declarations
+        // Generate all Record definitions (and containers thereof) in this
+        // module
         for (const auto& rec_pair : bind_file.second.records) {
             const auto it_record = records.find(rec_pair.first);
             if (it_record == records.end()) {
@@ -470,6 +484,7 @@ void GeneratorRustSys::generate(
             }
         }
 
+        // Generate all enums declared in this module
         for (const auto& enm_pair : bind_file.second.enums) {
             const auto it_enum = enums.find(enm_pair.first);
             if (it_enum == enums.end()) {
@@ -481,9 +496,13 @@ void GeneratorRustSys::generate(
             declarations += get_enum_declaration(enm);
         }
 
+        // This isn't actually used yet, as we're just doing crate::* for
+        // simplicity but it would be nice to hook this up
         std::set<std::string> use_stmts;
         use_stmts.insert("use crate::*;\n");
 
+        // Find the File object that contains all the Functions for this module
+        // and generate those
         const auto it_file = files.find(bind_file.first);
         declarations += "extern \"C\" {\n";
         if (it_file != files.end()) {
@@ -498,6 +517,7 @@ void GeneratorRustSys::generate(
             }
         }
 
+        // Generate all methods on all records in this module
         for (const auto& record_pair : bind_file.second.records) {
             const auto it_record = records.find(record_pair.second->c_qname);
             if (it_record == records.end()) {
@@ -520,6 +540,7 @@ void GeneratorRustSys::generate(
 
         declarations += "}\n";
 
+        // write out the module
         const std::string root =
             ps::replace(bind_file_root(bind_file.first), "-", "_");
         const auto src_file = fmt::format("{}.rs", root);
@@ -528,11 +549,11 @@ void GeneratorRustSys::generate(
         mods.push_back(root);
     }
 
+    // write the Cargo project and supporting source files
     write_cargo_toml(output_dir_path / "Cargo.toml", project_name);
     write_lib_rs(output_dir_path / "src" / "lib.rs", mods);
     write_containers_implementation(output_dir_path / "src" /
                                     "cppmm_containers.rs");
-
     write_build_rs(output_dir_path / "build.rs", project_libraries);
 }
 } // namespace cppmm
