@@ -25,7 +25,13 @@
     -o containers-c                                                 \
     --rust-sys containers-sys                                       \
     --                                                              \
-    -I/home/anders/code/cppmm/test/containers                       \
+    -I/home/anders/code/cppmm/test/containers/bind                  \
     -isystem /home/anders/packages/llvm/10.0.1/lib/clang/10.0.1/include
+
+cp ../test/containers/test-rust-sys/test.rs                         \
+    containers-sys/src/test.rs
+
+pushd containers-sys && cargo test
+popd
 
 ../test/diff.sh

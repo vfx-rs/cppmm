@@ -61,6 +61,9 @@ void write_lib_rs(const std::string& filename,
 #![allow(non_camel_case_types)]
 #![allow(non_snake_case)]
 
+#[cfg(test)]
+mod test;
+
 )#";
     for (const auto& mod : mods) {
         const auto rmod = ps::replace(mod, "-", "_");
@@ -253,6 +256,17 @@ std::string get_rust_qtype(const QualifiedType& qtype) {
     }
 
     return result;
+}
+
+// just write an empty test case that we can write over later
+void write_test_stub(const std::string& filename) {
+    const std::string src = R"#(
+use crate::*;
+
+#[test]
+fn it_works() {
+}
+)#";
 }
 
 const std::vector<std::string> _rust_keywords = {
@@ -562,6 +576,7 @@ void GeneratorRustSys::generate(
     // write the Cargo project and supporting source files
     write_cargo_toml(output_dir_path / "Cargo.toml", project_name);
     write_lib_rs(output_dir_path / "src" / "lib.rs", mods);
+    write_test_stub(output_dir_path / "src" / "test.rs");
     write_containers_implementation(output_dir_path / "src" /
                                     "cppmm_containers.rs");
     write_build_rs(output_dir_path / "build.rs", project_libraries);
