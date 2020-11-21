@@ -28,12 +28,12 @@ containers_CustomElement* containers_CustomElement_vector_data(containers_Custom
 
 void containers_CustomElement_vector_get(const containers_CustomElement_vector* vec, int index, containers_CustomElement* element);
 void containers_CustomElement_vector_set(containers_CustomElement_vector* vec, int index, containers_CustomElement* element);
-typedef struct containers_CustomOP containers_CustomOP;
-
 typedef struct {
     int a;
     int b;
 } containers_CustomVT;
+
+typedef struct containers_CustomOP containers_CustomOP;
 
 typedef struct { char _private[4]; } containers_CustomOB CPPMM_ALIGN(4);
 
