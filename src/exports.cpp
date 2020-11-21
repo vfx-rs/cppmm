@@ -7,13 +7,14 @@
 
 namespace cppmm {
 
-std::unordered_map<std::string, cppmm::ExportedFile> ex_files;
-std::unordered_map<std::string, cppmm::ExportedClass> ex_classes;
-std::unordered_map<std::string, cppmm::ExportedRecord> ex_records;
-std::unordered_map<std::string, cppmm::ExportedEnum> ex_enums;
+std::unordered_map<std::string, ExportedFile> ex_files;
+std::unordered_map<std::string, ExportedClass> ex_classes;
+std::unordered_map<std::string, ExportedRecord> ex_records;
+std::unordered_map<std::string, ExportedEnum> ex_enums;
+ExportedSpecMap ex_specs;
 
 ExportedFunction::ExportedFunction(const clang::FunctionDecl* function,
-        std::string filename,
+                                   std::string filename,
                                    std::vector<AttrDesc> attrs,
                                    std::vector<std::string> namespaces)
     : filename(filename), attrs(attrs), namespaces(namespaces) {
@@ -43,66 +44,6 @@ bool operator==(const ExportedMethod& a, const ExportedMethod& b) {
     return a.cpp_name == b.cpp_name && a.return_type == b.return_type &&
            a.params == b.params && a.is_const == b.is_const &&
            a.is_static == b.is_static;
-}
-
-ExportedRecord* find_ex_record(const std::string& c_qname) {
-    auto it = ex_records.find(c_qname);
-    if (it == ex_records.end()) {
-        return nullptr;
-    } else {
-        return &(it->second);
-    }
-}
-
-ExportedRecord* insert_ex_record(const std::string& c_qname,
-                             const ExportedRecord& ex_record) {
-    ex_records[c_qname] = ex_record;
-    return &ex_records[c_qname];
-}
-
-ExportedClass* find_ex_class(const std::string& c_qname) {
-    auto it = ex_classes.find(c_qname);
-    if (it == ex_classes.end()) {
-        return nullptr;
-    } else {
-        return &(it->second);
-    }
-}
-
-ExportedClass* insert_ex_class(const std::string& c_qname,
-                             const ExportedClass& ex_class) {
-    ex_classes[c_qname] = ex_class;
-    return &ex_classes[c_qname];
-}
-
-ExportedEnum* find_ex_enum(const std::string& c_qname) {
-    auto it = ex_enums.find(c_qname);
-    if (it == ex_enums.end()) {
-        return nullptr;
-    } else {
-        return &(it->second);
-    }
-}
-
-ExportedEnum* insert_ex_enum(const std::string& c_qname,
-                             const ExportedEnum& ex_enum) {
-    ex_enums[c_qname] = ex_enum;
-    return &ex_enums[c_qname];
-}
-
-ExportedFile* find_ex_file(const std::string& c_qname) {
-    auto it = ex_files.find(c_qname);
-    if (it == ex_files.end()) {
-        return nullptr;
-    } else {
-        return &(it->second);
-    }
-}
-
-ExportedFile* insert_ex_file(const std::string& filename,
-                             const ExportedFile& ex_file) {
-    ex_files[filename] = ex_file;
-    return &ex_files[filename];
 }
 
 const std::unordered_map<std::string, ExportedFile>& get_ex_files() {

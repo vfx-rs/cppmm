@@ -27,15 +27,15 @@ void MatchDeclsHandler::run(const MatchFinder::MatchResult& result) {
 }
 
 void MatchDeclsHandler::handle_record(const CXXRecordDecl* record) {
-    cppmm::process_record(record);
+    process_record(record);
 }
 void MatchDeclsHandler::handle_enum(const EnumDecl* enum_decl) {
-    cppmm::process_enum(enum_decl);
+    process_enum(enum_decl);
 }
 
 void MatchDeclsHandler::handle_function(const FunctionDecl* function) {
     // convert this method so we can match it against our stored ones
-    auto namespaces = cppmm::get_namespaces(function->getParent());
+    auto namespaces = get_namespaces(function->getParent());
     ASTContext& ctx = function->getASTContext();
     SourceManager& sm = ctx.getSourceManager();
     std::string filename = sm.getFilename(function->getBeginLoc());
@@ -75,7 +75,7 @@ void MatchDeclsHandler::handle_function(const FunctionDecl* function) {
     // store the rejected function on the class so we can warn that we
     // didn't find a match
     if (rejected) {
-        cppmm::ex_files[matched_file].rejected_functions.push_back(
+        ex_files[matched_file].rejected_functions.push_back(
             this_ex_function);
     }
 
@@ -84,17 +84,18 @@ void MatchDeclsHandler::handle_function(const FunctionDecl* function) {
         return;
     }
 
-    if (cppmm::files.find(matched_file) == cppmm::files.end()) {
-        cppmm::files[matched_file] = {};
+    if (files.find(matched_file) == files.end()) {
+        files[matched_file] = {};
     }
-    auto& file = cppmm::files[matched_file];
+    auto& file = files[matched_file];
     if (file.functions.find(matched_ex_function->c_name) ==
         file.functions.end()) {
         // file.functions[matched_ex_function->c_name] =
         //     process_function(function, *matched_ex_function, namespaces);
-        file.functions.insert(std::make_pair(
+        auto fp = functions.insert(std::make_pair(
             matched_ex_function->c_name,
             process_function(function, *matched_ex_function, namespaces)));
+        file.functions.insert(std::make_pair(matched_ex_function->c_name, &fp.first->second));
     }
     // fmt::print("        MATCHED {} {}\n", function->getNameAsString(),
     //            function->getQualifiedNameAsString());
@@ -102,7 +103,7 @@ void MatchDeclsHandler::handle_function(const FunctionDecl* function) {
 
 void MatchDeclsHandler::handle_method(const CXXMethodDecl* method) {
     const auto method_name = method->getNameAsString();
-    auto* record = cppmm::process_record(method->getParent());
+    Record* record = process_record(method->getParent());
     if (record == nullptr) {
         fmt::print("ERROR could not process record for {}\n",
                    method->getParent()->getNameAsString());
@@ -117,7 +118,7 @@ void MatchDeclsHandler::handle_method(const CXXMethodDecl* method) {
     auto& ex_class = it_class->second;
 
     // convert this method so we can match it against our stored ones
-    const auto this_ex_method = cppmm::ExportedMethod(method, {});
+    const auto this_ex_method = ExportedMethod(method, {});
 
     // now see if we can find the method in the exported methods on
     // the exported class
@@ -151,7 +152,8 @@ void MatchDeclsHandler::handle_method(const CXXMethodDecl* method) {
         record->methods.end()) {
         record->methods.insert(
             std::make_pair(matched_ex_method->c_name,
-                           process_method(method, *matched_ex_method, record)));
+                           process_method(method, *matched_ex_method, record))
+                           );
     }
 }
 

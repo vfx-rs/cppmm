@@ -327,7 +327,7 @@ install(TARGETS {0} DESTINATION ${{CMAKE_INSTALL_PREFIX}})
 // FIXME: the logic of what things end up in what maps is a bit gnarly here.
 // We should really move everythign that's in ExportedFile into File during
 // the second phase, and clarify what's expected to be in what maps exactly.
-void GeneratorC::generate(const ExportedFileMap& ex_files, const FileMap& files,
+void GeneratorC::generate(const FileMap& files,
                           const RecordMap& records, const EnumMap& enums,
                           const VectorMap& vectors,
                           const std::vector<std::string>& project_includes,
@@ -344,7 +344,7 @@ void GeneratorC::generate(const ExportedFileMap& ex_files, const FileMap& files,
         }
     }
 
-    for (const auto& bind_file : ex_files) {
+    for (const auto& it_file : files) {
         std::set<std::string> casts_macro_invocations;
         std::string declarations;
         std::string definitions;
@@ -352,12 +352,12 @@ void GeneratorC::generate(const ExportedFileMap& ex_files, const FileMap& files,
         std::set<std::string> header_includes;
         header_includes.insert("cppmm_containers.h");
 
-        if (bind_file.first == "") {
+        if (it_file.first == "") {
             // FIXME: how is this getting in there?
             continue;
         }
 
-        for (const auto& rec_pair : bind_file.second.records) {
+        for (const auto& rec_pair : it_file.second.records) {
             const auto it_record = records.find(rec_pair.first);
             if (it_record == records.end()) {
                 fmt::print("ERROR: record {} not found in records map\n",
@@ -381,7 +381,7 @@ void GeneratorC::generate(const ExportedFileMap& ex_files, const FileMap& files,
             definitions += record.get_definition();
         }
 
-        for (const auto& enm_pair : bind_file.second.enums) {
+        for (const auto& enm_pair : it_file.second.enums) {
             const auto it_enum = enums.find(enm_pair.first);
             if (it_enum == enums.end()) {
                 fmt::print("ERROR: enum {} not found in enums map\n",
@@ -392,29 +392,26 @@ void GeneratorC::generate(const ExportedFileMap& ex_files, const FileMap& files,
             declarations += enm.get_declaration();
         }
 
-        const auto it_file = files.find(bind_file.first);
-        if (it_file != files.end()) {
-            for (const auto& it_function : it_file->second.functions) {
-                const auto& function = it_function.second;
+        for (const auto& it_function : it_file.second.functions) {
+            const auto& function = it_function.second;
 
-                std::string declaration = function.get_declaration(
-                    header_includes, casts_macro_invocations);
+            std::string declaration = function->get_declaration(
+                header_includes, casts_macro_invocations);
 
-                std::string definition = function.get_definition(declaration);
+            std::string definition = function->get_definition(declaration);
 
-                declarations = fmt::format("{}\n{}\n{};\n", declarations,
-                                           function.comment, declaration);
+            declarations = fmt::format("{}\n{}\n{};\n", declarations,
+                                       function->comment, declaration);
 
-                definitions =
-                    fmt::format("{}\n{}\n\n\n", definitions, definition);
-            }
+            definitions =
+                fmt::format("{}\n{}\n\n\n", definitions, definition);
         }
 
-        for (const auto& record_pair : bind_file.second.records) {
-            const auto it_record = records.find(record_pair.second->c_qname);
+        for (const auto& record_pair : it_file.second.records) {
+            const auto it_record = records.find(record_pair.second->cpp_qname);
             if (it_record == records.end()) {
                 fmt::print("ERROR: record {} not found in records map\n",
-                           record_pair.second->c_qname);
+                           record_pair.second->cpp_qname);
                 continue;
             }
             const auto& record = it_record->second;
@@ -436,7 +433,7 @@ void GeneratorC::generate(const ExportedFileMap& ex_files, const FileMap& files,
             }
         }
 
-        const std::string root = bind_file_root(bind_file.first);
+        const std::string root = bind_file_root(it_file.first);
         const auto header = fmt::format("{}.h", root);
         const auto implementation = fmt::format("{}.cpp", root);
 
@@ -461,7 +458,7 @@ void GeneratorC::generate(const ExportedFileMap& ex_files, const FileMap& files,
 
         std::string implementation_path = output_dir_path / implementation;
         write_implementation(implementation_path, root,
-                             bind_file.second.includes, casts, definitions);
+                             it_file.second.includes, casts, definitions);
         source_files.push_back(implementation);
     }
 

@@ -63,6 +63,16 @@ struct ExportedRecord {
     RecordKind kind;
     std::string filename;
     std::string c_qname;
+    std::string cpp_qname;
+    std::string dependent_qname;
+    std::vector<std::string> template_args;
+    bool is_dependent;
+};
+
+struct ExportedSpecialization {
+    std::string record_cpp_qname;
+    std::string alias;
+    std::vector<std::string> template_args;
 };
 
 struct ExportedEnum {
@@ -71,6 +81,7 @@ struct ExportedEnum {
     std::string c_name;
     std::string filename;
     std::string c_qname;
+    std::string cpp_qname;
 };
 
 struct ExportedClass {
@@ -84,7 +95,6 @@ struct ExportedClass {
 struct ExportedFile {
     std::string name;
     std::vector<std::string> classes;
-    std::vector<std::string> includes;
     std::vector<ExportedFunction> functions;
     std::vector<ExportedFunction> rejected_functions;
     std::unordered_map<std::string, ExportedRecord*> records;
@@ -94,11 +104,13 @@ struct ExportedFile {
 using ExportedFileMap = std::unordered_map<std::string, ExportedFile>;
 using ExportedClassMap = std::unordered_map<std::string, ExportedClass>;
 using ExportedRecordMap = std::unordered_map<std::string, ExportedRecord>;
+using ExportedSpecMap = std::unordered_map<std::string, std::vector<ExportedSpecialization>>;
 using ExportedEnumMap = std::unordered_map<std::string, ExportedEnum>;
 
 extern ExportedFileMap ex_files;
 extern ExportedClassMap ex_classes;
 extern ExportedRecordMap ex_records;
+extern ExportedSpecMap ex_specs;
 extern ExportedEnumMap ex_enums;
 
 // ExportedRecord* find_ex_record(const std::string& c_qname);

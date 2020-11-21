@@ -6,6 +6,7 @@
 #include "pystring.h"
 
 #include <clang/AST/DeclCXX.h>
+#include <clang/AST/DeclTemplate.h>
 #include <clang/AST/Type.h>
 
 #include <fmt/format.h>
@@ -14,10 +15,11 @@ using namespace clang;
 
 namespace cppmm {
 
-std::unordered_map<std::string, cppmm::File> files;
-std::unordered_map<std::string, cppmm::Record> records;
-std::unordered_map<std::string, cppmm::Enum> enums;
-std::unordered_map<std::string, cppmm::Vector> vectors;
+std::unordered_map<std::string, File> files;
+std::unordered_map<std::string, Record> records;
+std::unordered_map<std::string, Enum> enums;
+std::unordered_map<std::string, Function> functions;
+std::unordered_map<std::string, Vector> vectors;
 
 bool is_builtin(const QualType& qt) {
     return (qt->isBuiltinType() ||
@@ -29,92 +31,259 @@ bool is_recordpointer(const QualType& qt) {
             qt->getPointeeType()->isRecordType());
 }
 
-std::string qualified_type_name(const cppmm::Type& type) {
-    return cppmm::prefix_from_namespaces(type.namespaces, "::") + type.name;
+std::string qualified_type_name(const Type& type) {
+    return prefix_from_namespaces(type.namespaces, "::") + type.name;
 }
 
-cppmm::Record* process_record(const CXXRecordDecl* record) {
+std::string cpp_qname_from_decl(const clang::RecordDecl* decl) {
+    std::string cpp_name = decl->getNameAsString();
+    std::vector<std::string> namespaces = get_namespaces(decl->getParent());
+
+    std::string cpp_qname = prefix_from_namespaces(namespaces, "::") + cpp_name;
+
+    return cpp_qname;
+}
+
+std::string cpp_qname_from_decl(const clang::EnumDecl* decl) {
+    std::string cpp_name = decl->getNameAsString();
+    std::vector<std::string> namespaces = get_namespaces(decl->getParent());
+
+    std::string cpp_qname = prefix_from_namespaces(namespaces, "::") + cpp_name;
+
+    return cpp_qname;
+}
+
+std::string cpp_qname_from_decl(const clang::FunctionDecl* decl) {
+    std::string cpp_name = decl->getNameAsString();
+    std::vector<std::string> namespaces = get_namespaces(decl->getParent());
+
+    std::string cpp_qname = prefix_from_namespaces(namespaces, "::") + cpp_name;
+
+    return cpp_qname;
+}
+
+Record* get_record(const std::string& cpp_qname) {
+    auto it_rec = records.find(cpp_qname);
+    if (it_rec != records.end()) {
+        return &it_rec->second;
+    } else {
+        return nullptr;
+    }
+}
+
+Enum* get_enum(const std::string& cpp_qname) {
+    auto it_enm = enums.find(cpp_qname);
+    if (it_enm != enums.end()) {
+        return &it_enm->second;
+    } else {
+        return nullptr;
+    }
+}
+
+Record create_record(const CXXRecordDecl* record, std::string cpp_name,
+                     std::string c_name, std::vector<std::string> namespaces,
+                     std::string cpp_qname, std::string c_qname,
+                     std::string filename, RecordKind kind, size_t size,
+                     size_t alignment, std::vector<std::string> template_args) {
+
+    std::vector<Param> fields;
+    // If it's a value type, expose all the fields
+    if (kind == RecordKind::ValueType) {
+        fmt::print("FIELDS: \n");
+        for (const auto* field : record->fields()) {
+            std::string field_name = field->getNameAsString();
+            fmt::print("    field: {}\n", field->getNameAsString());
+            Param field_param =
+                process_param_type(field_name, field->getType(), template_args);
+            fields.push_back(field_param);
+        }
+    }
+    return Record{
+        .cpp_name = cpp_name,
+        .namespaces = namespaces,
+        .c_name = cpp_name,
+        .kind = kind,
+        .filename = filename,
+        .fields = fields,
+        .methods = {},
+        .size = size,
+        .alignment = alignment,
+        .cpp_qname = cpp_qname,
+        .c_qname = c_qname,
+    };
+}
+
+Record* process_record(const CXXRecordDecl* record) {
     // fmt::print("process_record {}\n", record->getQualifiedNameAsString());
     std::string cpp_name = record->getNameAsString();
-    std::vector<std::string> namespaces =
-        cppmm::get_namespaces(record->getParent());
+    std::vector<std::string> namespaces = get_namespaces(record->getParent());
 
-    const auto c_qname =
-        cppmm::prefix_from_namespaces(namespaces, "_") + cpp_name;
-    if (records.find(c_qname) != records.end()) {
-        // already done this type, return
-        return &records[c_qname];
+    const auto c_qname = prefix_from_namespaces(namespaces, "_") + cpp_name;
+    auto cpp_qname = prefix_from_namespaces(namespaces, "::") + cpp_name;
+
+    fmt::print("record: {}\n", cpp_qname);
+    std::vector<std::string> template_args;
+    if (record->isDependentContext()) {
+        fmt::print("  is dependent\n");
+        auto it_ex_spec = ex_specs.find(cpp_qname);
+        if (it_ex_spec != ex_specs.end()) {
+            for (const auto& ex_spec : it_ex_spec->second) {
+                auto record_cpp_qname = cpp_qname;
+                cpp_qname += fmt::format(
+                    "<{}>", pystring::join(", ", ex_spec.template_args));
+                auto c_qname =
+                    prefix_from_namespaces(namespaces, "_") + ex_spec.alias;
+                fmt::print("{} <{}>\n", ex_spec.alias,
+                           pystring::join(", ", ex_spec.template_args));
+
+                auto it_record = records.find(cpp_qname);
+                if (it_record != records.end()) {
+                    // already done this type, return
+                    return &it_record->second;
+                }
+
+                auto it_ex_record = ex_records.find(record_cpp_qname);
+                if (it_ex_record == ex_records.end()) {
+                    fmt::print(
+                        "WARNING: record '{}' has no export definition\n",
+                        record_cpp_qname);
+                    return nullptr;
+                }
+
+                // get size and alignment info
+                // clang returns in bits so divide by 8 to get bytes
+                ASTContext& ctx = record->getASTContext();
+                size_t size = 0;
+                size_t alignment = 0;
+
+                // FIXME: tyring to get the size and alignment for a
+                // template/specialization crashes clang
+                if (it_ex_record->second.kind == RecordKind::OpaqueBytes) {
+                    throw std::runtime_error(
+                        "Template specializations cannot be opaquebytes kind");
+                }
+
+                Record rec = create_record(
+                    record, cpp_name, cpp_name, namespaces, cpp_qname, c_qname,
+                    it_ex_record->second.filename, it_ex_record->second.kind,
+                    size, alignment, ex_spec.template_args);
+
+                // fmt::print("Processed record {} -> {} in {}\n", cpp_name,
+                // c_qname,
+                //    it_ex_record->second.filename)
+                if (rec.kind == RecordKind::ValueType && !rec.is_pod()) {
+                    fmt::print("ERROR: {} is valuetype but not POD\n",
+                               rec.c_qname);
+                    return nullptr;
+                } else if (rec.kind == RecordKind::OpaqueBytes &&
+                           !rec.is_pod()) {
+                    fmt::print("ERROR: {} is opaquebytes but not POD\n",
+                               rec.c_qname);
+                    return nullptr;
+                }
+
+                records[cpp_qname] = rec;
+                Record* record_ptr = &records[cpp_qname];
+                files[rec.filename].records[cpp_qname] = record_ptr;
+                // fmt::print("MATCHED: {}\n", cpp_name);
+            }
+            return nullptr;
+        } else {
+            fmt::print("ERROR coudl nto find specs for {}\n", cpp_qname);
+        }
+    } else if (isa<ClassTemplateSpecializationDecl>(record)) {
+        const ClassTemplateSpecializationDecl* ctsd =
+            cast<ClassTemplateSpecializationDecl>(record);
+        fmt::print("   is a CTSD\n");
+        for (const auto& targ : ctsd->getTemplateArgs().asArray()) {
+            if (!targ.getAsType()->isBuiltinType()) {
+                throw std::runtime_error(fmt::format(
+                    "template argument {} on {} is not a builtin.",
+                    targ.getAsType().getAsString(), record->getNameAsString()));
+            }
+            template_args.push_back(targ.getAsType().getAsString());
+        }
+        cpp_qname += fmt::format("<{}>", pystring::join(", ", template_args));
+        fmt::print("   {}\n", cpp_qname);
+
+        auto it_record = records.find(cpp_qname);
+        if (it_record != records.end()) {
+            // already done this type, return
+            return &it_record->second;
+        } else {
+            fmt::print("Could not find specialized record for {}\n", cpp_qname);
+            return nullptr;
+        }
     }
 
-    auto it_ex_record = cppmm::ex_records.find(c_qname);
-    if (it_ex_record == cppmm::ex_records.end()) {
+    auto it_record = records.find(cpp_qname);
+    if (it_record != records.end()) {
+        // already done this type, return
+        return &it_record->second;
+    }
+
+    auto it_ex_record = ex_records.find(cpp_qname);
+    if (it_ex_record == ex_records.end()) {
         // fmt::print("WARNING: record '{}' has no export definition\n",
         // c_name);
         return nullptr;
     }
 
-    std::vector<cppmm::Param> fields;
-    for (const auto* field : record->fields()) {
-        std::string field_name = field->getNameAsString();
-        // fmt::print("    field: {}\n", field->getNameAsString());
-        cppmm::Param field_param =
-            process_param_type(field_name, field->getType());
-        fields.push_back(field_param);
-        // fmt::print("    {}\n", field_param);
-    }
-
     // get size and alignment info
     // clang returns in bits so divide by 8 to get bytes
     ASTContext& ctx = record->getASTContext();
-    size_t size = ctx.getTypeSize(record->getTypeForDecl()) / 8;
-    size_t alignment = ctx.getTypeAlign(record->getTypeForDecl()) / 8;
+    size_t size = 0;
+    size_t alignment = 0;
+
+    // FIXME: tyring to get the size and alignment for a template/specialization
+    // crashes clang
+    if (template_args.empty()) {
+        size = ctx.getTypeSize(record->getTypeForDecl()) / 8;
+        alignment = ctx.getTypeAlign(record->getTypeForDecl()) / 8;
+    } else if (it_ex_record->second.kind == RecordKind::OpaqueBytes) {
+        throw std::runtime_error(
+            "Template specializations cannot be opaquebytes kind");
+    }
+
+    Record rec = create_record(
+        record, cpp_name, cpp_name, namespaces, cpp_qname, c_qname,
+        it_ex_record->second.filename, it_ex_record->second.kind, size,
+        alignment, template_args);
 
     // fmt::print("Processed record {} -> {} in {}\n", cpp_name, c_qname,
-    //    it_ex_record->second.filename);
-    auto rec = cppmm::Record{
-        .cpp_name = cpp_name,
-        .namespaces = namespaces,
-        .c_name = cpp_name,
-        .kind = it_ex_record->second.kind,
-        .filename = it_ex_record->second.filename,
-        .fields = fields,
-        .methods = {},
-        .size = size,
-        .alignment = alignment,
-        .cpp_qname = cppmm::prefix_from_namespaces(namespaces, "::") + cpp_name,
-        .c_qname = c_qname,
-    };
-
-    if (rec.kind == cppmm::RecordKind::ValueType && !rec.is_pod()) {
+    //    it_ex_record->second.filename)
+    if (rec.kind == RecordKind::ValueType && !rec.is_pod()) {
         fmt::print("ERROR: {} is valuetype but not POD\n", rec.c_qname);
         return nullptr;
-    } else if (rec.kind == cppmm::RecordKind::OpaqueBytes && !rec.is_pod()) {
+    } else if (rec.kind == RecordKind::OpaqueBytes && !rec.is_pod()) {
         fmt::print("ERROR: {} is opaquebytes but not POD\n", rec.c_qname);
         return nullptr;
     }
 
-    records[c_qname] = rec;
+    records[cpp_qname] = rec;
+    Record* record_ptr = &records[cpp_qname];
+    files[rec.filename].records[cpp_qname] = record_ptr;
     // fmt::print("MATCHED: {}\n", cpp_name);
-
-    return &records[c_qname];
+    return record_ptr;
 }
 
 Enum* process_enum(const EnumDecl* enum_decl) {
     std::string cpp_name = enum_decl->getNameAsString();
     std::vector<std::string> namespaces =
-        cppmm::get_namespaces(enum_decl->getParent());
+        get_namespaces(enum_decl->getParent());
+
     const auto c_name = cpp_name;
-    const auto cpp_qname =
-        cppmm::prefix_from_namespaces(namespaces, "::") + cpp_name;
-    const auto c_qname =
-        cppmm::prefix_from_namespaces(namespaces, "_") + c_name;
-    if (enums.find(c_qname) != enums.end()) {
+    const auto cpp_qname = prefix_from_namespaces(namespaces, "::") + cpp_name;
+    const auto c_qname = prefix_from_namespaces(namespaces, "_") + c_name;
+
+    auto it_enum = enums.find(cpp_qname);
+    if (it_enum != enums.end()) {
         // already done this type, return
-        return &enums[c_qname];
+        return &it_enum->second;
     }
 
-    auto it_ex_enum = cppmm::ex_enums.find(c_qname);
-    if (it_ex_enum == cppmm::ex_enums.end()) {
+    auto it_ex_enum = ex_enums.find(cpp_qname);
+    if (it_ex_enum == ex_enums.end()) {
         // fmt::print("WARNING: enum '{}' has no export definition\n",
         // c_qname);
         return nullptr;
@@ -129,17 +298,17 @@ Enum* process_enum(const EnumDecl* enum_decl) {
             ecd->getNameAsString(), ecd->getInitVal().getLimitedValue()));
     }
 
-    enums[c_qname] = cppmm::Enum{.cpp_name = cpp_name,
-                                 .namespaces = namespaces,
-                                 .c_name = c_name,
-                                 .filename = it_ex_enum->second.filename,
-                                 .enumerators = enumerators,
-                                 .cpp_qname = cpp_qname,
-                                 .c_qname = c_qname};
-
+    enums[cpp_qname] = Enum{.cpp_name = cpp_name,
+                            .namespaces = namespaces,
+                            .c_name = c_name,
+                            .filename = it_ex_enum->second.filename,
+                            .enumerators = enumerators,
+                            .cpp_qname = cpp_qname,
+                            .c_qname = c_qname};
+    Enum* enm = &enums[cpp_qname];
+    files[enm->filename].enums[cpp_qname] = enm;
+    return enm;
     // fmt::print("MATCHED: {}\n", cpp_name);
-
-    return &enums[c_qname];
 }
 
 Vector* process_vector(const QualifiedType& element_type) {
@@ -160,7 +329,9 @@ Vector* process_vector(const QualifiedType& element_type) {
     }
 }
 
-QualifiedType process_pointee_type(const QualType& qt) {
+QualifiedType
+process_pointee_type(const QualType& qt,
+                     const std::vector<std::string>& template_args) {
     if (is_builtin(qt)) {
         std::string name = qt.getTypePtr()
                                ->getUnqualifiedDesugaredType()
@@ -176,19 +347,25 @@ QualifiedType process_pointee_type(const QualType& qt) {
         qtype.requires_cast = false;
         qtype.is_const = qt.isConstQualified();
         return qtype;
+    } else if (qt->isTemplateTypeParmType()) {
+        const auto* ttpt = qt->castAs<TemplateTypeParmType>();
+        int index = ttpt->getIndex();
+        QualifiedType qtype{cppmm::Type{template_args.at(index), &builtin_int}};
+        qtype.is_const = qt.isConstQualified();
+        return qtype;
     } else if (qt->isRecordType()) {
         const CXXRecordDecl* crd = qt->getAsCXXRecordDecl();
         if (crd->getNameAsString() == "unique_ptr") {
             const auto* tst = qt->getAs<TemplateSpecializationType>();
-            QualifiedType qtype =
-                process_pointee_type(tst->getArgs()->getAsType());
+            QualifiedType qtype = process_pointee_type(
+                tst->getArgs()->getAsType(), template_args);
             qtype.is_uptr = true;
             qtype.is_const = qt.isConstQualified();
             return qtype;
         } else if (crd->getNameAsString() == "vector") {
             const auto* tst = qt->getAs<TemplateSpecializationType>();
-            QualifiedType element_type =
-                process_pointee_type(tst->getArgs()->getAsType());
+            QualifiedType element_type = process_pointee_type(
+                tst->getArgs()->getAsType(), template_args);
             Vector* vec = process_vector(element_type);
 
             QualifiedType qtype{Type{vec->c_qname, vec}};
@@ -231,37 +408,31 @@ QualifiedType process_pointee_type(const QualType& qt) {
     } else {
         fmt::print("Unhandled type: {}\n", qt.getAsString());
         qt->dump();
-        throw std::runtime_error("unahndled type");
+        return QualifiedType{Type{"UNHANDLED", &builtin_int}};
     }
 }
 
-QualifiedType process_qualified_type(const QualType& qt) {
+QualifiedType
+process_qualified_type(const QualType& qt,
+                       const std::vector<std::string>& template_args) {
     bool is_ptr = qt->isPointerType();
     bool is_ref = qt->isReferenceType();
 
     if (is_ptr || is_ref) {
-        QualifiedType result = process_pointee_type(qt->getPointeeType());
+        QualifiedType result =
+            process_pointee_type(qt->getPointeeType(), template_args);
         result.is_ptr = is_ptr;
         result.is_ref = is_ref;
         return result;
-    } else if (is_builtin(qt)) {
-        QualifiedType result = process_pointee_type(qt);
-        return result;
-    } else if (qt->isRecordType()) {
-        QualifiedType result = process_pointee_type(qt);
-        return result;
-    } else if (qt->isEnumeralType()) {
-        QualifiedType result = process_pointee_type(qt);
-        return result;
     } else {
-        fmt::print("ERROR unhandled param type {}\n", qt.getAsString());
-        qt->dump();
-        throw std::runtime_error("unahndled type");
+        QualifiedType result = process_pointee_type(qt, template_args);
+        return result;
     }
 }
 
-Param process_param_type(const std::string& param_name, const QualType& qt) {
-    QualifiedType qtype = process_qualified_type(qt);
+Param process_param_type(const std::string& param_name, const QualType& qt,
+                         const std::vector<std::string>& template_args) {
+    QualifiedType qtype = process_qualified_type(qt, template_args);
     return Param{param_name, qtype};
 }
 
@@ -285,38 +456,35 @@ std::string get_decl_comment(const Decl* decl) {
     return result;
 }
 
-cppmm::Function process_function(const FunctionDecl* function,
-                                 const cppmm::ExportedFunction& ex_function,
-                                 std::vector<std::string> namespaces) {
+Function process_function(const FunctionDecl* function,
+                          const ExportedFunction& ex_function,
+                          std::vector<std::string> namespaces) {
     // fmt::print("process_function {}\n",
     // function->getQualifiedNameAsString());
-    std::vector<cppmm::Param> params;
+    std::vector<Param> params;
     for (const auto& p : function->parameters()) {
         const auto param_name = p->getNameAsString();
-        params.push_back(process_param_type(param_name, p->getType()));
+        params.push_back(process_param_type(param_name, p->getType(), {}));
     }
 
     std::string comment = get_decl_comment(function);
 
-    return cppmm::Function{
-        ex_function.cpp_name,
-        ex_function.c_name,
-        process_qualified_type(function->getReturnType()),
-        params,
-        comment,
-        namespaces,
-        ex_function.filename
-    };
+    return Function{ex_function.cpp_name,
+                    ex_function.c_name,
+                    process_qualified_type(function->getReturnType(), {}),
+                    params,
+                    comment,
+                    namespaces,
+                    ex_function.filename};
 }
 
-cppmm::Method process_method(const CXXMethodDecl* method,
-                             const cppmm::ExportedMethod& ex_method,
-                             const cppmm::Record* record) {
+Method process_method(const CXXMethodDecl* method,
+                      const ExportedMethod& ex_method, const Record* record) {
     // fmt::print("process_method {}\n", method->getQualifiedNameAsString());
-    std::vector<cppmm::Param> params;
+    std::vector<Param> params;
     for (const auto& p : method->parameters()) {
         const auto param_name = p->getNameAsString();
-        params.push_back(process_param_type(param_name, p->getType()));
+        params.push_back(process_param_type(param_name, p->getType(), {}));
     }
 
     std::string comment = get_decl_comment(method);
@@ -358,20 +526,20 @@ cppmm::Method process_method(const CXXMethodDecl* method,
     std::vector<std::string> namespaces = record->namespaces;
     namespaces.push_back(record->c_name);
 
-    return cppmm::Method{ex_method.cpp_name,
-                         ex_method.c_name,
-                         process_qualified_type(method->getReturnType()),
-                         params,
-                         comment,
-                         namespaces,
-                         method->isConst(),
-                         method->isStatic(),
-                         is_constructor,
-                         is_copy_constructor,
-                         is_copy_assignment,
-                         is_operator,
-                         is_conversion_operator,
-                         op};
+    return Method{ex_method.cpp_name,
+                  ex_method.c_name,
+                  process_qualified_type(method->getReturnType(), {}),
+                  params,
+                  comment,
+                  namespaces,
+                  method->isConst(),
+                  method->isStatic(),
+                  is_constructor,
+                  is_copy_constructor,
+                  is_copy_assignment,
+                  is_operator,
+                  is_conversion_operator,
+                  op};
 }
 
 } // namespace cppmm

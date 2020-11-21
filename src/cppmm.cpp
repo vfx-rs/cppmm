@@ -143,8 +143,8 @@ int main(int argc, const char** argv) {
     for (const auto& src : dir_paths) {
         const auto src_path = ps::os::path::join(cwd, src);
         const auto includes = parse_file_includes(src_path);
-        cppmm::ex_files[src_path] = {};
-        cppmm::ex_files[src_path].includes = includes;
+        cppmm::files[src_path] = {};
+        cppmm::files[src_path].includes = includes;
     }
 
     // Get namespace renames from command-line options
@@ -210,7 +210,7 @@ int main(int argc, const char** argv) {
     }
 
     for (const auto& g : generators) {
-        g->generate(cppmm::ex_files, cppmm::files, cppmm::records,
+        g->generate(cppmm::files, cppmm::records,
                     cppmm::enums, cppmm::vectors, project_includes,
                     project_libraries);
     }
