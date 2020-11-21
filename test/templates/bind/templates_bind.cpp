@@ -18,12 +18,19 @@ struct Vector3 { } CPPMM_VALUETYPE;
 // struct Vector2 {} CPPMM_VALUETYPE;
 
 using V3f = Vector3<float>;
-// using V3i = Vector3<int>;
+using V3i = Vector3<int>;
 
 // void takes_spec_short(::templates::Vector3<short> v);
 
 // template <typename T>
 // void takes_vector3(::templates::Vector3<T>& v){}
+
+// template <>
+// void takes_vector3(::templates::Vector3<float>& v){}
+//
+
+// void takes_vector3(::templates::Vector3<float>&v);
+// void takes_vector3(::templates::Vector3<int>&v);
 
 // template <>
 // void takes_vector3(::templates::Vector3<float>& v){std::cout << "float" << std::endl;}

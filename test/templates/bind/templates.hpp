@@ -20,11 +20,11 @@ template <typename T> struct Vector3 {
 
 /* void takes_spec_short(Vector3<short> v) {} */
 
-/* template <typename T> */
-/* void takes_vector3(Vector3<T>& v){} */
+template <typename T>
+void takes_vector3(Vector3<T>& v){}
 
-/* template <> */
-/* void takes_vector3(Vector3<float>& v){} */
+template <>
+void takes_vector3(Vector3<float>& v){}
 
 /* struct Vector2 { */
 /*     float x; */
