@@ -22,7 +22,7 @@ git submodule update --init
 To build:
 ```
 mkdir build && cd build
-env LLVM_ROOT=</path/to/llvm/installation> cmake ..
+env LLVM_ROOT=</path/to/llvm/installation> CMAKE_PREFIX_PATH=$LLVM_ROOT/lib/cmake cmake ..
 make
 ```
 
