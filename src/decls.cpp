@@ -128,6 +128,7 @@ Record* process_record(const CXXRecordDecl* record) {
         auto it_ex_spec = ex_specs.find(cpp_qname);
         if (it_ex_spec != ex_specs.end()) {
             for (const auto& ex_spec : it_ex_spec->second) {
+                auto cpp_qname = prefix_from_namespaces(namespaces, "::") + cpp_name;
                 auto record_cpp_qname = cpp_qname;
                 cpp_qname += fmt::format(
                     "<{}>", pystring::join(", ", ex_spec.template_args));

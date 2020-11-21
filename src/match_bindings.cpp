@@ -58,10 +58,13 @@ void MatchBindingsCallback::handle_typealias(const TypeAliasDecl* alias) {
             CXXRecordDecl* scrd = ctd->getTemplatedDecl();
 
             std::string record_cpp_qname =
-                prefix_from_namespaces(get_namespaces(scrd->getParent()), "::") + scrd->getNameAsString();
+                prefix_from_namespaces(get_namespaces(scrd->getParent()),
+                                       "::") +
+                scrd->getNameAsString();
 
             if (ex_records.find(record_cpp_qname) == ex_records.end()) {
-                // we only want to process specializations for types we care about
+                // we only want to process specializations for types we care
+                // about
                 return;
             }
 
@@ -91,6 +94,9 @@ void MatchBindingsCallback::handle_typealias(const TypeAliasDecl* alias) {
             ex_spec.alias = alias->getNameAsString();
             ex_spec.record_cpp_qname;
             ex_specs[record_cpp_qname].push_back(ex_spec);
+            fmt::print("pushing {}<{}>: {}\n", record_cpp_qname,
+                       ps::join(", ", typelist),
+                       ex_specs[record_cpp_qname].size());
         }
     }
 }
