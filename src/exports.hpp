@@ -118,11 +118,9 @@ extern ExportedEnumMap ex_enums;
 bool operator==(const ExportedFunction& a, const ExportedFunction& b);
 bool operator==(const ExportedMethod& a, const ExportedMethod& b);
 
-} // namespace cppmm
-
-namespace fmt {
 std::ostream& operator<<(std::ostream& os,
                          const cppmm::ExportedFunction& method);
 std::ostream& operator<<(std::ostream& os, const cppmm::ExportedMethod& method);
 std::ostream& operator<<(std::ostream& os, const cppmm::ExportedRecord& type);
-} // namespace fmt
+
+} // namespace cppmm

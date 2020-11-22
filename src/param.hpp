@@ -19,8 +19,7 @@ struct Param {
     std::string create_c_call() const;
 };
 
+std::ostream& operator<<(std::ostream& os, const Param& param);
+
 } // namespace cppmm
 
-namespace fmt {
-std::ostream& operator<<(std::ostream& os, const cppmm::Param& param);
-}

@@ -374,8 +374,6 @@ cppmm::Method process_method(const CXXMethodDecl* method,
                          op};
 }
 
-} // namespace cppmm
-
-namespace fmt {
 std::ostream& operator<<(std::ostream& os, const cppmm::Method& method);
-}
+
+} // namespace cppmm

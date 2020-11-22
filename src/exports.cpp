@@ -116,9 +116,6 @@ const std::unordered_map<std::string, ExportedEnum>& get_ex_enums() {
     return ex_enums;
 }
 
-} // namespace cppmm
-
-namespace fmt {
 std::ostream& operator<<(std::ostream& os,
                          const cppmm::ExportedFunction& method) {
     if (method.is_static) {
@@ -155,4 +152,4 @@ std::ostream& operator<<(std::ostream& os, const cppmm::ExportedRecord& type) {
     return os;
 }
 
-} // namespace fmt
+} // namespace cppmm

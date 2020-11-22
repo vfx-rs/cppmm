@@ -23,9 +23,6 @@ Method::Method(std::string cpp_name, std::string c_name, QualifiedType return_ty
       is_copy_assignment(is_copy_assignment), is_operator(is_operator),
       is_conversion_operator(is_conversion_operator), op(op) {}
 
-} // namespace cppmm
-
-namespace fmt {
 std::ostream& operator<<(std::ostream& os, const cppmm::Method& method) {
     std::vector<std::string> param_str;
     param_str.reserve(method.params.size());
@@ -43,4 +40,4 @@ std::ostream& operator<<(std::ostream& os, const cppmm::Method& method) {
     return os;
 }
 
-}
+} // namespace cppmm

@@ -100,10 +100,6 @@ std::string QualifiedType::create_c_declaration() const {
     return result;
 }
 
-} // namespace cppmm
-
-namespace fmt {
-
 std::ostream& operator<<(std::ostream& os, const cppmm::RecordKind& kind) {
     switch (kind) {
     case cppmm::RecordKind::OpaquePtr:
@@ -139,4 +135,4 @@ std::ostream& operator<<(std::ostream& os, const cppmm::QualifiedType& qtype) {
     return os;
 }
 
-} // namespace fmt
+} // namespace cppmm
