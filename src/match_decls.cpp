@@ -52,7 +52,10 @@ void MatchDeclsHandler::handle_function(const FunctionDecl* function) {
             if (this_ex_function.cpp_name == ex_function.cpp_name &&
                 cppmm::match_namespaces(this_ex_function.namespaces,
                                         ex_function.namespaces)) {
+                fmt::print("matched {}\n", ex_function.cpp_name);
                 matched_file = ex_file.first;
+            } else {
+                continue;
             }
 
             if (this_ex_function == ex_function) {
@@ -68,7 +71,10 @@ void MatchDeclsHandler::handle_function(const FunctionDecl* function) {
                 // if (this_ex_function.cpp_name == ex_function.cpp_name) {
                 //     fmt::print("REJECTED {}\n", this_ex_function);
                 // }
+            } else  {
+                fmt::print("  but sig does not match\n");
             }
+
         }
     }
 
@@ -84,21 +90,7 @@ void MatchDeclsHandler::handle_function(const FunctionDecl* function) {
         return;
     }
 
-    if (files.find(matched_file) == files.end()) {
-        files[matched_file] = {};
-    }
-    auto& file = files[matched_file];
-    if (file.functions.find(matched_ex_function->c_name) ==
-        file.functions.end()) {
-        // file.functions[matched_ex_function->c_name] =
-        //     process_function(function, *matched_ex_function, namespaces);
-        auto fp = functions.insert(std::make_pair(
-            matched_ex_function->c_name,
-            process_function(function, *matched_ex_function, namespaces)));
-        file.functions.insert(std::make_pair(matched_ex_function->c_name, &fp.first->second));
-    }
-    // fmt::print("        MATCHED {} {}\n", function->getNameAsString(),
-    //            function->getQualifiedNameAsString());
+    process_function(function, *matched_ex_function, namespaces);
 }
 
 void MatchDeclsHandler::handle_method(const CXXMethodDecl* method) {

@@ -93,7 +93,8 @@ std::string QualifiedType::create_c_declaration() const {
                 result += "*";
             }
         } else {
-            result += prefix_from_namespaces(type.namespaces, "_") + type.name;
+            // result += prefix_from_namespaces(type.namespaces, "_") + type.name;
+            result += type.get_c_qname();
             if (is_ptr || is_ref || is_uptr) {
                 result += "*";
             }

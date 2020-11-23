@@ -43,6 +43,7 @@ struct ExportedFunction {
     std::vector<std::string> namespaces; //< only used for free functions (ugh)
     bool is_static = false;
     std::string filename;
+    std::string cpp_qname;
 };
 
 struct ExportedMethod : public ExportedFunction {
@@ -96,6 +97,8 @@ struct ExportedFile {
     std::string name;
     std::vector<std::string> classes;
     std::vector<ExportedFunction> functions;
+    std::unordered_map<std::string, std::vector<std::vector<std::string>>> function_specializations;
+    std::unordered_map<std::string, std::vector<std::unordered_map<std::string,std::string>>> spec_named_args;
     std::vector<ExportedFunction> rejected_functions;
     std::unordered_map<std::string, ExportedRecord*> records;
     std::unordered_map<std::string, ExportedEnum*> enums;

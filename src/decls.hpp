@@ -37,18 +37,29 @@ bool is_builtin(const clang::QualType& qt);
 
 bool is_recordpointer(const clang::QualType& qt);
 
-QualifiedType process_qualified_type(const clang::QualType& qt, const std::vector<std::string>& tempate_args);
-Param process_param_type(const std::string& param_name,
-                         const clang::QualType& qt, const std::vector<std::string>& tempate_args);
+QualifiedType process_qualified_type(
+    const clang::QualType& qt, const std::vector<std::string>& tempate_args,
+    const std::unordered_map<std::string, std::string>& template_named_args);
+Param process_param_type(
+    const std::string& param_name, const clang::QualType& qt,
+    const std::vector<std::string>& tempate_args,
+    const std::unordered_map<std::string, std::string>& template_named_args);
 
 Record* process_record(const clang::CXXRecordDecl* record);
+Record*
+process_record_specialization(const clang::CXXRecordDecl* record,
+                              const std::string& cpp_name,
+                              const std::vector<std::string>& namespaces,
+                              const ExportedSpecialization& ex_spec);
 
 Enum* process_enum(const clang::EnumDecl* enum_decl);
-Param process_pointee_type(const std::string& param_name,
-                           const clang::QualType& qt, const std::vector<std::string>& tempate_args);
-Function process_function(const clang::FunctionDecl* function,
-                          const ExportedFunction& ex_function,
-                          std::vector<std::string> namespaces);
+Param process_pointee_type(
+    const std::string& param_name, const clang::QualType& qt,
+    const std::vector<std::string>& tempate_args,
+    const std::unordered_map<std::string, std::string>& template_named_args);
+void process_function(const clang::FunctionDecl* function,
+                           const ExportedFunction& ex_function,
+                           std::vector<std::string> namespaces);
 Method process_method(const clang::CXXMethodDecl* method,
                       const ExportedMethod& ex_method, const Record* record);
 

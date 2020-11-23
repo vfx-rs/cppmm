@@ -108,7 +108,7 @@ void MatchBindingsCallback::handle_enum(const EnumDecl* enum_decl) {
     ASTContext& ctx = enum_decl->getASTContext();
     SourceManager& sm = ctx.getSourceManager();
     const auto& loc = enum_decl->getLocation();
-    std::string filename = sm.getFilename(loc);
+    std::string filename = sm.getFilename(loc).str();
 
     ExportedEnum ex_enum;
     ex_enum.cpp_name = enum_decl->getNameAsString();
@@ -151,41 +151,9 @@ void MatchBindingsCallback::handle_record(const CXXRecordDecl* record) {
         prefix_from_namespaces(ex_record.namespaces, "::") + ex_record.cpp_name;
 
     if (isa<ClassTemplateSpecializationDecl>(record)) {
+        // we'll monomorphize and bind only the specializations we call out
+        // using type aliases, and those are handled in handle_typealias
         return;
-        /*
-        const ClassTemplateSpecializationDecl* ctsd =
-            cast<ClassTemplateSpecializationDecl>(record);
-        fmt::print("record is CTSD\n");
-        std::vector<std::string> typelist;
-        for (const auto& targ : ctsd->getTemplateArgs().asArray()) {
-            if (!targ.getAsType()->isBuiltinType()) {
-                throw std::runtime_error(fmt::format(
-                    "template argument {} on {} is not a builtin.",
-                    targ.getAsType().getAsString(),
-        record->getNameAsString()));
-            }
-            typelist.push_back(targ.getAsType().getAsString());
-        }
-        */
-        // ex_record.dependent_qname = ex_record.cpp_qname;
-        // ex_record.cpp_qname += fmt::format("<{}>", ps::join(", ",
-        // typelist)); ex_record.c_qname += fmt::format("_{}", ps::join("_",
-        // typelist)); fmt::print("Got template specialization {}\n",
-        // ex_record.cpp_qname); ClassTemplateDecl* ctd =
-        // ctsd->getSpecializedTemplate(); CXXRecordDecl* scrd =
-        // ctd->getTemplatedDecl(); fmt::print("ctd: {:p}\nscrd: {:p}\n",
-        // (void*)ctd, (void*)scrd); ex_record.template_args = typelist;
-        // std::vector<AttrDesc> attrs = get_attrs(scrd);
-        // ex_record.kind = RecordKind::OpaquePtr;
-        // for (const auto& attr : attrs) {
-        //     if (attr.kind == AttrDesc::Kind::ValueType) {
-        //         ex_record.kind = RecordKind::ValueType;
-        //     } else if (attr.kind == AttrDesc::Kind::OpaqueBytes) {
-        //         ex_record.kind = RecordKind::OpaqueBytes;
-        //     }
-        // }
-        // fmt::print("{} is a {}\n", ex_record.c_qname, ex_record.kind);
-
     } else if (record->isDependentContext()) {
         // this is the template type
         fmt::print("{} ({:p}) is dependent\n", ex_record.cpp_qname,
@@ -193,6 +161,8 @@ void MatchBindingsCallback::handle_record(const CXXRecordDecl* record) {
         ex_record.is_dependent = true;
     }
 
+    // get attributes for this decl and search for the kind of record we want
+    // to create
     std::vector<AttrDesc> attrs = get_attrs(record);
     ex_record.kind = RecordKind::OpaquePtr;
     for (const auto& attr : attrs) {
@@ -202,7 +172,6 @@ void MatchBindingsCallback::handle_record(const CXXRecordDecl* record) {
             ex_record.kind = RecordKind::OpaqueBytes;
         }
     }
-    fmt::print("{} is a {}\n", ex_record.c_qname, ex_record.kind);
 
     if (ex_records.find(ex_record.cpp_qname) != ex_records.end()) {
         fmt::print("WARNING: Ignoring duplicate definition for {}\n",
@@ -210,28 +179,24 @@ void MatchBindingsCallback::handle_record(const CXXRecordDecl* record) {
         return;
     }
 
-    // fmt::print("record {}\n", ex_record.cpp_name);
-    // record->dump();
+    // get the filename where this binding is declared
     ASTContext& ctx = record->getASTContext();
     SourceManager& sm = ctx.getSourceManager();
     const auto& loc = record->getLocation();
     std::string filename = sm.getFilename(loc);
-    // fmt::print("    {}:{}:{}\n", filename, sm.getSpellingLineNumber(loc),
-    //            sm.getSpellingColumnNumber(loc));
-
     ex_record.filename = filename;
 
+    // store the record
     ex_records[ex_record.cpp_qname] = ex_record;
     ExportedRecord* ex_record_ptr = &ex_records[ex_record.cpp_qname];
 
+    // store a pointer to the record in the file
     if (ex_files.find(filename) == ex_files.end()) {
         ex_files[filename] = {};
     }
-
     auto& ex_file = ex_files[filename];
     if (ex_file.records.find(ex_record.cpp_qname) == ex_file.records.end()) {
         ex_file.records[ex_record.cpp_qname] = ex_record_ptr;
-        // fmt::print("GOT TYPE: {}\n", ex_record);
     }
 }
 
@@ -248,10 +213,44 @@ void MatchBindingsCallback::handle_function(const FunctionDecl* function) {
 
     ExportedFunction ex_function(function, filename, attrs, namespaces);
 
-    if (ex_files.find(filename) == ex_files.end()) {
-        ex_files[filename] = {};
+    std::vector<std::string> template_args;
+    std::vector<std::string> template_arg_names;
+    std::unordered_map<std::string, std::string> template_named_args;
+    if (function->isDependentContext()) {
+        fmt::print("function {} is a dependent\n", function->getNameAsString());
+
+    } else if (function->isFunctionTemplateSpecialization()) {
+        fmt::print("function {} is a specialization\n",
+                   function->getNameAsString());
+        for (const auto& targ :
+             function->getTemplateSpecializationArgs()->asArray()) {
+            template_args.push_back(targ.getAsType().getAsString());
+        }
+        fmt::print("  with args: <{}>\n", pystring::join(", ", template_args));
+
+        const FunctionTemplateDecl* ftd = function->getPrimaryTemplate();
+        for (const auto& tp : ftd->getTemplateParameters()->asArray()) {
+            fmt::print("TP: {}\n", tp->getNameAsString());
+            template_arg_names.push_back(tp->getNameAsString());
+        }
     }
+
+    for (int i = 0; i < template_args.size(); ++i) {
+        template_named_args[template_arg_names[i]] = template_args[i];
+    }
+
+    // if (ex_files.find(filename) == ex_files.end()) {
+    //     ex_files[filename] = {};
+    // }
     ex_files[filename].functions.push_back(ex_function);
+    if (!template_args.empty()) {
+        ex_files[filename]
+            .function_specializations[ex_function.cpp_qname]
+            .push_back(template_args);
+        ex_files[filename]
+            .spec_named_args[ex_function.cpp_qname]
+            .push_back(template_named_args);
+    }
 }
 
 void MatchBindingsCallback::handle_method(const CXXMethodDecl* method) {

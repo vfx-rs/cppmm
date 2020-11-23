@@ -26,6 +26,7 @@ ExportedFunction::ExportedFunction(const clang::FunctionDecl* function,
     }
     is_static = function->isStatic();
 
+    cpp_qname = prefix_from_namespaces(namespaces, "::") + cpp_name;
     c_name = cpp_name;
     for (const auto& attr : attrs) {
         if (attr.kind == AttrDesc::Kind::Rename) {

@@ -20,11 +20,21 @@ template <typename T> struct Vector3 {
 
 /* void takes_spec_short(Vector3<short> v) {} */
 
-/* template <typename T> */
-/* void takes_vector3(Vector3<T>& v){} */
+template <typename T>
+void takes_vector3(Vector3<T>& v){}
+
+template <typename T, typename U>
+void takes_two_vector3(Vector3<T>& v, Vector3<U>& w){}
+
+template <typename T, typename U>
+void takes_vector3_and_t(Vector3<T>& v, U w) {
+}
 
 /* template <> */
 /* void takes_vector3(Vector3<float>& v){} */
+
+/* template <> */
+/* void takes_vector3(Vector3<int>& v){} */
 
 /* struct Vector2 { */
 /*     float x; */

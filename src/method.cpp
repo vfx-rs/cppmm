@@ -16,8 +16,8 @@ Method::Method(std::string cpp_name, std::string c_name, QualifiedType return_ty
                std::vector<std::string> namespaces, bool is_const,
                bool is_static, bool is_constructor, bool is_copy_constructor,
                bool is_copy_assignment, bool is_operator,
-               bool is_conversion_operator, std::string op)
-    : Function(cpp_name, c_name, return_type, params, comment, namespaces, ""),
+               bool is_conversion_operator, std::string op, std::vector<std::string> template_args)
+    : Function(cpp_name, c_name, return_type, params, comment, namespaces, "", template_args),
       is_const(is_const), is_static(is_static), is_constructor(is_constructor),
       is_copy_constructor(is_copy_constructor),
       is_copy_assignment(is_copy_assignment), is_operator(is_operator),
