@@ -31,14 +31,14 @@ enum OIIO_Filesystem_IOProxy_Mode {
 /// should contain a leading '.' dot.
 int OIIO_Filesystem_replace_extension(const char* filepath, const char* new_extension, char* _result_buffer_ptr, int _result_buffer_len);
 
+/// Return the filename (excluding any directories, but including the
+/// file extension, if any) of a filepath.
+int OIIO_Filesystem_filename(const char* filepath, char* _result_buffer_ptr, int _result_buffer_len);
+
 /// Return all but the last part of the path, for example,
 /// parent_path("foo/bar") returns "foo", and parent_path("foo")
 /// returns "".
 int OIIO_Filesystem_parent_path(const char* filepath, char* _result_buffer_ptr, int _result_buffer_len);
-
-/// Return the filename (excluding any directories, but including the
-/// file extension, if any) of a filepath.
-int OIIO_Filesystem_filename(const char* filepath, char* _result_buffer_ptr, int _result_buffer_len);
 
 /// Return the file extension (including the last '.' if
 /// include_dot=true) of a filename or filepath.

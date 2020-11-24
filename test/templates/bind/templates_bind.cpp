@@ -13,6 +13,8 @@ namespace cppmm_bind {
 namespace templates {
 
 template <typename T> struct Vector3 {
+    // Vector3(T x, T y, T z) CPPMM_RENAME(new);
+    // T length() const;
 } CPPMM_VALUETYPE;
 
 // struct Vector2 {} CPPMM_VALUETYPE;
