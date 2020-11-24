@@ -113,6 +113,56 @@ Record create_record(const CXXRecordDecl* record, std::string cpp_name,
     };
 }
 
+void do_method(const CXXMethodDecl* method, Record* record) {
+    const auto method_name = method->getNameAsString();
+    auto it_class = cppmm::ex_classes.find(record->cpp_name);
+    if (it_class == cppmm::ex_classes.end()) {
+        return;
+    }
+
+    auto& ex_class = it_class->second;
+
+    // convert this method so we can match it against our stored ones
+    const auto this_ex_method = ExportedMethod(method, {});
+
+    // now see if we can find the method in the exported methods on
+    // the exported class
+    const cppmm::ExportedMethod* matched_ex_method = nullptr;
+    bool rejected = true;
+    for (const auto& ex_method : ex_class.methods) {
+        if (this_ex_method == ex_method) {
+            // found a matching exported method (but may still be
+            // ignored)
+            rejected = false;
+            if (!(ex_method.is_ignored() || ex_method.is_manual())) {
+                // not ignored, this is the one we'll use
+                matched_ex_method = &ex_method;
+                break;
+            }
+        }
+    }
+
+    // store the rejected method on the class so we can warn that we
+    // didn't find a match
+    if (rejected) {
+        ex_class.rejected_methods.push_back(this_ex_method);
+    }
+
+    // we don't want to bind this method so bail
+    if (matched_ex_method == nullptr) {
+        return;
+    }
+
+    if (record->methods.find(matched_ex_method->c_name) ==
+        record->methods.end()) {
+        record->methods.insert(
+            std::make_pair(matched_ex_method->c_name,
+                           process_method(method, *matched_ex_method, record))
+                           );
+    }
+
+}
+
 Record*
 process_record_specialization(const CXXRecordDecl* record,
                               const std::string& cpp_name,
@@ -172,6 +222,12 @@ process_record_specialization(const CXXRecordDecl* record,
     records[cpp_qname] = rec;
     Record* record_ptr = &records[cpp_qname];
     files[rec.filename].records[cpp_qname] = record_ptr;
+
+    // now do the methods
+    for (const auto* method_decl : record->methods()) {
+        do_method(method_decl, record_ptr);
+    }
+
     return record_ptr;
     // fmt::print("MATCHED: {}\n", cpp_name);
 }
@@ -274,6 +330,12 @@ Record* process_record(const CXXRecordDecl* record) {
     Record* record_ptr = &records[cpp_qname];
     files[rec.filename].records[cpp_qname] = record_ptr;
     // fmt::print("MATCHED: {}\n", cpp_name);
+    //
+    // now do the methods
+    for (const auto* method_decl : record->methods()) {
+        do_method(method_decl, record_ptr);
+    }
+
     return record_ptr;
 }
 
