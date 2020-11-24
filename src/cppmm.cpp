@@ -102,7 +102,8 @@ int main(int argc, const char** argv) {
         // /config.toml
         for (const auto& entry : fs::directory_iterator(src_path[0])) {
             if (entry.path().extension() == ".cpp") {
-                dir_paths.push_back(entry.path().string());
+                dir_paths.push_back(ps::os::path::abspath(entry.path().string(),
+                                    cwd));
             }
         }
     } else {
@@ -110,7 +111,7 @@ int main(int argc, const char** argv) {
         // work with (old behaviour)
         // TODO: can we reliably keep this working?
         for (const auto& s : src_path) {
-            dir_paths.push_back(s);
+            dir_paths.push_back(ps::os::path::abspath(s, cwd));
         }
     }
     ClangTool Tool(OptionsParser.getCompilations(),
