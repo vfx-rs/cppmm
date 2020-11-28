@@ -47,26 +47,6 @@ OIIO_ROI OIIO_roi_intersection(const OIIO_ROI* A, const OIIO_ROI* B) {
 
 
 
-int OIIO_ImageInput_geterror(const OIIO_ImageInput* self, char* _result_buffer_ptr, int _result_buffer_len) {
-    const std::string result = to_cpp(self)->geterror();
-    safe_strcpy(_result_buffer_ptr, result, _result_buffer_len);
-    return result.size();
-}
-
-
-
-OIIO_ImageInput* OIIO_ImageInput_open(const char* filename, const OIIO_ImageSpec* config, OIIO_Filesystem_IOProxy* ioproxy) {
-    return to_c(OIIO::ImageInput::open(filename, to_cpp(config), to_cpp(ioproxy)).release());
-}
-
-
-
-const char* OIIO_ImageInput_format_name(const OIIO_ImageInput* self) {
-    return to_cpp(self)->format_name();
-}
-
-
-
 OIIO_ROI OIIO_ROI_All() {
     return bit_cast<OIIO_ROI>(OIIO::ROI::All());
 }
@@ -111,6 +91,26 @@ bool OIIO_ROI_defined(const OIIO_ROI* self) {
 
 int OIIO_ROI_depth(const OIIO_ROI* self) {
     return to_cpp(self)->depth();
+}
+
+
+
+int OIIO_ImageInput_geterror(const OIIO_ImageInput* self, char* _result_buffer_ptr, int _result_buffer_len) {
+    const std::string result = to_cpp(self)->geterror();
+    safe_strcpy(_result_buffer_ptr, result, _result_buffer_len);
+    return result.size();
+}
+
+
+
+OIIO_ImageInput* OIIO_ImageInput_open(const char* filename, const OIIO_ImageSpec* config, OIIO_Filesystem_IOProxy* ioproxy) {
+    return to_c(OIIO::ImageInput::open(filename, to_cpp(config), to_cpp(ioproxy)).release());
+}
+
+
+
+const char* OIIO_ImageInput_format_name(const OIIO_ImageInput* self) {
+    return to_cpp(self)->format_name();
 }
 
 

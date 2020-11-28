@@ -17,8 +17,6 @@ extern "C" {
 #define CPPMM_ALIGN(x) __attribute__((aligned(x)))
 #endif
 
-typedef struct OIIO_ImageInput OIIO_ImageInput;
-
 typedef struct {
     int xbegin;
     int xend;
@@ -29,6 +27,8 @@ typedef struct {
     int chbegin;
     int chend;
 } OIIO_ROI;
+
+typedef struct OIIO_ImageInput OIIO_ImageInput;
 
 typedef struct OIIO_ImageSpec OIIO_ImageSpec;
 
@@ -120,6 +120,39 @@ OIIO_ROI OIIO_roi_union(const OIIO_ROI* A, const OIIO_ROI* B);
 /// Intersection of two regions.
 OIIO_ROI OIIO_roi_intersection(const OIIO_ROI* A, const OIIO_ROI* B);
 
+/// All() is an alias for the default constructor, which indicates that
+/// it means "all" of the image, or no region restriction.  For example,
+///     float myfunc (ImageBuf &buf, ROI roi = ROI::All());
+/// Note that this is equivalent to:
+///     float myfunc (ImageBuf &buf, ROI roi = {});
+OIIO_ROI OIIO_ROI_All();
+
+/// Total number of pixels in the region.
+unsigned long OIIO_ROI_npixels(const OIIO_ROI* self);
+
+/// Default constructor is an undefined region. Note that this is also
+/// interpreted as All().
+void OIIO_ROI_default(OIIO_ROI* self);
+
+/// Number of channels in the region.  Beware -- this defaults to a
+/// huge number, and to be meaningful you must consider
+/// std::min (imagebuf.nchannels(), roi.nchannels()).
+int OIIO_ROI_nchannels(const OIIO_ROI* self);
+
+///@{
+/// @name Spatial size functions.
+/// The width, height, and depth of the region.
+int OIIO_ROI_width(const OIIO_ROI* self);
+
+
+int OIIO_ROI_height(const OIIO_ROI* self);
+
+/// Is a region defined?
+bool OIIO_ROI_defined(const OIIO_ROI* self);
+
+
+int OIIO_ROI_depth(const OIIO_ROI* self);
+
 /// If any of the API routines returned false indicating an error, this
 /// method will return the error string (and clear any error flags).  If
 /// no error has occurred since the last time `geterror()` was called,
@@ -165,39 +198,6 @@ OIIO_ImageInput* OIIO_ImageInput_open(const char* filename, const OIIO_ImageSpec
 
 /// Return the name of the format implemented by this class.
 const char* OIIO_ImageInput_format_name(const OIIO_ImageInput* self);
-
-/// All() is an alias for the default constructor, which indicates that
-/// it means "all" of the image, or no region restriction.  For example,
-///     float myfunc (ImageBuf &buf, ROI roi = ROI::All());
-/// Note that this is equivalent to:
-///     float myfunc (ImageBuf &buf, ROI roi = {});
-OIIO_ROI OIIO_ROI_All();
-
-/// Total number of pixels in the region.
-unsigned long OIIO_ROI_npixels(const OIIO_ROI* self);
-
-/// Default constructor is an undefined region. Note that this is also
-/// interpreted as All().
-void OIIO_ROI_default(OIIO_ROI* self);
-
-/// Number of channels in the region.  Beware -- this defaults to a
-/// huge number, and to be meaningful you must consider
-/// std::min (imagebuf.nchannels(), roi.nchannels()).
-int OIIO_ROI_nchannels(const OIIO_ROI* self);
-
-///@{
-/// @name Spatial size functions.
-/// The width, height, and depth of the region.
-int OIIO_ROI_width(const OIIO_ROI* self);
-
-
-int OIIO_ROI_height(const OIIO_ROI* self);
-
-/// Is a region defined?
-bool OIIO_ROI_defined(const OIIO_ROI* self);
-
-
-int OIIO_ROI_depth(const OIIO_ROI* self);
 
 /// Fill in an array of channel formats describing all channels in
 /// the image.  (Note that this differs slightly from the member

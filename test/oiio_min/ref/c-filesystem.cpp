@@ -21,16 +21,16 @@ int OIIO_Filesystem_replace_extension(const char* filepath, const char* new_exte
 
 
 
-int OIIO_Filesystem_parent_path(const char* filepath, char* _result_buffer_ptr, int _result_buffer_len) {
-    const std::string result = OIIO::Filesystem::parent_path(filepath);
+int OIIO_Filesystem_filename(const char* filepath, char* _result_buffer_ptr, int _result_buffer_len) {
+    const std::string result = OIIO::Filesystem::filename(filepath);
     safe_strcpy(_result_buffer_ptr, result, _result_buffer_len);
     return result.size();
 }
 
 
 
-int OIIO_Filesystem_filename(const char* filepath, char* _result_buffer_ptr, int _result_buffer_len) {
-    const std::string result = OIIO::Filesystem::filename(filepath);
+int OIIO_Filesystem_parent_path(const char* filepath, char* _result_buffer_ptr, int _result_buffer_len) {
+    const std::string result = OIIO::Filesystem::parent_path(filepath);
     safe_strcpy(_result_buffer_ptr, result, _result_buffer_len);
     return result.size();
 }

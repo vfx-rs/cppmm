@@ -13,13 +13,14 @@ struct Function {
     Function(std::string cpp_name, std::string c_name,
              QualifiedType return_type, std::vector<Param> params,
              std::string comment, std::vector<std::string> namespaces,
-             std::string filename);
+             std::string filename, std::vector<std::string> template_args);
 
     std::string cpp_name;
     std::string c_name;
     QualifiedType return_type;
     std::vector<Param> params;
     std::string comment;
+    std::vector<std::string> namespaces;
     std::string cpp_qname;
     std::string c_qname;
     std::string filename; //< file where this function is declared

@@ -454,9 +454,8 @@ GeneratorRustSys::GeneratorRustSys(std::string output_dir)
       _c_generator((fs::path(output_dir) / "clib").string()) {}
 
 void GeneratorRustSys::generate(
-    const ExportedFileMap& ex_files, const FileMap& files,
-    const RecordMap& records, const EnumMap& enums, const VectorMap& vectors,
-    const std::vector<std::string>& project_includes,
+    const FileMap& files, const RecordMap& records, const EnumMap& enums,
+    const VectorMap& vectors, const std::vector<std::string>& project_includes,
     const std::vector<std::string>& project_libraries) {
     fs::path output_dir_path = fs::path(_output_dir);
     fs::path output_src_path = output_dir_path / "src";
@@ -471,24 +470,24 @@ void GeneratorRustSys::generate(
     }
 
     // generate the inbuilt C library
-    _c_generator.generate(ex_files, files, records, enums, vectors,
-                          project_includes, project_libraries);
+    _c_generator.generate(files, records, enums, vectors, project_includes,
+                          project_libraries);
 
     std::vector<std::string> mods;
     mods.push_back("cppmm_containers");
 
     // For each binding file we'll generate one rust source file (module)
-    for (const auto& bind_file : ex_files) {
+    for (const auto& it_file : files) {
         std::string declarations;
 
-        if (bind_file.first == "") {
+        if (it_file.first == "") {
             // FIXME: how is this getting in there?
             continue;
         }
 
         // Generate all Record definitions (and containers thereof) in this
         // module
-        for (const auto& rec_pair : bind_file.second.records) {
+        for (const auto& rec_pair : it_file.second.records) {
             const auto it_record = records.find(rec_pair.first);
             if (it_record == records.end()) {
                 fmt::print("ERROR: record {} not found in records map\n",
@@ -509,7 +508,7 @@ void GeneratorRustSys::generate(
         }
 
         // Generate all enums declared in this module
-        for (const auto& enm_pair : bind_file.second.enums) {
+        for (const auto& enm_pair : it_file.second.enums) {
             const auto it_enum = enums.find(enm_pair.first);
             if (it_enum == enums.end()) {
                 fmt::print("ERROR: enum {} not found in enums map\n",
@@ -527,26 +526,22 @@ void GeneratorRustSys::generate(
 
         // Find the File object that contains all the Functions for this module
         // and generate those
-        const auto it_file = files.find(bind_file.first);
         declarations += "extern \"C\" {\n";
-        if (it_file != files.end()) {
-            for (const auto& it_function : it_file->second.functions) {
-                const auto& function = it_function.second;
+        for (const auto& it_function : it_file.second.functions) {
+            const auto& function = it_function.second;
 
-                std::string declaration =
-                    get_function_declaration(function, use_stmts);
+            std::string declaration =
+                get_function_declaration(*function, use_stmts);
 
-                declarations =
-                    fmt::format("{}\n{};\n", declarations, declaration);
-            }
+            declarations = fmt::format("{}\n{};\n", declarations, declaration);
         }
 
         // Generate all methods on all records in this module
-        for (const auto& record_pair : bind_file.second.records) {
-            const auto it_record = records.find(record_pair.second->c_qname);
+        for (const auto& record_pair : it_file.second.records) {
+            const auto it_record = records.find(record_pair.second->cpp_qname);
             if (it_record == records.end()) {
                 fmt::print("ERROR: record {} not found in records map\n",
-                           record_pair.second->c_qname);
+                           record_pair.second->cpp_qname);
                 continue;
             }
             const auto& record = it_record->second;
@@ -566,7 +561,7 @@ void GeneratorRustSys::generate(
 
         // write out the module
         const std::string root =
-            ps::replace(bind_file_root(bind_file.first), "-", "_");
+            ps::replace(bind_file_root(it_file.first), "-", "_");
         const auto src_file = fmt::format("{}.rs", root);
         const auto src_path = output_dir_path / "src" / src_file;
         write_source_file(src_path.string(), declarations, use_stmts);

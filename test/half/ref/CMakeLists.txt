@@ -17,3 +17,5 @@ target_include_directories(half-c PUBLIC
 target_link_libraries(half-c PUBLIC
   /home/anders/packages/imath/3.0.0/lib/libhalf.so
 )
+
+install(TARGETS half-c DESTINATION ${CMAKE_INSTALL_PREFIX})
