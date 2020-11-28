@@ -2,8 +2,8 @@ cmake_minimum_required(VERSION 3.5)
 project(oiio_min-c)
 
 add_library(oiio_min-c STATIC
-  c-typedesc.cpp
   c-filesystem.cpp
+  c-typedesc.cpp
   c-imageio.cpp
   cppmm_containers.cpp
 )

@@ -35,7 +35,7 @@ void MatchDeclsHandler::handle_function(const FunctionDecl* function) {
     auto namespaces = get_namespaces(function->getParent());
     ASTContext& ctx = function->getASTContext();
     SourceManager& sm = ctx.getSourceManager();
-    std::string filename = sm.getFilename(function->getBeginLoc());
+    std::string filename = sm.getFilename(function->getBeginLoc()).str();
     const auto this_ex_function =
         cppmm::ExportedFunction(function, filename, {}, namespaces);
 

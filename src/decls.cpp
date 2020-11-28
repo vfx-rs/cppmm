@@ -617,7 +617,7 @@ std::string get_decl_comment(const Decl* decl) {
     const RawComment* rc = ctx.getRawCommentForDeclNoCache(decl);
     std::string result;
     if (rc) {
-        std::string raw = rc->getRawText(sm);
+        std::string raw = rc->getRawText(sm).str();
         // dedent lines
         std::vector<std::string> lines;
         pystring::splitlines(raw, lines);

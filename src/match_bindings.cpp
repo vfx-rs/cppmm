@@ -185,7 +185,7 @@ void MatchBindingsCallback::handle_record(const CXXRecordDecl* record) {
     ASTContext& ctx = record->getASTContext();
     SourceManager& sm = ctx.getSourceManager();
     const auto& loc = record->getLocation();
-    std::string filename = sm.getFilename(loc);
+    std::string filename = sm.getFilename(loc).str();
     ex_record.filename = filename;
 
     // store the record
@@ -209,7 +209,7 @@ void MatchBindingsCallback::handle_function(const FunctionDecl* function) {
     // figure out which file we're in
     ASTContext& ctx = function->getASTContext();
     SourceManager& sm = ctx.getSourceManager();
-    std::string filename = sm.getFilename(function->getBeginLoc());
+    std::string filename = sm.getFilename(function->getBeginLoc()).str();
 
     auto namespaces = get_namespaces(function->getParent());
 
@@ -263,7 +263,7 @@ void MatchBindingsCallback::handle_method(const CXXMethodDecl* method) {
         ASTContext& ctx = method->getASTContext();
         SourceManager& sm = ctx.getSourceManager();
 
-        std::string filename = sm.getFilename(method->getBeginLoc());
+        std::string filename = sm.getFilename(method->getBeginLoc()).str();
 
         auto namespaces = get_namespaces(method->getParent()->getParent());
         ex_classes[class_name] =
