@@ -90,10 +90,10 @@ Record create_record(const CXXRecordDecl* record, std::string cpp_name,
     std::vector<Param> fields;
     // If it's a value type, expose all the fields
     if (kind == RecordKind::ValueType) {
-        fmt::print("FIELDS: \n");
+        // fmt::print("FIELDS: \n");
         for (const auto* field : record->fields()) {
             std::string field_name = field->getNameAsString();
-            fmt::print("    field: {}\n", field->getNameAsString());
+            // fmt::print("    field: {}\n", field->getNameAsString());
             Param field_param = process_param_type(field_name, field->getType(),
                                                    template_args, {});
             fields.push_back(field_param);
@@ -117,7 +117,7 @@ Record create_record(const CXXRecordDecl* record, std::string cpp_name,
 void do_method(const CXXMethodDecl* method, Record* record,
                const std::vector<std::string>& template_args) {
     const auto method_name = method->getNameAsString();
-    fmt::print("do_method {}\n", method_name);
+    // fmt::print("do_method {}\n", method_name);
     auto it_class = cppmm::ex_classes.find(record->cpp_name);
     if (it_class == cppmm::ex_classes.end()) {
         return;
@@ -132,9 +132,9 @@ void do_method(const CXXMethodDecl* method, Record* record,
     // the exported class
     const cppmm::ExportedMethod* matched_ex_method = nullptr;
     bool rejected = true;
-    fmt::print("Matching {}\n", this_ex_method);
+    // fmt::print("Matching {}\n", this_ex_method);
     for (const auto& ex_method : ex_class.methods) {
-        fmt::print("       - {}\n", ex_method);
+        // fmt::print("       - {}\n", ex_method);
         if (this_ex_method == ex_method) {
             // found a matching exported method (but may still be
             // ignored)
@@ -142,7 +142,7 @@ void do_method(const CXXMethodDecl* method, Record* record,
             if (!(ex_method.is_ignored() || ex_method.is_manual())) {
                 // not ignored, this is the one we'll use
                 matched_ex_method = &ex_method;
-                fmt::print("          -- MATCH!\n");
+                // fmt::print("          -- MATCH!\n");
                 break;
             }
         }
@@ -161,7 +161,7 @@ void do_method(const CXXMethodDecl* method, Record* record,
 
     // check if we're dependent
     if (method->isDependentContext() && template_args.empty()) {
-        fmt::print("dependent context with no template args - returning\n");
+        // fmt::print("dependent context with no template args - returning\n");
         return;
     }
 
@@ -183,8 +183,8 @@ process_record_specialization(const CXXRecordDecl* record,
     cpp_qname +=
         fmt::format("<{}>", pystring::join(", ", ex_spec.template_args));
     auto c_qname = prefix_from_namespaces(namespaces, "_") + ex_spec.alias;
-    fmt::print("{} <{}>\n", ex_spec.alias,
-               pystring::join(", ", ex_spec.template_args));
+    // fmt::print("{} <{}>\n", ex_spec.alias,
+    //            pystring::join(", ", ex_spec.template_args));
 
     auto it_record = records.find(cpp_qname);
     if (it_record != records.end()) {
@@ -228,7 +228,7 @@ process_record_specialization(const CXXRecordDecl* record,
         return nullptr;
     }
 
-    fmt::print("Storing record {}\n", cpp_qname);
+    // fmt::print("Storing record {}\n", cpp_qname);
     records[cpp_qname] = rec;
     Record* record_ptr = &records[cpp_qname];
     files[rec.filename].records[cpp_qname] = record_ptr;
@@ -243,18 +243,18 @@ process_record_specialization(const CXXRecordDecl* record,
             // type matching and expansion here to tell which of the bound
             // methods could correspond to an expansion of a templated type
             const auto* ftd = cast<FunctionTemplateDecl>(decl);
-            fmt::print("got FTD {}\n", ftd->getNameAsString());
+            // fmt::print("got FTD {}\n", ftd->getNameAsString());
             const auto* fd = ftd->getTemplatedDecl();
             if (fd && isa<CXXMethodDecl>(fd)) {
                 const auto* md = cast<CXXMethodDecl>(fd);
-                fmt::print("got method from fd: {}\n", md->getNameAsString());
+                // fmt::print("got method from fd: {}\n", md->getNameAsString());
             }
         } else if (isa<CXXMethodDecl>(decl)) {
             // As long as the method doesn't have its own template parameter
             // list, we can monomorphize it based on the specialization of the
             // parent class.
             const auto* cmd = cast<CXXMethodDecl>(decl);
-            fmt::print("got CMD {}\n", cmd->getNameAsString());
+            // fmt::print("got CMD {}\n", cmd->getNameAsString());
             do_method(cmd, record_ptr, ex_spec.template_args);
         }
     }
@@ -270,10 +270,10 @@ Record* process_record(const CXXRecordDecl* record) {
     const auto c_qname = prefix_from_namespaces(namespaces, "_") + cpp_name;
     auto cpp_qname = prefix_from_namespaces(namespaces, "::") + cpp_name;
 
-    fmt::print("record: {}\n", cpp_qname);
+    // fmt::print("record: {}\n", cpp_qname);
     std::vector<std::string> template_args;
     if (record->isDependentContext()) {
-        fmt::print(" {:p} is dependent\n", (void*)record);
+        // fmt::print(" {:p} is dependent\n", (void*)record);
         auto it_ex_spec = ex_specs.find(cpp_qname);
         if (it_ex_spec != ex_specs.end()) {
             for (const auto& ex_spec : it_ex_spec->second) {
@@ -287,7 +287,7 @@ Record* process_record(const CXXRecordDecl* record) {
     } else if (isa<ClassTemplateSpecializationDecl>(record)) {
         const ClassTemplateSpecializationDecl* ctsd =
             cast<ClassTemplateSpecializationDecl>(record);
-        fmt::print("   is a CTSD\n");
+        // fmt::print("   is a CTSD\n");
         for (const auto& targ : ctsd->getTemplateArgs().asArray()) {
             if (!targ.getAsType()->isBuiltinType()) {
                 throw std::runtime_error(fmt::format(
@@ -297,14 +297,14 @@ Record* process_record(const CXXRecordDecl* record) {
             template_args.push_back(targ.getAsType().getAsString());
         }
         cpp_qname += fmt::format("<{}>", pystring::join(", ", template_args));
-        fmt::print("   {}\n", cpp_qname);
+        // fmt::print("   {}\n", cpp_qname);
 
         auto it_record = records.find(cpp_qname);
-        fmt::print("searching for {}\n", cpp_qname);
+        // fmt::print("searching for {}\n", cpp_qname);
         if (it_record != records.end()) {
             // already done this type, return
-            fmt::print("returning {}: {}\n", it_record->second.cpp_qname,
-                       it_record->second.c_qname);
+            // fmt::print("returning {}: {}\n", it_record->second.cpp_qname,
+            //            it_record->second.c_qname);
             return &it_record->second;
         } else {
             fmt::print("Could not find specialized record for {}\n", cpp_qname);
@@ -452,8 +452,8 @@ QualifiedType process_pointee_type(
         return qtype;
     } else if (qt->isTemplateTypeParmType()) {
         const auto* ttpt = qt->castAs<TemplateTypeParmType>();
-        fmt::print("    template type parm type {}\n",
-                   ttpt->desugar().getAsString());
+        // fmt::print("    template type parm type {}\n",
+        //            ttpt->desugar().getAsString());
         int index = ttpt->getIndex();
         QualifiedType qtype{cppmm::Type{template_args.at(index), &builtin_int}};
         qtype.is_const = qt.isConstQualified();
@@ -513,15 +513,15 @@ QualifiedType process_pointee_type(
         qtype.is_const = qt.isConstQualified();
         return qtype;
     } else if (qt->isDependentType()) {
-        fmt::print("Got dependent type: {}\n", qt.getAsString());
+        // fmt::print("Got dependent type: {}\n", qt.getAsString());
         const auto* tst = qt->getAs<TemplateSpecializationType>();
-        fmt::print("    with {} args\n", tst->getNumArgs());
+        // fmt::print("    with {} args\n", tst->getNumArgs());
         // Expand the list of template arg names (i.e. T, U etc.) into the
         // actual type names
         std::vector<std::string> this_template_args;
         for (int i = 0; i < tst->getNumArgs(); ++i) {
-            fmt::print("        {}\n",
-                       tst->getArgs()[i].getAsType().getAsString());
+            // fmt::print("        {}\n",
+            //            tst->getArgs()[i].getAsType().getAsString());
             std::string t_arg_name =
                 tst->getArgs()[i].getAsType().getAsString();
             auto it_arg = template_named_args.find(t_arg_name);
@@ -537,21 +537,21 @@ QualifiedType process_pointee_type(
 
         auto template_name = tst->getTemplateName();
         const auto* td = template_name.getAsTemplateDecl();
-        fmt::print("TD: {}\n", td->getQualifiedNameAsString());
+        // fmt::print("TD: {}\n", td->getQualifiedNameAsString());
 
         auto* nd = td->getTemplatedDecl();
-        fmt::print("templated decl: {} {:p}\n", nd->getNameAsString(),
-                   (void*)nd);
+        // fmt::print("templated decl: {} {:p}\n", nd->getNameAsString(),
+        //            (void*)nd);
         if (isa<CXXRecordDecl>(nd)) {
             auto* crd = cast<CXXRecordDecl>(nd);
-            fmt::print("cxxrecorddecl: {:p}\n", (void*)crd);
+            // fmt::print("cxxrecorddecl: {:p}\n", (void*)crd);
             std::string cpp_name = crd->getNameAsString();
             auto namespaces = get_namespaces(crd->getParent());
             auto cpp_qname =
                 prefix_from_namespaces(namespaces, "::") + cpp_name;
             auto record_cpp_qname = cpp_qname;
-            fmt::print("called with template args <{}>\n",
-                       pystring::join(", ", this_template_args));
+            // fmt::print("called with template args <{}>\n",
+            //            pystring::join(", ", this_template_args));
 
             // now find the matching specialization
             const auto& specs = ex_specs[record_cpp_qname];
@@ -645,14 +645,14 @@ Function* generate_function_specialization(
     std::vector<Param> params;
     for (const auto& p : function->parameters()) {
         const auto param_name = p->getNameAsString();
-        fmt::print("param {}\n", param_name);
+        // fmt::print("param {}\n", param_name);
         params.push_back(process_param_type(
             param_name, p->getType(), template_args, template_named_args));
     }
 
     std::string comment = get_decl_comment(function);
 
-    fmt::print("returning function {}\n", ex_function.cpp_name);
+    // fmt::print("returning function {}\n", ex_function.cpp_name);
     Function func =
         Function{ex_function.cpp_name,
                  ex_function.c_name,
@@ -682,17 +682,17 @@ Function* generate_function_specialization(
 void process_function(const FunctionDecl* function,
                       const ExportedFunction& ex_function,
                       std::vector<std::string> namespaces) {
-    fmt::print("process_function {}\n", function->getQualifiedNameAsString());
+    // fmt::print("process_function {}\n", function->getQualifiedNameAsString());
 
     std::vector<std::string> template_args;
     if (function->isDependentContext()) {
-        fmt::print("    is dependent\n");
+        // fmt::print("    is dependent\n");
         const auto& specs =
             ex_files[ex_function.filename]
                 .function_specializations[ex_function.cpp_qname];
         const auto& named_args = ex_files[ex_function.filename]
                                      .spec_named_args[ex_function.cpp_qname];
-        fmt::print("    has {} specializations:\n", specs.size());
+        // fmt::print("    has {} specializations:\n", specs.size());
         for (int i = 0; i < specs.size(); ++i) {
             generate_function_specialization(function, ex_function, namespaces,
                                              specs[i], named_args[i]);
@@ -700,7 +700,7 @@ void process_function(const FunctionDecl* function,
         }
         return;
     } else if (function->isFunctionTemplateSpecialization()) {
-        fmt::print("    is a template specialization\n");
+        // fmt::print("    is a template specialization\n");
     }
 
     generate_function_specialization(function, ex_function, namespaces, {}, {});
@@ -709,7 +709,7 @@ void process_function(const FunctionDecl* function,
 Method process_method(const CXXMethodDecl* method,
                       const ExportedMethod& ex_method, const Record* record,
                       const std::vector<std::string>& template_args) {
-    fmt::print("process_method {}\n", method->getQualifiedNameAsString());
+    // fmt::print("process_method {}\n", method->getQualifiedNameAsString());
 
     std::vector<Param> params;
     for (const auto& p : method->parameters()) {

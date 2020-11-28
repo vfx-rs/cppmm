@@ -49,7 +49,7 @@ void MatchDeclsHandler::handle_function(const FunctionDecl* function) {
             if (this_ex_function.cpp_name == ex_function.cpp_name &&
                 cppmm::match_namespaces(this_ex_function.namespaces,
                                         ex_function.namespaces)) {
-                fmt::print("matched {}\n", ex_function.cpp_name);
+                // fmt::print("matched {}\n", ex_function.cpp_name);
                 matched_file = ex_file.first;
             } else {
                 continue;
@@ -69,7 +69,7 @@ void MatchDeclsHandler::handle_function(const FunctionDecl* function) {
                 //     fmt::print("REJECTED {}\n", this_ex_function);
                 // }
             } else {
-                fmt::print("  but sig does not match\n");
+                // fmt::print("  but sig does not match\n");
             }
         }
     }

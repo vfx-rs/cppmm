@@ -50,7 +50,7 @@ void MatchBindingsCallback::run(const MatchFinder::MatchResult& result) {
 }
 
 void MatchBindingsCallback::handle_typealias(const TypeAliasDecl* alias) {
-    fmt::print("GOT typeAliasDecl: {}\n", alias->getNameAsString());
+    // fmt::print("GOT typeAliasDecl: {}\n", alias->getNameAsString());
     const QualType qtype = alias->getUnderlyingType();
     if (const CXXRecordDecl* record = qtype->getAsCXXRecordDecl()) {
         if (isa<ClassTemplateSpecializationDecl>(record)) {
@@ -70,7 +70,7 @@ void MatchBindingsCallback::handle_typealias(const TypeAliasDecl* alias) {
                 return;
             }
 
-            fmt::print("record is CTSD\n");
+            // fmt::print("record is CTSD\n");
             std::vector<std::string> typelist;
             for (const auto& targ : ctsd->getTemplateArgs().asArray()) {
                 if (!targ.getAsType()->isBuiltinType()) {
@@ -91,14 +91,14 @@ void MatchBindingsCallback::handle_typealias(const TypeAliasDecl* alias) {
             // ex_record.c_qname += fmt::format("_{}", ps::join("_", typelist));
             // fmt::print("Got template specialization {}\n",
             // ex_record.cpp_qname);
-            fmt::print("ctd: {:p}\nscrd: {:p}\n", (void*)ctd, (void*)scrd);
+            // fmt::print("ctd: {:p}\nscrd: {:p}\n", (void*)ctd, (void*)scrd);
             ex_spec.template_args = typelist;
             ex_spec.alias = alias->getNameAsString();
             ex_spec.record_cpp_qname;
             ex_specs[record_cpp_qname].push_back(ex_spec);
-            fmt::print("pushing {}<{}>: {}\n", record_cpp_qname,
-                       ps::join(", ", typelist),
-                       ex_specs[record_cpp_qname].size());
+            // fmt::print("pushing {}<{}>: {}\n", record_cpp_qname,
+            //            ps::join(", ", typelist),
+            //            ex_specs[record_cpp_qname].size());
         }
     }
 }
@@ -158,8 +158,8 @@ void MatchBindingsCallback::handle_record(const CXXRecordDecl* record) {
         return;
     } else if (record->isDependentContext()) {
         // this is the template type
-        fmt::print("{} ({:p}) is dependent\n", ex_record.cpp_qname,
-                   (void*)record);
+        // fmt::print("{} ({:p}) is dependent\n", ex_record.cpp_qname,
+        //            (void*)record);
         ex_record.is_dependent = true;
     }
 
@@ -219,20 +219,20 @@ void MatchBindingsCallback::handle_function(const FunctionDecl* function) {
     std::vector<std::string> template_arg_names;
     std::unordered_map<std::string, std::string> template_named_args;
     if (function->isDependentContext()) {
-        fmt::print("function {} is a dependent\n", function->getNameAsString());
+        // fmt::print("function {} is a dependent\n", function->getNameAsString());
 
     } else if (function->isFunctionTemplateSpecialization()) {
-        fmt::print("function {} is a specialization\n",
-                   function->getNameAsString());
+        // fmt::print("function {} is a specialization\n",
+        //            function->getNameAsString());
         for (const auto& targ :
              function->getTemplateSpecializationArgs()->asArray()) {
             template_args.push_back(targ.getAsType().getAsString());
         }
-        fmt::print("  with args: <{}>\n", pystring::join(", ", template_args));
+        // fmt::print("  with args: <{}>\n", pystring::join(", ", template_args));
 
         const FunctionTemplateDecl* ftd = function->getPrimaryTemplate();
         for (const auto& tp : ftd->getTemplateParameters()->asArray()) {
-            fmt::print("TP: {}\n", tp->getNameAsString());
+            // fmt::print("TP: {}\n", tp->getNameAsString());
             template_arg_names.push_back(tp->getNameAsString());
         }
     }
@@ -275,45 +275,8 @@ void MatchBindingsCallback::handle_method(const CXXMethodDecl* method) {
         ex_files[filename].classes.push_back(class_name);
     }
 
-    if (method->isDependentContext()) {
-        fmt::print("    method {} is dependent\n", method->getNameAsString());
-        const auto* msi = method->getMemberSpecializationInfo();
-        if (msi != nullptr) {
-            fmt::print("    got msi\n");
-        }
-        const auto* ftsi = method->getTemplateSpecializationInfo();
-        if (ftsi != nullptr) {
-            fmt::print("    for ftsi\n");
-        }
-        const auto* tsi = method->getTemplateSpecializationArgs();
-        if (tsi != nullptr) {
-            fmt::print("    got TSI\n");
-        }
-        const auto* ftd = method->getDescribedFunctionTemplate();
-        if (ftd != nullptr) {
-            fmt::print("    got  ftd\n");
-            for (const auto* p : ftd->getTemplateParameters()->asArray()) {
-                fmt::print("        {}\n", p->getNameAsString());
-            }
-            for (const auto* spec : ftd->specializations()) {
-                fmt::print("    got spec\n");
-            }
-        }
-        const auto* pt = method->getPrimaryTemplate();
-        if (pt != nullptr) {
-            fmt::print("    got primary template\n");
-        }
-
-        fmt::print("    is template insantiation: {}\n",
-                   method->isTemplateInstantiation());
-        fmt::print("    ex_method: {}\n", ex_method);
-    } else if (method->isFunctionTemplateSpecialization()) {
-        fmt::print("    method {} is specialization\n",
-                   method->getNameAsString());
-    }
-
     // store this method signiature to match against in the second pass
-    fmt::print("storing method {}\n", ex_method.c_name);
+    // fmt::print("storing method {}\n", ex_method.c_name);
     ex_classes[class_name].methods.push_back(ex_method);
 }
 
