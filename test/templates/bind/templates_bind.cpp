@@ -14,7 +14,16 @@ namespace templates {
 
 template <typename T> struct Vector3 {
     // Vector3(T x, T y, T z) CPPMM_RENAME(new);
-    // T length() const;
+    T length() const;
+
+    template <typename U>
+    void takes_t_and_u(::templates::Vector3<T> vt, T t, U u);
+
+    template <>
+    void takes_t_and_u(::templates::Vector3<T> vt, T t, float u);
+
+    void some_other(T t){}
+
 } CPPMM_VALUETYPE;
 
 // struct Vector2 {} CPPMM_VALUETYPE;

@@ -5,6 +5,8 @@
 
 #include <unordered_map>
 
+#include <fmt/format.h>
+
 namespace cppmm {
 
 std::unordered_map<std::string, ExportedFile> ex_files;
@@ -22,6 +24,9 @@ ExportedFunction::ExportedFunction(const clang::FunctionDecl* function,
     cpp_name = function->getNameAsString();
     return_type = function->getReturnType().getCanonicalType().getAsString();
     for (const auto& p : function->parameters()) {
+        // if (p->getType()->isTemplateTypeParmType()) {
+        //     fmt::print("    {} is TTPT\n", p->getNameAsString());
+        // }
         params.push_back(p->getType().getCanonicalType().getAsString());
     }
     is_static = function->isStatic();

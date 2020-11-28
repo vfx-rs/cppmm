@@ -5,6 +5,8 @@
 #include "namespaces.hpp"
 #include "pystring.h"
 
+#include <fmt/ostream.h>
+
 using namespace clang;
 using namespace clang::ast_matchers;
 namespace ps = pystring;
@@ -239,17 +241,13 @@ void MatchBindingsCallback::handle_function(const FunctionDecl* function) {
         template_named_args[template_arg_names[i]] = template_args[i];
     }
 
-    // if (ex_files.find(filename) == ex_files.end()) {
-    //     ex_files[filename] = {};
-    // }
     ex_files[filename].functions.push_back(ex_function);
     if (!template_args.empty()) {
         ex_files[filename]
             .function_specializations[ex_function.cpp_qname]
             .push_back(template_args);
-        ex_files[filename]
-            .spec_named_args[ex_function.cpp_qname]
-            .push_back(template_named_args);
+        ex_files[filename].spec_named_args[ex_function.cpp_qname].push_back(
+            template_named_args);
     }
 }
 
@@ -277,7 +275,45 @@ void MatchBindingsCallback::handle_method(const CXXMethodDecl* method) {
         ex_files[filename].classes.push_back(class_name);
     }
 
+    if (method->isDependentContext()) {
+        fmt::print("    method {} is dependent\n", method->getNameAsString());
+        const auto* msi = method->getMemberSpecializationInfo();
+        if (msi != nullptr) {
+            fmt::print("    got msi\n");
+        }
+        const auto* ftsi = method->getTemplateSpecializationInfo();
+        if (ftsi != nullptr) {
+            fmt::print("    for ftsi\n");
+        }
+        const auto* tsi = method->getTemplateSpecializationArgs();
+        if (tsi != nullptr) {
+            fmt::print("    got TSI\n");
+        }
+        const auto* ftd = method->getDescribedFunctionTemplate();
+        if (ftd != nullptr) {
+            fmt::print("    got  ftd\n");
+            for (const auto* p : ftd->getTemplateParameters()->asArray()) {
+                fmt::print("        {}\n", p->getNameAsString());
+            }
+            for (const auto* spec : ftd->specializations()) {
+                fmt::print("    got spec\n");
+            }
+        }
+        const auto* pt = method->getPrimaryTemplate();
+        if (pt != nullptr) {
+            fmt::print("    got primary template\n");
+        }
+
+        fmt::print("    is template insantiation: {}\n",
+                   method->isTemplateInstantiation());
+        fmt::print("    ex_method: {}\n", ex_method);
+    } else if (method->isFunctionTemplateSpecialization()) {
+        fmt::print("    method {} is specialization\n",
+                   method->getNameAsString());
+    }
+
     // store this method signiature to match against in the second pass
+    fmt::print("storing method {}\n", ex_method.c_name);
     ex_classes[class_name].methods.push_back(ex_method);
 }
 

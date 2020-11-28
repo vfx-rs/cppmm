@@ -13,6 +13,14 @@ template <typename T> struct Vector3 {
         return sqrt(x * x + y * y + z * z);
     }
 
+    template <typename U>
+    void takes_t_and_u(Vector3<T> vt, T t, U u) {std::cout << u << std::endl;}
+
+    template <typename U>
+    void takes_u(U u) { std::cout << u; }
+
+    void some_other(T t){}
+
     T x;
     T y;
     T z;

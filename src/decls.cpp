@@ -10,6 +10,7 @@
 #include <clang/AST/Type.h>
 
 #include <fmt/format.h>
+#include <fmt/ostream.h>
 
 using namespace clang;
 
@@ -113,8 +114,10 @@ Record create_record(const CXXRecordDecl* record, std::string cpp_name,
     };
 }
 
-void do_method(const CXXMethodDecl* method, Record* record) {
+void do_method(const CXXMethodDecl* method, Record* record,
+               const std::vector<std::string>& template_args) {
     const auto method_name = method->getNameAsString();
+    fmt::print("do_method {}\n", method_name);
     auto it_class = cppmm::ex_classes.find(record->cpp_name);
     if (it_class == cppmm::ex_classes.end()) {
         return;
@@ -129,7 +132,9 @@ void do_method(const CXXMethodDecl* method, Record* record) {
     // the exported class
     const cppmm::ExportedMethod* matched_ex_method = nullptr;
     bool rejected = true;
+    fmt::print("Matching {}\n", this_ex_method);
     for (const auto& ex_method : ex_class.methods) {
+        fmt::print("       - {}\n", ex_method);
         if (this_ex_method == ex_method) {
             // found a matching exported method (but may still be
             // ignored)
@@ -137,6 +142,7 @@ void do_method(const CXXMethodDecl* method, Record* record) {
             if (!(ex_method.is_ignored() || ex_method.is_manual())) {
                 // not ignored, this is the one we'll use
                 matched_ex_method = &ex_method;
+                fmt::print("          -- MATCH!\n");
                 break;
             }
         }
@@ -153,14 +159,18 @@ void do_method(const CXXMethodDecl* method, Record* record) {
         return;
     }
 
-    if (record->methods.find(matched_ex_method->c_name) ==
-        record->methods.end()) {
-        record->methods.insert(
-            std::make_pair(matched_ex_method->c_name,
-                           process_method(method, *matched_ex_method, record))
-                           );
+    // check if we're dependent
+    if (method->isDependentContext() && template_args.empty()) {
+        fmt::print("dependent context with no template args - returning\n");
+        return;
     }
 
+    if (record->methods.find(matched_ex_method->c_name) ==
+        record->methods.end()) {
+        record->methods.insert(std::make_pair(
+            matched_ex_method->c_name,
+            process_method(method, *matched_ex_method, record, template_args)));
+    }
 }
 
 Record*
@@ -223,13 +233,33 @@ process_record_specialization(const CXXRecordDecl* record,
     Record* record_ptr = &records[cpp_qname];
     files[rec.filename].records[cpp_qname] = record_ptr;
 
-    // now do the methods
-    for (const auto* method_decl : record->methods()) {
-        do_method(method_decl, record_ptr);
+    // we need to iterate over all decls in order to get methods
+    // that depend on a template arg that's not an arg of the record
+    for (const auto* decl : record->decls()) {
+        if (isa<FunctionTemplateDecl>(decl)) {
+            // TODO: Having templated methods on a templated type is hard
+            // because I can't figure out how to detect partial specializations
+            // on the bindings, which means we'd need to do a whole bunch of
+            // type matching and expansion here to tell which of the bound
+            // methods could correspond to an expansion of a templated type
+            const auto* ftd = cast<FunctionTemplateDecl>(decl);
+            fmt::print("got FTD {}\n", ftd->getNameAsString());
+            const auto* fd = ftd->getTemplatedDecl();
+            if (fd && isa<CXXMethodDecl>(fd)) {
+                const auto* md = cast<CXXMethodDecl>(fd);
+                fmt::print("got method from fd: {}\n", md->getNameAsString());
+            }
+        } else if (isa<CXXMethodDecl>(decl)) {
+            // As long as the method doesn't have its own template parameter
+            // list, we can monomorphize it based on the specialization of the
+            // parent class.
+            const auto* cmd = cast<CXXMethodDecl>(decl);
+            fmt::print("got CMD {}\n", cmd->getNameAsString());
+            do_method(cmd, record_ptr, ex_spec.template_args);
+        }
     }
 
     return record_ptr;
-    // fmt::print("MATCHED: {}\n", cpp_name);
 }
 
 Record* process_record(const CXXRecordDecl* record) {
@@ -332,8 +362,9 @@ Record* process_record(const CXXRecordDecl* record) {
     // fmt::print("MATCHED: {}\n", cpp_name);
     //
     // now do the methods
+    // record->dump();
     for (const auto* method_decl : record->methods()) {
-        do_method(method_decl, record_ptr);
+        do_method(method_decl, record_ptr, {});
     }
 
     return record_ptr;
@@ -420,8 +451,9 @@ QualifiedType process_pointee_type(
         qtype.is_const = qt.isConstQualified();
         return qtype;
     } else if (qt->isTemplateTypeParmType()) {
-        fmt::print("    template type parm type\n");
         const auto* ttpt = qt->castAs<TemplateTypeParmType>();
+        fmt::print("    template type parm type {}\n",
+                   ttpt->desugar().getAsString());
         int index = ttpt->getIndex();
         QualifiedType qtype{cppmm::Type{template_args.at(index), &builtin_int}};
         qtype.is_const = qt.isConstQualified();
@@ -675,12 +707,15 @@ void process_function(const FunctionDecl* function,
 }
 
 Method process_method(const CXXMethodDecl* method,
-                      const ExportedMethod& ex_method, const Record* record) {
-    // fmt::print("process_method {}\n", method->getQualifiedNameAsString());
+                      const ExportedMethod& ex_method, const Record* record,
+                      const std::vector<std::string>& template_args) {
+    fmt::print("process_method {}\n", method->getQualifiedNameAsString());
+
     std::vector<Param> params;
     for (const auto& p : method->parameters()) {
         const auto param_name = p->getNameAsString();
-        params.push_back(process_param_type(param_name, p->getType(), {}, {}));
+        params.push_back(
+            process_param_type(param_name, p->getType(), template_args, {}));
     }
 
     std::string comment = get_decl_comment(method);
@@ -722,23 +757,22 @@ Method process_method(const CXXMethodDecl* method,
     std::vector<std::string> namespaces = record->namespaces;
     namespaces.push_back(record->c_name);
 
-    std::vector<std::string> template_args;
-
-    return Method{ex_method.cpp_name,
-                  ex_method.c_name,
-                  process_qualified_type(method->getReturnType(), {}, {}),
-                  params,
-                  comment,
-                  namespaces,
-                  method->isConst(),
-                  method->isStatic(),
-                  is_constructor,
-                  is_copy_constructor,
-                  is_copy_assignment,
-                  is_operator,
-                  is_conversion_operator,
-                  op,
-                  template_args};
+    return Method{
+        ex_method.cpp_name,
+        ex_method.c_name,
+        process_qualified_type(method->getReturnType(), template_args, {}),
+        params,
+        comment,
+        namespaces,
+        method->isConst(),
+        method->isStatic(),
+        is_constructor,
+        is_copy_constructor,
+        is_copy_assignment,
+        is_operator,
+        is_conversion_operator,
+        op,
+        template_args};
 }
 
 } // namespace cppmm
