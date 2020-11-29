@@ -237,9 +237,9 @@ std::string Record::get_definition() const {
 std::string
 Record::get_declaration(std::set<std::string>& casts_macro_invocations) const {
     std::string declarations;
+    casts_macro_invocations.insert(create_casts());
     if (kind == cppmm::RecordKind::OpaquePtr) {
         declarations += fmt::format("typedef struct {0} {0};\n\n", c_qname);
-        casts_macro_invocations.insert(create_casts());
     } else if (kind == cppmm::RecordKind::OpaqueBytes) {
         declarations +=
             fmt::format("typedef struct {{ char _private[{}]; }} {} "
