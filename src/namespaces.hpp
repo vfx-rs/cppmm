@@ -7,6 +7,8 @@
 
 namespace cppmm {
 
+extern std::unordered_map<std::string, std::string> namespace_renames;
+
 void add_namespace_rename(const std::string& from, const std::string& to);
 
 const std::string& rename_namespace(const std::string& in);

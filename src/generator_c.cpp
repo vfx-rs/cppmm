@@ -1,6 +1,7 @@
 #include "generator_c.hpp"
 #include "filesystem.hpp"
 #include "pystring.h"
+#include "namespaces.hpp"
 
 namespace ps = pystring;
 
@@ -57,9 +58,17 @@ void write_implementation(const std::string& filename, const std::string& root,
                           const std::vector<std::string>& includes,
                           const std::string& casts,
                           const std::string& definitions) {
+
+    std::string namespace_renames_str;
+    for (const auto& it: namespace_renames) {
+        namespace_renames_str += fmt::format("namespace {} = {};\n", it.second, it.first);
+    }
+
     std::string out_str = fmt::format(
         R"#(//
 #include "{}.h"
+{}
+
 {}
 
 namespace {{
@@ -73,7 +82,7 @@ extern "C" {{
 {}
 }}
     )#",
-        root, ps::join("\n", includes), casts, definitions);
+        root, ps::join("\n", includes), namespace_renames_str, casts, definitions);
 
     auto out = fopen(filename.c_str(), "w");
     fprintf(out, "%s", out_str.c_str());
