@@ -3,7 +3,8 @@
 #include "exports.hpp"
 #include "namespaces.hpp"
 
-#include <fmt/format.h>
+#include <spdlog/fmt/fmt.h>
+#include <spdlog/spdlog.h>
 
 using namespace clang;
 using namespace clang::ast_matchers;
@@ -12,7 +13,7 @@ namespace cppmm {
 
 void MatchDeclsHandler::run(const MatchFinder::MatchResult& result) {
     if (const EnumDecl* enum_decl =
-                   result.Nodes.getNodeAs<EnumDecl>("enumDecl")) {
+            result.Nodes.getNodeAs<EnumDecl>("enumDecl")) {
         handle_enum(enum_decl);
     } else if (const FunctionDecl* function =
                    result.Nodes.getNodeAs<FunctionDecl>("functionDecl")) {
@@ -24,6 +25,11 @@ void MatchDeclsHandler::run(const MatchFinder::MatchResult& result) {
 }
 
 void MatchDeclsHandler::handle_record(const CXXRecordDecl* record) {
+    // get the primary context to "see through" fwd decls etc.
+    record = cast<CXXRecordDecl>(record->getPrimaryContext());
+    SPDLOG_TRACE("handle_record {} - {}", record->getQualifiedNameAsString(),
+                 cast<DeclContext>(record)->getDeclKindName());
+    // record->dump();
     process_record(record);
 }
 void MatchDeclsHandler::handle_enum(const EnumDecl* enum_decl) {

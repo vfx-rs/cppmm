@@ -1,7 +1,7 @@
 #include <cassert>
 #include <iostream>
 
-#include <fmt/format.h>
+#include <spdlog/fmt/fmt.h>
 
 #include "enum.hpp"
 #include "namespaces.hpp"

@@ -1,11 +1,10 @@
-#include <fmt/format.h>
-
 #include "attributes.hpp"
 #include "match_bindings.hpp"
 #include "namespaces.hpp"
 #include "pystring.h"
 
-#include <fmt/ostream.h>
+#include <spdlog/fmt/fmt.h>
+#include <spdlog/fmt/ostr.h>
 
 using namespace clang;
 using namespace clang::ast_matchers;
@@ -69,6 +68,8 @@ void MatchBindingsCallback::handle_typealias(const TypeAliasDecl* alias) {
 
             // fmt::print("record is CTSD\n");
             std::vector<std::string> typelist;
+            std::vector<std::string> template_arg_names;
+            std::unordered_map<std::string, std::string> template_named_args;
             for (const auto& targ : ctsd->getTemplateArgs().asArray()) {
                 if (!targ.getAsType()->isBuiltinType()) {
                     throw std::runtime_error(fmt::format(
@@ -79,23 +80,24 @@ void MatchBindingsCallback::handle_typealias(const TypeAliasDecl* alias) {
                 typelist.push_back(targ.getAsType().getAsString());
             }
 
+            for (const auto* tp: ctd->getTemplateParameters()->asArray()) {
+                template_arg_names.push_back(tp->getNameAsString());
+            }
+
+            if (typelist.size() != template_arg_names.size()) {
+                throw std::runtime_error("template args differnt sizes");
+            }
+            for (int i = 0; i < typelist.size(); ++i) {
+                template_named_args[template_arg_names[i]] = typelist[i];
+            }
+
             ExportedSpecialization ex_spec;
             ex_spec.record_cpp_qname;
-
-            // ex_record.dependent_qname = ex_record.cpp_qname;
-            // ex_record.cpp_qname +=
-            //     fmt::format("<{}>", ps::join(", ", typelist));
-            // ex_record.c_qname += fmt::format("_{}", ps::join("_", typelist));
-            // fmt::print("Got template specialization {}\n",
-            // ex_record.cpp_qname);
-            // fmt::print("ctd: {:p}\nscrd: {:p}\n", (void*)ctd, (void*)scrd);
             ex_spec.template_args = typelist;
+            ex_spec.template_named_args = template_named_args;
             ex_spec.alias = alias->getNameAsString();
-            ex_spec.record_cpp_qname;
+            ex_spec.record_cpp_qname = record_cpp_qname;
             ex_specs[record_cpp_qname].push_back(ex_spec);
-            // fmt::print("pushing {}<{}>: {}\n", record_cpp_qname,
-            //            ps::join(", ", typelist),
-            //            ex_specs[record_cpp_qname].size());
         }
     }
 }
@@ -230,7 +232,6 @@ void MatchBindingsCallback::handle_record(const CXXRecordDecl* record) {
             // list, we can monomorphize it based on the specialization of the
             // parent class.
             const auto* cmd = cast<CXXMethodDecl>(decl);
-            // fmt::print("got CMD {}\n", cmd->getNameAsString());
             do_method(cmd, ex_record_ptr);
         }
     }

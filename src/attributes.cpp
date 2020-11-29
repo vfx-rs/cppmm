@@ -2,7 +2,7 @@
 
 #include "pystring.h"
 
-#include <fmt/format.h>
+#include <spdlog/fmt/fmt.h>
 
 namespace cppmm {
 

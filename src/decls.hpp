@@ -62,7 +62,8 @@ void process_function(const clang::FunctionDecl* function,
                       std::vector<std::string> namespaces);
 Method process_method(const clang::CXXMethodDecl* method,
                       const ExportedMethod& ex_method, const Record* record,
-                      const std::vector<std::string>& template_args);
+                      const std::vector<std::string>& template_args,
+                      const std::unordered_map<std::string, std::string>& template_named_args);
 
 std::string cpp_qname_from_decl(const clang::RecordDecl* decl);
 std::string cpp_qname_from_decl(const clang::FunctionDecl* decl);

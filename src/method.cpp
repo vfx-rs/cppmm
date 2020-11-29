@@ -1,7 +1,7 @@
 #include <iostream>
 
-#include <fmt/format.h>
-#include <fmt/ostream.h>
+#include <spdlog/fmt/fmt.h>
+#include <spdlog/fmt/ostr.h>
 
 #include "method.hpp"
 #include "namespaces.hpp"

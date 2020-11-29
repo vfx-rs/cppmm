@@ -9,10 +9,35 @@
 #include <clang/AST/DeclTemplate.h>
 #include <clang/AST/Type.h>
 
-#include <fmt/format.h>
-#include <fmt/ostream.h>
+#include <spdlog/fmt/fmt.h>
+#include <spdlog/fmt/ostr.h>
+#include <spdlog/spdlog.h>
 
 using namespace clang;
+
+template <>
+struct fmt::formatter<std::unordered_map<std::string, std::string>> {
+    constexpr auto parse(format_parse_context& ctx) { return ctx.end(); }
+
+    template <typename FormatContext>
+    auto format(const std::unordered_map<std::string, std::string>& map,
+                FormatContext& ctx) {
+        format_to(ctx.out(), "{{");
+        // return format_to(ctx.out(), "using {} = {}<{}>;", spec.alias,
+        //                  spec.record_cpp_qname,
+        //                  pystring::join(", ", spec.template_args));
+        bool first = true;
+        for (const auto& it : map) {
+            if (!first) {
+                format_to(ctx.out(), ", ");
+            } else {
+                first = false;
+            }
+            format_to(ctx.out(), "{}: {}", it.first, it.second);
+        }
+        return format_to(ctx.out(), "}}");
+    }
+};
 
 namespace cppmm {
 
@@ -86,14 +111,12 @@ Record create_record(const CXXRecordDecl* record, std::string cpp_name,
                      std::string cpp_qname, std::string c_qname,
                      std::string filename, RecordKind kind, size_t size,
                      size_t alignment, std::vector<std::string> template_args) {
-
+    SPDLOG_TRACE("create_record {}", cpp_qname);
     std::vector<Param> fields;
     // If it's a value type, expose all the fields
     if (kind == RecordKind::ValueType) {
-        // fmt::print("FIELDS: \n");
         for (const auto* field : record->fields()) {
             std::string field_name = field->getNameAsString();
-            // fmt::print("    field: {}\n", field->getNameAsString());
             Param field_param = process_param_type(field_name, field->getType(),
                                                    template_args, {});
             fields.push_back(field_param);
@@ -102,7 +125,7 @@ Record create_record(const CXXRecordDecl* record, std::string cpp_name,
     return Record{
         .cpp_name = cpp_name,
         .namespaces = namespaces,
-        .c_name = cpp_name,
+        .c_name = c_name,
         .kind = kind,
         .filename = filename,
         .fields = fields,
@@ -114,16 +137,11 @@ Record create_record(const CXXRecordDecl* record, std::string cpp_name,
     };
 }
 
-void do_method(const CXXMethodDecl* method, Record* record,
-               const std::vector<std::string>& template_args) {
+void do_method(
+    const CXXMethodDecl* method, Record* record, ExportedRecord& ex_record,
+    const std::vector<std::string>& template_args,
+    const std::unordered_map<std::string, std::string>& template_named_args) {
     const auto method_name = method->getNameAsString();
-    // fmt::print("do_method {}\n", method_name);
-    auto it_ex_record = ex_records.find(record->cpp_qname);
-    if (it_ex_record == ex_records.end()) {
-        return;
-    }
-
-    auto& ex_record = it_ex_record->second;
 
     // convert this method so we can match it against our stored ones
     const auto this_ex_method = ExportedMethod(method, {});
@@ -132,9 +150,9 @@ void do_method(const CXXMethodDecl* method, Record* record,
     // the exported class
     const cppmm::ExportedMethod* matched_ex_method = nullptr;
     bool rejected = true;
-    // fmt::print("Matching {}\n", this_ex_method);
+    SPDLOG_TRACE("  matching {}", this_ex_method);
     for (const auto& ex_method : ex_record.methods) {
-        // fmt::print("       - {}\n", ex_method);
+        SPDLOG_TRACE("    - {}", ex_method);
         if (this_ex_method == ex_method) {
             // found a matching exported method (but may still be
             // ignored)
@@ -142,7 +160,7 @@ void do_method(const CXXMethodDecl* method, Record* record,
             if (!(ex_method.is_ignored() || ex_method.is_manual())) {
                 // not ignored, this is the one we'll use
                 matched_ex_method = &ex_method;
-                // fmt::print("          -- MATCH!\n");
+                SPDLOG_TRACE("      MATCH");
                 break;
             }
         }
@@ -161,15 +179,15 @@ void do_method(const CXXMethodDecl* method, Record* record,
 
     // check if we're dependent
     if (method->isDependentContext() && template_args.empty()) {
-        // fmt::print("dependent context with no template args - returning\n");
         return;
     }
 
     if (record->methods.find(matched_ex_method->c_name) ==
         record->methods.end()) {
-        record->methods.insert(std::make_pair(
-            matched_ex_method->c_name,
-            process_method(method, *matched_ex_method, record, template_args)));
+        record->methods.insert(
+            std::make_pair(matched_ex_method->c_name,
+                           process_method(method, *matched_ex_method, record,
+                                          template_args, template_named_args)));
     }
 }
 
@@ -183,6 +201,7 @@ process_record_specialization(const CXXRecordDecl* record,
     cpp_qname +=
         fmt::format("<{}>", pystring::join(", ", ex_spec.template_args));
     auto c_qname = prefix_from_namespaces(namespaces, "_") + ex_spec.alias;
+    SPDLOG_TRACE("process_record_specialization {}", record_cpp_qname);
     // fmt::print("{} <{}>\n", ex_spec.alias,
     //            pystring::join(", ", ex_spec.template_args));
 
@@ -194,13 +213,10 @@ process_record_specialization(const CXXRecordDecl* record,
 
     auto it_ex_record = ex_records.find(record_cpp_qname);
     if (it_ex_record == ex_records.end()) {
-        fmt::print("WARNING: record '{}' has no export definition\n",
-                   record_cpp_qname);
+        SPDLOG_WARN("Record '{}' has no export definition", record_cpp_qname);
         return nullptr;
     }
 
-    // get size and alignment info
-    // clang returns in bits so divide by 8 to get bytes
     ASTContext& ctx = record->getASTContext();
     size_t size = 0;
     size_t alignment = 0;
@@ -213,28 +229,25 @@ process_record_specialization(const CXXRecordDecl* record,
     }
 
     Record rec = create_record(
-        record, cpp_name, cpp_name, namespaces, cpp_qname, c_qname,
+        record, cpp_name, ex_spec.alias, namespaces, cpp_qname, c_qname,
         it_ex_record->second.filename, it_ex_record->second.kind, size,
         alignment, ex_spec.template_args);
 
-    // fmt::print("Processed record {} -> {} in {}\n", cpp_name,
-    // c_qname,
-    //    it_ex_record->second.filename)
     if (rec.kind == RecordKind::ValueType && !rec.is_pod()) {
-        fmt::print("ERROR: {} is valuetype but not POD\n", rec.c_qname);
+        SPDLOG_ERROR("{} is valuetype but not POD", rec.c_qname);
         return nullptr;
     } else if (rec.kind == RecordKind::OpaqueBytes && !rec.is_pod()) {
-        fmt::print("ERROR: {} is opaquebytes but not POD\n", rec.c_qname);
+        SPDLOG_ERROR("{} is opaquebytes but not POD", rec.c_qname);
         return nullptr;
     }
 
-    // fmt::print("Storing record {}\n", cpp_qname);
     records[cpp_qname] = rec;
     Record* record_ptr = &records[cpp_qname];
     files[rec.filename].records[cpp_qname] = record_ptr;
 
     // we need to iterate over all decls in order to get methods
     // that depend on a template arg that's not an arg of the record
+    SPDLOG_TRACE("fields:");
     for (const auto* decl : record->decls()) {
         if (isa<FunctionTemplateDecl>(decl)) {
             // TODO: Having templated methods on a templated type is hard
@@ -243,19 +256,22 @@ process_record_specialization(const CXXRecordDecl* record,
             // type matching and expansion here to tell which of the bound
             // methods could correspond to an expansion of a templated type
             const auto* ftd = cast<FunctionTemplateDecl>(decl);
-            // fmt::print("got FTD {}\n", ftd->getNameAsString());
+            SPDLOG_TRACE("  function template {}", ftd->getNameAsString());
             const auto* fd = ftd->getTemplatedDecl();
             if (fd && isa<CXXMethodDecl>(fd)) {
                 const auto* md = cast<CXXMethodDecl>(fd);
-                // fmt::print("got method from fd: {}\n", md->getNameAsString());
+                // fmt::print("got method from fd: {}\n",
+                // md->getNameAsString());
             }
         } else if (isa<CXXMethodDecl>(decl)) {
             // As long as the method doesn't have its own template parameter
             // list, we can monomorphize it based on the specialization of the
             // parent class.
             const auto* cmd = cast<CXXMethodDecl>(decl);
-            // fmt::print("got CMD {}\n", cmd->getNameAsString());
-            do_method(cmd, record_ptr, ex_spec.template_args);
+            do_method(cmd, record_ptr, it_ex_record->second,
+                      ex_spec.template_args, ex_spec.template_named_args);
+        } else {
+            SPDLOG_TRACE("  Unhandled decl kind {}", decl->getDeclKindName());
         }
     }
 
@@ -263,14 +279,14 @@ process_record_specialization(const CXXRecordDecl* record,
 }
 
 Record* process_record(const CXXRecordDecl* record) {
-    // fmt::print("process_record {}\n", record->getQualifiedNameAsString());
+    SPDLOG_TRACE("process_record {}", record->getQualifiedNameAsString());
+
     std::string cpp_name = record->getNameAsString();
     std::vector<std::string> namespaces = get_namespaces(record->getParent());
 
     const auto c_qname = prefix_from_namespaces(namespaces, "_") + cpp_name;
     auto cpp_qname = prefix_from_namespaces(namespaces, "::") + cpp_name;
 
-    // fmt::print("record: {}\n", cpp_qname);
     std::vector<std::string> template_args;
     if (record->isDependentContext()) {
         // fmt::print(" {:p} is dependent\n", (void*)record);
@@ -282,7 +298,7 @@ Record* process_record(const CXXRecordDecl* record) {
             }
             return nullptr;
         } else {
-            fmt::print("ERROR coudl nto find specs for {}\n", cpp_qname);
+            SPDLOG_ERROR("Could not find specs for {}", cpp_qname);
         }
     } else if (isa<ClassTemplateSpecializationDecl>(record)) {
         const ClassTemplateSpecializationDecl* ctsd =
@@ -307,7 +323,7 @@ Record* process_record(const CXXRecordDecl* record) {
             //            it_record->second.c_qname);
             return &it_record->second;
         } else {
-            fmt::print("Could not find specialized record for {}\n", cpp_qname);
+            SPDLOG_ERROR("Could not find specialized record for {}", cpp_qname);
             return nullptr;
         }
     }
@@ -349,10 +365,10 @@ Record* process_record(const CXXRecordDecl* record) {
     // fmt::print("Processed record {} -> {} in {}\n", cpp_name, c_qname,
     //    it_ex_record->second.filename)
     if (rec.kind == RecordKind::ValueType && !rec.is_pod()) {
-        fmt::print("ERROR: {} is valuetype but not POD\n", rec.c_qname);
+        SPDLOG_ERROR("{} is valuetype but not POD", rec.c_qname);
         return nullptr;
     } else if (rec.kind == RecordKind::OpaqueBytes && !rec.is_pod()) {
-        fmt::print("ERROR: {} is opaquebytes but not POD\n", rec.c_qname);
+        SPDLOG_ERROR("{} is opaquebytes but not POD", rec.c_qname);
         return nullptr;
     }
 
@@ -364,7 +380,7 @@ Record* process_record(const CXXRecordDecl* record) {
     // now do the methods
     // record->dump();
     for (const auto* method_decl : record->methods()) {
-        do_method(method_decl, record_ptr, {});
+        do_method(method_decl, record_ptr, it_ex_record->second, {}, {});
     }
 
     return record_ptr;
@@ -515,6 +531,16 @@ QualifiedType process_pointee_type(
     } else if (qt->isDependentType()) {
         // fmt::print("Got dependent type: {}\n", qt.getAsString());
         const auto* tst = qt->getAs<TemplateSpecializationType>();
+        if (!tst) {
+            const auto* icnt = qt->getAs<InjectedClassNameType>();
+            if (!icnt) {
+                throw std::runtime_error("Could not get ICNT");
+            }
+            tst = icnt->getInjectedTST();
+            if (!tst) {
+                throw std::runtime_error("Could not get TST from ICNT");
+            }
+        }
         // fmt::print("    with {} args\n", tst->getNumArgs());
         // Expand the list of template arg names (i.e. T, U etc.) into the
         // actual type names
@@ -528,8 +554,12 @@ QualifiedType process_pointee_type(
             if (it_arg != template_named_args.end()) {
                 this_template_args.push_back(it_arg->second);
             } else {
-                fmt::print("Could not find matching argument for {}\n",
-                           t_arg_name);
+                SPDLOG_ERROR("Could not find matching argument for {}",
+                             t_arg_name);
+                SPDLOG_ERROR("template_args are: [{}]",
+                             pystring::join(", ", template_args));
+                SPDLOG_ERROR("template_named_args are: {}",
+                             template_named_args);
                 qt->dump();
                 return QualifiedType{Type{"UNHANDLED", &builtin_int}};
             }
@@ -577,7 +607,7 @@ QualifiedType process_pointee_type(
         // qtype.is_const = qt.isConstQualified();
         // return qtype;
     } else {
-        fmt::print("Unhandled type!: {}\n", qt.getAsString());
+        SPDLOG_ERROR("Unhandled type: {}", qt.getAsString());
         qt->dump();
         return QualifiedType{Type{"UNHANDLED", &builtin_int}};
     }
@@ -682,7 +712,8 @@ Function* generate_function_specialization(
 void process_function(const FunctionDecl* function,
                       const ExportedFunction& ex_function,
                       std::vector<std::string> namespaces) {
-    // fmt::print("process_function {}\n", function->getQualifiedNameAsString());
+    // fmt::print("process_function {}\n",
+    // function->getQualifiedNameAsString());
 
     std::vector<std::string> template_args;
     if (function->isDependentContext()) {
@@ -706,16 +737,17 @@ void process_function(const FunctionDecl* function,
     generate_function_specialization(function, ex_function, namespaces, {}, {});
 }
 
-Method process_method(const CXXMethodDecl* method,
-                      const ExportedMethod& ex_method, const Record* record,
-                      const std::vector<std::string>& template_args) {
+Method process_method(
+    const CXXMethodDecl* method, const ExportedMethod& ex_method,
+    const Record* record, const std::vector<std::string>& template_args,
+    const std::unordered_map<std::string, std::string>& template_named_args) {
     // fmt::print("process_method {}\n", method->getQualifiedNameAsString());
 
     std::vector<Param> params;
     for (const auto& p : method->parameters()) {
         const auto param_name = p->getNameAsString();
-        params.push_back(
-            process_param_type(param_name, p->getType(), template_args, {}));
+        params.push_back(process_param_type(
+            param_name, p->getType(), template_args, template_named_args));
     }
 
     std::string comment = get_decl_comment(method);
@@ -757,22 +789,22 @@ Method process_method(const CXXMethodDecl* method,
     std::vector<std::string> namespaces = record->namespaces;
     namespaces.push_back(record->c_name);
 
-    return Method{
-        ex_method.cpp_name,
-        ex_method.c_name,
-        process_qualified_type(method->getReturnType(), template_args, {}),
-        params,
-        comment,
-        namespaces,
-        method->isConst(),
-        method->isStatic(),
-        is_constructor,
-        is_copy_constructor,
-        is_copy_assignment,
-        is_operator,
-        is_conversion_operator,
-        op,
-        template_args};
+    return Method{ex_method.cpp_name,
+                  ex_method.c_name,
+                  process_qualified_type(method->getReturnType(), template_args,
+                                         template_named_args),
+                  params,
+                  comment,
+                  namespaces,
+                  method->isConst(),
+                  method->isStatic(),
+                  is_constructor,
+                  is_copy_constructor,
+                  is_copy_assignment,
+                  is_operator,
+                  is_conversion_operator,
+                  op,
+                  template_args};
 }
 
 } // namespace cppmm

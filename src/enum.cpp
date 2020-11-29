@@ -1,6 +1,6 @@
 #include "enum.hpp"
 
-#include <fmt/format.h>
+#include <spdlog/fmt/fmt.h>
 
 namespace cppmm {
 std::string Enum::get_declaration() const {

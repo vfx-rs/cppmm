@@ -1,6 +1,6 @@
 #include <unordered_map>
 
-#include <fmt/format.h>
+#include <spdlog/fmt/fmt.h>
 
 #include "pystring.h"
 
