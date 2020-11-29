@@ -33,6 +33,12 @@ std::string convert_cpp_name(const std::string& cpp_name) {
         return "op_div";
     } else if (cpp_name == "operator/=") {
         return "op_div_assign";
+    } else if (cpp_name == "operator==") {
+        return "op_eq";
+    } else if (cpp_name == "operator!=") {
+        return "op_neq";
+    } else if (cpp_name == "operator<") {
+        return "op_lt";
     } else {
         auto pos = cpp_name.find("operator ");
         if (pos == 0) {
