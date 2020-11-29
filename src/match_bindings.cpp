@@ -1,5 +1,5 @@
-#include "attributes.hpp"
 #include "match_bindings.hpp"
+#include "attributes.hpp"
 #include "namespaces.hpp"
 #include "pystring.h"
 
@@ -80,7 +80,7 @@ void MatchBindingsCallback::handle_typealias(const TypeAliasDecl* alias) {
                 typelist.push_back(targ.getAsType().getAsString());
             }
 
-            for (const auto* tp: ctd->getTemplateParameters()->asArray()) {
+            for (const auto* tp : ctd->getTemplateParameters()->asArray()) {
                 template_arg_names.push_back(tp->getNameAsString());
             }
 
@@ -122,8 +122,7 @@ void MatchBindingsCallback::handle_enum(const EnumDecl* enum_decl) {
     ex_enum.filename = filename;
 
     if (ex_enums.find(ex_enum.cpp_qname) != ex_enums.end()) {
-        fmt::print("WARNING: Ignoring duplicate definition for {}\n",
-                   ex_enum.c_qname);
+        SPDLOG_WARN("Ignoring duplicate definition for {}\n", ex_enum.c_qname);
         return;
     }
 
@@ -150,7 +149,7 @@ void do_method(const CXXMethodDecl* method, ExportedRecord* ex_record) {
     // fmt::print("storing method {}\n", ex_method.c_name);
     ex_record->methods.push_back(ex_method);
 }
-}
+} // namespace
 
 void MatchBindingsCallback::handle_record(const CXXRecordDecl* record) {
     ExportedRecord ex_record;
@@ -187,8 +186,8 @@ void MatchBindingsCallback::handle_record(const CXXRecordDecl* record) {
     }
 
     if (ex_records.find(ex_record.cpp_qname) != ex_records.end()) {
-        fmt::print("WARNING: Ignoring duplicate definition for {}\n",
-                   ex_record.cpp_qname);
+        SPDLOG_WARN("Ignoring duplicate definition for {}",
+                    ex_record.cpp_qname);
         return;
     }
 
@@ -254,7 +253,8 @@ void MatchBindingsCallback::handle_function(const FunctionDecl* function) {
     std::vector<std::string> template_arg_names;
     std::unordered_map<std::string, std::string> template_named_args;
     if (function->isDependentContext()) {
-        // fmt::print("function {} is a dependent\n", function->getNameAsString());
+        // fmt::print("function {} is a dependent\n",
+        // function->getNameAsString());
 
     } else if (function->isFunctionTemplateSpecialization()) {
         // fmt::print("function {} is a specialization\n",
@@ -263,7 +263,8 @@ void MatchBindingsCallback::handle_function(const FunctionDecl* function) {
              function->getTemplateSpecializationArgs()->asArray()) {
             template_args.push_back(targ.getAsType().getAsString());
         }
-        // fmt::print("  with args: <{}>\n", pystring::join(", ", template_args));
+        // fmt::print("  with args: <{}>\n", pystring::join(", ",
+        // template_args));
 
         const FunctionTemplateDecl* ftd = function->getPrimaryTemplate();
         for (const auto& tp : ftd->getTemplateParameters()->asArray()) {

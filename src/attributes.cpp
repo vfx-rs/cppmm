@@ -3,6 +3,7 @@
 #include "pystring.h"
 
 #include <spdlog/fmt/fmt.h>
+#include <spdlog/spdlog.h>
 
 namespace cppmm {
 
@@ -31,7 +32,7 @@ tl::optional<AttrDesc> parse_attributes(std::string attr_src) {
         return AttrDesc{{}, AttrDesc::Kind::ValueType};
     }
 
-    fmt::print("Warning Could not parse attribute '{}'\n", attr_src);
+    SPDLOG_ERROR("Could not parse attribute '{}'", attr_src);
 
     return tl::nullopt;
 }

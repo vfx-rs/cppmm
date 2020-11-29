@@ -7,6 +7,7 @@
 #include "pystring.h"
 
 #include <spdlog/fmt/fmt.h>
+#include <spdlog/spdlog.h>
 
 namespace cppmm {
 
@@ -109,18 +110,18 @@ Record::get_operator_body(const Method& method, const std::string& declaration,
             // unary operator can't work for an opqaue pointer without
             // allocating
             // FIXME: what do we want to do here?
-            fmt::print("WARNING: method {} is a unary operator but its parent "
+            SPDLOG_WARN("Method {} is a unary operator but its parent "
                        "class is of kind OpaquePtr and so cannot be autobound "
-                       "without allocating. It will be ignored.\n",
+                       "without allocating. It will be ignored.",
                        declaration);
         } else if (method.op.find("=") == std::string::npos) {
             // Similarly, any non-assigning operator can't work for the same
             // reason
             // FIXME: what do we want to do here?
-            fmt::print("WARNING: method {} is a non-assigning operator (i.e. "
+            SPDLOG_WARN("Method {} is a non-assigning operator (i.e. "
                        "it returns a copy) but its parent class is of kind "
                        "OpaquePtr and so cannot be autobound without "
-                       "allocating. It will be ignored.\n",
+                       "allocating. It will be ignored.",
                        declaration);
         } else {
             body = fmt::format("    *to_cpp(self) {} ", method.op);

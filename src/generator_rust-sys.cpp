@@ -3,6 +3,8 @@
 #include "pystring.h"
 #include "record.hpp"
 
+#include <spdlog/spdlog.h>
+
 namespace ps = pystring;
 namespace {
 std::string bind_file_root(const std::string& filename) {
@@ -194,8 +196,8 @@ std::string get_enum_declaration(const Enum& enm) {
             declarations += fmt::format("    {} = {},\n", qname, ecd.second);
             emitted_variants.insert(ecd.second);
         } else {
-            fmt::print("WARNING: ignoring duplicate enum variant {} = {}\n",
-                       qname, ecd.second);
+            SPDLOG_WARN("Ignoring duplicate enum variant {} = {}", qname,
+                        ecd.second);
             declarations += fmt::format("//  {} = {},\n", qname, ecd.second);
         }
     }
