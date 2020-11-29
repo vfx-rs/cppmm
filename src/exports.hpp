@@ -68,6 +68,8 @@ struct ExportedRecord {
     std::string dependent_qname;
     std::vector<std::string> template_args;
     bool is_dependent;
+    std::vector<ExportedMethod> methods;
+    std::vector<ExportedMethod> rejected_methods;
 };
 
 struct ExportedSpecialization {
@@ -85,14 +87,6 @@ struct ExportedEnum {
     std::string cpp_qname;
 };
 
-struct ExportedClass {
-    std::string name;
-    std::string filename;
-    std::vector<std::string> namespaces;
-    std::vector<ExportedMethod> methods;
-    std::vector<ExportedMethod> rejected_methods;
-};
-
 struct ExportedFile {
     std::string name;
     std::vector<std::string> classes;
@@ -105,32 +99,14 @@ struct ExportedFile {
 };
 
 using ExportedFileMap = std::unordered_map<std::string, ExportedFile>;
-using ExportedClassMap = std::unordered_map<std::string, ExportedClass>;
 using ExportedRecordMap = std::unordered_map<std::string, ExportedRecord>;
 using ExportedSpecMap = std::unordered_map<std::string, std::vector<ExportedSpecialization>>;
 using ExportedEnumMap = std::unordered_map<std::string, ExportedEnum>;
 
 extern ExportedFileMap ex_files;
-extern ExportedClassMap ex_classes;
 extern ExportedRecordMap ex_records;
 extern ExportedSpecMap ex_specs;
 extern ExportedEnumMap ex_enums;
-
-// ExportedRecord* find_ex_record(const std::string& c_qname);
-// ExportedRecord* insert_ex_record(const std::string& c_qname,
-//                              const ExportedRecord& ex_record);
-// ExportedClass* find_ex_class(const std::string& c_qname);
-// ExportedClass* insert_ex_class(const std::string& c_qname,
-//                              const ExportedClass& ex_class);
-// ExportedEnum* insert_ex_enum(const std::string& c_qname,
-//                              const ExportedEnum& ex_enum);
-// ExportedEnum* find_ex_enum(const std::string& c_qname);
-// ExportedFile* insert_ex_file(const std::string& filename,
-//                              const ExportedFile& ex_file);
-// ExportedFile* find_ex_file(const std::string& filename);
-// const std::unordered_map<std::string, ExportedFile>& get_ex_files();
-// const std::unordered_map<std::string, ExportedClass>& get_ex_classes();
-// const std::unordered_map<std::string, ExportedEnum>& get_ex_enums();
 
 bool operator==(const ExportedFunction& a, const ExportedFunction& b);
 bool operator==(const ExportedMethod& a, const ExportedMethod& b);

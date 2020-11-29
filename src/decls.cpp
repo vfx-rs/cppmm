@@ -118,12 +118,12 @@ void do_method(const CXXMethodDecl* method, Record* record,
                const std::vector<std::string>& template_args) {
     const auto method_name = method->getNameAsString();
     // fmt::print("do_method {}\n", method_name);
-    auto it_class = cppmm::ex_classes.find(record->cpp_name);
-    if (it_class == cppmm::ex_classes.end()) {
+    auto it_ex_record = ex_records.find(record->cpp_qname);
+    if (it_ex_record == ex_records.end()) {
         return;
     }
 
-    auto& ex_class = it_class->second;
+    auto& ex_record = it_ex_record->second;
 
     // convert this method so we can match it against our stored ones
     const auto this_ex_method = ExportedMethod(method, {});
@@ -133,7 +133,7 @@ void do_method(const CXXMethodDecl* method, Record* record,
     const cppmm::ExportedMethod* matched_ex_method = nullptr;
     bool rejected = true;
     // fmt::print("Matching {}\n", this_ex_method);
-    for (const auto& ex_method : ex_class.methods) {
+    for (const auto& ex_method : ex_record.methods) {
         // fmt::print("       - {}\n", ex_method);
         if (this_ex_method == ex_method) {
             // found a matching exported method (but may still be
@@ -151,7 +151,7 @@ void do_method(const CXXMethodDecl* method, Record* record,
     // store the rejected method on the class so we can warn that we
     // didn't find a match
     if (rejected) {
-        ex_class.rejected_methods.push_back(this_ex_method);
+        ex_record.rejected_methods.push_back(this_ex_method);
     }
 
     // we don't want to bind this method so bail

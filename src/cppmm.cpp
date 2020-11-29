@@ -217,18 +217,18 @@ int main(int argc, const char** argv) {
 
     if (opt_warn_unbound) {
         size_t total = 0;
-        for (const auto& ex_class : cppmm::ex_classes) {
-            total += ex_class.second.rejected_methods.size();
+        for (const auto& ex_record : cppmm::ex_records) {
+            total += ex_record.second.rejected_methods.size();
         }
         if (total != 0) {
             fmt::print(
                 "The following methods were not bound, ignored or manually "
                 "overriden:\n");
-            for (const auto& ex_class : cppmm::ex_classes) {
-                if (ex_class.second.rejected_methods.size()) {
-                    fmt::print("{}\n", ex_class.second.name);
+            for (const auto& ex_record : cppmm::ex_records) {
+                if (ex_record.second.rejected_methods.size()) {
+                    fmt::print("{}\n", ex_record.second.cpp_qname);
                     for (const auto& rejected_method :
-                         ex_class.second.rejected_methods) {
+                         ex_record.second.rejected_methods) {
                         fmt::print("    {}\n", rejected_method);
                     }
                 }

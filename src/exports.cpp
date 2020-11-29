@@ -10,7 +10,6 @@
 namespace cppmm {
 
 std::unordered_map<std::string, ExportedFile> ex_files;
-std::unordered_map<std::string, ExportedClass> ex_classes;
 std::unordered_map<std::string, ExportedRecord> ex_records;
 std::unordered_map<std::string, ExportedEnum> ex_enums;
 ExportedSpecMap ex_specs;
@@ -54,10 +53,6 @@ bool operator==(const ExportedMethod& a, const ExportedMethod& b) {
 
 const std::unordered_map<std::string, ExportedFile>& get_ex_files() {
     return ex_files;
-}
-
-const std::unordered_map<std::string, ExportedClass>& get_ex_classes() {
-    return ex_classes;
 }
 
 const std::unordered_map<std::string, ExportedEnum>& get_ex_enums() {

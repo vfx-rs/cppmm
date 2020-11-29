@@ -40,9 +40,6 @@ void MatchBindingsCallback::run(const MatchFinder::MatchResult& result) {
     } else if (const EnumDecl* enum_decl =
                    result.Nodes.getNodeAs<EnumDecl>("enumDecl")) {
         handle_enum(enum_decl);
-    } else if (const CXXMethodDecl* method =
-                   result.Nodes.getNodeAs<CXXMethodDecl>("methodDecl")) {
-        handle_method(method);
     } else if (const FunctionDecl* function =
                    result.Nodes.getNodeAs<FunctionDecl>("functionDecl")) {
         handle_function(function);
@@ -141,6 +138,18 @@ void MatchBindingsCallback::handle_enum(const EnumDecl* enum_decl) {
     }
 }
 
+namespace {
+void do_method(const CXXMethodDecl* method, ExportedRecord* ex_record) {
+    // If there are attributes, parse them looking for cppmm annotations
+    std::vector<AttrDesc> attrs = get_attrs(method);
+    ExportedMethod ex_method(method, attrs);
+
+    // store this method signiature to match against in the second pass
+    // fmt::print("storing method {}\n", ex_method.c_name);
+    ex_record->methods.push_back(ex_method);
+}
+}
+
 void MatchBindingsCallback::handle_record(const CXXRecordDecl* record) {
     ExportedRecord ex_record;
 
@@ -200,6 +209,31 @@ void MatchBindingsCallback::handle_record(const CXXRecordDecl* record) {
     if (ex_file.records.find(ex_record.cpp_qname) == ex_file.records.end()) {
         ex_file.records[ex_record.cpp_qname] = ex_record_ptr;
     }
+
+    // now do all the record's methods
+    for (const auto* decl : record->decls()) {
+        if (isa<FunctionTemplateDecl>(decl)) {
+            // TODO: Having templated methods on a templated type is hard
+            // because I can't figure out how to detect partial specializations
+            // on the bindings, which means we'd need to do a whole bunch of
+            // type matching and expansion here to tell which of the bound
+            // methods could correspond to an expansion of a templated type
+            const auto* ftd = cast<FunctionTemplateDecl>(decl);
+            // fmt::print("got FTD {}\n", ftd->getNameAsString());
+            const auto* fd = ftd->getTemplatedDecl();
+            if (fd && isa<CXXMethodDecl>(fd)) {
+                const auto* md = cast<CXXMethodDecl>(fd);
+                do_method(md, ex_record_ptr);
+            }
+        } else if (isa<CXXMethodDecl>(decl)) {
+            // As long as the method doesn't have its own template parameter
+            // list, we can monomorphize it based on the specialization of the
+            // parent class.
+            const auto* cmd = cast<CXXMethodDecl>(decl);
+            // fmt::print("got CMD {}\n", cmd->getNameAsString());
+            do_method(cmd, ex_record_ptr);
+        }
+    }
 }
 
 void MatchBindingsCallback::handle_function(const FunctionDecl* function) {
@@ -251,35 +285,6 @@ void MatchBindingsCallback::handle_function(const FunctionDecl* function) {
     }
 }
 
-void MatchBindingsCallback::handle_method(const CXXMethodDecl* method) {
-    // If there are attributes, parse them looking for cppmm annotations
-    std::vector<AttrDesc> attrs = get_attrs(method);
-    ExportedMethod ex_method(method, attrs);
-    const auto class_name = method->getParent()->getNameAsString();
-
-    // check if we've seen the class this method belongs to before, and
-    // if not process it
-    if (ex_classes.find(class_name) == ex_classes.end()) {
-        ASTContext& ctx = method->getASTContext();
-        SourceManager& sm = ctx.getSourceManager();
-
-        std::string filename = sm.getFilename(method->getBeginLoc()).str();
-
-        auto namespaces = get_namespaces(method->getParent()->getParent());
-        ex_classes[class_name] =
-            ExportedClass{class_name, filename, namespaces, {}};
-
-        if (ex_files.find(filename) == ex_files.end()) {
-            ex_files[filename] = {};
-        }
-        ex_files[filename].classes.push_back(class_name);
-    }
-
-    // store this method signiature to match against in the second pass
-    // fmt::print("storing method {}\n", ex_method.c_name);
-    ex_classes[class_name].methods.push_back(ex_method);
-}
-
 MatchBindingsConsumer::MatchBindingsConsumer(ASTContext* context) {
     // match all record declrations in the cppmm_bind namespace
     DeclarationMatcher enum_decl_matcher =
@@ -301,12 +306,6 @@ MatchBindingsConsumer::MatchBindingsConsumer(ASTContext* context) {
                       unless(isImplicit()))
             .bind("typeAliasDecl");
     _match_finder.addMatcher(typedef_decl_matcher, &_handler);
-
-    // match all method declrations in the cppmm_bind namespace
-    DeclarationMatcher method_decl_matcher =
-        cxxMethodDecl(hasAncestor(namespaceDecl(hasName("cppmm_bind"))))
-            .bind("methodDecl");
-    _match_finder.addMatcher(method_decl_matcher, &_handler);
 
     // match all function declarations
     DeclarationMatcher function_decl_matcher =
