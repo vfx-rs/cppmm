@@ -3,6 +3,7 @@
 #include "namespaces.hpp"
 #include "pystring.h"
 
+#include <spdlog/spdlog.h>
 #include <spdlog/fmt/fmt.h>
 #include <spdlog/fmt/ostr.h>
 
