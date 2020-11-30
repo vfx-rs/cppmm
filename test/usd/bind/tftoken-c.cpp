@@ -9,11 +9,11 @@ namespace cppmm_bind {
 
 namespace PXR_INTERNAL_NS {
 
-namespace pxr = PXR_INTERNAL_NS;
+namespace pxr = ::PXR_INTERNAL_NS;
 
 class TfToken {
     TfToken(pxr::TfToken const& rhs) CPPMM_RENAME(copy);
-    TfToken& operator= (pxr::TfToken const& rhs) CPPMM_RENAME(assign);
+    pxr::TfToken& operator= (pxr::TfToken const& rhs) CPPMM_RENAME(assign);
     ~TfToken() CPPMM_RENAME(destruct);
 
     explicit TfToken(char const* s) CPPMM_RENAME(from_string);
@@ -22,11 +22,11 @@ class TfToken {
     size_t size() const;
     char const* GetText() const;
     char const *data() const;
-    bool operator==(TfToken const& o) const;
-    bool operator!=(TfToken const& o) const;
+    bool operator==(pxr::TfToken const& o) const;
+    bool operator!=(pxr::TfToken const& o) const;
     bool operator==(const char * o) const CPPMM_RENAME(eq_string);
     bool operator!=(const char * o) const CPPMM_RENAME(neq_string);
-    bool operator<(TfToken const& r) const;
+    bool operator<(pxr::TfToken const& r) const;
 
     bool IsEmpty() const;
     bool IsImmortal() const;
