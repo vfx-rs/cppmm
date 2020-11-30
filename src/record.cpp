@@ -1,8 +1,8 @@
 #include "record.hpp"
 #include "enum.hpp"
+#include "function.hpp"
 #include "namespaces.hpp"
 #include "vector.hpp"
-#include "function.hpp"
 
 #include "pystring.h"
 
@@ -101,6 +101,28 @@ std::string Record::get_method_declaration(
     }
 }
 
+bool is_comparison(const std::string& op) {
+    if (op == "==") {
+        return true;
+    } else if (op == "!=") {
+        return true;
+    } else if (op == "<=") {
+        return true;
+    } else if (op == ">=") {
+        return true;
+    } else if (op == "<") {
+        return true;
+    } else if (op == ">") {
+        return true;
+    }
+
+    return false;
+}
+
+bool is_assignment(const std::string& op) {
+    return op.find("=") != std::string::npos && !is_comparison(op);
+}
+
 std::string
 Record::get_operator_body(const Method& method, const std::string& declaration,
                           const std::vector<std::string>& call_params) const {
@@ -111,29 +133,34 @@ Record::get_operator_body(const Method& method, const std::string& declaration,
             // allocating
             // FIXME: what do we want to do here?
             SPDLOG_WARN("Method {} is a unary operator but its parent "
-                       "class is of kind OpaquePtr and so cannot be autobound "
-                       "without allocating. It will be ignored.",
-                       declaration);
-        } else if (method.op.find("=") == std::string::npos) {
+                        "class is of kind OpaquePtr and so cannot be autobound "
+                        "without allocating. It will be ignored.",
+                        declaration);
+        } else if (is_assignment(method.op)) {
             // Similarly, any non-assigning operator can't work for the same
             // reason
             // FIXME: what do we want to do here?
             SPDLOG_WARN("Method {} is a non-assigning operator (i.e. "
-                       "it returns a copy) but its parent class is of kind "
-                       "OpaquePtr and so cannot be autobound without "
-                       "allocating. It will be ignored.",
-                       declaration);
+                        "it returns a copy) but its parent class is of kind "
+                        "OpaquePtr and so cannot be autobound without "
+                        "allocating. It will be ignored.",
+                        declaration);
+        } else if (is_comparison(method.op)) {
+            body = fmt::format("    return *to_cpp(self) {} {};", method.op,
+                               call_params[0]);
         } else {
             body = fmt::format("    *to_cpp(self) {} ", method.op);
             body += call_params[0] + ";\n    return self;";
         }
     } else {
         // opaquebytes or valuetype
-        if (call_params.size() > 0 &&
-            method.op.find("=") != std::string::npos) {
+        if (is_assignment(method.op)) {
             // assigning operator
             body = fmt::format("    *to_cpp(self) {} ", method.op);
             body += call_params[0] + ";\n    return self;";
+        } else if (is_comparison(method.op)) {
+            body = fmt::format("    return *to_cpp(self) {} {};", method.op,
+                               call_params[0]);
         } else if (call_params.size() > 0) {
             // copying operator
             body = fmt::format("    return bit_cast<{}>(*to_cpp(self) {} {});",
