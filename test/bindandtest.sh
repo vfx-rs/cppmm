@@ -38,6 +38,7 @@ popd
 ./cppmm                                                             \
     ../test/templates/bind                                          \
     -o templates-c                                                  \
+    --rust-sys templates-sys                                        \
     --                                                              \
     -I/home/anders/code/cppmm/test/templates/bind                   \
     -isystem /home/anders/packages/llvm/10.0.1/lib/clang/10.0.1/include
@@ -47,8 +48,15 @@ popd
     -o usd-c                                                        \
     -n pxr=pxrInternal_v0_20__pxrReserved__                         \
     -l /home/anders/packages/usd/20.05/lib/libtf.so                 \
+    --rust-sys usd-sys                                              \
     --                                                              \
     -I/home/anders/packages/usd/20.05/include                       \
     -isystem /home/anders/packages/llvm/10.0.1/lib/clang/10.0.1/include
+
+# cp ../test/usd/test-rust-sys/test.rs                         \
+#     usd-sys/src/test.rs
+
+# pushd usd-sys && cargo test
+# popd
 
 ../test/diff.sh

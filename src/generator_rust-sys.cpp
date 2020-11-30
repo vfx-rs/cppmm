@@ -57,7 +57,8 @@ void write_source_file(const std::string& filename,
 }
 
 void write_lib_rs(const std::string& filename,
-                  const std::vector<std::string>& mods) {
+                  const std::vector<std::string>& mods,
+                  const std::vector<std::string>& pretty_aliases) {
     std::string src =
         R"#(#![allow(non_upper_case_globals)]
 #![allow(non_camel_case_types)]
@@ -70,8 +71,11 @@ mod test;
     for (const auto& mod : mods) {
         const auto rmod = ps::replace(mod, "-", "_");
         src += "pub mod " + rmod + ";\n";
-        src += "pub use " + rmod + "::*;\n";
+        src += "use " + rmod + "::*;\n";
     }
+    src += "\n";
+
+    src += ps::join("\n", pretty_aliases);
     src += "\n";
 
     auto out = fopen(filename.c_str(), "w");
@@ -109,7 +113,12 @@ std::string rust_type_name(const std::string& c_qname) {
     }
 }
 
-std::string get_record_declaration(const Record& record) {
+std::string get_record_declaration(const Record& record, const std::string& mod,
+                                   std::vector<std::string>& pretty_aliases) {
+
+    pretty_aliases.push_back(fmt::format("pub use {}::{} as {};", mod,
+                                         record.c_qname, record.c_pretty_name));
+
     if (record.kind == RecordKind::OpaquePtr) {
         return fmt::format(
             R"#(
@@ -126,6 +135,12 @@ pub type {0} = *mut {0}_t;
 #[repr(C, align({1}))]
 pub struct {0} {{
     _unused: [u8; {2}],
+}}
+
+impl {0} {{
+    pub fn new() -> {0} {{
+        {0}{{ _unused: [0u8; {2}]}}
+    }}
 }}
 )#",
             record.c_qname, record.alignment, record.size);
@@ -182,9 +197,13 @@ extern "C" {{
                        rust_type_name(vec.element_type.type.get_c_qname()));
 }
 
-std::string get_enum_declaration(const Enum& enm) {
+std::string get_enum_declaration(const Enum& enm, const std::string& mod,
+                                 std::vector<std::string>& pretty_aliases) {
     std::string declarations;
     declarations += fmt::format("#[repr(i32)]\npub enum {} {{\n", enm.c_qname);
+
+    pretty_aliases.push_back(
+        fmt::format("pub use {}::{} as {};", mod, enm.c_qname, enm.c_pretty_name));
 
     std::set<uint64_t> emitted_variants;
     for (const auto& ecd : enm.enumerators) {
@@ -269,6 +288,10 @@ use crate::*;
 fn it_works() {
 }
 )#";
+
+    auto out = fopen(filename.c_str(), "w");
+    fprintf(out, "%s", src.c_str());
+    fclose(out);
 }
 
 const std::vector<std::string> _rust_keywords = {
@@ -296,7 +319,12 @@ std::string get_param_declaration(const Param& param) {
 }
 
 std::string get_function_declaration(const Function& function,
-                                     std::set<std::string>& use_stmts) {
+                                     std::set<std::string>& use_stmts,
+                                     const std::string& mod,
+                                     std::vector<std::string>& pretty_aliases) {
+    pretty_aliases.push_back(fmt::format(
+        "pub use {}::{} as {};", mod, function.c_qname, function.c_pretty_name));
+
     std::vector<std::string> param_decls;
     for (const auto& param : function.params) {
         std::string pdecl = get_param_declaration(param);
@@ -325,7 +353,12 @@ std::string get_opaqueptr_constructor_declaration(
 }
 
 std::string get_method_declaration(const Record& record, const Method& method,
-                                   std::set<std::string>& use_stmts) {
+                                   std::set<std::string>& use_stmts,
+                                   const std::string& mod,
+                                   std::vector<std::string>& pretty_aliases) {
+    pretty_aliases.push_back(fmt::format("pub use {}::{} as {};", mod,
+                                         method.c_qname, method.c_pretty_name));
+
     std::vector<std::string> param_decls;
     std::string declaration;
 
@@ -478,6 +511,8 @@ void GeneratorRustSys::generate(
     std::vector<std::string> mods;
     mods.push_back("cppmm_containers");
 
+    std::vector<std::string> pretty_aliases;
+
     // For each binding file we'll generate one rust source file (module)
     for (const auto& it_file : files) {
         std::string declarations;
@@ -486,6 +521,9 @@ void GeneratorRustSys::generate(
             // FIXME: how is this getting in there?
             continue;
         }
+
+        const std::string root =
+            ps::replace(bind_file_root(it_file.first), "-", "_");
 
         // Generate all Record definitions (and containers thereof) in this
         // module
@@ -498,7 +536,8 @@ void GeneratorRustSys::generate(
             }
 
             const auto& record = it_record->second;
-            declarations += get_record_declaration(record);
+            declarations +=
+                get_record_declaration(record, root, pretty_aliases);
 
             const auto it_vec = vectors.find(record.c_qname);
             if (it_vec != vectors.end()) {
@@ -518,7 +557,7 @@ void GeneratorRustSys::generate(
                 continue;
             }
             const auto& enm = it_enum->second;
-            declarations += get_enum_declaration(enm);
+            declarations += get_enum_declaration(enm, root, pretty_aliases);
         }
 
         // This isn't actually used yet, as we're just doing crate::* for
@@ -532,8 +571,8 @@ void GeneratorRustSys::generate(
         for (const auto& it_function : it_file.second.functions) {
             const auto& function = it_function.second;
 
-            std::string declaration =
-                get_function_declaration(*function, use_stmts);
+            std::string declaration = get_function_declaration(
+                *function, use_stmts, root, pretty_aliases);
 
             declarations = fmt::format("{}\n{};\n", declarations, declaration);
         }
@@ -551,8 +590,8 @@ void GeneratorRustSys::generate(
             for (auto method_pair : record.methods) {
                 const auto& method = method_pair.second;
 
-                std::string declaration =
-                    get_method_declaration(record, method, use_stmts);
+                std::string declaration = get_method_declaration(
+                    record, method, use_stmts, root, pretty_aliases);
 
                 declarations =
                     fmt::format("{}\n{};\n", declarations, declaration);
@@ -562,8 +601,6 @@ void GeneratorRustSys::generate(
         declarations += "}\n";
 
         // write out the module
-        const std::string root =
-            ps::replace(bind_file_root(it_file.first), "-", "_");
         const auto src_file = fmt::format("{}.rs", root);
         const auto src_path = output_dir_path / "src" / src_file;
         write_source_file(src_path.string(), declarations, use_stmts);
@@ -572,7 +609,7 @@ void GeneratorRustSys::generate(
 
     // write the Cargo project and supporting source files
     write_cargo_toml(output_dir_path / "Cargo.toml", project_name);
-    write_lib_rs(output_dir_path / "src" / "lib.rs", mods);
+    write_lib_rs(output_dir_path / "src" / "lib.rs", mods, pretty_aliases);
     write_test_stub(output_dir_path / "src" / "test.rs");
     write_containers_implementation(output_dir_path / "src" /
                                     "cppmm_containers.rs");
