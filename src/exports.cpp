@@ -68,6 +68,7 @@ ExportedFunction::ExportedFunction(const clang::FunctionDecl* function,
         //     fmt::print("    {} is TTPT\n", p->getNameAsString());
         // }
         params.push_back(p->getType().getCanonicalType().getAsString());
+        param_names.push_back(p->getNameAsString());
     }
     is_static = function->isStatic();
 

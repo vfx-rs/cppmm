@@ -14,9 +14,11 @@ namespace ps = pystring;
 
 Function::Function(std::string cpp_name, std::string c_name,
                    QualifiedType return_type, std::vector<Param> params,
-                   std::string comment, std::vector<std::string> namespaces, std::string filename, std::vector<std::string> template_args)
+                   std::string comment, std::vector<std::string> namespaces,
+                   std::string filename, std::vector<std::string> template_args)
     : cpp_name(cpp_name), c_name(c_name), return_type(return_type),
-      params(params), comment(comment), namespaces(namespaces), filename(filename) {
+      params(params), comment(comment), namespaces(namespaces),
+      filename(filename) {
     cpp_qname = prefix_from_namespaces(namespaces, "::") + cpp_name;
     c_qname = prefix_from_namespaces(namespaces, "_") + c_name;
 
@@ -69,7 +71,8 @@ std::string Function::get_definition(const std::string& declaration) const {
     }
 
     std::string body;
-    const std::string call_prefix = prefix_from_namespaces(namespaces, "::") + cpp_name;
+    const std::string call_prefix =
+        prefix_from_namespaces(namespaces, "::") + cpp_name;
     const TypeVariant& return_var = return_type.type.var;
 
     if (return_type.type.name == "basic_string" && return_type.is_ref) {

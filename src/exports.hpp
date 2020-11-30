@@ -42,6 +42,7 @@ struct ExportedFunction {
     std::string return_type;
     // vector of canonical typenames that are this method's parameters.
     std::vector<std::string> params;
+    std::vector<std::string> param_names;
     std::vector<AttrDesc> attrs;
     std::vector<std::string> namespaces; //< only used for free functions (ugh)
     bool is_static = false;

@@ -673,11 +673,26 @@ Function* generate_function_specialization(
     const std::vector<std::string>& template_args,
     const std::unordered_map<std::string, std::string>& template_named_args) {
     std::vector<Param> params;
+    int i = 0;
     for (const auto& p : function->parameters()) {
-        const auto param_name = p->getNameAsString();
+        auto param_name = p->getNameAsString();
+
+        if (param_name.empty()) {
+            // library doesn't name the parameter, first try and see if the
+            // binding named it...
+            if (ex_function.param_names[i].empty()) {
+                // binding didnt' name it, auto-generate a name
+                param_name = fmt::format("_param_{:02}", i);
+            } else {
+                // take the name from the binding
+                param_name = ex_function.param_names[i];
+            }
+        }
+
         // fmt::print("param {}\n", param_name);
         params.push_back(process_param_type(
             param_name, p->getType(), template_args, template_named_args));
+        i++;
     }
 
     std::string comment = get_decl_comment(function);
@@ -744,11 +759,28 @@ Method process_method(
     // fmt::print("process_method {}\n", method->getQualifiedNameAsString());
 
     std::vector<Param> params;
+    int i = 0;
     for (const auto& p : method->parameters()) {
-        const auto param_name = p->getNameAsString();
+        auto param_name = p->getNameAsString();
+
+        if (param_name.empty()) {
+            // library doesn't name the parameter, first try and see if the
+            // binding named it...
+            if (ex_method.param_names[i].empty()) {
+                // binding didnt' name it, auto-generate a name
+                param_name = fmt::format("_param_{:02}", i);
+            } else {
+                // take the name from the binding
+                param_name = ex_method.param_names[i];
+            }
+        }
+
+        // fmt::print("param {}\n", param_name);
         params.push_back(process_param_type(
             param_name, p->getType(), template_args, template_named_args));
+        i++;
     }
+
 
     std::string comment = get_decl_comment(method);
 
