@@ -22,6 +22,17 @@
     -isystem /home/anders/packages/llvm/10.0.1/lib/clang/10.0.1/include
 
 ./cppmm                                                             \
+    ../test/imath/bind                                               \
+    -n Imath=Imath_3_0                                              \
+    -o imath-c                                                       \
+    --rust-sys imath-sys                                             \
+    -u                                                              \
+    -l /home/anders/packages/imath/3.0.0/lib/libImath.so             \
+    --                                                              \
+    -I/home/anders/packages/imath/3.0.0/include                     \
+    -isystem /home/anders/packages/llvm/10.0.1/lib/clang/10.0.1/include
+
+./cppmm                                                             \
     ../test/containers/bind                                         \
     -o containers-c                                                 \
     --rust-sys containers-sys                                       \
@@ -43,20 +54,21 @@ popd
     -I/home/anders/code/cppmm/test/templates/bind                   \
     -isystem /home/anders/packages/llvm/10.0.1/lib/clang/10.0.1/include
 
+USD_ROOT=/home/anders/packages/usd/20.05
 ./cppmm                                                             \
     ../test/usd/bind                                                \
     -o usd-c                                                        \
     -n pxr=pxrInternal_v0_20__pxrReserved__                         \
-    -l /home/anders/packages/usd/20.05/lib/libtf.so                 \
+    -l ${USD_ROOT}/lib/libtf.so                                     \
     --rust-sys usd-sys                                              \
     --                                                              \
-    -I/home/anders/packages/usd/20.05/include                       \
+    -I${USD_ROOT}/include                                           \
     -isystem /home/anders/packages/llvm/10.0.1/lib/clang/10.0.1/include
 
-# cp ../test/usd/test-rust-sys/test.rs                         \
-#     usd-sys/src/test.rs
+cp ../test/usd/test-rust-sys/test.rs                         \
+    usd-sys/src/test.rs
 
-# pushd usd-sys && cargo test
-# popd
+pushd usd-sys && env LD_LIBRARY_PATH=${USD_ROOT}/lib cargo test
+popd
 
 ../test/diff.sh
