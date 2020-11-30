@@ -20,7 +20,3 @@ struct Param {
 };
 
 } // namespace cppmm
-
-namespace fmt {
-std::ostream& operator<<(std::ostream& os, const cppmm::Param& param);
-}

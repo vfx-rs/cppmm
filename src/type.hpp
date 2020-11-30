@@ -52,8 +52,3 @@ struct QualifiedType {
 };
 
 } // namespace cppmm
-
-namespace fmt {
-std::ostream& operator<<(std::ostream& os, const cppmm::RecordKind& kind);
-std::ostream& operator<<(std::ostream& os, const cppmm::QualifiedType& qtype);
-}

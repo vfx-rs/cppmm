@@ -122,10 +122,6 @@ bool operator==(const ExportedMethod& a, const ExportedMethod& b);
 
 } // namespace cppmm
 
-std::ostream& operator<<(std::ostream& os,
-                         const cppmm::ExportedFunction& method);
-std::ostream& operator<<(std::ostream& os, const cppmm::ExportedMethod& method);
-
 template <> struct fmt::formatter<cppmm::ExportedMethod> {
     constexpr auto parse(format_parse_context& ctx) { return ctx.end(); }
 

@@ -49,11 +49,3 @@ std::string Param::create_c_call() const {
     return result;
 }
 } // namespace cppmm
-
-namespace fmt {
-std::ostream& operator<<(std::ostream& os, const cppmm::Param& param) {
-    os << param.qtype << " " << param.name;
-    return os;
-}
-
-} // namespace fmt
