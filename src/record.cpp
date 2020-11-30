@@ -39,7 +39,8 @@ std::string Record::get_opaqueptr_constructor_declaration(
 
 std::string Record::get_method_declaration(
     const Method& method, std::set<std::string>& includes,
-    std::set<std::string>& casts_macro_invocations) const {
+    std::set<std::string>& casts_macro_invocations,
+    std::vector<std::string>& pretty_defines) const {
     std::vector<std::string> param_decls;
 
     for (const auto& param : method.params) {
@@ -58,6 +59,9 @@ std::string Record::get_method_declaration(
         std::string pdecl = param.create_c_declaration();
         param_decls.push_back(pdecl);
     }
+
+    pretty_defines.push_back(
+        fmt::format("#define {} {}", method.c_pretty_name, method.c_qname));
 
     std::string declaration;
 
@@ -262,7 +266,7 @@ std::string Record::get_definition() const {
 }
 
 std::string
-Record::get_declaration(std::set<std::string>& casts_macro_invocations) const {
+Record::get_declaration(std::set<std::string>& casts_macro_invocations, std::vector<std::string>& pretty_defines) const {
     std::string declarations;
     casts_macro_invocations.insert(create_casts());
     if (kind == cppmm::RecordKind::OpaquePtr) {
@@ -282,6 +286,8 @@ Record::get_declaration(std::set<std::string>& casts_macro_invocations) const {
         }
         declarations += fmt::format("}} {};\n\n", c_qname);
     }
+
+    pretty_defines.push_back(fmt::format("#define {} {}", c_pretty_name, c_qname));
 
     return declarations;
 }

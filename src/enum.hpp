@@ -13,8 +13,9 @@ struct Enum {
     std::vector<std::pair<std::string, uint64_t>> enumerators;
     std::string cpp_qname;
     std::string c_qname;
+    std::string c_pretty_name;
 
-    std::string get_declaration() const;
+    std::string get_declaration(std::vector<std::string>& pretty_defines) const;
 };
 
 }

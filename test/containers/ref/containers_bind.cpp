@@ -2,12 +2,16 @@
 #include "containers_bind.h"
 #include "containers.hpp"
 
+
+
 namespace {
 #include "casts.h"
 
 CPPMM_DEFINE_POINTER_CASTS(containers::Containers, containers_Containers)
 CPPMM_DEFINE_POINTER_CASTS(containers::CustomElement, containers_CustomElement)
+CPPMM_DEFINE_POINTER_CASTS(containers::CustomOB, containers_CustomOB)
 CPPMM_DEFINE_POINTER_CASTS(containers::CustomOP, containers_CustomOP)
+CPPMM_DEFINE_POINTER_CASTS(containers::CustomVT, containers_CustomVT)
 CPPMM_DEFINE_POINTER_CASTS(std::vector<containers::CustomElement>, containers_CustomElement_vector);
 CPPMM_DEFINE_POINTER_CASTS(std::vector<std::string>, cppmm_string_vector);
 

@@ -21,15 +21,18 @@ Function::Function(std::string cpp_name, std::string c_name,
       filename(filename) {
     cpp_qname = prefix_from_namespaces(namespaces, "::") + cpp_name;
     c_qname = prefix_from_namespaces(namespaces, "_") + c_name;
+    c_pretty_name =
+        prefix_from_namespaces(rename_all_namespaces(namespaces), "_") + c_name;
 
     if (!template_args.empty()) {
         cpp_qname += fmt::format("<{}>", ps::join(", ", template_args));
     }
 }
 
-std::string Function::get_declaration(
-    std::set<std::string>& includes,
-    std::set<std::string>& casts_macro_invocations) const {
+std::string
+Function::get_declaration(std::set<std::string>& includes,
+                          std::set<std::string>& casts_macro_invocations,
+                          std::vector<std::string>& pretty_defines) const {
 
     std::vector<std::string> param_decls;
     for (const auto& param : params) {
@@ -59,6 +62,9 @@ std::string Function::get_declaration(
             casts_macro_invocations.insert(record->create_casts());
         }
     }
+
+    pretty_defines.push_back(
+        fmt::format("#define {} {}", c_pretty_name, c_qname));
 
     return fmt::format("{} {}({})", ret, c_qname, ps::join(", ", param_decls));
 }

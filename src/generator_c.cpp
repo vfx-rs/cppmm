@@ -1,7 +1,7 @@
 #include "generator_c.hpp"
 #include "filesystem.hpp"
-#include "pystring.h"
 #include "namespaces.hpp"
+#include "pystring.h"
 
 namespace ps = pystring;
 
@@ -20,7 +20,8 @@ namespace cppmm {
 namespace fs = ghc::filesystem;
 
 void write_header(const std::string& filename, const std::string& declarations,
-                  const std::string& include_stmts) {
+                  const std::string& include_stmts,
+                  const std::vector<std::string>& pretty_defines) {
 
     std::string out_str = fmt::format(
         R"#(#pragma once
@@ -43,11 +44,13 @@ extern "C" {{
 
 #undef CPPMM_ALIGN
 
+{}
+
 #ifdef __cplusplus
 }}
 #endif
     )#",
-        include_stmts, declarations);
+        include_stmts, declarations, ps::join("\n", pretty_defines));
 
     auto out = fopen(filename.c_str(), "w");
     fprintf(out, "%s", out_str.c_str());
@@ -60,9 +63,10 @@ void write_implementation(const std::string& filename, const std::string& root,
                           const std::string& definitions) {
 
     std::string namespace_renames_str;
-    for (const auto& it: namespace_renames) {
-        namespace_renames_str += fmt::format("namespace {} = {};\n", it.second, it.first);
-    }
+    // for (const auto& it: namespace_renames) {
+    //     namespace_renames_str += fmt::format("namespace {} = {};\n",
+    //     it.second, it.first);
+    // }
 
     std::string out_str = fmt::format(
         R"#(//
@@ -82,7 +86,8 @@ extern "C" {{
 {}
 }}
     )#",
-        root, ps::join("\n", includes), namespace_renames_str, casts, definitions);
+        root, ps::join("\n", includes), namespace_renames_str, casts,
+        definitions);
 
     auto out = fopen(filename.c_str(), "w");
     fprintf(out, "%s", out_str.c_str());
@@ -336,9 +341,8 @@ install(TARGETS {0} DESTINATION ${{CMAKE_INSTALL_PREFIX}})
 // FIXME: the logic of what things end up in what maps is a bit gnarly here.
 // We should really move everythign that's in ExportedFile into File during
 // the second phase, and clarify what's expected to be in what maps exactly.
-void GeneratorC::generate(const FileMap& files,
-                          const RecordMap& records, const EnumMap& enums,
-                          const VectorMap& vectors,
+void GeneratorC::generate(const FileMap& files, const RecordMap& records,
+                          const EnumMap& enums, const VectorMap& vectors,
                           const std::vector<std::string>& project_includes,
                           const std::vector<std::string>& project_libraries) {
     std::vector<std::string> source_files;
@@ -355,6 +359,7 @@ void GeneratorC::generate(const FileMap& files,
 
     for (const auto& it_file : files) {
         std::set<std::string> casts_macro_invocations;
+        std::vector<std::string> pretty_defines;
         std::string declarations;
         std::string definitions;
 
@@ -375,7 +380,8 @@ void GeneratorC::generate(const FileMap& files,
             }
 
             const auto& record = it_record->second;
-            declarations += record.get_declaration(casts_macro_invocations);
+            declarations +=
+                record.get_declaration(casts_macro_invocations, pretty_defines);
 
             const auto it_vec = vectors.find(record.c_qname);
             if (it_vec != vectors.end()) {
@@ -398,22 +404,21 @@ void GeneratorC::generate(const FileMap& files,
                 continue;
             }
             const auto& enm = it_enum->second;
-            declarations += enm.get_declaration();
+            declarations += enm.get_declaration(pretty_defines);
         }
 
         for (const auto& it_function : it_file.second.functions) {
             const auto& function = it_function.second;
 
             std::string declaration = function->get_declaration(
-                header_includes, casts_macro_invocations);
+                header_includes, casts_macro_invocations, pretty_defines);
 
             std::string definition = function->get_definition(declaration);
 
             declarations = fmt::format("{}\n{}\n{};\n", declarations,
                                        function->comment, declaration);
 
-            definitions =
-                fmt::format("{}\n{}\n\n\n", definitions, definition);
+            definitions = fmt::format("{}\n{}\n\n\n", definitions, definition);
         }
 
         for (const auto& record_pair : it_file.second.records) {
@@ -429,7 +434,8 @@ void GeneratorC::generate(const FileMap& files,
                 const auto& method = method_pair.second;
 
                 std::string declaration = record.get_method_declaration(
-                    method, header_includes, casts_macro_invocations);
+                    method, header_includes, casts_macro_invocations,
+                    pretty_defines);
 
                 std::string definition =
                     record.get_method_definition(method, declaration);
@@ -463,11 +469,11 @@ void GeneratorC::generate(const FileMap& files,
         }
 
         write_header(output_dir_path / header, declarations,
-                     header_include_stmts);
+                     header_include_stmts, pretty_defines);
 
         std::string implementation_path = output_dir_path / implementation;
-        write_implementation(implementation_path, root,
-                             it_file.second.includes, casts, definitions);
+        write_implementation(implementation_path, root, it_file.second.includes,
+                             casts, definitions);
         source_files.push_back(implementation);
     }
 

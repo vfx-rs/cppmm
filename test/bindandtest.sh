@@ -12,6 +12,7 @@
 
 ./cppmm                                                             \
     ../test/half/bind                                               \
+    -n Imath=Imath_3_0                                              \
     -o half-c                                                       \
     --rust-sys half-sys                                             \
     -u                                                              \
@@ -33,5 +34,21 @@ cp ../test/containers/test-rust-sys/test.rs                         \
 
 pushd containers-sys && cargo test
 popd
+
+./cppmm                                                             \
+    ../test/templates/bind                                          \
+    -o templates-c                                                  \
+    --                                                              \
+    -I/home/anders/code/cppmm/test/templates/bind                   \
+    -isystem /home/anders/packages/llvm/10.0.1/lib/clang/10.0.1/include
+
+./cppmm                                                             \
+    ../test/usd/bind                                                \
+    -o usd-c                                                        \
+    -n pxr=pxrInternal_v0_20__pxrReserved__                         \
+    -l /home/anders/packages/usd/20.05/lib/libtf.so                 \
+    --                                                              \
+    -I/home/anders/packages/usd/20.05/include                       \
+    -isystem /home/anders/packages/llvm/10.0.1/lib/clang/10.0.1/include
 
 ../test/diff.sh

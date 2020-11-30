@@ -134,6 +134,7 @@ Record create_record(const CXXRecordDecl* record, std::string cpp_name,
         .alignment = alignment,
         .cpp_qname = cpp_qname,
         .c_qname = c_qname,
+        .c_pretty_name = prefix_from_namespaces(rename_all_namespaces(namespaces), "_") + c_name
     };
 }
 
@@ -283,8 +284,12 @@ Record* process_record(const CXXRecordDecl* record) {
 
     std::string cpp_name = record->getNameAsString();
     std::vector<std::string> namespaces = get_namespaces(record->getParent());
+    std::vector<std::string> pretty_namespaces =
+        rename_all_namespaces(namespaces);
 
     const auto c_qname = prefix_from_namespaces(namespaces, "_") + cpp_name;
+    const auto c_pretty_name =
+        prefix_from_namespaces(pretty_namespaces, "_") + cpp_name;
     auto cpp_qname = prefix_from_namespaces(namespaces, "::") + cpp_name;
 
     std::vector<std::string> template_args;
@@ -394,6 +399,8 @@ Enum* process_enum(const EnumDecl* enum_decl) {
     const auto c_name = cpp_name;
     const auto cpp_qname = prefix_from_namespaces(namespaces, "::") + cpp_name;
     const auto c_qname = prefix_from_namespaces(namespaces, "_") + c_name;
+    const auto c_pretty_name =
+        prefix_from_namespaces(rename_all_namespaces(namespaces), "_") + c_name;
 
     auto it_enum = enums.find(cpp_qname);
     if (it_enum != enums.end()) {
@@ -423,7 +430,8 @@ Enum* process_enum(const EnumDecl* enum_decl) {
                             .filename = it_ex_enum->second.filename,
                             .enumerators = enumerators,
                             .cpp_qname = cpp_qname,
-                            .c_qname = c_qname};
+                            .c_qname = c_qname,
+                            .c_pretty_name = c_pretty_name};
     Enum* enm = &enums[cpp_qname];
     files[enm->filename].enums[cpp_qname] = enm;
     return enm;
@@ -780,7 +788,6 @@ Method process_method(
             param_name, p->getType(), template_args, template_named_args));
         i++;
     }
-
 
     std::string comment = get_decl_comment(method);
 

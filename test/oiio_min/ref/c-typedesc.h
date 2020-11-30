@@ -21,19 +21,19 @@ typedef struct {
     unsigned char vecsemantics;
     unsigned char reserved;
     int arraylen;
-} OIIO_TypeDesc;
+} OpenImageIO_v2_2_TypeDesc;
 
 
-typedef struct { char _private[24]; } OIIO_TypeDesc_vector CPPMM_ALIGN(8);
+typedef struct { char _private[24]; } OpenImageIO_v2_2_TypeDesc_vector CPPMM_ALIGN(8);
 
-void OIIO_TypeDesc_vector_ctor(OIIO_TypeDesc_vector* vec);
-void OIIO_TypeDesc_vector_dtor(const OIIO_TypeDesc_vector* vec);
-int OIIO_TypeDesc_vector_size(const OIIO_TypeDesc_vector* vec);
-OIIO_TypeDesc* OIIO_TypeDesc_vector_data(OIIO_TypeDesc_vector* vec);
+void OpenImageIO_v2_2_TypeDesc_vector_ctor(OpenImageIO_v2_2_TypeDesc_vector* vec);
+void OpenImageIO_v2_2_TypeDesc_vector_dtor(const OpenImageIO_v2_2_TypeDesc_vector* vec);
+int OpenImageIO_v2_2_TypeDesc_vector_size(const OpenImageIO_v2_2_TypeDesc_vector* vec);
+OpenImageIO_v2_2_TypeDesc* OpenImageIO_v2_2_TypeDesc_vector_data(OpenImageIO_v2_2_TypeDesc_vector* vec);
 
-void OIIO_TypeDesc_vector_get(const OIIO_TypeDesc_vector* vec, int index, OIIO_TypeDesc* element);
-void OIIO_TypeDesc_vector_set(OIIO_TypeDesc_vector* vec, int index, OIIO_TypeDesc* element);
-enum OIIO_TypeDesc_VECSEMANTICS {
+void OpenImageIO_v2_2_TypeDesc_vector_get(const OpenImageIO_v2_2_TypeDesc_vector* vec, int index, OpenImageIO_v2_2_TypeDesc* element);
+void OpenImageIO_v2_2_TypeDesc_vector_set(OpenImageIO_v2_2_TypeDesc_vector* vec, int index, OpenImageIO_v2_2_TypeDesc* element);
+enum OpenImageIO_v2_2_TypeDesc_VECSEMANTICS {
     OIIO_TypeDesc_VECSEMANTICS_NOXFORM = 0,
     OIIO_TypeDesc_VECSEMANTICS_NOSEMANTICS = 0,
     OIIO_TypeDesc_VECSEMANTICS_COLOR = 1,
@@ -45,7 +45,7 @@ enum OIIO_TypeDesc_VECSEMANTICS {
     OIIO_TypeDesc_VECSEMANTICS_RATIONAL = 7,
 };
 
-enum OIIO_TypeDesc_BASETYPE {
+enum OpenImageIO_v2_2_TypeDesc_BASETYPE {
     OIIO_TypeDesc_BASETYPE_UNKNOWN = 0,
     OIIO_TypeDesc_BASETYPE_NONE = 1,
     OIIO_TypeDesc_BASETYPE_UINT8 = 2,
@@ -72,7 +72,7 @@ enum OIIO_TypeDesc_BASETYPE {
     OIIO_TypeDesc_BASETYPE_LASTBASE = 15,
 };
 
-enum OIIO_TypeDesc_AGGREGATE {
+enum OpenImageIO_v2_2_TypeDesc_AGGREGATE {
     OIIO_TypeDesc_AGGREGATE_SCALAR = 1,
     OIIO_TypeDesc_AGGREGATE_VEC2 = 2,
     OIIO_TypeDesc_AGGREGATE_VEC3 = 3,
@@ -84,6 +84,11 @@ enum OIIO_TypeDesc_AGGREGATE {
 
 
 #undef CPPMM_ALIGN
+
+#define OIIO_TypeDesc OpenImageIO_v2_2_TypeDesc
+#define OIIO_TypeDesc_VECSEMANTICS OpenImageIO_v2_2_TypeDesc_VECSEMANTICS
+#define OIIO_TypeDesc_BASETYPE OpenImageIO_v2_2_TypeDesc_BASETYPE
+#define OIIO_TypeDesc_AGGREGATE OpenImageIO_v2_2_TypeDesc_AGGREGATE
 
 #ifdef __cplusplus
 }

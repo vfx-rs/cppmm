@@ -24,10 +24,12 @@ struct Function {
     std::string cpp_qname;
     std::string c_qname;
     std::string filename; //< file where this function is declared
+    std::string c_pretty_name;
 
     std::string
     get_declaration(std::set<std::string>& includes,
-                    std::set<std::string>& casts_macro_invocations) const;
+                    std::set<std::string>& casts_macro_invocations,
+                    std::vector<std::string>& pretty_defines) const;
 
     std::string get_definition(const std::string& declaration) const;
 };
