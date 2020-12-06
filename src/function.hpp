@@ -34,6 +34,7 @@ struct Function {
     std::string get_definition(const std::string& declaration) const;
 };
 
+#if 0 
 std::string
 get_return_string_ref_body(const Function& function,
                            const std::string& call_prefix,
@@ -43,6 +44,8 @@ std::string
 get_return_string_copy_body(const Function& function,
                             const std::string& call_prefix,
                             const std::vector<std::string>& call_params);
+
+#endif
 
 std::string
 get_return_valuetype_body(const Function& function,
