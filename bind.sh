@@ -1,6 +1,6 @@
 pushd build
 ./cppmm ../test/std/bind -u              \
-    -o test-std-c                        \
+    -o ../test/std/ref                   \
     --                                   \
     -I../test/std/bind/std_string.hpp    \
     -isysroot/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk \
