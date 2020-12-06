@@ -49,18 +49,10 @@ Function::get_declaration(std::set<std::string>& includes,
         param_decls.push_back(pdecl);
     }
 
-    std::string ret;
-    if (return_type.type.name == "basic_string" && !return_type.is_ref &&
-        !return_type.is_ptr) {
-        ret = "int";
-        param_decls.push_back("char* _result_buffer_ptr");
-        param_decls.push_back("int _result_buffer_len");
-    } else {
-        ret = return_type.create_c_declaration();
-        if (const Record* record =
-                return_type.type.var.cast_or_null<Record>()) {
-            casts_macro_invocations.insert(record->create_casts());
-        }
+    auto ret = return_type.create_c_declaration();
+    if (const Record* record =
+            return_type.type.var.cast_or_null<Record>()) {
+        casts_macro_invocations.insert(record->create_casts());
     }
 
     pretty_defines.push_back(

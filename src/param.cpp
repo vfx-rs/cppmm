@@ -15,8 +15,7 @@ std::string Param::create_c_declaration() const {
 
 std::string Param::create_c_call() const {
     std::string result;
-    if (qtype.is_ref && !(qtype.type.name == "basic_string" ||
-                          qtype.type.name == "string_view")) {
+    if (qtype.is_ref && !(qtype.type.name == "string_view")) {
         if (qtype.requires_cast) {
             result = fmt::format("*to_cpp({})", name);
         } else {

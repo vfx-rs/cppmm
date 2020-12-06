@@ -69,13 +69,7 @@ std::string Type::get_cpp_qname() const {
 // string replacement shenanigans
 std::string QualifiedType::create_c_declaration() const {
     std::string result;
-    if (type.name == "basic_string") {
-        if (is_const) {
-            result += "const char*";
-        } else {
-            result += "char*";
-        }
-    } else if (type.name == "string_view") {
+    if (type.name == "string_view") {
         result += "const char*";
     } else if (type.name == "const char *") {
         result += "const char*";
