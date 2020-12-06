@@ -1,10 +1,13 @@
 #include <string>
 
-class Token
+namespace test_std_string {
+
+class Test
 {
 public:
-    Token(std::string & value):
+    Test(std::string & value);
     void set_value(std::string & value);
     std::string get_value() const;
 };
 
+}
