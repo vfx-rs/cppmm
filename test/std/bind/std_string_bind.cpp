@@ -12,7 +12,7 @@ namespace test_std_string {
 class Test
 {
 public:
-    std::string get_value();
+    std::string & get_value();
 };
 
 }

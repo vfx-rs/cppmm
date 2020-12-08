@@ -6,7 +6,7 @@ class Test
 {
 public:
     //void set_value(std::string & value);
-    std::string get_value();
+    std::string & get_value();
 };
 
 }

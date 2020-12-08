@@ -197,8 +197,10 @@ Record::get_method_definition(const Method& method,
         body += call_params[0] + ";\n    return self;";
     } else if (method.is_operator) {
         body = get_operator_body(method, declaration, call_params);
-    } else if (method.return_type.type.name == "basic_string") {
+    } else if (method.return_type.type.name == "basic_string" && !method.return_type.is_ref) {
         body = get_return_opaquebytes_body(method, call_prefix, call_params);
+    } else if (method.return_type.type.name == "basic_string" && method.return_type.is_ref) {
+        body = get_return_opaquebytes_ref_body(method, call_prefix, call_params);
     } else if (method.return_type.is_uptr) {
         body = get_return_uniqueptr_body(method, call_prefix, call_params);
     } else if (const Record* record = return_var.cast_or_null<Record>()) {

@@ -58,6 +58,11 @@ get_return_opaquebytes_body(const Function& function,
                             const std::vector<std::string>& call_params);
 
 std::string
+get_return_opaquebytes_ref_body(const Function& function,
+                                const std::string& call_prefix,
+                                const std::vector<std::string>& call_params);
+
+std::string
 get_return_opaqueptr_body(const Function& function,
                           const std::string& call_prefix,
                           const std::vector<std::string>& call_params);
