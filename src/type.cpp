@@ -41,7 +41,7 @@ const char* Type::get_c_qname() const {
     } else if (const Vector* vector = var.cast_or_null<Vector>()) {
         return vector->c_qname.c_str();
     } else if (const String* str = var.cast_or_null<String>()) {
-        return "string";
+        return "std_string";
     } else if (const Enum* enm = var.cast_or_null<Enum>()) {
         return enm->c_qname.c_str();
     }
