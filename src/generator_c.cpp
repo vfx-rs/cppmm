@@ -139,6 +139,63 @@ void safe_strcpy(char* dst, const std::string& str, int buffer_size) {
     fclose(out);
 }
 
+void write_string_header(const std::string& filename) {
+    std::string casts_header =
+R"#(#pragma once
+#include <string>
+typedef struct { char _private[24]; } std_string CPPMM_ALIGN(8);
+
+void std_string_ctor(std_string* self);
+void std_string_from_cstr(std_string* self, const char * str);
+void std_string_dtor(std_string* self);
+int std_string_size(const std_string* self);
+const char * std_string_c_str(const std_string* self);
+
+)#";
+
+    auto out = fopen(filename.c_str(), "w");
+    fprintf(out, "%s", casts_header.c_str());
+    fclose(out);
+}
+
+void write_string_implementation(const std::string& filename) {
+    std::string casts_header =
+R"#(#include "std_string.h"
+
+namespace {
+#include "casts.h"
+
+CPPMM_DEFINE_POINTER_CASTS(std::string, std_string)
+
+#undef CPPMM_DEFINE_POINTER_CASTS
+}
+
+void std_string_ctor(std_string* self){
+    new (self) std::string();
+}
+
+void std_string_from_cstr(std_string* self, const char * str){
+    new (self) std::string(str);
+}
+
+void std_string_dtor(std_string* self){
+    to_cpp(self)->~string();
+}
+
+int std_string_size(const std_string* self){ // TODO: Should this be unsigned long int to match size_t?
+    return to_cpp(self)->size();
+}
+
+const char * std_string_c_str(const std_string* self){
+    return to_cpp(self)->c_str();
+}
+)#";
+
+    auto out = fopen(filename.c_str(), "w");
+    fprintf(out, "%s", casts_header.c_str());
+    fclose(out);
+}
+
 std::string get_vector_declaration(const cppmm::Vector& vec) {
     std::string format_str =
         R"#(
@@ -365,6 +422,7 @@ void GeneratorC::generate(const FileMap& files, const RecordMap& records,
 
         std::set<std::string> header_includes;
         header_includes.insert("cppmm_containers.h");
+        header_includes.insert("std_string.h");
 
         if (it_file.first == "") {
             // FIXME: how is this getting in there?
@@ -478,6 +536,8 @@ void GeneratorC::generate(const FileMap& files, const RecordMap& records,
     }
 
     write_casts_header(output_dir_path / "casts.h");
+    write_string_header(output_dir_path / "std_string.h");
+    write_string_implementation(output_dir_path / "std_string.cpp");
     write_containers_header(output_dir_path / "cppmm_containers.h");
     std::string containers_implementation =
         output_dir_path / "cppmm_containers.cpp";

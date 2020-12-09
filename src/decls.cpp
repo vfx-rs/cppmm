@@ -510,7 +510,7 @@ QualifiedType process_pointee_type(
             QualifiedType qtype{Type{
                 type_name, &builtin_string,
                 cppmm::get_namespaces(qt->getAsCXXRecordDecl()->getParent())}};
-            qtype.requires_cast = false;
+            qtype.requires_cast = true;
             qtype.is_const = qt.isConstQualified();
             return qtype;
         } else {
@@ -524,8 +524,7 @@ QualifiedType process_pointee_type(
             QualifiedType qtype{Type{
                 type_name, record_ptr,
                 cppmm::get_namespaces(qt->getAsCXXRecordDecl()->getParent())}};
-            qtype.requires_cast = !(crd->getNameAsString() == "basic_string" ||
-                                    crd->getNameAsString() == "string_view");
+            qtype.requires_cast = !(crd->getNameAsString() == "string_view");
             qtype.is_const = qt.isConstQualified();
             return qtype;
         }

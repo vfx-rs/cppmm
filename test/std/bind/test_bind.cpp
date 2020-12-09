@@ -1,4 +1,4 @@
-#include "std_string.hpp"
+#include "test.hpp"
 
 #define CPPMM_IGNORE __attribute__((annotate("cppmm:ignore")))
 #define CPPMM_RENAME(x) __attribute__((annotate("cppmm:rename:" #x)))
@@ -7,12 +7,12 @@
 
 namespace cppmm_bind {
 
-namespace test_std_string {
+namespace test {
 
 class Test
 {
 public:
-    Test(const std::string & value);
+    explicit Test(const std::string & value);
     void set_value(const std::string & value);
     const std::string & get_value() const;
     std::string & edit_value();
