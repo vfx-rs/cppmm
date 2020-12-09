@@ -64,6 +64,9 @@ void write_lib_rs(const std::string& filename,
 #![allow(non_camel_case_types)]
 #![allow(non_snake_case)]
 
+mod std_string_bind;
+pub use std_string_bind::*;
+
 #[cfg(test)]
 mod test;
 
@@ -402,6 +405,38 @@ std::string get_method_declaration(const Record& record, const Method& method,
     }
 }
 
+void write_std_string_implementation(const std::string& filename) {
+    const std::string src =
+        R"#(#[repr(C, align(8))]
+pub struct std_string { pub(self) _unused: [u8; 24] } // TODO: Figure out what we want to do to allow users to create one of these
+
+impl std_string {
+    pub fn new() -> std_string {
+        std_string{ _unused: [0u8; 24]}
+    }
+}
+
+extern "C" {
+
+pub fn std_string_ctor(_self: *mut std_string) -> std::os::raw::c_void;
+pub fn std_string_from_cstr(_self: *mut std_string,
+                            _str: * const std::os::raw::c_char)
+                                -> std::os::raw::c_void;
+
+pub fn std_string_dtor(_self: * mut std_string) -> std::os::raw::c_void;
+
+pub fn std_string_size(_self: * const std_string) -> i32;
+
+pub fn std_string_c_str(_self : * const std_string) ->
+    * const std::os::raw::c_char;
+}
+)#";
+
+    auto out = fopen(filename.c_str(), "w");
+    fprintf(out, "%s", src.c_str());
+    fclose(out);
+}
+
 void write_containers_implementation(const std::string& filename) {
     const std::string src =
         R"#(#[repr(C, align(8))]
@@ -598,6 +633,8 @@ void GeneratorRustSys::generate(
     write_cargo_toml(output_dir_path / "Cargo.toml", project_name);
     write_lib_rs(output_dir_path / "src" / "lib.rs", mods, pretty_aliases);
     write_test_stub(output_dir_path / "src" / "test.rs");
+    write_std_string_implementation(output_dir_path / "src" /
+                                    "std_string_bind.rs");
     write_containers_implementation(output_dir_path / "src" /
                                     "cppmm_containers.rs");
     write_build_rs(output_dir_path / "build.rs", project_libraries);

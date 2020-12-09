@@ -79,6 +79,7 @@ namespace {{
 #include "casts.h"
 
 {}
+CPPMM_DEFINE_POINTER_CASTS(std::string, std_string)
 #undef CPPMM_DEFINE_POINTER_CASTS
 }}
 
@@ -114,8 +115,7 @@ CTYPE* to_c(CPPTYPE* ptr) {                                 \
                                                             \
 const CTYPE* to_c(const CPPTYPE* ptr) {                     \
     return reinterpret_cast<const CTYPE*>(ptr);             \
-}                                                           \
-                                                            \
+}
 
 template <typename TO, typename FROM>
 TO bit_cast(FROM f) {
@@ -141,8 +141,20 @@ void safe_strcpy(char* dst, const std::string& str, int buffer_size) {
 
 void write_string_header(const std::string& filename) {
     std::string casts_header =
-R"#(#pragma once
-#include <string>
+R"#(
+#pragma once
+#ifdef __cplusplus
+extern "C" {
+#else
+#include <stdbool.h>
+#endif
+
+#if defined(_WIN32) || defined(__CYGWIN__)
+#define CPPMM_ALIGN(x) __declspec(align(x))
+#else
+#define CPPMM_ALIGN(x) __attribute__((aligned(x)))
+#endif    
+
 typedef struct { char _private[24]; } std_string CPPMM_ALIGN(8);
 
 void std_string_ctor(std_string* self);
@@ -151,6 +163,9 @@ void std_string_dtor(std_string* self);
 int std_string_size(const std_string* self);
 const char * std_string_c_str(const std_string* self);
 
+#ifdef __cplusplus
+}
+#endif
 )#";
 
     auto out = fopen(filename.c_str(), "w");
@@ -161,6 +176,8 @@ const char * std_string_c_str(const std_string* self);
 void write_string_implementation(const std::string& filename) {
     std::string casts_header =
 R"#(#include "std_string.h"
+
+#include <string>
 
 namespace {
 #include "casts.h"
@@ -179,7 +196,7 @@ void std_string_from_cstr(std_string* self, const char * str){
 }
 
 void std_string_dtor(std_string* self){
-    to_cpp(self)->~string();
+    to_cpp(self)->~basic_string();
 }
 
 int std_string_size(const std_string* self){ // TODO: Should this be unsigned long int to match size_t?
@@ -370,8 +387,11 @@ void write_cmakelists(const std::string& filename,
         fmt::format(R"#(cmake_minimum_required(VERSION 3.5)
 project({0})
 
+set (CMAKE_CXX_STANDARD 11)
+
 add_library({0} STATIC
   {1}
+  std_string.cpp
 )
 
 target_compile_options({0} PRIVATE
