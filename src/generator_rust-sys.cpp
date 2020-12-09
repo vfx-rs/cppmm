@@ -229,11 +229,14 @@ std::string get_rust_qtype(const QualifiedType& qtype) {
     std::string result;
 
     if (qtype.type.name == "basic_string") {
-        if (qtype.is_const) {
-            result = "*const std::os::raw::c_char";
-        } else {
-            result = "*mut std::os::raw::c_char";
+        if (qtype.is_ptr || qtype.is_ref || qtype.is_uptr) {
+            if (qtype.is_const) {
+                result = "*const ";
+            } else {
+                result = "*mut ";
+            }
         }
+        result += qtype.type.get_c_qname();
 
     } else if (qtype.type.name == "string_view") {
         result = "*const std::os::raw::c_char";
@@ -331,15 +334,7 @@ std::string get_function_declaration(const Function& function,
         param_decls.push_back(pdecl);
     }
 
-    std::string ret;
-    if (function.return_type.type.name == "basic_string" &&
-        !function.return_type.is_ref && !function.return_type.is_ptr) {
-        ret = "i32";
-        param_decls.push_back("_result_buffer_ptr: *mut std::os::raw::c_char");
-        param_decls.push_back("_result_buffer_len: i32");
-    } else {
-        ret = get_rust_qtype(function.return_type);
-    }
+    auto ret = get_rust_qtype(function.return_type);
 
     return fmt::format("pub fn {}({}) -> {}", function.c_qname,
                        ps::join(", ", param_decls), ret);
@@ -371,22 +366,13 @@ std::string get_method_declaration(const Record& record, const Method& method,
         return get_opaqueptr_constructor_declaration(record, method.c_qname,
                                                      param_decls);
     } else {
-        std::string ret;
-        if (method.return_type.type.name == "basic_string" &&
-            !method.return_type.is_ref && !method.return_type.is_ptr) {
-            ret = "i32";
-            param_decls.push_back(
-                "_result_buffer_ptr: *mut std::os::raw::c_char");
-            param_decls.push_back("_result_buffer_len: i32");
-        } else {
-            ret = get_rust_qtype(method.return_type);
-            // if (const Record* record =
-            //         method.return_type.type.var.cast_or_null<Record>()) {
-            //     use_stmts.insert(fmt::format("use crate::{}::{};\n",
-            //                                  bind_file_root(record->filename),
-            //                                  record->c_qname));
-            // }
-        }
+        auto ret = get_rust_qtype(method.return_type);
+        // if (const Record* record =
+        //         method.return_type.type.var.cast_or_null<Record>()) {
+        //     use_stmts.insert(fmt::format("use crate::{}::{};\n",
+        //                                  bind_file_root(record->filename),
+        //                                  record->c_qname));
+        // }
 
         if (method.is_static) {
             declaration = fmt::format("pub fn {}({})", method.c_qname,
@@ -542,6 +528,7 @@ void GeneratorRustSys::generate(
             const auto it_vec = vectors.find(record.c_qname);
             if (it_vec != vectors.end()) {
                 if (it_vec->second.element_type.type.name == "basic_string") {
+                    // TODO : Handle string correctly
                 } else {
                     declarations += get_vector_declaration(it_vec->second);
                 }
