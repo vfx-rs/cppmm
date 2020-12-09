@@ -2,6 +2,7 @@ pushd build
 ./cppmm ../test/std/bind -u              \
     -o ../test/std/ref                   \
     -i $PWD/../test/std/bind             \
+    -rust-sys $PWD/../test/std/rust      \
     --                                   \
     -I../test/std/bind                   \
     -isysroot/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk \
