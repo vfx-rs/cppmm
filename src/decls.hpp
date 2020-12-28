@@ -7,6 +7,7 @@
 #include "record.hpp"
 #include "vector.hpp"
 
+#include <clang/AST/ASTContext.h>
 #include <clang/AST/DeclCXX.h>
 #include <clang/AST/Type.h>
 

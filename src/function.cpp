@@ -49,18 +49,10 @@ Function::get_declaration(std::set<std::string>& includes,
         param_decls.push_back(pdecl);
     }
 
-    std::string ret;
-    if (return_type.type.name == "basic_string" && !return_type.is_ref &&
-        !return_type.is_ptr) {
-        ret = "int";
-        param_decls.push_back("char* _result_buffer_ptr");
-        param_decls.push_back("int _result_buffer_len");
-    } else {
-        ret = return_type.create_c_declaration();
-        if (const Record* record =
-                return_type.type.var.cast_or_null<Record>()) {
-            casts_macro_invocations.insert(record->create_casts());
-        }
+    auto ret = return_type.create_c_declaration();
+    if (const Record* record =
+            return_type.type.var.cast_or_null<Record>()) {
+        casts_macro_invocations.insert(record->create_casts());
     }
 
     pretty_defines.push_back(
@@ -81,11 +73,9 @@ std::string Function::get_definition(const std::string& declaration) const {
         prefix_from_namespaces(namespaces, "::") + cpp_name;
     const TypeVariant& return_var = return_type.type.var;
 
-    if (return_type.type.name == "basic_string" && return_type.is_ref) {
-        body = get_return_string_ref_body(*this, call_prefix, call_params);
-    } else if (return_type.type.name == "basic_string" && !return_type.is_ref) {
-        body = get_return_string_copy_body(*this, call_prefix, call_params);
-    } else if (return_type.is_uptr) {
+    if (return_type.type.name == "basic_string") {
+        body = get_return_opaquebytes_body(*this, call_prefix, call_params);
+    }  else if (return_type.is_uptr) {
         body = get_return_uniqueptr_body(*this, call_prefix, call_params);
     } else if (const Record* record = return_var.cast_or_null<Record>()) {
         if (record->kind == RecordKind::ValueType) {
@@ -104,27 +94,6 @@ std::string Function::get_definition(const std::string& declaration) const {
     }
 
     return fmt::format("{} {{\n{}\n}}", declaration, body);
-}
-
-std::string
-get_return_string_ref_body(const Function& function,
-                           const std::string& call_prefix,
-                           const std::vector<std::string>& call_params) {
-    // just get the char* from the string ref
-    return fmt::format("    return {}({}).c_str();", call_prefix,
-                       ps::join(", ", call_params));
-}
-
-std::string
-get_return_string_copy_body(const Function& function,
-                            const std::string& call_prefix,
-                            const std::vector<std::string>& call_params) {
-    // assign the return value to a temporary string, then copy the chars into
-    // the out parameters we added to the call params
-    return fmt::format(R"#(    const std::string result = {}({});
-    safe_strcpy(_result_buffer_ptr, result, _result_buffer_len);
-    return result.size();)#",
-                       call_prefix, ps::join(", ", call_params));
 }
 
 std::string
@@ -153,6 +122,16 @@ get_return_opaquebytes_body(const Function& function,
                        function.return_type.type.get_cpp_qname(), call_prefix,
                        ps::join(", ", call_params),
                        function.return_type.type.get_c_qname());
+}
+
+std::string
+get_return_opaquebytes_ref_body(const Function& function,
+                            const std::string& call_prefix,
+                            const std::vector<std::string>& call_params) {
+    // Just cast the pointer.
+    // FIXME: what if the function returns an opaqueptr type on the stack?
+    return fmt::format("    return to_c(&({}({})));", call_prefix,
+                       ps::join(", ", call_params));
 }
 
 std::string

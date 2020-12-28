@@ -41,7 +41,7 @@ const char* Type::get_c_qname() const {
     } else if (const Vector* vector = var.cast_or_null<Vector>()) {
         return vector->c_qname.c_str();
     } else if (const String* str = var.cast_or_null<String>()) {
-        return "string";
+        return "std_string";
     } else if (const Enum* enm = var.cast_or_null<Enum>()) {
         return enm->c_qname.c_str();
     }
@@ -69,13 +69,7 @@ std::string Type::get_cpp_qname() const {
 // string replacement shenanigans
 std::string QualifiedType::create_c_declaration() const {
     std::string result;
-    if (type.name == "basic_string") {
-        if (is_const) {
-            result += "const char*";
-        } else {
-            result += "char*";
-        }
-    } else if (type.name == "string_view") {
+    if (type.name == "string_view") {
         result += "const char*";
     } else if (type.name == "const char *") {
         result += "const char*";

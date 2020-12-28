@@ -69,18 +69,10 @@ std::string Record::get_method_declaration(
         return get_opaqueptr_constructor_declaration(method.c_qname,
                                                      param_decls);
     } else {
-        std::string ret;
-        if (method.return_type.type.name == "basic_string" &&
-            !method.return_type.is_ref && !method.return_type.is_ptr) {
-            ret = "int";
-            param_decls.push_back("char* _result_buffer_ptr");
-            param_decls.push_back("int _result_buffer_len");
-        } else {
-            ret = method.return_type.create_c_declaration();
-            if (const Record* record =
-                    method.return_type.type.var.cast_or_null<Record>()) {
-                casts_macro_invocations.insert(record->create_casts());
-            }
+        auto ret = method.return_type.create_c_declaration();
+        if (const Record* record =
+                method.return_type.type.var.cast_or_null<Record>()) {
+            casts_macro_invocations.insert(record->create_casts());
         }
 
         if (method.is_static) {
@@ -205,12 +197,10 @@ Record::get_method_definition(const Method& method,
         body += call_params[0] + ";\n    return self;";
     } else if (method.is_operator) {
         body = get_operator_body(method, declaration, call_params);
-    } else if (method.return_type.type.name == "basic_string" &&
-               method.return_type.is_ref) {
-        body = get_return_string_ref_body(method, call_prefix, call_params);
-    } else if (method.return_type.type.name == "basic_string" &&
-               !method.return_type.is_ref) {
-        body = get_return_string_copy_body(method, call_prefix, call_params);
+    } else if (method.return_type.type.name == "basic_string" && !method.return_type.is_ref) {
+        body = get_return_opaquebytes_body(method, call_prefix, call_params);
+    } else if (method.return_type.type.name == "basic_string" && method.return_type.is_ref) {
+        body = get_return_opaquebytes_ref_body(method, call_prefix, call_params);
     } else if (method.return_type.is_uptr) {
         body = get_return_uniqueptr_body(method, call_prefix, call_params);
     } else if (const Record* record = return_var.cast_or_null<Record>()) {
