@@ -9,4 +9,6 @@ struct CFile {
     std::set<std::string> casts_macro_invocations;
     std::vector<std::string> pretty_defines;
     std::set<std::string> includes;
+    std::string declarations;
+    std::string definitions;
 };

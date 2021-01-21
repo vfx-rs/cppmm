@@ -1,3 +1,4 @@
+#include "c_file.hpp"
 #include "generator_c.hpp"
 #include "filesystem.hpp"
 #include "namespaces.hpp"
@@ -435,7 +436,8 @@ void GeneratorC::generate(const FileMap& files, const RecordMap& records,
     }
 
     for (const auto& it_file : files) {
-        std::set<std::string> casts_macro_invocations;
+        CFile c_file;
+        //std::set<std::string> casts_macro_invocations;
         std::vector<std::string> pretty_defines;
         std::string declarations;
         std::string definitions;
@@ -459,7 +461,7 @@ void GeneratorC::generate(const FileMap& files, const RecordMap& records,
 
             const auto& record = it_record->second;
             declarations +=
-                record.get_declaration(casts_macro_invocations, pretty_defines);
+                record.get_declaration(c_file.casts_macro_invocations, pretty_defines);
 
             const auto it_vec = vectors.find(record.c_qname);
             if (it_vec != vectors.end()) {
@@ -467,7 +469,7 @@ void GeneratorC::generate(const FileMap& files, const RecordMap& records,
                 } else {
                     declarations += get_vector_declaration(it_vec->second);
                     definitions += get_vector_implementation(
-                        it_vec->second, casts_macro_invocations);
+                        it_vec->second, c_file.casts_macro_invocations);
                 }
             }
 
@@ -489,7 +491,7 @@ void GeneratorC::generate(const FileMap& files, const RecordMap& records,
             const auto& function = it_function.second;
 
             std::string declaration = function->get_declaration(
-                header_includes, casts_macro_invocations, pretty_defines);
+                header_includes, c_file.casts_macro_invocations, pretty_defines);
 
             std::string definition = function->get_definition(declaration);
 
@@ -512,7 +514,7 @@ void GeneratorC::generate(const FileMap& files, const RecordMap& records,
                 const auto& method = method_pair.second;
 
                 std::string declaration = record.get_method_declaration(
-                    method, header_includes, casts_macro_invocations,
+                    method, header_includes, c_file.casts_macro_invocations,
                     pretty_defines);
 
                 std::string definition =
@@ -542,7 +544,7 @@ void GeneratorC::generate(const FileMap& files, const RecordMap& records,
         }
 
         std::string casts;
-        for (const auto& s : casts_macro_invocations) {
+        for (const auto& s : c_file.casts_macro_invocations) {
             casts += s;
         }
 
