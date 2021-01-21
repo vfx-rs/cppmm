@@ -387,7 +387,7 @@ void write_cmakelists(const std::string& filename,
         fmt::format(R"#(cmake_minimum_required(VERSION 3.5)
 project({0})
 
-set (CMAKE_CXX_STANDARD 11)
+set (CMAKE_CXX_STANDARD 14) # c++14 gives us enable_if
 
 add_library({0} STATIC
   {1}
