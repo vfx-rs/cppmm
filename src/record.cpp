@@ -73,6 +73,7 @@ std::string Record::get_method_declaration(
         if (const Record* record =
                 method.return_type.type.var.cast_or_null<Record>()) {
             casts_macro_invocations.insert(record->create_casts());
+            includes.insert(record->filename);
         }
 
         if (method.is_static) {
