@@ -1,11 +1,11 @@
 #include "generator_c.hpp"
 #include "filesystem.hpp"
+#include "namespaces.hpp"
 #include "pystring.h"
 
-namespace cppmm {
-
 namespace ps = pystring;
-namespace fs = ghc::filesystem;
+
+namespace {
 
 std::string bind_file_root(const std::string& filename) {
     const auto basename = ps::os::path::basename(filename);
@@ -13,9 +13,15 @@ std::string bind_file_root(const std::string& filename) {
     ps::os::path::splitext(root, ext, basename);
     return root;
 }
+} // namespace
+
+namespace cppmm {
+
+namespace fs = ghc::filesystem;
 
 void write_header(const std::string& filename, const std::string& declarations,
-                  const std::string& include_stmts) {
+                  const std::string& include_stmts,
+                  const std::vector<std::string>& pretty_defines) {
 
     std::string out_str = fmt::format(
         R"#(#pragma once
@@ -38,11 +44,13 @@ extern "C" {{
 
 #undef CPPMM_ALIGN
 
+{}
+
 #ifdef __cplusplus
 }}
 #endif
     )#",
-        include_stmts, declarations);
+        include_stmts, declarations, ps::join("\n", pretty_defines));
 
     auto out = fopen(filename.c_str(), "w");
     fprintf(out, "%s", out_str.c_str());
@@ -53,15 +61,25 @@ void write_implementation(const std::string& filename, const std::string& root,
                           const std::vector<std::string>& includes,
                           const std::string& casts,
                           const std::string& definitions) {
+
+    std::string namespace_renames_str;
+    // for (const auto& it: namespace_renames) {
+    //     namespace_renames_str += fmt::format("namespace {} = {};\n",
+    //     it.second, it.first);
+    // }
+
     std::string out_str = fmt::format(
         R"#(//
 #include "{}.h"
+{}
+
 {}
 
 namespace {{
 #include "casts.h"
 
 {}
+CPPMM_DEFINE_POINTER_CASTS(std::string, std_string)
 #undef CPPMM_DEFINE_POINTER_CASTS
 }}
 
@@ -69,7 +87,8 @@ extern "C" {{
 {}
 }}
     )#",
-        root, ps::join("\n", includes), casts, definitions);
+        root, ps::join("\n", includes), namespace_renames_str, casts,
+        definitions);
 
     auto out = fopen(filename.c_str(), "w");
     fprintf(out, "%s", out_str.c_str());
@@ -96,8 +115,7 @@ CTYPE* to_c(CPPTYPE* ptr) {                                 \
                                                             \
 const CTYPE* to_c(const CPPTYPE* ptr) {                     \
     return reinterpret_cast<const CTYPE*>(ptr);             \
-}                                                           \
-                                                            \
+}
 
 template <typename TO, typename FROM>
 TO bit_cast(FROM f) {
@@ -115,6 +133,80 @@ void safe_strcpy(char* dst, const std::string& str, int buffer_size) {
     dst[last_char] = '\0';
 }
     )#";
+
+    auto out = fopen(filename.c_str(), "w");
+    fprintf(out, "%s", casts_header.c_str());
+    fclose(out);
+}
+
+void write_string_header(const std::string& filename) {
+    std::string casts_header =
+R"#(
+#pragma once
+#ifdef __cplusplus
+extern "C" {
+#else
+#include <stdbool.h>
+#endif
+
+#if defined(_WIN32) || defined(__CYGWIN__)
+#define CPPMM_ALIGN(x) __declspec(align(x))
+#else
+#define CPPMM_ALIGN(x) __attribute__((aligned(x)))
+#endif    
+
+typedef struct { char _private[24]; } std_string CPPMM_ALIGN(8);
+
+void std_string_ctor(std_string* self);
+void std_string_from_cstr(std_string* self, const char * str);
+void std_string_dtor(std_string* self);
+int std_string_size(const std_string* self);
+const char * std_string_c_str(const std_string* self);
+
+#ifdef __cplusplus
+}
+#endif
+)#";
+
+    auto out = fopen(filename.c_str(), "w");
+    fprintf(out, "%s", casts_header.c_str());
+    fclose(out);
+}
+
+void write_string_implementation(const std::string& filename) {
+    std::string casts_header =
+R"#(#include "std_string.h"
+
+#include <string>
+
+namespace {
+#include "casts.h"
+
+CPPMM_DEFINE_POINTER_CASTS(std::string, std_string)
+
+#undef CPPMM_DEFINE_POINTER_CASTS
+}
+
+void std_string_ctor(std_string* self){
+    new (self) std::string();
+}
+
+void std_string_from_cstr(std_string* self, const char * str){
+    new (self) std::string(str);
+}
+
+void std_string_dtor(std_string* self){
+    to_cpp(self)->~basic_string();
+}
+
+int std_string_size(const std_string* self){ // TODO: Should this be unsigned long int to match size_t?
+    return to_cpp(self)->size();
+}
+
+const char * std_string_c_str(const std_string* self){
+    return to_cpp(self)->c_str();
+}
+)#";
 
     auto out = fopen(filename.c_str(), "w");
     fprintf(out, "%s", casts_header.c_str());
@@ -295,8 +387,11 @@ void write_cmakelists(const std::string& filename,
         fmt::format(R"#(cmake_minimum_required(VERSION 3.5)
 project({0})
 
+set (CMAKE_CXX_STANDARD 11)
+
 add_library({0} STATIC
   {1}
+  std_string.cpp
 )
 
 target_compile_options({0} PRIVATE
@@ -310,6 +405,8 @@ target_include_directories({0} PUBLIC
 target_link_libraries({0} PUBLIC
   {3}
 )
+
+install(TARGETS {0} DESTINATION ${{CMAKE_INSTALL_PREFIX}})
 )#",
                     project_name, ps::join("\n  ", source_files),
                     ps::join("\n  ", includes), ps::join("\n  ", libraries));
@@ -321,30 +418,38 @@ target_link_libraries({0} PUBLIC
 // FIXME: the logic of what things end up in what maps is a bit gnarly here.
 // We should really move everythign that's in ExportedFile into File during
 // the second phase, and clarify what's expected to be in what maps exactly.
-void GeneratorC::generate(const std::string& output_dir,
-                          const ExportedFileMap& ex_files, const FileMap& files,
-                          const RecordMap& records, const EnumMap& enums,
-                          const VectorMap& vectors,
+void GeneratorC::generate(const FileMap& files, const RecordMap& records,
+                          const EnumMap& enums, const VectorMap& vectors,
                           const std::vector<std::string>& project_includes,
                           const std::vector<std::string>& project_libraries) {
     std::vector<std::string> source_files;
-    fs::path output_dir_path = fs::path(output_dir);
+    fs::path output_dir_path = fs::path(_output_dir);
     std::string project_name = output_dir_path.stem();
 
-    for (const auto& bind_file : ex_files) {
+    if (!fs::exists(output_dir_path)) {
+        if (!fs::create_directories(output_dir_path)) {
+            fmt::print("ERROR: could not create output directory '{}'\n",
+                       output_dir_path.string());
+            abort();
+        }
+    }
+
+    for (const auto& it_file : files) {
         std::set<std::string> casts_macro_invocations;
+        std::vector<std::string> pretty_defines;
         std::string declarations;
         std::string definitions;
 
         std::set<std::string> header_includes;
         header_includes.insert("cppmm_containers.h");
+        header_includes.insert("std_string.h");
 
-        if (bind_file.first == "") {
+        if (it_file.first == "") {
             // FIXME: how is this getting in there?
             continue;
         }
 
-        for (const auto& rec_pair : bind_file.second.records) {
+        for (const auto& rec_pair : it_file.second.records) {
             const auto it_record = records.find(rec_pair.first);
             if (it_record == records.end()) {
                 fmt::print("ERROR: record {} not found in records map\n",
@@ -353,7 +458,8 @@ void GeneratorC::generate(const std::string& output_dir,
             }
 
             const auto& record = it_record->second;
-            declarations += record.get_declaration(casts_macro_invocations);
+            declarations +=
+                record.get_declaration(casts_macro_invocations, pretty_defines);
 
             const auto it_vec = vectors.find(record.c_qname);
             if (it_vec != vectors.end()) {
@@ -368,7 +474,7 @@ void GeneratorC::generate(const std::string& output_dir,
             definitions += record.get_definition();
         }
 
-        for (const auto& enm_pair : bind_file.second.enums) {
+        for (const auto& enm_pair : it_file.second.enums) {
             const auto it_enum = enums.find(enm_pair.first);
             if (it_enum == enums.end()) {
                 fmt::print("ERROR: enum {} not found in enums map\n",
@@ -376,32 +482,28 @@ void GeneratorC::generate(const std::string& output_dir,
                 continue;
             }
             const auto& enm = it_enum->second;
-            declarations += enm.get_declaration();
+            declarations += enm.get_declaration(pretty_defines);
         }
 
-        const auto it_file = files.find(bind_file.first);
-        if (it_file != files.end()) {
-            for (const auto& it_function : it_file->second.functions) {
-                const auto& function = it_function.second;
+        for (const auto& it_function : it_file.second.functions) {
+            const auto& function = it_function.second;
 
-                std::string declaration = function.get_declaration(
-                    header_includes, casts_macro_invocations);
+            std::string declaration = function->get_declaration(
+                header_includes, casts_macro_invocations, pretty_defines);
 
-                std::string definition = function.get_definition(declaration);
+            std::string definition = function->get_definition(declaration);
 
-                declarations = fmt::format("{}\n{}\n{};\n", declarations,
-                                           function.comment, declaration);
+            declarations = fmt::format("{}\n{}\n{};\n", declarations,
+                                       function->comment, declaration);
 
-                definitions =
-                    fmt::format("{}\n{}\n\n\n", definitions, definition);
-            }
+            definitions = fmt::format("{}\n{}\n\n\n", definitions, definition);
         }
 
-        for (const auto& record_pair : bind_file.second.records) {
-            const auto it_record = records.find(record_pair.second->c_qname);
+        for (const auto& record_pair : it_file.second.records) {
+            const auto it_record = records.find(record_pair.second->cpp_qname);
             if (it_record == records.end()) {
                 fmt::print("ERROR: record {} not found in records map\n",
-                           record_pair.second->c_qname);
+                           record_pair.second->cpp_qname);
                 continue;
             }
             const auto& record = it_record->second;
@@ -410,7 +512,8 @@ void GeneratorC::generate(const std::string& output_dir,
                 const auto& method = method_pair.second;
 
                 std::string declaration = record.get_method_declaration(
-                    method, header_includes, casts_macro_invocations);
+                    method, header_includes, casts_macro_invocations,
+                    pretty_defines);
 
                 std::string definition =
                     record.get_method_definition(method, declaration);
@@ -423,7 +526,7 @@ void GeneratorC::generate(const std::string& output_dir,
             }
         }
 
-        const std::string root = bind_file_root(bind_file.first);
+        const std::string root = bind_file_root(it_file.first);
         const auto header = fmt::format("{}.h", root);
         const auto implementation = fmt::format("{}.cpp", root);
 
@@ -444,18 +547,20 @@ void GeneratorC::generate(const std::string& output_dir,
         }
 
         write_header(output_dir_path / header, declarations,
-                     header_include_stmts);
+                     header_include_stmts, pretty_defines);
 
         std::string implementation_path = output_dir_path / implementation;
-        write_implementation(implementation_path, root,
-                             bind_file.second.includes, casts, definitions);
+        write_implementation(implementation_path, root, it_file.second.includes,
+                             casts, definitions);
         source_files.push_back(implementation);
     }
 
-    write_casts_header(fs::path(output_dir) / "casts.h");
-    write_containers_header(fs::path(output_dir) / "cppmm_containers.h");
+    write_casts_header(output_dir_path / "casts.h");
+    write_string_header(output_dir_path / "std_string.h");
+    write_string_implementation(output_dir_path / "std_string.cpp");
+    write_containers_header(output_dir_path / "cppmm_containers.h");
     std::string containers_implementation =
-        fs::path(output_dir) / "cppmm_containers.cpp";
+        output_dir_path / "cppmm_containers.cpp";
     write_containers_implementation(containers_implementation);
     source_files.push_back("cppmm_containers.cpp");
 

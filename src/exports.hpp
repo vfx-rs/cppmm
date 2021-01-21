@@ -2,18 +2,22 @@
 
 #include <iostream>
 #include <string>
-#include <vector>
 #include <unordered_map>
+#include <vector>
 
 #include <clang/AST/DeclCXX.h>
 
 #include "attributes.hpp"
 #include "type.hpp"
 
+#include "pystring.h"
+
+#include <spdlog/fmt/fmt.h>
+
 namespace cppmm {
 
 struct ExportedFunction {
-    ExportedFunction(const clang::FunctionDecl* function,
+    ExportedFunction(const clang::FunctionDecl* function, std::string filename,
                      std::vector<AttrDesc> attrs,
                      std::vector<std::string> namespaces = {});
 
@@ -38,15 +42,18 @@ struct ExportedFunction {
     std::string return_type;
     // vector of canonical typenames that are this method's parameters.
     std::vector<std::string> params;
+    std::vector<std::string> param_names;
     std::vector<AttrDesc> attrs;
     std::vector<std::string> namespaces; //< only used for free functions (ugh)
     bool is_static = false;
+    std::string filename;
+    std::string cpp_qname;
 };
 
 struct ExportedMethod : public ExportedFunction {
     ExportedMethod(const clang::CXXMethodDecl* method,
                    std::vector<AttrDesc> attrs)
-        : ExportedFunction(clang::dyn_cast<clang::FunctionDecl>(method),
+        : ExportedFunction(clang::dyn_cast<clang::FunctionDecl>(method), "",
                            attrs) {
         is_const = method->isConst();
     }
@@ -61,6 +68,19 @@ struct ExportedRecord {
     RecordKind kind;
     std::string filename;
     std::string c_qname;
+    std::string cpp_qname;
+    std::string dependent_qname;
+    std::vector<std::string> template_args;
+    bool is_dependent;
+    std::vector<ExportedMethod> methods;
+    std::vector<ExportedMethod> rejected_methods;
+};
+
+struct ExportedSpecialization {
+    std::string record_cpp_qname;
+    std::string alias;
+    std::vector<std::string> template_args;
+    std::unordered_map<std::string, std::string> template_named_args;
 };
 
 struct ExportedEnum {
@@ -69,60 +89,85 @@ struct ExportedEnum {
     std::string c_name;
     std::string filename;
     std::string c_qname;
-};
-
-struct ExportedClass {
-    std::string name;
-    std::string filename;
-    std::vector<std::string> namespaces;
-    std::vector<ExportedMethod> methods;
-    std::vector<ExportedMethod> rejected_methods;
+    std::string cpp_qname;
 };
 
 struct ExportedFile {
     std::string name;
     std::vector<std::string> classes;
-    std::vector<std::string> includes;
     std::vector<ExportedFunction> functions;
+    std::unordered_map<std::string, std::vector<std::vector<std::string>>>
+        function_specializations;
+    std::unordered_map<
+        std::string, std::vector<std::unordered_map<std::string, std::string>>>
+        spec_named_args;
     std::vector<ExportedFunction> rejected_functions;
     std::unordered_map<std::string, ExportedRecord*> records;
     std::unordered_map<std::string, ExportedEnum*> enums;
 };
 
 using ExportedFileMap = std::unordered_map<std::string, ExportedFile>;
-using ExportedClassMap = std::unordered_map<std::string, ExportedClass>;
 using ExportedRecordMap = std::unordered_map<std::string, ExportedRecord>;
+using ExportedSpecMap =
+    std::unordered_map<std::string, std::vector<ExportedSpecialization>>;
 using ExportedEnumMap = std::unordered_map<std::string, ExportedEnum>;
 
 extern ExportedFileMap ex_files;
-extern ExportedClassMap ex_classes;
 extern ExportedRecordMap ex_records;
+extern ExportedSpecMap ex_specs;
 extern ExportedEnumMap ex_enums;
-
-// ExportedRecord* find_ex_record(const std::string& c_qname);
-// ExportedRecord* insert_ex_record(const std::string& c_qname,
-//                              const ExportedRecord& ex_record);
-// ExportedClass* find_ex_class(const std::string& c_qname);
-// ExportedClass* insert_ex_class(const std::string& c_qname,
-//                              const ExportedClass& ex_class);
-// ExportedEnum* insert_ex_enum(const std::string& c_qname,
-//                              const ExportedEnum& ex_enum);
-// ExportedEnum* find_ex_enum(const std::string& c_qname);
-// ExportedFile* insert_ex_file(const std::string& filename,
-//                              const ExportedFile& ex_file);
-// ExportedFile* find_ex_file(const std::string& filename);
-// const std::unordered_map<std::string, ExportedFile>& get_ex_files();
-// const std::unordered_map<std::string, ExportedClass>& get_ex_classes();
-// const std::unordered_map<std::string, ExportedEnum>& get_ex_enums();
 
 bool operator==(const ExportedFunction& a, const ExportedFunction& b);
 bool operator==(const ExportedMethod& a, const ExportedMethod& b);
 
 } // namespace cppmm
 
-namespace fmt {
-std::ostream& operator<<(std::ostream& os,
-                         const cppmm::ExportedFunction& method);
-std::ostream& operator<<(std::ostream& os, const cppmm::ExportedMethod& method);
-std::ostream& operator<<(std::ostream& os, const cppmm::ExportedRecord& type);
-} // namespace fmt
+template <> struct fmt::formatter<cppmm::ExportedMethod> {
+    constexpr auto parse(format_parse_context& ctx) { return ctx.end(); }
+
+    template <typename FormatContext>
+    auto format(const cppmm::ExportedMethod& method, FormatContext& ctx) {
+        if (method.is_static) {
+            format_to(ctx.out(), "static ");
+        }
+        format_to(ctx.out(), "auto {}({}) -> {}", method.cpp_name,
+                  pystring::join(", ", method.params), method.return_type);
+        if (method.is_const) {
+            format_to(ctx.out(), " const");
+        }
+        return format_to(ctx.out(), ";");
+    }
+};
+
+template <> struct fmt::formatter<cppmm::ExportedRecord> {
+    constexpr auto parse(format_parse_context& ctx) { return ctx.end(); }
+
+    template <typename FormatContext>
+    auto format(const cppmm::ExportedRecord& type, FormatContext& ctx) {
+
+        format_to(ctx.out(), "struct {} {{\n", type.cpp_qname);
+        for (const auto& ex_method : type.methods) {
+            format_to(ctx.out(), "    {}\n", ex_method);
+        }
+        format_to(ctx.out(), "}}");
+        if (type.kind == cppmm::RecordKind::OpaquePtr) {
+            format_to(ctx.out(), " CPPMM_OPAQUEPTR");
+        } else if (type.kind == cppmm::RecordKind::OpaqueBytes) {
+            format_to(ctx.out(), " CPPMM_OPAQUEBYTES");
+        } else if (type.kind == cppmm::RecordKind::ValueType) {
+            format_to(ctx.out(), " CPPMM_VALUETYPE");
+        }
+        return format_to(ctx.out(), ";");
+    }
+};
+
+template <> struct fmt::formatter<cppmm::ExportedSpecialization> {
+    constexpr auto parse(format_parse_context& ctx) { return ctx.end(); }
+
+    template <typename FormatContext>
+    auto format(const cppmm::ExportedSpecialization& spec, FormatContext& ctx) {
+        return format_to(ctx.out(), "using {} = {}<{}>;", spec.alias,
+                         spec.record_cpp_qname,
+                         pystring::join(", ", spec.template_args));
+    }
+};

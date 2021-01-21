@@ -8,7 +8,10 @@
 #define CPPMM_VALUETYPE __attribute__((annotate("cppmm:valuetype")))
 
 namespace cppmm_bind {
-namespace OIIO {
+namespace OIIO_NAMESPACE {
+
+// alias the main library namespace with a convenient short form here
+namespace OIIO = ::OIIO_NAMESPACE;
 
 struct TypeDesc {
     enum BASETYPE {};

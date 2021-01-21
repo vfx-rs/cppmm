@@ -21,6 +21,7 @@ struct Record {
     size_t alignment;
     std::string cpp_qname;
     std::string c_qname;
+    std::string c_pretty_name;
 
     bool is_pod() const {
         for (const auto& p : fields) {
@@ -50,14 +51,15 @@ struct Record {
 
     std::string get_method_declaration(
         const Method& method, std::set<std::string>& includes,
-        std::set<std::string>& casts_macro_invocations) const;
+        std::set<std::string>& casts_macro_invocations,
+        std::vector<std::string>& pretty_defines) const;
 
     std::string get_method_definition(const Method& method,
                                       const std::string& declaration) const;
 
     std::string get_definition() const;
-    std::string
-    get_declaration(std::set<std::string>& casts_macro_invocations) const;
+    std::string get_declaration(std::set<std::string>& casts_macro_invocations,
+                                std::vector<std::string>& pretty_defines) const;
 };
 
 } // namespace cppmm

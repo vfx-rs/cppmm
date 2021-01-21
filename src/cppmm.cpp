@@ -11,9 +11,6 @@
 #include "clang/Tooling/Tooling.h"
 #include "llvm/Support/CommandLine.h"
 
-#include <fmt/format.h>
-#include <fmt/printf.h>
-
 #include "filesystem.hpp"
 #include "pystring.h"
 
@@ -23,6 +20,7 @@
 #include "exports.hpp"
 #include "function.hpp"
 #include "generator_c.hpp"
+#include "generator_rust-sys.hpp"
 #include "match_bindings.hpp"
 #include "match_decls.hpp"
 #include "method.hpp"
@@ -31,6 +29,14 @@
 #include "record.hpp"
 #include "type.hpp"
 #include "manual_generator_c.hpp"
+
+// #include <fmt/format.h>
+// #include <fmt/printf.h>
+
+#define SPDLOG_ACTIVE_LEVEL TRACE
+
+#include <spdlog/sinks/stdout_color_sinks.h>
+#include <spdlog/spdlog.h>
 
 using namespace clang::tooling;
 using namespace llvm;
@@ -79,21 +85,56 @@ static cl::extrahelp CommonHelp(CommonOptionsParser::HelpMessage);
 static cl::extrahelp MoreHelp("\nMore help text...\n");
 
 static cl::opt<bool> opt_warn_unbound("u", cl::desc("Warn on unbound methods"));
+
+static cl::opt<int> opt_verbosity(
+    "v", cl::desc("Verbosity. 0=errors, 1=warnings, 2=info, 3=debug, 4=trace"));
+
 static cl::opt<std::string> opt_output_directory(
     "o",
     cl::desc(
         "Directory under which output project directories will be written"));
 static cl::list<std::string>
     opt_rename_namespace("n", cl::desc("Rename namespace <to>=<from>"));
+static cl::opt<std::string> opt_rust_sys_directory(
+    "rust-sys",
+    cl::desc("Directory under which rust-sys project will be written"));
 
-static cl::list<std::string> opt_includes("i", cl::desc("Extra includes for the project"));
-static cl::list<std::string> opt_libraries("l", cl::desc("Libraries to link against"));
+static cl::list<std::string>
+    opt_includes("i", cl::desc("Extra includes for the project"));
+static cl::list<std::string>
+    opt_libraries("l", cl::desc("Libraries to link against"));
 
 static cl::opt<std::string> opt_manual_suffix("s", cl::desc("Manual suffix, defaults to '-manual'"));
 
 int main(int argc, const char** argv) {
-    std::vector<std::string> project_includes = parse_project_includes(argc, argv);
+
+    std::vector<std::string> project_includes =
+        parse_project_includes(argc, argv);
     CommonOptionsParser OptionsParser(argc, argv, CppmmCategory);
+
+    // set up logging
+    auto _console = spdlog::stdout_color_mt("console");
+    switch (opt_verbosity) {
+    case 0:
+        spdlog::set_level(spdlog::level::err);
+        break;
+    case 1:
+        spdlog::set_level(spdlog::level::warn);
+        break;
+    case 2:
+        spdlog::set_level(spdlog::level::info);
+        break;
+    case 3:
+        spdlog::set_level(spdlog::level::warn);
+        break;
+    case 4:
+        spdlog::set_level(spdlog::level::trace);
+        break;
+    default:
+        spdlog::set_level(spdlog::level::warn);
+        break;
+    }
+    spdlog::set_pattern("%20s:%4# %^[%5l]%$ %v");
 
     std::string manual_suffix = "-manual";
     if (opt_manual_suffix != "") {
@@ -116,7 +157,7 @@ int main(int argc, const char** argv) {
         // /config.toml
         for (const auto& entry : fs::directory_iterator(src_path[0])) {
             if (entry.path().extension() == ".cpp") {
-                found_dir_paths.insert(entry.path());
+                found_dir_paths.insert(ps::os::path::abspath(entry.path().string(), cwd));
             }
         }
     } else {
@@ -124,7 +165,7 @@ int main(int argc, const char** argv) {
         // work with (old behaviour)
         // TODO: can we reliably keep this working?
         for (const auto& s : src_path) {
-            found_dir_paths.insert(fs::path(s));
+            found_dir_paths.insert(ps::os::path::abspath(s, cwd));
         }
     }
 
@@ -140,15 +181,14 @@ int main(int argc, const char** argv) {
         if (found_dir_paths.find(manual_path) != found_dir_paths.end()) {
             found_manual_dir_paths.insert(manual_path);
             path_manual_path_map[path] = manual_path;
-            // path_manual_path_map[ps::os::path::join(cwd, path.string())] = ps::os::path::join(cwd, manual_path.string());
         }
     }
 
     for (const fs::path& path: found_dir_paths) {
         if (found_manual_dir_paths.find(path) == found_manual_dir_paths.end()) {
-            dir_paths.push_back(path.string());
+            dir_paths.push_back(path);
         } else {
-            manual_dir_paths.push_back(path.string());
+            manual_dir_paths.push_back(path);
         }
     }
 
@@ -160,12 +200,12 @@ int main(int argc, const char** argv) {
         output_dir = opt_output_directory;
     }
 
-    for (const auto& i: opt_includes) {
+    for (const auto& i : opt_includes) {
         project_includes.push_back(i);
     }
 
     std::vector<std::string> project_libraries;
-    for (const auto& l: opt_libraries) {
+    for (const auto& l : opt_libraries) {
         project_libraries.push_back(l);
     }
 
@@ -177,8 +217,8 @@ int main(int argc, const char** argv) {
     for (const auto& src : dir_paths) {
         const auto src_path = ps::os::path::join(cwd, src);
         const auto includes = parse_file_includes(src_path);
-        cppmm::ex_files[src_path] = {};
-        cppmm::ex_files[src_path].includes = includes;
+        cppmm::files[src_path] = {};
+        cppmm::files[src_path].includes = includes;
     }
 
     // Get namespace renames from command-line options
@@ -192,7 +232,12 @@ int main(int argc, const char** argv) {
 
     //--------------------------------------------------------------------------
     // First pass - find all declarations in namespace cppmm_bind that will
-    // tell us what we want to bind fmt::print("1st pass ----------\n");
+    // tell us what we want to bind
+    SPDLOG_DEBUG("");
+    SPDLOG_DEBUG(" -------------------------------");
+    SPDLOG_DEBUG("|         BINDING PHASE         |");
+    SPDLOG_DEBUG(" -------------------------------");
+    SPDLOG_DEBUG("");
     auto match_exports_action =
         newFrontendActionFactory<cppmm::MatchBindingsAction>();
     int result = Tool.run(match_exports_action.get());
@@ -203,11 +248,29 @@ int main(int argc, const char** argv) {
     //         fmt::print("    {}\n", ex_fun);
     //     }
     // }
+    //
+
+    SPDLOG_DEBUG("Binding records:");
+    for (const auto& ex_record : cppmm::ex_records) {
+        SPDLOG_DEBUG("\n{}\n", ex_record.second);
+    }
+
+    SPDLOG_DEBUG("Binding specializations:");
+    for (const auto& ex_specvec : cppmm::ex_specs) {
+        SPDLOG_DEBUG("{}", ex_specvec.first);
+        for (const auto& ex_spec: ex_specvec.second) {
+            SPDLOG_DEBUG("    {}", ex_spec);
+        }
+    }
 
     //--------------------------------------------------------------------------
     // Second pass - find matching methods to the ones declared in the first
     // pass and filter out the ones we want to generate bindings for
-    // fmt::print("2nd pass ----------\n");
+    SPDLOG_DEBUG("");
+    SPDLOG_DEBUG(" --------------------------------");
+    SPDLOG_DEBUG("|         MATCHING PHASE         |");
+    SPDLOG_DEBUG(" --------------------------------");
+    SPDLOG_DEBUG("");
     auto cppmm_action = newFrontendActionFactory<cppmm::MatchDeclsAction>();
     result = Tool.run(cppmm_action.get());
 
@@ -218,8 +281,7 @@ int main(int argc, const char** argv) {
     // }
 
     if (!fs::exists(output_dir) && !fs::create_directories(output_dir)) {
-        fmt::print("ERROR: could not create output directory '{}'\n",
-                   output_dir);
+        SPDLOG_ERROR("Could not create output directory '{}'", output_dir);
         return -2;
     }
 
@@ -230,29 +292,39 @@ int main(int argc, const char** argv) {
     // necessary includes
     std::vector<std::unique_ptr<cppmm::Generator>> generators;
     generators.push_back(
-        std::unique_ptr<cppmm::Generator>(new cppmm::GeneratorC()));
+        std::unique_ptr<cppmm::Generator>(new cppmm::GeneratorC(output_dir)));
+
+    if (opt_rust_sys_directory != "") {
+        std::string output_dir = opt_rust_sys_directory;
+        if (!fs::exists(output_dir) && !fs::create_directories(output_dir)) {
+            SPDLOG_ERROR("Could not create output directory '{}'", output_dir);
+            return -2;
+        }
+
+        generators.push_back(std::unique_ptr<cppmm::Generator>(
+            new cppmm::GeneratorRustSys(output_dir)));
+    }
 
     for (const auto& g : generators) {
-        g->generate(output_dir, cppmm::ex_files, cppmm::files, cppmm::records,
-                    cppmm::enums, cppmm::vectors, project_includes,
-                    project_libraries);
+        g->generate(cppmm::files, cppmm::records, cppmm::enums, cppmm::vectors,
+                    project_includes, project_libraries);
     }
 
     if (opt_warn_unbound) {
         size_t total = 0;
-        for (const auto& ex_class : cppmm::ex_classes) {
-            total += ex_class.second.rejected_methods.size();
+        for (const auto& ex_record : cppmm::ex_records) {
+            total += ex_record.second.rejected_methods.size();
         }
         if (total != 0) {
-            fmt::print(
+            SPDLOG_WARN(
                 "The following methods were not bound, ignored or manually "
-                "overriden:\n");
-            for (const auto& ex_class : cppmm::ex_classes) {
-                if (ex_class.second.rejected_methods.size()) {
-                    fmt::print("{}\n", ex_class.second.name);
+                "overriden:");
+            for (const auto& ex_record : cppmm::ex_records) {
+                if (ex_record.second.rejected_methods.size()) {
+                    SPDLOG_WARN("{}", ex_record.second.cpp_qname);
                     for (const auto& rejected_method :
-                         ex_class.second.rejected_methods) {
-                        fmt::print("    {}\n", rejected_method);
+                         ex_record.second.rejected_methods) {
+                        SPDLOG_WARN("    {}", rejected_method);
                     }
                 }
             }

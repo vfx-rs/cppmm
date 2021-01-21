@@ -1,12 +1,13 @@
 #include "record.hpp"
 #include "enum.hpp"
+#include "function.hpp"
 #include "namespaces.hpp"
 #include "vector.hpp"
-#include "function.hpp"
 
 #include "pystring.h"
 
-#include <fmt/format.h>
+#include <spdlog/fmt/fmt.h>
+#include <spdlog/spdlog.h>
 
 namespace cppmm {
 
@@ -38,7 +39,8 @@ std::string Record::get_opaqueptr_constructor_declaration(
 
 std::string Record::get_method_declaration(
     const Method& method, std::set<std::string>& includes,
-    std::set<std::string>& casts_macro_invocations) const {
+    std::set<std::string>& casts_macro_invocations,
+    std::vector<std::string>& pretty_defines) const {
     std::vector<std::string> param_decls;
 
     for (const auto& param : method.params) {
@@ -58,24 +60,19 @@ std::string Record::get_method_declaration(
         param_decls.push_back(pdecl);
     }
 
+    pretty_defines.push_back(
+        fmt::format("#define {} {}", method.c_pretty_name, method.c_qname));
+
     std::string declaration;
 
     if (method.is_constructor && kind == RecordKind::OpaquePtr) {
         return get_opaqueptr_constructor_declaration(method.c_qname,
                                                      param_decls);
     } else {
-        std::string ret;
-        if (method.return_type.type.name == "basic_string" &&
-            !method.return_type.is_ref && !method.return_type.is_ptr) {
-            ret = "int";
-            param_decls.push_back("char* _result_buffer_ptr");
-            param_decls.push_back("int _result_buffer_len");
-        } else {
-            ret = method.return_type.create_c_declaration();
-            if (const Record* record =
-                    method.return_type.type.var.cast_or_null<Record>()) {
-                casts_macro_invocations.insert(record->create_casts());
-            }
+        auto ret = method.return_type.create_c_declaration();
+        if (const Record* record =
+                method.return_type.type.var.cast_or_null<Record>()) {
+            casts_macro_invocations.insert(record->create_casts());
         }
 
         if (method.is_static) {
@@ -100,6 +97,28 @@ std::string Record::get_method_declaration(
     }
 }
 
+bool is_comparison(const std::string& op) {
+    if (op == "==") {
+        return true;
+    } else if (op == "!=") {
+        return true;
+    } else if (op == "<=") {
+        return true;
+    } else if (op == ">=") {
+        return true;
+    } else if (op == "<") {
+        return true;
+    } else if (op == ">") {
+        return true;
+    }
+
+    return false;
+}
+
+bool is_assignment(const std::string& op) {
+    return op.find("=") != std::string::npos && !is_comparison(op);
+}
+
 std::string
 Record::get_operator_body(const Method& method, const std::string& declaration,
                           const std::vector<std::string>& call_params) const {
@@ -109,30 +128,35 @@ Record::get_operator_body(const Method& method, const std::string& declaration,
             // unary operator can't work for an opqaue pointer without
             // allocating
             // FIXME: what do we want to do here?
-            fmt::print("WARNING: method {} is a unary operator but its parent "
-                       "class is of kind OpaquePtr and so cannot be autobound "
-                       "without allocating. It will be ignored.\n",
-                       declaration);
-        } else if (method.op.find("=") == std::string::npos) {
+            SPDLOG_WARN("Method {} is a unary operator but its parent "
+                        "class is of kind OpaquePtr and so cannot be autobound "
+                        "without allocating. It will be ignored.",
+                        declaration);
+        } else if (is_assignment(method.op)) {
             // Similarly, any non-assigning operator can't work for the same
             // reason
             // FIXME: what do we want to do here?
-            fmt::print("WARNING: method {} is a non-assigning operator (i.e. "
-                       "it returns a copy) but its parent class is of kind "
-                       "OpaquePtr and so cannot be autobound without "
-                       "allocating. It will be ignored.\n",
-                       declaration);
+            SPDLOG_WARN("Method {} is a non-assigning operator (i.e. "
+                        "it returns a copy) but its parent class is of kind "
+                        "OpaquePtr and so cannot be autobound without "
+                        "allocating. It will be ignored.",
+                        declaration);
+        } else if (is_comparison(method.op)) {
+            body = fmt::format("    return *to_cpp(self) {} {};", method.op,
+                               call_params[0]);
         } else {
             body = fmt::format("    *to_cpp(self) {} ", method.op);
             body += call_params[0] + ";\n    return self;";
         }
     } else {
         // opaquebytes or valuetype
-        if (call_params.size() > 0 &&
-            method.op.find("=") != std::string::npos) {
+        if (is_assignment(method.op)) {
             // assigning operator
             body = fmt::format("    *to_cpp(self) {} ", method.op);
             body += call_params[0] + ";\n    return self;";
+        } else if (is_comparison(method.op)) {
+            body = fmt::format("    return *to_cpp(self) {} {};", method.op,
+                               call_params[0]);
         } else if (call_params.size() > 0) {
             // copying operator
             body = fmt::format("    return bit_cast<{}>(*to_cpp(self) {} {});",
@@ -173,12 +197,10 @@ Record::get_method_definition(const Method& method,
         body += call_params[0] + ";\n    return self;";
     } else if (method.is_operator) {
         body = get_operator_body(method, declaration, call_params);
-    } else if (method.return_type.type.name == "basic_string" &&
-               method.return_type.is_ref) {
-        body = get_return_string_ref_body(method, call_prefix, call_params);
-    } else if (method.return_type.type.name == "basic_string" &&
-               !method.return_type.is_ref) {
-        body = get_return_string_copy_body(method, call_prefix, call_params);
+    } else if (method.return_type.type.name == "basic_string" && !method.return_type.is_ref) {
+        body = get_return_opaquebytes_body(method, call_prefix, call_params);
+    } else if (method.return_type.type.name == "basic_string" && method.return_type.is_ref) {
+        body = get_return_opaquebytes_ref_body(method, call_prefix, call_params);
     } else if (method.return_type.is_uptr) {
         body = get_return_uniqueptr_body(method, call_prefix, call_params);
     } else if (const Record* record = return_var.cast_or_null<Record>()) {
@@ -234,11 +256,11 @@ std::string Record::get_definition() const {
 }
 
 std::string
-Record::get_declaration(std::set<std::string>& casts_macro_invocations) const {
+Record::get_declaration(std::set<std::string>& casts_macro_invocations, std::vector<std::string>& pretty_defines) const {
     std::string declarations;
+    casts_macro_invocations.insert(create_casts());
     if (kind == cppmm::RecordKind::OpaquePtr) {
         declarations += fmt::format("typedef struct {0} {0};\n\n", c_qname);
-        casts_macro_invocations.insert(create_casts());
     } else if (kind == cppmm::RecordKind::OpaqueBytes) {
         declarations +=
             fmt::format("typedef struct {{ char _private[{}]; }} {} "
@@ -254,6 +276,8 @@ Record::get_declaration(std::set<std::string>& casts_macro_invocations) const {
         }
         declarations += fmt::format("}} {};\n\n", c_qname);
     }
+
+    pretty_defines.push_back(fmt::format("#define {} {}", c_pretty_name, c_qname));
 
     return declarations;
 }

@@ -15,6 +15,7 @@ class MatchBindingsCallback : public clang::ast_matchers::MatchFinder::MatchCall
     void handle_record(const clang::CXXRecordDecl* record);
     void handle_function(const clang::FunctionDecl* function);
     void handle_method(const clang::CXXMethodDecl* method);
+    void handle_typealias(const clang::TypeAliasDecl* alias);
 };
 
 class MatchBindingsConsumer : public clang::ASTConsumer {

@@ -28,12 +28,12 @@ containers_CustomElement* containers_CustomElement_vector_data(containers_Custom
 
 void containers_CustomElement_vector_get(const containers_CustomElement_vector* vec, int index, containers_CustomElement* element);
 void containers_CustomElement_vector_set(containers_CustomElement_vector* vec, int index, containers_CustomElement* element);
-typedef struct containers_CustomOP containers_CustomOP;
-
 typedef struct {
     int a;
     int b;
 } containers_CustomVT;
+
+typedef struct containers_CustomOP containers_CustomOP;
 
 typedef struct { char _private[4]; } containers_CustomOB CPPMM_ALIGN(4);
 
@@ -54,6 +54,17 @@ cppmm_string_vector containers_Containers_returns_vec_string();
 
 
 #undef CPPMM_ALIGN
+
+#define containers_Containers containers_Containers
+#define containers_CustomElement containers_CustomElement
+#define containers_CustomVT containers_CustomVT
+#define containers_CustomOP containers_CustomOP
+#define containers_CustomOB containers_CustomOB
+#define containers_Containers_testint containers_Containers_testint
+#define containers_Containers_takes_const_vec_custom_ref containers_Containers_takes_const_vec_custom_ref
+#define containers_Containers_takes_mut_vec_string_ref containers_Containers_takes_mut_vec_string_ref
+#define containers_Containers_takes_const_vec_string_ref containers_Containers_takes_const_vec_string_ref
+#define containers_Containers_returns_vec_string containers_Containers_returns_vec_string
 
 #ifdef __cplusplus
 }

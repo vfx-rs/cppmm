@@ -14,7 +14,8 @@ struct Method : public Function {
            std::vector<std::string> namespaces, bool is_const, bool is_static,
            bool is_constructor, bool is_copy_constructor,
            bool is_copy_assignment, bool is_operator,
-           bool is_conversion_operator, std::string op);
+           bool is_conversion_operator, std::string op,
+           std::vector<std::string> template_args);
 
     bool is_const = false;
     bool is_static = false;

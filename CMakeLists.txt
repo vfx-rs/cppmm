@@ -13,7 +13,7 @@ if(NOT LLVM_ENABLE_RTTI)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-rtti")
 endif()
 
-add_subdirectory(fmt)
+add_subdirectory(spdlog)
 
 add_executable(cppmm
   src/cppmm.cpp
@@ -32,7 +32,9 @@ add_executable(cppmm
   src/decls.cpp
   src/generator_c.cpp
   src/manual_generator_c.cpp
+  src/generator_rust-sys.cpp
   )
 
-target_link_libraries(cppmm clangTooling clangBasic clangASTMatchers fmt)
+target_link_libraries(cppmm clangTooling clangBasic clangASTMatchers spdlog::spdlog)
+target_compile_definitions(cppmm PRIVATE SPDLOG_ACTIVE_LEVEL=TRACE)
 target_include_directories(cppmm PRIVATE ${LLVM_INCLUDE_DIRS})

@@ -9,7 +9,10 @@
 #define CPPMM_VALUETYPE __attribute__((annotate("cppmm:valuetype")))
 
 namespace cppmm_bind {
-namespace OIIO {
+namespace OIIO_NAMESPACE {
+// alias the main library namespace with a convenient short form here
+namespace OIIO = ::OIIO_NAMESPACE;
+
 namespace Filesystem {
 
 std::string filename(const std::string& filepath) noexcept;
@@ -24,7 +27,7 @@ public:
     enum Mode {};
 
     IOProxy() CPPMM_IGNORE;
-    IOProxy(::OIIO::string_view filename, ::OIIO::Filesystem::IOProxy::Mode mode) CPPMM_IGNORE;
+    IOProxy(OIIO::string_view filename, OIIO::Filesystem::IOProxy::Mode mode) CPPMM_IGNORE;
     virtual ~IOProxy() CPPMM_RENAME(delete);
 
     virtual const char* proxytype () const;

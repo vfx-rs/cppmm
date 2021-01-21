@@ -11,9 +11,11 @@ target_compile_options(containers-c PRIVATE
 )
 
 target_include_directories(containers-c PUBLIC
-  /home/anders/code/cppmm/test/containers
+  /home/anders/code/cppmm/test/containers/bind
 )
 
 target_link_libraries(containers-c PUBLIC
   
 )
+
+install(TARGETS containers-c DESTINATION ${CMAKE_INSTALL_PREFIX})

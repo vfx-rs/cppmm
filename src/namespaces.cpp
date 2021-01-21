@@ -1,6 +1,6 @@
 #include <unordered_map>
 
-#include <fmt/format.h>
+#include <spdlog/fmt/fmt.h>
 
 #include "pystring.h"
 
@@ -18,11 +18,28 @@ void add_namespace_rename(const std::string& from, const std::string& to) {
 }
 
 const std::string& rename_namespace(const std::string& in) {
+    // if (namespace_renames.find(in) != namespace_renames.end()) {
+    //     return namespace_renames[in];
+    // } else {
+    //     return in;
+    // }
+    return in;
+}
+
+const std::string& _rename_namespace(const std::string& in) {
     if (namespace_renames.find(in) != namespace_renames.end()) {
         return namespace_renames[in];
     } else {
         return in;
     }
+}
+
+std::vector<std::string> rename_all_namespaces(const std::vector<std::string>& in) {
+    std::vector<std::string> out;
+    for (const auto& n : in) {
+        out.push_back(_rename_namespace(n));
+    }
+    return out;
 }
 
 const std::string

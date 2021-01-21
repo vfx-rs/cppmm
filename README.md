@@ -52,15 +52,21 @@ This will generate a CMake project called `half-c` in the build directory, which
 ### Testsuite
 If you want to run the automated tests, do this from the `build` directory:
 ```bash
-../test/bindandtest/sh
+../test/bindandtest.sh
 ```
 Note you'll first need to modify the commands in bindandtest.sh to modify your local environment. This script just binds the tests `half`, `oiio_min` and `containers` and diffs their output against the pre-generated projects in each test's `ref` directory. If you get no output, that means everything matches.
 
+### Limitations
+- No support for binding constants or #defines
+- No support for function pointers
+- Template monomorphization is currently limited to builtins (float, int etc.)
+- Template methods on a template class (i.e. methods that have their own template parameter list) are not currently supported.
+
 
 ## Todo
-- [ ] Add Rust -sys crate output
 - [ ] Add support for binding straight from the original C++ headers with attributes
-- [ ] Add automatic tests including test runners (rely on Rust for this?)
+- [x] Add Rust -sys crate output
+- [x] Add automatic tests including test runners (rely on Rust for this?)
 - [x] Add type registry and warn on missing type declarations
 - [x] Add parameter names for copy constructors and assignment operators
 - [x] Add support for declaring enums

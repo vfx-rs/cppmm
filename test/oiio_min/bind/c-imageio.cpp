@@ -9,12 +9,15 @@
 #define CPPMM_VALUETYPE __attribute__((annotate("cppmm:valuetype")))
 
 namespace cppmm_bind {
-namespace OIIO {
+namespace OIIO_NAMESPACE {
 
-using ::OIIO::imagesize_t;
-using ::OIIO::ProgressCallback;
-using ::OIIO::stride_t;
-using ::OIIO::string_view;
+// alias the main library namespace with a convenient short form here
+namespace OIIO = ::OIIO_NAMESPACE;
+
+using OIIO::imagesize_t;
+using OIIO::ProgressCallback;
+using OIIO::stride_t;
+using OIIO::string_view;
 
 struct ROI {
     constexpr ROI() noexcept CPPMM_RENAME(default);
@@ -26,35 +29,35 @@ struct ROI {
     constexpr int nchannels () const noexcept;
     constexpr imagesize_t npixels () const noexcept;
 
-    static constexpr ::OIIO::ROI All () noexcept;
+    static constexpr OIIO::ROI All () noexcept;
 
     // FIXME: how do we match these?
-    friend constexpr bool operator== (const ::OIIO::ROI &a, const ::OIIO::ROI &b) noexcept;
-    friend constexpr bool operator!= (const ::OIIO::ROI &a, const ::OIIO::ROI &b) noexcept;
+    friend constexpr bool operator== (const OIIO::ROI &a, const OIIO::ROI &b) noexcept;
+    friend constexpr bool operator!= (const OIIO::ROI &a, const OIIO::ROI &b) noexcept;
 } CPPMM_VALUETYPE;
 
-constexpr ::OIIO::ROI roi_union (const ::OIIO::ROI &A, const ::OIIO::ROI &B) noexcept;
-constexpr ::OIIO::ROI roi_intersection (const ::OIIO::ROI &A, const ::OIIO::ROI &B) noexcept;
+constexpr OIIO::ROI roi_union (const OIIO::ROI &A, const OIIO::ROI &B) noexcept;
+constexpr OIIO::ROI roi_intersection (const OIIO::ROI &A, const OIIO::ROI &B) noexcept;
 
 class ImageSpec {
-    ImageSpec(::OIIO::TypeDesc format) noexcept CPPMM_RENAME(new);
+    ImageSpec(OIIO::TypeDesc format) noexcept CPPMM_RENAME(new);
 
     // ~ImageSpec() __attribute__((annotate("cppmm:manual:delete")));
 
-    ImageSpec(int xres, int yres, int nchans, ::OIIO::TypeDesc fmt) noexcept
+    ImageSpec(int xres, int yres, int nchans, OIIO::TypeDesc fmt) noexcept
         CPPMM_RENAME(new_with_dimensions);
 
     // TODO: assign name for copy ctor arg (gets lost)
-    ImageSpec(const ::OIIO::ImageSpec& other) CPPMM_RENAME(copy);
+    ImageSpec(const OIIO::ImageSpec& other) CPPMM_RENAME(copy);
 
-    ::OIIO::ImageSpec& operator=(const ::OIIO::ImageSpec& other)
+    OIIO::ImageSpec& operator=(const OIIO::ImageSpec& other)
         CPPMM_RENAME(assign);
 
-    ImageSpec(::OIIO::ImageSpec&& other) CPPMM_IGNORE;
+    ImageSpec(OIIO::ImageSpec&& other) CPPMM_IGNORE;
 
-    ::OIIO::ImageSpec& operator=(::OIIO::ImageSpec&& other) CPPMM_IGNORE;
+    OIIO::ImageSpec& operator=(OIIO::ImageSpec&& other) CPPMM_IGNORE;
 
-    void set_format(::OIIO::TypeDesc fmt) noexcept;
+    void set_format(OIIO::TypeDesc fmt) noexcept;
 
     size_t channel_bytes() const noexcept;
 
@@ -67,40 +70,40 @@ class ImageSpec {
                             stride_t& zstride, stride_t channelsize,
                             int nchannels, int width, int height) noexcept;
 
-    void attribute(string_view name, ::OIIO::TypeDesc type, const void* value);
+    void attribute(string_view name, OIIO::TypeDesc type, const void* value);
 
     // Declare empty enums to get all variants converted
     enum SerialFormat {};
     enum SerialVerbose {};
 
     // TODO: returning strings
-    std::string serialize(::OIIO::ImageSpec::SerialFormat format,
-                          ::OIIO::ImageSpec::SerialVerbose verbose) const;
+    std::string serialize(OIIO::ImageSpec::SerialFormat format,
+                          OIIO::ImageSpec::SerialVerbose verbose) const;
 
     // TODO: returning arrays with an out pointer
-    void get_channelformats(std::vector<::OIIO::TypeDesc>& formats) const;
+    void get_channelformats(std::vector<OIIO::TypeDesc>& formats) const;
 
     void default_channel_names();
 } CPPMM_OPAQUEPTR;
 
 class ImageInput {
 
-    using unique_ptr = ::OIIO::ImageInput::unique_ptr;
+    using unique_ptr = OIIO::ImageInput::unique_ptr;
 
     ImageInput() CPPMM_IGNORE;
 
     const char* format_name(void) const;
 
     static unique_ptr open(const std::string& filename,
-                           const ::OIIO::ImageSpec* config,
-                           ::OIIO::Filesystem::IOProxy* ioproxy);
+                           const OIIO::ImageSpec* config,
+                           OIIO::Filesystem::IOProxy* ioproxy);
 
-    // static std::unique_ptr<::OIIO::ImageInput>
-    // create(::OIIO::string_view, bool, const ::OIIO::ImageSpec*,
-    //        ::OIIO::Filesystem::IOProxy*, ::OIIO::string_view);
+    // static std::unique_ptr<OIIO::ImageInput>
+    // create(OIIO::string_view, bool, const OIIO::ImageSpec*,
+    //        OIIO::Filesystem::IOProxy*, OIIO::string_view);
 
     // bool read_image(int subimage, int miplevel, int chbegin, int chend,
-    //                 ::OIIO::TypeDesc format, void* data, stride_t xstride,
+    //                 OIIO::TypeDesc format, void* data, stride_t xstride,
     //                 stride_t ystride, stride_t zstride,
     //                 ProgressCallback progress_callback,
     //                 void* progress_callback_data);
@@ -108,7 +111,7 @@ class ImageInput {
     std::string geterror() const;
 } CPPMM_OPAQUEPTR;
 
-bool getattribute(::OIIO::string_view, ::OIIO::TypeDesc, void*);
+bool getattribute(OIIO::string_view, OIIO::TypeDesc, void*);
 } // namespace OIIO
 } // namespace cppmm_bind
 

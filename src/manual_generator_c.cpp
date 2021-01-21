@@ -2,7 +2,7 @@
 #include <iostream>
 #include <memory>
 
-#include <fmt/printf.h>
+// #include <fmt/printf.h>
 
 #include "manual_generator_c.hpp"
 
@@ -29,7 +29,7 @@ int generate_manual(
         const auto item = manual_path_map.find(manual_path);
 
         if (item == manual_path_map.end()) {
-            fmt::print("Could not find path from manual path {}", manual_path);
+            std::cout << "Could not find path from manual path " << manual_path << std::endl;
             return 1;
         }
 
@@ -40,7 +40,7 @@ int generate_manual(
         src_file.open(src_path, std::ios::app);
 
         if (!src_file) {
-            fmt::print("Could not open source path {} for appending", src_path);
+            std::cout << "Could not open source path " << src_path << " for appending" << std::endl;
             return 1;
         }
 
@@ -48,8 +48,7 @@ int generate_manual(
         manual_file.open(manual_path, std::ios::in);
 
         if (!manual_file) {
-            fmt::print("Could not open manual path {} for reading",
-                       manual_path);
+            std::cout << "Could not open manual path " << manual_path << " for reading" << std::endl;
             return 1;
         }
 
@@ -71,14 +70,14 @@ int generate_manual(
             }
 
             if (!manual_file) {
-                fmt::print("Could not read from manual path {}", manual_path);
+                std::cout << "Could not read from manual path " << manual_path << std::endl;
                 return 1;
             }
 
             src_file.write(data.get(), count);
 
             if (!src_file) {
-                fmt::print("Could not write to source path {}", src_path);
+                std::cout << "Could not write to source path " << src_path << std::endl;
                 return 1;
             }
         }
