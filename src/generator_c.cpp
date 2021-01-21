@@ -437,7 +437,6 @@ void GeneratorC::generate(const FileMap& files, const RecordMap& records,
 
     for (const auto& it_file : files) {
         CFile c_file;
-        std::string declarations;
         std::string definitions;
 
         c_file.header_includes.insert("cppmm_containers.h");
@@ -457,14 +456,14 @@ void GeneratorC::generate(const FileMap& files, const RecordMap& records,
             }
 
             const auto& record = it_record->second;
-            declarations +=
+            c_file.declarations +=
                 record.get_declaration(c_file.casts_macro_invocations, c_file.pretty_defines);
 
             const auto it_vec = vectors.find(record.c_qname);
             if (it_vec != vectors.end()) {
                 if (it_vec->second.element_type.type.name == "basic_string") {
                 } else {
-                    declarations += get_vector_declaration(it_vec->second);
+                    c_file.declarations += get_vector_declaration(it_vec->second);
                     definitions += get_vector_implementation(
                         it_vec->second, c_file.casts_macro_invocations);
                 }
@@ -481,7 +480,7 @@ void GeneratorC::generate(const FileMap& files, const RecordMap& records,
                 continue;
             }
             const auto& enm = it_enum->second;
-            declarations += enm.get_declaration(c_file.pretty_defines);
+            c_file.declarations += enm.get_declaration(c_file.pretty_defines);
         }
 
         for (const auto& it_function : it_file.second.functions) {
@@ -492,7 +491,7 @@ void GeneratorC::generate(const FileMap& files, const RecordMap& records,
 
             std::string definition = function->get_definition(declaration);
 
-            declarations = fmt::format("{}\n{}\n{};\n", declarations,
+            c_file.declarations = fmt::format("{}\n{}\n{};\n", c_file.declarations,
                                        function->comment, declaration);
 
             definitions = fmt::format("{}\n{}\n\n\n", definitions, definition);
@@ -517,7 +516,7 @@ void GeneratorC::generate(const FileMap& files, const RecordMap& records,
                 std::string definition =
                     record.get_method_definition(method, declaration);
 
-                declarations = fmt::format("{}\n{}\n{};\n", declarations,
+                c_file.declarations = fmt::format("{}\n{}\n{};\n", c_file.declarations,
                                            method.comment, declaration);
 
                 definitions =
@@ -545,7 +544,7 @@ void GeneratorC::generate(const FileMap& files, const RecordMap& records,
             casts += s;
         }
 
-        write_header(output_dir_path / header, declarations,
+        write_header(output_dir_path / header, c_file.declarations,
                      header_include_stmts, c_file.pretty_defines);
 
         std::string implementation_path = output_dir_path / implementation;
