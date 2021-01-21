@@ -510,7 +510,7 @@ void GeneratorC::generate(const FileMap& files, const RecordMap& records,
 
                 std::string declaration = record.get_method_declaration(
                     method, c_file.header_includes, c_file.casts_macro_invocations,
-                    c_file.pretty_defines);
+                    c_file.pretty_defines, c_file.forward_declarations);
 
                 std::string definition =
                     record.get_method_definition(method, declaration);

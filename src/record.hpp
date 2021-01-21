@@ -52,7 +52,8 @@ struct Record {
     std::string get_method_declaration(
         const Method& method, std::set<std::string>& includes,
         std::set<std::string>& casts_macro_invocations,
-        std::vector<std::string>& pretty_defines) const;
+        std::vector<std::string>& pretty_defines,
+        std::set<std::string>& forward_declarations) const;
 
     std::string get_method_definition(const Method& method,
                                       const std::string& declaration) const;

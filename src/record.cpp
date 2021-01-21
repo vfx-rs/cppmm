@@ -40,7 +40,8 @@ std::string Record::get_opaqueptr_constructor_declaration(
 std::string Record::get_method_declaration(
     const Method& method, std::set<std::string>& includes,
     std::set<std::string>& casts_macro_invocations,
-    std::vector<std::string>& pretty_defines) const {
+    std::vector<std::string>& pretty_defines,
+    std::set<std::string>& forward_declarations) const {
     std::vector<std::string> param_decls;
 
     for (const auto& param : method.params) {
