@@ -440,9 +440,8 @@ void GeneratorC::generate(const FileMap& files, const RecordMap& records,
         std::string declarations;
         std::string definitions;
 
-        std::set<std::string> header_includes;
-        header_includes.insert("cppmm_containers.h");
-        header_includes.insert("std_string.h");
+        c_file.header_includes.insert("cppmm_containers.h");
+        c_file.header_includes.insert("std_string.h");
 
         if (it_file.first == "") {
             // FIXME: how is this getting in there?
@@ -489,7 +488,7 @@ void GeneratorC::generate(const FileMap& files, const RecordMap& records,
             const auto& function = it_function.second;
 
             std::string declaration = function->get_declaration(
-                header_includes, c_file.casts_macro_invocations, c_file.pretty_defines);
+                c_file.header_includes, c_file.casts_macro_invocations, c_file.pretty_defines);
 
             std::string definition = function->get_definition(declaration);
 
@@ -512,7 +511,7 @@ void GeneratorC::generate(const FileMap& files, const RecordMap& records,
                 const auto& method = method_pair.second;
 
                 std::string declaration = record.get_method_declaration(
-                    method, header_includes, c_file.casts_macro_invocations,
+                    method, c_file.header_includes, c_file.casts_macro_invocations,
                     c_file.pretty_defines);
 
                 std::string definition =
@@ -532,7 +531,7 @@ void GeneratorC::generate(const FileMap& files, const RecordMap& records,
 
         // fmt::print("INCLUDES FOR {}\n", root);
         std::string header_include_stmts;
-        for (const auto& i : header_includes) {
+        for (const auto& i : c_file.header_includes) {
             const std::string include_root = bind_file_root(i);
             if (include_root != root) {
                 // fmt::print("    {}.h\n", include_root);
