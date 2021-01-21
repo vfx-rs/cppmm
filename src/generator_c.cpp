@@ -437,8 +437,6 @@ void GeneratorC::generate(const FileMap& files, const RecordMap& records,
 
     for (const auto& it_file : files) {
         CFile c_file;
-        //std::set<std::string> casts_macro_invocations;
-        std::vector<std::string> pretty_defines;
         std::string declarations;
         std::string definitions;
 
@@ -461,7 +459,7 @@ void GeneratorC::generate(const FileMap& files, const RecordMap& records,
 
             const auto& record = it_record->second;
             declarations +=
-                record.get_declaration(c_file.casts_macro_invocations, pretty_defines);
+                record.get_declaration(c_file.casts_macro_invocations, c_file.pretty_defines);
 
             const auto it_vec = vectors.find(record.c_qname);
             if (it_vec != vectors.end()) {
@@ -484,14 +482,14 @@ void GeneratorC::generate(const FileMap& files, const RecordMap& records,
                 continue;
             }
             const auto& enm = it_enum->second;
-            declarations += enm.get_declaration(pretty_defines);
+            declarations += enm.get_declaration(c_file.pretty_defines);
         }
 
         for (const auto& it_function : it_file.second.functions) {
             const auto& function = it_function.second;
 
             std::string declaration = function->get_declaration(
-                header_includes, c_file.casts_macro_invocations, pretty_defines);
+                header_includes, c_file.casts_macro_invocations, c_file.pretty_defines);
 
             std::string definition = function->get_definition(declaration);
 
@@ -515,7 +513,7 @@ void GeneratorC::generate(const FileMap& files, const RecordMap& records,
 
                 std::string declaration = record.get_method_declaration(
                     method, header_includes, c_file.casts_macro_invocations,
-                    pretty_defines);
+                    c_file.pretty_defines);
 
                 std::string definition =
                     record.get_method_definition(method, declaration);
@@ -549,7 +547,7 @@ void GeneratorC::generate(const FileMap& files, const RecordMap& records,
         }
 
         write_header(output_dir_path / header, declarations,
-                     header_include_stmts, pretty_defines);
+                     header_include_stmts, c_file.pretty_defines);
 
         std::string implementation_path = output_dir_path / implementation;
         write_implementation(implementation_path, root, it_file.second.includes,
