@@ -31,6 +31,7 @@ add_executable(cppmm
   src/match_decls.cpp
   src/decls.cpp
   src/generator_c.cpp
+  src/manual_generator_c.cpp
   )
 
 target_link_libraries(cppmm clangTooling clangBasic clangASTMatchers fmt)

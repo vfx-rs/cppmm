@@ -3,6 +3,7 @@
 #include <iostream>
 #include <unistd.h>
 #include <unordered_map>
+#include <unordered_set>
 
 #include "clang/Frontend/FrontendAction.h"
 #include "clang/Frontend/FrontendActions.h"
@@ -29,6 +30,7 @@
 #include "param.hpp"
 #include "record.hpp"
 #include "type.hpp"
+#include "manual_generator_c.hpp"
 
 using namespace clang::tooling;
 using namespace llvm;
@@ -87,13 +89,25 @@ static cl::list<std::string>
 static cl::list<std::string> opt_includes("i", cl::desc("Extra includes for the project"));
 static cl::list<std::string> opt_libraries("l", cl::desc("Libraries to link against"));
 
+static cl::opt<std::string> opt_manual_suffix("s", cl::desc("Manual suffix, defaults to '-manual'"));
+
 int main(int argc, const char** argv) {
     std::vector<std::string> project_includes = parse_project_includes(argc, argv);
     CommonOptionsParser OptionsParser(argc, argv, CppmmCategory);
 
+    std::string manual_suffix = "-manual";
+    if (opt_manual_suffix != "") {
+        manual_suffix = opt_manual_suffix;
+    }
+
     std::string cwd = fs::current_path();
     ArrayRef<std::string> src_path = OptionsParser.getSourcePathList();
     std::vector<std::string> dir_paths;
+    std::vector<std::string> manual_dir_paths;
+    std::unordered_set<std::string> found_dir_paths;
+    std::unordered_set<std::string> found_manual_dir_paths;
+    std::unordered_map<std::string, std::string> path_manual_path_map;
+
     if (src_path.size() == 1 && fs::is_directory(src_path[0])) {
         // we've been supplied a single directory to start from, find all the
         // cpp files under it to use as binding files
@@ -102,7 +116,7 @@ int main(int argc, const char** argv) {
         // /config.toml
         for (const auto& entry : fs::directory_iterator(src_path[0])) {
             if (entry.path().extension() == ".cpp") {
-                dir_paths.push_back(entry.path().string());
+                found_dir_paths.insert(entry.path());
             }
         }
     } else {
@@ -110,9 +124,34 @@ int main(int argc, const char** argv) {
         // work with (old behaviour)
         // TODO: can we reliably keep this working?
         for (const auto& s : src_path) {
-            dir_paths.push_back(s);
+            found_dir_paths.insert(fs::path(s));
         }
     }
+
+    fs::path manual_path;
+
+    // Find all of the paths that have an associated manual suffix.
+    //  - If there is no associated suffix, then the file put in the dir_paths vector.
+    //  - If there is an associated suffix, then the file put in the dir_paths vector and associated path is put in the manual_dir_paths vector.
+    //  - If the file looks like it is a manual file, but there's no original file, then the path is put in the dir_paths vector.
+    for (const fs::path& path: found_dir_paths) {
+        manual_path = path.parent_path() / fmt::format("{}{}{}", path.stem().string(), manual_suffix, path.extension().string());
+
+        if (found_dir_paths.find(manual_path) != found_dir_paths.end()) {
+            found_manual_dir_paths.insert(manual_path);
+            path_manual_path_map[path] = manual_path;
+            // path_manual_path_map[ps::os::path::join(cwd, path.string())] = ps::os::path::join(cwd, manual_path.string());
+        }
+    }
+
+    for (const fs::path& path: found_dir_paths) {
+        if (found_manual_dir_paths.find(path) == found_manual_dir_paths.end()) {
+            dir_paths.push_back(path.string());
+        } else {
+            manual_dir_paths.push_back(path.string());
+        }
+    }
+
     ClangTool Tool(OptionsParser.getCompilations(),
                    ArrayRef<std::string>(dir_paths));
 
@@ -219,6 +258,8 @@ int main(int argc, const char** argv) {
             }
         }
     }
+
+    result = cppmm::generate_manual(output_dir, manual_dir_paths, path_manual_path_map);
 
     return result;
 }
