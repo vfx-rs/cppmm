@@ -437,7 +437,6 @@ void GeneratorC::generate(const FileMap& files, const RecordMap& records,
 
     for (const auto& it_file : files) {
         CFile c_file;
-        std::string definitions;
 
         c_file.header_includes.insert("cppmm_containers.h");
         c_file.header_includes.insert("std_string.h");
@@ -464,12 +463,12 @@ void GeneratorC::generate(const FileMap& files, const RecordMap& records,
                 if (it_vec->second.element_type.type.name == "basic_string") {
                 } else {
                     c_file.declarations += get_vector_declaration(it_vec->second);
-                    definitions += get_vector_implementation(
+                    c_file.definitions += get_vector_implementation(
                         it_vec->second, c_file.casts_macro_invocations);
                 }
             }
 
-            definitions += record.get_definition();
+            c_file.definitions += record.get_definition();
         }
 
         for (const auto& enm_pair : it_file.second.enums) {
@@ -494,7 +493,7 @@ void GeneratorC::generate(const FileMap& files, const RecordMap& records,
             c_file.declarations = fmt::format("{}\n{}\n{};\n", c_file.declarations,
                                        function->comment, declaration);
 
-            definitions = fmt::format("{}\n{}\n\n\n", definitions, definition);
+            c_file.definitions = fmt::format("{}\n{}\n\n\n", c_file.definitions, definition);
         }
 
         for (const auto& record_pair : it_file.second.records) {
@@ -519,8 +518,8 @@ void GeneratorC::generate(const FileMap& files, const RecordMap& records,
                 c_file.declarations = fmt::format("{}\n{}\n{};\n", c_file.declarations,
                                            method.comment, declaration);
 
-                definitions =
-                    fmt::format("{}\n{}\n\n\n", definitions, definition);
+                c_file.definitions =
+                    fmt::format("{}\n{}\n\n\n", c_file.definitions, definition);
             }
         }
 
@@ -549,7 +548,7 @@ void GeneratorC::generate(const FileMap& files, const RecordMap& records,
 
         std::string implementation_path = output_dir_path / implementation;
         write_implementation(implementation_path, root, it_file.second.includes,
-                             casts, definitions);
+                             casts, c_file.definitions);
         source_files.push_back(implementation);
     }
 
