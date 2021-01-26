@@ -30,6 +30,7 @@ add_executable(cppmm
   src/enum.cpp
   src/exports.cpp
   src/match_bindings.cpp
+  src/process_binding.cpp
   src/match_decls.cpp
   src/decls.cpp
   src/generator_c.cpp

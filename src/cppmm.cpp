@@ -21,6 +21,7 @@
 #include "generator_c.hpp"
 #include "generator_rust-sys.hpp"
 #include "match_bindings.hpp"
+#include "process_binding.hpp"
 #include "match_decls.hpp"
 #include "method.hpp"
 #include "namespaces.hpp"
@@ -201,10 +202,17 @@ int main(int argc, const char** argv) {
     SPDLOG_DEBUG("|         BINDING PHASE         |");
     SPDLOG_DEBUG(" -------------------------------");
     SPDLOG_DEBUG("");
-    auto match_exports_action =
-        newFrontendActionFactory<cppmm::MatchBindingsAction>();
-    int result = Tool.run(match_exports_action.get());
+    auto process_binding_action =
+        newFrontendActionFactory<cppmm::ProcessBindingAction>();
+    int result = Tool.run(process_binding_action.get());
+    // auto match_exports_action =
+    //     newFrontendActionFactory<cppmm::MatchBindingsAction>();
+    // int result = Tool.run(match_exports_action.get());
 
+    
+
+
+#if 0
     // for (const auto& ex_file : ex_files) {
     //     fmt::print("FILE: {}\n", ex_file.first);
     //     for (const auto& ex_fun : ex_file.second.functions) {
@@ -293,6 +301,7 @@ int main(int argc, const char** argv) {
             }
         }
     }
+ #endif
 
     return result;
 }
