@@ -31,24 +31,20 @@ namespace cppmm {
 
 namespace {
 
-/* std::vector<AttrDesc> get_attrs(const clang::Decl* decl) { */
-/*     std::vector<AttrDesc> attrs; */
-/*     if (decl->hasAttrs()) { */
-/*         clang::ASTContext& ctx = decl->getASTContext(); */
-/*         for (const auto& attr : decl->attrs()) { */
-/*             const clang::AnnotateAttr* ann = */
-/*                 clang::cast<const clang::AnnotateAttr>(attr); */
-/*             if (ann) { */
-/*                 if (auto opt = parse_attributes(ann->getAnnotation().str()))
- * { */
-/*                     attrs.push_back(*opt); */
-/*                 } */
-/*             } */
-/*         } */
-/*     } */
-
-/*     return attrs; */
-/* } */
+std::vector<std::string> get_attrs(const clang::Decl* decl) {
+    std::vector<std::string> attrs;
+    if (decl->hasAttrs()) {
+        clang::ASTContext& ctx = decl->getASTContext();
+        for (const auto& attr : decl->attrs()) {
+            const clang::AnnotateAttr* ann =
+                clang::cast<const clang::AnnotateAttr>(attr);
+            if (ann) {
+                attrs.push_back(ann->getAnnotation().str());
+            }
+        }
+    }
+    return attrs;
+}
 
 struct indent {
     indent(int level) : level(level) {}
@@ -67,8 +63,6 @@ std::ostream& operator<<(std::ostream& stream, const indent& val) {
 }
 
 } // namespace
-
-// enum RecordKind { RK_OpaquePtr = 0, RK_OpaqueBytes, RK_ValueType };
 
 enum class NodeKind : uint32_t {
     Node = 0,
@@ -209,8 +203,10 @@ struct NodeType : public Node {
 };
 
 struct NodeBuiltinType : public NodeType {
-    NodeBuiltinType(std::string qualified_name, NodeId id, NodeId context, std::string type_name)
-        : NodeType(qualified_name, id, context, NodeKind::BuiltinType, type_name) {}
+    NodeBuiltinType(std::string qualified_name, NodeId id, NodeId context,
+                    std::string type_name)
+        : NodeType(qualified_name, id, context, NodeKind::BuiltinType,
+                   type_name) {}
 
     virtual void write_xml(std::ostream& os, int depth) const override {
         os << indent(depth) << "<BuiltinType";
@@ -236,9 +232,11 @@ struct QType {
 struct NodePointerType : public NodeType {
     QType pointee_type;
     PointerKind pointer_kind;
-    NodePointerType(std::string qualified_name, NodeId id, NodeId context, std::string type_name,
-                    PointerKind pointer_kind, QType pointee_type)
-        : NodeType(qualified_name, id, context, NodeKind::PointerType, type_name),
+    NodePointerType(std::string qualified_name, NodeId id, NodeId context,
+                    std::string type_name, PointerKind pointer_kind,
+                    QType pointee_type)
+        : NodeType(qualified_name, id, context, NodeKind::PointerType,
+                   type_name),
           pointer_kind(pointer_kind), pointee_type(pointee_type) {}
 
     virtual void write_xml_attrs(std::ostream& os) const override {
@@ -262,9 +260,10 @@ struct NodePointerType : public NodeType {
 
 struct NodeRecordType : public NodeType {
     NodeId record;
-    NodeRecordType(std::string qualified_name, NodeId id, NodeId context, std::string type_name,
-                   NodeId record)
-        : NodeType(qualified_name, id, context, NodeKind::RecordType, type_name),
+    NodeRecordType(std::string qualified_name, NodeId id, NodeId context,
+                   std::string type_name, NodeId record)
+        : NodeType(qualified_name, id, context, NodeKind::RecordType,
+                   type_name),
           record(record) {}
 
     virtual void write_xml_attrs(std::ostream& os) const override {
@@ -285,19 +284,39 @@ struct Param {
     int index;
 };
 
-struct NodeFunction : public Node {
+struct NodeAttributeHolder : public Node {
+    std::vector<std::string> attrs;
+
+    NodeAttributeHolder(std::string qualified_name, NodeId id, NodeId context,
+                        NodeKind node_kind, std::vector<std::string> attrs)
+        : Node(qualified_name, id, context, node_kind), attrs(attrs) {}
+
+    void write_attrs(std::ostream& os, int depth) const {
+        for (const auto& a : attrs) {
+            os << indent(depth) << "<Attribute>" << a << "</Attribute>\n";
+        }
+    }
+
+    virtual void write_xml(std::ostream& os, int depth) const = 0;
+};
+
+struct NodeFunction : public NodeAttributeHolder {
+    std::string short_name;
     QType return_type;
     std::vector<Param> params;
     bool in_binding = false;
     bool in_library = false;
 
     NodeFunction(std::string qualified_name, NodeId id, NodeId context,
+                 std::vector<std::string> attrs, std::string short_name,
                  QType return_type, std::vector<Param> params)
-        : Node(qualified_name, id, context, NodeKind::Function),
-          return_type(return_type), params(params) {}
+        : NodeAttributeHolder(qualified_name, id, context, NodeKind::Function,
+                              attrs),
+          short_name(short_name), return_type(return_type), params(params) {}
 
     virtual void write_xml_attrs(std::ostream& os) const override {
         Node::write_xml_attrs(os);
+        os << " short_name=\"" << sanitize(short_name) << "\"";
         os << " in_binding=\"" << in_binding << "\"";
         os << " in_library=\"" << in_library << "\"";
     }
@@ -316,9 +335,14 @@ struct NodeFunction : public Node {
     }
 
     virtual void write_xml(std::ostream& os, int depth) const override {
-        os << "<Function";
+        os << indent(depth) << "<Function";
         write_xml_attrs(os);
-        os << " />\n";
+        os << ">\n";
+
+        write_attrs(os, depth + 1);
+        write_parameters(os, depth + 1);
+
+        os << indent(depth) << "</Function>";
     }
 };
 
@@ -326,8 +350,10 @@ struct NodeMethod : public NodeFunction {
     bool is_static = false;
 
     NodeMethod(std::string qualified_name, NodeId id, NodeId context,
+               std::vector<std::string> attrs, std::string short_name,
                QType return_type, std::vector<Param> params, bool is_static)
-        : NodeFunction(qualified_name, id, context, return_type, params),
+        : NodeFunction(qualified_name, id, context, attrs, short_name,
+                       return_type, params),
           is_static(is_static) {
         node_kind = NodeKind::Method;
     }
@@ -342,6 +368,7 @@ struct NodeMethod : public NodeFunction {
         write_xml_attrs(os);
         os << ">\n";
 
+        write_attrs(os, depth + 1);
         write_parameters(os, depth + 1);
 
         os << indent(depth) << "</Method>";
@@ -353,7 +380,7 @@ struct Field {
     QType qtype;
 };
 
-struct NodeRecord : public Node {
+struct NodeRecord : public NodeAttributeHolder {
     std::vector<Field> fields;
     std::vector<NodeId> methods;
     RecordKind record_kind;
@@ -362,8 +389,10 @@ struct NodeRecord : public Node {
     uint32_t align;
 
     NodeRecord(std::string qualified_name, NodeId id, NodeId context,
-               RecordKind record_kind, uint32_t width, uint32_t align)
-        : Node(qualified_name, id, context, NodeKind::Record),
+               std::vector<std::string> attrs, RecordKind record_kind,
+               uint32_t width, uint32_t align)
+        : NodeAttributeHolder(qualified_name, id, context, NodeKind::Record,
+                              attrs),
           record_kind(record_kind), width(width), align(align) {}
 
     virtual void write_xml_attrs(std::ostream& os) const override {
@@ -376,6 +405,8 @@ struct NodeRecord : public Node {
         os << indent(depth) << "<Record";
         write_xml_attrs(os);
         os << ">\n";
+
+        write_attrs(os, depth + 1);
 
         for (const auto field : fields) {
             os << indent(depth + 1) << "<Field name=\"" << field.name << "\">";
@@ -394,21 +425,11 @@ struct NodeRecord : public Node {
 
 void dump_nodes(std::ostream& os) {
     os << "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n";
+    // ROOT here just contains all the NodeTranslationUnits, which themselves
+    // contain all the Records and Functions
     for (const auto& id : ROOT) {
-        /* if (node->node_kind == NodeKind::Method || */
-        /*     node->node_kind == NodeKind::BuiltinType) { */
-        /*     // we'll inline these in their records */
-        /*     continue; */
-        /* } */
         NODES[id]->write_xml(os, 0);
     }
-
-    /* for (const auto& kv: NODE_MAP) { */
-    /*     NodeId id = kv.second; */
-    /*     auto kind = NODES[id]->node_kind; */
-    /*     std::cout << kv.first << " -- " << kind << " -- " <<
-     * NODES[id]->qualified_name << "\n"; */
-    /* } */
 }
 
 bool get_abi_info(const TypeDecl* td, ASTContext& ctx, uint32_t& width,
@@ -432,6 +453,8 @@ bool get_abi_info(const TypeDecl* td, ASTContext& ctx, uint32_t& width,
     return false;
 }
 
+// Get a NodeTranslationUnit for the given filename, creating one if it doesn't
+// exist
 NodeTranslationUnit* get_translation_unit(const std::string& filename) {
     auto it = NODE_MAP.find(filename);
     if (it != NODE_MAP.end()) {
@@ -477,14 +500,14 @@ QType process_qtype(const QualType& qt) {
         auto it = NODE_MAP.find(pointer_type_name);
         NodeId id;
         if (it == NODE_MAP.end()) {
-
             // need to create the pointer type, create the pointee type first
             QType pointee_qtype =
                 process_qtype(qt->getPointeeType().getCanonicalType());
             // now create the pointer type
             id = NODES.size();
             auto node_pointer_type = std::make_unique<NodePointerType>(
-                pointer_type_node_name, id, 0, pointer_type_name, pointer_kind, pointee_qtype);
+                pointer_type_node_name, id, 0, pointer_type_name, pointer_kind,
+                pointee_qtype);
             NODES.emplace_back(std::move(node_pointer_type));
             NODE_MAP[pointer_type_name] = id;
         } else {
@@ -493,10 +516,9 @@ QType process_qtype(const QualType& qt) {
 
         return QType{id, qt.isConstQualified()};
     } else {
-        std::string type_name =
-            pystring::replace(
-                qt.getCanonicalType().getUnqualifiedType().getAsString(),
-                "class ", "");
+        std::string type_name = pystring::replace(
+            qt.getCanonicalType().getUnqualifiedType().getAsString(), "class ",
+            "");
         std::string type_node_name = "TYPE:" + type_name;
 
         auto it = NODE_MAP.find(type_node_name);
@@ -504,8 +526,8 @@ QType process_qtype(const QualType& qt) {
         if (it == NODE_MAP.end()) {
             id = NODES.size();
             if (qt->isBuiltinType()) {
-                auto node_type =
-                    std::make_unique<NodeBuiltinType>(type_node_name, id, 0, type_name);
+                auto node_type = std::make_unique<NodeBuiltinType>(
+                    type_node_name, id, 0, type_name);
                 NODES.emplace_back(std::move(node_type));
                 NODE_MAP[type_node_name] = id;
             } else if (qt->isRecordType()) {
@@ -539,6 +561,7 @@ QType process_qtype(const QualType& qt) {
     }
 }
 
+// Create Nodes for the function return type and parameters
 void process_function_parameters(const FunctionDecl* fd, QType& return_qtype,
                                  std::vector<Param>& params) {
     SPDLOG_DEBUG("    -> {}", fd->getReturnType().getAsString());
@@ -564,13 +587,74 @@ void process_function_parameters(const FunctionDecl* fd, QType& return_qtype,
 std::string get_record_name(const CXXRecordDecl* crd) {
     // we have to do this dance to get the template parameters in the name,
     // otherwise they're omitted
-    std::string s = crd->getTypeForDecl()->getCanonicalTypeInternal().getAsString();
-    s = pystring::replace( s, "class ", "");
-    s = pystring::replace( s, "struct ", "");
+    std::string s =
+        crd->getTypeForDecl()->getCanonicalTypeInternal().getAsString();
+    s = pystring::replace(s, "class ", "");
+    s = pystring::replace(s, "struct ", "");
     return s;
 }
 
-void process_concrete_record(const CXXRecordDecl* crd, std::string filename) {
+// extract all the methods on a decl and store them for later use. The resulting
+// methods are NOT inserted in the AST or stored in the global node tables.
+std::vector<NodePtr> process_methods(const CXXRecordDecl* crd) {
+    std::vector<NodePtr> result;
+    for (const Decl* d : crd->decls()) {
+        // A FunctionTemplateDecl represents methods that are dependent on
+        // their own template parameters (aside from the Record template
+        // parameter list).
+        if (const FunctionTemplateDecl* ftd =
+                dyn_cast<FunctionTemplateDecl>(d)) {
+            for (const FunctionDecl* fd : ftd->specializations()) {
+                const std::string function_name =
+                    ftd->getQualifiedNameAsString();
+                const std::string method_short_name = fd->getNameAsString();
+                SPDLOG_DEBUG("    SPEC {}", function_name);
+                QType return_qtype;
+                std::vector<Param> params;
+                process_function_parameters(fd, return_qtype, params);
+                NodeId id = NODES.size();
+
+                // FIXME: grab the attributes from the matching decl on the binding
+                std::vector<std::string> attrs;
+
+                auto node_function = std::make_unique<NodeMethod>(
+                    function_name, id, 0, std::move(attrs), method_short_name,
+                    return_qtype, std::move(params), fd->isStatic());
+                result.emplace_back(std::move(node_function));
+            }
+        } else if (const auto* cmd = dyn_cast<CXXMethodDecl>(d)) {
+            if (!cmd->isUserProvided()) {
+                // we only want methods that are explicitly declared in the
+                // binding file
+                continue;
+            }
+            const std::string method_name = cmd->getQualifiedNameAsString();
+            const std::string method_short_name = cmd->getNameAsString();
+            SPDLOG_DEBUG("    METHOD {}", method_name);
+
+            QType return_qtype;
+            std::vector<Param> params;
+            process_function_parameters(cmd, return_qtype, params);
+            NodeId id = NODES.size();
+
+            // FIXME: grab the attributes from the matching decl on the binding
+            std::vector<std::string> attrs;
+
+            auto node_function = std::make_unique<NodeMethod>(
+                method_name, id, 0, std::move(attrs), method_short_name, return_qtype,
+                std::move(params), cmd->isStatic());
+            result.emplace_back(std::move(node_function));
+        }
+    }
+
+    return result;
+}
+
+// Generate the AST output for a Record which we've decided represents a
+// concrete type (in the sense that all template parameters have been
+// specialized)
+void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
+                             std::vector<std::string> attrs) {
     ASTContext& ctx = crd->getASTContext();
     SourceManager& sm = ctx.getSourceManager();
     const auto& loc = crd->getLocation();
@@ -578,8 +662,10 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename) {
     crd = crd->getCanonicalDecl();
     const std::string record_name = get_record_name(crd);
 
+    // Get the translation unit node we're going to add this Record to
     auto* node_tu = get_translation_unit(filename);
 
+    // Get the size and alignment of the Record
     uint32_t width, align;
     if (!get_abi_info(dyn_cast<TypeDecl>(crd), ctx, width, align)) {
         SPDLOG_CRITICAL("Could not get ABI info for {}", record_name);
@@ -587,8 +673,9 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename) {
 
     // Add the new Record node
     NodeId new_id = NODES.size();
-    auto node_record = std::make_unique<NodeRecord>(
-        record_name, new_id, 0, RecordKind::OpaquePtr, width, align);
+    auto node_record =
+        std::make_unique<NodeRecord>(record_name, new_id, 0, std::move(attrs),
+                                     RecordKind::OpaquePtr, width, align);
     auto* node_record_ptr = node_record.get();
     NODES.emplace_back(std::move(node_record));
     NODE_MAP[record_name] = new_id;
@@ -605,62 +692,31 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename) {
     // add this record to the TU
     node_tu->children.push_back(new_id);
 
+    std::vector<NodePtr> methods = process_methods(crd);
+    for (NodePtr& method: methods) {
+        // TODO: try and match against a method in the binding record
+        NodeId id = NODES.size();
+        NODE_MAP[method->qualified_name] = id;
+        NODES.emplace_back(std::move(method));
+        node_record_ptr->methods.push_back(id);
+    }
+
     for (const Decl* d : crd->decls()) {
-        if (const FunctionTemplateDecl* ftd =
-                dyn_cast<FunctionTemplateDecl>(d)) {
-            // SPDLOG_DEBUG("        FunctionTemplateDecl");
-            for (const FunctionDecl* fd : ftd->specializations()) {
-                const std::string function_name =
-                    ftd->getQualifiedNameAsString();
-                SPDLOG_DEBUG("    SPEC {}", function_name);
-                QType return_qtype;
-                std::vector<Param> params;
-                process_function_parameters(fd, return_qtype, params);
-                NodeId id = NODES.size();
-                /* auto node_function =
-                 * std::make_unique<NodeMethod>(function_name, id, 0,
-                 * return_qtype, params, ); */
-            }
-        } else if (const auto* cmd = dyn_cast<CXXMethodDecl>(d)) {
-            if (!cmd->isUserProvided()) {
-                // we only want methods that are explicitly declared in the
-                // binding file
-                continue;
-            }
-            const std::string method_name = cmd->getQualifiedNameAsString();
-            SPDLOG_DEBUG("    METHOD {}", method_name);
-
-            QType return_qtype;
-            std::vector<Param> params;
-            process_function_parameters(cmd, return_qtype, params);
-            NodeId id = NODES.size();
-
-            auto node_function = std::make_unique<NodeMethod>(
-                method_name, id, 0, return_qtype, std::move(params),
-                cmd->isStatic());
-            NODES.emplace_back(std::move(node_function));
-            NODE_MAP[method_name] = id;
-            node_record_ptr->methods.push_back(id);
-
-        } else if (const auto* fd = dyn_cast<FieldDecl>(d)) {
+        if (const auto* fd = dyn_cast<FieldDecl>(d)) {
             const std::string field_name = fd->getNameAsString();
             SPDLOG_DEBUG("    FIELD {}", field_name);
             QType qtype = process_qtype(fd->getType());
             node_record_ptr->fields.push_back(Field{field_name, qtype.ty});
-        } else if (const auto* tad = dyn_cast<TypeAliasDecl>(d)) {
-            SPDLOG_DEBUG("    TYPEALIAS {}", tad->getQualifiedNameAsString());
-            const auto* bound_nd = tad->getUnderlyingDecl();
-            const auto* bound_rd =
-                tad->getUnderlyingType().getCanonicalType()->getAsRecordDecl();
-            SPDLOG_DEBUG("    RD: {}", bound_rd->getQualifiedNameAsString());
-            if (const auto* bound_ctsd =
-                    dyn_cast<ClassTemplateSpecializationDecl>(bound_rd)) {
-                SPDLOG_DEBUG("    got bound CTSD");
-            }
         }
     }
 }
 
+// This function handles a CXXRecordDecl match. This will be called with the
+// Record from the binding file, so we need to do a bit of preprocessing to make
+// sure it's the right match, then get the actual type we're interested in from
+// the library by inspecting the `using BoundType = XXX` decl on this Record.
+// We'll also need to get any attributes from here, as well as pre-generating a
+// list of matched methods
 void handle_cxx_record_decl(const CXXRecordDecl* crd) {
     ASTContext& ctx = crd->getASTContext();
     SourceManager& sm = ctx.getSourceManager();
@@ -694,15 +750,14 @@ void handle_cxx_record_decl(const CXXRecordDecl* crd) {
         return;
     }
 
-    if (const ClassTemplateSpecializationDecl* ctsd =
-            dyn_cast<ClassTemplateSpecializationDecl>(crd)) {
-        // this is the specialized version of a template class
-        SPDLOG_DEBUG("    is ClassTemplateSpecializationDecl");
-    }
-
     // if we get down here then we have a concrete, sized type we can
     // process
-    // see if there's a BoundType typedef, and if so process that instead
+
+    // first get the attrs
+    std::vector<std::string> attrs = get_attrs(crd);
+
+    // see if there's a BoundType typedef, and if so process the type that it
+    // points to instead
     for (const auto* decl : crd->decls()) {
         if (const auto* tad = dyn_cast<TypeAliasDecl>(decl)) {
             if (tad->getNameAsString() == "BoundType") {
@@ -715,20 +770,14 @@ void handle_cxx_record_decl(const CXXRecordDecl* crd) {
             const auto* bound_rd =
                 tad->getUnderlyingType()->getAsCXXRecordDecl();
 
-            if (const ClassTemplateSpecializationDecl* ctsd =
-                    dyn_cast<ClassTemplateSpecializationDecl>(crd)) {
-                // this is the specialized version of a template class
-                SPDLOG_DEBUG("    is ClassTemplateSpecializationDecl {}",
-                             ctsd->getQualifiedNameAsString());
-            }
-
-            process_concrete_record(bound_rd, filename);
+            process_concrete_record(bound_rd, filename, std::move(attrs));
             return;
         }
     }
 
-    // otherwise process this type
-    process_concrete_record(crd, filename);
+    // otherwise process this type (no real use in doing this - probably want
+    // to remove this)
+    process_concrete_record(crd, filename, std::move(attrs));
 }
 
 void ProcessBindingCallback::run(const MatchFinder::MatchResult& result) {
@@ -745,25 +794,21 @@ void ProcessBindingCallback::run(const MatchFinder::MatchResult& result) {
     //                result.Nodes.getNodeAs<FunctionDecl>("functionDecl")) {
     //     handle_function(function);
     // }
-    if (const ClassTemplateDecl* class_template_decl =
-            result.Nodes.getNodeAs<ClassTemplateDecl>("classTemplateDecl")) {
-        handle_class_template_decl(class_template_decl);
-    }
+
     if (const CXXRecordDecl* rec_decl =
             result.Nodes.getNodeAs<CXXRecordDecl>("recordDecl")) {
         handle_cxx_record_decl(rec_decl);
     }
 
-    // if (const TypeAliasDecl* tdecl =
-    //         result.Nodes.getNodeAs<TypeAliasDecl>("typeAliasDecl")) {
-    //     std::cout << "TYPEALIASDECL\n";
-    //     // tdecl->dump();
-    //     if (const auto* crd =
-    //     tdecl->getUnderlyingType()->getAsCXXRecordDecl()) {
-    //         SPDLOG_DEBUG("GOT CXXRECORDTTYPE");
-    //         process_concrete_decl(crd);
-    //     }
-    // }
+    if (const TypeAliasDecl* tdecl =
+            result.Nodes.getNodeAs<TypeAliasDecl>("typeAliasDecl")) {
+        std::cout << "TYPEALIASDECL\n";
+        // tdecl->dump();
+        if (const auto* crd =
+                tdecl->getUnderlyingType()->getAsCXXRecordDecl()) {
+            SPDLOG_DEBUG("GOT CXXRECORDTTYPE");
+        }
+    }
 }
 
 ProcessBindingConsumer::ProcessBindingConsumer(ASTContext* context) {
@@ -773,12 +818,6 @@ ProcessBindingConsumer::ProcessBindingConsumer(ASTContext* context) {
                       unless(isImplicit()))
             .bind("recordDecl");
     _match_finder.addMatcher(record_decl_matcher, &_handler);
-
-    // match all record declrations in the cppmm_bind namespace
-    DeclarationMatcher class_template_decl_matcher =
-        classTemplateDecl(hasAncestor(namespaceDecl(hasName("cppmm_bind"))))
-            .bind("classTemplateDecl");
-    _match_finder.addMatcher(class_template_decl_matcher, &_handler);
 
     // match all typedef declrations in the cppmm_bind namespace
     DeclarationMatcher typedef_decl_matcher =

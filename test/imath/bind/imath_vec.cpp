@@ -76,6 +76,8 @@ namespace IMATH_INTERNAL_NAMESPACE {
 // in order for clang to see the code for template functions that depend on
 // another template parameter list, we have to explicitly specialize them for
 // all the types we're interested in like this:
+// yuck - just realised that for matching we're going to need to do this for
+// the binding version as well.
 template <>
 template <>
 IMATH_HOSTDEVICE void Vec3<float>::setValue(float a, float b, float c);
