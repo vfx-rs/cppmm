@@ -1,5 +1,7 @@
 #include <Imath/ImathVec.h>
 
+#include <vector>
+
 #define CPPMM_IGNORE __attribute__((annotate("cppmm:ignore")))
 #define CPPMM_RENAME(x) __attribute__((annotate("cppmm:rename:" #x)))
 #define CPPMM_OPAQUEBYTES __attribute__((annotate("cppmm:opaquebytes")))
@@ -7,12 +9,17 @@
 
 namespace cppmm_bind {
 
-namespace IMATH_INTERNAL_NAMESPACE {
-
-namespace Imath = IMATH_INTERNAL_NAMESPACE;
-
 template <class T> class Vec3 {
 public:
+    // This allows us to see through to the type in Imath
+    using BoundType = ::Imath::Vec3<T>;
+    // Need to actually create an instance of the type to get it to specialize
+    // fully
+    BoundType bound_inst;
+
+    // we're not actually paying any attention to the method declarations yet
+    // no matching
+    /*
     bool equalWithAbsError(const Vec3<T>& v, T e) const;
     bool equalWithRelError(const Vec3<T>& v, T e) const;
 
@@ -50,13 +57,27 @@ public:
     constexpr static T baseTypeSmallest();
     constexpr static T baseTypeEpsilon();
 
+    template <class S> IMATH_HOSTDEVICE void setValue (S a, S b, S c);
+    */
+
 } CPPMM_VALUETYPE;
 
 // These type aliases will cause the class template to be monomorphized with
 // the given template parameter as if it had been explicitly declared
 using V3f = Vec3<float>;
+V3f v3f;
 using V3i = Vec3<int>;
-
-} // namespace IMATH_INTERNAL_NAMESPACE
+V3i v3i;
 
 } // namespace cppmm_bind
+
+namespace IMATH_INTERNAL_NAMESPACE {
+
+// in order for clang to see the code for template functions that depend on
+// another template parameter list, we have to explicitly specialize them for
+// all the types we're interested in like this:
+template <>
+template <>
+IMATH_HOSTDEVICE void Vec3<float>::setValue(float a, float b, float c);
+
+}

@@ -5,7 +5,7 @@
 #include <clang/Frontend/CompilerInstance.h>
 #include <clang/Frontend/FrontendAction.h>
 
-#include "exports.hpp"
+/* #include "exports.hpp" */
 
 namespace cppmm {
 
@@ -31,4 +31,5 @@ public:
     }
 };
 
+void dump_nodes(std::ostream& os);
 }

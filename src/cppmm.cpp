@@ -13,21 +13,22 @@
 #include "filesystem.hpp"
 #include "pystring.h"
 
-#include "attributes.hpp"
-#include "decls.hpp"
-#include "enum.hpp"
-#include "exports.hpp"
-#include "function.hpp"
-#include "generator_c.hpp"
-#include "generator_rust-sys.hpp"
-#include "match_bindings.hpp"
+/* #include "attributes.hpp" */
+/* #include "decls.hpp" */
+/* #include "enum.hpp" */
+/* #include "exports.hpp" */
+/* #include "function.hpp" */
+/* #include "generator_c.hpp" */
+/* #include "generator_rust-sys.hpp" */
+/* #include "match_bindings.hpp" */
+/* #include "match_decls.hpp" */
+/* #include "method.hpp" */
+/* #include "namespaces.hpp" */
+/* #include "param.hpp" */
+/* #include "record.hpp" */
+/* #include "type.hpp" */
+
 #include "process_binding.hpp"
-#include "match_decls.hpp"
-#include "method.hpp"
-#include "namespaces.hpp"
-#include "param.hpp"
-#include "record.hpp"
-#include "type.hpp"
 
 // #include <fmt/format.h>
 // #include <fmt/printf.h>
@@ -159,6 +160,13 @@ int main(int argc, const char** argv) {
     ClangTool Tool(OptionsParser.getCompilations(),
                    ArrayRef<std::string>(dir_paths));
 
+    Tool.mapVirtualFile("/usr/local/include/cppmm_bind.hpp", R"#(
+#define CPPMM_IGNORE __attribute__((annotate("cppmm:ignore")))
+#define CPPMM_RENAME(x) __attribute__((annotate("cppmm:rename:" #x)))
+#define CPPMM_OPAQUEBYTES __attribute__((annotate("cppmm:opaquebytes")))
+#define CPPMM_VALUETYPE __attribute__((annotate("cppmm:valuetype")))
+)#");
+
     std::string output_dir = cwd;
     if (opt_output_directory != "") {
         output_dir = opt_output_directory;
@@ -178,21 +186,21 @@ int main(int argc, const char** argv) {
 
     // get direct includes from the binding files to re-insert into the
     // generated bindings
-    for (const auto& src : dir_paths) {
-        const auto src_path = ps::os::path::join(cwd, src);
-        const auto includes = parse_file_includes(src_path);
-        cppmm::files[src_path] = {};
-        cppmm::files[src_path].includes = includes;
-    }
+    /* for (const auto& src : dir_paths) { */
+    /*     const auto src_path = ps::os::path::join(cwd, src); */
+    /*     const auto includes = parse_file_includes(src_path); */
+    /*     cppmm::files[src_path] = {}; */
+    /*     cppmm::files[src_path].includes = includes; */
+    /* } */
 
     // Get namespace renames from command-line options
-    for (const auto& o : opt_rename_namespace) {
-        std::vector<std::string> toks;
-        ps::split(o, toks, "=");
-        if (toks.size() == 2) {
-            cppmm::add_namespace_rename(toks[1], toks[0]);
-        }
-    }
+    /* for (const auto& o : opt_rename_namespace) { */
+    /*     std::vector<std::string> toks; */
+    /*     ps::split(o, toks, "="); */
+    /*     if (toks.size() == 2) { */
+    /*         cppmm::add_namespace_rename(toks[1], toks[0]); */
+    /*     } */
+    /* } */
 
     //--------------------------------------------------------------------------
     // First pass - find all declarations in namespace cppmm_bind that will
@@ -209,7 +217,9 @@ int main(int argc, const char** argv) {
     //     newFrontendActionFactory<cppmm::MatchBindingsAction>();
     // int result = Tool.run(match_exports_action.get());
 
-    
+    std::ofstream os;
+    os.open("out.xml", std::ios::out | std::ios::trunc);
+    cppmm::dump_nodes(os);
 
 
 #if 0

@@ -20,21 +20,21 @@ add_subdirectory(spdlog)
 add_executable(cppmm
   src/cppmm.cpp
   src/pystring.cpp
-  src/param.cpp
-  src/namespaces.cpp
-  src/type.cpp
-  src/attributes.cpp
-  src/record.cpp
-  src/function.cpp
-  src/method.cpp
-  src/enum.cpp
-  src/exports.cpp
-  src/match_bindings.cpp
+  # src/param.cpp
+  # src/namespaces.cpp
+  # src/type.cpp
+  # src/attributes.cpp
+  # src/record.cpp
+  # src/function.cpp
+  # src/method.cpp
+  # src/enum.cpp
+  # src/exports.cpp
+  # src/match_bindings.cpp
   src/process_binding.cpp
-  src/match_decls.cpp
-  src/decls.cpp
-  src/generator_c.cpp
-  src/generator_rust-sys.cpp
+  # src/match_decls.cpp
+  # src/decls.cpp
+  # src/generator_c.cpp
+  # src/generator_rust-sys.cpp
   )
 
 target_link_libraries(cppmm clangTooling clangBasic clangASTMatchers spdlog::spdlog)
