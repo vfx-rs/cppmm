@@ -1,0 +1,517 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<TranslationUnit name="/home/anders/code/cppmm/test/imath/bind/imath_box.cpp" id="5">
+    <Record name="Imath_3_0::Box&lt;Imath_3_0::Vec3&lt;float&gt; &gt;" id="6" width="192" align="32">
+        <Attribute>cppmm:valuetype</Attribute>
+        <Field name="min"><QType const="0"><RecordType name="TYPE:Imath_3_0::Vec3&lt;float&gt;" id="1" type="Imath_3_0::Vec3&lt;float&gt;" record="27" />
+</QType></Field>
+        <Field name="max"><QType const="0"><RecordType name="TYPE:Imath_3_0::Vec3&lt;float&gt;" id="1" type="Imath_3_0::Vec3&lt;float&gt;" record="27" />
+</QType></Field>
+        <Method name="Imath_3_0::Box&lt;Imath_3_0::Vec3&lt;float&gt; &gt;::Box" id="7" short_name="Box" in_binding="0" in_library="0" is_static="0">
+            <Return><QType const="0"><BuiltinType name="TYPE:void" id="0" type="void" /></QType></Return>
+        </Method>
+        <Method name="Imath_3_0::Box&lt;Imath_3_0::Vec3&lt;float&gt; &gt;::Box" id="7" short_name="Box" in_binding="0" in_library="0" is_static="0">
+            <Return><QType const="0"><BuiltinType name="TYPE:void" id="0" type="void" /></QType></Return>
+            <Param name="point" index="0"><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Vec3&lt;float&gt; &amp;" id="2" type="const class Imath_3_0::Vec3&lt;float&gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Vec3&lt;float&gt;" id="1" type="Imath_3_0::Vec3&lt;float&gt;" record="27" />
+</QType></PointerType></QType></Param>
+        </Method>
+        <Method name="Imath_3_0::Box&lt;Imath_3_0::Vec3&lt;float&gt; &gt;::Box" id="7" short_name="Box" in_binding="0" in_library="0" is_static="0">
+            <Return><QType const="0"><BuiltinType name="TYPE:void" id="0" type="void" /></QType></Return>
+            <Param name="minT" index="0"><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Vec3&lt;float&gt; &amp;" id="2" type="const class Imath_3_0::Vec3&lt;float&gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Vec3&lt;float&gt;" id="1" type="Imath_3_0::Vec3&lt;float&gt;" record="27" />
+</QType></PointerType></QType></Param>
+            <Param name="maxT" index="1"><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Vec3&lt;float&gt; &amp;" id="2" type="const class Imath_3_0::Vec3&lt;float&gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Vec3&lt;float&gt;" id="1" type="Imath_3_0::Vec3&lt;float&gt;" record="27" />
+</QType></PointerType></QType></Param>
+        </Method>
+        <Method name="Imath_3_0::Box&lt;Imath_3_0::Vec3&lt;float&gt; &gt;::operator==" id="8" short_name="operator==" in_binding="0" in_library="0" is_static="0">
+            <Return><QType const="0"><BuiltinType name="TYPE:_Bool" id="7" type="_Bool" /></QType></Return>
+            <Param name="src" index="0"><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Box&lt;class Imath_3_0::Vec3&lt;float&gt; &gt; &amp;" id="4" type="const class Imath_3_0::Box&lt;class Imath_3_0::Vec3&lt;float&gt; &gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Box&lt;Imath_3_0::Vec3&lt;float&gt; &gt;" id="3" type="Imath_3_0::Box&lt;Imath_3_0::Vec3&lt;float&gt; &gt;" record="6" />
+</QType></PointerType></QType></Param>
+        </Method>
+        <Method name="Imath_3_0::Box&lt;Imath_3_0::Vec3&lt;float&gt; &gt;::operator!=" id="8" short_name="operator!=" in_binding="0" in_library="0" is_static="0">
+            <Return><QType const="0"><BuiltinType name="TYPE:_Bool" id="7" type="_Bool" /></QType></Return>
+            <Param name="src" index="0"><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Box&lt;class Imath_3_0::Vec3&lt;float&gt; &gt; &amp;" id="4" type="const class Imath_3_0::Box&lt;class Imath_3_0::Vec3&lt;float&gt; &gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Box&lt;Imath_3_0::Vec3&lt;float&gt; &gt;" id="3" type="Imath_3_0::Box&lt;Imath_3_0::Vec3&lt;float&gt; &gt;" record="6" />
+</QType></PointerType></QType></Param>
+        </Method>
+        <Method name="Imath_3_0::Box&lt;Imath_3_0::Vec3&lt;float&gt; &gt;::makeEmpty" id="8" short_name="makeEmpty" in_binding="0" in_library="0" is_static="0">
+            <Return><QType const="0"><BuiltinType name="TYPE:void" id="0" type="void" /></QType></Return>
+        </Method>
+        <Method name="Imath_3_0::Box&lt;Imath_3_0::Vec3&lt;float&gt; &gt;::extendBy" id="8" short_name="extendBy" in_binding="0" in_library="0" is_static="0">
+            <Return><QType const="0"><BuiltinType name="TYPE:void" id="0" type="void" /></QType></Return>
+            <Param name="point" index="0"><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Vec3&lt;float&gt; &amp;" id="2" type="const class Imath_3_0::Vec3&lt;float&gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Vec3&lt;float&gt;" id="1" type="Imath_3_0::Vec3&lt;float&gt;" record="27" />
+</QType></PointerType></QType></Param>
+        </Method>
+        <Method name="Imath_3_0::Box&lt;Imath_3_0::Vec3&lt;float&gt; &gt;::extendBy" id="8" short_name="extendBy" in_binding="0" in_library="0" is_static="0">
+            <Return><QType const="0"><BuiltinType name="TYPE:void" id="0" type="void" /></QType></Return>
+            <Param name="box" index="0"><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Box&lt;class Imath_3_0::Vec3&lt;float&gt; &gt; &amp;" id="4" type="const class Imath_3_0::Box&lt;class Imath_3_0::Vec3&lt;float&gt; &gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Box&lt;Imath_3_0::Vec3&lt;float&gt; &gt;" id="3" type="Imath_3_0::Box&lt;Imath_3_0::Vec3&lt;float&gt; &gt;" record="6" />
+</QType></PointerType></QType></Param>
+        </Method>
+        <Method name="Imath_3_0::Box&lt;Imath_3_0::Vec3&lt;float&gt; &gt;::makeInfinite" id="8" short_name="makeInfinite" in_binding="0" in_library="0" is_static="0">
+            <Return><QType const="0"><BuiltinType name="TYPE:void" id="0" type="void" /></QType></Return>
+        </Method>
+        <Method name="Imath_3_0::Box&lt;Imath_3_0::Vec3&lt;float&gt; &gt;::size" id="8" short_name="size" in_binding="0" in_library="0" is_static="0">
+            <Return><QType const="0"><RecordType name="TYPE:Imath_3_0::Vec3&lt;float&gt;" id="1" type="Imath_3_0::Vec3&lt;float&gt;" record="27" />
+</QType></Return>
+        </Method>
+        <Method name="Imath_3_0::Box&lt;Imath_3_0::Vec3&lt;float&gt; &gt;::center" id="8" short_name="center" in_binding="0" in_library="0" is_static="0">
+            <Return><QType const="0"><RecordType name="TYPE:Imath_3_0::Vec3&lt;float&gt;" id="1" type="Imath_3_0::Vec3&lt;float&gt;" record="27" />
+</QType></Return>
+        </Method>
+        <Method name="Imath_3_0::Box&lt;Imath_3_0::Vec3&lt;float&gt; &gt;::intersects" id="8" short_name="intersects" in_binding="0" in_library="0" is_static="0">
+            <Return><QType const="0"><BuiltinType name="TYPE:_Bool" id="7" type="_Bool" /></QType></Return>
+            <Param name="point" index="0"><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Vec3&lt;float&gt; &amp;" id="2" type="const class Imath_3_0::Vec3&lt;float&gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Vec3&lt;float&gt;" id="1" type="Imath_3_0::Vec3&lt;float&gt;" record="27" />
+</QType></PointerType></QType></Param>
+        </Method>
+        <Method name="Imath_3_0::Box&lt;Imath_3_0::Vec3&lt;float&gt; &gt;::intersects" id="8" short_name="intersects" in_binding="0" in_library="0" is_static="0">
+            <Return><QType const="0"><BuiltinType name="TYPE:_Bool" id="7" type="_Bool" /></QType></Return>
+            <Param name="box" index="0"><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Box&lt;class Imath_3_0::Vec3&lt;float&gt; &gt; &amp;" id="4" type="const class Imath_3_0::Box&lt;class Imath_3_0::Vec3&lt;float&gt; &gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Box&lt;Imath_3_0::Vec3&lt;float&gt; &gt;" id="3" type="Imath_3_0::Box&lt;Imath_3_0::Vec3&lt;float&gt; &gt;" record="6" />
+</QType></PointerType></QType></Param>
+        </Method>
+        <Method name="Imath_3_0::Box&lt;Imath_3_0::Vec3&lt;float&gt; &gt;::majorAxis" id="9" short_name="majorAxis" in_binding="0" in_library="0" is_static="0">
+            <Return><QType const="0"><BuiltinType name="TYPE:unsigned int" id="8" type="unsigned int" /></QType></Return>
+        </Method>
+        <Method name="Imath_3_0::Box&lt;Imath_3_0::Vec3&lt;float&gt; &gt;::isEmpty" id="9" short_name="isEmpty" in_binding="0" in_library="0" is_static="0">
+            <Return><QType const="0"><BuiltinType name="TYPE:_Bool" id="7" type="_Bool" /></QType></Return>
+        </Method>
+        <Method name="Imath_3_0::Box&lt;Imath_3_0::Vec3&lt;float&gt; &gt;::hasVolume" id="9" short_name="hasVolume" in_binding="0" in_library="0" is_static="0">
+            <Return><QType const="0"><BuiltinType name="TYPE:_Bool" id="7" type="_Bool" /></QType></Return>
+        </Method>
+        <Method name="Imath_3_0::Box&lt;Imath_3_0::Vec3&lt;float&gt; &gt;::isInfinite" id="9" short_name="isInfinite" in_binding="0" in_library="0" is_static="0">
+            <Return><QType const="0"><BuiltinType name="TYPE:_Bool" id="7" type="_Bool" /></QType></Return>
+        </Method>
+    </Record>
+</TranslationUnit>
+<TranslationUnit name="/home/anders/code/cppmm/test/imath/bind/imath_vec.cpp" id="26">
+    <Record name="Imath_3_0::Vec3&lt;float&gt;" id="27" width="96" align="32">
+        <Attribute>cppmm:valuetype</Attribute>
+        <Field name="x"><QType const="0"><BuiltinType name="TYPE:float" id="28" type="float" /></QType></Field>
+        <Field name="y"><QType const="0"><BuiltinType name="TYPE:float" id="28" type="float" /></QType></Field>
+        <Field name="z"><QType const="0"><BuiltinType name="TYPE:float" id="28" type="float" /></QType></Field>
+        <Method name="Imath_3_0::Vec3&lt;float&gt;::operator[]" id="31" short_name="operator[]" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><PointerType name="TYPE:float &amp;" id="29" type="float &amp;" pointer_kind="reference"><QType const="0"><BuiltinType name="TYPE:float" id="28" type="float" /></QType></PointerType></QType></Return>
+            <Param name="i" index="0"><QType const="0"><BuiltinType name="TYPE:int" id="30" type="int" /></QType></Param>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;float&gt;::operator[]" id="32" short_name="operator[]" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><PointerType name="TYPE:const float &amp;" id="31" type="const float &amp;" pointer_kind="reference"><QType const="1"><BuiltinType name="TYPE:float" id="28" type="float" /></QType></PointerType></QType></Return>
+            <Param name="i" index="0"><QType const="0"><BuiltinType name="TYPE:int" id="30" type="int" /></QType></Param>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;float&gt;::Vec3" id="32" short_name="Vec3" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><BuiltinType name="TYPE:void" id="0" type="void" /></QType></Return>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;float&gt;::Vec3" id="32" short_name="Vec3" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><BuiltinType name="TYPE:void" id="0" type="void" /></QType></Return>
+            <Param name="a" index="0"><QType const="0"><BuiltinType name="TYPE:float" id="28" type="float" /></QType></Param>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;float&gt;::Vec3" id="32" short_name="Vec3" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><BuiltinType name="TYPE:void" id="0" type="void" /></QType></Return>
+            <Param name="a" index="0"><QType const="0"><BuiltinType name="TYPE:float" id="28" type="float" /></QType></Param>
+            <Param name="b" index="1"><QType const="0"><BuiltinType name="TYPE:float" id="28" type="float" /></QType></Param>
+            <Param name="c" index="2"><QType const="0"><BuiltinType name="TYPE:float" id="28" type="float" /></QType></Param>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;float&gt;::Vec3" id="32" short_name="Vec3" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><BuiltinType name="TYPE:void" id="0" type="void" /></QType></Return>
+            <Param name="v" index="0"><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Vec3&lt;float&gt; &amp;" id="2" type="const class Imath_3_0::Vec3&lt;float&gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Vec3&lt;float&gt;" id="1" type="Imath_3_0::Vec3&lt;float&gt;" record="27" />
+</QType></PointerType></QType></Param>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;float&gt;::Vec3" id="32" short_name="Vec3" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><BuiltinType name="TYPE:void" id="0" type="void" /></QType></Return>
+            <Param name="v" index="0"><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Vec3&lt;float&gt; &amp;" id="2" type="const class Imath_3_0::Vec3&lt;float&gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Vec3&lt;float&gt;" id="1" type="Imath_3_0::Vec3&lt;float&gt;" record="27" />
+</QType></PointerType></QType></Param>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;float&gt;::operator=" id="32" short_name="operator=" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Vec3&lt;float&gt; &amp;" id="2" type="const class Imath_3_0::Vec3&lt;float&gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Vec3&lt;float&gt;" id="1" type="Imath_3_0::Vec3&lt;float&gt;" record="27" />
+</QType></PointerType></QType></Return>
+            <Param name="v" index="0"><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Vec3&lt;float&gt; &amp;" id="2" type="const class Imath_3_0::Vec3&lt;float&gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Vec3&lt;float&gt;" id="1" type="Imath_3_0::Vec3&lt;float&gt;" record="27" />
+</QType></PointerType></QType></Param>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;float&gt;::setValue" id="32" short_name="setValue" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><BuiltinType name="TYPE:void" id="0" type="void" /></QType></Return>
+            <Param name="a" index="0"><QType const="0"><BuiltinType name="TYPE:float" id="28" type="float" /></QType></Param>
+            <Param name="b" index="1"><QType const="0"><BuiltinType name="TYPE:float" id="28" type="float" /></QType></Param>
+            <Param name="c" index="2"><QType const="0"><BuiltinType name="TYPE:float" id="28" type="float" /></QType></Param>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;float&gt;::getValue" id="33" short_name="getValue" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><PointerType name="TYPE:float *" id="32" type="float *" pointer_kind="pointer"><QType const="0"><BuiltinType name="TYPE:float" id="28" type="float" /></QType></PointerType></QType></Return>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;float&gt;::getValue" id="34" short_name="getValue" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><PointerType name="TYPE:const float *" id="33" type="const float *" pointer_kind="pointer"><QType const="1"><BuiltinType name="TYPE:float" id="28" type="float" /></QType></PointerType></QType></Return>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;float&gt;::equalWithAbsError" id="34" short_name="equalWithAbsError" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><BuiltinType name="TYPE:_Bool" id="7" type="_Bool" /></QType></Return>
+            <Param name="v" index="0"><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Vec3&lt;float&gt; &amp;" id="2" type="const class Imath_3_0::Vec3&lt;float&gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Vec3&lt;float&gt;" id="1" type="Imath_3_0::Vec3&lt;float&gt;" record="27" />
+</QType></PointerType></QType></Param>
+            <Param name="e" index="1"><QType const="0"><BuiltinType name="TYPE:float" id="28" type="float" /></QType></Param>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;float&gt;::equalWithRelError" id="34" short_name="equalWithRelError" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><BuiltinType name="TYPE:_Bool" id="7" type="_Bool" /></QType></Return>
+            <Param name="v" index="0"><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Vec3&lt;float&gt; &amp;" id="2" type="const class Imath_3_0::Vec3&lt;float&gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Vec3&lt;float&gt;" id="1" type="Imath_3_0::Vec3&lt;float&gt;" record="27" />
+</QType></PointerType></QType></Param>
+            <Param name="e" index="1"><QType const="0"><BuiltinType name="TYPE:float" id="28" type="float" /></QType></Param>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;float&gt;::dot" id="34" short_name="dot" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><BuiltinType name="TYPE:float" id="28" type="float" /></QType></Return>
+            <Param name="v" index="0"><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Vec3&lt;float&gt; &amp;" id="2" type="const class Imath_3_0::Vec3&lt;float&gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Vec3&lt;float&gt;" id="1" type="Imath_3_0::Vec3&lt;float&gt;" record="27" />
+</QType></PointerType></QType></Param>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;float&gt;::operator^" id="34" short_name="operator^" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><BuiltinType name="TYPE:float" id="28" type="float" /></QType></Return>
+            <Param name="v" index="0"><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Vec3&lt;float&gt; &amp;" id="2" type="const class Imath_3_0::Vec3&lt;float&gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Vec3&lt;float&gt;" id="1" type="Imath_3_0::Vec3&lt;float&gt;" record="27" />
+</QType></PointerType></QType></Param>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;float&gt;::cross" id="34" short_name="cross" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><RecordType name="TYPE:Imath_3_0::Vec3&lt;float&gt;" id="1" type="Imath_3_0::Vec3&lt;float&gt;" record="27" />
+</QType></Return>
+            <Param name="v" index="0"><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Vec3&lt;float&gt; &amp;" id="2" type="const class Imath_3_0::Vec3&lt;float&gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Vec3&lt;float&gt;" id="1" type="Imath_3_0::Vec3&lt;float&gt;" record="27" />
+</QType></PointerType></QType></Param>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;float&gt;::operator%=" id="34" short_name="operator%=" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Vec3&lt;float&gt; &amp;" id="2" type="const class Imath_3_0::Vec3&lt;float&gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Vec3&lt;float&gt;" id="1" type="Imath_3_0::Vec3&lt;float&gt;" record="27" />
+</QType></PointerType></QType></Return>
+            <Param name="v" index="0"><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Vec3&lt;float&gt; &amp;" id="2" type="const class Imath_3_0::Vec3&lt;float&gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Vec3&lt;float&gt;" id="1" type="Imath_3_0::Vec3&lt;float&gt;" record="27" />
+</QType></PointerType></QType></Param>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;float&gt;::operator%" id="34" short_name="operator%" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><RecordType name="TYPE:Imath_3_0::Vec3&lt;float&gt;" id="1" type="Imath_3_0::Vec3&lt;float&gt;" record="27" />
+</QType></Return>
+            <Param name="v" index="0"><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Vec3&lt;float&gt; &amp;" id="2" type="const class Imath_3_0::Vec3&lt;float&gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Vec3&lt;float&gt;" id="1" type="Imath_3_0::Vec3&lt;float&gt;" record="27" />
+</QType></PointerType></QType></Param>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;float&gt;::operator+=" id="34" short_name="operator+=" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Vec3&lt;float&gt; &amp;" id="2" type="const class Imath_3_0::Vec3&lt;float&gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Vec3&lt;float&gt;" id="1" type="Imath_3_0::Vec3&lt;float&gt;" record="27" />
+</QType></PointerType></QType></Return>
+            <Param name="v" index="0"><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Vec3&lt;float&gt; &amp;" id="2" type="const class Imath_3_0::Vec3&lt;float&gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Vec3&lt;float&gt;" id="1" type="Imath_3_0::Vec3&lt;float&gt;" record="27" />
+</QType></PointerType></QType></Param>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;float&gt;::operator+" id="34" short_name="operator+" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><RecordType name="TYPE:Imath_3_0::Vec3&lt;float&gt;" id="1" type="Imath_3_0::Vec3&lt;float&gt;" record="27" />
+</QType></Return>
+            <Param name="v" index="0"><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Vec3&lt;float&gt; &amp;" id="2" type="const class Imath_3_0::Vec3&lt;float&gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Vec3&lt;float&gt;" id="1" type="Imath_3_0::Vec3&lt;float&gt;" record="27" />
+</QType></PointerType></QType></Param>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;float&gt;::operator-=" id="34" short_name="operator-=" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Vec3&lt;float&gt; &amp;" id="2" type="const class Imath_3_0::Vec3&lt;float&gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Vec3&lt;float&gt;" id="1" type="Imath_3_0::Vec3&lt;float&gt;" record="27" />
+</QType></PointerType></QType></Return>
+            <Param name="v" index="0"><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Vec3&lt;float&gt; &amp;" id="2" type="const class Imath_3_0::Vec3&lt;float&gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Vec3&lt;float&gt;" id="1" type="Imath_3_0::Vec3&lt;float&gt;" record="27" />
+</QType></PointerType></QType></Param>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;float&gt;::operator-" id="34" short_name="operator-" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><RecordType name="TYPE:Imath_3_0::Vec3&lt;float&gt;" id="1" type="Imath_3_0::Vec3&lt;float&gt;" record="27" />
+</QType></Return>
+            <Param name="v" index="0"><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Vec3&lt;float&gt; &amp;" id="2" type="const class Imath_3_0::Vec3&lt;float&gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Vec3&lt;float&gt;" id="1" type="Imath_3_0::Vec3&lt;float&gt;" record="27" />
+</QType></PointerType></QType></Param>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;float&gt;::operator-" id="34" short_name="operator-" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><RecordType name="TYPE:Imath_3_0::Vec3&lt;float&gt;" id="1" type="Imath_3_0::Vec3&lt;float&gt;" record="27" />
+</QType></Return>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;float&gt;::negate" id="34" short_name="negate" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Vec3&lt;float&gt; &amp;" id="2" type="const class Imath_3_0::Vec3&lt;float&gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Vec3&lt;float&gt;" id="1" type="Imath_3_0::Vec3&lt;float&gt;" record="27" />
+</QType></PointerType></QType></Return>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;float&gt;::operator*=" id="34" short_name="operator*=" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Vec3&lt;float&gt; &amp;" id="2" type="const class Imath_3_0::Vec3&lt;float&gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Vec3&lt;float&gt;" id="1" type="Imath_3_0::Vec3&lt;float&gt;" record="27" />
+</QType></PointerType></QType></Return>
+            <Param name="v" index="0"><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Vec3&lt;float&gt; &amp;" id="2" type="const class Imath_3_0::Vec3&lt;float&gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Vec3&lt;float&gt;" id="1" type="Imath_3_0::Vec3&lt;float&gt;" record="27" />
+</QType></PointerType></QType></Param>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;float&gt;::operator*=" id="34" short_name="operator*=" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Vec3&lt;float&gt; &amp;" id="2" type="const class Imath_3_0::Vec3&lt;float&gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Vec3&lt;float&gt;" id="1" type="Imath_3_0::Vec3&lt;float&gt;" record="27" />
+</QType></PointerType></QType></Return>
+            <Param name="a" index="0"><QType const="0"><BuiltinType name="TYPE:float" id="28" type="float" /></QType></Param>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;float&gt;::operator*" id="34" short_name="operator*" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><RecordType name="TYPE:Imath_3_0::Vec3&lt;float&gt;" id="1" type="Imath_3_0::Vec3&lt;float&gt;" record="27" />
+</QType></Return>
+            <Param name="v" index="0"><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Vec3&lt;float&gt; &amp;" id="2" type="const class Imath_3_0::Vec3&lt;float&gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Vec3&lt;float&gt;" id="1" type="Imath_3_0::Vec3&lt;float&gt;" record="27" />
+</QType></PointerType></QType></Param>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;float&gt;::operator*" id="34" short_name="operator*" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><RecordType name="TYPE:Imath_3_0::Vec3&lt;float&gt;" id="1" type="Imath_3_0::Vec3&lt;float&gt;" record="27" />
+</QType></Return>
+            <Param name="a" index="0"><QType const="0"><BuiltinType name="TYPE:float" id="28" type="float" /></QType></Param>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;float&gt;::operator/=" id="34" short_name="operator/=" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Vec3&lt;float&gt; &amp;" id="2" type="const class Imath_3_0::Vec3&lt;float&gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Vec3&lt;float&gt;" id="1" type="Imath_3_0::Vec3&lt;float&gt;" record="27" />
+</QType></PointerType></QType></Return>
+            <Param name="v" index="0"><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Vec3&lt;float&gt; &amp;" id="2" type="const class Imath_3_0::Vec3&lt;float&gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Vec3&lt;float&gt;" id="1" type="Imath_3_0::Vec3&lt;float&gt;" record="27" />
+</QType></PointerType></QType></Param>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;float&gt;::operator/=" id="34" short_name="operator/=" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Vec3&lt;float&gt; &amp;" id="2" type="const class Imath_3_0::Vec3&lt;float&gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Vec3&lt;float&gt;" id="1" type="Imath_3_0::Vec3&lt;float&gt;" record="27" />
+</QType></PointerType></QType></Return>
+            <Param name="a" index="0"><QType const="0"><BuiltinType name="TYPE:float" id="28" type="float" /></QType></Param>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;float&gt;::operator/" id="34" short_name="operator/" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><RecordType name="TYPE:Imath_3_0::Vec3&lt;float&gt;" id="1" type="Imath_3_0::Vec3&lt;float&gt;" record="27" />
+</QType></Return>
+            <Param name="v" index="0"><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Vec3&lt;float&gt; &amp;" id="2" type="const class Imath_3_0::Vec3&lt;float&gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Vec3&lt;float&gt;" id="1" type="Imath_3_0::Vec3&lt;float&gt;" record="27" />
+</QType></PointerType></QType></Param>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;float&gt;::operator/" id="34" short_name="operator/" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><RecordType name="TYPE:Imath_3_0::Vec3&lt;float&gt;" id="1" type="Imath_3_0::Vec3&lt;float&gt;" record="27" />
+</QType></Return>
+            <Param name="a" index="0"><QType const="0"><BuiltinType name="TYPE:float" id="28" type="float" /></QType></Param>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;float&gt;::length" id="34" short_name="length" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><BuiltinType name="TYPE:float" id="28" type="float" /></QType></Return>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;float&gt;::length2" id="34" short_name="length2" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><BuiltinType name="TYPE:float" id="28" type="float" /></QType></Return>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;float&gt;::normalize" id="34" short_name="normalize" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Vec3&lt;float&gt; &amp;" id="2" type="const class Imath_3_0::Vec3&lt;float&gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Vec3&lt;float&gt;" id="1" type="Imath_3_0::Vec3&lt;float&gt;" record="27" />
+</QType></PointerType></QType></Return>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;float&gt;::normalizeExc" id="34" short_name="normalizeExc" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Vec3&lt;float&gt; &amp;" id="2" type="const class Imath_3_0::Vec3&lt;float&gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Vec3&lt;float&gt;" id="1" type="Imath_3_0::Vec3&lt;float&gt;" record="27" />
+</QType></PointerType></QType></Return>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;float&gt;::normalizeNonNull" id="34" short_name="normalizeNonNull" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Vec3&lt;float&gt; &amp;" id="2" type="const class Imath_3_0::Vec3&lt;float&gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Vec3&lt;float&gt;" id="1" type="Imath_3_0::Vec3&lt;float&gt;" record="27" />
+</QType></PointerType></QType></Return>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;float&gt;::normalized" id="34" short_name="normalized" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><RecordType name="TYPE:Imath_3_0::Vec3&lt;float&gt;" id="1" type="Imath_3_0::Vec3&lt;float&gt;" record="27" />
+</QType></Return>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;float&gt;::normalizedExc" id="34" short_name="normalizedExc" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><RecordType name="TYPE:Imath_3_0::Vec3&lt;float&gt;" id="1" type="Imath_3_0::Vec3&lt;float&gt;" record="27" />
+</QType></Return>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;float&gt;::normalizedNonNull" id="34" short_name="normalizedNonNull" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><RecordType name="TYPE:Imath_3_0::Vec3&lt;float&gt;" id="1" type="Imath_3_0::Vec3&lt;float&gt;" record="27" />
+</QType></Return>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;float&gt;::dimensions" id="34" short_name="dimensions" in_binding="1" in_library="0" is_static="1">
+            <Return><QType const="0"><BuiltinType name="TYPE:unsigned int" id="8" type="unsigned int" /></QType></Return>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;float&gt;::baseTypeMin" id="34" short_name="baseTypeMin" in_binding="1" in_library="0" is_static="1">
+            <Return><QType const="0"><BuiltinType name="TYPE:float" id="28" type="float" /></QType></Return>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;float&gt;::baseTypeMax" id="34" short_name="baseTypeMax" in_binding="1" in_library="0" is_static="1">
+            <Return><QType const="0"><BuiltinType name="TYPE:float" id="28" type="float" /></QType></Return>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;float&gt;::baseTypeSmallest" id="34" short_name="baseTypeSmallest" in_binding="1" in_library="0" is_static="1">
+            <Return><QType const="0"><BuiltinType name="TYPE:float" id="28" type="float" /></QType></Return>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;float&gt;::baseTypeEpsilon" id="34" short_name="baseTypeEpsilon" in_binding="1" in_library="0" is_static="1">
+            <Return><QType const="0"><BuiltinType name="TYPE:float" id="28" type="float" /></QType></Return>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;float&gt;::lengthTiny" id="34" short_name="lengthTiny" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><BuiltinType name="TYPE:float" id="28" type="float" /></QType></Return>
+        </Method>
+    </Record>
+</TranslationUnit>
+<TranslationUnit name="/home/anders/code/cppmm/test/imath/bind/imath_vec.cpp" id="80">
+    <Record name="Imath_3_0::Vec3&lt;int&gt;" id="81" width="96" align="32">
+        <Attribute>cppmm:valuetype</Attribute>
+        <Field name="x"><QType const="0"><BuiltinType name="TYPE:int" id="30" type="int" /></QType></Field>
+        <Field name="y"><QType const="0"><BuiltinType name="TYPE:int" id="30" type="int" /></QType></Field>
+        <Field name="z"><QType const="0"><BuiltinType name="TYPE:int" id="30" type="int" /></QType></Field>
+        <Method name="Imath_3_0::Vec3&lt;int&gt;::operator[]" id="83" short_name="operator[]" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><PointerType name="TYPE:int &amp;" id="82" type="int &amp;" pointer_kind="reference"><QType const="0"><BuiltinType name="TYPE:int" id="30" type="int" /></QType></PointerType></QType></Return>
+            <Param name="i" index="0"><QType const="0"><BuiltinType name="TYPE:int" id="30" type="int" /></QType></Param>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;int&gt;::operator[]" id="84" short_name="operator[]" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><PointerType name="TYPE:const int &amp;" id="83" type="const int &amp;" pointer_kind="reference"><QType const="1"><BuiltinType name="TYPE:int" id="30" type="int" /></QType></PointerType></QType></Return>
+            <Param name="i" index="0"><QType const="0"><BuiltinType name="TYPE:int" id="30" type="int" /></QType></Param>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;int&gt;::Vec3" id="84" short_name="Vec3" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><BuiltinType name="TYPE:void" id="0" type="void" /></QType></Return>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;int&gt;::Vec3" id="84" short_name="Vec3" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><BuiltinType name="TYPE:void" id="0" type="void" /></QType></Return>
+            <Param name="a" index="0"><QType const="0"><BuiltinType name="TYPE:int" id="30" type="int" /></QType></Param>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;int&gt;::Vec3" id="84" short_name="Vec3" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><BuiltinType name="TYPE:void" id="0" type="void" /></QType></Return>
+            <Param name="a" index="0"><QType const="0"><BuiltinType name="TYPE:int" id="30" type="int" /></QType></Param>
+            <Param name="b" index="1"><QType const="0"><BuiltinType name="TYPE:int" id="30" type="int" /></QType></Param>
+            <Param name="c" index="2"><QType const="0"><BuiltinType name="TYPE:int" id="30" type="int" /></QType></Param>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;int&gt;::Vec3" id="86" short_name="Vec3" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><BuiltinType name="TYPE:void" id="0" type="void" /></QType></Return>
+            <Param name="v" index="0"><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Vec3&lt;int&gt; &amp;" id="85" type="const class Imath_3_0::Vec3&lt;int&gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Vec3&lt;int&gt;" id="84" type="Imath_3_0::Vec3&lt;int&gt;" record="18446744073709551615" />
+</QType></PointerType></QType></Param>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;int&gt;::Vec3" id="86" short_name="Vec3" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><BuiltinType name="TYPE:void" id="0" type="void" /></QType></Return>
+            <Param name="v" index="0"><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Vec3&lt;int&gt; &amp;" id="85" type="const class Imath_3_0::Vec3&lt;int&gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Vec3&lt;int&gt;" id="84" type="Imath_3_0::Vec3&lt;int&gt;" record="18446744073709551615" />
+</QType></PointerType></QType></Param>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;int&gt;::operator=" id="86" short_name="operator=" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Vec3&lt;int&gt; &amp;" id="85" type="const class Imath_3_0::Vec3&lt;int&gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Vec3&lt;int&gt;" id="84" type="Imath_3_0::Vec3&lt;int&gt;" record="18446744073709551615" />
+</QType></PointerType></QType></Return>
+            <Param name="v" index="0"><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Vec3&lt;int&gt; &amp;" id="85" type="const class Imath_3_0::Vec3&lt;int&gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Vec3&lt;int&gt;" id="84" type="Imath_3_0::Vec3&lt;int&gt;" record="18446744073709551615" />
+</QType></PointerType></QType></Param>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;int&gt;::getValue" id="87" short_name="getValue" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><PointerType name="TYPE:int *" id="86" type="int *" pointer_kind="pointer"><QType const="0"><BuiltinType name="TYPE:int" id="30" type="int" /></QType></PointerType></QType></Return>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;int&gt;::getValue" id="88" short_name="getValue" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><PointerType name="TYPE:const int *" id="87" type="const int *" pointer_kind="pointer"><QType const="1"><BuiltinType name="TYPE:int" id="30" type="int" /></QType></PointerType></QType></Return>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;int&gt;::equalWithAbsError" id="88" short_name="equalWithAbsError" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><BuiltinType name="TYPE:_Bool" id="7" type="_Bool" /></QType></Return>
+            <Param name="v" index="0"><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Vec3&lt;int&gt; &amp;" id="85" type="const class Imath_3_0::Vec3&lt;int&gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Vec3&lt;int&gt;" id="84" type="Imath_3_0::Vec3&lt;int&gt;" record="18446744073709551615" />
+</QType></PointerType></QType></Param>
+            <Param name="e" index="1"><QType const="0"><BuiltinType name="TYPE:int" id="30" type="int" /></QType></Param>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;int&gt;::equalWithRelError" id="88" short_name="equalWithRelError" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><BuiltinType name="TYPE:_Bool" id="7" type="_Bool" /></QType></Return>
+            <Param name="v" index="0"><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Vec3&lt;int&gt; &amp;" id="85" type="const class Imath_3_0::Vec3&lt;int&gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Vec3&lt;int&gt;" id="84" type="Imath_3_0::Vec3&lt;int&gt;" record="18446744073709551615" />
+</QType></PointerType></QType></Param>
+            <Param name="e" index="1"><QType const="0"><BuiltinType name="TYPE:int" id="30" type="int" /></QType></Param>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;int&gt;::dot" id="88" short_name="dot" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><BuiltinType name="TYPE:int" id="30" type="int" /></QType></Return>
+            <Param name="v" index="0"><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Vec3&lt;int&gt; &amp;" id="85" type="const class Imath_3_0::Vec3&lt;int&gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Vec3&lt;int&gt;" id="84" type="Imath_3_0::Vec3&lt;int&gt;" record="18446744073709551615" />
+</QType></PointerType></QType></Param>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;int&gt;::operator^" id="88" short_name="operator^" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><BuiltinType name="TYPE:int" id="30" type="int" /></QType></Return>
+            <Param name="v" index="0"><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Vec3&lt;int&gt; &amp;" id="85" type="const class Imath_3_0::Vec3&lt;int&gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Vec3&lt;int&gt;" id="84" type="Imath_3_0::Vec3&lt;int&gt;" record="18446744073709551615" />
+</QType></PointerType></QType></Param>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;int&gt;::cross" id="88" short_name="cross" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><RecordType name="TYPE:Imath_3_0::Vec3&lt;int&gt;" id="84" type="Imath_3_0::Vec3&lt;int&gt;" record="18446744073709551615" />
+</QType></Return>
+            <Param name="v" index="0"><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Vec3&lt;int&gt; &amp;" id="85" type="const class Imath_3_0::Vec3&lt;int&gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Vec3&lt;int&gt;" id="84" type="Imath_3_0::Vec3&lt;int&gt;" record="18446744073709551615" />
+</QType></PointerType></QType></Param>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;int&gt;::operator%=" id="88" short_name="operator%=" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Vec3&lt;int&gt; &amp;" id="85" type="const class Imath_3_0::Vec3&lt;int&gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Vec3&lt;int&gt;" id="84" type="Imath_3_0::Vec3&lt;int&gt;" record="18446744073709551615" />
+</QType></PointerType></QType></Return>
+            <Param name="v" index="0"><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Vec3&lt;int&gt; &amp;" id="85" type="const class Imath_3_0::Vec3&lt;int&gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Vec3&lt;int&gt;" id="84" type="Imath_3_0::Vec3&lt;int&gt;" record="18446744073709551615" />
+</QType></PointerType></QType></Param>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;int&gt;::operator%" id="88" short_name="operator%" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><RecordType name="TYPE:Imath_3_0::Vec3&lt;int&gt;" id="84" type="Imath_3_0::Vec3&lt;int&gt;" record="18446744073709551615" />
+</QType></Return>
+            <Param name="v" index="0"><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Vec3&lt;int&gt; &amp;" id="85" type="const class Imath_3_0::Vec3&lt;int&gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Vec3&lt;int&gt;" id="84" type="Imath_3_0::Vec3&lt;int&gt;" record="18446744073709551615" />
+</QType></PointerType></QType></Param>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;int&gt;::operator+=" id="88" short_name="operator+=" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Vec3&lt;int&gt; &amp;" id="85" type="const class Imath_3_0::Vec3&lt;int&gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Vec3&lt;int&gt;" id="84" type="Imath_3_0::Vec3&lt;int&gt;" record="18446744073709551615" />
+</QType></PointerType></QType></Return>
+            <Param name="v" index="0"><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Vec3&lt;int&gt; &amp;" id="85" type="const class Imath_3_0::Vec3&lt;int&gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Vec3&lt;int&gt;" id="84" type="Imath_3_0::Vec3&lt;int&gt;" record="18446744073709551615" />
+</QType></PointerType></QType></Param>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;int&gt;::operator+" id="88" short_name="operator+" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><RecordType name="TYPE:Imath_3_0::Vec3&lt;int&gt;" id="84" type="Imath_3_0::Vec3&lt;int&gt;" record="18446744073709551615" />
+</QType></Return>
+            <Param name="v" index="0"><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Vec3&lt;int&gt; &amp;" id="85" type="const class Imath_3_0::Vec3&lt;int&gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Vec3&lt;int&gt;" id="84" type="Imath_3_0::Vec3&lt;int&gt;" record="18446744073709551615" />
+</QType></PointerType></QType></Param>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;int&gt;::operator-=" id="88" short_name="operator-=" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Vec3&lt;int&gt; &amp;" id="85" type="const class Imath_3_0::Vec3&lt;int&gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Vec3&lt;int&gt;" id="84" type="Imath_3_0::Vec3&lt;int&gt;" record="18446744073709551615" />
+</QType></PointerType></QType></Return>
+            <Param name="v" index="0"><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Vec3&lt;int&gt; &amp;" id="85" type="const class Imath_3_0::Vec3&lt;int&gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Vec3&lt;int&gt;" id="84" type="Imath_3_0::Vec3&lt;int&gt;" record="18446744073709551615" />
+</QType></PointerType></QType></Param>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;int&gt;::operator-" id="88" short_name="operator-" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><RecordType name="TYPE:Imath_3_0::Vec3&lt;int&gt;" id="84" type="Imath_3_0::Vec3&lt;int&gt;" record="18446744073709551615" />
+</QType></Return>
+            <Param name="v" index="0"><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Vec3&lt;int&gt; &amp;" id="85" type="const class Imath_3_0::Vec3&lt;int&gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Vec3&lt;int&gt;" id="84" type="Imath_3_0::Vec3&lt;int&gt;" record="18446744073709551615" />
+</QType></PointerType></QType></Param>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;int&gt;::operator-" id="88" short_name="operator-" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><RecordType name="TYPE:Imath_3_0::Vec3&lt;int&gt;" id="84" type="Imath_3_0::Vec3&lt;int&gt;" record="18446744073709551615" />
+</QType></Return>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;int&gt;::negate" id="88" short_name="negate" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Vec3&lt;int&gt; &amp;" id="85" type="const class Imath_3_0::Vec3&lt;int&gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Vec3&lt;int&gt;" id="84" type="Imath_3_0::Vec3&lt;int&gt;" record="18446744073709551615" />
+</QType></PointerType></QType></Return>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;int&gt;::operator*=" id="88" short_name="operator*=" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Vec3&lt;int&gt; &amp;" id="85" type="const class Imath_3_0::Vec3&lt;int&gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Vec3&lt;int&gt;" id="84" type="Imath_3_0::Vec3&lt;int&gt;" record="18446744073709551615" />
+</QType></PointerType></QType></Return>
+            <Param name="v" index="0"><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Vec3&lt;int&gt; &amp;" id="85" type="const class Imath_3_0::Vec3&lt;int&gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Vec3&lt;int&gt;" id="84" type="Imath_3_0::Vec3&lt;int&gt;" record="18446744073709551615" />
+</QType></PointerType></QType></Param>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;int&gt;::operator*=" id="88" short_name="operator*=" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Vec3&lt;int&gt; &amp;" id="85" type="const class Imath_3_0::Vec3&lt;int&gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Vec3&lt;int&gt;" id="84" type="Imath_3_0::Vec3&lt;int&gt;" record="18446744073709551615" />
+</QType></PointerType></QType></Return>
+            <Param name="a" index="0"><QType const="0"><BuiltinType name="TYPE:int" id="30" type="int" /></QType></Param>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;int&gt;::operator*" id="88" short_name="operator*" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><RecordType name="TYPE:Imath_3_0::Vec3&lt;int&gt;" id="84" type="Imath_3_0::Vec3&lt;int&gt;" record="18446744073709551615" />
+</QType></Return>
+            <Param name="v" index="0"><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Vec3&lt;int&gt; &amp;" id="85" type="const class Imath_3_0::Vec3&lt;int&gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Vec3&lt;int&gt;" id="84" type="Imath_3_0::Vec3&lt;int&gt;" record="18446744073709551615" />
+</QType></PointerType></QType></Param>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;int&gt;::operator*" id="88" short_name="operator*" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><RecordType name="TYPE:Imath_3_0::Vec3&lt;int&gt;" id="84" type="Imath_3_0::Vec3&lt;int&gt;" record="18446744073709551615" />
+</QType></Return>
+            <Param name="a" index="0"><QType const="0"><BuiltinType name="TYPE:int" id="30" type="int" /></QType></Param>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;int&gt;::operator/=" id="88" short_name="operator/=" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Vec3&lt;int&gt; &amp;" id="85" type="const class Imath_3_0::Vec3&lt;int&gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Vec3&lt;int&gt;" id="84" type="Imath_3_0::Vec3&lt;int&gt;" record="18446744073709551615" />
+</QType></PointerType></QType></Return>
+            <Param name="v" index="0"><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Vec3&lt;int&gt; &amp;" id="85" type="const class Imath_3_0::Vec3&lt;int&gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Vec3&lt;int&gt;" id="84" type="Imath_3_0::Vec3&lt;int&gt;" record="18446744073709551615" />
+</QType></PointerType></QType></Param>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;int&gt;::operator/=" id="88" short_name="operator/=" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Vec3&lt;int&gt; &amp;" id="85" type="const class Imath_3_0::Vec3&lt;int&gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Vec3&lt;int&gt;" id="84" type="Imath_3_0::Vec3&lt;int&gt;" record="18446744073709551615" />
+</QType></PointerType></QType></Return>
+            <Param name="a" index="0"><QType const="0"><BuiltinType name="TYPE:int" id="30" type="int" /></QType></Param>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;int&gt;::operator/" id="88" short_name="operator/" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><RecordType name="TYPE:Imath_3_0::Vec3&lt;int&gt;" id="84" type="Imath_3_0::Vec3&lt;int&gt;" record="18446744073709551615" />
+</QType></Return>
+            <Param name="v" index="0"><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Vec3&lt;int&gt; &amp;" id="85" type="const class Imath_3_0::Vec3&lt;int&gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Vec3&lt;int&gt;" id="84" type="Imath_3_0::Vec3&lt;int&gt;" record="18446744073709551615" />
+</QType></PointerType></QType></Param>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;int&gt;::operator/" id="88" short_name="operator/" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><RecordType name="TYPE:Imath_3_0::Vec3&lt;int&gt;" id="84" type="Imath_3_0::Vec3&lt;int&gt;" record="18446744073709551615" />
+</QType></Return>
+            <Param name="a" index="0"><QType const="0"><BuiltinType name="TYPE:int" id="30" type="int" /></QType></Param>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;int&gt;::length" id="88" short_name="length" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><BuiltinType name="TYPE:int" id="30" type="int" /></QType></Return>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;int&gt;::length2" id="88" short_name="length2" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><BuiltinType name="TYPE:int" id="30" type="int" /></QType></Return>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;int&gt;::normalize" id="88" short_name="normalize" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Vec3&lt;int&gt; &amp;" id="85" type="const class Imath_3_0::Vec3&lt;int&gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Vec3&lt;int&gt;" id="84" type="Imath_3_0::Vec3&lt;int&gt;" record="18446744073709551615" />
+</QType></PointerType></QType></Return>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;int&gt;::normalizeExc" id="88" short_name="normalizeExc" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Vec3&lt;int&gt; &amp;" id="85" type="const class Imath_3_0::Vec3&lt;int&gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Vec3&lt;int&gt;" id="84" type="Imath_3_0::Vec3&lt;int&gt;" record="18446744073709551615" />
+</QType></PointerType></QType></Return>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;int&gt;::normalizeNonNull" id="88" short_name="normalizeNonNull" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><PointerType name="TYPE:const class Imath_3_0::Vec3&lt;int&gt; &amp;" id="85" type="const class Imath_3_0::Vec3&lt;int&gt; &amp;" pointer_kind="reference"><QType const="1"><RecordType name="TYPE:Imath_3_0::Vec3&lt;int&gt;" id="84" type="Imath_3_0::Vec3&lt;int&gt;" record="18446744073709551615" />
+</QType></PointerType></QType></Return>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;int&gt;::normalized" id="88" short_name="normalized" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><RecordType name="TYPE:Imath_3_0::Vec3&lt;int&gt;" id="84" type="Imath_3_0::Vec3&lt;int&gt;" record="18446744073709551615" />
+</QType></Return>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;int&gt;::normalizedExc" id="88" short_name="normalizedExc" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><RecordType name="TYPE:Imath_3_0::Vec3&lt;int&gt;" id="84" type="Imath_3_0::Vec3&lt;int&gt;" record="18446744073709551615" />
+</QType></Return>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;int&gt;::normalizedNonNull" id="88" short_name="normalizedNonNull" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><RecordType name="TYPE:Imath_3_0::Vec3&lt;int&gt;" id="84" type="Imath_3_0::Vec3&lt;int&gt;" record="18446744073709551615" />
+</QType></Return>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;int&gt;::dimensions" id="88" short_name="dimensions" in_binding="1" in_library="0" is_static="1">
+            <Return><QType const="0"><BuiltinType name="TYPE:unsigned int" id="8" type="unsigned int" /></QType></Return>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;int&gt;::baseTypeMin" id="88" short_name="baseTypeMin" in_binding="1" in_library="0" is_static="1">
+            <Return><QType const="0"><BuiltinType name="TYPE:int" id="30" type="int" /></QType></Return>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;int&gt;::baseTypeMax" id="88" short_name="baseTypeMax" in_binding="1" in_library="0" is_static="1">
+            <Return><QType const="0"><BuiltinType name="TYPE:int" id="30" type="int" /></QType></Return>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;int&gt;::baseTypeSmallest" id="88" short_name="baseTypeSmallest" in_binding="1" in_library="0" is_static="1">
+            <Return><QType const="0"><BuiltinType name="TYPE:int" id="30" type="int" /></QType></Return>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;int&gt;::baseTypeEpsilon" id="88" short_name="baseTypeEpsilon" in_binding="1" in_library="0" is_static="1">
+            <Return><QType const="0"><BuiltinType name="TYPE:int" id="30" type="int" /></QType></Return>
+        </Method>
+        <Method name="Imath_3_0::Vec3&lt;int&gt;::lengthTiny" id="88" short_name="lengthTiny" in_binding="1" in_library="0" is_static="0">
+            <Return><QType const="0"><BuiltinType name="TYPE:int" id="30" type="int" /></QType></Return>
+        </Method>
+    </Record>
+</TranslationUnit>

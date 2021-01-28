@@ -18,7 +18,7 @@ public:
     // fully
     BoundType bound_inst;
 
-    IMATH_HOSTDEVICE IMATH_CONSTEXPR14 Box() {}
+    IMATH_HOSTDEVICE IMATH_CONSTEXPR14 Box();
     IMATH_HOSTDEVICE IMATH_CONSTEXPR14 Box(const V& point);
     IMATH_HOSTDEVICE IMATH_CONSTEXPR14 Box(const V& minV, const V& maxV);
 

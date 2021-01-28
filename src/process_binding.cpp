@@ -226,6 +226,14 @@ struct QType {
 
         os << "</QType>";
     }
+
+    bool operator==(const QType& rhs) const {
+        return ty == rhs.ty && is_const == rhs.is_const;
+    }
+
+    bool operator!=(const QType& rhs) const {
+        return !(*this == rhs);
+    }
 };
 
 // pointer or reference type - check type_kind
@@ -650,11 +658,43 @@ std::vector<NodePtr> process_methods(const CXXRecordDecl* crd) {
     return result;
 }
 
+bool match_method(const NodeMethod* a, const NodeMethod* b) {
+    if (a->short_name != b->short_name) {
+        return false;
+    }
+
+    if (a->return_type != b->return_type) {
+        return false;
+    }
+
+    if (a->params.size() != b->params.size()) {
+        return false;
+    }
+
+    for (int i = 0; i < a->params.size(); ++i) {
+        if (a->params[i].qty != b->params[i].qty) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+bool method_in_list(const NodeMethod* m, const std::vector<NodePtr>& binding_methods) {
+    for (const auto& n: binding_methods) {
+        const auto* b = (NodeMethod*)n.get();
+        if (!match_method(m, b)) {
+            return false;
+        }
+    }
+    return true;
+}
+
 // Generate the AST output for a Record which we've decided represents a
 // concrete type (in the sense that all template parameters have been
 // specialized)
 void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
-                             std::vector<std::string> attrs) {
+                             std::vector<std::string> attrs, std::vector<NodePtr> binding_methods) {
     ASTContext& ctx = crd->getASTContext();
     SourceManager& sm = ctx.getSourceManager();
     const auto& loc = crd->getLocation();
@@ -694,7 +734,11 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
 
     std::vector<NodePtr> methods = process_methods(crd);
     for (NodePtr& method: methods) {
-        // TODO: try and match against a method in the binding record
+        NodeMethod* mptr = (NodeMethod*)method.get();
+        if (method_in_list(mptr, binding_methods)) {
+            mptr->in_binding = true;
+        }
+
         NodeId id = NODES.size();
         NODE_MAP[method->qualified_name] = id;
         NODES.emplace_back(std::move(method));
@@ -756,6 +800,9 @@ void handle_cxx_record_decl(const CXXRecordDecl* crd) {
     // first get the attrs
     std::vector<std::string> attrs = get_attrs(crd);
 
+    // now get the methods so we can match
+    std::vector<NodePtr> methods = process_methods(crd);
+
     // see if there's a BoundType typedef, and if so process the type that it
     // points to instead
     for (const auto* decl : crd->decls()) {
@@ -770,14 +817,14 @@ void handle_cxx_record_decl(const CXXRecordDecl* crd) {
             const auto* bound_rd =
                 tad->getUnderlyingType()->getAsCXXRecordDecl();
 
-            process_concrete_record(bound_rd, filename, std::move(attrs));
+            process_concrete_record(bound_rd, filename, std::move(attrs), std::move(methods));
             return;
         }
     }
 
-    // otherwise process this type (no real use in doing this - probably want
-    // to remove this)
-    process_concrete_record(crd, filename, std::move(attrs));
+    // // otherwise process this type (no real use in doing this - probably want
+    // // to remove this)
+    // process_concrete_record(crd, filename, std::move(attrs));
 }
 
 void ProcessBindingCallback::run(const MatchFinder::MatchResult& result) {
@@ -802,11 +849,10 @@ void ProcessBindingCallback::run(const MatchFinder::MatchResult& result) {
 
     if (const TypeAliasDecl* tdecl =
             result.Nodes.getNodeAs<TypeAliasDecl>("typeAliasDecl")) {
-        std::cout << "TYPEALIASDECL\n";
         // tdecl->dump();
         if (const auto* crd =
                 tdecl->getUnderlyingType()->getAsCXXRecordDecl()) {
-            SPDLOG_DEBUG("GOT CXXRECORDTTYPE");
+            SPDLOG_DEBUG("GOT CXXRECORDTTYPE from TAD");
         }
     }
 }
