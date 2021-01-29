@@ -605,6 +605,13 @@ std::string get_record_name(const CXXRecordDecl* crd) {
 std::vector<NodePtr> process_methods(const CXXRecordDecl* crd) {
     std::vector<NodePtr> result;
     for (const Decl* d : crd->decls()) {
+        // we want to ignore anything that's not public for obvious reasons
+        // since we're using this function for getting methods both from the
+        // library type and the binding type, this does mean we need to add a
+        // "public" specifier to the binding type, but eh...
+        if (d->getAccess() != AS_public) {
+            continue;
+        }
         std::vector<std::string> attrs = get_attrs(d);
         // A FunctionTemplateDecl represents methods that are dependent on
         // their own template parameters (aside from the Record template

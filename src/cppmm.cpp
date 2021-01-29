@@ -147,6 +147,7 @@ int main(int argc, const char** argv) {
             if (entry.path().extension() == ".cpp") {
                 dir_paths.push_back(
                     ps::os::path::abspath(entry.path().string(), cwd));
+                SPDLOG_DEBUG("Found binding file {}", entry.path().string());
             }
         }
     } else {
@@ -181,8 +182,8 @@ int main(int argc, const char** argv) {
         project_libraries.push_back(l);
     }
 
-    // fmt::print("source files: [{}]\n",
-    //            ps::join(", ", OptionsParser.getSourcePathList()));
+    fmt::print("source files: [{}]\n",
+               ps::join(", ", OptionsParser.getSourcePathList()));
 
     // get direct includes from the binding files to re-insert into the
     // generated bindings
