@@ -683,11 +683,11 @@ bool match_method(const NodeMethod* a, const NodeMethod* b) {
 bool method_in_list(const NodeMethod* m, const std::vector<NodePtr>& binding_methods) {
     for (const auto& n: binding_methods) {
         const auto* b = (NodeMethod*)n.get();
-        if (!match_method(m, b)) {
-            return false;
+        if (match_method(m, b)) {
+            return true;
         }
     }
-    return true;
+    return false;
 }
 
 // Generate the AST output for a Record which we've decided represents a

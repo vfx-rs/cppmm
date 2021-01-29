@@ -2,10 +2,8 @@
 
 #include <vector>
 
-#define CPPMM_IGNORE __attribute__((annotate("cppmm:ignore")))
-#define CPPMM_RENAME(x) __attribute__((annotate("cppmm:rename:" #x)))
-#define CPPMM_OPAQUEBYTES __attribute__((annotate("cppmm:opaquebytes")))
-#define CPPMM_VALUETYPE __attribute__((annotate("cppmm:valuetype")))
+// CPPMM_ macro definitions etc automatically inserted in this virtual header
+#include <cppmm_bind.hpp>
 
 namespace cppmm_bind {
 
@@ -19,36 +17,35 @@ public:
 
     // we're not actually paying any attention to the method declarations yet
     // no matching
-    /*
     bool equalWithAbsError(const Vec3<T>& v, T e) const;
     bool equalWithRelError(const Vec3<T>& v, T e) const;
 
-    T dot(const Vec3& v) const;
-    Vec3 cross(const Vec3& v) const;
+    T dot(const ::Imath::Vec3<T>& v) const;
+    ::Imath::Vec3<T> cross(const ::Imath::Vec3<T>& v) const;
 
-    const Vec3& operator+=(const Vec3& v);
-    Vec3 operator+(const Vec3& v) const;
+    const ::Imath::Vec3<T>& operator+=(const ::Imath::Vec3<T>& v);
+    ::Imath::Vec3<T> operator+(const ::Imath::Vec3<T>& v) const;
 
-    const Vec3& operator-=(const Vec3& v);
-    Vec3 operator-(const Vec3& v) const;
+    const ::Imath::Vec3<T>& operator-=(const ::Imath::Vec3<T>& v);
+    ::Imath::Vec3<T> operator-(const ::Imath::Vec3<T>& v) const CPPMM_RENAME(op_neg);
 
-    constexpr Vec3 operator-() const CPPMM_RENAME(op_neg);
+    constexpr ::Imath::Vec3<T> operator-() const;// CPPMM_RENAME(op_neg);
 
-    const Vec3& operator*=(const Vec3& v);
-    const Vec3& operator*=(T a) CPPMM_RENAME(mul_assign_t);
-    Vec3 operator*(const Vec3& v) const;
-    Vec3 operator*(T a) const CPPMM_RENAME(mul_t);
+    const ::Imath::Vec3<T>& operator*=(const ::Imath::Vec3<T>& v);
+    const ::Imath::Vec3<T>& operator*=(T a) CPPMM_RENAME(mul_assign_t);
+    ::Imath::Vec3<T> operator*(const ::Imath::Vec3<T>& v) const;
+    ::Imath::Vec3<T> operator*(T a) const CPPMM_RENAME(mul_t);
 
-    const Vec3& operator/=(const Vec3& v);
-    const Vec3& operator/=(T a) CPPMM_RENAME(div_assign_t);
-    Vec3 operator/(const Vec3& v) const;
-    Vec3 operator/(T a) const CPPMM_RENAME(div_t);
+    const ::Imath::Vec3<T>& operator/=(const ::Imath::Vec3<T>& v);
+    const ::Imath::Vec3<T>& operator/=(T a) CPPMM_RENAME(div_assign_t);
+    ::Imath::Vec3<T> operator/(const ::Imath::Vec3<T>& v) const;
+    ::Imath::Vec3<T> operator/(T a) const CPPMM_RENAME(div_t);
 
     T length() const;
     constexpr T length2() const;
 
-    const Vec3& normalize();    // modifies *this
-    Vec3<T> normalized() const; // does not modify *this
+    const ::Imath::Vec3<T>& normalize();    // modifies *this
+    ::Imath::Vec3<T> normalized() const; // does not modify *this
 
     constexpr static unsigned int dimensions();
 
@@ -58,8 +55,6 @@ public:
     constexpr static T baseTypeEpsilon();
 
     template <class S> IMATH_HOSTDEVICE void setValue (S a, S b, S c);
-    */
-
 } CPPMM_VALUETYPE;
 
 // These type aliases will cause the class template to be monomorphized with
@@ -80,6 +75,6 @@ namespace IMATH_INTERNAL_NAMESPACE {
 // the binding version as well.
 template <>
 template <>
-IMATH_HOSTDEVICE void Vec3<float>::setValue(float a, float b, float c);
+IMATH_HOSTDEVICE void ::Imath::Vec3<float>::setValue(float a, float b, float c);
 
 }
