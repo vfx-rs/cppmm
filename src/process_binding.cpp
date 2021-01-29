@@ -231,9 +231,7 @@ struct QType {
         return ty == rhs.ty && is_const == rhs.is_const;
     }
 
-    bool operator!=(const QType& rhs) const {
-        return !(*this == rhs);
-    }
+    bool operator!=(const QType& rhs) const { return !(*this == rhs); }
 };
 
 // pointer or reference type - check type_kind
@@ -607,6 +605,7 @@ std::string get_record_name(const CXXRecordDecl* crd) {
 std::vector<NodePtr> process_methods(const CXXRecordDecl* crd) {
     std::vector<NodePtr> result;
     for (const Decl* d : crd->decls()) {
+        std::vector<std::string> attrs = get_attrs(d);
         // A FunctionTemplateDecl represents methods that are dependent on
         // their own template parameters (aside from the Record template
         // parameter list).
@@ -621,9 +620,6 @@ std::vector<NodePtr> process_methods(const CXXRecordDecl* crd) {
                 std::vector<Param> params;
                 process_function_parameters(fd, return_qtype, params);
                 NodeId id = NODES.size();
-
-                // FIXME: grab the attributes from the matching decl on the binding
-                std::vector<std::string> attrs;
 
                 auto node_function = std::make_unique<NodeMethod>(
                     function_name, id, 0, std::move(attrs), method_short_name,
@@ -645,12 +641,9 @@ std::vector<NodePtr> process_methods(const CXXRecordDecl* crd) {
             process_function_parameters(cmd, return_qtype, params);
             NodeId id = NODES.size();
 
-            // FIXME: grab the attributes from the matching decl on the binding
-            std::vector<std::string> attrs;
-
             auto node_function = std::make_unique<NodeMethod>(
-                method_name, id, 0, std::move(attrs), method_short_name, return_qtype,
-                std::move(params), cmd->isStatic());
+                method_name, id, 0, std::move(attrs), method_short_name,
+                return_qtype, std::move(params), cmd->isStatic());
             result.emplace_back(std::move(node_function));
         }
     }
@@ -680,10 +673,12 @@ bool match_method(const NodeMethod* a, const NodeMethod* b) {
     return true;
 }
 
-bool method_in_list(const NodeMethod* m, const std::vector<NodePtr>& binding_methods) {
-    for (const auto& n: binding_methods) {
+bool method_in_list(NodeMethod* m, const std::vector<NodePtr>& binding_methods,
+                    std::vector<std::string>& attrs) {
+    for (const auto& n : binding_methods) {
         const auto* b = (NodeMethod*)n.get();
         if (match_method(m, b)) {
+            attrs = b->attrs;
             return true;
         }
     }
@@ -694,7 +689,8 @@ bool method_in_list(const NodeMethod* m, const std::vector<NodePtr>& binding_met
 // concrete type (in the sense that all template parameters have been
 // specialized)
 void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
-                             std::vector<std::string> attrs, std::vector<NodePtr> binding_methods) {
+                             std::vector<std::string> attrs,
+                             std::vector<NodePtr> binding_methods) {
     ASTContext& ctx = crd->getASTContext();
     SourceManager& sm = ctx.getSourceManager();
     const auto& loc = crd->getLocation();
@@ -733,9 +729,10 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
     node_tu->children.push_back(new_id);
 
     std::vector<NodePtr> methods = process_methods(crd);
-    for (NodePtr& method: methods) {
+    for (NodePtr& method : methods) {
         NodeMethod* mptr = (NodeMethod*)method.get();
-        if (method_in_list(mptr, binding_methods)) {
+        if (method_in_list(mptr, binding_methods, attrs)) {
+            mptr->attrs = std::move(attrs);
             mptr->in_binding = true;
         }
 
@@ -817,7 +814,8 @@ void handle_cxx_record_decl(const CXXRecordDecl* crd) {
             const auto* bound_rd =
                 tad->getUnderlyingType()->getAsCXXRecordDecl();
 
-            process_concrete_record(bound_rd, filename, std::move(attrs), std::move(methods));
+            process_concrete_record(bound_rd, filename, std::move(attrs),
+                                    std::move(methods));
             return;
         }
     }
