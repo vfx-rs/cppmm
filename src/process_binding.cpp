@@ -393,19 +393,19 @@ struct NodeRecord : public NodeAttributeHolder {
     std::vector<NodeId> methods;
     RecordKind record_kind;
 
-    uint32_t width;
+    uint32_t size;
     uint32_t align;
 
     NodeRecord(std::string qualified_name, NodeId id, NodeId context,
                std::vector<std::string> attrs, RecordKind record_kind,
-               uint32_t width, uint32_t align)
+               uint32_t size, uint32_t align)
         : NodeAttributeHolder(qualified_name, id, context, NodeKind::Record,
                               attrs),
-          record_kind(record_kind), width(width), align(align) {}
+          record_kind(record_kind), size(size), align(align) {}
 
     virtual void write_xml_attrs(std::ostream& os) const override {
         Node::write_xml_attrs(os);
-        os << " width=\"" << width << "\"";
+        os << " size=\"" << size << "\"";
         os << " align=\"" << align << "\"";
     }
 
@@ -440,15 +440,15 @@ void dump_nodes(std::ostream& os) {
     }
 }
 
-bool get_abi_info(const TypeDecl* td, ASTContext& ctx, uint32_t& width,
+bool get_abi_info(const TypeDecl* td, ASTContext& ctx, uint32_t& size,
                   uint32_t& align) {
     if (td) {
         const clang::Type* ty = td->getTypeForDecl();
         if (!ty->isIncompleteType()) {
             const clang::TypeInfo& ti = ctx.getTypeInfo(ty);
-            SPDLOG_DEBUG("    width: {}", ti.Width);
+            SPDLOG_DEBUG("    size: {}", ti.Width);
             SPDLOG_DEBUG("    align: {}", ti.Align);
-            width = ti.Width;
+            size = ti.Width;
             align = ti.Align;
             return true;
         } else {
@@ -706,8 +706,8 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
     auto* node_tu = get_translation_unit(filename);
 
     // Get the size and alignment of the Record
-    uint32_t width, align;
-    if (!get_abi_info(dyn_cast<TypeDecl>(crd), ctx, width, align)) {
+    uint32_t size, align;
+    if (!get_abi_info(dyn_cast<TypeDecl>(crd), ctx, size, align)) {
         SPDLOG_CRITICAL("Could not get ABI info for {}", record_name);
     }
 
@@ -715,7 +715,7 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
     NodeId new_id = NODES.size();
     auto node_record =
         std::make_unique<NodeRecord>(record_name, new_id, 0, std::move(attrs),
-                                     RecordKind::OpaquePtr, width, align);
+                                     RecordKind::OpaquePtr, size, align);
     auto* node_record_ptr = node_record.get();
     NODES.emplace_back(std::move(node_record));
     NODE_MAP[record_name] = new_id;
