@@ -65,6 +65,14 @@ std::ostream& operator<<(std::ostream& stream, const indent& val) {
     return stream;
 }
 
+std::string strip_name_kinds(std::string s) {
+    s = pystring::replace(s, "class ", "");
+    s = pystring::replace(s, "struct ", "");
+    s = pystring::replace(s, "enum ", "");
+    s = pystring::replace(s, "union ", "");
+    return s;
+}
+
 } // namespace
 
 enum class NodeKind : uint32_t {
@@ -540,9 +548,8 @@ QType process_qtype(const QualType& qt) {
 
         return QType{id, qt.isConstQualified()};
     } else {
-        std::string type_name = pystring::replace(
-            qt.getCanonicalType().getUnqualifiedType().getAsString(), "class ",
-            "");
+        std::string type_name = strip_name_kinds(
+            qt.getCanonicalType().getUnqualifiedType().getAsString());
         std::string type_node_name = "TYPE:" + type_name;
 
         auto it = NODE_MAP.find(type_node_name);
@@ -611,11 +618,8 @@ void process_function_parameters(const FunctionDecl* fd, QType& return_qtype,
 std::string get_record_name(const CXXRecordDecl* crd) {
     // we have to do this dance to get the template parameters in the name,
     // otherwise they're omitted
-    std::string s =
-        crd->getTypeForDecl()->getCanonicalTypeInternal().getAsString();
-    s = pystring::replace(s, "class ", "");
-    s = pystring::replace(s, "struct ", "");
-    return s;
+    return strip_name_kinds(
+        crd->getTypeForDecl()->getCanonicalTypeInternal().getAsString());
 }
 
 // extract all the methods on a decl and store them for later use. The resulting
@@ -741,15 +745,6 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
     NODES.emplace_back(std::move(node_record));
     NODE_MAP[record_name] = new_id;
 
-    // if there's an existing RecordType node referring to this Record, then
-    // set its record id to our new id
-    auto it_record_type = NODE_MAP.find("TYPE:" + record_name);
-    if (it_record_type != NODE_MAP.end()) {
-        auto* node_record_type =
-            (NodeRecordType*)NODES[it_record_type->second].get();
-        node_record_type->record = new_id;
-    }
-
     // add this record to the TU
     node_tu->children.push_back(new_id);
 
@@ -774,6 +769,16 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
             QType qtype = process_qtype(fd->getType());
             node_record_ptr->fields.push_back(Field{field_name, qtype.ty});
         }
+    }
+
+    // Finally...
+    // if there's an existing RecordType node referring to this Record, then
+    // set its record id to our new id
+    auto it_record_type = NODE_MAP.find("TYPE:" + record_name);
+    if (it_record_type != NODE_MAP.end()) {
+        auto* node_record_type =
+            (NodeRecordType*)NODES[it_record_type->second].get();
+        node_record_type->record = new_id;
     }
 }
 

@@ -9,4 +9,6 @@ public:
     using BoundType = ::std::string;
 } CPPMM_OPAQUEPTR;
 
+std::string inst;
+
 } // namespace cppmm_bind
