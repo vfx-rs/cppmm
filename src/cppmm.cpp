@@ -218,10 +218,10 @@ int main(int argc, const char** argv) {
     //     newFrontendActionFactory<cppmm::MatchBindingsAction>();
     // int result = Tool.run(match_exports_action.get());
 
-    std::ofstream os;
-    os.open("out.xml", std::ios::out | std::ios::trunc);
-    cppmm::dump_nodes(os);
-
+    // std::ofstream os;
+    // os.open("out.xml", std::ios::out | std::ios::trunc);
+    // cppmm::dump_nodes(os);
+    cppmm::write_tus();
 
 #if 0
     // for (const auto& ex_file : ex_files) {

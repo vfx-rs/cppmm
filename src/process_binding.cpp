@@ -23,6 +23,9 @@
 
 #include <iostream>
 
+#include "filesystem.hpp"
+namespace fs = ghc::filesystem;
+
 using namespace clang;
 using namespace clang::ast_matchers;
 namespace ps = pystring;
@@ -435,6 +438,21 @@ void dump_nodes(std::ostream& os) {
     // contain all the Records and Functions
     for (const auto& id : ROOT) {
         NODES[id]->write_xml(os, 0);
+    }
+}
+
+void write_tus() {
+    for (const auto& id : ROOT) {
+        NodeTranslationUnit* tu = (NodeTranslationUnit*)NODES[id].get();
+        auto tu_path = fs::path(tu->qualified_name);
+        auto stem = tu_path.stem();
+        auto parent = tu_path.parent_path();
+        auto out_path = fs::current_path() / stem;
+        out_path += fs::path(".xml");
+        std::ofstream os;
+        os.open(out_path.string(), std::ios::out | std::ios::trunc);
+        // cppmm::dump_nodes(os);
+        tu->write_xml(os, 0);
     }
 }
 

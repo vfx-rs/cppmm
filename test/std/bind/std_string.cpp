@@ -4,7 +4,7 @@
 
 namespace cppmm_bind {
 
-class string {
+class basic_string {
 public:
     using BoundType = ::std::string;
 } CPPMM_OPAQUEPTR;
