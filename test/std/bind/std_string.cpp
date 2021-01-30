@@ -7,7 +7,7 @@ namespace cppmm_bind {
 class basic_string {
 public:
     using BoundType = ::std::string;
-} CPPMM_OPAQUEPTR;
+} CPPMM_OPAQUEBYTES;
 
 std::string inst;
 

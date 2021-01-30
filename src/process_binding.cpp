@@ -459,7 +459,6 @@ void write_tus() {
         out_path += fs::path(".xml");
         std::ofstream os;
         os.open(out_path.string(), std::ios::out | std::ios::trunc);
-        // cppmm::dump_nodes(os);
         tu->write_xml(os, 0);
     }
 }
