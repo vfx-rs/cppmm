@@ -16,6 +16,7 @@ if(NOT LLVM_ENABLE_RTTI)
 endif()
 
 add_subdirectory(spdlog)
+add_subdirectory(json)
 
 add_executable(cppmm
   src/cppmm.cpp
@@ -37,6 +38,6 @@ add_executable(cppmm
   # src/generator_rust-sys.cpp
   )
 
-target_link_libraries(cppmm clangTooling clangBasic clangASTMatchers spdlog::spdlog)
+target_link_libraries(cppmm clangTooling clangBasic clangASTMatchers spdlog::spdlog nlohmann_json::nlohmann_json)
 target_compile_definitions(cppmm PRIVATE SPDLOG_ACTIVE_LEVEL=TRACE)
 target_include_directories(cppmm PRIVATE ${LLVM_INCLUDE_DIRS})
