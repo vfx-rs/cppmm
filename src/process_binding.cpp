@@ -173,7 +173,7 @@ struct Node {
         : qualified_name(qualified_name), id(id), context(context),
           node_kind(node_kind) {}
 
-    virtual ~Node{}
+    virtual ~Node(){}
 
     virtual void write_json_attrs(json& o) const {
         if (id >= 0) {
