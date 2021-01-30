@@ -131,6 +131,7 @@ std::ostream& operator<<(std::ostream& os, NodeKind k) {
 enum class PointerKind : uint32_t {
     Pointer,
     Reference,
+    RValueReference,
 };
 
 enum class RecordKind : uint32_t { OpaquePtr = 0, OpaqueBytes, ValueType };
@@ -322,6 +323,8 @@ struct NodePointerType : public NodeType {
     virtual void write_json(json& o) const override {
         if (pointer_kind == PointerKind::Pointer) {
             o["kind"] = "Pointer";
+        } else if (pointer_kind == PointerKind::RValueReference) {
+            o["kind"] = "RValueReference";
         } else {
             o["kind"] = "Reference";
         }
@@ -476,6 +479,18 @@ struct NodeFunction : public NodeAttributeHolder {
 
 struct NodeMethod : public NodeFunction {
     bool is_static = false;
+    bool is_user_provided = false;
+    bool is_const = false;
+    bool is_virtual = false;
+    bool is_overloaded_operator = false;
+    bool is_copy_assignment_operator = false;
+    bool is_move_assignment_operator = false;
+    bool is_constructor = false;
+    bool is_default_constructor = false;
+    bool is_copy_constructor = false;
+    bool is_move_constructor = false;
+    bool is_conversion_decl = false;
+    bool is_destructor = false;
 
     NodeMethod(std::string qualified_name, NodeId id, NodeId context,
                std::vector<std::string> attrs, std::string short_name,
@@ -505,6 +520,18 @@ struct NodeMethod : public NodeFunction {
     virtual void write_json_attrs(json& o) const override {
         NodeFunction::write_json_attrs(o);
         o["static"] = is_static;
+        o["user_provided"] = is_user_provided;
+        o["const"] = is_const;
+        o["virtual"] = is_virtual;
+        o["overloaded_operator"] = is_overloaded_operator;
+        o["copy_assignment_operator"] = is_copy_assignment_operator;
+        o["move_assignment_operator"] = is_move_assignment_operator;
+        o["constructor"] = is_constructor;
+        o["copy_constructor"] = is_copy_constructor;
+        o["move_constructor"] = is_move_constructor;
+        o["conversion_decl"] = is_conversion_decl;
+        o["destructor"] = is_destructor;
+
     }
 
     virtual void write_json(json& o) const override {
@@ -675,8 +702,12 @@ void handle_class_template_decl(const ClassTemplateDecl* ctd) {
 
 QType process_qtype(const QualType& qt) {
     if (qt->isPointerType() || qt->isReferenceType()) {
-        auto pointer_kind =
-            qt->isPointerType() ? PointerKind::Pointer : PointerKind::Reference;
+        auto pointer_kind = PointerKind::Pointer;
+        if (qt->isRValueReferenceType()) {
+            pointer_kind = PointerKind::RValueReference;
+        } else if (qt->isReferenceType()) {
+            pointer_kind = PointerKind::Reference;
+        }
 
         // first check if we've got the pointer type already
         const std::string pointer_type_name =
@@ -776,6 +807,42 @@ std::string get_record_name(const CXXRecordDecl* crd) {
         crd->getTypeForDecl()->getCanonicalTypeInternal().getAsString());
 }
 
+
+NodePtr process_method_decl(const CXXMethodDecl* cmd, std::vector<std::string> attrs) {
+    const std::string method_name = cmd->getQualifiedNameAsString();
+    const std::string method_short_name = cmd->getNameAsString();
+    SPDLOG_DEBUG("    METHOD {}", method_name);
+
+    QType return_qtype;
+    std::vector<Param> params;
+    process_function_parameters(cmd, return_qtype, params);
+    NodeId id = NODES.size();
+
+    auto node_function = std::make_unique<NodeMethod>(
+        method_name, id, 0, std::move(attrs), method_short_name,
+        return_qtype, std::move(params), cmd->isStatic());
+
+    NodeMethod* m = (NodeMethod*)node_function.get();
+    m->is_user_provided = cmd->isUserProvided();
+    m->is_const = cmd->isConst();
+    m->is_virtual = cmd->isVirtual();
+    m->is_overloaded_operator = cmd->isOverloadedOperator();
+    m->is_copy_assignment_operator = cmd->isCopyAssignmentOperator();
+    m->is_move_assignment_operator = cmd->isMoveAssignmentOperator();
+
+    if (const auto* ccd = dyn_cast<CXXConstructorDecl>(cmd)) {
+        m->is_constructor = true;
+        m->is_copy_constructor = ccd->isCopyConstructor();
+        m->is_move_constructor = ccd->isMoveConstructor();
+    } else if (const auto* cdd = dyn_cast<CXXDestructorDecl>(cmd)) {
+        m->is_destructor = true;
+    } else if (const auto* ccd = dyn_cast<CXXConversionDecl>(cmd)) {
+        m->is_conversion_decl = true;
+    }
+
+    return node_function;
+}
+
 // extract all the methods on a decl and store them for later use. The resulting
 // methods are NOT inserted in the AST or stored in the global node tables.
 std::vector<NodePtr> process_methods(const CXXRecordDecl* crd) {
@@ -788,45 +855,36 @@ std::vector<NodePtr> process_methods(const CXXRecordDecl* crd) {
         if (d->getAccess() != AS_public) {
             continue;
         }
-        std::vector<std::string> attrs = get_attrs(d);
         // A FunctionTemplateDecl represents methods that are dependent on
         // their own template parameters (aside from the Record template
         // parameter list).
         if (const FunctionTemplateDecl* ftd =
                 dyn_cast<FunctionTemplateDecl>(d)) {
             for (const FunctionDecl* fd : ftd->specializations()) {
-                const std::string function_name =
-                    ftd->getQualifiedNameAsString();
-                const std::string method_short_name = fd->getNameAsString();
-                SPDLOG_DEBUG("    SPEC {}", function_name);
-                QType return_qtype;
-                std::vector<Param> params;
-                process_function_parameters(fd, return_qtype, params);
-                NodeId id = NODES.size();
+                std::vector<std::string> attrs = get_attrs(fd);
+                if (const auto* cmd = dyn_cast<CXXMethodDecl>(fd)) {
+                    auto node_function = process_method_decl(cmd, attrs);
+                    result.emplace_back(std::move(node_function));
+                } else {
+                    // shouldn't get here
+                    assert(false && "method spec couldn't be converted to CMD");
+                    const std::string function_name =
+                        ftd->getQualifiedNameAsString();
+                    const std::string method_short_name = fd->getNameAsString();
+                    QType return_qtype;
+                    std::vector<Param> params;
+                    process_function_parameters(fd, return_qtype, params);
+                    NodeId id = NODES.size();
 
-                auto node_function = std::make_unique<NodeMethod>(
-                    function_name, id, 0, std::move(attrs), method_short_name,
-                    return_qtype, std::move(params), fd->isStatic());
-                result.emplace_back(std::move(node_function));
+                    auto node_function = std::make_unique<NodeMethod>(
+                        function_name, id, 0, std::move(attrs), method_short_name,
+                        return_qtype, std::move(params), fd->isStatic());
+                    result.emplace_back(std::move(node_function));
+                }
             }
         } else if (const auto* cmd = dyn_cast<CXXMethodDecl>(d)) {
-            if (!cmd->isUserProvided()) {
-                // we only want methods that are explicitly declared in the
-                // binding file
-                continue;
-            }
-            const std::string method_name = cmd->getQualifiedNameAsString();
-            const std::string method_short_name = cmd->getNameAsString();
-            SPDLOG_DEBUG("    METHOD {}", method_name);
-
-            QType return_qtype;
-            std::vector<Param> params;
-            process_function_parameters(cmd, return_qtype, params);
-            NodeId id = NODES.size();
-
-            auto node_function = std::make_unique<NodeMethod>(
-                method_name, id, 0, std::move(attrs), method_short_name,
-                return_qtype, std::move(params), cmd->isStatic());
+            std::vector<std::string> attrs = get_attrs(d);
+            auto node_function = process_method_decl(cmd, attrs);
             result.emplace_back(std::move(node_function));
         }
     }
