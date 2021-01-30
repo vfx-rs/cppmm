@@ -2,7 +2,7 @@
 //------------------------------------------------------------------------------
 // vfx-rs
 //------------------------------------------------------------------------------
-#include <istream>
-#include "cppmm_ast.hpp"
+#include "cppmm_ast_read.hpp"
 
-Root read_json(std::istream & input);
+Root read_json(std::istream & input) {
+}

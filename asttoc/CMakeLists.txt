@@ -5,6 +5,7 @@ set(CMAKE_CXX_FLAGS "")
 
 add_executable(asttoc
   src/main.cpp
+  src/cppmm_ast_read.cpp
 )
 
 target_include_directories(asttoc PRIVATE include)
