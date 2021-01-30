@@ -7,6 +7,9 @@
 
 namespace nln = nlohmann;
 
+namespace cppmm
+{
+
 //------------------------------------------------------------------------------
 NodeTranslationUnit read_translation_unit() {
 }
@@ -20,3 +23,5 @@ Root read_json(std::istream & input) {
 
     return Root(std::move(nodes));
 }
+
+} // namespace cppmm
