@@ -364,7 +364,6 @@ struct NodeRecordType : public NodeType {
         o["kind"] = "RecordType";
         write_json_attrs(o);
     }
-
 };
 
 struct Param {
@@ -597,6 +596,7 @@ struct NodeRecord : public NodeAttributeHolder {
 
     virtual void write_json(json& o) const override {
         o["kind"] = "Record";
+        o["name"] = qualified_name;
         write_json_attrs(o);
         write_attrs_json(o);
 
