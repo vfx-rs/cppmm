@@ -1,6 +1,8 @@
+#include <istream>
+#include "cppmm_ast.hpp"
 
 class Reader
 {
 public:
-    void read();
+    Root read(istream & input);
 };

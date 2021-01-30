@@ -216,7 +216,16 @@ struct NodeRecord : public NodeAttributeHolder {
 //------------------------------------------------------------------------------
 struct Root {
     std::vector<NodePtr> nodes;
-    Root(std::vector<NodePtr> nodes):
-        nodes(nodes)
+
+    Root(std::vector<NodePtr> && nodes)
+        : nodes(std::move(nodes))
     {}
+
+    Root(Root && rhs)
+        : nodes(std::move(rhs.nodes))
+    {}
+
+    void operator==(Root && rhs) {
+        nodes = std::move(rhs.nodes);
+    }
 };
