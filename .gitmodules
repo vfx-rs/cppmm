@@ -5,5 +5,5 @@
 	path = json
 	url = git@github.com:nlohmann/json.git
 [submodule "cereal"]
-	path = cereal
+	path = asttoc/cereal
 	url = https://github.com/USCiLab/cereal.git
