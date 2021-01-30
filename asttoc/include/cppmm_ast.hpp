@@ -210,3 +210,13 @@ struct NodeRecord : public NodeAttributeHolder {
                               attrs),
           record_kind(record_kind), size(size), align(align) {}
 };
+
+//------------------------------------------------------------------------------
+// Root
+//------------------------------------------------------------------------------
+struct Root {
+    std::vector<NodePtr> nodes;
+    Root(std::vector<NodePtr> nodes):
+        nodes(nodes)
+    {}
+};
