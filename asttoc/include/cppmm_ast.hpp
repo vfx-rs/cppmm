@@ -62,7 +62,7 @@ using NodePtr = std::unique_ptr<Node>;
 // NodeTranslationUnit
 //------------------------------------------------------------------------------
 struct NodeTranslationUnit : public Node {
-    std::vector<NodeId> children;
+    std::vector<NodePtr> children;
 
     NodeTranslationUnit(std::string qualified_name, NodeId id, NodeId context)
         : Node(qualified_name, id, context, NodeKind::TranslationUnit) {}
