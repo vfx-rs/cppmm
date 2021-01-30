@@ -8,7 +8,7 @@
 #include "clang/ASTMatchers/ASTMatchers.h"
 #include "clang/Basic/LLVM.h"
 #include "llvm/Support/Casting.h"
-#include <bits/stdint-uintn.h>
+#include <cstdint>
 #include <cassert>
 #include <memory>
 #include <unordered_map>
@@ -172,6 +172,8 @@ struct Node {
          NodeKind node_kind)
         : qualified_name(qualified_name), id(id), context(context),
           node_kind(node_kind) {}
+
+    virtual ~Node{}
 
     virtual void write_json_attrs(json& o) const {
         if (id >= 0) {
