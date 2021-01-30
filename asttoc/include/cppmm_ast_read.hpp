@@ -1,8 +1,8 @@
+
+//------------------------------------------------------------------------------
+// vfx-rs
+//------------------------------------------------------------------------------
 #include <istream>
 #include "cppmm_ast.hpp"
 
-class Reader
-{
-public:
-    Root read(istream & input);
-};
+Root read_json(istream & input);
