@@ -22,6 +22,7 @@ enum class NodeKind : uint32_t {
     Function,
     Method,
     Record,
+    Sentinal, // A sentinal entry to keep track of how many there are
 };
 
 //------------------------------------------------------------------------------
