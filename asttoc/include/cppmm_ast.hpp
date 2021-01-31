@@ -237,7 +237,8 @@ struct NodeRecord : public NodeAttributeHolder {
 //------------------------------------------------------------------------------
 // Type
 //------------------------------------------------------------------------------
-using Type = mapbox::util::variant<NodeBuiltinType, NodeRecordType>;
+using Type = mapbox::util::variant<NodeBuiltinType, NodeRecordType,
+                                   NodePointerType>;
 
 //------------------------------------------------------------------------------
 // Root
