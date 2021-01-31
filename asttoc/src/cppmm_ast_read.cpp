@@ -30,6 +30,14 @@ namespace {
 }
 
 //------------------------------------------------------------------------------
+NodeMethod read_method(const nln::json & json) {
+}
+
+//------------------------------------------------------------------------------
+Field read_field(const nln::json & json) {
+}
+
+//------------------------------------------------------------------------------
 NodePtr read_record(const nln::json & json) {
     // Ignore these for the moment
     std::vector<std::string> _attrs;
@@ -46,13 +54,13 @@ NodePtr read_record(const nln::json & json) {
             new NodeRecord(id, _attrs, _record_kind, size, align));
 
     // Pull out the fields
-    std::vector<NodeMethod> methods;
     for (const auto & i : json[METHODS] ){
+        result->methods.push_back(read_method(i));
     }
 
     // Pull out the methods
-    std::vector<Field> fields;
     for (const auto & i : json[FIELDS] ){
+        result->fields.push_back(read_field(i));
     }
 
     // Return the result
@@ -83,11 +91,9 @@ TranslationUnit read_translation_unit(const nln::json & json) {
     auto result = TranslationUnit(filename, id);
 
     // Parse the elements of the translation unit
-    std::vector<NodePtr> decls;
     for (const auto & i : json[DECLS] ){
-        decls.push_back(read_node(i));
+        result.decls.push_back(read_node(i));
     }
-    result.decls = std::move(decls);
 
     // Return the result
     return result;
