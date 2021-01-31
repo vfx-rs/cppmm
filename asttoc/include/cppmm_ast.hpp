@@ -199,7 +199,7 @@ struct Field {
 //------------------------------------------------------------------------------
 struct NodeRecord : public NodeAttributeHolder {
     std::vector<Field> fields;
-    std::vector<NodeId> methods;
+    std::vector<NodeMethod> methods;
     RecordKind record_kind;
 
     uint32_t size;

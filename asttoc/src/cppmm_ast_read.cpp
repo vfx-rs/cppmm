@@ -13,8 +13,10 @@ namespace cppmm
 namespace {
     const char * ALIGN = "align";
     const char * CHILDREN = "children";
+    const char * FIELDS = "fields";
     const char * ID = "id";
     const char * KIND = "kind";
+    const char * METHODS = "methods";
     const char * NAME = "name";
     const char * SIZE = "size";
 
@@ -56,13 +58,15 @@ NodePtr read_record(const nln::json & json) {
             new NodeRecord(basics.name, basics.id, _attrs, _record_kind, size,
                            align));
 
-    // Parse the elements of the translation unit
-    /*
-    std::vector<NodePtr> children;
-    for (const auto & i : json ){
-        children.push_back(read_node(i));
+    // Pull out the fields
+    std::vector<NodeMethod> methods;
+    for (const auto & i : json[METHODS] ){
     }
-    */
+
+    // Pull out the methods
+    std::vector<Field> fields;
+    for (const auto & i : json[FIELDS] ){
+    }
 
     // Return the result
     return result;
