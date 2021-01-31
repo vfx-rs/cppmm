@@ -54,9 +54,11 @@ NodeMethod read_method(const nln::json & json) {
     auto return_type = read_qtype(json[RETURN_TYPE]);
 
     auto params = std::vector<Param>();
+    /*
     for(const auto & i: json[PARAMS]) {
         params.push_back(read_param(i));
     }
+    */
 
     return NodeMethod(qualified_name, id, _attrs, short_name, return_type,
                       params, static_);
@@ -88,9 +90,11 @@ NodePtr read_record(const nln::json & json) {
     }
 
     // Pull out the methods
+    /*
     for (const auto & i : json[FIELDS] ){
         result->fields.push_back(read_field(i));
     }
+    */
 
     // Return the result
     return result;
