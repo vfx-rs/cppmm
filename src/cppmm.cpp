@@ -164,6 +164,7 @@ int main(int argc, const char** argv) {
     Tool.mapVirtualFile("/usr/local/include/cppmm_bind.hpp", R"#(
 #define CPPMM_IGNORE __attribute__((annotate("cppmm:ignore")))
 #define CPPMM_RENAME(x) __attribute__((annotate("cppmm:rename:" #x)))
+#define CPPMM_OPAQUEPTR __attribute__((annotate("cppmm:opaqueptr")))
 #define CPPMM_OPAQUEBYTES __attribute__((annotate("cppmm:opaquebytes")))
 #define CPPMM_VALUETYPE __attribute__((annotate("cppmm:valuetype")))
 )#");
