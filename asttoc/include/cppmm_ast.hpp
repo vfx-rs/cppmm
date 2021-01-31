@@ -44,28 +44,27 @@ using NodeId = uint64_t;
 // Node
 //------------------------------------------------------------------------------
 struct Node {
-    std::string qualified_name;
+    std::string name;
     NodeId id;
-    NodeId context; //< parent context (e.g. record, namespce, TU)
-    NodeKind node_kind;
+    NodeKind kind;
 
-    Node(std::string qualified_name, NodeId id, NodeId context,
-         NodeKind node_kind)
-        : qualified_name(qualified_name), id(id), context(context),
-          node_kind(node_kind) {}
+    Node(std::string name, NodeId id, NodeKind kind)
+        : name(name)
+        , id(id)
+        , kind(kind) {}
 
     virtual ~Node(){}
 };
 using NodePtr = std::unique_ptr<Node>;
 
 //------------------------------------------------------------------------------
-// NodeTranslationUnit
+// TranslationUnit
 //------------------------------------------------------------------------------
-struct NodeTranslationUnit : public Node {
+struct TranslationUnit : public Node {
     std::vector<NodePtr> children;
 
-    NodeTranslationUnit(std::string qualified_name, NodeId id, NodeId context)
-        : Node(qualified_name, id, context, NodeKind::TranslationUnit) {}
+    TranslationUnit(std::string name, NodeId id)
+        : Node(name, id, NodeKind::TranslationUnit) {}
 };
 
 //------------------------------------------------------------------------------
@@ -80,7 +79,7 @@ struct NodeType : public Node {
     std::string type_name;
     NodeType(std::string qualified_name, NodeId id, NodeId context,
              NodeKind node_kind, std::string type_name)
-        : Node(qualified_name, id, context, node_kind), type_name(type_name) {}
+        : Node(qualified_name, id, node_kind), type_name(type_name) {}
 };
 
 //------------------------------------------------------------------------------
@@ -150,7 +149,7 @@ struct NodeAttributeHolder : public Node {
 
     NodeAttributeHolder(std::string qualified_name, NodeId id, NodeId context,
                         NodeKind node_kind, std::vector<std::string> attrs)
-        : Node(qualified_name, id, context, node_kind), attrs(attrs) {}
+        : Node(qualified_name, id, node_kind), attrs(attrs) {}
 };
 
 //------------------------------------------------------------------------------
@@ -183,7 +182,7 @@ struct NodeMethod : public NodeFunction {
         : NodeFunction(qualified_name, id, context, attrs, short_name,
                        return_type, params),
           is_static(is_static) {
-        node_kind = NodeKind::Method;
+        kind = NodeKind::Method;
     }
 };
 
