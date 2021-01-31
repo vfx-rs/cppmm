@@ -147,9 +147,9 @@ struct Param {
 struct NodeAttributeHolder : public Node {
     std::vector<std::string> attrs;
 
-    NodeAttributeHolder(std::string qualified_name, NodeId id, NodeId context,
+    NodeAttributeHolder(std::string name, NodeId id,
                         NodeKind node_kind, std::vector<std::string> attrs)
-        : Node(qualified_name, id, node_kind), attrs(attrs) {}
+        : Node(name, id, node_kind), attrs(attrs) {}
 };
 
 //------------------------------------------------------------------------------
@@ -165,7 +165,7 @@ struct NodeFunction : public NodeAttributeHolder {
     NodeFunction(std::string qualified_name, NodeId id, NodeId context,
                  std::vector<std::string> attrs, std::string short_name,
                  QType return_type, std::vector<Param> params)
-        : NodeAttributeHolder(qualified_name, id, context, NodeKind::Function,
+        : NodeAttributeHolder(qualified_name, id, NodeKind::Function,
                               attrs),
           short_name(short_name), return_type(return_type), params(params) {}
 };
@@ -205,11 +205,9 @@ struct NodeRecord : public NodeAttributeHolder {
     uint32_t size;
     uint32_t align;
 
-    NodeRecord(std::string qualified_name, NodeId id, NodeId context,
-               std::vector<std::string> attrs, RecordKind record_kind,
-               uint32_t size, uint32_t align)
-        : NodeAttributeHolder(qualified_name, id, context, NodeKind::Record,
-                              attrs),
+    NodeRecord(std::string name, NodeId id, std::vector<std::string> attrs,
+               RecordKind record_kind, uint32_t size, uint32_t align)
+        : NodeAttributeHolder(name, id, NodeKind::Record, attrs),
           record_kind(record_kind), size(size), align(align) {}
 };
 
