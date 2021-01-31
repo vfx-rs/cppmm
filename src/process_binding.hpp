@@ -37,6 +37,5 @@ public:
     }
 };
 
-void dump_nodes(std::ostream& os);
 void write_tus();
 }

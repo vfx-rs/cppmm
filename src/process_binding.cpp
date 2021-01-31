@@ -41,7 +41,7 @@ std::vector<std::string> get_attrs(const clang::Decl* decl) {
         clang::ASTContext& ctx = decl->getASTContext();
         for (const auto& attr : decl->attrs()) {
             const clang::AnnotateAttr* ann =
-                clang::cast<const clang::AnnotateAttr>(attr);
+                clang::dyn_cast<const clang::AnnotateAttr>(attr);
             if (ann) {
                 attrs.push_back(ann->getAnnotation().str());
             }
@@ -161,13 +161,6 @@ struct Node {
         : qualified_name(qualified_name), id(id), context(context),
           node_kind(node_kind) {}
 
-    virtual void write_xml_attrs(std::ostream& os) const {
-        os << " name=\"" << sanitize(qualified_name) << "\"";
-        os << " id=\"" << id << "\"";
-    }
-
-    virtual void write_xml(std::ostream& os, int depth) const = 0;
-
     virtual void write_json_attrs(json& o) const {
         if (id >= 0) {
             o["id"] = id;
@@ -188,19 +181,6 @@ std::vector<NodeId> ROOT;
 struct NodeTranslationUnit : public Node {
     std::vector<NodeId> children;
 
-    virtual void write_xml(std::ostream& os, int depth) const override {
-        os << indent(depth) << "<TranslationUnit";
-        write_xml_attrs(os);
-        os << ">\n";
-
-        for (NodeId id : children) {
-            const Node* node = NODES[id].get();
-            node->write_xml(os, depth + 1);
-        }
-
-        os << "</TranslationUnit>\n";
-    }
-
     virtual void write_json(json& o) const override {
         o["kind"] = "TranslationUnit";
         o["filename"] = qualified_name;
@@ -220,11 +200,6 @@ struct NodeTranslationUnit : public Node {
 };
 
 struct NodeNamespace : public Node {
-    virtual void write_xml(std::ostream& os, int depth) const override {
-        os << indent(depth) << "<Namespace";
-        write_xml_attrs(os);
-        os << " />\n";
-    }
 };
 
 struct NodeType : public Node {
@@ -232,11 +207,6 @@ struct NodeType : public Node {
     NodeType(std::string qualified_name, NodeId id, NodeId context,
              NodeKind node_kind, std::string type_name)
         : Node(qualified_name, id, context, node_kind), type_name(type_name) {}
-
-    virtual void write_xml_attrs(std::ostream& os) const override {
-        Node::write_xml_attrs(os);
-        os << " type=\"" << sanitize(type_name) << "\"";
-    }
 
     virtual void write_json_attrs(json& o) const override {
         Node::write_json_attrs(o);
@@ -250,12 +220,6 @@ struct NodeBuiltinType : public NodeType {
         : NodeType(qualified_name, id, context, NodeKind::BuiltinType,
                    type_name) {}
 
-    virtual void write_xml(std::ostream& os, int depth) const override {
-        os << indent(depth) << "<BuiltinType";
-        write_xml_attrs(os);
-        os << " />";
-    }
-
     virtual void write_json(json& o) const override {
         o["kind"] = "BuiltinType";
         write_json_attrs(o);
@@ -265,14 +229,6 @@ struct NodeBuiltinType : public NodeType {
 struct QType {
     NodeId ty;
     bool is_const;
-
-    void write_xml(std::ostream& os, int depth) const {
-        os << indent(depth) << "<QType const=\"" << is_const << "\">";
-
-        NODES[ty]->write_xml(os, 0);
-
-        os << "</QType>";
-    }
 
     void write_json(json& o) const {
         if (ty >= 0) {
@@ -301,24 +257,6 @@ struct NodePointerType : public NodeType {
                    type_name),
           pointer_kind(pointer_kind), pointee_type(pointee_type) {}
 
-    virtual void write_xml_attrs(std::ostream& os) const override {
-        NodeType::write_xml_attrs(os);
-        os << " pointer_kind=\"";
-        pointer_kind == PointerKind::Pointer ? os << "pointer"
-                                             : os << "reference";
-        os << "\"";
-    }
-
-    virtual void write_xml(std::ostream& os, int depth) const override {
-        os << indent(depth) << "<PointerType";
-        write_xml_attrs(os);
-        os << ">";
-
-        pointee_type.write_xml(os, depth);
-
-        os << "</PointerType>";
-    }
-
     virtual void write_json(json& o) const override {
         if (pointer_kind == PointerKind::Pointer) {
             o["kind"] = "Pointer";
@@ -341,17 +279,6 @@ struct NodeRecordType : public NodeType {
         : NodeType(qualified_name, id, context, NodeKind::RecordType,
                    type_name),
           record(record) {}
-
-    virtual void write_xml_attrs(std::ostream& os) const override {
-        NodeType::write_xml_attrs(os);
-        os << " record=\"" << record << "\"";
-    }
-
-    virtual void write_xml(std::ostream& os, int depth) const override {
-        os << indent(depth) << "<RecordType";
-        write_xml_attrs(os);
-        os << " />\n";
-    }
 
     virtual void write_json_attrs(json& o) const override {
         NodeType::write_json_attrs(o);
@@ -378,13 +305,6 @@ struct NodeAttributeHolder : public Node {
                         NodeKind node_kind, std::vector<std::string> attrs)
         : Node(qualified_name, id, context, node_kind), attrs(attrs) {}
 
-    void write_attrs(std::ostream& os, int depth) const {
-        for (const auto& a : attrs) {
-            os << indent(depth) << "<Attribute>" << a << "</Attribute>\n";
-        }
-    }
-
-    virtual void write_xml(std::ostream& os, int depth) const override = 0;
     virtual void write_json(json& o) const override = 0;
 
     // FIXME: worst naming ever
@@ -409,37 +329,6 @@ struct NodeFunction : public NodeAttributeHolder {
         : NodeAttributeHolder(qualified_name, id, context, NodeKind::Function,
                               attrs),
           short_name(short_name), return_type(return_type), params(params) {}
-
-    virtual void write_xml_attrs(std::ostream& os) const override {
-        Node::write_xml_attrs(os);
-        os << " short_name=\"" << sanitize(short_name) << "\"";
-        os << " in_binding=\"" << in_binding << "\"";
-        os << " in_library=\"" << in_library << "\"";
-    }
-
-    virtual void write_parameters(std::ostream& os, int depth) const {
-        os << indent(depth) << "<Return>";
-        return_type.write_xml(os, 0);
-        os << "</Return>\n";
-
-        for (const auto& param : params) {
-            os << indent(depth) << "<Param name=\"" << param.name << "\" "
-               << "index=\"" << param.index << "\">";
-            param.qty.write_xml(os, 0);
-            os << "</Param>\n";
-        }
-    }
-
-    virtual void write_xml(std::ostream& os, int depth) const override {
-        os << indent(depth) << "<Function";
-        write_xml_attrs(os);
-        os << ">\n";
-
-        write_attrs(os, depth + 1);
-        write_parameters(os, depth + 1);
-
-        os << indent(depth) << "</Function>";
-    }
 
     virtual void write_json_attrs(json& o) const override {
         NodeAttributeHolder::write_json_attrs(o);
@@ -497,22 +386,6 @@ struct NodeMethod : public NodeFunction {
         node_kind = NodeKind::Method;
     }
 
-    virtual void write_xml_attrs(std::ostream& os) const override {
-        NodeFunction::write_xml_attrs(os);
-        os << " is_static=\"" << is_static << "\"";
-    }
-
-    virtual void write_xml(std::ostream& os, int depth) const override {
-        os << indent(depth) << "<Method";
-        write_xml_attrs(os);
-        os << ">\n";
-
-        write_attrs(os, depth + 1);
-        write_parameters(os, depth + 1);
-
-        os << indent(depth) << "</Method>";
-    }
-
     virtual void write_json_attrs(json& o) const override {
         NodeFunction::write_json_attrs(o);
         o["static"] = is_static;
@@ -557,33 +430,6 @@ struct NodeRecord : public NodeAttributeHolder {
                               attrs),
           record_kind(record_kind), size(size), align(align) {}
 
-    virtual void write_xml_attrs(std::ostream& os) const override {
-        Node::write_xml_attrs(os);
-        os << " size=\"" << size << "\"";
-        os << " align=\"" << align << "\"";
-    }
-
-    virtual void write_xml(std::ostream& os, int depth) const override {
-        os << indent(depth) << "<Record";
-        write_xml_attrs(os);
-        os << ">\n";
-
-        write_attrs(os, depth + 1);
-
-        for (const auto field : fields) {
-            os << indent(depth + 1) << "<Field name=\"" << field.name << "\">";
-            field.qtype.write_xml(os, 0);
-            os << "</Field>\n";
-        }
-
-        for (const auto method_id : methods) {
-            NODES[method_id]->write_xml(os, depth + 1);
-            os << "\n";
-        }
-
-        os << indent(depth) << "</Record>\n";
-    }
-
     virtual void write_json_attrs(json& o) const override {
         NodeAttributeHolder::write_json_attrs(o);
         o["size"] = size;
@@ -615,15 +461,6 @@ struct NodeRecord : public NodeAttributeHolder {
     }
 };
 
-void dump_nodes(std::ostream& os) {
-    os << "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n";
-    // ROOT here just contains all the NodeTranslationUnits, which themselves
-    // contain all the Records and Functions
-    for (const auto& id : ROOT) {
-        NODES[id]->write_xml(os, 0);
-    }
-}
-
 void write_tus() {
     for (const auto& id : ROOT) {
         NodeTranslationUnit* tu = (NodeTranslationUnit*)NODES[id].get();
@@ -634,7 +471,6 @@ void write_tus() {
         out_path += fs::path(".json");
         std::ofstream os;
         os.open(out_path.string(), std::ios::out | std::ios::trunc);
-        /* tu->write_xml(os, 0); */
         auto j = json::object();
         tu->write_json(j);
         os << std::setw(4) << j;
