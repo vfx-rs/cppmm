@@ -123,7 +123,7 @@ int main(int argc, const char** argv) {
         spdlog::set_level(spdlog::level::info);
         break;
     case 3:
-        spdlog::set_level(spdlog::level::warn);
+        spdlog::set_level(spdlog::level::debug);
         break;
     case 4:
         spdlog::set_level(spdlog::level::trace);

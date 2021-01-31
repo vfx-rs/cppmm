@@ -1,8 +1,5 @@
 #include "process_binding.hpp"
-/* #include "attributes.hpp" */
-/* #include "namespaces.hpp" */
 #include "pystring.h"
-/* #include "type.hpp" */
 #include "clang/AST/ASTContext.h"
 #include "clang/AST/Decl.h"
 #include "clang/AST/DeclCXX.h"
@@ -21,8 +18,8 @@
 #include <spdlog/fmt/ostr.h>
 #include <spdlog/spdlog.h>
 
-#include <iostream>
 #include <iomanip>
+#include <iostream>
 
 #include "filesystem.hpp"
 namespace fs = ghc::filesystem;
@@ -172,7 +169,6 @@ struct Node {
     virtual void write_xml(std::ostream& os, int depth) const = 0;
 
     virtual void write_json_attrs(json& o) const {
-        /* o["name"] = qualified_name; */
         if (id >= 0) {
             o["id"] = id;
         } else {
@@ -264,7 +260,6 @@ struct NodeBuiltinType : public NodeType {
         o["kind"] = "BuiltinType";
         write_json_attrs(o);
     }
-
 };
 
 struct QType {
@@ -280,7 +275,11 @@ struct QType {
     }
 
     void write_json(json& o) const {
-        NODES[ty]->write_json(o);
+        if (ty >= 0) {
+            NODES[ty]->write_json(o);
+        } else {
+            o["type"] = "UNKNOWN";
+        }
         o["const"] = is_const;
     }
 
@@ -333,7 +332,6 @@ struct NodePointerType : public NodeType {
         o["pointee"] = {};
         pointee_type.write_json(o["pointee"]);
     }
-
 };
 
 struct NodeRecordType : public NodeType {
@@ -391,11 +389,10 @@ struct NodeAttributeHolder : public Node {
     // FIXME: worst naming ever
     virtual void write_attrs_json(json& o) const {
         o["attributes"] = {};
-        for (const auto& a: attrs) {
+        for (const auto& a : attrs) {
             o["attributes"].emplace_back(a);
         }
     }
-
 };
 
 struct NodeFunction : public NodeAttributeHolder {
@@ -456,14 +453,13 @@ struct NodeFunction : public NodeAttributeHolder {
         return_type.write_json(o["return"]);
 
         o["params"] = {};
-        for (const auto& param: params) {
+        for (const auto& param : params) {
             auto p = json::object();
             p["index"] = param.index;
             p["name"] = param.name;
             p["type"] = json::object();
             param.qty.write_json(p["type"]);
             o["params"].emplace_back(p);
-
         }
     }
 
@@ -473,7 +469,6 @@ struct NodeFunction : public NodeAttributeHolder {
         write_attrs_json(o);
         write_parameters_json(o);
     }
-
 };
 
 struct NodeMethod : public NodeFunction {
@@ -530,7 +525,6 @@ struct NodeMethod : public NodeFunction {
         o["move_constructor"] = is_move_constructor;
         o["conversion_decl"] = is_conversion_decl;
         o["destructor"] = is_destructor;
-
     }
 
     virtual void write_json(json& o) const override {
@@ -601,7 +595,7 @@ struct NodeRecord : public NodeAttributeHolder {
         write_attrs_json(o);
 
         o["fields"] = {};
-        for (const auto& field: fields) {
+        for (const auto& field : fields) {
             auto f = json::object();
             f["kind"] = "Field";
             f["name"] = field.name;
@@ -611,7 +605,7 @@ struct NodeRecord : public NodeAttributeHolder {
         }
 
         o["methods"] = {};
-        for (const auto& method_id: methods) {
+        for (const auto& method_id : methods) {
             auto m = json::object();
             NODES[method_id]->write_json(m);
             o["methods"].emplace_back(m);
@@ -651,16 +645,16 @@ bool get_abi_info(const TypeDecl* td, ASTContext& ctx, uint32_t& size,
         const clang::Type* ty = td->getTypeForDecl();
         if (!ty->isIncompleteType()) {
             const clang::TypeInfo& ti = ctx.getTypeInfo(ty);
-            SPDLOG_DEBUG("    size: {}", ti.Width);
-            SPDLOG_DEBUG("    align: {}", ti.Align);
+            SPDLOG_TRACE("    size: {}", ti.Width);
+            SPDLOG_TRACE("    align: {}", ti.Align);
             size = ti.Width;
             align = ti.Align;
             return true;
         } else {
-            SPDLOG_DEBUG("    is incomplete type");
+            SPDLOG_TRACE("    is incomplete type");
         }
     } else {
-        SPDLOG_DEBUG("    is not a TypeDecl");
+        SPDLOG_TRACE("    is not a TypeDecl");
     }
 
     return false;
@@ -682,6 +676,7 @@ NodeTranslationUnit* get_translation_unit(const std::string& filename) {
     ROOT.push_back(id);
     auto* node_ptr = node.get();
     NODES.emplace_back(std::move(node));
+    NODE_MAP[filename] = id;
     return node_ptr;
 }
 
@@ -690,13 +685,13 @@ void handle_class_template_decl(const ClassTemplateDecl* ctd) {
     SourceManager& sm = ctx.getSourceManager();
     const auto& loc = ctd->getLocation();
 
-    SPDLOG_DEBUG("ClassTemplateDecl {:p} {} ({}:{})", (void*)ctd,
+    SPDLOG_TRACE("ClassTemplateDecl {:p} {} ({}:{})", (void*)ctd,
                  ctd->getQualifiedNameAsString(), sm.getFilename(loc).str(),
                  sm.getSpellingLineNumber(loc));
 
     const TemplateParameterList* tpl = ctd->getTemplateParameters();
     for (const NamedDecl* nd : *tpl) {
-        SPDLOG_DEBUG("        {}", nd->getQualifiedNameAsString());
+        SPDLOG_TRACE("        {}", nd->getQualifiedNameAsString());
     }
 }
 
@@ -780,22 +775,22 @@ QType process_qtype(const QualType& qt) {
 // Create Nodes for the function return type and parameters
 void process_function_parameters(const FunctionDecl* fd, QType& return_qtype,
                                  std::vector<Param>& params) {
-    SPDLOG_DEBUG("    -> {}", fd->getReturnType().getAsString());
+    SPDLOG_TRACE("    -> {}", fd->getReturnType().getAsString());
     return_qtype = process_qtype(fd->getReturnType());
 
     for (const ParmVarDecl* pvd : fd->parameters()) {
         int index = pvd->getFunctionScopeIndex();
-        SPDLOG_DEBUG("        {}: {}", pvd->getQualifiedNameAsString(),
+        SPDLOG_TRACE("        {}: {}", pvd->getQualifiedNameAsString(),
                      pvd->getType().getCanonicalType().getAsString());
         QType qtype = process_qtype(pvd->getType());
 
         params.emplace_back(Param{pvd->getNameAsString(), qtype, index});
 
         if (const auto* vtd = pvd->getDescribedVarTemplate()) {
-            SPDLOG_DEBUG("            GOT VTD");
+            SPDLOG_TRACE("            GOT VTD");
         }
         if (const auto* td = pvd->getDescribedTemplate()) {
-            SPDLOG_DEBUG("            GOT TD");
+            SPDLOG_TRACE("            GOT TD");
         }
     }
 }
@@ -807,11 +802,11 @@ std::string get_record_name(const CXXRecordDecl* crd) {
         crd->getTypeForDecl()->getCanonicalTypeInternal().getAsString());
 }
 
-
-NodePtr process_method_decl(const CXXMethodDecl* cmd, std::vector<std::string> attrs) {
+NodePtr process_method_decl(const CXXMethodDecl* cmd,
+                            std::vector<std::string> attrs) {
     const std::string method_name = cmd->getQualifiedNameAsString();
     const std::string method_short_name = cmd->getNameAsString();
-    SPDLOG_DEBUG("    METHOD {}", method_name);
+    SPDLOG_TRACE("    METHOD {}", method_name);
 
     QType return_qtype;
     std::vector<Param> params;
@@ -819,8 +814,8 @@ NodePtr process_method_decl(const CXXMethodDecl* cmd, std::vector<std::string> a
     NodeId id = NODES.size();
 
     auto node_function = std::make_unique<NodeMethod>(
-        method_name, id, 0, std::move(attrs), method_short_name,
-        return_qtype, std::move(params), cmd->isStatic());
+        method_name, id, 0, std::move(attrs), method_short_name, return_qtype,
+        std::move(params), cmd->isStatic());
 
     NodeMethod* m = (NodeMethod*)node_function.get();
     m->is_user_provided = cmd->isUserProvided();
@@ -877,8 +872,9 @@ std::vector<NodePtr> process_methods(const CXXRecordDecl* crd) {
                     NodeId id = NODES.size();
 
                     auto node_function = std::make_unique<NodeMethod>(
-                        function_name, id, 0, std::move(attrs), method_short_name,
-                        return_qtype, std::move(params), fd->isStatic());
+                        function_name, id, 0, std::move(attrs),
+                        method_short_name, return_qtype, std::move(params),
+                        fd->isStatic());
                     result.emplace_back(std::move(node_function));
                 }
             }
@@ -892,7 +888,7 @@ std::vector<NodePtr> process_methods(const CXXRecordDecl* crd) {
     return result;
 }
 
-bool match_method(const NodeMethod* a, const NodeMethod* b) {
+bool match_function(const NodeFunction* a, const NodeFunction* b) {
     if (a->short_name != b->short_name) {
         return false;
     }
@@ -909,6 +905,19 @@ bool match_method(const NodeMethod* a, const NodeMethod* b) {
         if (a->params[i].qty != b->params[i].qty) {
             return false;
         }
+    }
+
+    return true;
+}
+
+bool match_method(const NodeMethod* a, const NodeMethod* b) {
+
+    if (a->is_const != b->is_const) {
+        return false;
+    }
+    
+    if (!match_function(a, b)) {
+        return false;
     }
 
     return true;
@@ -966,6 +975,11 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
         if (method_in_list(mptr, binding_methods, attrs)) {
             mptr->attrs = std::move(attrs);
             mptr->in_binding = true;
+        } else {
+            // TODO: decide what we really want to do here.
+            // For now, ignoring unmatched methods makes dev easier by cutting
+            // out noise
+            continue;
         }
 
         NodeId id = NODES.size();
@@ -977,9 +991,13 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
     for (const Decl* d : crd->decls()) {
         if (const auto* fd = dyn_cast<FieldDecl>(d)) {
             const std::string field_name = fd->getNameAsString();
-            SPDLOG_DEBUG("    FIELD {}", field_name);
+            SPDLOG_TRACE("    FIELD {}", field_name);
             QType qtype = process_qtype(fd->getType());
             node_record_ptr->fields.push_back(Field{field_name, qtype.ty});
+        } else if (const auto* md = dyn_cast<CXXMethodDecl>(d)) {
+            // pass
+        } else if (const auto* fd = dyn_cast<FunctionDecl>(d)) {
+            SPDLOG_DEBUG(" FUNCTION {}", fd->getQualifiedNameAsString());
         }
     }
 
@@ -1012,23 +1030,23 @@ void handle_cxx_record_decl(const CXXRecordDecl* crd) {
 
     std::string filename = sm.getFilename(loc).str();
 
-    SPDLOG_DEBUG("CXXRecordDecl {:p} {} ({}:{})", (void*)crd,
+    SPDLOG_TRACE("CXXRecordDecl {:p} {} ({}:{})", (void*)crd,
                  crd->getQualifiedNameAsString(), filename,
                  sm.getSpellingLineNumber(loc));
 
     const clang::Type* ty = crd->getTypeForDecl();
     if (ty->isIncompleteType()) {
         // type cannot be sized
-        SPDLOG_DEBUG("    incomplete");
+        SPDLOG_TRACE("    incomplete");
         return;
     } else if (ty->isDependentType()) {
         // type is dependent on a template parameter
         // this probably means it's the template definition, which we want to
         // ignore and have the user explicitly instantiate the types they want
         if (const ClassTemplateDecl* ctd = crd->getDescribedClassTemplate()) {
-            SPDLOG_DEBUG("    dependent on {:p}", (void*)ctd);
+            SPDLOG_TRACE("    dependent on {:p}", (void*)ctd);
         } else {
-            SPDLOG_DEBUG("    dependent on unknown?");
+            SPDLOG_TRACE("    dependent on unknown?");
         }
         return;
     }
@@ -1047,7 +1065,7 @@ void handle_cxx_record_decl(const CXXRecordDecl* crd) {
     for (const auto* decl : crd->decls()) {
         if (const auto* tad = dyn_cast<TypeAliasDecl>(decl)) {
             if (tad->getNameAsString() == "BoundType") {
-                SPDLOG_DEBUG(
+                SPDLOG_TRACE(
                     "Found BoundType {}",
                     tad->getUnderlyingDecl()->getQualifiedNameAsString());
             }
@@ -1065,6 +1083,77 @@ void handle_cxx_record_decl(const CXXRecordDecl* crd) {
     // // otherwise process this type (no real use in doing this - probably want
     // // to remove this)
     // process_concrete_record(crd, filename, std::move(attrs));
+}
+
+std::unordered_map<std::string, std::vector<NodeFunction>> binding_functions;
+
+void handle_binding_function(const FunctionDecl* fd) {
+    const std::string function_qual_name =
+        pystring::replace(fd->getQualifiedNameAsString(), "cppmm_bind::", "");
+    const std::string function_short_name = fd->getNameAsString();
+    SPDLOG_DEBUG("    BIND FUNCTION {}", function_qual_name);
+
+    ASTContext& ctx = fd->getASTContext();
+    SourceManager& sm = ctx.getSourceManager();
+    const auto& loc = fd->getLocation();
+    std::string filename = sm.getFilename(loc).str();
+
+    // Get the translation unit node we're going to add this Function to
+    auto* node_tu = get_translation_unit(filename);
+
+    auto attrs = get_attrs(fd);
+
+    QType return_qtype;
+    std::vector<Param> params;
+    process_function_parameters(fd, return_qtype, params);
+    NodeId id = NODES.size();
+
+    auto it = binding_functions.find(function_qual_name);
+    auto node_function =
+        NodeFunction(function_qual_name, id, node_tu->id, std::move(attrs),
+                     function_short_name, return_qtype, std::move(params));
+
+    if (it != binding_functions.end()) {
+        it->second.emplace_back(std::move(node_function));
+    } else {
+        binding_functions[function_qual_name] = {node_function};
+    }
+}
+
+void handle_function(const FunctionDecl* fd) {
+
+    const std::string function_qual_name =
+        fd->getQualifiedNameAsString();
+    const std::string function_short_name = fd->getNameAsString();
+    
+    auto it = binding_functions.find(function_qual_name);
+    if (it == binding_functions.end()) {
+        SPDLOG_CRITICAL("function {} matched but is not present in binding functions table", function_qual_name);
+        return;
+    }
+
+    NodeId id = NODES.size();
+    QType return_qtype;
+    std::vector<Param> params;
+    process_function_parameters(fd, return_qtype, params);
+    auto node_function =
+        NodeFunction(function_qual_name, id, 0, {},
+                     function_short_name, return_qtype, std::move(params));
+
+    // find a match in the overloads
+    for (const auto& binding_fn: it->second) {
+        if (match_function(&node_function, &binding_fn)) {
+            // we have a match. copy over the attributes and store this function
+            node_function.attrs = binding_fn.attrs;
+            node_function.context = binding_fn.context;
+            auto fnptr = std::make_unique<NodeFunction>(std::move(node_function));
+            NODES.emplace_back(std::move(fnptr));
+            // add the function to its TU
+            SPDLOG_DEBUG("MATCHED {}", function_qual_name);
+            auto* node_tu = (NodeTranslationUnit*)NODES[node_function.context].get();
+            node_tu->children.push_back(id);
+        }
+    }
 }
 
 void ProcessBindingCallback::run(const MatchFinder::MatchResult& result) {
@@ -1085,32 +1174,49 @@ void ProcessBindingCallback::run(const MatchFinder::MatchResult& result) {
     if (const CXXRecordDecl* rec_decl =
             result.Nodes.getNodeAs<CXXRecordDecl>("recordDecl")) {
         handle_cxx_record_decl(rec_decl);
-    }
-
-    if (const TypeAliasDecl* tdecl =
-            result.Nodes.getNodeAs<TypeAliasDecl>("typeAliasDecl")) {
+    } else if (const TypeAliasDecl* tdecl =
+                   result.Nodes.getNodeAs<TypeAliasDecl>("typeAliasDecl")) {
         // tdecl->dump();
         if (const auto* crd =
                 tdecl->getUnderlyingType()->getAsCXXRecordDecl()) {
-            SPDLOG_DEBUG("GOT CXXRECORDTTYPE from TAD");
+            SPDLOG_TRACE("GOT CXXRECORDTTYPE from TAD");
         }
+    } else if (const FunctionDecl* function =
+                   result.Nodes.getNodeAs<FunctionDecl>("functionDecl")) {
+        handle_binding_function(function);
+    }
+}
+
+void ProcessLibraryCallback::run(const MatchFinder::MatchResult& result) {
+    if (const FunctionDecl* fd =
+            result.Nodes.getNodeAs<FunctionDecl>("libraryFunctionDecl")) {
+        handle_function(fd);
     }
 }
 
 ProcessBindingConsumer::ProcessBindingConsumer(ASTContext* context) {
-    // match all record declrations in the cppmm_bind namespace
-    DeclarationMatcher record_decl_matcher =
-        cxxRecordDecl(hasAncestor(namespaceDecl(hasName("cppmm_bind"))),
-                      unless(isImplicit()))
-            .bind("recordDecl");
-    _match_finder.addMatcher(record_decl_matcher, &_handler);
+    {
+        // match all record declrations in the cppmm_bind namespace
+        DeclarationMatcher record_decl_matcher =
+            cxxRecordDecl(hasAncestor(namespaceDecl(hasName("cppmm_bind"))),
+                          unless(isImplicit()))
+                .bind("recordDecl");
+        _match_finder.addMatcher(record_decl_matcher, &_handler);
 
-    // match all typedef declrations in the cppmm_bind namespace
-    DeclarationMatcher typedef_decl_matcher =
-        typeAliasDecl(hasAncestor(namespaceDecl(hasName("cppmm_bind"))),
-                      unless(isImplicit()))
-            .bind("typeAliasDecl");
-    _match_finder.addMatcher(typedef_decl_matcher, &_handler);
+        // match all typedef declrations in the cppmm_bind namespace
+        DeclarationMatcher typedef_decl_matcher =
+            typeAliasDecl(hasAncestor(namespaceDecl(hasName("cppmm_bind"))),
+                          unless(isImplicit()))
+                .bind("typeAliasDecl");
+        _match_finder.addMatcher(typedef_decl_matcher, &_handler);
+
+        // match all function declarations
+        DeclarationMatcher function_decl_matcher =
+            functionDecl(hasAncestor(namespaceDecl(hasName("cppmm_bind"))),
+                         unless(hasAncestor(recordDecl())))
+                .bind("functionDecl");
+        _match_finder.addMatcher(function_decl_matcher, &_handler);
+    }
 
     /*
     // match all record declrations in the cppmm_bind namespace
@@ -1120,17 +1226,31 @@ ProcessBindingConsumer::ProcessBindingConsumer(ASTContext* context) {
             .bind("enumDecl");
     _match_finder.addMatcher(enum_decl_matcher, &_handler);
 
-    // match all function declarations
-    DeclarationMatcher function_decl_matcher =
-        functionDecl(hasAncestor(namespaceDecl(hasName("cppmm_bind"))),
-                     unless(hasAncestor(recordDecl())))
-            .bind("functionDecl");
-    _match_finder.addMatcher(function_decl_matcher, &_handler);
     */
 }
 
 void ProcessBindingConsumer::HandleTranslationUnit(ASTContext& context) {
     _match_finder.matchAST(context);
+    SPDLOG_DEBUG("--- finished matching");
+    for (const auto& fn : binding_functions) {
+        SPDLOG_DEBUG("    {}", fn.first);
+    }
+
+    // add a matcher for each function we found in the binding
+    for (const auto& kv : binding_functions) {
+        for (const auto& fn : kv.second) {
+            SPDLOG_DEBUG("Adding matcher for {}", fn.short_name);
+            DeclarationMatcher function_decl_matcher =
+                functionDecl(hasName(fn.short_name),
+                             unless(hasAncestor(
+                                 namespaceDecl(hasName("cppmm_bind")))),
+                             unless(hasAncestor(recordDecl())))
+                    .bind("libraryFunctionDecl");
+            _library_finder.addMatcher(function_decl_matcher,
+                                       &_library_handler);
+        }
+    }
+    _library_finder.matchAST(context);
 }
 
 } // namespace cppmm

@@ -1,12 +1,7 @@
 #include <OpenImageIO/filesystem.h>
 #include <OpenImageIO/imageio.h>
 
-#define CPPMM_IGNORE __attribute__((annotate("cppmm:ignore")))
-#define CPPMM_RENAME(x) __attribute__((annotate("cppmm:rename:" #x)))
-#define CPPMM_MANUAL(x) __attribute__((annotate("cppmm:manual:" #x)))
-
-#define CPPMM_OPAQUEPTR __attribute__((annotate("cppmm:opaqueptr")))
-#define CPPMM_VALUETYPE __attribute__((annotate("cppmm:valuetype")))
+#include <cppmm_bind.hpp>
 
 namespace cppmm_bind {
 namespace OIIO_NAMESPACE {
@@ -20,6 +15,7 @@ using OIIO::stride_t;
 using OIIO::string_view;
 
 struct ROI {
+    using BoundType = OIIO::ROI;
     constexpr ROI() noexcept CPPMM_RENAME(default);
     constexpr bool defined() const noexcept;
 
@@ -40,6 +36,9 @@ constexpr OIIO::ROI roi_union (const OIIO::ROI &A, const OIIO::ROI &B) noexcept;
 constexpr OIIO::ROI roi_intersection (const OIIO::ROI &A, const OIIO::ROI &B) noexcept;
 
 class ImageSpec {
+public:
+    using BoundType = OIIO::ImageSpec;
+
     ImageSpec(OIIO::TypeDesc format) noexcept CPPMM_RENAME(new);
 
     // ~ImageSpec() __attribute__((annotate("cppmm:manual:delete")));
@@ -87,6 +86,8 @@ class ImageSpec {
 } CPPMM_OPAQUEPTR;
 
 class ImageInput {
+public:
+    using BoundType = OIIO::ImageInput;
 
     using unique_ptr = OIIO::ImageInput::unique_ptr;
 
@@ -112,6 +113,8 @@ class ImageInput {
 } CPPMM_OPAQUEPTR;
 
 bool getattribute(OIIO::string_view, OIIO::TypeDesc, void*);
+
+
 } // namespace OIIO
 } // namespace cppmm_bind
 
