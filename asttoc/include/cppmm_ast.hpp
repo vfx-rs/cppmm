@@ -11,6 +11,8 @@
 
 namespace cppmm {
 
+struct Type;
+
 using Id = uint64_t;
 
 //------------------------------------------------------------------------------
@@ -100,6 +102,7 @@ struct NodeNamespace : public Node {};
 //------------------------------------------------------------------------------
 struct NodeType : public Node {
     std::string type_name;
+    bool const_;
     NodeType(std::string qualified_name, NodeId id, NodeId context,
              NodeKind node_kind, std::string type_name)
         : Node(qualified_name, id, node_kind), type_name(type_name) {}
@@ -116,28 +119,15 @@ struct NodeBuiltinType : public NodeType {
 };
 
 //------------------------------------------------------------------------------
-// QType
-//------------------------------------------------------------------------------
-struct QType {
-    NodeId ty;
-    bool is_const;
-
-    bool operator==(const QType& rhs) const {
-        return ty == rhs.ty && is_const == rhs.is_const;
-    }
-    bool operator!=(const QType& rhs) const { return !(*this == rhs); }
-};
-
-//------------------------------------------------------------------------------
-// QType
+// NodePointerType
 //------------------------------------------------------------------------------
 /// pointer or reference type - check type_kind
 struct NodePointerType : public NodeType {
-    QType pointee_type;
+    Type pointee_type;
     PointerKind pointer_kind;
     NodePointerType(std::string qualified_name, NodeId id, NodeId context,
                     std::string type_name, PointerKind pointer_kind,
-                    QType pointee_type)
+                    Type pointee_type)
         : NodeType(qualified_name, id, context, NodeKind::PointerType,
                    type_name),
           pointer_kind(pointer_kind), pointee_type(pointee_type) {}
@@ -160,7 +150,7 @@ struct NodeRecordType : public NodeType {
 //------------------------------------------------------------------------------
 struct Param {
     std::string name;
-    QType type;
+    Type type;
     int index;
 };
 
@@ -180,14 +170,14 @@ struct NodeAttributeHolder : public Node {
 //------------------------------------------------------------------------------
 struct NodeFunction : public NodeAttributeHolder {
     std::string short_name;
-    QType return_type;
+    Type return_type;
     std::vector<Param> params;
     bool in_binding = false;
     bool in_library = false;
 
     NodeFunction(std::string qualified_name, NodeId id,
                  std::vector<std::string> attrs, std::string short_name,
-                 QType return_type, std::vector<Param> params)
+                 Type return_type, std::vector<Param> params)
         : NodeAttributeHolder(qualified_name, id, NodeKind::Function,
                               attrs),
           short_name(short_name), return_type(return_type), params(params) {}
@@ -201,7 +191,7 @@ struct NodeMethod : public NodeFunction {
 
     NodeMethod(std::string qualified_name, NodeId id,
                std::vector<std::string> attrs, std::string short_name,
-               QType return_type, std::vector<Param> params, bool is_static)
+               Type return_type, std::vector<Param> params, bool is_static)
         : NodeFunction(qualified_name, id, attrs, short_name,
                        return_type, params),
           is_static(is_static) {
@@ -214,7 +204,7 @@ struct NodeMethod : public NodeFunction {
 //------------------------------------------------------------------------------
 struct Field {
     std::string name;
-    QType qtype;
+    Type qtype;
 };
 
 //------------------------------------------------------------------------------
@@ -237,8 +227,13 @@ struct NodeRecord : public NodeAttributeHolder {
 //------------------------------------------------------------------------------
 // Type
 //------------------------------------------------------------------------------
-using Type = mapbox::util::variant<NodeBuiltinType, NodeRecordType,
-                                   NodePointerType>;
+using TypeVariant = mapbox::util::variant<NodeBuiltinType, NodeRecordType,
+                                          NodePointerType>;
+struct Type : public TypeVariant {
+    Type(NodeBuiltinType && t) : TypeVariant(t) {}
+    Type(NodeRecordType && t) : TypeVariant(t) {}
+    Type(NodePointerType && t) : TypeVariant(t) {}
+}
 
 //------------------------------------------------------------------------------
 // Root

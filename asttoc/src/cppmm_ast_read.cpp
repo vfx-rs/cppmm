@@ -45,11 +45,21 @@ QType read_type_reference(const nln::json & json) {
 }
 
 //------------------------------------------------------------------------------
-QType read_type(const nln::json & json) {
+QType read_type_record(const nln::json & json) {
+}
+
+//------------------------------------------------------------------------------
+Type read_type(const nln::json & json) {
     auto kind = json[KIND].get<std::string>();
     if(kind == "BuiltinType") {
+        return read_type_builtin(json);
+    } else if(kind == "RecordType") {
+        return read_type_record(json);
     } else if(kind == "Reference") {
+        return read_type_reference(json);
     }
+
+    assert("Shouldn't get here"); // TODO LT: Clean this up
 }
 
 //------------------------------------------------------------------------------
