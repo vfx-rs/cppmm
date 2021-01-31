@@ -183,7 +183,7 @@ struct NodeFunction : public NodeAttributeHolder {
     bool in_binding = false;
     bool in_library = false;
 
-    NodeFunction(std::string qualified_name, NodeId id, NodeId context,
+    NodeFunction(std::string qualified_name, NodeId id,
                  std::vector<std::string> attrs, std::string short_name,
                  QType return_type, std::vector<Param> params)
         : NodeAttributeHolder(qualified_name, id, NodeKind::Function,
@@ -197,10 +197,10 @@ struct NodeFunction : public NodeAttributeHolder {
 struct NodeMethod : public NodeFunction {
     bool is_static = false;
 
-    NodeMethod(std::string qualified_name, NodeId id, NodeId context,
+    NodeMethod(std::string qualified_name, NodeId id,
                std::vector<std::string> attrs, std::string short_name,
                QType return_type, std::vector<Param> params, bool is_static)
-        : NodeFunction(qualified_name, id, context, attrs, short_name,
+        : NodeFunction(qualified_name, id, attrs, short_name,
                        return_type, params),
           is_static(is_static) {
         kind = NodeKind::Method;

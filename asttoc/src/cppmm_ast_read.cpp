@@ -20,8 +20,13 @@ namespace {
     const char * KIND = "kind";
     const char * METHODS = "methods";
     const char * NAME = "name";
+    const char * QUALIFIED_NAME = "qualified_name";
+    const char * SHORT_NAME = "short_name";
+    const char * PARAMS = "params";
     const char * SIZE = "size";
+    const char * STATIC = "static";
     const char * RECORD = "Record";
+    const char * RETURN_TYPE = "return_type";
 
     struct NodeBasics {
         std::string name;
@@ -30,7 +35,31 @@ namespace {
 }
 
 //------------------------------------------------------------------------------
+QType read_qtype(const nln::json & json) {
+}
+
+//------------------------------------------------------------------------------
+Param read_param(const nln::json & json) {
+}
+
+//------------------------------------------------------------------------------
 NodeMethod read_method(const nln::json & json) {
+    // ignore for the moment
+    std::vector<std::string> _attrs;
+
+    auto qualified_name = json[QUALIFIED_NAME].get<std::string>();
+    auto short_name = json[SHORT_NAME].get<std::string>();
+    auto id = json[ID].get<Id>();
+    auto static_ = json[STATIC].get<bool>();
+    auto return_type = read_qtype(json[RETURN_TYPE]);
+
+    auto params = std::vector<Param>();
+    for(const auto & i: json[PARAMS]) {
+        params.push_back(read_param(i));
+    }
+
+    return NodeMethod(qualified_name, id, _attrs, short_name, return_type,
+                      params, static_);
 }
 
 //------------------------------------------------------------------------------
