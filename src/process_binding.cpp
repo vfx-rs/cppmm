@@ -368,6 +368,7 @@ struct Param {
     std::string name;
     QType qty;
     int index;
+    std::vector<std::string> attrs;
 };
 
 struct NodeAttributeHolder : public Node {
@@ -458,6 +459,7 @@ struct NodeFunction : public NodeAttributeHolder {
             p["index"] = param.index;
             p["name"] = param.name;
             p["type"] = json::object();
+            p["attrs"] = param.attrs;
             param.qty.write_json(p["type"]);
             o["params"].emplace_back(p);
         }
@@ -784,7 +786,7 @@ void process_function_parameters(const FunctionDecl* fd, QType& return_qtype,
                      pvd->getType().getCanonicalType().getAsString());
         QType qtype = process_qtype(pvd->getType());
 
-        params.emplace_back(Param{pvd->getNameAsString(), qtype, index});
+        params.emplace_back(Param{pvd->getNameAsString(), qtype, index, get_attrs(pvd)});
 
         if (const auto* vtd = pvd->getDescribedVarTemplate()) {
             SPDLOG_TRACE("            GOT VTD");
@@ -929,6 +931,7 @@ bool method_in_list(NodeMethod* m, const std::vector<NodePtr>& binding_methods,
         const auto* b = (NodeMethod*)n.get();
         if (match_method(m, b)) {
             attrs = b->attrs;
+            m->params = b->params;
             return true;
         }
     }
