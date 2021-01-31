@@ -9,6 +9,8 @@
 
 namespace cppmm {
 
+using Id = uint64_t;
+
 //------------------------------------------------------------------------------
 // NodeKind
 //------------------------------------------------------------------------------
@@ -61,11 +63,29 @@ using NodePtr = std::unique_ptr<Node>;
 //------------------------------------------------------------------------------
 // TranslationUnit
 //------------------------------------------------------------------------------
-struct TranslationUnit : public Node {
-    std::vector<NodePtr> children;
+struct TranslationUnit {
+    Id id;
+    std::string filename;
+    std::vector<NodePtr> decls;
 
-    TranslationUnit(std::string name, NodeId id)
-        : Node(name, id, NodeKind::TranslationUnit) {}
+    using Self = TranslationUnit;
+
+    TranslationUnit(std::string filename, NodeId id)
+        : id(id)
+        , filename(filename)
+    {}
+
+    TranslationUnit(Self && rhs)
+        : id(rhs.id)
+        , filename(std::move(rhs.filename))
+        , decls(std::move(rhs.decls))
+    {}
+
+    void operator==(Self && rhs) {
+        id = rhs.id;
+        filename = std::move(rhs.filename);
+        decls = std::move(rhs.decls);
+    }
 };
 
 //------------------------------------------------------------------------------
@@ -206,9 +226,9 @@ struct NodeRecord : public NodeAttributeHolder {
     uint32_t size;
     uint32_t align;
 
-    NodeRecord(std::string name, NodeId id, std::vector<std::string> attrs,
+    NodeRecord(NodeId id, std::vector<std::string> attrs,
                RecordKind record_kind, uint32_t size, uint32_t align)
-        : NodeAttributeHolder(name, id, NodeKind::Record, attrs),
+        : NodeAttributeHolder("", id, NodeKind::Record, attrs),
           record_kind(record_kind), size(size), align(align) {}
 };
 
@@ -216,18 +236,18 @@ struct NodeRecord : public NodeAttributeHolder {
 // Root
 //------------------------------------------------------------------------------
 struct Root {
-    std::vector<NodePtr> nodes;
+    std::vector<TranslationUnit> tus;
 
-    Root(std::vector<NodePtr> && nodes)
-        : nodes(std::move(nodes))
+    Root(std::vector<TranslationUnit> && tus)
+        : tus(std::move(tus))
     {}
 
     Root(Root && rhs)
-        : nodes(std::move(rhs.nodes))
+        : tus(std::move(rhs.tus))
     {}
 
     void operator==(Root && rhs) {
-        nodes = std::move(rhs.nodes);
+        tus = std::move(rhs.tus);
     }
 };
 
