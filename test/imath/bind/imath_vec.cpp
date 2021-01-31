@@ -11,10 +11,8 @@ template <class T> class Vec3 {
 public:
     // This allows us to see through to the type in Imath
     using BoundType = ::Imath::Vec3<T>;
-    // Need to actually create an instance of the type to get it to specialize
-    // fully
-    BoundType bound_inst;
 
+    /*
     // we're not actually paying any attention to the method declarations yet
     // no matching
     bool equalWithAbsError(const Vec3<T>& v, T e) const;
@@ -46,35 +44,32 @@ public:
 
     const ::Imath::Vec3<T>& normalize();    // modifies *this
     ::Imath::Vec3<T> normalized() const; // does not modify *this
+    */
 
-    constexpr static unsigned int dimensions();
+    // constexpr static unsigned int dimensions();
 
-    constexpr static T baseTypeMin();
-    constexpr static T baseTypeMax();
-    constexpr static T baseTypeSmallest();
-    constexpr static T baseTypeEpsilon();
+    // constexpr static T baseTypeMin();
+    // constexpr static T baseTypeMax();
+    // constexpr static T baseTypeSmallest();
+    // constexpr static T baseTypeEpsilon();
 
+    // ugh - in order for the explicit instantiation to work we must provide
+    // a function body here.
     template <class S> IMATH_HOSTDEVICE void setValue (S a, S b, S c);
+
 } CPPMM_VALUETYPE;
 
-// These type aliases will cause the class template to be monomorphized with
-// the given template parameter as if it had been explicitly declared
-using V3f = Vec3<float>;
-V3f v3f;
-using V3i = Vec3<int>;
-V3i v3i;
+// explicit instantiation
+template class Vec3<float>;
+
+// note the 'extern' here otherwise we get an error because we're not
+// defining the template body up above
+extern template 
+IMATH_HOSTDEVICE void Vec3<float>::setValue(float a, float b, float c);
 
 } // namespace cppmm_bind
 
-namespace IMATH_INTERNAL_NAMESPACE {
+template class Imath::Vec3<float>;
 
-// in order for clang to see the code for template functions that depend on
-// another template parameter list, we have to explicitly specialize them for
-// all the types we're interested in like this:
-// yuck - just realised that for matching we're going to need to do this for
-// the binding version as well.
-template <>
-template <>
-IMATH_HOSTDEVICE void ::Imath::Vec3<float>::setValue(float a, float b, float c);
-
-}
+extern template 
+IMATH_HOSTDEVICE void Imath::Vec3<float>::setValue(float a, float b, float c);
