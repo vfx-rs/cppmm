@@ -84,6 +84,9 @@ NodePtr read_translation_unit(const nln::json & json) {
         children.push_back(read_node(i));
     }
 
+    // transfer the children over to the result
+    result->children = std::move(children);
+
     // Return the result
     return result;
 }
