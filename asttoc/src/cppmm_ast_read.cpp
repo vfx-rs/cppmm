@@ -17,6 +17,7 @@ namespace {
     const char * FIELDS = "fields";
     const char * FILENAME = "filename";
     const char * ID = "id";
+    const char * INDEX = "index";
     const char * KIND = "kind";
     const char * METHODS = "methods";
     const char * NAME = "name";
@@ -26,7 +27,8 @@ namespace {
     const char * SIZE = "size";
     const char * STATIC = "static";
     const char * RECORD = "Record";
-    const char * RETURN_TYPE = "return_type";
+    const char * TYPE = "type";
+    const char * RETURN = "return";
 
     struct NodeBasics {
         std::string name;
@@ -35,11 +37,30 @@ namespace {
 }
 
 //------------------------------------------------------------------------------
-QType read_qtype(const nln::json & json) {
+QType read_type_builtin(const nln::json & json) {
+}
+
+//------------------------------------------------------------------------------
+QType read_type_reference(const nln::json & json) {
+}
+
+//------------------------------------------------------------------------------
+QType read_type(const nln::json & json) {
+    auto kind = json[KIND].get<std::string>();
+    if(kind == "BuiltinType") {
+    } else if(kind == "Reference") {
+    }
 }
 
 //------------------------------------------------------------------------------
 Param read_param(const nln::json & json) {
+    Param result;
+
+    result.name = json[NAME].get<std::string>();
+    result.index = json[INDEX].get<uint64_t>();
+    result.type = read_type(json[TYPE]);
+
+    return result;
 }
 
 //------------------------------------------------------------------------------
@@ -51,14 +72,12 @@ NodeMethod read_method(const nln::json & json) {
     auto short_name = json[SHORT_NAME].get<std::string>();
     auto id = json[ID].get<Id>();
     auto static_ = json[STATIC].get<bool>();
-    auto return_type = read_qtype(json[RETURN_TYPE]);
+    auto return_type = read_type(json[RETURN]);
 
     auto params = std::vector<Param>();
-    /*
     for(const auto & i: json[PARAMS]) {
         params.push_back(read_param(i));
     }
-    */
 
     return NodeMethod(qualified_name, id, _attrs, short_name, return_type,
                       params, static_);

@@ -2,6 +2,8 @@
 // vfx-rs
 //------------------------------------------------------------------------------
 #pragma once
+#include "mapbox/variant.hpp"
+
 #include <cstdint>
 #include <memory>
 #include <string>
@@ -158,7 +160,7 @@ struct NodeRecordType : public NodeType {
 //------------------------------------------------------------------------------
 struct Param {
     std::string name;
-    QType qty;
+    QType type;
     int index;
 };
 
