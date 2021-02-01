@@ -125,6 +125,11 @@ NodeMethod read_method(const nln::json & json) {
 
 //------------------------------------------------------------------------------
 Field read_field(const nln::json & json) {
+    std::cerr << "Reading field" << std::endl;
+    return Field {
+        json[NAME].get<std::string>(),
+        read_type(json[TYPE]),
+    };
 }
 
 //------------------------------------------------------------------------------
@@ -142,17 +147,15 @@ NodePtr read_record(const nln::json & json) {
     auto result =\
         std::make_unique<NodeRecord>(id, _attrs, _record_kind, size, align);
 
-    // Pull out the fields
+    // Pull out the methods
     for (const auto & i : json[METHODS] ){
         result->methods.push_back(read_method(i));
     }
 
-    // Pull out the methods
-    /*
+    // Pull out the fields
     for (const auto & i : json[FIELDS] ){
         result->fields.push_back(read_field(i));
     }
-    */
 
     // Return the result
     return result;

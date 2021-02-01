@@ -220,7 +220,7 @@ struct NodeMethod : public NodeFunction {
 //------------------------------------------------------------------------------
 struct Field {
     std::string name;
-    NodeTypePtr qtype;
+    NodeTypePtr type;
 };
 
 //------------------------------------------------------------------------------
