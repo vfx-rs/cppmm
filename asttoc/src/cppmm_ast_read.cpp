@@ -6,6 +6,7 @@
 #include "json.hh"
 
 #include <memory>
+#include <iostream>
 
 namespace nln = nlohmann;
 
@@ -40,14 +41,17 @@ namespace {
 
 //------------------------------------------------------------------------------
 NodeTypePtr read_type_builtin(const nln::json & json) {
+    std::cerr << "Read builtin" << std::endl;
 }
 
 //------------------------------------------------------------------------------
 NodeTypePtr read_type_reference(const nln::json & json) {
+    std::cerr << "Read reference" << std::endl;
 }
 
 //------------------------------------------------------------------------------
 NodeTypePtr read_type_record(const nln::json & json) {
+    std::cerr << "Read record" << std::endl;
 }
 
 //------------------------------------------------------------------------------

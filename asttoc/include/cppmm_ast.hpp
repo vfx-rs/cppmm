@@ -99,10 +99,10 @@ struct NodeNamespace : public Node {};
 // NodeType
 //------------------------------------------------------------------------------
 struct NodeType : public Node {
-    std::string type_name;
     bool const_;
+    std::string type_name;
 
-    NodeType(std::string qualified_name, NodeId id, NodeId context,
+    NodeType(std::string qualified_name, NodeId id,
              NodeKind node_kind, std::string type_name)
         : Node(qualified_name, id, node_kind), type_name(type_name) {}
 };
@@ -112,10 +112,12 @@ using NodeTypePtr = std::unique_ptr<NodeType>;
 // NodeBuiltinType
 //------------------------------------------------------------------------------
 struct NodeBuiltinType : public NodeType {
-    NodeBuiltinType(std::string qualified_name, NodeId id, NodeId context,
+
+    NodeBuiltinType(std::string qualified_name, NodeId id,
                     std::string type_name)
-        : NodeType(qualified_name, id, context, NodeKind::BuiltinType,
-                   type_name) {}
+        : NodeType(qualified_name, id, NodeKind::BuiltinType,
+                   type_name)
+    {}
 };
 
 //------------------------------------------------------------------------------
@@ -125,11 +127,10 @@ struct NodeBuiltinType : public NodeType {
 struct NodePointerType : public NodeType {
     NodeTypePtr pointee_type;
     PointerKind pointer_kind;
-    NodePointerType(std::string qualified_name, NodeId id, NodeId context,
+    NodePointerType(std::string qualified_name, NodeId id,
                     std::string type_name, PointerKind pointer_kind,
                     NodeTypePtr && pointee_type)
-        : NodeType(qualified_name, id, context, NodeKind::PointerType,
-                   type_name),
+        : NodeType(qualified_name, id, NodeKind::PointerType, type_name),
           pointer_kind(pointer_kind), pointee_type(std::move(pointee_type)) {}
 };
 
@@ -140,8 +141,7 @@ struct NodeRecordType : public NodeType {
     NodeId record;
     NodeRecordType(std::string qualified_name, NodeId id, NodeId context,
                    std::string type_name, NodeId record)
-        : NodeType(qualified_name, id, context, NodeKind::RecordType,
-                   type_name),
+        : NodeType(qualified_name, id, NodeKind::RecordType, type_name),
           record(record) {}
 };
 
