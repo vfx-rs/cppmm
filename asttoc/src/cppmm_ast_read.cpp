@@ -125,7 +125,6 @@ NodeMethod read_method(const nln::json & json) {
 
 //------------------------------------------------------------------------------
 Field read_field(const nln::json & json) {
-    std::cerr << "Reading field" << std::endl;
     return Field {
         json[NAME].get<std::string>(),
         read_type(json[TYPE]),
