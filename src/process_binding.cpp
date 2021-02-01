@@ -83,10 +83,12 @@ enum class NodeKind : uint32_t {
     BuiltinType,
     PointerType,
     RecordType,
+    EnumType,
     Parm,
     Function,
     Method,
     Record,
+    Enum,
 };
 
 std::ostream& operator<<(std::ostream& os, NodeKind k) {
@@ -109,6 +111,9 @@ std::ostream& operator<<(std::ostream& os, NodeKind k) {
     case NodeKind::RecordType:
         os << "RecordType";
         break;
+    case NodeKind::EnumType:
+        os << "EnumType";
+        break;
     case NodeKind::Parm:
         os << "Parm";
         break;
@@ -120,6 +125,9 @@ std::ostream& operator<<(std::ostream& os, NodeKind k) {
         break;
     case NodeKind::Record:
         os << "Record";
+        break;
+    case NodeKind::Enum:
+        os << "Enum";
         break;
     }
     return os;
@@ -188,7 +196,7 @@ struct NodeTranslationUnit : public Node {
 
         o["decls"] = {};
         for (NodeId id : children) {
-            const Node* node = NODES[id].get();
+            const Node* node = NODES.at(id).get();
             auto child = json::object();
             node->write_json(child);
             o["decls"].emplace_back(std::move(child));
@@ -199,8 +207,7 @@ struct NodeTranslationUnit : public Node {
         : Node(qualified_name, id, context, NodeKind::TranslationUnit) {}
 };
 
-struct NodeNamespace : public Node {
-};
+struct NodeNamespace : public Node {};
 
 struct NodeType : public Node {
     std::string type_name;
@@ -232,7 +239,7 @@ struct QType {
 
     void write_json(json& o) const {
         if (ty >= 0) {
-            NODES[ty]->write_json(o);
+            NODES.at(ty)->write_json(o);
         } else {
             o["type"] = "UNKNOWN";
         }
@@ -245,6 +252,14 @@ struct QType {
 
     bool operator!=(const QType& rhs) const { return !(*this == rhs); }
 };
+
+std::ostream& operator<<(std::ostream& os, const QType& q) {
+    if (q.is_const) {
+        os << "const ";
+    }
+    os << ((NodeType*)NODES.at(q.ty).get())->type_name;
+    return os;
+}
 
 // pointer or reference type - check type_kind
 struct NodePointerType : public NodeType {
@@ -291,12 +306,34 @@ struct NodeRecordType : public NodeType {
     }
 };
 
+struct NodeEnumType : public NodeType {
+    NodeId enm;
+    NodeEnumType(std::string qualified_name, NodeId id, NodeId context,
+                 std::string type_name, NodeId enm)
+        : NodeType(qualified_name, id, context, NodeKind::EnumType, type_name),
+          enm(enm) {}
+
+    virtual void write_json_attrs(json& o) const override {
+        NodeType::write_json_attrs(o);
+        o["enum"] = enm;
+    }
+
+    virtual void write_json(json& o) const override {
+        o["kind"] = "EnumType";
+        write_json_attrs(o);
+    }
+};
+
 struct Param {
     std::string name;
     QType qty;
     int index;
     std::vector<std::string> attrs;
 };
+
+std::ostream& operator<<(std::ostream& os, const Param& p) {
+    return os << p.name << ": " << p.qty;
+}
 
 struct NodeAttributeHolder : public Node {
     std::vector<std::string> attrs;
@@ -361,6 +398,15 @@ struct NodeFunction : public NodeAttributeHolder {
         write_parameters_json(o);
     }
 };
+
+std::ostream& operator<<(std::ostream& os, const NodeFunction& f) {
+    os << f.qualified_name << "(";
+    for (const Param& p : f.params) {
+        os << p << ", ";
+    }
+    os << ") -> " << f.return_type;
+    return os;
+}
 
 struct NodeMethod : public NodeFunction {
     bool is_static = false;
@@ -455,15 +501,49 @@ struct NodeRecord : public NodeAttributeHolder {
         o["methods"] = {};
         for (const auto& method_id : methods) {
             auto m = json::object();
-            NODES[method_id]->write_json(m);
+            NODES.at(method_id)->write_json(m);
             o["methods"].emplace_back(m);
+        }
+    }
+};
+
+struct NodeEnum : public NodeAttributeHolder {
+    std::vector<std::pair<std::string, std::string>> variants;
+    std::string short_name;
+    uint32_t size;
+    uint32_t align;
+
+    NodeEnum(std::string qualified_name, NodeId id, NodeId context,
+             std::vector<std::string> attrs, std::string short_name,
+             std::vector<std::pair<std::string, std::string>> variants,
+             uint32_t size, uint32_t align)
+        : NodeAttributeHolder(qualified_name, id, context, NodeKind::Enum,
+                              attrs),
+          short_name(short_name), variants(variants), size(size), align(align) {
+    }
+
+    virtual void write_json_attrs(json& o) const override {
+        NodeAttributeHolder::write_json_attrs(o);
+        o["size"] = size;
+        o["align"] = align;
+    }
+
+    virtual void write_json(json& o) const override {
+        o["kind"] = "Enum";
+        o["name"] = qualified_name;
+        write_json_attrs(o);
+        write_attrs_json(o);
+
+        o["variants"] = json::object();
+        for (const auto& var : variants) {
+            o["variants"][var.first] = var.second;
         }
     }
 };
 
 void write_tus() {
     for (const auto& id : ROOT) {
-        NodeTranslationUnit* tu = (NodeTranslationUnit*)NODES[id].get();
+        NodeTranslationUnit* tu = (NodeTranslationUnit*)NODES.at(id).get();
         auto tu_path = fs::path(tu->qualified_name);
         auto stem = tu_path.stem();
         auto parent = tu_path.parent_path();
@@ -503,7 +583,7 @@ bool get_abi_info(const TypeDecl* td, ASTContext& ctx, uint32_t& size,
 NodeTranslationUnit* get_translation_unit(const std::string& filename) {
     auto it = NODE_MAP.find(filename);
     if (it != NODE_MAP.end()) {
-        const auto& node = NODES[it->second];
+        const auto& node = NODES.at(it->second);
         assert(node->node_kind == NodeKind::TranslationUnit &&
                "node is wrong type");
         return (NodeTranslationUnit*)node.get();
@@ -598,8 +678,31 @@ QType process_qtype(const QualType& qt) {
                     type_node_name, id, 0, type_name, id_rec);
                 NODES.emplace_back(std::move(node_record_type));
                 NODE_MAP[type_node_name] = id;
+            } else if (qt->isEnumeralType()) {
+                const auto* et = qt->getAs<EnumType>();
+                assert(et && "Could not get EnumType from Type");
+                const auto* ed = et->getDecl();
+                assert(ed && "Could not get EnumDecl from EnumType");
+                ed = ed->getCanonicalDecl();
+                assert(ed && "Could not get canonical EnumDecl from EnumType");
+
+                // see if we've already processed an enum matching this type
+                // and get its id if we have
+                const std::string enum_qual_name =
+                    ed->getQualifiedNameAsString();
+                NodeId id_enum = -1;
+                auto it_enum = NODE_MAP.find(enum_qual_name);
+                if (it_enum != NODE_MAP.end()) {
+                    id_enum = it_enum->second;
+                }
+
+                auto node_enum_type = std::make_unique<NodeEnumType>(
+                    type_node_name, id, 0, type_name, id_enum);
+                NODES.emplace_back(std::move(node_enum_type));
+                NODE_MAP[type_node_name] = id;
             } else {
                 SPDLOG_WARN("Unhandled type {}", type_node_name);
+                qt->dump();
                 id = NodeId(-1);
             }
         } else {
@@ -622,7 +725,8 @@ void process_function_parameters(const FunctionDecl* fd, QType& return_qtype,
                      pvd->getType().getCanonicalType().getAsString());
         QType qtype = process_qtype(pvd->getType());
 
-        params.emplace_back(Param{pvd->getNameAsString(), qtype, index, get_attrs(pvd)});
+        params.emplace_back(
+            Param{pvd->getNameAsString(), qtype, index, get_attrs(pvd)});
 
         if (const auto* vtd = pvd->getDescribedVarTemplate()) {
             SPDLOG_TRACE("            GOT VTD");
@@ -649,10 +753,9 @@ NodePtr process_method_decl(const CXXMethodDecl* cmd,
     QType return_qtype;
     std::vector<Param> params;
     process_function_parameters(cmd, return_qtype, params);
-    NodeId id = NODES.size();
 
     auto node_function = std::make_unique<NodeMethod>(
-        method_name, id, 0, std::move(attrs), method_short_name, return_qtype,
+        method_name, 0, 0, std::move(attrs), method_short_name, return_qtype,
         std::move(params), cmd->isStatic());
 
     NodeMethod* m = (NodeMethod*)node_function.get();
@@ -707,10 +810,9 @@ std::vector<NodePtr> process_methods(const CXXRecordDecl* crd) {
                     QType return_qtype;
                     std::vector<Param> params;
                     process_function_parameters(fd, return_qtype, params);
-                    NodeId id = NODES.size();
 
                     auto node_function = std::make_unique<NodeMethod>(
-                        function_name, id, 0, std::move(attrs),
+                        function_name, -1, -1, std::move(attrs),
                         method_short_name, return_qtype, std::move(params),
                         fd->isStatic());
                     result.emplace_back(std::move(node_function));
@@ -727,20 +829,31 @@ std::vector<NodePtr> process_methods(const CXXRecordDecl* crd) {
 }
 
 bool match_function(const NodeFunction* a, const NodeFunction* b) {
+    SPDLOG_TRACE("        matching {} with {}", a->qualified_name,
+                 b->qualified_name);
     if (a->short_name != b->short_name) {
         return false;
     }
 
     if (a->return_type != b->return_type) {
+        SPDLOG_TRACE("        match failed because return types do not match");
         return false;
     }
 
     if (a->params.size() != b->params.size()) {
+        SPDLOG_TRACE(
+            "        match failed because number of params do not match");
         return false;
     }
 
     for (int i = 0; i < a->params.size(); ++i) {
         if (a->params[i].qty != b->params[i].qty) {
+            Node* n_a = NODES.at(a->params[i].qty.ty).get();
+            Node* n_b = NODES.at(b->params[i].qty.ty).get();
+            SPDLOG_TRACE("        match failed because param {} does "
+                         "not match. {} {} != {} {}",
+                         i, a->params[i].qty.ty, n_a->qualified_name,
+                         b->params[i].qty.ty, n_b->qualified_name);
             return false;
         }
     }
@@ -753,7 +866,7 @@ bool match_method(const NodeMethod* a, const NodeMethod* b) {
     if (a->is_const != b->is_const) {
         return false;
     }
-    
+
     if (!match_function(a, b)) {
         return false;
     }
@@ -771,7 +884,48 @@ bool method_in_list(NodeMethod* m, const std::vector<NodePtr>& binding_methods,
             return true;
         }
     }
+    SPDLOG_TRACE("Method {} did not match", m->qualified_name);
     return false;
+}
+
+void process_enum_decl(const EnumDecl* ed, std::string filename) {
+    ed = ed->getCanonicalDecl();
+    const std::string enum_name = ed->getQualifiedNameAsString();
+    const std::string enum_short_name = ed->getNameAsString();
+    ASTContext& ctx = ed->getASTContext();
+    uint32_t size, align;
+    if (!get_abi_info(dyn_cast<TypeDecl>(ed), ctx, size, align)) {
+        SPDLOG_CRITICAL("Could not get ABI info for {}", enum_name);
+    }
+
+    std::vector<std::pair<std::string, std::string>> variants;
+    for (const auto& ecd : ed->enumerators()) {
+        SPDLOG_DEBUG("        {}", ecd->getNameAsString());
+        variants.push_back(std::make_pair(ecd->getNameAsString(),
+                                          ecd->getInitVal().toString(10)));
+    }
+
+    // Get the translation unit node we're going to add this Enum to
+    auto* node_tu = get_translation_unit(filename);
+
+    std::vector<std::string> attrs = get_attrs(ed);
+
+    NodeId new_id = NODES.size();
+    auto node_enum =
+        std::make_unique<NodeEnum>(enum_name, new_id, 0, std::move(attrs),
+                                   enum_short_name, variants, size, align);
+    NODES.emplace_back(std::move(node_enum));
+    NODE_MAP[enum_name] = new_id;
+    // add this record to the TU
+    node_tu->children.push_back(new_id);
+
+    // Find any EnumType nodes that need the new id
+    auto it_enum_type = NODE_MAP.find("TYPE:" + enum_name);
+    if (it_enum_type != NODE_MAP.end()) {
+        auto* node_enum_type =
+            (NodeEnumType*)NODES.at(it_enum_type->second).get();
+        node_enum_type->enm = new_id;
+    }
 }
 
 // Generate the AST output for a Record which we've decided represents a
@@ -779,7 +933,8 @@ bool method_in_list(NodeMethod* m, const std::vector<NodePtr>& binding_methods,
 // specialized)
 void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
                              std::vector<std::string> attrs,
-                             std::vector<NodePtr> binding_methods) {
+                             std::vector<NodePtr> binding_methods,
+                             std::vector<std::string> child_enums) {
     ASTContext& ctx = crd->getASTContext();
     SourceManager& sm = ctx.getSourceManager();
     const auto& loc = crd->getLocation();
@@ -798,9 +953,9 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
 
     // Add the new Record node
     NodeId new_id = NODES.size();
-    auto node_record =
-        std::make_unique<NodeRecord>(record_name, new_id, 0, std::move(attrs),
-                                     RecordKind::OpaquePtr, size, align);
+    auto node_record = std::make_unique<NodeRecord>(
+        record_name, new_id, node_tu->id, std::move(attrs),
+        RecordKind::OpaquePtr, size, align);
     auto* node_record_ptr = node_record.get();
     NODES.emplace_back(std::move(node_record));
     NODE_MAP[record_name] = new_id;
@@ -836,7 +991,13 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
         } else if (const auto* md = dyn_cast<CXXMethodDecl>(d)) {
             // pass
         } else if (const auto* fd = dyn_cast<FunctionDecl>(d)) {
-            SPDLOG_DEBUG(" FUNCTION {}", fd->getQualifiedNameAsString());
+            // SPDLOG_DEBUG(" FUNCTION {}", fd->getQualifiedNameAsString());
+        } else if (const auto* ed = dyn_cast<EnumDecl>(d)) {
+            // SPDLOG_DEBUG("Got enum decl {}", ed->getNameAsString());
+            if (std::find(child_enums.begin(), child_enums.end(),
+                          ed->getNameAsString()) != child_enums.end()) {
+                process_enum_decl(ed, filename);
+            }
         }
     }
 
@@ -846,7 +1007,7 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
     auto it_record_type = NODE_MAP.find("TYPE:" + record_name);
     if (it_record_type != NODE_MAP.end()) {
         auto* node_record_type =
-            (NodeRecordType*)NODES[it_record_type->second].get();
+            (NodeRecordType*)NODES.at(it_record_type->second).get();
         node_record_type->record = new_id;
     }
 }
@@ -869,23 +1030,23 @@ void handle_cxx_record_decl(const CXXRecordDecl* crd) {
 
     std::string filename = sm.getFilename(loc).str();
 
-    SPDLOG_TRACE("CXXRecordDecl {:p} {} ({}:{})", (void*)crd,
+    SPDLOG_DEBUG("CXXRecordDecl {:p} {} ({}:{})", (void*)crd,
                  crd->getQualifiedNameAsString(), filename,
                  sm.getSpellingLineNumber(loc));
 
     const clang::Type* ty = crd->getTypeForDecl();
     if (ty->isIncompleteType()) {
         // type cannot be sized
-        SPDLOG_TRACE("    incomplete");
+        SPDLOG_DEBUG("    incomplete");
         return;
     } else if (ty->isDependentType()) {
         // type is dependent on a template parameter
         // this probably means it's the template definition, which we want to
         // ignore and have the user explicitly instantiate the types they want
         if (const ClassTemplateDecl* ctd = crd->getDescribedClassTemplate()) {
-            SPDLOG_TRACE("    dependent on {:p}", (void*)ctd);
+            SPDLOG_DEBUG("    dependent on {:p}", (void*)ctd);
         } else {
-            SPDLOG_TRACE("    dependent on unknown?");
+            SPDLOG_DEBUG("    dependent on unknown?");
         }
         return;
     }
@@ -898,25 +1059,37 @@ void handle_cxx_record_decl(const CXXRecordDecl* crd) {
 
     // now get the methods so we can match
     std::vector<NodePtr> methods = process_methods(crd);
+    for (const auto& n : methods) {
+        const auto& m = *(NodeMethod*)n.get();
+        SPDLOG_DEBUG("Adding binding method {}", m);
+    }
 
     // see if there's a BoundType typedef, and if so process the type that it
     // points to instead
+    std::vector<std::string> child_enums;
+    const CXXRecordDecl* bound_rd = nullptr;
     for (const auto* decl : crd->decls()) {
         if (const auto* tad = dyn_cast<TypeAliasDecl>(decl)) {
+            SPDLOG_DEBUG("TAD {}", tad->getNameAsString());
+            const auto* bound_nd = tad->getUnderlyingDecl();
             if (tad->getNameAsString() == "BoundType") {
                 SPDLOG_TRACE(
                     "Found BoundType {}",
                     tad->getUnderlyingDecl()->getQualifiedNameAsString());
+
+                bound_rd = tad->getUnderlyingType()->getAsCXXRecordDecl();
             }
-
-            const auto* bound_nd = tad->getUnderlyingDecl();
-            const auto* bound_rd =
-                tad->getUnderlyingType()->getAsCXXRecordDecl();
-
-            process_concrete_record(bound_rd, filename, std::move(attrs),
-                                    std::move(methods));
-            return;
+        } else if (const auto* ed = dyn_cast<EnumDecl>(decl)) {
+            // this gets `using Enum = Library::Class::Enum`
+            SPDLOG_DEBUG("got bound enum decl {}",
+                         ed->getQualifiedNameAsString());
+            child_enums.push_back(ed->getNameAsString());
         }
+    }
+
+    if (bound_rd) {
+        process_concrete_record(bound_rd, filename, std::move(attrs),
+                                std::move(methods), std::move(child_enums));
     }
 
     // // otherwise process this type (no real use in doing this - probably want
@@ -925,6 +1098,7 @@ void handle_cxx_record_decl(const CXXRecordDecl* crd) {
 }
 
 std::unordered_map<std::string, std::vector<NodeFunction>> binding_functions;
+std::unordered_map<std::string, NodeEnum> binding_enums;
 
 void handle_binding_function(const FunctionDecl* fd) {
     const std::string function_qual_name =
@@ -945,12 +1119,14 @@ void handle_binding_function(const FunctionDecl* fd) {
     QType return_qtype;
     std::vector<Param> params;
     process_function_parameters(fd, return_qtype, params);
-    NodeId id = NODES.size();
+    // NodeId id = NODES.size();
 
     auto it = binding_functions.find(function_qual_name);
     auto node_function =
-        NodeFunction(function_qual_name, id, node_tu->id, std::move(attrs),
+        NodeFunction(function_qual_name, 0, node_tu->id, std::move(attrs),
                      function_short_name, return_qtype, std::move(params));
+
+    SPDLOG_DEBUG("Adding binding function {}", node_function);
 
     if (it != binding_functions.end()) {
         it->second.emplace_back(std::move(node_function));
@@ -959,40 +1135,80 @@ void handle_binding_function(const FunctionDecl* fd) {
     }
 }
 
+void handle_binding_enum(const EnumDecl* ed) {
+    const std::string enum_qual_name =
+        pystring::replace(ed->getQualifiedNameAsString(), "cppmm_bind::", "");
+    const std::string enum_short_name = ed->getNameAsString();
+    SPDLOG_DEBUG("    BIND ENUM {}", enum_qual_name);
+
+    ASTContext& ctx = ed->getASTContext();
+    SourceManager& sm = ctx.getSourceManager();
+    const auto& loc = ed->getLocation();
+    std::string filename = sm.getFilename(loc).str();
+
+    // Get the translation unit node we're going to add this Enum to
+    auto* node_tu = get_translation_unit(filename);
+
+    auto attrs = get_attrs(ed);
+
+    auto node_enum = NodeEnum(enum_qual_name, -1, node_tu->id, std::move(attrs),
+                              enum_short_name, {}, 0, 0);
+    binding_enums.insert(std::make_pair(enum_qual_name, std::move(node_enum)));
+}
+
 void handle_function(const FunctionDecl* fd) {
 
-    const std::string function_qual_name =
-        fd->getQualifiedNameAsString();
+    const std::string function_qual_name = fd->getQualifiedNameAsString();
     const std::string function_short_name = fd->getNameAsString();
-    
+
     auto it = binding_functions.find(function_qual_name);
     if (it == binding_functions.end()) {
-        SPDLOG_CRITICAL("function {} matched but is not present in binding functions table", function_qual_name);
+        SPDLOG_CRITICAL(
+            "function {} matched but is not present in binding functions table",
+            function_qual_name);
         return;
     }
 
-    NodeId id = NODES.size();
     QType return_qtype;
     std::vector<Param> params;
     process_function_parameters(fd, return_qtype, params);
     auto node_function =
-        NodeFunction(function_qual_name, id, 0, {},
-                     function_short_name, return_qtype, std::move(params));
+        NodeFunction(function_qual_name, 0, 0, {}, function_short_name,
+                     return_qtype, std::move(params));
 
     // find a match in the overloads
-    for (const auto& binding_fn: it->second) {
+    for (const auto& binding_fn : it->second) {
         if (match_function(&node_function, &binding_fn)) {
             // we have a match. copy over the attributes and store this function
             node_function.attrs = binding_fn.attrs;
             node_function.context = binding_fn.context;
-            auto fnptr = std::make_unique<NodeFunction>(std::move(node_function));
-            NODES.emplace_back(std::move(fnptr));
+            auto fnptr =
+                std::make_unique<NodeFunction>(std::move(node_function));
+            NodeId id = NODES.size();
+            fnptr->id = id;
             // add the function to its TU
             SPDLOG_DEBUG("MATCHED {}", function_qual_name);
-            auto* node_tu = (NodeTranslationUnit*)NODES[node_function.context].get();
+            auto* node_tu =
+                (NodeTranslationUnit*)NODES.at(node_function.context).get();
+            fnptr->context = node_tu->id;
             node_tu->children.push_back(id);
+            NODES.emplace_back(std::move(fnptr));
         }
     }
+}
+
+void handle_enum(const EnumDecl* ed) {
+    const std::string enum_qual_name = ed->getQualifiedNameAsString();
+    auto it = binding_enums.find(enum_qual_name);
+    if (it == binding_enums.end()) {
+        return;
+    }
+
+    const std::string filename =
+        ((NodeTranslationUnit*)NODES.at(it->second.context).get())
+            ->qualified_name;
+
+    process_enum_decl(ed, std::move(filename));
 }
 
 void ProcessBindingCallback::run(const MatchFinder::MatchResult& result) {
@@ -1015,7 +1231,6 @@ void ProcessBindingCallback::run(const MatchFinder::MatchResult& result) {
         handle_cxx_record_decl(rec_decl);
     } else if (const TypeAliasDecl* tdecl =
                    result.Nodes.getNodeAs<TypeAliasDecl>("typeAliasDecl")) {
-        // tdecl->dump();
         if (const auto* crd =
                 tdecl->getUnderlyingType()->getAsCXXRecordDecl()) {
             SPDLOG_TRACE("GOT CXXRECORDTTYPE from TAD");
@@ -1023,6 +1238,9 @@ void ProcessBindingCallback::run(const MatchFinder::MatchResult& result) {
     } else if (const FunctionDecl* function =
                    result.Nodes.getNodeAs<FunctionDecl>("functionDecl")) {
         handle_binding_function(function);
+    } else if (const EnumDecl* enum_decl =
+                   result.Nodes.getNodeAs<EnumDecl>("enumDecl")) {
+        handle_binding_enum(enum_decl);
     }
 }
 
@@ -1030,42 +1248,40 @@ void ProcessLibraryCallback::run(const MatchFinder::MatchResult& result) {
     if (const FunctionDecl* fd =
             result.Nodes.getNodeAs<FunctionDecl>("libraryFunctionDecl")) {
         handle_function(fd);
+    } else if (const EnumDecl* ed =
+                   result.Nodes.getNodeAs<EnumDecl>("libraryEnumDecl")) {
+        handle_enum(ed);
     }
 }
 
 ProcessBindingConsumer::ProcessBindingConsumer(ASTContext* context) {
-    {
-        // match all record declrations in the cppmm_bind namespace
-        DeclarationMatcher record_decl_matcher =
-            cxxRecordDecl(hasAncestor(namespaceDecl(hasName("cppmm_bind"))),
-                          unless(isImplicit()))
-                .bind("recordDecl");
-        _match_finder.addMatcher(record_decl_matcher, &_handler);
-
-        // match all typedef declrations in the cppmm_bind namespace
-        DeclarationMatcher typedef_decl_matcher =
-            typeAliasDecl(hasAncestor(namespaceDecl(hasName("cppmm_bind"))),
-                          unless(isImplicit()))
-                .bind("typeAliasDecl");
-        _match_finder.addMatcher(typedef_decl_matcher, &_handler);
-
-        // match all function declarations
-        DeclarationMatcher function_decl_matcher =
-            functionDecl(hasAncestor(namespaceDecl(hasName("cppmm_bind"))),
-                         unless(hasAncestor(recordDecl())))
-                .bind("functionDecl");
-        _match_finder.addMatcher(function_decl_matcher, &_handler);
-    }
-
-    /*
     // match all record declrations in the cppmm_bind namespace
+    DeclarationMatcher record_decl_matcher =
+        cxxRecordDecl(hasAncestor(namespaceDecl(hasName("cppmm_bind"))),
+                      unless(isImplicit()))
+            .bind("recordDecl");
+    _match_finder.addMatcher(record_decl_matcher, &_handler);
+
+    // match all typedef declrations in the cppmm_bind namespace
+    DeclarationMatcher typedef_decl_matcher =
+        typeAliasDecl(hasAncestor(namespaceDecl(hasName("cppmm_bind"))),
+                      unless(isImplicit()))
+            .bind("typeAliasDecl");
+    _match_finder.addMatcher(typedef_decl_matcher, &_handler);
+
+    // match all function declarations
+    DeclarationMatcher function_decl_matcher =
+        functionDecl(hasAncestor(namespaceDecl(hasName("cppmm_bind"))),
+                     unless(hasAncestor(recordDecl())))
+            .bind("functionDecl");
+    _match_finder.addMatcher(function_decl_matcher, &_handler);
+
+    // match all enum declrations in the cppmm_bind namespace
     DeclarationMatcher enum_decl_matcher =
         enumDecl(hasAncestor(namespaceDecl(hasName("cppmm_bind"))),
                  unless(isImplicit()))
             .bind("enumDecl");
     _match_finder.addMatcher(enum_decl_matcher, &_handler);
-
-    */
 }
 
 void ProcessBindingConsumer::HandleTranslationUnit(ASTContext& context) {
@@ -1078,17 +1294,30 @@ void ProcessBindingConsumer::HandleTranslationUnit(ASTContext& context) {
     // add a matcher for each function we found in the binding
     for (const auto& kv : binding_functions) {
         for (const auto& fn : kv.second) {
-            SPDLOG_DEBUG("Adding matcher for {}", fn.short_name);
+            SPDLOG_DEBUG("Adding matcher for function {}", fn.short_name);
             DeclarationMatcher function_decl_matcher =
-                functionDecl(hasName(fn.short_name),
-                             unless(hasAncestor(
-                                 namespaceDecl(hasName("cppmm_bind")))),
-                             unless(hasAncestor(recordDecl())))
+                functionDecl(
+                    hasName(fn.short_name),
+                    unless(hasAncestor(namespaceDecl(hasName("cppmm_bind")))),
+                    unless(hasAncestor(recordDecl())))
                     .bind("libraryFunctionDecl");
             _library_finder.addMatcher(function_decl_matcher,
                                        &_library_handler);
         }
     }
+
+    // and a matcher for each enum
+    for (const auto& kv : binding_enums) {
+        SPDLOG_DEBUG("Adding matcher for enum {}", kv.first);
+        DeclarationMatcher function_decl_matcher =
+            functionDecl(
+                hasName(kv.second.short_name),
+                unless(hasAncestor(namespaceDecl(hasName("cppmm_bind")))),
+                unless(hasAncestor(recordDecl())))
+                .bind("libraryEnumDecl");
+        _library_finder.addMatcher(function_decl_matcher, &_library_handler);
+    }
+
     _library_finder.matchAST(context);
 }
 
