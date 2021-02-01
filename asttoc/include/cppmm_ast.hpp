@@ -2,8 +2,6 @@
 // vfx-rs
 //------------------------------------------------------------------------------
 #pragma once
-#include "mapbox/variant.hpp"
-
 #include <cstdint>
 #include <memory>
 #include <string>
@@ -103,10 +101,12 @@ struct NodeNamespace : public Node {};
 struct NodeType : public Node {
     std::string type_name;
     bool const_;
+
     NodeType(std::string qualified_name, NodeId id, NodeId context,
              NodeKind node_kind, std::string type_name)
         : Node(qualified_name, id, node_kind), type_name(type_name) {}
 };
+using NodeTypePtr = std::unique_ptr<NodeType>;
 
 //------------------------------------------------------------------------------
 // NodeBuiltinType
@@ -123,14 +123,14 @@ struct NodeBuiltinType : public NodeType {
 //------------------------------------------------------------------------------
 /// pointer or reference type - check type_kind
 struct NodePointerType : public NodeType {
-    Type pointee_type;
+    NodeTypePtr pointee_type;
     PointerKind pointer_kind;
     NodePointerType(std::string qualified_name, NodeId id, NodeId context,
                     std::string type_name, PointerKind pointer_kind,
-                    Type pointee_type)
+                    NodeTypePtr && pointee_type)
         : NodeType(qualified_name, id, context, NodeKind::PointerType,
                    type_name),
-          pointer_kind(pointer_kind), pointee_type(pointee_type) {}
+          pointer_kind(pointer_kind), pointee_type(std::move(pointee_type)) {}
 };
 
 //------------------------------------------------------------------------------
@@ -150,8 +150,20 @@ struct NodeRecordType : public NodeType {
 //------------------------------------------------------------------------------
 struct Param {
     std::string name;
-    Type type;
+    NodeTypePtr type;
     int index;
+
+    Param(std::string && name, NodeTypePtr && type, int index)
+        : name(name)
+        , type(std::move(type))
+        , index(index)
+    {}
+
+    Param(Param && rhs)
+        : name(rhs.name)
+        , type(std::move(rhs.type))
+        , index(rhs.index)
+    {}
 };
 
 //------------------------------------------------------------------------------
@@ -170,17 +182,18 @@ struct NodeAttributeHolder : public Node {
 //------------------------------------------------------------------------------
 struct NodeFunction : public NodeAttributeHolder {
     std::string short_name;
-    Type return_type;
+    NodeTypePtr return_type;
     std::vector<Param> params;
     bool in_binding = false;
     bool in_library = false;
 
     NodeFunction(std::string qualified_name, NodeId id,
                  std::vector<std::string> attrs, std::string short_name,
-                 Type return_type, std::vector<Param> params)
+                 NodeTypePtr && return_type, std::vector<Param> && params)
         : NodeAttributeHolder(qualified_name, id, NodeKind::Function,
                               attrs),
-          short_name(short_name), return_type(return_type), params(params) {}
+          short_name(short_name), return_type(std::move(return_type)),
+          params(std::move(params)) {}
 };
 
 //------------------------------------------------------------------------------
@@ -191,9 +204,10 @@ struct NodeMethod : public NodeFunction {
 
     NodeMethod(std::string qualified_name, NodeId id,
                std::vector<std::string> attrs, std::string short_name,
-               Type return_type, std::vector<Param> params, bool is_static)
+               NodeTypePtr && return_type, std::vector<Param> && params,
+               bool is_static)
         : NodeFunction(qualified_name, id, attrs, short_name,
-                       return_type, params),
+                       std::move(return_type), std::move(params)),
           is_static(is_static) {
         kind = NodeKind::Method;
     }
@@ -204,7 +218,7 @@ struct NodeMethod : public NodeFunction {
 //------------------------------------------------------------------------------
 struct Field {
     std::string name;
-    Type qtype;
+    NodeTypePtr qtype;
 };
 
 //------------------------------------------------------------------------------
@@ -223,17 +237,6 @@ struct NodeRecord : public NodeAttributeHolder {
         : NodeAttributeHolder("", id, NodeKind::Record, attrs),
           record_kind(record_kind), size(size), align(align) {}
 };
-
-//------------------------------------------------------------------------------
-// Type
-//------------------------------------------------------------------------------
-using TypeVariant = mapbox::util::variant<NodeBuiltinType, NodeRecordType,
-                                          NodePointerType>;
-struct Type : public TypeVariant {
-    Type(NodeBuiltinType && t) : TypeVariant(t) {}
-    Type(NodeRecordType && t) : TypeVariant(t) {}
-    Type(NodePointerType && t) : TypeVariant(t) {}
-}
 
 //------------------------------------------------------------------------------
 // Root

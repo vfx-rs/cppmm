@@ -5,6 +5,8 @@
 #include "cppmm_ast_read.hpp"
 #include "json.hh"
 
+#include <memory>
+
 namespace nln = nlohmann;
 
 namespace cppmm
@@ -37,19 +39,19 @@ namespace {
 }
 
 //------------------------------------------------------------------------------
-QType read_type_builtin(const nln::json & json) {
+NodeTypePtr read_type_builtin(const nln::json & json) {
 }
 
 //------------------------------------------------------------------------------
-QType read_type_reference(const nln::json & json) {
+NodeTypePtr read_type_reference(const nln::json & json) {
 }
 
 //------------------------------------------------------------------------------
-QType read_type_record(const nln::json & json) {
+NodeTypePtr read_type_record(const nln::json & json) {
 }
 
 //------------------------------------------------------------------------------
-Type read_type(const nln::json & json) {
+NodeTypePtr read_type(const nln::json & json) {
     auto kind = json[KIND].get<std::string>();
     if(kind == "BuiltinType") {
         return read_type_builtin(json);
@@ -64,13 +66,12 @@ Type read_type(const nln::json & json) {
 
 //------------------------------------------------------------------------------
 Param read_param(const nln::json & json) {
-    Param result;
 
-    result.name = json[NAME].get<std::string>();
-    result.index = json[INDEX].get<uint64_t>();
-    result.type = read_type(json[TYPE]);
+    auto name = json[NAME].get<std::string>();
+    auto type = read_type(json[TYPE]);
+    auto index = json[INDEX].get<uint64_t>();
 
-    return result;
+    return Param(std::move(name), std::move(type), index);
 }
 
 //------------------------------------------------------------------------------
@@ -89,8 +90,9 @@ NodeMethod read_method(const nln::json & json) {
         params.push_back(read_param(i));
     }
 
-    return NodeMethod(qualified_name, id, _attrs, short_name, return_type,
-                      params, static_);
+    return NodeMethod(qualified_name, id, _attrs, short_name,
+                      std::move(return_type),
+                      std::move(params), static_);
 }
 
 //------------------------------------------------------------------------------
@@ -110,8 +112,7 @@ NodePtr read_record(const nln::json & json) {
 
     // Instantiate the translation unit
     auto result =\
-        std::unique_ptr<NodeRecord>(
-            new NodeRecord(id, _attrs, _record_kind, size, align));
+        std::make_unique<NodeRecord>(id, _attrs, _record_kind, size, align);
 
     // Pull out the fields
     for (const auto & i : json[METHODS] ){
