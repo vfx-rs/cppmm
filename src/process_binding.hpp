@@ -37,5 +37,5 @@ public:
     }
 };
 
-void write_tus();
+void write_tus(std::string output_dir);
 }

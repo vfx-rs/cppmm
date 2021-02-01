@@ -13,25 +13,7 @@
 #include "filesystem.hpp"
 #include "pystring.h"
 
-/* #include "attributes.hpp" */
-/* #include "decls.hpp" */
-/* #include "enum.hpp" */
-/* #include "exports.hpp" */
-/* #include "function.hpp" */
-/* #include "generator_c.hpp" */
-/* #include "generator_rust-sys.hpp" */
-/* #include "match_bindings.hpp" */
-/* #include "match_decls.hpp" */
-/* #include "method.hpp" */
-/* #include "namespaces.hpp" */
-/* #include "param.hpp" */
-/* #include "record.hpp" */
-/* #include "type.hpp" */
-
 #include "process_binding.hpp"
-
-// #include <fmt/format.h>
-// #include <fmt/printf.h>
 
 #define SPDLOG_ACTIVE_LEVEL TRACE
 
@@ -72,6 +54,11 @@ std::vector<std::string> parse_project_includes(int argc, const char** argv) {
     return result;
 }
 
+// list of includes for each input source file
+// this global is read in process_bindings.cpp
+std::unordered_map<std::string, std::vector<std::string>> source_includes;
+std::vector<std::string> project_includes;
+
 // Apply a custom category to all command-line options so that they are the
 // only ones displayed.
 static llvm::cl::OptionCategory CppmmCategory("cppmm options");
@@ -106,8 +93,9 @@ static cl::list<std::string>
 
 int main(int argc, const char** argv) {
 
-    std::vector<std::string> project_includes =
+    project_includes =
         parse_project_includes(argc, argv);
+
     CommonOptionsParser OptionsParser(argc, argv, CppmmCategory);
 
     // set up logging
@@ -188,12 +176,10 @@ int main(int argc, const char** argv) {
 
     // get direct includes from the binding files to re-insert into the
     // generated bindings
-    /* for (const auto& src : dir_paths) { */
-    /*     const auto src_path = ps::os::path::join(cwd, src); */
-    /*     const auto includes = parse_file_includes(src_path); */
-    /*     cppmm::files[src_path] = {}; */
-    /*     cppmm::files[src_path].includes = includes; */
-    /* } */
+     for (const auto& src : dir_paths) {
+         const auto src_path = ps::os::path::join(cwd, src);
+         source_includes[src_path] = parse_file_includes(src_path);
+     }
 
     // Get namespace renames from command-line options
     /* for (const auto& o : opt_rename_namespace) { */
@@ -222,7 +208,7 @@ int main(int argc, const char** argv) {
     // std::ofstream os;
     // os.open("out.xml", std::ios::out | std::ios::trunc);
     // cppmm::dump_nodes(os);
-    cppmm::write_tus();
+    cppmm::write_tus(output_dir);
 
 #if 0
     // for (const auto& ex_file : ex_files) {

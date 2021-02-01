@@ -31,6 +31,10 @@ using namespace clang;
 using namespace clang::ast_matchers;
 namespace ps = pystring;
 
+extern std::unordered_map<std::string, std::vector<std::string>>
+    source_includes;
+extern std::vector<std::string> project_includes;
+
 namespace cppmm {
 
 namespace {
@@ -188,10 +192,14 @@ std::vector<NodeId> ROOT;
 
 struct NodeTranslationUnit : public Node {
     std::vector<NodeId> children;
+    std::vector<std::string> source_includes;
+    std::vector<std::string> project_includes;
 
     virtual void write_json(json& o) const override {
         o["kind"] = "TranslationUnit";
         o["filename"] = qualified_name;
+        o["source_includes"] = source_includes;
+        o["include_paths"] = project_includes;
         write_json_attrs(o);
 
         o["decls"] = {};
@@ -203,8 +211,12 @@ struct NodeTranslationUnit : public Node {
         }
     }
 
-    NodeTranslationUnit(std::string qualified_name, NodeId id, NodeId context)
-        : Node(qualified_name, id, context, NodeKind::TranslationUnit) {}
+    NodeTranslationUnit(std::string qualified_name, NodeId id, NodeId context,
+                        std::vector<std::string> source_includes,
+                        std::vector<std::string> project_includes)
+        : Node(qualified_name, id, context, NodeKind::TranslationUnit),
+          source_includes(source_includes), project_includes(project_includes) {
+    }
 };
 
 struct NodeNamespace : public Node {};
@@ -541,13 +553,13 @@ struct NodeEnum : public NodeAttributeHolder {
     }
 };
 
-void write_tus() {
+void write_tus(std::string output_dir) {
     for (const auto& id : ROOT) {
         NodeTranslationUnit* tu = (NodeTranslationUnit*)NODES.at(id).get();
         auto tu_path = fs::path(tu->qualified_name);
         auto stem = tu_path.stem();
         auto parent = tu_path.parent_path();
-        auto out_path = fs::current_path() / stem;
+        auto out_path = output_dir / stem;
         out_path += fs::path(".json");
         std::ofstream os;
         os.open(out_path.string(), std::ios::out | std::ios::trunc);
@@ -578,6 +590,16 @@ bool get_abi_info(const TypeDecl* td, ASTContext& ctx, uint32_t& size,
     return false;
 }
 
+std::vector<std::string> get_source_includes(std::string filename) {
+    auto it = source_includes.find(filename);
+    if (it != source_includes.end()) {
+        return it->second;
+    } else {
+        SPDLOG_WARN("No includes found for source file {}", filename);
+        return {};
+    }
+}
+
 // Get a NodeTranslationUnit for the given filename, creating one if it doesn't
 // exist
 NodeTranslationUnit* get_translation_unit(const std::string& filename) {
@@ -590,7 +612,8 @@ NodeTranslationUnit* get_translation_unit(const std::string& filename) {
     }
 
     NodeId id = NODES.size();
-    auto node = std::make_unique<NodeTranslationUnit>(filename, id, 0);
+    auto node = std::make_unique<NodeTranslationUnit>(
+        filename, id, 0, get_source_includes(filename), project_includes);
     ROOT.push_back(id);
     auto* node_ptr = node.get();
     NODES.emplace_back(std::move(node));
