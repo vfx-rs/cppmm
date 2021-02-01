@@ -1,14 +1,14 @@
 //------------------------------------------------------------------------------
 // vfx-rs
 //------------------------------------------------------------------------------
-#pragma once
-#include <istream>
-#include "cppmm_ast.hpp"
+#include "cppmm_ast_add_c.hpp"
 
-namespace cppmm
+namespace cppmm {
+namespace transform {
+
+Root add_c(const Root & root)
 {
-namespace read
-{
-Root json(std::istream & input);
-} // namespace read
-} // namesapce cppmm
+}
+
+} // namespace transform
+} // namespace cppmm

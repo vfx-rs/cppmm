@@ -12,6 +12,8 @@ namespace nln = nlohmann;
 
 namespace cppmm
 {
+namespace read
+{
 
 namespace {
     const char * ALIGN = "align";
@@ -193,7 +195,7 @@ TranslationUnit read_translation_unit(const nln::json & json) {
 }
 
 //------------------------------------------------------------------------------
-Root read_json(std::istream & input) {
+Root json(std::istream & input) {
     std::vector<TranslationUnit> tus;
 
     // Convert the input stream into json structures
@@ -206,4 +208,5 @@ Root read_json(std::istream & input) {
     return Root(std::move(tus));
 }
 
+} // namespace read
 } // namespace cppmm

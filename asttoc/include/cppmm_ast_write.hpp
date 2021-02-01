@@ -1,14 +1,13 @@
 //------------------------------------------------------------------------------
 // vfx-rs
 //------------------------------------------------------------------------------
-#include "cppmm_ast_to_c.hpp"
-
-namespace cppmm {
-namespace transform {
-
-Root add_c(const Root & root)
+#pragma once
+namespace cppmm
 {
-}
+class Root;
 
-} // namespace transform
-} // namespace cppmm
+namespace write
+{
+void cpp(const Root & root);
+} // namespace read
+} // namesapce cppmm

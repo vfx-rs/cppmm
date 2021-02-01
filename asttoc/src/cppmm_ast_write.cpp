@@ -1,14 +1,17 @@
 //------------------------------------------------------------------------------
 // vfx-rs
 //------------------------------------------------------------------------------
-#pragma once
-#include <istream>
-#include "cppmm_ast.hpp"
+#include "cppmm_ast_write.hpp"
 
 namespace cppmm
 {
-namespace read
+class Root;
+
+namespace write
 {
-Root json(std::istream & input);
+void cpp(const Root & root)
+{
+}
 } // namespace read
 } // namesapce cppmm
+
