@@ -103,8 +103,10 @@ struct NodeType : public Node {
     std::string type_name;
 
     NodeType(std::string qualified_name, NodeId id,
-             NodeKind node_kind, std::string type_name)
-        : Node(qualified_name, id, node_kind), type_name(type_name) {}
+             NodeKind node_kind, std::string type_name, bool const_)
+        : Node(qualified_name, id, node_kind)
+        , const_(const_)
+        , type_name(type_name) {}
 };
 using NodeTypePtr = std::unique_ptr<NodeType>;
 
@@ -114,9 +116,9 @@ using NodeTypePtr = std::unique_ptr<NodeType>;
 struct NodeBuiltinType : public NodeType {
 
     NodeBuiltinType(std::string qualified_name, NodeId id,
-                    std::string type_name)
+                    std::string type_name, bool const_)
         : NodeType(qualified_name, id, NodeKind::BuiltinType,
-                   type_name)
+                   type_name, const_)
     {}
 };
 
@@ -129,8 +131,8 @@ struct NodePointerType : public NodeType {
     PointerKind pointer_kind;
     NodePointerType(std::string qualified_name, NodeId id,
                     std::string type_name, PointerKind pointer_kind,
-                    NodeTypePtr && pointee_type)
-        : NodeType(qualified_name, id, NodeKind::PointerType, type_name),
+                    NodeTypePtr && pointee_type, bool const_)
+        : NodeType(qualified_name, id, NodeKind::PointerType, type_name, const_),
           pointer_kind(pointer_kind), pointee_type(std::move(pointee_type)) {}
 };
 
@@ -139,9 +141,9 @@ struct NodePointerType : public NodeType {
 //------------------------------------------------------------------------------
 struct NodeRecordType : public NodeType {
     NodeId record;
-    NodeRecordType(std::string qualified_name, NodeId id, NodeId context,
-                   std::string type_name, NodeId record)
-        : NodeType(qualified_name, id, NodeKind::RecordType, type_name),
+    NodeRecordType(std::string qualified_name, NodeId id,
+                   std::string type_name, NodeId record, bool const_)
+        : NodeType(qualified_name, id, NodeKind::RecordType, type_name, const_),
           record(record) {}
 };
 

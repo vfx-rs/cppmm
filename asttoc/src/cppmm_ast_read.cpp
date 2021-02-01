@@ -16,6 +16,7 @@ namespace cppmm
 namespace {
     const char * ALIGN = "align";
     const char * CHILDREN = "children";
+    const char * CONST = "const";
     const char * DECLS = "decls";
     const char * FIELDS = "fields";
     const char * FILENAME = "filename";
@@ -29,8 +30,10 @@ namespace {
     const char * PARAMS = "params";
     const char * SIZE = "size";
     const char * STATIC = "static";
-    const char * RECORD = "Record";
+    const char * RECORD_C = "Record";
+    const char * RECORD_L = "record";
     const char * TYPE = "type";
+    const char * POINTEE = "pointee";
     const char * RETURN = "return";
 
     struct NodeBasics {
@@ -40,18 +43,39 @@ namespace {
 }
 
 //------------------------------------------------------------------------------
+NodeTypePtr read_type(const nln::json & json);
+
+//------------------------------------------------------------------------------
 NodeTypePtr read_type_builtin(const nln::json & json) {
-    std::cerr << "Read builtin" << std::endl;
+    return std::make_unique<NodeBuiltinType>(
+            "",
+            json[ID].get<Id>(),
+            json[TYPE].get<std::string>(),
+            json[CONST].get<bool>()
+    );
 }
 
 //------------------------------------------------------------------------------
 NodeTypePtr read_type_reference(const nln::json & json) {
-    std::cerr << "Read reference" << std::endl;
+    return std::make_unique<NodePointerType>(
+            "",
+            json[ID].get<Id>(),
+            json[TYPE].get<std::string>(),
+            PointerKind::Reference,
+            read_type(json[POINTEE]),
+            json[CONST].get<bool>()
+    );
 }
 
 //------------------------------------------------------------------------------
 NodeTypePtr read_type_record(const nln::json & json) {
-    std::cerr << "Read record" << std::endl;
+    return std::make_unique<NodeRecordType>(
+            "",
+            json[ID].get<Id>(),
+            json[TYPE].get<std::string>(),
+            json[RECORD_L].get<NodeId>(),
+            json[CONST].get<bool>()
+    );
 }
 
 //------------------------------------------------------------------------------
@@ -139,7 +163,7 @@ NodePtr read_node(const nln::json & json) {
     auto kind = json[KIND].get<std::string>();
 
     // TODO LT: Could kind be an enum instead of a string?
-    if(kind == RECORD) {
+    if(kind == RECORD_C) {
         return read_record(json);
     }        
 
