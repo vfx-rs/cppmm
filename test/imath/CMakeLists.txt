@@ -1,5 +1,5 @@
 set(testname imath)
-set(includes "-I/home/anders/packages/imath/3.0.0/include")
+set(includes "-I/home/anders/packages/openexr/2.4.0/include")
 
 add_test(NAME ${testname} 
     COMMAND 

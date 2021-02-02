@@ -1,4 +1,4 @@
-#include <Imath/ImathVec.h>
+#include <OpenEXR/ImathVec.h>
 
 #include <vector>
 
@@ -55,7 +55,7 @@ public:
 
     // ugh - in order for the explicit instantiation to work we must provide
     // a function body here.
-    template <class S> IMATH_HOSTDEVICE void setValue (S a, S b, S c);
+    template <class S> void setValue (S a, S b, S c);
 
 } CPPMM_VALUETYPE;
 
@@ -65,11 +65,11 @@ template class Vec3<float>;
 // note the 'extern' here otherwise we get an error because we're not
 // defining the template body up above
 extern template 
-IMATH_HOSTDEVICE void Vec3<float>::setValue(float a, float b, float c);
+void Vec3<float>::setValue(float a, float b, float c);
 
 } // namespace cppmm_bind
 
 template class Imath::Vec3<float>;
 
 extern template 
-IMATH_HOSTDEVICE void Imath::Vec3<float>::setValue(float a, float b, float c);
+void Imath::Vec3<float>::setValue(float a, float b, float c);

@@ -1,4 +1,4 @@
-#include <Imath/ImathBox.h>
+#include <OpenEXR/ImathBox.h>
 
 #include <cppmm_bind.hpp>
 
@@ -20,8 +20,8 @@ public:
     // IMATH_HOSTDEVICE IMATH_CONSTEXPR14 Box(const V& minV, const V& maxV);
 
     // IMATH_HOSTDEVICE void makeEmpty();
-    IMATH_HOSTDEVICE void extendBy(const V& point);
-    IMATH_HOSTDEVICE void extendBy(const Imath::Box<V>& box);
+    void extendBy(const V& point);
+    void extendBy(const Imath::Box<V>& box);
 
 } CPPMM_VALUETYPE;
 
