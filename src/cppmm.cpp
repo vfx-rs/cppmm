@@ -91,15 +91,45 @@ static cl::list<std::string>
 static cl::list<std::string>
     opt_libraries("l", cl::desc("Libraries to link against"));
 
-int main(int argc, const char** argv) {
+int main(int argc_, const char** argv_) {
+    // set up logging
+    auto _console = spdlog::stdout_color_mt("console");
+    std::string cwd = fs::current_path();
+
+    // FIXME: there's got to be a more sensible way of doing this but I can't figure it out...
+#if 1
+    int argc = argc_ + 2;
+    const char** argv = new const char*[argc];
+    int i;
+    for (i = 0; i < argc_; ++i) {
+        argv[i] = argv_[i];
+    }
+
+    // get the path to the binary, assuming that the resources folder will be
+    // stored alongside it
+    // FIXME: this method will work only on linux...
+    char exe_path[2048];
+    auto len = readlink("/proc/self/exe", exe_path, sizeof(exe_path));
+    if (len <= 0 || len >= sizeof(exe_path))  {
+        SPDLOG_CRITICAL("Could not get exe path");
+        return -1;
+    }
+    exe_path[len] = '\0';
+
+    std::string respath1 = (fs::path(exe_path).parent_path() / "resources").string();
+    SPDLOG_WARN("respath1 = {}", respath1);
+    argv[i++] = "-isystem";
+    argv[i++] = respath1.c_str();
+#else
+    int argc = argc_;
+    const char** argv = argv_;
+#endif
 
     project_includes =
         parse_project_includes(argc, argv);
 
     CommonOptionsParser OptionsParser(argc, argv, CppmmCategory);
 
-    // set up logging
-    auto _console = spdlog::stdout_color_mt("console");
     switch (opt_verbosity) {
     case 0:
         spdlog::set_level(spdlog::level::err);
@@ -122,7 +152,6 @@ int main(int argc, const char** argv) {
     }
     spdlog::set_pattern("%20s:%4# %^[%5l]%$ %v");
 
-    std::string cwd = fs::current_path();
     ArrayRef<std::string> src_path = OptionsParser.getSourcePathList();
     std::vector<std::string> dir_paths;
     if (src_path.size() == 1 && fs::is_directory(src_path[0])) {
