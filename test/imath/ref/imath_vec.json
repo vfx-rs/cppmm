@@ -1,0 +1,121 @@
+{
+    "kind": "TranslationUnit",
+    "filename": "/home/anders/code/cppmm/test/imath/bind/imath_vec.cpp",
+    "source_includes": [
+        "#include <OpenEXR/ImathVec.h>",
+        "#include <vector>",
+        "#include <cppmm_bind.hpp>"
+    ],
+    "include_paths": [
+        "/home/anders/packages/openexr/2.4.0/include"
+    ],
+    "id": 14,
+    "decls": [
+        {
+            "kind": "Record",
+            "name": "Imath_2_4::Vec3<float>",
+            "id": 15,
+            "size": 96,
+            "align": 32,
+            "attributes": [
+                "cppmm:valuetype"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "x",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 13,
+                        "type": "float",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "y",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 13,
+                        "type": "float",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "z",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 13,
+                        "type": "float",
+                        "const": false
+                    }
+                }
+            ],
+            "methods": [
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "setValue",
+                    "qualified_name": "Imath_2_4::Vec3<float>::setValue",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 0,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "a",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 13,
+                                "type": "float",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "b",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 13,
+                                "type": "float",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 2,
+                            "name": "c",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 13,
+                                "type": "float",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

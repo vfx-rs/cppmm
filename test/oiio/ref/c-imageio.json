@@ -1,0 +1,1893 @@
+{
+    "kind": "TranslationUnit",
+    "filename": "/home/anders/code/cppmm/test/oiio/bind/c-imageio.cpp",
+    "source_includes": [
+        "#include <OpenImageIO/filesystem.h>",
+        "#include <OpenImageIO/imageio.h>",
+        "#include <cppmm_bind.hpp>"
+    ],
+    "include_paths": [
+        "/home/anders/packages/oiio/2.2.8/include",
+        "/home/anders/packages/openexr/2.4.0/include"
+    ],
+    "id": 5,
+    "decls": [
+        {
+            "kind": "Record",
+            "name": "OpenImageIO_v2_2::ROI",
+            "id": 6,
+            "size": 256,
+            "align": 32,
+            "attributes": [
+                "cppmm:valuetype"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "xbegin",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 2,
+                        "type": "int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "xend",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 2,
+                        "type": "int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "ybegin",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 2,
+                        "type": "int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "yend",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 2,
+                        "type": "int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "zbegin",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 2,
+                        "type": "int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "zend",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 2,
+                        "type": "int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "chbegin",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 2,
+                        "type": "int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "chend",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 2,
+                        "type": "int",
+                        "const": false
+                    }
+                }
+            ],
+            "methods": [
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "ROI",
+                    "qualified_name": "OpenImageIO_v2_2::ROI::ROI",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": true,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm:rename:default"
+                    ],
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 0,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "defined",
+                    "qualified_name": "OpenImageIO_v2_2::ROI::defined",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 1,
+                        "type": "_Bool",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "width",
+                    "qualified_name": "OpenImageIO_v2_2::ROI::width",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 2,
+                        "type": "int",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "height",
+                    "qualified_name": "OpenImageIO_v2_2::ROI::height",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 2,
+                        "type": "int",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "depth",
+                    "qualified_name": "OpenImageIO_v2_2::ROI::depth",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 2,
+                        "type": "int",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "nchannels",
+                    "qualified_name": "OpenImageIO_v2_2::ROI::nchannels",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 2,
+                        "type": "int",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "npixels",
+                    "qualified_name": "OpenImageIO_v2_2::ROI::npixels",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 3,
+                        "type": "unsigned long",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "All",
+                    "qualified_name": "OpenImageIO_v2_2::ROI::All",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": true,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "RecordType",
+                        "id": 4,
+                        "type": "OpenImageIO_v2_2::ROI",
+                        "record": 6,
+                        "const": false
+                    },
+                    "params": null
+                }
+            ]
+        },
+        {
+            "kind": "Record",
+            "name": "OpenImageIO_v2_2::ImageSpec",
+            "id": 31,
+            "size": 1280,
+            "align": 64,
+            "attributes": [
+                "cppmm:opaqueptr"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "x",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 2,
+                        "type": "int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "y",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 2,
+                        "type": "int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "z",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 2,
+                        "type": "int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "width",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 2,
+                        "type": "int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "height",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 2,
+                        "type": "int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "depth",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 2,
+                        "type": "int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "full_x",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 2,
+                        "type": "int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "full_y",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 2,
+                        "type": "int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "full_z",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 2,
+                        "type": "int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "full_width",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 2,
+                        "type": "int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "full_height",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 2,
+                        "type": "int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "full_depth",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 2,
+                        "type": "int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "tile_width",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 2,
+                        "type": "int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "tile_height",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 2,
+                        "type": "int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "tile_depth",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 2,
+                        "type": "int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "nchannels",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 2,
+                        "type": "int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "format",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 17,
+                        "type": "OpenImageIO_v2_2::TypeDesc",
+                        "record": -1,
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "channelformats",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 29,
+                        "type": "std::vector<OpenImageIO_v2_2::TypeDesc, std::allocator<OpenImageIO_v2_2::TypeDesc> >",
+                        "record": -1,
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "channelnames",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 60,
+                        "type": "std::vector<std::__cxx11::basic_string<char>, std::allocator<std::__cxx11::basic_string<char> > >",
+                        "record": -1,
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "alpha_channel",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 2,
+                        "type": "int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "z_channel",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 2,
+                        "type": "int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "deep",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 1,
+                        "type": "_Bool",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "extra_attribs",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 61,
+                        "type": "OpenImageIO_v2_2::ParamValueList",
+                        "record": -1,
+                        "const": false
+                    }
+                }
+            ],
+            "methods": [
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "ImageSpec",
+                    "qualified_name": "OpenImageIO_v2_2::ImageSpec::ImageSpec",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": true,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 0,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "format",
+                            "type": {
+                                "kind": "RecordType",
+                                "id": 17,
+                                "type": "OpenImageIO_v2_2::TypeDesc",
+                                "record": -1,
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "ImageSpec",
+                    "qualified_name": "OpenImageIO_v2_2::ImageSpec::ImageSpec",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": true,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm:rename:new_with_dimensions"
+                    ],
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 0,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "xres",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 2,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "yres",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 2,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 2,
+                            "name": "nchans",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 2,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 3,
+                            "name": "fmt",
+                            "type": {
+                                "kind": "RecordType",
+                                "id": 17,
+                                "type": "OpenImageIO_v2_2::TypeDesc",
+                                "record": -1,
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "set_format",
+                    "qualified_name": "OpenImageIO_v2_2::ImageSpec::set_format",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 0,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "fmt",
+                            "type": {
+                                "kind": "RecordType",
+                                "id": 17,
+                                "type": "OpenImageIO_v2_2::TypeDesc",
+                                "record": -1,
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "default_channel_names",
+                    "qualified_name": "OpenImageIO_v2_2::ImageSpec::default_channel_names",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 0,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "channel_bytes",
+                    "qualified_name": "OpenImageIO_v2_2::ImageSpec::channel_bytes",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 3,
+                        "type": "unsigned long",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "channel_bytes",
+                    "qualified_name": "OpenImageIO_v2_2::ImageSpec::channel_bytes",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm:rename:channel_bytes_for"
+                    ],
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 3,
+                        "type": "unsigned long",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "chan",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 2,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "native",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 1,
+                                "type": "_Bool",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "scanline_bytes",
+                    "qualified_name": "OpenImageIO_v2_2::ImageSpec::scanline_bytes",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 3,
+                        "type": "unsigned long",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "native",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 1,
+                                "type": "_Bool",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "auto_stride",
+                    "qualified_name": "OpenImageIO_v2_2::ImageSpec::auto_stride",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": true,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 0,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "xstride",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 23,
+                                "type": "long &",
+                                "pointee": {
+                                    "kind": "BuiltinType",
+                                    "id": 22,
+                                    "type": "long",
+                                    "const": false
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "ystride",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 23,
+                                "type": "long &",
+                                "pointee": {
+                                    "kind": "BuiltinType",
+                                    "id": 22,
+                                    "type": "long",
+                                    "const": false
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 2,
+                            "name": "zstride",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 23,
+                                "type": "long &",
+                                "pointee": {
+                                    "kind": "BuiltinType",
+                                    "id": 22,
+                                    "type": "long",
+                                    "const": false
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 3,
+                            "name": "channelsize",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 22,
+                                "type": "long",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 4,
+                            "name": "nchannels",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 2,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 5,
+                            "name": "width",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 2,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 6,
+                            "name": "height",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 2,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "attribute",
+                    "qualified_name": "OpenImageIO_v2_2::ImageSpec::attribute",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 0,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "name",
+                            "type": {
+                                "kind": "RecordType",
+                                "id": 24,
+                                "type": "OpenImageIO_v2_2::string_view",
+                                "record": -1,
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "type",
+                            "type": {
+                                "kind": "RecordType",
+                                "id": 17,
+                                "type": "OpenImageIO_v2_2::TypeDesc",
+                                "record": -1,
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 2,
+                            "name": "value",
+                            "type": {
+                                "kind": "Pointer",
+                                "id": 25,
+                                "type": "const void *",
+                                "pointee": {
+                                    "kind": "BuiltinType",
+                                    "id": 0,
+                                    "type": "void",
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "serialize",
+                    "qualified_name": "OpenImageIO_v2_2::ImageSpec::serialize",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "RecordType",
+                        "id": 26,
+                        "type": "std::__cxx11::basic_string<char>",
+                        "record": -1,
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "format",
+                            "type": {
+                                "kind": "EnumType",
+                                "id": 27,
+                                "type": "OpenImageIO_v2_2::ImageSpec::SerialFormat",
+                                "enum": 62,
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "verbose",
+                            "type": {
+                                "kind": "EnumType",
+                                "id": 28,
+                                "type": "OpenImageIO_v2_2::ImageSpec::SerialVerbose",
+                                "enum": 63,
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "get_channelformats",
+                    "qualified_name": "OpenImageIO_v2_2::ImageSpec::get_channelformats",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 0,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "formats",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 30,
+                                "type": "class std::vector<struct OpenImageIO_v2_2::TypeDesc, class std::allocator<struct OpenImageIO_v2_2::TypeDesc> > &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 29,
+                                    "type": "std::vector<OpenImageIO_v2_2::TypeDesc, std::allocator<OpenImageIO_v2_2::TypeDesc> >",
+                                    "record": -1,
+                                    "const": false
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "ImageSpec",
+                    "qualified_name": "OpenImageIO_v2_2::ImageSpec::ImageSpec",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": false,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": true,
+                    "copy_constructor": true,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm:rename:copy"
+                    ],
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 0,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "other",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 19,
+                                "type": "const class OpenImageIO_v2_2::ImageSpec &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 18,
+                                    "type": "OpenImageIO_v2_2::ImageSpec",
+                                    "record": 31,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "ImageSpec",
+                    "qualified_name": "OpenImageIO_v2_2::ImageSpec::ImageSpec",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": false,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": true,
+                    "copy_constructor": false,
+                    "move_constructor": true,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm:ignore"
+                    ],
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 0,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "other",
+                            "type": {
+                                "kind": "RValueReference",
+                                "id": 21,
+                                "type": "class OpenImageIO_v2_2::ImageSpec &&",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 18,
+                                    "type": "OpenImageIO_v2_2::ImageSpec",
+                                    "record": 31,
+                                    "const": false
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "operator=",
+                    "qualified_name": "OpenImageIO_v2_2::ImageSpec::operator=",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": false,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": true,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": true,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm:ignore"
+                    ],
+                    "return": {
+                        "kind": "Reference",
+                        "id": 20,
+                        "type": "class OpenImageIO_v2_2::ImageSpec &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 18,
+                            "type": "OpenImageIO_v2_2::ImageSpec",
+                            "record": 31,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "other",
+                            "type": {
+                                "kind": "RValueReference",
+                                "id": 21,
+                                "type": "class OpenImageIO_v2_2::ImageSpec &&",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 18,
+                                    "type": "OpenImageIO_v2_2::ImageSpec",
+                                    "record": 31,
+                                    "const": false
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "operator=",
+                    "qualified_name": "OpenImageIO_v2_2::ImageSpec::operator=",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": false,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": true,
+                    "copy_assignment_operator": true,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm:rename:assign"
+                    ],
+                    "return": {
+                        "kind": "Reference",
+                        "id": 20,
+                        "type": "class OpenImageIO_v2_2::ImageSpec &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 18,
+                            "type": "OpenImageIO_v2_2::ImageSpec",
+                            "record": 31,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "other",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 19,
+                                "type": "const class OpenImageIO_v2_2::ImageSpec &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 18,
+                                    "type": "OpenImageIO_v2_2::ImageSpec",
+                                    "record": 31,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "kind": "Enum",
+            "name": "OpenImageIO_v2_2::ImageSpec::SerialFormat",
+            "id": 62,
+            "size": 32,
+            "align": 32,
+            "attributes": null,
+            "variants": {
+                "SerialText": "0",
+                "SerialXML": "1"
+            }
+        },
+        {
+            "kind": "Enum",
+            "name": "OpenImageIO_v2_2::ImageSpec::SerialVerbose",
+            "id": 63,
+            "size": 32,
+            "align": 32,
+            "attributes": null,
+            "variants": {
+                "SerialBrief": "0",
+                "SerialDetailed": "1",
+                "SerialDetailedHuman": "2"
+            }
+        },
+        {
+            "kind": "Record",
+            "name": "OpenImageIO_v2_2::ImageInput",
+            "id": 69,
+            "size": 1984,
+            "align": 64,
+            "attributes": [
+                "cppmm:opaqueptr"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "m_mutex",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 82,
+                        "type": "std::recursive_mutex",
+                        "record": -1,
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "m_spec",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 18,
+                        "type": "OpenImageIO_v2_2::ImageSpec",
+                        "record": 31,
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "m_errmessage",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 26,
+                        "type": "std::__cxx11::basic_string<char>",
+                        "record": -1,
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "m_threads",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 2,
+                        "type": "int",
+                        "const": false
+                    }
+                }
+            ],
+            "methods": [
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "open",
+                    "qualified_name": "OpenImageIO_v2_2::ImageInput::open",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": true,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "RecordType",
+                        "id": 64,
+                        "type": "std::unique_ptr<OpenImageIO_v2_2::ImageInput, std::default_delete<OpenImageIO_v2_2::ImageInput> >",
+                        "record": -1,
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "filename",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 65,
+                                "type": "const class std::__cxx11::basic_string<char> &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 26,
+                                    "type": "std::__cxx11::basic_string<char>",
+                                    "record": -1,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "config",
+                            "type": {
+                                "kind": "Pointer",
+                                "id": 66,
+                                "type": "const class OpenImageIO_v2_2::ImageSpec *",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 18,
+                                    "type": "OpenImageIO_v2_2::ImageSpec",
+                                    "record": 31,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 2,
+                            "name": "ioproxy",
+                            "type": {
+                                "kind": "Pointer",
+                                "id": 68,
+                                "type": "class OpenImageIO_v2_2::Filesystem::IOProxy *",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 67,
+                                    "type": "OpenImageIO_v2_2::Filesystem::IOProxy",
+                                    "record": -1,
+                                    "const": false
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "create",
+                    "qualified_name": "OpenImageIO_v2_2::ImageInput::create",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": true,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "RecordType",
+                        "id": 64,
+                        "type": "std::unique_ptr<OpenImageIO_v2_2::ImageInput, std::default_delete<OpenImageIO_v2_2::ImageInput> >",
+                        "record": -1,
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "",
+                            "type": {
+                                "kind": "RecordType",
+                                "id": 24,
+                                "type": "OpenImageIO_v2_2::string_view",
+                                "record": -1,
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 1,
+                                "type": "_Bool",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 2,
+                            "name": "",
+                            "type": {
+                                "kind": "Pointer",
+                                "id": 66,
+                                "type": "const class OpenImageIO_v2_2::ImageSpec *",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 18,
+                                    "type": "OpenImageIO_v2_2::ImageSpec",
+                                    "record": 31,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 3,
+                            "name": "",
+                            "type": {
+                                "kind": "Pointer",
+                                "id": 68,
+                                "type": "class OpenImageIO_v2_2::Filesystem::IOProxy *",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 67,
+                                    "type": "OpenImageIO_v2_2::Filesystem::IOProxy",
+                                    "record": -1,
+                                    "const": false
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 4,
+                            "name": "",
+                            "type": {
+                                "kind": "RecordType",
+                                "id": 24,
+                                "type": "OpenImageIO_v2_2::string_view",
+                                "record": -1,
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "format_name",
+                    "qualified_name": "OpenImageIO_v2_2::ImageInput::format_name",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": true,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "Pointer",
+                        "id": 41,
+                        "type": "const char *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 40,
+                            "type": "char",
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "geterror",
+                    "qualified_name": "OpenImageIO_v2_2::ImageInput::geterror",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "RecordType",
+                        "id": 26,
+                        "type": "std::__cxx11::basic_string<char>",
+                        "record": -1,
+                        "const": false
+                    },
+                    "params": null
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 83,
+            "short_name": "roi_union",
+            "qualified_name": "OpenImageIO_v2_2::roi_union",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "return": {
+                "kind": "RecordType",
+                "id": 4,
+                "type": "OpenImageIO_v2_2::ROI",
+                "record": 6,
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "A",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 7,
+                        "type": "const struct OpenImageIO_v2_2::ROI &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 4,
+                            "type": "OpenImageIO_v2_2::ROI",
+                            "record": 6,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "B",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 7,
+                        "type": "const struct OpenImageIO_v2_2::ROI &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 4,
+                            "type": "OpenImageIO_v2_2::ROI",
+                            "record": 6,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 84,
+            "short_name": "roi_intersection",
+            "qualified_name": "OpenImageIO_v2_2::roi_intersection",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "return": {
+                "kind": "RecordType",
+                "id": 4,
+                "type": "OpenImageIO_v2_2::ROI",
+                "record": 6,
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "A",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 7,
+                        "type": "const struct OpenImageIO_v2_2::ROI &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 4,
+                            "type": "OpenImageIO_v2_2::ROI",
+                            "record": 6,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "B",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 7,
+                        "type": "const struct OpenImageIO_v2_2::ROI &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 4,
+                            "type": "OpenImageIO_v2_2::ROI",
+                            "record": 6,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 85,
+            "short_name": "getattribute",
+            "qualified_name": "OpenImageIO_v2_2::getattribute",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "return": {
+                "kind": "BuiltinType",
+                "id": 1,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "name",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 24,
+                        "type": "OpenImageIO_v2_2::string_view",
+                        "record": -1,
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "type",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 17,
+                        "type": "OpenImageIO_v2_2::TypeDesc",
+                        "record": -1,
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 2,
+                    "name": "val",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 38,
+                        "type": "void *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 0,
+                            "type": "void",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,233 @@
+{
+    "kind": "TranslationUnit",
+    "filename": "/home/anders/code/cppmm/test/std/bind/std_string.cpp",
+    "source_includes": [
+        "#include <string>",
+        "#include <cppmm_bind.hpp>"
+    ],
+    "include_paths": [],
+    "id": 8,
+    "decls": [
+        {
+            "kind": "Record",
+            "name": "std::__cxx11::basic_string<char>",
+            "id": 9,
+            "size": 256,
+            "align": 64,
+            "attributes": [
+                "cppmm:opaquebytes"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "_M_dataplus",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 25,
+                        "type": "std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_Alloc_hider",
+                        "record": -1,
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_M_string_length",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 3,
+                        "type": "unsigned long",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 26,
+                        "type": "std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::(anonymous at /usr/lib/gcc/x86_64-linux-gnu/10/../../../../include/c++/10/bits/basic_string.h:171:7)",
+                        "record": -1,
+                        "const": false
+                    }
+                }
+            ],
+            "methods": [
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "basic_string",
+                    "qualified_name": "std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": true,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 0,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "s",
+                            "type": {
+                                "kind": "Pointer",
+                                "id": 2,
+                                "type": "const char *",
+                                "pointee": {
+                                    "kind": "BuiltinType",
+                                    "id": 1,
+                                    "type": "char",
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "count",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 3,
+                                "type": "unsigned long",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 2,
+                            "name": "alloc",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 5,
+                                "type": "const class std::allocator<char> &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 4,
+                                    "type": "std::allocator<char>",
+                                    "record": -1,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": [
+                                "cppmm:ignore"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "assign",
+                    "qualified_name": "std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::assign",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "Reference",
+                        "id": 7,
+                        "type": "class std::__cxx11::basic_string<char> &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 6,
+                            "type": "std::__cxx11::basic_string<char>",
+                            "record": 9,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "s",
+                            "type": {
+                                "kind": "Pointer",
+                                "id": 2,
+                                "type": "const char *",
+                                "pointee": {
+                                    "kind": "BuiltinType",
+                                    "id": 1,
+                                    "type": "char",
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "count",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 3,
+                                "type": "unsigned long",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "c_str",
+                    "qualified_name": "std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::c_str",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "Pointer",
+                        "id": 2,
+                        "type": "const char *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 1,
+                            "type": "char",
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "params": null
+                }
+            ]
+        }
+    ]
+}

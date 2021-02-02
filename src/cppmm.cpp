@@ -13,23 +13,7 @@
 #include "filesystem.hpp"
 #include "pystring.h"
 
-#include "attributes.hpp"
-#include "decls.hpp"
-#include "enum.hpp"
-#include "exports.hpp"
-#include "function.hpp"
-#include "generator_c.hpp"
-#include "generator_rust-sys.hpp"
-#include "match_bindings.hpp"
-#include "match_decls.hpp"
-#include "method.hpp"
-#include "namespaces.hpp"
-#include "param.hpp"
-#include "record.hpp"
-#include "type.hpp"
-
-// #include <fmt/format.h>
-// #include <fmt/printf.h>
+#include "process_binding.hpp"
 
 #define SPDLOG_ACTIVE_LEVEL TRACE
 
@@ -70,6 +54,11 @@ std::vector<std::string> parse_project_includes(int argc, const char** argv) {
     return result;
 }
 
+// list of includes for each input source file
+// this global is read in process_bindings.cpp
+std::unordered_map<std::string, std::vector<std::string>> source_includes;
+std::vector<std::string> project_includes;
+
 // Apply a custom category to all command-line options so that they are the
 // only ones displayed.
 static llvm::cl::OptionCategory CppmmCategory("cppmm options");
@@ -102,14 +91,45 @@ static cl::list<std::string>
 static cl::list<std::string>
     opt_libraries("l", cl::desc("Libraries to link against"));
 
-int main(int argc, const char** argv) {
-
-    std::vector<std::string> project_includes =
-        parse_project_includes(argc, argv);
-    CommonOptionsParser OptionsParser(argc, argv, CppmmCategory);
-
+int main(int argc_, const char** argv_) {
     // set up logging
     auto _console = spdlog::stdout_color_mt("console");
+    std::string cwd = fs::current_path();
+
+    // FIXME: there's got to be a more sensible way of doing this but I can't figure it out...
+#if 1
+    int argc = argc_ + 2;
+    const char** argv = new const char*[argc];
+    int i;
+    for (i = 0; i < argc_; ++i) {
+        argv[i] = argv_[i];
+    }
+
+    // get the path to the binary, assuming that the resources folder will be
+    // stored alongside it
+    // FIXME: this method will work only on linux...
+    char exe_path[2048];
+    auto len = readlink("/proc/self/exe", exe_path, sizeof(exe_path));
+    if (len <= 0 || len >= sizeof(exe_path))  {
+        SPDLOG_CRITICAL("Could not get exe path");
+        return -1;
+    }
+    exe_path[len] = '\0';
+
+    std::string respath1 = (fs::path(exe_path).parent_path() / "resources").string();
+    SPDLOG_WARN("respath1 = {}", respath1);
+    argv[i++] = "-isystem";
+    argv[i++] = respath1.c_str();
+#else
+    int argc = argc_;
+    const char** argv = argv_;
+#endif
+
+    project_includes =
+        parse_project_includes(argc, argv);
+
+    CommonOptionsParser OptionsParser(argc, argv, CppmmCategory);
+
     switch (opt_verbosity) {
     case 0:
         spdlog::set_level(spdlog::level::err);
@@ -121,7 +141,7 @@ int main(int argc, const char** argv) {
         spdlog::set_level(spdlog::level::info);
         break;
     case 3:
-        spdlog::set_level(spdlog::level::warn);
+        spdlog::set_level(spdlog::level::debug);
         break;
     case 4:
         spdlog::set_level(spdlog::level::trace);
@@ -132,7 +152,6 @@ int main(int argc, const char** argv) {
     }
     spdlog::set_pattern("%20s:%4# %^[%5l]%$ %v");
 
-    std::string cwd = fs::current_path();
     ArrayRef<std::string> src_path = OptionsParser.getSourcePathList();
     std::vector<std::string> dir_paths;
     if (src_path.size() == 1 && fs::is_directory(src_path[0])) {
@@ -145,6 +164,7 @@ int main(int argc, const char** argv) {
             if (entry.path().extension() == ".cpp") {
                 dir_paths.push_back(
                     ps::os::path::abspath(entry.path().string(), cwd));
+                SPDLOG_DEBUG("Found binding file {}", entry.path().string());
             }
         }
     } else {
@@ -157,6 +177,14 @@ int main(int argc, const char** argv) {
     }
     ClangTool Tool(OptionsParser.getCompilations(),
                    ArrayRef<std::string>(dir_paths));
+
+    Tool.mapVirtualFile("/usr/local/include/cppmm_bind.hpp", R"#(
+#define CPPMM_IGNORE __attribute__((annotate("cppmm:ignore")))
+#define CPPMM_RENAME(x) __attribute__((annotate("cppmm:rename:" #x)))
+#define CPPMM_OPAQUEPTR __attribute__((annotate("cppmm:opaqueptr")))
+#define CPPMM_OPAQUEBYTES __attribute__((annotate("cppmm:opaquebytes")))
+#define CPPMM_VALUETYPE __attribute__((annotate("cppmm:valuetype")))
+)#");
 
     std::string output_dir = cwd;
     if (opt_output_directory != "") {
@@ -172,26 +200,24 @@ int main(int argc, const char** argv) {
         project_libraries.push_back(l);
     }
 
-    // fmt::print("source files: [{}]\n",
-    //            ps::join(", ", OptionsParser.getSourcePathList()));
+    fmt::print("source files: [{}]\n",
+               ps::join(", ", OptionsParser.getSourcePathList()));
 
     // get direct includes from the binding files to re-insert into the
     // generated bindings
-    for (const auto& src : dir_paths) {
-        const auto src_path = ps::os::path::join(cwd, src);
-        const auto includes = parse_file_includes(src_path);
-        cppmm::files[src_path] = {};
-        cppmm::files[src_path].includes = includes;
-    }
+     for (const auto& src : dir_paths) {
+         const auto src_path = ps::os::path::join(cwd, src);
+         source_includes[src_path] = parse_file_includes(src_path);
+     }
 
     // Get namespace renames from command-line options
-    for (const auto& o : opt_rename_namespace) {
-        std::vector<std::string> toks;
-        ps::split(o, toks, "=");
-        if (toks.size() == 2) {
-            cppmm::add_namespace_rename(toks[1], toks[0]);
-        }
-    }
+    /* for (const auto& o : opt_rename_namespace) { */
+    /*     std::vector<std::string> toks; */
+    /*     ps::split(o, toks, "="); */
+    /*     if (toks.size() == 2) { */
+    /*         cppmm::add_namespace_rename(toks[1], toks[0]); */
+    /*     } */
+    /* } */
 
     //--------------------------------------------------------------------------
     // First pass - find all declarations in namespace cppmm_bind that will
@@ -201,10 +227,19 @@ int main(int argc, const char** argv) {
     SPDLOG_DEBUG("|         BINDING PHASE         |");
     SPDLOG_DEBUG(" -------------------------------");
     SPDLOG_DEBUG("");
-    auto match_exports_action =
-        newFrontendActionFactory<cppmm::MatchBindingsAction>();
-    int result = Tool.run(match_exports_action.get());
+    auto process_binding_action =
+        newFrontendActionFactory<cppmm::ProcessBindingAction>();
+    int result = Tool.run(process_binding_action.get());
+    // auto match_exports_action =
+    //     newFrontendActionFactory<cppmm::MatchBindingsAction>();
+    // int result = Tool.run(match_exports_action.get());
 
+    // std::ofstream os;
+    // os.open("out.xml", std::ios::out | std::ios::trunc);
+    // cppmm::dump_nodes(os);
+    cppmm::write_tus(output_dir);
+
+#if 0
     // for (const auto& ex_file : ex_files) {
     //     fmt::print("FILE: {}\n", ex_file.first);
     //     for (const auto& ex_fun : ex_file.second.functions) {
@@ -293,6 +328,7 @@ int main(int argc, const char** argv) {
             }
         }
     }
+ #endif
 
     return result;
 }
