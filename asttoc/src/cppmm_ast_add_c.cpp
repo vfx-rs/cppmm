@@ -8,37 +8,11 @@
 namespace cppmm {
 namespace transform {
 
-namespace {
-//    const char * ALIGN = "align";
-//    const char * CHILDREN = "children";
-//    const char * CONST = "const";
-//    const char * DECLS = "decls";
-//    const char * FIELDS = "fields";
-//    const char * FILENAME = "filename";
-//    const char * ID = "id";
-//    const char * INDEX = "index";
-//    const char * KIND = "kind";
-//    const char * METHODS = "methods";
-//    const char * NAME = "name";
-//    const char * QUALIFIED_NAME = "qualified_name";
-//    const char * SHORT_NAME = "short_name";
-//    const char * PARAMS = "params";
-//    const char * SIZE = "size";
-//    const char * STATIC = "static";
-    const char * RECORD_C = "Record";
-//    const char * RECORD_L = "record";
-//    const char * TYPE = "type";
-//    const char * POINTEE = "pointee";
-//    const char * RETURN = "return";
-}
-
 //------------------------------------------------------------------------------
 namespace generate
 {
-    NodePtr record(NodePtr & cpp_record)
-    {
-    }
-}
+
+const NodeId PLACEHOLDER_ID = 0;
 
 //------------------------------------------------------------------------------
 std::string compute_c_filepath(const std::string & outdir,
@@ -47,6 +21,56 @@ std::string compute_c_filepath(const std::string & outdir,
     std::string cpp_filename = pystring::os::path::basename(cpp_filepath);
     return pystring::os::path::join(outdir, cpp_filename);
 }
+
+//------------------------------------------------------------------------------
+std::string compute_c_record_name(const std::string & cpp_record_name)
+{
+    std::string result;
+    for( auto const & c : cpp_record_name )
+    {
+        switch (c)
+        {
+            case ':':
+            case '<':
+            case '>':
+                result.push_back('_');
+                break;
+            default:
+                result.push_back(c);
+        }
+    }
+    return result;
+}
+
+//------------------------------------------------------------------------------
+void record_opaquebytes(NodeRecord & c_record)
+{
+}
+
+//------------------------------------------------------------------------------
+void record(TranslationUnit & c_tu, const NodePtr & cpp_node)
+{
+    // Most simple record implementation is the opaque bytes.
+    // Least safe and most restrictive in use, but easiest to implement.
+    // So doing that first.
+
+    const auto & cpp_record =\
+        *static_cast<const NodeRecord*>(cpp_node.get());
+
+    const auto c_record_name = compute_c_record_name(cpp_record.name);
+
+    auto c_record =\
+        std::make_unique<NodeRecord>(
+                   c_record_name, PLACEHOLDER_ID, cpp_record.attrs,
+                   cpp_record.size, cpp_record.align);
+
+    record_opaquebytes(*c_record);
+
+    c_tu.decls.push_back(std::move(c_record));
+}
+
+} // namespace generate
+
 
 //------------------------------------------------------------------------------
 void add_c(const std::string & output_directory, Root & root)
@@ -58,19 +82,21 @@ void add_c(const std::string & output_directory, Root & root)
     {
         // For each cpp translation unit we add a c equivalent
         const auto filepath =
-            compute_c_filepath(output_directory, root.tus[i].filename);
+            generate::compute_c_filepath(output_directory,
+                                         root.tus[i].filename);
         auto c_tu = TranslationUnit(filepath);
 
-        // Then we loop over the declarations 
+        // Then we loop over the declarations converting the declarations
         for (const auto & node : root.tus[i].decls)
         {
             // Handle the record
-            if (node.kind == RECORD_C)
+            if (node->kind == NodeKind::Record)
             {
-                c_tu.decls.push_back(generate_record(node));
+                generate::record(c_tu, node);
             }
         }
 
+        // Finally add the new translation unit
         root.tus.push_back(std::move(c_tu));
     }
 }

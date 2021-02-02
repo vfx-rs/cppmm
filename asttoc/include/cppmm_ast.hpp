@@ -38,11 +38,6 @@ enum class PointerKind : uint32_t {
     Reference,
 };
 
-//------------------------------------------------------------------------------
-// RecordKind
-//------------------------------------------------------------------------------
-enum class RecordKind : uint32_t { OpaquePtr = 0, OpaqueBytes, ValueType };
-
 using NodeId = uint64_t;
 
 //------------------------------------------------------------------------------
@@ -225,15 +220,15 @@ struct Field {
 struct NodeRecord : public NodeAttributeHolder {
     std::vector<Field> fields;
     std::vector<NodeMethod> methods;
-    RecordKind record_kind;
 
     uint32_t size;
     uint32_t align;
 
-    NodeRecord(NodeId id, std::vector<std::string> attrs,
-               RecordKind record_kind, uint32_t size, uint32_t align)
-        : NodeAttributeHolder("", id, NodeKind::Record, attrs),
-          record_kind(record_kind), size(size), align(align) {}
+    NodeRecord(std::string qualified_name, NodeId id,
+               std::vector<std::string> attrs,
+               uint32_t size, uint32_t align)
+        : NodeAttributeHolder(qualified_name, id, NodeKind::Record, attrs),
+          size(size), align(align) {}
 };
 
 //------------------------------------------------------------------------------

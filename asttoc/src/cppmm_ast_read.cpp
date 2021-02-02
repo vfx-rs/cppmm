@@ -132,16 +132,16 @@ Field read_field(const nln::json & json) {
 NodePtr read_record(const nln::json & json) {
     // Ignore these for the moment
     std::vector<std::string> _attrs;
-    RecordKind _record_kind;
 
     // Dont ignore these
     Id id = json[ID].get<Id>();
-    uint64_t size = json[SIZE].get<uint64_t>();
-    uint64_t align = json[ALIGN].get<uint64_t>();
+    auto size = json[SIZE].get<uint64_t>();
+    auto align = json[ALIGN].get<uint64_t>();
+    auto name = json[NAME].get<std::string>();
 
     // Instantiate the translation unit
     auto result =\
-        std::make_unique<NodeRecord>(id, _attrs, _record_kind, size, align);
+        std::make_unique<NodeRecord>(name, id, _attrs, size, align);
 
     // Pull out the methods
     for (const auto & i : json[METHODS] ){

@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 #pragma once
 #include "cppmm_ast.hpp"
-#include <string>;
+#include <string>
 
 namespace cppmm {
 namespace transform {
