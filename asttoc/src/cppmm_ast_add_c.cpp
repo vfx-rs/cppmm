@@ -43,7 +43,7 @@ std::string compute_c_record_name(const std::string & cpp_record_name)
 }
 
 //------------------------------------------------------------------------------
-void record_opaquebytes(NodeRecord & c_record)
+void opaquebytes_record(NodeRecord & c_record)
 {
     auto is_const = false;
     auto array_type =\
@@ -55,6 +55,11 @@ void record_opaquebytes(NodeRecord & c_record)
 
     c_record.force_alignment = true;
     c_record.fields.push_back(Field{ "data", std::move(array_type) });
+}
+
+//------------------------------------------------------------------------------
+void opaquebytes_methods(const NodeRecord & cpp_record, NodeRecord & c_record)
+{
 }
 
 //------------------------------------------------------------------------------
@@ -74,7 +79,8 @@ void record(TranslationUnit & c_tu, const NodePtr & cpp_node)
     // Least safe and most restrictive in use, but easiest to implement.
     // So doing that first. Later will switch depending on the cppm attributes.
 
-    record_opaquebytes(*c_record);
+    opaquebytes_record(*c_record);
+    opaquebytes_methods(cpp_record, *c_record);
 
     c_tu.decls.push_back(std::move(c_record));
 }
