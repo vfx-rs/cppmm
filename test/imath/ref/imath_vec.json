@@ -2,18 +2,18 @@
     "kind": "TranslationUnit",
     "filename": "/home/anders/code/cppmm/test/imath/bind/imath_vec.cpp",
     "source_includes": [
-        "#include <Imath/ImathVec.h>",
+        "#include <OpenEXR/ImathVec.h>",
         "#include <vector>",
         "#include <cppmm_bind.hpp>"
     ],
     "include_paths": [
-        "/home/anders/packages/imath/3.0.0/include"
+        "/home/anders/packages/openexr/2.4.0/include"
     ],
     "id": 14,
     "decls": [
         {
             "kind": "Record",
-            "name": "Imath_3_0::Vec3<float>",
+            "name": "Imath_2_4::Vec3<float>",
             "id": 15,
             "size": 96,
             "align": 32,
@@ -57,7 +57,7 @@
                     "kind": "Method",
                     "id": 0,
                     "short_name": "setValue",
-                    "qualified_name": "Imath_3_0::Vec3<float>::setValue",
+                    "qualified_name": "Imath_2_4::Vec3<float>::setValue",
                     "in_binding": true,
                     "in_library": false,
                     "static": false,

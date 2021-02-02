@@ -8,7 +8,7 @@ add_test(NAME ${testname}
             ${CMAKE_CURRENT_SOURCE_DIR}/bind 
             ${CMAKE_BINARY_DIR}/test/${testname}/ast
             ${CMAKE_CURRENT_SOURCE_DIR}/ref
-            -I/home/anders/packages/oiio/2.2.8/include
-            -I/home/anders/packages/openexr/2.4.0/include
+            -I$ENV{OIIO_ROOT}/include
+            -I$ENV{OPENEXR_ROOT}/include
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
 )

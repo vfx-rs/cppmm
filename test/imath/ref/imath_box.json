@@ -2,17 +2,17 @@
     "kind": "TranslationUnit",
     "filename": "/home/anders/code/cppmm/test/imath/bind/imath_box.cpp",
     "source_includes": [
-        "#include <Imath/ImathBox.h>",
+        "#include <OpenEXR/ImathBox.h>",
         "#include <cppmm_bind.hpp>"
     ],
     "include_paths": [
-        "/home/anders/packages/imath/3.0.0/include"
+        "/home/anders/packages/openexr/2.4.0/include"
     ],
     "id": 5,
     "decls": [
         {
             "kind": "Record",
-            "name": "Imath_3_0::Box<Imath::Vec3<float> >",
+            "name": "Imath_2_4::Box<Imath::Vec3<float> >",
             "id": 6,
             "size": 192,
             "align": 32,
@@ -26,7 +26,7 @@
                     "type": {
                         "kind": "RecordType",
                         "id": 1,
-                        "type": "Imath_3_0::Vec3<float>",
+                        "type": "Imath_2_4::Vec3<float>",
                         "record": 15,
                         "const": false
                     }
@@ -37,7 +37,7 @@
                     "type": {
                         "kind": "RecordType",
                         "id": 1,
-                        "type": "Imath_3_0::Vec3<float>",
+                        "type": "Imath_2_4::Vec3<float>",
                         "record": 15,
                         "const": false
                     }
@@ -48,7 +48,7 @@
                     "kind": "Method",
                     "id": 0,
                     "short_name": "extendBy",
-                    "qualified_name": "Imath_3_0::Box<Imath_3_0::Vec3<float> >::extendBy",
+                    "qualified_name": "Imath_2_4::Box<Imath_2_4::Vec3<float> >::extendBy",
                     "in_binding": true,
                     "in_library": false,
                     "static": false,
@@ -77,11 +77,11 @@
                             "type": {
                                 "kind": "Reference",
                                 "id": 2,
-                                "type": "const class Imath_3_0::Vec3<float> &",
+                                "type": "const class Imath_2_4::Vec3<float> &",
                                 "pointee": {
                                     "kind": "RecordType",
                                     "id": 1,
-                                    "type": "Imath_3_0::Vec3<float>",
+                                    "type": "Imath_2_4::Vec3<float>",
                                     "record": 15,
                                     "const": true
                                 },
@@ -95,7 +95,7 @@
                     "kind": "Method",
                     "id": 0,
                     "short_name": "extendBy",
-                    "qualified_name": "Imath_3_0::Box<Imath_3_0::Vec3<float> >::extendBy",
+                    "qualified_name": "Imath_2_4::Box<Imath_2_4::Vec3<float> >::extendBy",
                     "in_binding": true,
                     "in_library": false,
                     "static": false,
@@ -124,11 +124,11 @@
                             "type": {
                                 "kind": "Reference",
                                 "id": 4,
-                                "type": "const class Imath_3_0::Box<Imath::Vec3<float> > &",
+                                "type": "const class Imath_2_4::Box<Imath::Vec3<float> > &",
                                 "pointee": {
                                     "kind": "RecordType",
                                     "id": 3,
-                                    "type": "Imath_3_0::Box<Imath::Vec3<float> >",
+                                    "type": "Imath_2_4::Box<Imath::Vec3<float> >",
                                     "record": 6,
                                     "const": true
                                 },
