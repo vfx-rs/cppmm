@@ -1,11 +1,19 @@
 {
     "kind": "TranslationUnit",
     "filename": "/home/anders/code/cppmm/test/imath/bind/imath_box.cpp",
-    "id": 8,
+    "source_includes": [
+        "#include <Imath/ImathBox.h>",
+        "#include <cppmm_bind.hpp>"
+    ],
+    "include_paths": [
+        "/home/anders/packages/imath/3.0.0/include"
+    ],
+    "id": 5,
     "decls": [
         {
             "kind": "Record",
-            "id": 9,
+            "name": "Imath_3_0::Box<Imath::Vec3<float> >",
+            "id": 6,
             "size": 192,
             "align": 32,
             "attributes": [
@@ -19,7 +27,7 @@
                         "kind": "RecordType",
                         "id": 1,
                         "type": "Imath_3_0::Vec3<float>",
-                        "record": 41,
+                        "record": 15,
                         "const": false
                     }
                 },
@@ -30,7 +38,7 @@
                         "kind": "RecordType",
                         "id": 1,
                         "type": "Imath_3_0::Vec3<float>",
-                        "record": 41,
+                        "record": 15,
                         "const": false
                     }
                 }
@@ -38,264 +46,7 @@
             "methods": [
                 {
                     "kind": "Method",
-                    "id": 10,
-                    "short_name": "Box",
-                    "qualified_name": "Imath_3_0::Box<Imath_3_0::Vec3<float> >::Box",
-                    "in_binding": true,
-                    "in_library": false,
-                    "static": false,
-                    "user_provided": true,
-                    "const": false,
-                    "virtual": false,
-                    "overloaded_operator": false,
-                    "copy_assignment_operator": false,
-                    "move_assignment_operator": false,
-                    "constructor": true,
-                    "copy_constructor": false,
-                    "move_constructor": false,
-                    "conversion_decl": false,
-                    "destructor": false,
-                    "attributes": null,
-                    "return": {
-                        "kind": "BuiltinType",
-                        "id": 0,
-                        "type": "void",
-                        "const": false
-                    },
-                    "params": null
-                },
-                {
-                    "kind": "Method",
-                    "id": 10,
-                    "short_name": "Box",
-                    "qualified_name": "Imath_3_0::Box<Imath_3_0::Vec3<float> >::Box",
-                    "in_binding": true,
-                    "in_library": false,
-                    "static": false,
-                    "user_provided": true,
-                    "const": false,
-                    "virtual": false,
-                    "overloaded_operator": false,
-                    "copy_assignment_operator": false,
-                    "move_assignment_operator": false,
-                    "constructor": true,
-                    "copy_constructor": false,
-                    "move_constructor": false,
-                    "conversion_decl": false,
-                    "destructor": false,
-                    "attributes": null,
-                    "return": {
-                        "kind": "BuiltinType",
-                        "id": 0,
-                        "type": "void",
-                        "const": false
-                    },
-                    "params": [
-                        {
-                            "index": 0,
-                            "name": "point",
-                            "type": {
-                                "kind": "Reference",
-                                "id": 2,
-                                "type": "const class Imath_3_0::Vec3<float> &",
-                                "pointee": {
-                                    "kind": "RecordType",
-                                    "id": 1,
-                                    "type": "Imath_3_0::Vec3<float>",
-                                    "record": 41,
-                                    "const": true
-                                },
-                                "const": false
-                            }
-                        }
-                    ]
-                },
-                {
-                    "kind": "Method",
-                    "id": 10,
-                    "short_name": "Box",
-                    "qualified_name": "Imath_3_0::Box<Imath_3_0::Vec3<float> >::Box",
-                    "in_binding": true,
-                    "in_library": false,
-                    "static": false,
-                    "user_provided": true,
-                    "const": false,
-                    "virtual": false,
-                    "overloaded_operator": false,
-                    "copy_assignment_operator": false,
-                    "move_assignment_operator": false,
-                    "constructor": true,
-                    "copy_constructor": false,
-                    "move_constructor": false,
-                    "conversion_decl": false,
-                    "destructor": false,
-                    "attributes": null,
-                    "return": {
-                        "kind": "BuiltinType",
-                        "id": 0,
-                        "type": "void",
-                        "const": false
-                    },
-                    "params": [
-                        {
-                            "index": 0,
-                            "name": "minT",
-                            "type": {
-                                "kind": "Reference",
-                                "id": 2,
-                                "type": "const class Imath_3_0::Vec3<float> &",
-                                "pointee": {
-                                    "kind": "RecordType",
-                                    "id": 1,
-                                    "type": "Imath_3_0::Vec3<float>",
-                                    "record": 41,
-                                    "const": true
-                                },
-                                "const": false
-                            }
-                        },
-                        {
-                            "index": 1,
-                            "name": "maxT",
-                            "type": {
-                                "kind": "Reference",
-                                "id": 2,
-                                "type": "const class Imath_3_0::Vec3<float> &",
-                                "pointee": {
-                                    "kind": "RecordType",
-                                    "id": 1,
-                                    "type": "Imath_3_0::Vec3<float>",
-                                    "record": 41,
-                                    "const": true
-                                },
-                                "const": false
-                            }
-                        }
-                    ]
-                },
-                {
-                    "kind": "Method",
-                    "id": 11,
-                    "short_name": "operator==",
-                    "qualified_name": "Imath_3_0::Box<Imath_3_0::Vec3<float> >::operator==",
-                    "in_binding": false,
-                    "in_library": false,
-                    "static": false,
-                    "user_provided": true,
-                    "const": true,
-                    "virtual": false,
-                    "overloaded_operator": true,
-                    "copy_assignment_operator": false,
-                    "move_assignment_operator": false,
-                    "constructor": false,
-                    "copy_constructor": false,
-                    "move_constructor": false,
-                    "conversion_decl": false,
-                    "destructor": false,
-                    "attributes": null,
-                    "return": {
-                        "kind": "BuiltinType",
-                        "id": 10,
-                        "type": "_Bool",
-                        "const": false
-                    },
-                    "params": [
-                        {
-                            "index": 0,
-                            "name": "src",
-                            "type": {
-                                "kind": "Reference",
-                                "id": 4,
-                                "type": "const class Imath_3_0::Box<class Imath_3_0::Vec3<float> > &",
-                                "pointee": {
-                                    "kind": "RecordType",
-                                    "id": 3,
-                                    "type": "Imath_3_0::Box<Imath_3_0::Vec3<float> >",
-                                    "record": 9,
-                                    "const": true
-                                },
-                                "const": false
-                            }
-                        }
-                    ]
-                },
-                {
-                    "kind": "Method",
-                    "id": 11,
-                    "short_name": "operator!=",
-                    "qualified_name": "Imath_3_0::Box<Imath_3_0::Vec3<float> >::operator!=",
-                    "in_binding": false,
-                    "in_library": false,
-                    "static": false,
-                    "user_provided": true,
-                    "const": true,
-                    "virtual": false,
-                    "overloaded_operator": true,
-                    "copy_assignment_operator": false,
-                    "move_assignment_operator": false,
-                    "constructor": false,
-                    "copy_constructor": false,
-                    "move_constructor": false,
-                    "conversion_decl": false,
-                    "destructor": false,
-                    "attributes": null,
-                    "return": {
-                        "kind": "BuiltinType",
-                        "id": 10,
-                        "type": "_Bool",
-                        "const": false
-                    },
-                    "params": [
-                        {
-                            "index": 0,
-                            "name": "src",
-                            "type": {
-                                "kind": "Reference",
-                                "id": 4,
-                                "type": "const class Imath_3_0::Box<class Imath_3_0::Vec3<float> > &",
-                                "pointee": {
-                                    "kind": "RecordType",
-                                    "id": 3,
-                                    "type": "Imath_3_0::Box<Imath_3_0::Vec3<float> >",
-                                    "record": 9,
-                                    "const": true
-                                },
-                                "const": false
-                            }
-                        }
-                    ]
-                },
-                {
-                    "kind": "Method",
-                    "id": 11,
-                    "short_name": "makeEmpty",
-                    "qualified_name": "Imath_3_0::Box<Imath_3_0::Vec3<float> >::makeEmpty",
-                    "in_binding": true,
-                    "in_library": false,
-                    "static": false,
-                    "user_provided": true,
-                    "const": false,
-                    "virtual": false,
-                    "overloaded_operator": false,
-                    "copy_assignment_operator": false,
-                    "move_assignment_operator": false,
-                    "constructor": false,
-                    "copy_constructor": false,
-                    "move_constructor": false,
-                    "conversion_decl": false,
-                    "destructor": false,
-                    "attributes": null,
-                    "return": {
-                        "kind": "BuiltinType",
-                        "id": 0,
-                        "type": "void",
-                        "const": false
-                    },
-                    "params": null
-                },
-                {
-                    "kind": "Method",
-                    "id": 11,
+                    "id": 0,
                     "short_name": "extendBy",
                     "qualified_name": "Imath_3_0::Box<Imath_3_0::Vec3<float> >::extendBy",
                     "in_binding": true,
@@ -331,17 +82,18 @@
                                     "kind": "RecordType",
                                     "id": 1,
                                     "type": "Imath_3_0::Vec3<float>",
-                                    "record": 41,
+                                    "record": 15,
                                     "const": true
                                 },
                                 "const": false
-                            }
+                            },
+                            "attrs": []
                         }
                     ]
                 },
                 {
                     "kind": "Method",
-                    "id": 11,
+                    "id": 0,
                     "short_name": "extendBy",
                     "qualified_name": "Imath_3_0::Box<Imath_3_0::Vec3<float> >::extendBy",
                     "in_binding": true,
@@ -372,481 +124,19 @@
                             "type": {
                                 "kind": "Reference",
                                 "id": 4,
-                                "type": "const class Imath_3_0::Box<class Imath_3_0::Vec3<float> > &",
+                                "type": "const class Imath_3_0::Box<Imath::Vec3<float> > &",
                                 "pointee": {
                                     "kind": "RecordType",
                                     "id": 3,
-                                    "type": "Imath_3_0::Box<Imath_3_0::Vec3<float> >",
-                                    "record": 9,
+                                    "type": "Imath_3_0::Box<Imath::Vec3<float> >",
+                                    "record": 6,
                                     "const": true
                                 },
                                 "const": false
-                            }
+                            },
+                            "attrs": []
                         }
                     ]
-                },
-                {
-                    "kind": "Method",
-                    "id": 11,
-                    "short_name": "makeInfinite",
-                    "qualified_name": "Imath_3_0::Box<Imath_3_0::Vec3<float> >::makeInfinite",
-                    "in_binding": false,
-                    "in_library": false,
-                    "static": false,
-                    "user_provided": true,
-                    "const": false,
-                    "virtual": false,
-                    "overloaded_operator": false,
-                    "copy_assignment_operator": false,
-                    "move_assignment_operator": false,
-                    "constructor": false,
-                    "copy_constructor": false,
-                    "move_constructor": false,
-                    "conversion_decl": false,
-                    "destructor": false,
-                    "attributes": null,
-                    "return": {
-                        "kind": "BuiltinType",
-                        "id": 0,
-                        "type": "void",
-                        "const": false
-                    },
-                    "params": null
-                },
-                {
-                    "kind": "Method",
-                    "id": 11,
-                    "short_name": "size",
-                    "qualified_name": "Imath_3_0::Box<Imath_3_0::Vec3<float> >::size",
-                    "in_binding": false,
-                    "in_library": false,
-                    "static": false,
-                    "user_provided": true,
-                    "const": true,
-                    "virtual": false,
-                    "overloaded_operator": false,
-                    "copy_assignment_operator": false,
-                    "move_assignment_operator": false,
-                    "constructor": false,
-                    "copy_constructor": false,
-                    "move_constructor": false,
-                    "conversion_decl": false,
-                    "destructor": false,
-                    "attributes": null,
-                    "return": {
-                        "kind": "RecordType",
-                        "id": 1,
-                        "type": "Imath_3_0::Vec3<float>",
-                        "record": 41,
-                        "const": false
-                    },
-                    "params": null
-                },
-                {
-                    "kind": "Method",
-                    "id": 11,
-                    "short_name": "center",
-                    "qualified_name": "Imath_3_0::Box<Imath_3_0::Vec3<float> >::center",
-                    "in_binding": false,
-                    "in_library": false,
-                    "static": false,
-                    "user_provided": true,
-                    "const": true,
-                    "virtual": false,
-                    "overloaded_operator": false,
-                    "copy_assignment_operator": false,
-                    "move_assignment_operator": false,
-                    "constructor": false,
-                    "copy_constructor": false,
-                    "move_constructor": false,
-                    "conversion_decl": false,
-                    "destructor": false,
-                    "attributes": null,
-                    "return": {
-                        "kind": "RecordType",
-                        "id": 1,
-                        "type": "Imath_3_0::Vec3<float>",
-                        "record": 41,
-                        "const": false
-                    },
-                    "params": null
-                },
-                {
-                    "kind": "Method",
-                    "id": 11,
-                    "short_name": "intersects",
-                    "qualified_name": "Imath_3_0::Box<Imath_3_0::Vec3<float> >::intersects",
-                    "in_binding": false,
-                    "in_library": false,
-                    "static": false,
-                    "user_provided": true,
-                    "const": true,
-                    "virtual": false,
-                    "overloaded_operator": false,
-                    "copy_assignment_operator": false,
-                    "move_assignment_operator": false,
-                    "constructor": false,
-                    "copy_constructor": false,
-                    "move_constructor": false,
-                    "conversion_decl": false,
-                    "destructor": false,
-                    "attributes": null,
-                    "return": {
-                        "kind": "BuiltinType",
-                        "id": 10,
-                        "type": "_Bool",
-                        "const": false
-                    },
-                    "params": [
-                        {
-                            "index": 0,
-                            "name": "point",
-                            "type": {
-                                "kind": "Reference",
-                                "id": 2,
-                                "type": "const class Imath_3_0::Vec3<float> &",
-                                "pointee": {
-                                    "kind": "RecordType",
-                                    "id": 1,
-                                    "type": "Imath_3_0::Vec3<float>",
-                                    "record": 41,
-                                    "const": true
-                                },
-                                "const": false
-                            }
-                        }
-                    ]
-                },
-                {
-                    "kind": "Method",
-                    "id": 11,
-                    "short_name": "intersects",
-                    "qualified_name": "Imath_3_0::Box<Imath_3_0::Vec3<float> >::intersects",
-                    "in_binding": false,
-                    "in_library": false,
-                    "static": false,
-                    "user_provided": true,
-                    "const": true,
-                    "virtual": false,
-                    "overloaded_operator": false,
-                    "copy_assignment_operator": false,
-                    "move_assignment_operator": false,
-                    "constructor": false,
-                    "copy_constructor": false,
-                    "move_constructor": false,
-                    "conversion_decl": false,
-                    "destructor": false,
-                    "attributes": null,
-                    "return": {
-                        "kind": "BuiltinType",
-                        "id": 10,
-                        "type": "_Bool",
-                        "const": false
-                    },
-                    "params": [
-                        {
-                            "index": 0,
-                            "name": "box",
-                            "type": {
-                                "kind": "Reference",
-                                "id": 4,
-                                "type": "const class Imath_3_0::Box<class Imath_3_0::Vec3<float> > &",
-                                "pointee": {
-                                    "kind": "RecordType",
-                                    "id": 3,
-                                    "type": "Imath_3_0::Box<Imath_3_0::Vec3<float> >",
-                                    "record": 9,
-                                    "const": true
-                                },
-                                "const": false
-                            }
-                        }
-                    ]
-                },
-                {
-                    "kind": "Method",
-                    "id": 12,
-                    "short_name": "majorAxis",
-                    "qualified_name": "Imath_3_0::Box<Imath_3_0::Vec3<float> >::majorAxis",
-                    "in_binding": false,
-                    "in_library": false,
-                    "static": false,
-                    "user_provided": true,
-                    "const": true,
-                    "virtual": false,
-                    "overloaded_operator": false,
-                    "copy_assignment_operator": false,
-                    "move_assignment_operator": false,
-                    "constructor": false,
-                    "copy_constructor": false,
-                    "move_constructor": false,
-                    "conversion_decl": false,
-                    "destructor": false,
-                    "attributes": null,
-                    "return": {
-                        "kind": "BuiltinType",
-                        "id": 11,
-                        "type": "unsigned int",
-                        "const": false
-                    },
-                    "params": null
-                },
-                {
-                    "kind": "Method",
-                    "id": 12,
-                    "short_name": "isEmpty",
-                    "qualified_name": "Imath_3_0::Box<Imath_3_0::Vec3<float> >::isEmpty",
-                    "in_binding": false,
-                    "in_library": false,
-                    "static": false,
-                    "user_provided": true,
-                    "const": true,
-                    "virtual": false,
-                    "overloaded_operator": false,
-                    "copy_assignment_operator": false,
-                    "move_assignment_operator": false,
-                    "constructor": false,
-                    "copy_constructor": false,
-                    "move_constructor": false,
-                    "conversion_decl": false,
-                    "destructor": false,
-                    "attributes": null,
-                    "return": {
-                        "kind": "BuiltinType",
-                        "id": 10,
-                        "type": "_Bool",
-                        "const": false
-                    },
-                    "params": null
-                },
-                {
-                    "kind": "Method",
-                    "id": 12,
-                    "short_name": "hasVolume",
-                    "qualified_name": "Imath_3_0::Box<Imath_3_0::Vec3<float> >::hasVolume",
-                    "in_binding": false,
-                    "in_library": false,
-                    "static": false,
-                    "user_provided": true,
-                    "const": true,
-                    "virtual": false,
-                    "overloaded_operator": false,
-                    "copy_assignment_operator": false,
-                    "move_assignment_operator": false,
-                    "constructor": false,
-                    "copy_constructor": false,
-                    "move_constructor": false,
-                    "conversion_decl": false,
-                    "destructor": false,
-                    "attributes": null,
-                    "return": {
-                        "kind": "BuiltinType",
-                        "id": 10,
-                        "type": "_Bool",
-                        "const": false
-                    },
-                    "params": null
-                },
-                {
-                    "kind": "Method",
-                    "id": 12,
-                    "short_name": "isInfinite",
-                    "qualified_name": "Imath_3_0::Box<Imath_3_0::Vec3<float> >::isInfinite",
-                    "in_binding": false,
-                    "in_library": false,
-                    "static": false,
-                    "user_provided": true,
-                    "const": true,
-                    "virtual": false,
-                    "overloaded_operator": false,
-                    "copy_assignment_operator": false,
-                    "move_assignment_operator": false,
-                    "constructor": false,
-                    "copy_constructor": false,
-                    "move_constructor": false,
-                    "conversion_decl": false,
-                    "destructor": false,
-                    "attributes": null,
-                    "return": {
-                        "kind": "BuiltinType",
-                        "id": 10,
-                        "type": "_Bool",
-                        "const": false
-                    },
-                    "params": null
-                },
-                {
-                    "kind": "Method",
-                    "id": 12,
-                    "short_name": "Box",
-                    "qualified_name": "Imath_3_0::Box<Imath_3_0::Vec3<float> >::Box",
-                    "in_binding": false,
-                    "in_library": false,
-                    "static": false,
-                    "user_provided": false,
-                    "const": false,
-                    "virtual": false,
-                    "overloaded_operator": false,
-                    "copy_assignment_operator": false,
-                    "move_assignment_operator": false,
-                    "constructor": true,
-                    "copy_constructor": true,
-                    "move_constructor": false,
-                    "conversion_decl": false,
-                    "destructor": false,
-                    "attributes": null,
-                    "return": {
-                        "kind": "BuiltinType",
-                        "id": 0,
-                        "type": "void",
-                        "const": false
-                    },
-                    "params": [
-                        {
-                            "index": 0,
-                            "name": "",
-                            "type": {
-                                "kind": "Reference",
-                                "id": 4,
-                                "type": "const class Imath_3_0::Box<class Imath_3_0::Vec3<float> > &",
-                                "pointee": {
-                                    "kind": "RecordType",
-                                    "id": 3,
-                                    "type": "Imath_3_0::Box<Imath_3_0::Vec3<float> >",
-                                    "record": 9,
-                                    "const": true
-                                },
-                                "const": false
-                            }
-                        }
-                    ]
-                },
-                {
-                    "kind": "Method",
-                    "id": 13,
-                    "short_name": "Box",
-                    "qualified_name": "Imath_3_0::Box<Imath_3_0::Vec3<float> >::Box",
-                    "in_binding": false,
-                    "in_library": false,
-                    "static": false,
-                    "user_provided": false,
-                    "const": false,
-                    "virtual": false,
-                    "overloaded_operator": false,
-                    "copy_assignment_operator": false,
-                    "move_assignment_operator": false,
-                    "constructor": true,
-                    "copy_constructor": false,
-                    "move_constructor": true,
-                    "conversion_decl": false,
-                    "destructor": false,
-                    "attributes": null,
-                    "return": {
-                        "kind": "BuiltinType",
-                        "id": 0,
-                        "type": "void",
-                        "const": false
-                    },
-                    "params": [
-                        {
-                            "index": 0,
-                            "name": "",
-                            "type": {
-                                "kind": "Reference",
-                                "id": 12,
-                                "type": "class Imath_3_0::Box<class Imath_3_0::Vec3<float> > &&",
-                                "pointee": {
-                                    "kind": "RecordType",
-                                    "id": 3,
-                                    "type": "Imath_3_0::Box<Imath_3_0::Vec3<float> >",
-                                    "record": 9,
-                                    "const": false
-                                },
-                                "const": false
-                            }
-                        }
-                    ]
-                },
-                {
-                    "kind": "Method",
-                    "id": 14,
-                    "short_name": "operator=",
-                    "qualified_name": "Imath_3_0::Box<Imath_3_0::Vec3<float> >::operator=",
-                    "in_binding": false,
-                    "in_library": false,
-                    "static": false,
-                    "user_provided": false,
-                    "const": false,
-                    "virtual": false,
-                    "overloaded_operator": true,
-                    "copy_assignment_operator": false,
-                    "move_assignment_operator": true,
-                    "constructor": false,
-                    "copy_constructor": false,
-                    "move_constructor": false,
-                    "conversion_decl": false,
-                    "destructor": false,
-                    "attributes": null,
-                    "return": {
-                        "kind": "Reference",
-                        "id": 13,
-                        "type": "class Imath_3_0::Box<class Imath_3_0::Vec3<float> > &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 3,
-                            "type": "Imath_3_0::Box<Imath_3_0::Vec3<float> >",
-                            "record": 9,
-                            "const": false
-                        },
-                        "const": false
-                    },
-                    "params": [
-                        {
-                            "index": 0,
-                            "name": "",
-                            "type": {
-                                "kind": "Reference",
-                                "id": 12,
-                                "type": "class Imath_3_0::Box<class Imath_3_0::Vec3<float> > &&",
-                                "pointee": {
-                                    "kind": "RecordType",
-                                    "id": 3,
-                                    "type": "Imath_3_0::Box<Imath_3_0::Vec3<float> >",
-                                    "record": 9,
-                                    "const": false
-                                },
-                                "const": false
-                            }
-                        }
-                    ]
-                },
-                {
-                    "kind": "Method",
-                    "id": 14,
-                    "short_name": "~Box",
-                    "qualified_name": "Imath_3_0::Box<Imath_3_0::Vec3<float> >::~Box",
-                    "in_binding": false,
-                    "in_library": false,
-                    "static": false,
-                    "user_provided": false,
-                    "const": false,
-                    "virtual": false,
-                    "overloaded_operator": false,
-                    "copy_assignment_operator": false,
-                    "move_assignment_operator": false,
-                    "constructor": false,
-                    "copy_constructor": false,
-                    "move_constructor": false,
-                    "conversion_decl": false,
-                    "destructor": true,
-                    "attributes": null,
-                    "return": {
-                        "kind": "BuiltinType",
-                        "id": 0,
-                        "type": "void",
-                        "const": false
-                    },
-                    "params": null
                 }
             ]
         }

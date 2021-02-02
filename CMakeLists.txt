@@ -36,3 +36,5 @@ install(DIRECTORY resources DESTINATION ${CMAKE_INSTALL_PREFIX})
 enable_testing()
 
 add_subdirectory(test/std)
+add_subdirectory(test/imath)
+add_subdirectory(test/oiio)
