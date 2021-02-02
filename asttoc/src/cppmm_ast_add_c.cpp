@@ -45,15 +45,21 @@ std::string compute_c_record_name(const std::string & cpp_record_name)
 //------------------------------------------------------------------------------
 void record_opaquebytes(NodeRecord & c_record)
 {
+    auto is_const = false;
+    auto array_type =\
+        std::make_unique<NodeArrayType>(
+            "", PLACEHOLDER_ID, "",
+            std::make_unique<NodeBuiltinType>("", PLACEHOLDER_ID, "char",
+                                              is_const),
+            c_record.size, is_const);
+
+    c_record.force_alignment = true;
+    c_record.fields.push_back(Field{ "data", std::move(array_type) });
 }
 
 //------------------------------------------------------------------------------
 void record(TranslationUnit & c_tu, const NodePtr & cpp_node)
 {
-    // Most simple record implementation is the opaque bytes.
-    // Least safe and most restrictive in use, but easiest to implement.
-    // So doing that first.
-
     const auto & cpp_record =\
         *static_cast<const NodeRecord*>(cpp_node.get());
 
@@ -63,6 +69,10 @@ void record(TranslationUnit & c_tu, const NodePtr & cpp_node)
         std::make_unique<NodeRecord>(
                    c_record_name, PLACEHOLDER_ID, cpp_record.attrs,
                    cpp_record.size, cpp_record.align);
+
+    // Most simple record implementation is the opaque bytes.
+    // Least safe and most restrictive in use, but easiest to implement.
+    // So doing that first. Later will switch depending on the cppm attributes.
 
     record_opaquebytes(*c_record);
 

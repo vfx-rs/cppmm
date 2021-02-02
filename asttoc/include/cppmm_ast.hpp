@@ -20,6 +20,7 @@ enum class NodeKind : uint32_t {
     Node = 0,
     TranslationUnit,
     Namespace,
+    ArrayType,
     BuiltinType,
     PointerType,
     RecordType,
@@ -123,8 +124,8 @@ struct NodePointerType : public NodeType {
     NodePointerType(std::string qualified_name, NodeId id,
                     std::string type_name, PointerKind pointer_kind,
                     NodeTypePtr && pointee_type, bool const_)
-        : NodeType(qualified_name, id, NodeKind::PointerType, type_name, const_),
-          pointer_kind(pointer_kind), pointee_type(std::move(pointee_type)) {}
+        : NodeType(qualified_name, id, NodeKind::PointerType, type_name, const_)
+        , pointer_kind(pointer_kind), pointee_type(std::move(pointee_type)) {}
 };
 
 //------------------------------------------------------------------------------
@@ -136,6 +137,21 @@ struct NodeRecordType : public NodeType {
                    std::string type_name, NodeId record, bool const_)
         : NodeType(qualified_name, id, NodeKind::RecordType, type_name, const_),
           record(record) {}
+};
+
+//------------------------------------------------------------------------------
+// NodeArrayType
+//------------------------------------------------------------------------------
+// TODO LT: I added this one
+struct NodeArrayType : public NodeType {
+    uint64_t size;
+    NodeTypePtr element_type;
+
+    NodeArrayType(std::string qualified_name, NodeId id, std::string type_name,
+                  NodeTypePtr && element_type, uint64_t size, bool const_)
+        : NodeType(qualified_name, id, NodeKind::ArrayType, type_name, const_)
+        , size(size)
+        , element_type(std::move(element_type)) {}
 };
 
 //------------------------------------------------------------------------------
@@ -223,12 +239,13 @@ struct NodeRecord : public NodeAttributeHolder {
 
     uint32_t size;
     uint32_t align;
+    bool force_alignment;
 
     NodeRecord(std::string qualified_name, NodeId id,
                std::vector<std::string> attrs,
                uint32_t size, uint32_t align)
         : NodeAttributeHolder(qualified_name, id, NodeKind::Record, attrs),
-          size(size), align(align) {}
+          size(size), align(align), force_alignment(false) {}
 };
 
 //------------------------------------------------------------------------------
