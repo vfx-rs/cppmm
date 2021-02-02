@@ -37,11 +37,6 @@ namespace {
     const char * TYPE = "type";
     const char * POINTEE = "pointee";
     const char * RETURN = "return";
-
-    struct NodeBasics {
-        std::string name;
-        NodeId id;
-    };
 }
 
 //------------------------------------------------------------------------------
