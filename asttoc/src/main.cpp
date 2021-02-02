@@ -11,13 +11,19 @@
 
 int main()
 {
+    const std::string output_directory = "out/";
+
     std::ifstream input_file;
     input_file.open("/Volumes/src/cppmm/test/imath/ref/imath_vec.json");
 
+    // Read the json ast
     auto cpp_ast = cppmm::read::json(input_file);
-    auto full_ast = cppmm::transform::add_c(cpp_ast);
 
-    cppmm::write::cpp(full_ast);
+    // Add the c tranlsation units
+    cppmm::transform::add_c(output_directory, cpp_ast);
+
+    // Save out only the c translation units
+    cppmm::write::cpp(cpp_ast);
 
     return 0;
 }

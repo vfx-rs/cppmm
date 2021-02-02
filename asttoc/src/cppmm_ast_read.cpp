@@ -178,12 +178,11 @@ NodePtr read_node(const nln::json & json) {
 
 //------------------------------------------------------------------------------
 TranslationUnit read_translation_unit(const nln::json & json) {
-    // Get the very basics
+    // Read the translation unit
     auto filename = json[FILENAME].get<std::string>();
-    auto id = json[ID].get<Id>();
 
     // Instantiate the translation unit
-    auto result = TranslationUnit(filename, id);
+    auto result = TranslationUnit(filename);
 
     // Parse the elements of the translation unit
     for (const auto & i : json[DECLS] ){

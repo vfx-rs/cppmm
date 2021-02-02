@@ -3,11 +3,12 @@
 //------------------------------------------------------------------------------
 #pragma once
 #include "cppmm_ast.hpp"
+#include <string>;
 
 namespace cppmm {
 namespace transform {
 
-Root add_c(const Root & root);
+void add_c(const std::string & output_directory, Root & root);
 
 } // namespace transform
 } // namespace cppmm

@@ -66,25 +66,21 @@ using NodePtr = std::unique_ptr<Node>;
 // TranslationUnit
 //------------------------------------------------------------------------------
 struct TranslationUnit {
-    Id id;
     std::string filename;
     std::vector<NodePtr> decls;
 
     using Self = TranslationUnit;
 
-    TranslationUnit(std::string filename, NodeId id)
-        : id(id)
-        , filename(filename)
+    TranslationUnit(std::string filename)
+        : filename(filename)
     {}
 
     TranslationUnit(Self && rhs)
-        : id(rhs.id)
-        , filename(std::move(rhs.filename))
+        : filename(std::move(rhs.filename))
         , decls(std::move(rhs.decls))
     {}
 
     void operator==(Self && rhs) {
-        id = rhs.id;
         filename = std::move(rhs.filename);
         decls = std::move(rhs.decls);
     }
