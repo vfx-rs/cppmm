@@ -44,7 +44,7 @@ NodeTypePtr read_type(const nln::json & json);
 
 //------------------------------------------------------------------------------
 NodeTypePtr read_type_builtin(const nln::json & json) {
-    return std::make_unique<NodeBuiltinType>(
+    return std::make_shared<NodeBuiltinType>(
             "",
             json[ID].get<Id>(),
             json[TYPE].get<std::string>(),
@@ -54,7 +54,7 @@ NodeTypePtr read_type_builtin(const nln::json & json) {
 
 //------------------------------------------------------------------------------
 NodeTypePtr read_type_reference(const nln::json & json) {
-    return std::make_unique<NodePointerType>(
+    return std::make_shared<NodePointerType>(
             "",
             json[ID].get<Id>(),
             json[TYPE].get<std::string>(),
@@ -66,7 +66,7 @@ NodeTypePtr read_type_reference(const nln::json & json) {
 
 //------------------------------------------------------------------------------
 NodeTypePtr read_type_record(const nln::json & json) {
-    return std::make_unique<NodeRecordType>(
+    return std::make_shared<NodeRecordType>(
             "",
             json[ID].get<Id>(),
             json[TYPE].get<std::string>(),
@@ -123,8 +123,8 @@ NodeMethod read_method(const nln::json & json) {
 //------------------------------------------------------------------------------
 Field read_field(const nln::json & json) {
     return Field {
-        json[NAME].get<std::string>(),
-        read_type(json[TYPE]),
+        std::move(json[NAME].get<std::string>()),
+        std::move(read_type(json[TYPE])),
     };
 }
 
@@ -150,7 +150,7 @@ NodePtr read_record(const nln::json & json) {
 
     // Pull out the fields
     for (const auto & i : json[FIELDS] ){
-        result->fields.push_back(read_field(i));
+        result->fields.push_back(std::move(read_field(i)));
     }
 
     // Return the result

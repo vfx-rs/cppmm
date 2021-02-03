@@ -101,7 +101,7 @@ struct NodeType : public Node {
         , const_(const_)
         , type_name(type_name) {}
 };
-using NodeTypePtr = std::unique_ptr<NodeType>;
+using NodeTypePtr = std::shared_ptr<NodeType>;
 
 //------------------------------------------------------------------------------
 // NodeBuiltinType
@@ -170,8 +170,14 @@ struct Param {
     {}
 
     Param(Param && rhs)
-        : name(rhs.name)
+        : name(std::move(rhs.name))
         , type(std::move(rhs.type))
+        , index(rhs.index)
+    {}
+
+    Param(const Param & rhs)
+        : name(rhs.name)
+        , type(rhs.type)
         , index(rhs.index)
     {}
 };

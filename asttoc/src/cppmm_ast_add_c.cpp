@@ -30,10 +30,18 @@ public:
     void add(NodeId id, NodePtr cpp, NodePtr c)
     {
         // TODO LT: Assert for double entries
+        // TODO LT: Assert for RecordKind in cpp and c
         m_mapping.insert(std::make_pair( id, Records{ std::move(cpp),
                                                       std::move(c)
                                               }
         ));
+    }
+
+    NodeRecord & edit_c(NodeId id) {
+        auto & node = m_mapping[id].m_c; // TODO LT: Check existance + return optional
+        // TODO LT: Assert kind is record
+
+        return static_cast<NodeRecord&>(*node);
     }
 };
 
@@ -120,6 +128,7 @@ void record_entry(RecordRegistry & record_registry, TranslationUnit & c_tu,
 
     const auto c_record_name = compute_c_record_name(cpp_record.name);
 
+    // Create the c record
     auto c_record =\
         std::make_shared<NodeRecord>(
                    c_record_name, PLACEHOLDER_ID, cpp_record.attrs,
@@ -128,18 +137,13 @@ void record_entry(RecordRegistry & record_registry, TranslationUnit & c_tu,
     // Add the cpp and c record to the registry
     record_registry.add(cpp_node->id, cpp_node, c_record);
 
-    // Most simple record implementation is the opaque bytes.
-    // Least safe and most restrictive in use, but easiest to implement.
-    // So doing that first. Later will switch depending on the cppm attributes.
-
-    opaquebytes_record(*c_record); // TODO LT: This needs to move into the record_detail function, so that it can have fields that reference other records.
-
     // Finally add the record to the translation unit
     c_tu.decls.push_back(std::move(c_record));
 }
 
 //------------------------------------------------------------------------------
-void record_detail(TranslationUnit & c_tu, const NodePtr & cpp_node)
+void record_detail(RecordRegistry & record_registry, TranslationUnit & c_tu,
+                   const NodePtr & cpp_node)
 {
     const auto & cpp_record =\
         *static_cast<const NodeRecord*>(cpp_node.get());
@@ -147,9 +151,14 @@ void record_detail(TranslationUnit & c_tu, const NodePtr & cpp_node)
     // Most simple record implementation is the opaque bytes.
     // Least safe and most restrictive in use, but easiest to implement.
     // So doing that first. Later will switch depending on the cppm attributes.
+    auto c_record = record_registry.edit_c(cpp_record.id); // TODO LT: Return optional for error
+    opaquebytes_record(c_record);
+
+    // Most simple record implementation is the opaque bytes.
+    // Least safe and most restrictive in use, but easiest to implement.
+    // So doing that first. Later will switch depending on the cppm attributes.
 
     opaquebytes_methods(c_tu, cpp_record);
-    //opaquebytes_record(*c_record); // TODO LT: This needs to move into the record_detail function, so that it can have fields that reference other records.
 }
 
 //------------------------------------------------------------------------------
@@ -187,7 +196,7 @@ void translation_unit_details(
     {
         if (node->kind == NodeKind::Record)
         {
-            generate::record_detail(c_tu, node);
+            generate::record_detail(record_registry, c_tu, node);
         }
     }
 }
