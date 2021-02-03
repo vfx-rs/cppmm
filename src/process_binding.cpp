@@ -88,6 +88,7 @@ enum class NodeKind : uint32_t {
     PointerType,
     RecordType,
     EnumType,
+    FunctionProtoType,
     Parm,
     Function,
     Method,
@@ -117,6 +118,9 @@ std::ostream& operator<<(std::ostream& os, NodeKind k) {
         break;
     case NodeKind::EnumType:
         os << "EnumType";
+        break;
+    case NodeKind::FunctionProtoType:
+        os << "FunctionProtoType";
         break;
     case NodeKind::Parm:
         os << "Parm";
@@ -333,6 +337,38 @@ struct NodeEnumType : public NodeType {
     virtual void write_json(json& o) const override {
         o["kind"] = "EnumType";
         write_json_attrs(o);
+    }
+};
+
+struct NodeFunctionProtoType : public NodeType {
+    QType return_type;
+    std::vector<QType> params;
+    NodeFunctionProtoType(std::string qualified_name, NodeId id, NodeId context,
+                          std::string type_name, QType return_type,
+                          std::vector<QType> params)
+        : NodeType(qualified_name, id, context, NodeKind::FunctionProtoType,
+                   type_name),
+          return_type(std::move(return_type)), params(std::move(params)) {}
+
+    virtual void write_json_attrs(json& o) const override {
+        NodeType::write_json_attrs(o);
+    }
+
+    virtual void write_json(json& o) const override {
+        o["kind"] = "FunctionProtoType";
+
+        write_json_attrs(o);
+
+        o["return"] = {};
+        return_type.write_json(o["return"]);
+
+        o["params"] = {};
+        for (const auto& param : params) {
+            auto p = json::object();
+            p["type"] = json::object();
+            param.write_json(p["type"]);
+            o["params"].emplace_back(p);
+        }
     }
 };
 
@@ -636,6 +672,32 @@ void handle_class_template_decl(const ClassTemplateDecl* ctd) {
     }
 }
 
+QType process_qtype(const QualType& qt);
+
+NodeId process_function_proto_type(const FunctionProtoType* fpt,
+                                   std::string type_name,
+                                   std::string type_node_name) {
+    auto it = NODE_MAP.find(type_node_name);
+    if (it != NODE_MAP.end()) {
+        // already have an entry for this
+        return it->second;
+    } else {
+        QType return_type = process_qtype(fpt->getReturnType());
+        std::vector<QType> params;
+        for (const QualType& pqt : fpt->param_types()) {
+            params.push_back(process_qtype(pqt));
+        }
+
+        NodeId id = NODES.size();
+        auto node_ptr = std::make_unique<NodeFunctionProtoType>(
+            type_node_name, id, 0, std::move(type_name), std::move(return_type),
+            std::move(params));
+        NODES.emplace_back(std::move(node_ptr));
+        NODE_MAP[type_node_name] = id;
+        return id;
+    }
+}
+
 QType process_qtype(const QualType& qt) {
     if (qt->isPointerType() || qt->isReferenceType()) {
         auto pointer_kind = PointerKind::Pointer;
@@ -723,6 +785,12 @@ QType process_qtype(const QualType& qt) {
                     type_node_name, id, 0, type_name, id_enum);
                 NODES.emplace_back(std::move(node_enum_type));
                 NODE_MAP[type_node_name] = id;
+            } else if (qt->isFunctionProtoType()) {
+                const auto* fpt = qt->getAs<FunctionProtoType>();
+                assert(fpt && "Could not get FunctionProtoType from QualType");
+
+                id =
+                    process_function_proto_type(fpt, type_name, type_node_name);
             } else {
                 SPDLOG_WARN("Unhandled type {}", type_node_name);
                 qt->dump();

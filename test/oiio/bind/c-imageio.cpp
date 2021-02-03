@@ -104,11 +104,11 @@ public:
     create(OIIO::string_view, bool, const OIIO::ImageSpec*,
            OIIO::Filesystem::IOProxy*, OIIO::string_view);
 
-    // bool read_image(int subimage, int miplevel, int chbegin, int chend,
-    //                 OIIO::TypeDesc format, void* data, stride_t xstride,
-    //                 stride_t ystride, stride_t zstride,
-    //                 ProgressCallback progress_callback,
-    //                 void* progress_callback_data);
+    bool read_image(int subimage, int miplevel, int chbegin, int chend,
+                    OIIO::TypeDesc format, void* data, stride_t xstride,
+                    stride_t ystride, stride_t zstride,
+                    ProgressCallback progress_callback,
+                    void* progress_callback_data);
 
     std::string geterror() const;
 } CPPMM_OPAQUEPTR;

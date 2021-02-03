@@ -1421,7 +1421,7 @@
         {
             "kind": "Record",
             "name": "OpenImageIO_v2_2::ImageInput",
-            "id": 69,
+            "id": 71,
             "size": 1984,
             "align": 64,
             "attributes": [
@@ -1433,7 +1433,7 @@
                     "name": "m_mutex",
                     "type": {
                         "kind": "RecordType",
-                        "id": 82,
+                        "id": 84,
                         "type": "std::recursive_mutex",
                         "record": -1,
                         "const": false
@@ -1695,6 +1695,205 @@
                 {
                     "kind": "Method",
                     "id": 0,
+                    "short_name": "read_image",
+                    "qualified_name": "OpenImageIO_v2_2::ImageInput::read_image",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": true,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 1,
+                        "type": "_Bool",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "subimage",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 2,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "miplevel",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 2,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 2,
+                            "name": "chbegin",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 2,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 3,
+                            "name": "chend",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 2,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 4,
+                            "name": "format",
+                            "type": {
+                                "kind": "RecordType",
+                                "id": 17,
+                                "type": "OpenImageIO_v2_2::TypeDesc",
+                                "record": -1,
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 5,
+                            "name": "data",
+                            "type": {
+                                "kind": "Pointer",
+                                "id": 38,
+                                "type": "void *",
+                                "pointee": {
+                                    "kind": "BuiltinType",
+                                    "id": 0,
+                                    "type": "void",
+                                    "const": false
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 6,
+                            "name": "xstride",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 22,
+                                "type": "long",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 7,
+                            "name": "ystride",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 22,
+                                "type": "long",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 8,
+                            "name": "zstride",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 22,
+                                "type": "long",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 9,
+                            "name": "progress_callback",
+                            "type": {
+                                "kind": "Pointer",
+                                "id": 70,
+                                "type": "_Bool (*)(void *, float)",
+                                "pointee": {
+                                    "kind": "FunctionProtoType",
+                                    "id": 69,
+                                    "type": "_Bool (void *, float)",
+                                    "return": {
+                                        "kind": "BuiltinType",
+                                        "id": 1,
+                                        "type": "_Bool",
+                                        "const": false
+                                    },
+                                    "params": [
+                                        {
+                                            "type": {
+                                                "kind": "Pointer",
+                                                "id": 38,
+                                                "type": "void *",
+                                                "pointee": {
+                                                    "kind": "BuiltinType",
+                                                    "id": 0,
+                                                    "type": "void",
+                                                    "const": false
+                                                },
+                                                "const": false
+                                            }
+                                        },
+                                        {
+                                            "type": {
+                                                "kind": "BuiltinType",
+                                                "id": 33,
+                                                "type": "float",
+                                                "const": false
+                                            }
+                                        }
+                                    ],
+                                    "const": false
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 10,
+                            "name": "progress_callback_data",
+                            "type": {
+                                "kind": "Pointer",
+                                "id": 38,
+                                "type": "void *",
+                                "pointee": {
+                                    "kind": "BuiltinType",
+                                    "id": 0,
+                                    "type": "void",
+                                    "const": false
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
                     "short_name": "geterror",
                     "qualified_name": "OpenImageIO_v2_2::ImageInput::geterror",
                     "in_binding": true,
@@ -1725,7 +1924,7 @@
         },
         {
             "kind": "Function",
-            "id": 83,
+            "id": 85,
             "short_name": "roi_union",
             "qualified_name": "OpenImageIO_v2_2::roi_union",
             "in_binding": false,
@@ -1779,7 +1978,7 @@
         },
         {
             "kind": "Function",
-            "id": 84,
+            "id": 86,
             "short_name": "roi_intersection",
             "qualified_name": "OpenImageIO_v2_2::roi_intersection",
             "in_binding": false,
@@ -1833,7 +2032,7 @@
         },
         {
             "kind": "Function",
-            "id": 85,
+            "id": 87,
             "short_name": "getattribute",
             "qualified_name": "OpenImageIO_v2_2::getattribute",
             "in_binding": false,
