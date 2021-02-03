@@ -4,6 +4,7 @@
 #include "cppmm_ast_add_c.hpp"
 #include "pystring.h"
 #include <cassert>
+#include <iostream>
 
 namespace cppmm {
 namespace transform {
@@ -78,11 +79,12 @@ void opaquebytes_methods(TranslationUnit & c_tu, const NodeRecord & cpp_record)
 {
     for(const auto & m: cpp_record.methods)
     {
+        std::cerr << "handling method " << m.name << std::endl;
     }
 }
 
 //------------------------------------------------------------------------------
-void record(TranslationUnit & c_tu, const NodePtr & cpp_node)
+void record_entry(TranslationUnit & c_tu, const NodePtr & cpp_node)
 {
     const auto & cpp_record =\
         *static_cast<const NodeRecord*>(cpp_node.get());
@@ -98,14 +100,14 @@ void record(TranslationUnit & c_tu, const NodePtr & cpp_node)
     // Least safe and most restrictive in use, but easiest to implement.
     // So doing that first. Later will switch depending on the cppm attributes.
 
-    opaquebytes_record(*c_record);
+    opaquebytes_record(*c_record); // TODO LT: This needs to move into the record_detail function, so that it can have fields that reference other records.
 
     // Finally add the record to the translation unit
     c_tu.decls.push_back(std::move(c_record));
 }
 
 //------------------------------------------------------------------------------
-void methods(TranslationUnit & c_tu, const NodePtr & cpp_node)
+void record_detail(TranslationUnit & c_tu, const NodePtr & cpp_node)
 {
     const auto & cpp_record =\
         *static_cast<const NodeRecord*>(cpp_node.get());
@@ -115,11 +117,12 @@ void methods(TranslationUnit & c_tu, const NodePtr & cpp_node)
     // So doing that first. Later will switch depending on the cppm attributes.
 
     opaquebytes_methods(c_tu, cpp_record);
+    //opaquebytes_record(*c_record); // TODO LT: This needs to move into the record_detail function, so that it can have fields that reference other records.
 }
 
 //------------------------------------------------------------------------------
-void translation_unit_records(const std::string & output_directory, Root & root,
-                              const size_t cpp_tu)
+void translation_unit_entries(
+    const std::string & output_directory, Root & root, const size_t cpp_tu)
 {
     // Create a new translation unit
     const auto filepath =
@@ -132,7 +135,7 @@ void translation_unit_records(const std::string & output_directory, Root & root,
     {
         if (node->kind == NodeKind::Record)
         {
-            generate::record(c_tu, node);
+            generate::record_entry(c_tu, node);
         }
     }
 
@@ -140,8 +143,8 @@ void translation_unit_records(const std::string & output_directory, Root & root,
 }
 
 //------------------------------------------------------------------------------
-void translation_unit_methods(Root & root, const size_t cpp_tu_size,
-                              const size_t cpp_tu)
+void translation_unit_details(
+    Root & root, const size_t cpp_tu_size, const size_t cpp_tu)
 {
     auto & c_tu = root.tus[cpp_tu_size+cpp_tu];
 
@@ -150,7 +153,7 @@ void translation_unit_methods(Root & root, const size_t cpp_tu_size,
     {
         if (node->kind == NodeKind::Record)
         {
-            generate::methods(c_tu, node);
+            generate::record_detail(c_tu, node);
         }
     }
 }
@@ -163,19 +166,16 @@ void add_c(const std::string & output_directory, Root & root)
 {
     const auto tu_count = root.tus.size();
 
-    // Loop over all the translation units
+    // Add records
     for (size_t i=0; i != tu_count; ++i)
     {
-        // Add a new one for the c wrapper
-        generate::translation_unit_records(output_directory, root, i);
+        generate::translation_unit_entries(output_directory, root, i);
     }
 
-    // Loop over all the translation units again, this time flattening the
-    // methods
+    // Implement the records
     for (size_t i=0; i != tu_count; ++i)
     {
-        // Add a new one for the c wrapper
-        generate::translation_unit_methods(root, tu_count, i);
+        generate::translation_unit_details(root, tu_count, i);
     }
 }
 
