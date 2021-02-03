@@ -27,10 +27,13 @@ class RecordRegistry
     Mapping m_mapping;
 
 public:
-    void add(NodeId id, NodePtr & cpp, NodePtr & c)
+    void add(NodeId id, NodePtr cpp, NodePtr c)
     {
         // TODO LT: Assert for double entries
-        m_mapping.insert(std::make_pair( id, Records{ cpp, c } ));
+        m_mapping.insert(std::make_pair( id, Records{ std::move(cpp),
+                                                      std::move(c)
+                                              }
+        ));
     }
 };
 
@@ -109,7 +112,8 @@ void opaquebytes_methods(TranslationUnit & c_tu, const NodeRecord & cpp_record)
 }
 
 //------------------------------------------------------------------------------
-void record_entry(TranslationUnit & c_tu, const NodePtr & cpp_node)
+void record_entry(RecordRegistry & record_registry, TranslationUnit & c_tu,
+                  NodePtr & cpp_node)
 {
     const auto & cpp_record =\
         *static_cast<const NodeRecord*>(cpp_node.get());
@@ -117,9 +121,12 @@ void record_entry(TranslationUnit & c_tu, const NodePtr & cpp_node)
     const auto c_record_name = compute_c_record_name(cpp_record.name);
 
     auto c_record =\
-        std::make_unique<NodeRecord>(
+        std::make_shared<NodeRecord>(
                    c_record_name, PLACEHOLDER_ID, cpp_record.attrs,
                    cpp_record.size, cpp_record.align);
+
+    // Add the cpp and c record to the registry
+    record_registry.add(cpp_node->id, cpp_node, c_record);
 
     // Most simple record implementation is the opaque bytes.
     // Least safe and most restrictive in use, but easiest to implement.
@@ -147,6 +154,7 @@ void record_detail(TranslationUnit & c_tu, const NodePtr & cpp_node)
 
 //------------------------------------------------------------------------------
 void translation_unit_entries(
+    RecordRegistry & record_registry,
     const std::string & output_directory, Root & root, const size_t cpp_tu)
 {
     // Create a new translation unit
@@ -156,11 +164,11 @@ void translation_unit_entries(
     auto c_tu = TranslationUnit(filepath);
 
     // cpp records -> c records
-    for (const auto & node : root.tus[cpp_tu].decls)
+    for (auto & node : root.tus[cpp_tu].decls)
     {
         if (node->kind == NodeKind::Record)
         {
-            generate::record_entry(c_tu, node);
+            generate::record_entry(record_registry, c_tu, node);
         }
     }
 
@@ -169,6 +177,7 @@ void translation_unit_entries(
 
 //------------------------------------------------------------------------------
 void translation_unit_details(
+    RecordRegistry & record_registry,
     Root & root, const size_t cpp_tu_size, const size_t cpp_tu)
 {
     auto & c_tu = root.tus[cpp_tu_size+cpp_tu];
@@ -189,18 +198,23 @@ void translation_unit_details(
 //------------------------------------------------------------------------------
 void add_c(const std::string & output_directory, Root & root)
 {
+    // For storing the mappings between cpp and c records
+    auto record_registry = RecordRegistry();
+
+    // When we iterate we dont want to loop over newly added c translation units
     const auto tu_count = root.tus.size();
 
     // Add records
     for (size_t i=0; i != tu_count; ++i)
     {
-        generate::translation_unit_entries(output_directory, root, i);
+        generate::translation_unit_entries(
+            record_registry, output_directory, root, i);
     }
 
     // Implement the records
     for (size_t i=0; i != tu_count; ++i)
     {
-        generate::translation_unit_details(root, tu_count, i);
+        generate::translation_unit_details(record_registry, root, tu_count, i);
     }
 }
 
