@@ -118,9 +118,8 @@ void methods(TranslationUnit & c_tu, const NodePtr & cpp_node)
 }
 
 //------------------------------------------------------------------------------
-TranslationUnit translation_unit(
-    const std::string & output_directory, const Root & root,
-    const size_t cpp_tu)
+void translation_unit_records(const std::string & output_directory, Root & root,
+                              const size_t cpp_tu)
 {
     // Create a new translation unit
     const auto filepath =
@@ -128,7 +127,7 @@ TranslationUnit translation_unit(
                                      root.tus[cpp_tu].filename);
     auto c_tu = TranslationUnit(filepath);
 
-    // Loop over the record declarations
+    // cpp records -> c records
     for (const auto & node : root.tus[cpp_tu].decls)
     {
         if (node->kind == NodeKind::Record)
@@ -137,7 +136,23 @@ TranslationUnit translation_unit(
         }
     }
 
-    return c_tu;
+    root.tus.push_back(std::move(c_tu));
+}
+
+//------------------------------------------------------------------------------
+void translation_unit_methods(Root & root, const size_t cpp_tu_size,
+                              const size_t cpp_tu)
+{
+    auto & c_tu = root.tus[cpp_tu_size+cpp_tu];
+
+    // cpp methods -> c functions
+    for (const auto & node : root.tus[cpp_tu].decls)
+    {
+        if (node->kind == NodeKind::Record)
+        {
+            generate::methods(c_tu, node);
+        }
+    }
 }
 
 } // namespace generate
@@ -152,9 +167,15 @@ void add_c(const std::string & output_directory, Root & root)
     for (size_t i=0; i != tu_count; ++i)
     {
         // Add a new one for the c wrapper
-        root.tus.push_back(std::move(
-            generate::translation_unit(output_directory, root, i))
-        );
+        generate::translation_unit_records(output_directory, root, i);
+    }
+
+    // Loop over all the translation units again, this time flattening the
+    // methods
+    for (size_t i=0; i != tu_count; ++i)
+    {
+        // Add a new one for the c wrapper
+        generate::translation_unit_methods(root, tu_count, i);
     }
 }
 
