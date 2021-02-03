@@ -39,6 +39,8 @@ namespace cppmm {
 
 namespace {
 
+/// Get any annotation attributes on the given Decl and return their values as
+/// a vector of strings
 std::vector<std::string> get_attrs(const clang::Decl* decl) {
     std::vector<std::string> attrs;
     if (decl->hasAttrs()) {
@@ -54,22 +56,7 @@ std::vector<std::string> get_attrs(const clang::Decl* decl) {
     return attrs;
 }
 
-struct indent {
-    indent(int level) : level(level) {}
-
-private:
-    friend std::ostream& operator<<(std::ostream& stream, const indent& val);
-
-    int level;
-};
-
-std::ostream& operator<<(std::ostream& stream, const indent& val) {
-    for (int i = 0; i < val.level * 4; i++) {
-        stream << " ";
-    }
-    return stream;
-}
-
+/// Strip the type kinds off the front of a type name in the given string
 std::string strip_name_kinds(std::string s) {
     s = pystring::replace(s, "class ", "");
     s = pystring::replace(s, "struct ", "");
@@ -80,6 +67,7 @@ std::string strip_name_kinds(std::string s) {
 
 } // namespace
 
+/// Enumerates the kinds of nodes in the output AST
 enum class NodeKind : uint32_t {
     Node = 0,
     TranslationUnit,
@@ -141,31 +129,24 @@ std::ostream& operator<<(std::ostream& os, NodeKind k) {
     return os;
 }
 
+/// Enumerates the different kinds of pointers and references
 enum class PointerKind : uint32_t {
     Pointer,
     Reference,
     RValueReference,
 };
 
+/// Enumerates the different kinds of records.
+/// OpaquePtr = opaque pointer to a C++ library type
+/// OpaqueBytes = opaque bag of bytes containing a C++ library type
+/// ValueType = C++ library type that is C-compatible (POD only)
 enum class RecordKind : uint32_t { OpaquePtr = 0, OpaqueBytes, ValueType };
 
+/// Typedef for representing a node in the AST. Signed int because we're
+/// outputting to json
 using NodeId = int32_t;
 
-struct sanitize {
-    const std::string& s;
-
-    sanitize(const std::string& s) : s(s) {}
-};
-
-std::ostream& operator<<(std::ostream& os, const sanitize& s) {
-    std::string r = s.s;
-    r = pystring::replace(r, "&", "&amp;");
-    r = pystring::replace(r, "<", "&lt;");
-    r = pystring::replace(r, ">", "&gt;");
-    r = pystring::replace(r, "\"", "&quot;");
-    return os << r;
-}
-
+/// Abstract base struct for a node in the AST
 struct Node {
     std::string qualified_name;
     NodeId id;
@@ -190,13 +171,22 @@ struct Node {
 
 using NodePtr = std::unique_ptr<Node>;
 
+/// Flat storage for nodes in the AST
 std::vector<NodePtr> NODES;
+/// Map for name-lookup of nodes (keys should match Node::qualified_name)
 std::unordered_map<std::string, NodeId> NODE_MAP;
+/// Root of the AST - will contain NodeTranslationUnits, which will themselves
+/// contain the rest of the tree
 std::vector<NodeId> ROOT;
 
+/// Represents one translation unit (TU), i.e. one binding source file.
+/// NodeTranslationUnit::qualified_name contains the filename
 struct NodeTranslationUnit : public Node {
+    /// Other nodes bound in this TU
     std::vector<NodeId> children;
+    /// Include statements from the binding file
     std::vector<std::string> source_includes;
+    /// Include paths specified on the cppmm command line
     std::vector<std::string> project_includes;
 
     virtual void write_json(json& o) const override {
@@ -223,8 +213,14 @@ struct NodeTranslationUnit : public Node {
     }
 };
 
+/// Namespace node. Currently not used
 struct NodeNamespace : public Node {};
 
+/// Base struct represent a node that stores a type. 
+/// Types are references to the actual record and enum declarations that describe
+/// those objects' structure. They are stored in the graph so that types and the 
+/// objects they reference can be processed out-of-order and then the references
+/// fixed up later.
 struct NodeType : public Node {
     std::string type_name;
     NodeType(std::string qualified_name, NodeId id, NodeId context,
@@ -237,6 +233,7 @@ struct NodeType : public Node {
     }
 };
 
+/// A builtin, e.g. int, bool, char etc.
 struct NodeBuiltinType : public NodeType {
     NodeBuiltinType(std::string qualified_name, NodeId id, NodeId context,
                     std::string type_name)
@@ -249,7 +246,11 @@ struct NodeBuiltinType : public NodeType {
     }
 };
 
+/// QType is the equivalent of clang's QualType. Currently just defines the
+/// constness of the wrapped type node. These are stored on the AST nodes
+/// anywhere a type is needed.
 struct QType {
+    /// Type we're constifying
     NodeId ty;
     bool is_const;
 
@@ -277,9 +278,11 @@ std::ostream& operator<<(std::ostream& os, const QType& q) {
     return os;
 }
 
-// pointer or reference type - check type_kind
+/// A pointer or reference type. The pointee is stored in pointee_type
 struct NodePointerType : public NodeType {
+    /// Type we're pointing to
     QType pointee_type;
+    /// Is this a pointer, reference or r-value reference?
     PointerKind pointer_kind;
     NodePointerType(std::string qualified_name, NodeId id, NodeId context,
                     std::string type_name, PointerKind pointer_kind,
@@ -303,7 +306,11 @@ struct NodePointerType : public NodeType {
     }
 };
 
+/// A reference to a record (i.e. a class or struct)
 struct NodeRecordType : public NodeType {
+    /// The record declaration node, i.e. the actual type declaration. If the 
+    /// record referred to hasn't been processed yet, then this will be -1 until
+    /// such a time as the record is processed
     NodeId record;
     NodeRecordType(std::string qualified_name, NodeId id, NodeId context,
                    std::string type_name, NodeId record)
@@ -322,7 +329,11 @@ struct NodeRecordType : public NodeType {
     }
 };
 
+/// An enum type reference
 struct NodeEnumType : public NodeType {
+    /// The enum declaration node, i.e. the actual type declaration. If the 
+    /// enum referred to hasn't been processed yet, then this will be -1 until
+    /// such a time as the enum is processed
     NodeId enm;
     NodeEnumType(std::string qualified_name, NodeId id, NodeId context,
                  std::string type_name, NodeId enm)
@@ -340,8 +351,13 @@ struct NodeEnumType : public NodeType {
     }
 };
 
+/// A function prototype (a pointer to which can be passed as callbacks etc). This
+/// sits in an awkward spot because there isn't a corresponding decl so all the
+/// structure is packed onto the type node here
 struct NodeFunctionProtoType : public NodeType {
+    /// Return type of the function
     QType return_type;
+    /// Function parameters
     std::vector<QType> params;
     NodeFunctionProtoType(std::string qualified_name, NodeId id, NodeId context,
                           std::string type_name, QType return_type,
@@ -372,10 +388,15 @@ struct NodeFunctionProtoType : public NodeType {
     }
 };
 
+/// Param is essentially just a (name, type) pair forming a function parameter.
 struct Param {
+    /// parameter name
     std::string name;
+    /// parameter type
     QType qty;
+    /// index of the parameter in the function's parameter list
     int index;
+    /// Any annnotation attributes on the parameter
     std::vector<std::string> attrs;
 };
 
@@ -383,7 +404,9 @@ std::ostream& operator<<(std::ostream& os, const Param& p) {
     return os << p.name << ": " << p.qty;
 }
 
+/// Base struct representing a node that has annotation attributes attached
 struct NodeAttributeHolder : public Node {
+    /// The annotation attributes
     std::vector<std::string> attrs;
 
     NodeAttributeHolder(std::string qualified_name, NodeId id, NodeId context,
@@ -401,11 +424,17 @@ struct NodeAttributeHolder : public Node {
     }
 };
 
+/// A function node
 struct NodeFunction : public NodeAttributeHolder {
+    /// What you think of as the function name without any qualifications
     std::string short_name;
+    /// The function's return type
     QType return_type;
+    /// The function's parameters
     std::vector<Param> params;
+    /// Is this function declared in the binding? NOT USED
     bool in_binding = false;
+    /// Is this function declared in the library? NOT USED
     bool in_library = false;
 
     NodeFunction(std::string qualified_name, NodeId id, NodeId context,
@@ -456,8 +485,10 @@ std::ostream& operator<<(std::ostream& os, const NodeFunction& f) {
     return os;
 }
 
+/// A method on a class or struct. 
 struct NodeMethod : public NodeFunction {
     bool is_static = false;
+    /// Is the method user-provided (i.e. !default)
     bool is_user_provided = false;
     bool is_const = false;
     bool is_virtual = false;
@@ -468,6 +499,7 @@ struct NodeMethod : public NodeFunction {
     bool is_default_constructor = false;
     bool is_copy_constructor = false;
     bool is_move_constructor = false;
+    /// Is the method a conversion decl, e.g. "operator bool()"
     bool is_conversion_decl = false;
     bool is_destructor = false;
 
@@ -504,17 +536,23 @@ struct NodeMethod : public NodeFunction {
     }
 };
 
+/// A field of a class or struct as a (name, type) pair
 struct Field {
     std::string name;
     QType qtype;
 };
 
+/// A record is a class or struct declaration containing fields and methods
 struct NodeRecord : public NodeAttributeHolder {
     std::vector<Field> fields;
     std::vector<NodeId> methods;
+    /// The kind of the record, i.e. how we want it to be represented in C.
+    /// See the RecordKind enum for more info
     RecordKind record_kind;
 
+    /// Size of the record, in bits
     uint32_t size;
+    /// Alignment of the record, in bits
     uint32_t align;
 
     NodeRecord(std::string qualified_name, NodeId id, NodeId context,
@@ -555,10 +593,19 @@ struct NodeRecord : public NodeAttributeHolder {
     }
 };
 
+/// An enum declaration, just a list of (name, value) pairs of the variants
 struct NodeEnum : public NodeAttributeHolder {
+    /// C++ allows variant values larger than an int, while C only allows ints.
+    /// Without knowing what the values are, it's impossible to say what type
+    /// we'll need to store the values here. Most likely an int would be fine, 
+    /// but we can't rely on people not using crazy sentinel values, so we
+    /// store it as a string and kick the can down the road to the generator
     std::vector<std::pair<std::string, std::string>> variants;
+    /// Name of the enum without any qualifiers
     std::string short_name;
+    /// Size of the enum in bits
     uint32_t size;
+    /// Alignment of the enum in bits
     uint32_t align;
 
     NodeEnum(std::string qualified_name, NodeId id, NodeId context,
@@ -589,6 +636,9 @@ struct NodeEnum : public NodeAttributeHolder {
     }
 };
 
+/// Write out the AST to json output files. Each NodeTranslationUnit which
+/// is a child of the ROOT is written to its own json file and all decls in 
+/// that TU are written recursively
 void write_tus(std::string output_dir) {
     for (const auto& id : ROOT) {
         NodeTranslationUnit* tu = (NodeTranslationUnit*)NODES.at(id).get();
@@ -605,14 +655,14 @@ void write_tus(std::string output_dir) {
     }
 }
 
+/// Get the size and alignment for the given decl. Returns true if the info
+/// could be ascertained, false otherwise.
 bool get_abi_info(const TypeDecl* td, ASTContext& ctx, uint32_t& size,
                   uint32_t& align) {
     if (td) {
         const clang::Type* ty = td->getTypeForDecl();
         if (!ty->isIncompleteType()) {
             const clang::TypeInfo& ti = ctx.getTypeInfo(ty);
-            SPDLOG_TRACE("    size: {}", ti.Width);
-            SPDLOG_TRACE("    align: {}", ti.Align);
             size = ti.Width;
             align = ti.Align;
             return true;
@@ -626,6 +676,7 @@ bool get_abi_info(const TypeDecl* td, ASTContext& ctx, uint32_t& size,
     return false;
 }
 
+/// Parse the include statements from the given C++ file
 std::vector<std::string> get_source_includes(std::string filename) {
     auto it = source_includes.find(filename);
     if (it != source_includes.end()) {
@@ -636,8 +687,8 @@ std::vector<std::string> get_source_includes(std::string filename) {
     }
 }
 
-// Get a NodeTranslationUnit for the given filename, creating one if it doesn't
-// exist
+/// Find the node corresponding to the given TU filename, creating one if
+/// none exists
 NodeTranslationUnit* get_translation_unit(const std::string& filename) {
     auto it = NODE_MAP.find(filename);
     if (it != NODE_MAP.end()) {
@@ -657,23 +708,10 @@ NodeTranslationUnit* get_translation_unit(const std::string& filename) {
     return node_ptr;
 }
 
-void handle_class_template_decl(const ClassTemplateDecl* ctd) {
-    ASTContext& ctx = ctd->getASTContext();
-    SourceManager& sm = ctx.getSourceManager();
-    const auto& loc = ctd->getLocation();
-
-    SPDLOG_TRACE("ClassTemplateDecl {:p} {} ({}:{})", (void*)ctd,
-                 ctd->getQualifiedNameAsString(), sm.getFilename(loc).str(),
-                 sm.getSpellingLineNumber(loc));
-
-    const TemplateParameterList* tpl = ctd->getTemplateParameters();
-    for (const NamedDecl* nd : *tpl) {
-        SPDLOG_TRACE("        {}", nd->getQualifiedNameAsString());
-    }
-}
-
 QType process_qtype(const QualType& qt);
 
+/// Create a new NodeFunctionProtoType from the given FunctionProtoType and
+/// return its id.
 NodeId process_function_proto_type(const FunctionProtoType* fpt,
                                    std::string type_name,
                                    std::string type_node_name) {
@@ -698,8 +736,11 @@ NodeId process_function_proto_type(const FunctionProtoType* fpt,
     }
 }
 
+/// Create a QType from the given QualType. Recursively processes the contained
+/// types.
 QType process_qtype(const QualType& qt) {
     if (qt->isPointerType() || qt->isReferenceType()) {
+        // first, figure out what kind of pointer we have
         auto pointer_kind = PointerKind::Pointer;
         if (qt->isRValueReferenceType()) {
             pointer_kind = PointerKind::RValueReference;
@@ -726,20 +767,33 @@ QType process_qtype(const QualType& qt) {
             NODES.emplace_back(std::move(node_pointer_type));
             NODE_MAP[pointer_type_name] = id;
         } else {
+            // already done this type
             id = it->second;
         }
 
         return QType{id, qt.isConstQualified()};
     } else {
+        // regular type, let's get a nice name for it by removing the
+        // class/struct/enum/union qualifier clang adds
         std::string type_name = strip_name_kinds(
             qt.getCanonicalType().getUnqualifiedType().getAsString());
+        // We need to store type nodes for later access, since we might process 
+        // the corresponding record decl after processing this type node, and 
+        // will need to look it up later to set the appropriate id.
+        // to get around the fact that the type and the record it refers to will
+        // have the same name, we just prepend "TYPE:" to the type node name here.
+        // FIXME: we might want to stores types in a completely separate data
+        // structure
         std::string type_node_name = "TYPE:" + type_name;
 
+        // see if we've proessed this type already
         auto it = NODE_MAP.find(type_node_name);
         NodeId id;
         if (it == NODE_MAP.end()) {
+            // haven't done this type yet we'll need to create a new node for it
             id = NODES.size();
             if (qt->isBuiltinType()) {
+                // It's just a builtin. We store its name
                 auto node_type = std::make_unique<NodeBuiltinType>(
                     type_node_name, id, 0, type_name);
                 NODES.emplace_back(std::move(node_type));
@@ -751,7 +805,8 @@ QType process_qtype(const QualType& qt) {
                 assert(crd && "CRD canonical decl is null");
 
                 // See if we've already processed a record matching this type
-                // and get its id if we have
+                // and get its id if we have. If not we'll store -1 until we
+                // come back and process the decl later.
                 const std::string record_name = crd->getQualifiedNameAsString();
                 NodeId id_rec = -1;
                 auto it_rec = NODE_MAP.find(record_name);
@@ -772,7 +827,8 @@ QType process_qtype(const QualType& qt) {
                 assert(ed && "Could not get canonical EnumDecl from EnumType");
 
                 // see if we've already processed an enum matching this type
-                // and get its id if we have
+                // and get its id if we have. If not we'll store -1 until we
+                // come back and process the decl later.
                 const std::string enum_qual_name =
                     ed->getQualifiedNameAsString();
                 NodeId id_enum = -1;
@@ -804,7 +860,7 @@ QType process_qtype(const QualType& qt) {
     }
 }
 
-// Create Nodes for the function return type and parameters
+/// Create nodes for the function return type and parameters
 void process_function_parameters(const FunctionDecl* fd, QType& return_qtype,
                                  std::vector<Param>& params) {
     SPDLOG_TRACE("    -> {}", fd->getReturnType().getAsString());
@@ -828,6 +884,7 @@ void process_function_parameters(const FunctionDecl* fd, QType& return_qtype,
     }
 }
 
+/// Get a nice, qualified name for the given record
 std::string get_record_name(const CXXRecordDecl* crd) {
     // we have to do this dance to get the template parameters in the name,
     // otherwise they're omitted
@@ -835,6 +892,7 @@ std::string get_record_name(const CXXRecordDecl* crd) {
         crd->getTypeForDecl()->getCanonicalTypeInternal().getAsString());
 }
 
+/// Create a new node for the given method decl and return it
 NodePtr process_method_decl(const CXXMethodDecl* cmd,
                             std::vector<std::string> attrs) {
     const std::string method_name = cmd->getQualifiedNameAsString();
@@ -870,8 +928,9 @@ NodePtr process_method_decl(const CXXMethodDecl* cmd,
     return node_function;
 }
 
-// extract all the methods on a decl and store them for later use. The resulting
-// methods are NOT inserted in the AST or stored in the global node tables.
+/// Extract all the public methods on a decl and return them for later use. 
+/// The resulting methods are NOT inserted in the AST or stored in the global 
+/// node tables.
 std::vector<NodePtr> process_methods(const CXXRecordDecl* crd) {
     std::vector<NodePtr> result;
     for (const Decl* d : crd->decls()) {
@@ -910,6 +969,7 @@ std::vector<NodePtr> process_methods(const CXXRecordDecl* crd) {
                 }
             }
         } else if (const auto* cmd = dyn_cast<CXXMethodDecl>(d)) {
+            // just a regular boring old method
             std::vector<std::string> attrs = get_attrs(d);
             auto node_function = process_method_decl(cmd, attrs);
             result.emplace_back(std::move(node_function));
@@ -919,6 +979,9 @@ std::vector<NodePtr> process_methods(const CXXRecordDecl* crd) {
     return result;
 }
 
+/// Determine if two functions are equivalent. Equivalent in this case means
+/// that their return types and parameters are the same and they have the 
+/// same short (not qualified) name
 bool match_function(const NodeFunction* a, const NodeFunction* b) {
     SPDLOG_TRACE("        matching {} with {}", a->qualified_name,
                  b->qualified_name);
@@ -952,9 +1015,15 @@ bool match_function(const NodeFunction* a, const NodeFunction* b) {
     return true;
 }
 
+/// Determine if two methods are equivalent. In addition to function equivalence
+/// this also checks whether the methods have the same const-ness and static-ness
 bool match_method(const NodeMethod* a, const NodeMethod* b) {
 
     if (a->is_const != b->is_const) {
+        return false;
+    }
+
+    if (a->is_static != b->is_static) {
         return false;
     }
 
@@ -965,6 +1034,9 @@ bool match_method(const NodeMethod* a, const NodeMethod* b) {
     return true;
 }
 
+/// Check if the given method, `m`, has an equivalent method in `binding_methods`
+/// If `m` does match, its attrs field is set to `attrs`
+/// FIXME: modifying m here is a bit nasty
 bool method_in_list(NodeMethod* m, const std::vector<NodePtr>& binding_methods,
                     std::vector<std::string>& attrs) {
     for (const auto& n : binding_methods) {
@@ -979,8 +1051,11 @@ bool method_in_list(NodeMethod* m, const std::vector<NodePtr>& binding_methods,
     return false;
 }
 
+/// Create a NodeEnum for the given EnumDecl contained in the given file and
+/// store it in the AST.
 void process_enum_decl(const EnumDecl* ed, std::string filename) {
     ed = ed->getCanonicalDecl();
+    assert(ed && "canonical decl is null");
     const std::string enum_name = ed->getQualifiedNameAsString();
     const std::string enum_short_name = ed->getNameAsString();
     ASTContext& ctx = ed->getASTContext();
@@ -1019,9 +1094,10 @@ void process_enum_decl(const EnumDecl* ed, std::string filename) {
     }
 }
 
-// Generate the AST output for a Record which we've decided represents a
-// concrete type (in the sense that all template parameters have been
-// specialized)
+/// Create a new NodeRecord for the given record decl and store it in the AST.
+/// `crd` must represent a "concrete" record - i.e. it must not be dependent
+/// on any template parameters. This is done in the binding file by explicitly
+/// instantiating a template decl with the desired parameters.
 void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
                              std::vector<std::string> attrs,
                              std::vector<NodePtr> binding_methods,
@@ -1054,6 +1130,7 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
     // add this record to the TU
     node_tu->children.push_back(new_id);
 
+    // grab all the methods that are specified in the binding
     std::vector<NodePtr> methods = process_methods(crd);
     for (NodePtr& method : methods) {
         NodeMethod* mptr = (NodeMethod*)method.get();
@@ -1073,6 +1150,7 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
         node_record_ptr->methods.push_back(id);
     }
 
+    // process remaining children
     for (const Decl* d : crd->decls()) {
         if (const auto* fd = dyn_cast<FieldDecl>(d)) {
             const std::string field_name = fd->getNameAsString();
@@ -1082,9 +1160,9 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
         } else if (const auto* md = dyn_cast<CXXMethodDecl>(d)) {
             // pass
         } else if (const auto* fd = dyn_cast<FunctionDecl>(d)) {
-            // SPDLOG_DEBUG(" FUNCTION {}", fd->getQualifiedNameAsString());
+            SPDLOG_TRACE(" FUNCTION {}", fd->getQualifiedNameAsString());
         } else if (const auto* ed = dyn_cast<EnumDecl>(d)) {
-            // SPDLOG_DEBUG("Got enum decl {}", ed->getNameAsString());
+            SPDLOG_TRACE("Got enum decl {}", ed->getNameAsString());
             if (std::find(child_enums.begin(), child_enums.end(),
                           ed->getNameAsString()) != child_enums.end()) {
                 process_enum_decl(ed, filename);
@@ -1103,12 +1181,12 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
     }
 }
 
-// This function handles a CXXRecordDecl match. This will be called with the
-// Record from the binding file, so we need to do a bit of preprocessing to make
-// sure it's the right match, then get the actual type we're interested in from
-// the library by inspecting the `using BoundType = XXX` decl on this Record.
-// We'll also need to get any attributes from here, as well as pre-generating a
-// list of matched methods
+/// This function handles a CXXRecordDecl match. This will be called with the
+/// Record from the binding file, so we need to do a bit of preprocessing to make
+/// sure it's the right kind, then get the actual type we're interested in from
+/// the library by inspecting the `using BoundType = XXX` decl on this Record.
+/// We'll also need to get any attributes from here, as well as pre-generating a
+/// list of matched methods
 void handle_cxx_record_decl(const CXXRecordDecl* crd) {
     ASTContext& ctx = crd->getASTContext();
     SourceManager& sm = ctx.getSourceManager();
@@ -1127,7 +1205,7 @@ void handle_cxx_record_decl(const CXXRecordDecl* crd) {
 
     const clang::Type* ty = crd->getTypeForDecl();
     if (ty->isIncompleteType()) {
-        // type cannot be sized
+        // We can't process an incomplete type
         SPDLOG_DEBUG("    incomplete");
         return;
     } else if (ty->isDependentType()) {
@@ -1183,14 +1261,17 @@ void handle_cxx_record_decl(const CXXRecordDecl* crd) {
                                 std::move(methods), std::move(child_enums));
     }
 
-    // // otherwise process this type (no real use in doing this - probably want
-    // // to remove this)
-    // process_concrete_record(crd, filename, std::move(attrs));
+    // Don't *think* we should ever get here, but we'll leave this log in in case
+    // we do because we'll want to figure out what case we didn't consider
+    SPDLOG_CRITICAL("Fell through on handle_cxx_record");
 }
 
 std::unordered_map<std::string, std::vector<NodeFunction>> binding_functions;
 std::unordered_map<std::string, NodeEnum> binding_enums;
 
+/// This function is responsible for storing the description of the given
+/// FunctionDecl so that we can match against it later. Only functions that
+/// are explicitly declared in the bindings have AST output for them.
 void handle_binding_function(const FunctionDecl* fd) {
     const std::string function_qual_name =
         pystring::replace(fd->getQualifiedNameAsString(), "cppmm_bind::", "");
@@ -1226,6 +1307,9 @@ void handle_binding_function(const FunctionDecl* fd) {
     }
 }
 
+/// Store a description of the given EnumDecl so we can match it against a 
+/// corresponding decl in the library later to decide whether we want to 
+/// process said library decl
 void handle_binding_enum(const EnumDecl* ed) {
     const std::string enum_qual_name =
         pystring::replace(ed->getQualifiedNameAsString(), "cppmm_bind::", "");
@@ -1247,8 +1331,10 @@ void handle_binding_enum(const EnumDecl* ed) {
     binding_enums.insert(std::make_pair(enum_qual_name, std::move(node_enum)));
 }
 
+/// Decide if we want to store the given library FunctionDecl in the AST by
+/// matching it against a decl from the bindings. If so, create the new NodeFunction
+/// and store it in the AST
 void handle_function(const FunctionDecl* fd) {
-
     const std::string function_qual_name = fd->getQualifiedNameAsString();
     const std::string function_short_name = fd->getNameAsString();
 
@@ -1288,6 +1374,9 @@ void handle_function(const FunctionDecl* fd) {
     }
 }
 
+/// Decide if we want to store the given library EnumDecl in the AST by
+/// matching it against a decl from the bindings. If so, create the new NodeEnum
+/// and store it in the AST
 void handle_enum(const EnumDecl* ed) {
     const std::string enum_qual_name = ed->getQualifiedNameAsString();
     auto it = binding_enums.find(enum_qual_name);
@@ -1302,6 +1391,8 @@ void handle_enum(const EnumDecl* ed) {
     process_enum_decl(ed, std::move(filename));
 }
 
+/// Clang AST matcher that matches on the decls we're interested in in the 
+/// bindings and dispatches to our handling functions
 void ProcessBindingCallback::run(const MatchFinder::MatchResult& result) {
     // if (const TypeAliasDecl* tdecl =
     //         result.Nodes.getNodeAs<TypeAliasDecl>("typeAliasDecl")) {
@@ -1335,6 +1426,8 @@ void ProcessBindingCallback::run(const MatchFinder::MatchResult& result) {
     }
 }
 
+/// Clang AST matcher that matches on the decls we're interested in in the 
+/// library and dispatches to our handling functions
 void ProcessLibraryCallback::run(const MatchFinder::MatchResult& result) {
     if (const FunctionDecl* fd =
             result.Nodes.getNodeAs<FunctionDecl>("libraryFunctionDecl")) {
@@ -1375,6 +1468,8 @@ ProcessBindingConsumer::ProcessBindingConsumer(ASTContext* context) {
     _match_finder.addMatcher(enum_decl_matcher, &_handler);
 }
 
+/// Run the binding AST matcher, then run secondary matchers to find functions and
+/// enums we're interested in from the bindings (stored in the first pass)
 void ProcessBindingConsumer::HandleTranslationUnit(ASTContext& context) {
     _match_finder.matchAST(context);
     SPDLOG_DEBUG("--- finished matching");
