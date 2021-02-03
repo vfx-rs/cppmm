@@ -56,7 +56,8 @@ struct Node {
 
     virtual ~Node(){}
 };
-using NodePtr = std::unique_ptr<Node>;
+// Shared so the node can be stored in a tree and also in mapping.
+using NodePtr = std::shared_ptr<Node>;
 
 //------------------------------------------------------------------------------
 // TranslationUnit

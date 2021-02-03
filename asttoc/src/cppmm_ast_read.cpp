@@ -141,7 +141,7 @@ NodePtr read_record(const nln::json & json) {
 
     // Instantiate the translation unit
     auto result =\
-        std::make_unique<NodeRecord>(name, id, _attrs, size, align);
+        std::make_shared<NodeRecord>(name, id, _attrs, size, align);
 
     // Pull out the methods
     for (const auto & i : json[METHODS] ){
