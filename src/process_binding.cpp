@@ -216,11 +216,11 @@ struct NodeTranslationUnit : public Node {
 /// Namespace node. Currently not used
 struct NodeNamespace : public Node {};
 
-/// Base struct represent a node that stores a type. 
-/// Types are references to the actual record and enum declarations that describe
-/// those objects' structure. They are stored in the graph so that types and the 
-/// objects they reference can be processed out-of-order and then the references
-/// fixed up later.
+/// Base struct represent a node that stores a type.
+/// Types are references to the actual record and enum declarations that
+/// describe those objects' structure. They are stored in the graph so that
+/// types and the objects they reference can be processed out-of-order and then
+/// the references fixed up later.
 struct NodeType : public Node {
     std::string type_name;
     NodeType(std::string qualified_name, NodeId id, NodeId context,
@@ -308,7 +308,7 @@ struct NodePointerType : public NodeType {
 
 /// A reference to a record (i.e. a class or struct)
 struct NodeRecordType : public NodeType {
-    /// The record declaration node, i.e. the actual type declaration. If the 
+    /// The record declaration node, i.e. the actual type declaration. If the
     /// record referred to hasn't been processed yet, then this will be -1 until
     /// such a time as the record is processed
     NodeId record;
@@ -331,7 +331,7 @@ struct NodeRecordType : public NodeType {
 
 /// An enum type reference
 struct NodeEnumType : public NodeType {
-    /// The enum declaration node, i.e. the actual type declaration. If the 
+    /// The enum declaration node, i.e. the actual type declaration. If the
     /// enum referred to hasn't been processed yet, then this will be -1 until
     /// such a time as the enum is processed
     NodeId enm;
@@ -351,9 +351,9 @@ struct NodeEnumType : public NodeType {
     }
 };
 
-/// A function prototype (a pointer to which can be passed as callbacks etc). This
-/// sits in an awkward spot because there isn't a corresponding decl so all the
-/// structure is packed onto the type node here
+/// A function prototype (a pointer to which can be passed as callbacks etc).
+/// This sits in an awkward spot because there isn't a corresponding decl so all
+/// the structure is packed onto the type node here
 struct NodeFunctionProtoType : public NodeType {
     /// Return type of the function
     QType return_type;
@@ -485,7 +485,7 @@ std::ostream& operator<<(std::ostream& os, const NodeFunction& f) {
     return os;
 }
 
-/// A method on a class or struct. 
+/// A method on a class or struct.
 struct NodeMethod : public NodeFunction {
     bool is_static = false;
     /// Is the method user-provided (i.e. !default)
@@ -597,7 +597,7 @@ struct NodeRecord : public NodeAttributeHolder {
 struct NodeEnum : public NodeAttributeHolder {
     /// C++ allows variant values larger than an int, while C only allows ints.
     /// Without knowing what the values are, it's impossible to say what type
-    /// we'll need to store the values here. Most likely an int would be fine, 
+    /// we'll need to store the values here. Most likely an int would be fine,
     /// but we can't rely on people not using crazy sentinel values, so we
     /// store it as a string and kick the can down the road to the generator
     std::vector<std::pair<std::string, std::string>> variants;
@@ -637,7 +637,7 @@ struct NodeEnum : public NodeAttributeHolder {
 };
 
 /// Write out the AST to json output files. Each NodeTranslationUnit which
-/// is a child of the ROOT is written to its own json file and all decls in 
+/// is a child of the ROOT is written to its own json file and all decls in
 /// that TU are written recursively
 void write_tus(std::string output_dir) {
     for (const auto& id : ROOT) {
@@ -777,11 +777,12 @@ QType process_qtype(const QualType& qt) {
         // class/struct/enum/union qualifier clang adds
         std::string type_name = strip_name_kinds(
             qt.getCanonicalType().getUnqualifiedType().getAsString());
-        // We need to store type nodes for later access, since we might process 
-        // the corresponding record decl after processing this type node, and 
+        // We need to store type nodes for later access, since we might process
+        // the corresponding record decl after processing this type node, and
         // will need to look it up later to set the appropriate id.
         // to get around the fact that the type and the record it refers to will
-        // have the same name, we just prepend "TYPE:" to the type node name here.
+        // have the same name, we just prepend "TYPE:" to the type node name
+        // here.
         // FIXME: we might want to stores types in a completely separate data
         // structure
         std::string type_node_name = "TYPE:" + type_name;
@@ -928,8 +929,8 @@ NodePtr process_method_decl(const CXXMethodDecl* cmd,
     return node_function;
 }
 
-/// Extract all the public methods on a decl and return them for later use. 
-/// The resulting methods are NOT inserted in the AST or stored in the global 
+/// Extract all the public methods on a decl and return them for later use.
+/// The resulting methods are NOT inserted in the AST or stored in the global
 /// node tables.
 std::vector<NodePtr> process_methods(const CXXRecordDecl* crd) {
     std::vector<NodePtr> result;
@@ -980,7 +981,7 @@ std::vector<NodePtr> process_methods(const CXXRecordDecl* crd) {
 }
 
 /// Determine if two functions are equivalent. Equivalent in this case means
-/// that their return types and parameters are the same and they have the 
+/// that their return types and parameters are the same and they have the
 /// same short (not qualified) name
 bool match_function(const NodeFunction* a, const NodeFunction* b) {
     SPDLOG_TRACE("        matching {} with {}", a->qualified_name,
@@ -1016,7 +1017,8 @@ bool match_function(const NodeFunction* a, const NodeFunction* b) {
 }
 
 /// Determine if two methods are equivalent. In addition to function equivalence
-/// this also checks whether the methods have the same const-ness and static-ness
+/// this also checks whether the methods have the same const-ness and
+/// static-ness
 bool match_method(const NodeMethod* a, const NodeMethod* b) {
 
     if (a->is_const != b->is_const) {
@@ -1034,8 +1036,8 @@ bool match_method(const NodeMethod* a, const NodeMethod* b) {
     return true;
 }
 
-/// Check if the given method, `m`, has an equivalent method in `binding_methods`
-/// If `m` does match, its attrs field is set to `attrs`
+/// Check if the given method, `m`, has an equivalent method in
+/// `binding_methods` If `m` does match, its attrs field is set to `attrs`
 /// FIXME: modifying m here is a bit nasty
 bool method_in_list(NodeMethod* m, const std::vector<NodePtr>& binding_methods,
                     std::vector<std::string>& attrs) {
@@ -1182,11 +1184,11 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
 }
 
 /// This function handles a CXXRecordDecl match. This will be called with the
-/// Record from the binding file, so we need to do a bit of preprocessing to make
-/// sure it's the right kind, then get the actual type we're interested in from
-/// the library by inspecting the `using BoundType = XXX` decl on this Record.
-/// We'll also need to get any attributes from here, as well as pre-generating a
-/// list of matched methods
+/// Record from the binding file, so we need to do a bit of preprocessing to
+/// make sure it's the right kind, then get the actual type we're interested in
+/// from the library by inspecting the `using BoundType = XXX` decl on this
+/// Record. We'll also need to get any attributes from here, as well as
+/// pre-generating a list of matched methods
 void handle_cxx_record_decl(const CXXRecordDecl* crd) {
     ASTContext& ctx = crd->getASTContext();
     SourceManager& sm = ctx.getSourceManager();
@@ -1261,8 +1263,8 @@ void handle_cxx_record_decl(const CXXRecordDecl* crd) {
                                 std::move(methods), std::move(child_enums));
     }
 
-    // Don't *think* we should ever get here, but we'll leave this log in in case
-    // we do because we'll want to figure out what case we didn't consider
+    // Don't *think* we should ever get here, but we'll leave this log in in
+    // case we do because we'll want to figure out what case we didn't consider
     SPDLOG_CRITICAL("Fell through on handle_cxx_record");
 }
 
@@ -1307,8 +1309,8 @@ void handle_binding_function(const FunctionDecl* fd) {
     }
 }
 
-/// Store a description of the given EnumDecl so we can match it against a 
-/// corresponding decl in the library later to decide whether we want to 
+/// Store a description of the given EnumDecl so we can match it against a
+/// corresponding decl in the library later to decide whether we want to
 /// process said library decl
 void handle_binding_enum(const EnumDecl* ed) {
     const std::string enum_qual_name =
@@ -1332,8 +1334,8 @@ void handle_binding_enum(const EnumDecl* ed) {
 }
 
 /// Decide if we want to store the given library FunctionDecl in the AST by
-/// matching it against a decl from the bindings. If so, create the new NodeFunction
-/// and store it in the AST
+/// matching it against a decl from the bindings. If so, create the new
+/// NodeFunction and store it in the AST
 void handle_function(const FunctionDecl* fd) {
     const std::string function_qual_name = fd->getQualifiedNameAsString();
     const std::string function_short_name = fd->getNameAsString();
@@ -1391,7 +1393,7 @@ void handle_enum(const EnumDecl* ed) {
     process_enum_decl(ed, std::move(filename));
 }
 
-/// Clang AST matcher that matches on the decls we're interested in in the 
+/// Clang AST matcher that matches on the decls we're interested in in the
 /// bindings and dispatches to our handling functions
 void ProcessBindingCallback::run(const MatchFinder::MatchResult& result) {
     // if (const TypeAliasDecl* tdecl =
@@ -1426,7 +1428,7 @@ void ProcessBindingCallback::run(const MatchFinder::MatchResult& result) {
     }
 }
 
-/// Clang AST matcher that matches on the decls we're interested in in the 
+/// Clang AST matcher that matches on the decls we're interested in in the
 /// library and dispatches to our handling functions
 void ProcessLibraryCallback::run(const MatchFinder::MatchResult& result) {
     if (const FunctionDecl* fd =
@@ -1468,8 +1470,8 @@ ProcessBindingConsumer::ProcessBindingConsumer(ASTContext* context) {
     _match_finder.addMatcher(enum_decl_matcher, &_handler);
 }
 
-/// Run the binding AST matcher, then run secondary matchers to find functions and
-/// enums we're interested in from the bindings (stored in the first pass)
+/// Run the binding AST matcher, then run secondary matchers to find functions
+/// and enums we're interested in from the bindings (stored in the first pass)
 void ProcessBindingConsumer::HandleTranslationUnit(ASTContext& context) {
     _match_finder.matchAST(context);
     SPDLOG_DEBUG("--- finished matching");
