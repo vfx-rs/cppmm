@@ -60,7 +60,7 @@ std::string compute_c_filepath(const std::string & outdir,
 }
 
 //------------------------------------------------------------------------------
-std::string compute_c_record_name(const std::string & cpp_record_name)
+std::string compute_c_name(const std::string & cpp_record_name)
 {
     std::string result;
     for( auto const & c : cpp_record_name )
@@ -80,6 +80,25 @@ std::string compute_c_record_name(const std::string & cpp_record_name)
 }
 
 //------------------------------------------------------------------------------
+NodeTypePtr type(RecordRegistry & record_registry, const NodeTypePtr & t)
+{
+    // TODO LT: This is where we'll convert references to pointers.
+    // And cpp records to c records
+    NodeTypePtr result = t;
+    return t;
+}
+
+//------------------------------------------------------------------------------
+void parameter(RecordRegistry & record_registry,
+                std::vector<Param> & params, const Param & param)
+{
+    params.push_back(
+            Param( std::string(param.name), type(record_registry, param.type),
+                   param.index )
+    );
+}
+
+//------------------------------------------------------------------------------
 void opaquebytes_record(NodeRecord & c_record)
 {
     auto is_const = false;
@@ -95,20 +114,30 @@ void opaquebytes_record(NodeRecord & c_record)
 }
 
 //------------------------------------------------------------------------------
-void opaquebytes_method(RecordRegistry & record_registry,
-                        TranslationUnit & c_tu, const NodeRecord & cpp_record,
-                        const NodeMethod & cpp_method)
+NodePtr opaquebytes_method(RecordRegistry & record_registry,
+                           TranslationUnit & c_tu,
+                           const NodeRecord & cpp_record,
+                           const NodeMethod & cpp_method)
 {
     // Convert params
-    auto params = std::vector<Param>();
+    auto c_params = std::vector<Param>();
     for(const auto & p : cpp_method.params)
     {
+        parameter(record_registry, c_params, p);
     }
 
     // Convert return type
+    auto c_return = type(record_registry, cpp_method.return_type);
+
     // Add opaquebytes body
 
+    // TODO LT: This is where the casting and pointer/reference wrangling will
+    // happen
+
     // Add the new function to the translation unit
+    return std::make_shared<NodeFunction>(
+                compute_c_name(cpp_method.name), PLACEHOLDER_ID,
+                cpp_method.attrs);
 }
 
 //------------------------------------------------------------------------------
@@ -128,7 +157,7 @@ void record_entry(RecordRegistry & record_registry, TranslationUnit & c_tu,
     const auto & cpp_record =\
         *static_cast<const NodeRecord*>(cpp_node.get());
 
-    const auto c_record_name = compute_c_record_name(cpp_record.name);
+    const auto c_record_name = compute_c_name(cpp_record.name);
 
     // Create the c record
     auto c_record =\
