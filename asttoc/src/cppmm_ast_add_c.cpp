@@ -95,7 +95,8 @@ void opaquebytes_record(NodeRecord & c_record)
 }
 
 //------------------------------------------------------------------------------
-void opaquebytes_method(TranslationUnit & c_tu, const NodeRecord & cpp_record,
+void opaquebytes_method(RecordRegistry & record_registry,
+                        TranslationUnit & c_tu, const NodeRecord & cpp_record,
                         const NodeMethod & cpp_method)
 {
     // Convert params
@@ -111,7 +112,8 @@ void opaquebytes_method(TranslationUnit & c_tu, const NodeRecord & cpp_record,
 }
 
 //------------------------------------------------------------------------------
-void opaquebytes_methods(TranslationUnit & c_tu, const NodeRecord & cpp_record)
+void opaquebytes_methods(RecordRegistry & record_registry,
+                         TranslationUnit & c_tu, const NodeRecord & cpp_record)
 {
     for(const auto & m: cpp_record.methods)
     {
@@ -158,7 +160,7 @@ void record_detail(RecordRegistry & record_registry, TranslationUnit & c_tu,
     // Least safe and most restrictive in use, but easiest to implement.
     // So doing that first. Later will switch depending on the cppm attributes.
 
-    opaquebytes_methods(c_tu, cpp_record);
+    opaquebytes_methods(record_registry, c_tu, cpp_record);
 }
 
 //------------------------------------------------------------------------------
