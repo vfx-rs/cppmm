@@ -5,12 +5,34 @@
 #include "pystring.h"
 #include <cassert>
 #include <iostream>
+#include <unordered_map>
 
 namespace cppmm {
 namespace transform {
 
-// The node entries are sparse, so store them in a map for the moment.
-//using CppToC = std::unordered_map<NodeId, >;
+//------------------------------------------------------------------------------
+// RecordRegistry
+//------------------------------------------------------------------------------
+class RecordRegistry
+{
+    struct Records
+    {
+        NodePtr m_cpp;
+        NodePtr m_c;
+    };
+
+    // The node entries are sparse, so store them in a map for the moment.
+    using Mapping = std::unordered_map<NodeId, Records>;
+
+    Mapping m_mapping;
+
+public:
+    void add(NodeId id, NodePtr & cpp, NodePtr & c)
+    {
+        // TODO LT: Assert for double entries
+        m_mapping.insert(std::make_pair( id, Records{ cpp, c } ));
+    }
+};
 
 //------------------------------------------------------------------------------
 namespace generate
