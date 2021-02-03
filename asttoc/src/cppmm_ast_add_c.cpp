@@ -9,6 +9,9 @@
 namespace cppmm {
 namespace transform {
 
+// The node entries are sparse, so store them in a map for the moment.
+//using CppToC = std::unordered_map<NodeId, >;
+
 //------------------------------------------------------------------------------
 namespace generate
 {
