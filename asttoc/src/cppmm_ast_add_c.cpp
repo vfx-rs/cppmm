@@ -79,10 +79,18 @@ std::string compute_c_name(const std::string & cpp_record_name)
     return result;
 }
 
+NodeTypePtr convert_type(RecordRegistry & record_registry,
+                         const NodeTypePtr & t);
+
 //------------------------------------------------------------------------------
 NodeTypePtr convert_builtin_type(RecordRegistry & record_registry,
                                  const NodeTypePtr & t)
 {
+    // TODO LT: Do mapping of c++ builtins to c builtins
+
+    // For now just copy everything one to one.
+    return std::make_shared<NodeBuiltinType>(t->name, 0, t->type_name,
+                                             t->const_);
 }
 
 //------------------------------------------------------------------------------
@@ -95,6 +103,14 @@ NodeTypePtr convert_record_type(RecordRegistry & record_registry,
 NodeTypePtr convert_pointer_type(RecordRegistry & record_registry,
                                  const NodeTypePtr & t)
 {
+    auto p = static_cast<const NodePointerType*>(t.get());
+
+    // For now just copy everything one to one.
+    return std::make_shared<NodePointerType>(p->name, 0, p->type_name,
+                                             PointerKind::Pointer,
+                                             convert_type(record_registry,
+                                                          p->pointee_type),
+                                             p->const_);
 }
 
 //------------------------------------------------------------------------------
