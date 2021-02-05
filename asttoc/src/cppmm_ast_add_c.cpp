@@ -7,6 +7,8 @@
 #include <iostream>
 #include <unordered_map>
 
+#include <cstdlib> // for exit function
+
 namespace cppmm {
 namespace transform {
 
@@ -37,11 +39,26 @@ public:
         ));
     }
 
-    NodeRecord & edit_c(NodeId id) {
+    NodeRecord & edit_c(NodeId id)
+    {
         auto & node = m_mapping[id].m_c; // TODO LT: Check existance + return optional
         // TODO LT: Assert kind is record
 
         return static_cast<NodeRecord&>(*node);
+    }
+
+    NodeRecord * find_c(NodeId id)
+    {
+        auto entry = m_mapping.find(id);
+
+        if (entry == m_mapping.end())
+        {
+            return nullptr; // TODO LT: Turn this into optional
+        }
+        else
+        {
+            return static_cast<NodeRecord*>(entry->second.m_c.get());
+        }
     }
 };
 
@@ -97,6 +114,17 @@ NodeTypePtr convert_builtin_type(RecordRegistry & record_registry,
 NodeTypePtr convert_record_type(RecordRegistry & record_registry,
                                 const NodeTypePtr & t)
 {
+    auto c_type = record_registry.find_c(t->id);
+    if (c_type == nullptr )
+    {
+        // TODO LT: Produce a warning here and return a failure so that
+        // whatever depends on this type can be skipped.
+        std::cerr << "Found unsupported type: " << t->type_name << std::endl;
+        exit(1);
+    }
+
+    return std::make_shared<NodeRecordType>(t->name, 0, c_type->name,
+                                            c_type->id, t->const_);
 }
 
 //------------------------------------------------------------------------------
