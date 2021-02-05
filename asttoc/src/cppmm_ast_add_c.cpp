@@ -92,8 +92,8 @@ NodeTypePtr convert_record_type(RecordRegistry & record_registry,
 }
 
 //------------------------------------------------------------------------------
-NodeTypePtr convert_reference_type(RecordRegistry & record_registry,
-                                   const NodeTypePtr & t)
+NodeTypePtr convert_pointer_type(RecordRegistry & record_registry,
+                                 const NodeTypePtr & t)
 {
 }
 
@@ -108,7 +108,7 @@ NodeTypePtr convert_type(RecordRegistry & record_registry,
         case NodeKind::RecordType:
             return convert_record_type(record_registry, t);
         case NodeKind::PointerType:
-            return convert_reference_type(record_registry, t);
+            return convert_pointer_type(record_registry, t);
         default:
             break;
     }
