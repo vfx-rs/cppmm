@@ -80,12 +80,40 @@ std::string compute_c_name(const std::string & cpp_record_name)
 }
 
 //------------------------------------------------------------------------------
-NodeTypePtr type(RecordRegistry & record_registry, const NodeTypePtr & t)
+NodeTypePtr convert_builtin_type(RecordRegistry & record_registry,
+                                 const NodeTypePtr & t)
 {
-    // TODO LT: This is where we'll convert references to pointers.
-    // And cpp records to c records
-    NodeTypePtr result = t;
-    return t;
+}
+
+//------------------------------------------------------------------------------
+NodeTypePtr convert_record_type(RecordRegistry & record_registry,
+                                const NodeTypePtr & t)
+{
+}
+
+//------------------------------------------------------------------------------
+NodeTypePtr convert_reference_type(RecordRegistry & record_registry,
+                                   const NodeTypePtr & t)
+{
+}
+
+//------------------------------------------------------------------------------
+NodeTypePtr convert_type(RecordRegistry & record_registry,
+                         const NodeTypePtr & t)
+{
+    switch (t->kind)
+    {
+        case NodeKind::BuiltinType:
+            return convert_builtin_type(record_registry, t);
+        case NodeKind::RecordType:
+            return convert_record_type(record_registry, t);
+        case NodeKind::PointerType:
+            return convert_reference_type(record_registry, t);
+        default:
+            break;
+    }
+
+    assert("Shouldn't get here"); // TODO LT: Clean this up
 }
 
 //------------------------------------------------------------------------------
@@ -93,7 +121,8 @@ void parameter(RecordRegistry & record_registry,
                 std::vector<Param> & params, const Param & param)
 {
     params.push_back(
-            Param( std::string(param.name), type(record_registry, param.type),
+            Param( std::string(param.name),
+                   convert_type(record_registry, param.type),
                    param.index )
     );
 }
@@ -127,7 +156,7 @@ NodePtr opaquebytes_method(RecordRegistry & record_registry,
     }
 
     // Convert return type
-    auto c_return = type(record_registry, cpp_method.return_type);
+    auto c_return = convert_type(record_registry, cpp_method.return_type);
 
     // Add opaquebytes body
 
@@ -137,7 +166,7 @@ NodePtr opaquebytes_method(RecordRegistry & record_registry,
     // Add the new function to the translation unit
     return std::make_shared<NodeFunction>(
                 compute_c_name(cpp_method.name), PLACEHOLDER_ID,
-                cpp_method.attrs);
+                cpp_method.attrs, "", std::move(c_return), std::move(c_params));
 }
 
 //------------------------------------------------------------------------------
