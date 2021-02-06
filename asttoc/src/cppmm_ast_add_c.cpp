@@ -47,7 +47,7 @@ public:
         return static_cast<NodeRecord&>(*node);
     }
 
-    NodeRecord * find_c(NodeId id)
+    const NodeRecord * find_c(NodeId id) const
     {
         auto entry = m_mapping.find(id);
 
@@ -114,7 +114,7 @@ NodeTypePtr convert_builtin_type(RecordRegistry & record_registry,
 NodeTypePtr convert_record_type(RecordRegistry & record_registry,
                                 const NodeTypePtr & t)
 {
-    auto c_type = record_registry.find_c(t->id);
+    const auto & c_type = record_registry.find_c(t->id);
     if (c_type == nullptr )
     {
         // TODO LT: Produce a warning here and return a failure so that
