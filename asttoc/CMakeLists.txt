@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.5)
 
+add_subdirectory(fmt)
+
 set(LLVM_ENABLE_RTTI ON)
 set(CMAKE_CXX_FLAGS "")
 
