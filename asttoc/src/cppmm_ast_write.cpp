@@ -117,7 +117,7 @@ void write_record(fmt::ostream & out, const NodePtr & node)
 
     out.print("typedef struct {{\n");
     write_fields(out, record);
-    out.print("}} __attribute__((aligned({}))) {};\n", record.align,
+    out.print("}} __attribute__((aligned({}))) {};\n", record.align, // TODO LT: Only force alignment if 'align' attribute is on it.
               record.name);
 }
 
