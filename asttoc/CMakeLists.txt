@@ -14,3 +14,6 @@ add_executable(asttoc
 )
 
 target_include_directories(asttoc PRIVATE include)
+target_include_directories(asttoc PRIVATE fmt/include)
+
+target_link_libraries(asttoc fmt)
