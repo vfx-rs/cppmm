@@ -203,7 +203,6 @@ NodePtr opaquebytes_method(RecordRegistry & record_registry,
     auto c_return = convert_type(record_registry, cpp_method.return_type);
 
     // Add opaquebytes body
-
     // TODO LT: This is where the casting and pointer/reference wrangling will
     // happen
 
@@ -219,7 +218,7 @@ void opaquebytes_methods(RecordRegistry & record_registry,
 {
     for(const auto & m: cpp_record.methods)
     {
-        std::cerr << "handling method " << m.name << std::endl;
+        opaquebytes_method(record_registry, c_tu, cpp_record, m);
     }
 }
 
