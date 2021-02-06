@@ -224,7 +224,8 @@ void opaquebytes_methods(RecordRegistry & record_registry,
 }
 
 //------------------------------------------------------------------------------
-void record_entry(RecordRegistry & record_registry, TranslationUnit & c_tu,
+void record_entry(NodeId & record_id,
+                  RecordRegistry & record_registry, TranslationUnit & c_tu,
                   NodePtr & cpp_node)
 {
     const auto & cpp_record =\
@@ -235,7 +236,7 @@ void record_entry(RecordRegistry & record_registry, TranslationUnit & c_tu,
     // Create the c record
     auto c_record =\
         std::make_shared<NodeRecord>(
-                   c_record_name, PLACEHOLDER_ID, cpp_record.attrs,
+                   c_record_name, record_id++, cpp_record.attrs,
                    cpp_record.size, cpp_record.align);
 
     // Add the cpp and c record to the registry
@@ -266,7 +267,28 @@ void record_detail(RecordRegistry & record_registry, TranslationUnit & c_tu,
 }
 
 //------------------------------------------------------------------------------
+NodeId find_record_id_upper_bound(const Root & root)
+{
+    // Loop through all the record ids and find the largest one.
+    // This will be used as the starting point for creating new ids.
+    NodeId upper_bound = 0;
+    for(const auto & t: root.tus)
+    {
+        for (const auto & node : t.decls)
+        {
+            if (node->kind == NodeKind::Record)
+            {
+                upper_bound = std::max(upper_bound, node->id);
+            }
+        }
+    }
+
+    return upper_bound;
+}
+
+//------------------------------------------------------------------------------
 void translation_unit_entries(
+    NodeId & new_record_id,
     RecordRegistry & record_registry,
     const std::string & output_directory, Root & root, const size_t cpp_tu)
 {
@@ -281,7 +303,7 @@ void translation_unit_entries(
     {
         if (node->kind == NodeKind::Record)
         {
-            generate::record_entry(record_registry, c_tu, node);
+            generate::record_entry(new_record_id, record_registry, c_tu, node);
         }
     }
 
@@ -317,10 +339,15 @@ void add_c(const std::string & output_directory, Root & root)
     // When we iterate we dont want to loop over newly added c translation units
     const auto tu_count = root.tus.size();
 
+    // Find id upper bound
+    // TODO LT: Ask Anders to put id upper bound in ast output
+
     // Add records
+    NodeId current_record_id = generate::find_record_id_upper_bound(root) + 1;
     for (size_t i=0; i != tu_count; ++i)
     {
         generate::translation_unit_entries(
+            current_record_id,
             record_registry, output_directory, root, i);
     }
 
