@@ -29,10 +29,42 @@ std::string compute_c_header_path(const std::string & path)
 }
 
 //------------------------------------------------------------------------------
+void write_fields(fmt::ostream & out, const NodeRecord & record)
+{
+}
+
+//------------------------------------------------------------------------------
+void write_record(fmt::ostream & out, const NodePtr & node)
+{
+    const NodeRecord & record = *static_cast<const NodeRecord*>(node.get());
+
+    out.print("typedef struct {{\n");
+    write_fields(out, record);
+    out.print("}} __attribute__((aligned({}))) {};\n", record.align,
+              record.name);
+}
+
+//------------------------------------------------------------------------------
 void write_header(const TranslationUnit & tu)
 {
     auto out = fmt::output_file(compute_c_header_path(tu.filename));
-    //out.print("Don't {}", "Panic");
+
+    // Write out all the records first
+    for(const auto & node : tu.decls)
+    {
+        if (node->kind == NodeKind::Record)
+        {
+            write_record(out, node);
+        }
+    }
+
+    // Then all the functions
+    for(const auto & node : tu.decls)
+    {
+        if (node->kind == NodeKind::Function)
+        {
+        }
+    }
 }
 
 //------------------------------------------------------------------------------
