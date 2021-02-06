@@ -336,14 +336,12 @@ void add_c(const std::string & output_directory, Root & root)
     // For storing the mappings between cpp and c records
     auto record_registry = RecordRegistry();
 
+
+    // The starting id for newly created records
+    NodeId current_record_id = generate::find_record_id_upper_bound(root) + 1;
+
     // When we iterate we dont want to loop over newly added c translation units
     const auto tu_count = root.tus.size();
-
-    // Find id upper bound
-    // TODO LT: Ask Anders to put id upper bound in ast output
-
-    // Add records
-    NodeId current_record_id = generate::find_record_id_upper_bound(root) + 1;
     for (size_t i=0; i != tu_count; ++i)
     {
         generate::translation_unit_entries(
