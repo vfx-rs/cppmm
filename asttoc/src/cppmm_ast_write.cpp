@@ -16,6 +16,14 @@ class Root;
 
 namespace write
 {
+//------------------------------------------------------------------------------
+void indent(fmt::ostream & out, const size_t depth)
+{
+    for(size_t i=0; i!= depth; ++i)
+    {
+        out.print("    ");
+    }
+}
 
 //------------------------------------------------------------------------------
 std::string compute_c_header_path(const std::string & path)
@@ -29,8 +37,19 @@ std::string compute_c_header_path(const std::string & path)
 }
 
 //------------------------------------------------------------------------------
+void write_field(fmt::ostream & out, const Field & field)
+{
+    indent(out, 1);
+    out.print("{} {};\n", "int", field.name);
+}
+
+//------------------------------------------------------------------------------
 void write_fields(fmt::ostream & out, const NodeRecord & record)
 {
+    for(const auto & f : record.fields)
+    {
+        write_field(out, f);
+    }
 }
 
 //------------------------------------------------------------------------------
