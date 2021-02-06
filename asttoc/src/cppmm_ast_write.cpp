@@ -36,11 +36,69 @@ std::string compute_c_header_path(const std::string & path)
     return result;
 }
 
+std::string convert_param(const NodeTypePtr & field,
+                          const std::string & name);
+
+//------------------------------------------------------------------------------
+std::string convert_builtin_param(const NodeTypePtr & t,
+                                  const std::string & name)
+{
+    return fmt::format("{} {}", t->type_name, name);
+}
+
+//------------------------------------------------------------------------------
+std::string convert_record_param(const NodeTypePtr & t,
+                                 const std::string & name)
+{
+    return fmt::format("{} {}", t->type_name, name);
+}
+
+//------------------------------------------------------------------------------
+std::string convert_pointer_param(const NodeTypePtr & t,
+                                  const std::string & name)
+{
+    auto p = static_cast<const NodePointerType*>(t.get());
+
+    return convert_param(p->pointee_type,
+                         fmt::format("*{}", name));
+}
+
+//------------------------------------------------------------------------------
+std::string convert_array_param(const NodeTypePtr & t,
+                                const std::string & name)
+{
+    auto p = static_cast<const NodeArrayType*>(t.get());
+
+    return convert_param(p->element_type,
+                         fmt::format("{}[{}]", name, p->size));
+}
+
+//------------------------------------------------------------------------------
+std::string convert_param(const NodeTypePtr & t,
+                          const std::string & name)
+{
+    switch (t->kind)
+    {
+        case NodeKind::ArrayType:
+            return convert_array_param(t, name);
+        case NodeKind::BuiltinType:
+            return convert_builtin_param(t, name);
+        case NodeKind::RecordType:
+            return convert_record_param(t, name);
+        case NodeKind::PointerType:
+            return convert_pointer_param(t, name);
+        default:
+            break;
+    }
+
+    assert("Shouldn't get here"); // TODO LT: Clean this up
+}
+
 //------------------------------------------------------------------------------
 void write_field(fmt::ostream & out, const Field & field)
 {
     indent(out, 1);
-    out.print("{} {};\n", "int", field.name);
+    out.print("{};\n", convert_param(field.type, field.name));
 }
 
 //------------------------------------------------------------------------------
