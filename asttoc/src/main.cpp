@@ -19,11 +19,12 @@ int main()
     // Read the json ast
     auto cpp_ast = cppmm::read::json(input_file);
 
-    // Add the c tranlsation units
+    // Add the c translation units
+    auto starting_point = cpp_ast.tus.size();
     cppmm::transform::add_c(output_directory, cpp_ast);
 
     // Save out only the c translation units
-    cppmm::write::cpp(cpp_ast);
+    cppmm::write::cpp(cpp_ast, starting_point);
 
     return 0;
 }

@@ -9,7 +9,7 @@ class Root;
 
 namespace write
 {
-void cpp(const Root & root)
+void cpp(const Root & root, size_t starting_point)
 {
 }
 } // namespace read
