@@ -167,7 +167,7 @@ void parameter(RecordRegistry & record_registry,
     params.push_back(
             Param( std::string(param.name),
                    convert_type(record_registry, param.type),
-                   param.index )
+                   params.size() )
     );
 }
 
@@ -187,13 +187,36 @@ void opaquebytes_record(NodeRecord & c_record)
 }
 
 //------------------------------------------------------------------------------
-NodePtr opaquebytes_method(RecordRegistry & record_registry,
+Param self_param(const NodeRecord & c_record, bool const_)
+{
+
+    auto record = std::make_shared<NodeRecordType>(
+                                                "",
+                                                0,
+                                                c_record.name,
+                                                c_record.id,
+                                                const_
+                                           );
+
+    auto pointer = std::make_shared<NodePointerType>("", 0,
+                                           "",
+                                           PointerKind::Pointer,
+                                           std::move(record), false // TODO LT: Maybe references should be const pointers
+                                           );
+
+    return Param("self", std::move(pointer), 0);
+}
+
+//------------------------------------------------------------------------------
+void opaquebytes_method(RecordRegistry & record_registry,
                            TranslationUnit & c_tu,
                            const NodeRecord & cpp_record,
+                           const NodeRecord & c_record,
                            const NodeMethod & cpp_method)
 {
     // Convert params
     auto c_params = std::vector<Param>();
+    c_params.push_back(self_param(c_record, false)); // TODO LT: Const needs to be passed in here
     for(const auto & p : cpp_method.params)
     {
         parameter(record_registry, c_params, p);
@@ -207,18 +230,21 @@ NodePtr opaquebytes_method(RecordRegistry & record_registry,
     // happen
 
     // Add the new function to the translation unit
-    return std::make_shared<NodeFunction>(
-                compute_c_name(cpp_method.name), PLACEHOLDER_ID,
-                cpp_method.attrs, "", std::move(c_return), std::move(c_params));
+    auto c_function = std::make_shared<NodeFunction>(
+                        compute_c_name(cpp_method.name), PLACEHOLDER_ID,
+                        cpp_method.attrs, "", std::move(c_return),
+                        std::move(c_params));
+    c_tu.decls.push_back(std::move(c_function));
 }
 
 //------------------------------------------------------------------------------
 void opaquebytes_methods(RecordRegistry & record_registry,
-                         TranslationUnit & c_tu, const NodeRecord & cpp_record)
+                         TranslationUnit & c_tu, const NodeRecord & cpp_record,
+                         const NodeRecord & c_record)
 {
     for(const auto & m: cpp_record.methods)
     {
-        opaquebytes_method(record_registry, c_tu, cpp_record, m);
+        opaquebytes_method(record_registry, c_tu, cpp_record, c_record, m);
     }
 }
 
@@ -262,7 +288,7 @@ void record_detail(RecordRegistry & record_registry, TranslationUnit & c_tu,
     // Least safe and most restrictive in use, but easiest to implement.
     // So doing that first. Later will switch depending on the cppm attributes.
 
-    opaquebytes_methods(record_registry, c_tu, cpp_record);
+    opaquebytes_methods(record_registry, c_tu, cpp_record, c_record);
 }
 
 //------------------------------------------------------------------------------

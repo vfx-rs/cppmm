@@ -122,6 +122,34 @@ void write_record(fmt::ostream & out, const NodePtr & node)
 }
 
 //------------------------------------------------------------------------------
+void write_params(fmt::ostream & out, const NodeFunction & function)
+{
+    if(!function.params.empty())
+    {
+        auto param_count = function.params.size();
+            out.print("{}", convert_param(function.params[0].type,
+                                          function.params[0].name));
+        for(size_t i=1; i < param_count; ++i)
+        {
+            out.print(", {}", convert_param(function.params[i].type,
+                                            function.params[i].name));
+        }
+    }
+}
+
+//------------------------------------------------------------------------------
+void write_function(fmt::ostream & out, const NodePtr & node)
+{
+    const NodeFunction & function =
+        *static_cast<const NodeFunction*>(node.get());
+
+    out.print("{}(", convert_param(function.return_type,
+                                   function.name));
+    write_params(out, function);
+    out.print(");\n");
+}
+
+//------------------------------------------------------------------------------
 void write_header(const TranslationUnit & tu)
 {
     auto out = fmt::output_file(compute_c_header_path(tu.filename));
@@ -140,6 +168,7 @@ void write_header(const TranslationUnit & tu)
     {
         if (node->kind == NodeKind::Function)
         {
+            write_function(out, node);
         }
     }
 }
