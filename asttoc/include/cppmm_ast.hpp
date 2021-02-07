@@ -213,9 +213,12 @@ using NodeExprPtr = std::shared_ptr<NodeExpr>;
 // NodeFunctionCallExpr
 //------------------------------------------------------------------------------
 struct NodeFunctionCallExpr : public NodeExpr { // TODO LT: Added by luke, like CallExpr
+    std::vector<NodeExprPtr> args;
 
-    NodeFunctionCallExpr(NodeKind kind = NodeKind::FunctionCallExpr)
+    NodeFunctionCallExpr(std::vector<NodeExprPtr> args,
+                         NodeKind kind = NodeKind::FunctionCallExpr)
         : NodeExpr(kind)
+        , args(args)
     {}
 };
 
@@ -223,9 +226,11 @@ struct NodeFunctionCallExpr : public NodeExpr { // TODO LT: Added by luke, like 
 // NodeMethodCallExpr
 //------------------------------------------------------------------------------
 struct NodeMethodCallExpr : public NodeFunctionCallExpr { // TODO LT: Added by luke, like clang MemberCallExpr
+    NodeExprPtr self;
 
-    NodeMethodCallExpr()
-        : NodeFunctionCallExpr(NodeKind::MethodCallExpr)
+    NodeMethodCallExpr(NodeExprPtr && self, std::vector<NodeExprPtr> args)
+        : NodeFunctionCallExpr(args, NodeKind::MethodCallExpr)
+        , self(std::move(self))
     {}
 };
 
