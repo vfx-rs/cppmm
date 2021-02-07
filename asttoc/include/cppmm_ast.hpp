@@ -203,8 +203,8 @@ struct NodeAttributeHolder : public Node {
 //------------------------------------------------------------------------------
 struct NodeExpr : public Node { // TODO LT: Added by luke
 
-    NodeExpr(NodeKind kind)
-        : Node("", 0, kind)
+    NodeExpr(NodeKind kind, std::string name="")
+        : Node(name, 0, kind)
     {}
 };
 using NodeExprPtr = std::shared_ptr<NodeExpr>;
@@ -215,9 +215,9 @@ using NodeExprPtr = std::shared_ptr<NodeExpr>;
 struct NodeFunctionCallExpr : public NodeExpr { // TODO LT: Added by luke, like CallExpr
     std::vector<NodeExprPtr> args;
 
-    NodeFunctionCallExpr(std::vector<NodeExprPtr> args,
+    NodeFunctionCallExpr(std::string name, std::vector<NodeExprPtr> args,
                          NodeKind kind = NodeKind::FunctionCallExpr)
-        : NodeExpr(kind)
+        : NodeExpr(kind, name)
         , args(args)
     {}
 };
@@ -226,11 +226,12 @@ struct NodeFunctionCallExpr : public NodeExpr { // TODO LT: Added by luke, like 
 // NodeMethodCallExpr
 //------------------------------------------------------------------------------
 struct NodeMethodCallExpr : public NodeFunctionCallExpr { // TODO LT: Added by luke, like clang MemberCallExpr
-    NodeExprPtr self;
+    NodeExprPtr this_;
 
-    NodeMethodCallExpr(NodeExprPtr && self, std::vector<NodeExprPtr> args)
-        : NodeFunctionCallExpr(args, NodeKind::MethodCallExpr)
-        , self(std::move(self))
+    NodeMethodCallExpr(NodeExprPtr && this_, std::string name,
+                       std::vector<NodeExprPtr> args)
+        : NodeFunctionCallExpr(name, args, NodeKind::MethodCallExpr)
+        , this_(std::move(this_))
     {}
 };
 
