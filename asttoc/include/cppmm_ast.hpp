@@ -298,6 +298,7 @@ struct NodeFunction : public NodeAttributeHolder {
 //------------------------------------------------------------------------------
 struct NodeMethod : public NodeFunction {
     bool is_static = false;
+    // TODO LT: Missing const here
 
     NodeMethod(std::string qualified_name, NodeId id,
                std::vector<std::string> attrs, std::string short_name,

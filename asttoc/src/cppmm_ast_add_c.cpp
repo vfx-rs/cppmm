@@ -208,6 +208,115 @@ Param self_param(const NodeRecord & c_record, bool const_)
 }
 
 //------------------------------------------------------------------------------
+NodeExprPtr this_reference(const NodeRecord & cpp_record, bool const_)
+{
+    auto record = std::make_shared<NodeRecordType>(
+                    "", 0, cpp_record.name, cpp_record.id, const_
+    );
+    auto type = std::make_shared<NodePointerType>(
+                    "", 0, "", PointerKind::Pointer,
+                    std::move(record), false 
+    );
+    auto self = std::make_shared<NodeVarRefExpr>("self");
+    auto cast = std::make_shared<NodeCastExpr>(std::move(self),
+                                               std::move(type));
+
+    return cast;
+}
+
+NodeExprPtr convert_argument(const NodeTypePtr & t, const std::string & name);
+
+//------------------------------------------------------------------------------
+NodeExprPtr convert_builtin_arg(const NodeTypePtr & t, const std::string & name)
+{
+}
+
+//------------------------------------------------------------------------------
+NodeExprPtr convert_record_arg(const NodeTypePtr & t, const std::string & name)
+{
+    
+}
+
+//------------------------------------------------------------------------------
+NodeExprPtr convert_pointer_arg(const NodeTypePtr & t, const std::string & name)
+{
+/*
+    auto p = static_cast<const NodePointerType*>(t.get());
+
+    switch (ppointer_kind)
+    {
+        case PointerKind::Pointer:
+            return std::make_shared<NodeCastExpr>(p, name);
+        case PointerKind::Reference:
+            {
+                auto pointee = p.pointee_type;
+                auto c_pointer =\
+                    std::make_shared<NodePointerType>(
+                        "", 0, "", PointerKind::Pointer,
+                        std::move(pointee),
+                        p.const_
+                );
+                auto inner = std::make_shared<NodeCastExpr>(c_pointer, name);
+                return std::make_shared<NodeDerefExpr>(std::move(inner));
+            }
+        default:
+            break;
+    }
+    
+    assert("Shouldn't get here"); // TODO LT: Clean this up
+*/
+}
+
+//------------------------------------------------------------------------------
+NodeExprPtr convert_argument(const NodeTypePtr & t, const std::string & name)
+{
+    switch (t->kind)
+    {
+        case NodeKind::BuiltinType:
+            return convert_builtin_arg(t, name);
+        case NodeKind::RecordType:
+            return convert_record_arg(t, name);
+        case NodeKind::PointerType:
+            return convert_pointer_arg(t, name);
+        default:
+            break;
+    }
+
+    assert("Shouldn't get here"); // TODO LT: Clean this up
+}
+
+//------------------------------------------------------------------------------
+void argument(std::vector<NodeExprPtr> & args, const Param & param)
+{
+    auto argument = convert_argument(param.type, param.name);
+    args.push_back(argument);
+}
+
+//------------------------------------------------------------------------------
+NodeExprPtr opaquebytes_method_body(RecordRegistry & record_registry,
+                                    TranslationUnit & c_tu,
+                                    const NodeRecord & cpp_record,
+                                    const NodeRecord & c_record,
+                                    const NodeMethod & cpp_method)
+{
+    // Create the reference to this
+    auto this_ = this_reference(cpp_record, false); // TODO LT: Missing cpp_method.const_
+
+    // Loop over the parameters, creating arguments for the method call
+    auto args = std::vector<NodeExprPtr>();
+    for(const auto & p : cpp_method.params)
+    {
+        argument(args, p);
+    }
+
+    // Create the method call expression
+    return std::make_shared<NodeMethodCallExpr>(std::move(this_),
+                                                cpp_method.short_name,
+                                                args
+    );
+}
+
+//------------------------------------------------------------------------------
 void opaquebytes_method(RecordRegistry & record_registry,
                            TranslationUnit & c_tu,
                            const NodeRecord & cpp_record,
@@ -225,9 +334,10 @@ void opaquebytes_method(RecordRegistry & record_registry,
     // Convert return type
     auto c_return = convert_type(record_registry, cpp_method.return_type);
 
-    // Add opaquebytes body
-    // TODO LT: This is where the casting and pointer/reference wrangling will
-    // happen
+    // Creation function body
+    auto c_function_body =
+        opaquebytes_method_body(record_registry, c_tu, cpp_record, c_record,
+                                cpp_method);
 
     // Add the new function to the translation unit
     auto c_function = std::make_shared<NodeFunction>(
