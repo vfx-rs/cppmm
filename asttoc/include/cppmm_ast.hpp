@@ -26,6 +26,8 @@ enum class NodeKind : uint32_t {
     RecordType,
     Parm,
     Function,
+    FunctionCallExpr,
+    MethodCallExpr,
     Method,
     Record,
     Sentinal, // A sentinal entry to keep track of how many there are
@@ -194,6 +196,37 @@ struct NodeAttributeHolder : public Node {
 };
 
 //------------------------------------------------------------------------------
+// NodeExpr
+//------------------------------------------------------------------------------
+struct NodeExpr : public Node { // TODO LT: Added by luke
+
+    NodeExpr(NodeKind kind)
+        : Node("", 0, kind)
+    {}
+};
+using NodeExprPtr = std::shared_ptr<NodeExpr>;
+
+//------------------------------------------------------------------------------
+// NodeFunctionCallExpr
+//------------------------------------------------------------------------------
+struct NodeFunctionCallExpr : public NodeExpr { // TODO LT: Added by luke, like CallExpr
+
+    NodeFunctionCallExpr(NodeKind kind = NodeKind::FunctionCallExpr)
+        : NodeExpr(kind)
+    {}
+};
+
+//------------------------------------------------------------------------------
+// NodeMethodCallExpr
+//------------------------------------------------------------------------------
+struct NodeMethodCallExpr : public NodeFunctionCallExpr { // TODO LT: Added by luke, like clang MemberCallExpr
+
+    NodeMethodCallExpr()
+        : NodeFunctionCallExpr(NodeKind::MethodCallExpr)
+    {}
+};
+
+//------------------------------------------------------------------------------
 // NodeFunction
 //------------------------------------------------------------------------------
 struct NodeFunction : public NodeAttributeHolder {
@@ -202,6 +235,7 @@ struct NodeFunction : public NodeAttributeHolder {
     std::vector<Param> params;
     bool in_binding = false;
     bool in_library = false;
+    NodeExprPtr body;
 
     NodeFunction(std::string qualified_name, NodeId id,
                  std::vector<std::string> attrs, std::string short_name,
