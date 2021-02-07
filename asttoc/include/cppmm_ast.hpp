@@ -28,6 +28,9 @@ enum class NodeKind : uint32_t {
     Function,
     FunctionCallExpr,
     MethodCallExpr,
+    VarRefExpr,
+    DerefExpr,
+    CastExpr,
     Method,
     Record,
     Sentinal, // A sentinal entry to keep track of how many there are
@@ -223,6 +226,44 @@ struct NodeMethodCallExpr : public NodeFunctionCallExpr { // TODO LT: Added by l
 
     NodeMethodCallExpr()
         : NodeFunctionCallExpr(NodeKind::MethodCallExpr)
+    {}
+};
+
+//------------------------------------------------------------------------------
+// NodeVarRefExpr
+//------------------------------------------------------------------------------
+struct NodeVarRefExpr : public NodeExpr { // TODO LT: Added by luke, like clang DeclRef
+    std::string var_name;
+
+    NodeVarRefExpr(std::string var_name)
+        : NodeExpr(NodeKind::VarRefExpr)
+        , var_name(var_name)
+    {}
+};
+
+//------------------------------------------------------------------------------
+// NodeDerefExpr
+//------------------------------------------------------------------------------
+struct NodeDerefExpr : public NodeExpr { // TODO LT: Added by luke
+    NodeExprPtr inner;
+
+    NodeDerefExpr(NodeExprPtr && inner)
+        : NodeExpr(NodeKind::DerefExpr)
+        , inner(std::move(inner))
+    {}
+};
+
+//------------------------------------------------------------------------------
+// NodeCastExpr
+//------------------------------------------------------------------------------
+struct NodeCastExpr : public NodeExpr { // TODO LT: Added by luke
+    NodeExprPtr inner;
+    NodeTypePtr type;
+
+    NodeCastExpr(NodeExprPtr && inner, NodeTypePtr && type)
+        : NodeExpr(NodeKind::CastExpr)
+        , inner(std::move(inner))
+        , type(std::move(type))
     {}
 };
 
