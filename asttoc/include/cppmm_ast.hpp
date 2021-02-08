@@ -30,6 +30,7 @@ enum class NodeKind : uint32_t {
     MethodCallExpr,
     VarRefExpr,
     DerefExpr,
+    RefExpr,
     CastExpr,
     Method,
     Record,
@@ -248,9 +249,21 @@ struct NodeVarRefExpr : public NodeExpr { // TODO LT: Added by luke, like clang 
 };
 
 //------------------------------------------------------------------------------
+// NodeRefExpr
+//------------------------------------------------------------------------------
+struct NodeRefExpr : public NodeExpr { // TODO LT: Added by luke = &()
+    NodeExprPtr inner;
+
+    NodeRefExpr(NodeExprPtr && inner)
+        : NodeExpr(NodeKind::RefExpr)
+        , inner(std::move(inner))
+    {}
+};
+
+//------------------------------------------------------------------------------
 // NodeDerefExpr
 //------------------------------------------------------------------------------
-struct NodeDerefExpr : public NodeExpr { // TODO LT: Added by luke
+struct NodeDerefExpr : public NodeExpr { // TODO LT: Added by luke = *()
     NodeExprPtr inner;
 
     NodeDerefExpr(NodeExprPtr && inner)

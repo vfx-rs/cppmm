@@ -229,34 +229,72 @@ NodeExprPtr convert_argument(const NodeTypePtr & t, const std::string & name);
 //------------------------------------------------------------------------------
 NodeExprPtr convert_builtin_arg(const NodeTypePtr & t, const std::string & name)
 {
+    // TODO LT: Might need to be smarter conversion here but for now, cast
+    // directly.
+    auto variable = std::make_shared<NodeVarRefExpr>(name);
+    auto type = NodeTypePtr(t);
+    return std::make_shared<NodeCastExpr>(std::move(variable),
+                                          std::move(type));
 }
 
 //------------------------------------------------------------------------------
 NodeExprPtr convert_record_arg(const NodeTypePtr & t, const std::string & name)
 {
-    
+    // TODO LT: Assuming opaquebytes at the moment, opaqueptr will have a
+    // different implementation.
+    //
+    auto variable = std::make_shared<NodeVarRefExpr>(name);
+    auto reference = std::make_shared<NodeRefExpr>(std::move(variable));
+    auto type =\
+        std::make_shared<NodePointerType>(
+            "", 0, "", PointerKind::Pointer,
+            std::move(NodeTypePtr(t)),
+            false
+    );
+    auto inner = std::make_shared<NodeCastExpr>(
+        std::move(reference), std::move(type));
+    return std::make_shared<NodeDerefExpr>(std::move(inner));
+
+    /*
+    // Above code could look like this later.
+    return DerefExpr::new_(
+        CastExpr::new_(
+            RefExpr::new_(
+                VarRefExpr::new_( name ) ),
+            PointerType::new_( t, false ))
+    )
+    */
 }
 
 //------------------------------------------------------------------------------
 NodeExprPtr convert_pointer_arg(const NodeTypePtr & t, const std::string & name)
 {
-/*
+    // TODO LT: Assuming opaquebytes at the moment, opaqueptr will have a
+    // different implementation.
+    //
     auto p = static_cast<const NodePointerType*>(t.get());
 
-    switch (ppointer_kind)
+    switch (p->pointer_kind)
     {
         case PointerKind::Pointer:
-            return std::make_shared<NodeCastExpr>(p, name);
+            {
+                auto variable = std::make_shared<NodeVarRefExpr>(name);
+                auto type = NodeTypePtr(t);
+                return std::make_shared<NodeCastExpr>(std::move(variable),
+                                                      std::move(type));
+            }
         case PointerKind::Reference:
             {
-                auto pointee = p.pointee_type;
-                auto c_pointer =\
+                auto variable = std::make_shared<NodeVarRefExpr>(name);
+                auto pointee = NodeTypePtr(p->pointee_type);
+                auto type =\
                     std::make_shared<NodePointerType>(
                         "", 0, "", PointerKind::Pointer,
                         std::move(pointee),
-                        p.const_
+                        p->const_
                 );
-                auto inner = std::make_shared<NodeCastExpr>(c_pointer, name);
+                auto inner = std::make_shared<NodeCastExpr>(
+                    std::move(variable), std::move(type));
                 return std::make_shared<NodeDerefExpr>(std::move(inner));
             }
         default:
@@ -264,7 +302,6 @@ NodeExprPtr convert_pointer_arg(const NodeTypePtr & t, const std::string & name)
     }
     
     assert("Shouldn't get here"); // TODO LT: Clean this up
-*/
 }
 
 //------------------------------------------------------------------------------
@@ -386,7 +423,7 @@ void record_detail(RecordRegistry & record_registry, TranslationUnit & c_tu,
                    const NodePtr & cpp_node)
 {
     const auto & cpp_record =\
-        *static_cast<const NodeRecord*>(cpp_node.get());
+        *static_cast<NodeRecord*>(cpp_node.get());
 
     // Most simple record implementation is the opaque bytes.
     // Least safe and most restrictive in use, but easiest to implement.
