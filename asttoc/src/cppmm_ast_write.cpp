@@ -154,44 +154,89 @@ void write_function(fmt::ostream & out, const NodePtr & node)
 void write_expression(fmt::ostream & out, const NodeExprPtr & node);
 
 //------------------------------------------------------------------------------
+void write_function_arguments(fmt::ostream & out,
+                              const NodeFunctionCallExpr & function_call)
+{
+    if(!function_call.args.empty())
+    {
+        // First argument
+        write_expression(out, function_call.args[0]);
+
+        // All the others
+        for(size_t i=1; i < function_call.args.size(); ++i)
+        {
+            out.print(",");
+            write_expression(out, function_call.args[i]);
+        }
+    }
+}
+
+//------------------------------------------------------------------------------
 void write_expression_function_call(fmt::ostream & out,
                                     const NodeExprPtr & node)
 {
-    //out.print("    // To be filled in\n");
+    const auto & function_call =
+        *static_cast<const NodeMethodCallExpr*>(node.get());
+
+    out.print("{}(\n", function_call.name);
+    write_function_arguments(out, function_call);
+    out.print(")");
 }
 
 //------------------------------------------------------------------------------
 void write_expression_method_call(fmt::ostream & out, const NodeExprPtr & node)
 {
-    const auto & method =
+    const auto & method_call =
         *static_cast<const NodeMethodCallExpr*>(node.get());
-    indent(out, 1);
-    out.print("("); write_expression(out, method.this_); out.print(") -> ");
-    out.print("{}()\n", method.name); // TODO LT: Add parameters
+
+    out.print("(");
+    write_expression(out, method_call.this_);
+    out.print(") -> ");
+    out.print("{}(\n", method_call.name);
+    write_function_arguments(out, method_call);
+    out.print(")");
 }
 
 //------------------------------------------------------------------------------
 void write_expression_var_ref(fmt::ostream & out, const NodeExprPtr & node)
 {
-    //out.print("    // To be filled in\n");
+    const auto & var_ref =
+        *static_cast<const NodeVarRefExpr*>(node.get());
+
+    out.print("{}", var_ref.var_name);
 }
 
 //------------------------------------------------------------------------------
 void write_expression_deref(fmt::ostream & out, const NodeExprPtr & node)
 {
-    //out.print("    // To be filled in\n");
+    const auto & deref =
+        *static_cast<const NodeDerefExpr*>(node.get());
+
+    out.print("*(");
+    write_expression(out, deref.inner);
+    out.print(")");
 }
 
 //------------------------------------------------------------------------------
 void write_expression_ref(fmt::ostream & out, const NodeExprPtr & node)
 {
-    //out.print("    // To be filled in\n");
+    const auto & ref =
+        *static_cast<const NodeRefExpr*>(node.get());
+
+    out.print("&(");
+    write_expression(out, ref.inner);
+    out.print(")");
 }
 
 //------------------------------------------------------------------------------
 void write_expression_cast(fmt::ostream & out, const NodeExprPtr & node)
 {
-    //out.print("    // To be filled in\n");
+    const auto & cast_expr =
+        *static_cast<const NodeCastExpr*>(node.get());
+
+    out.print("reinterpret_cast<{}>(", convert_param(cast_expr.type, ""));
+    write_expression(out, cast_expr.inner);
+    out.print(")");
 }
 
 //------------------------------------------------------------------------------
@@ -235,6 +280,7 @@ void write_function_body(fmt::ostream & out, const NodePtr & node)
     write_params(out, function);
     out.print(")\n");
     out.print("{{\n");
+    indent(out, 1);
     write_expression(out, function.body);
     out.print("}}\n");
 }
