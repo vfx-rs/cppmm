@@ -381,6 +381,9 @@ void opaquebytes_method(RecordRegistry & record_registry,
                         compute_c_name(cpp_method.name), PLACEHOLDER_ID,
                         cpp_method.attrs, "", std::move(c_return),
                         std::move(c_params));
+
+    c_function->body = c_function_body;
+
     c_tu.decls.push_back(std::move(c_function));
 }
 

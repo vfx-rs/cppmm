@@ -10,6 +10,8 @@
 #include <fmt/os.h>
 #include <cassert>
 
+#include <iostream>
+
 namespace cppmm
 {
 class Root;
@@ -150,6 +152,87 @@ void write_function(fmt::ostream & out, const NodePtr & node)
 }
 
 //------------------------------------------------------------------------------
+void write_expression_function_call(fmt::ostream & out, const NodeExprPtr & node)
+{
+    out.print("    // To be filled in\n");
+}
+
+//------------------------------------------------------------------------------
+void write_expression_method_call(fmt::ostream & out, const NodeExprPtr & node)
+{
+    out.print("    // To be filled in\n");
+}
+
+//------------------------------------------------------------------------------
+void write_expression_var_ref(fmt::ostream & out, const NodeExprPtr & node)
+{
+    out.print("    // To be filled in\n");
+}
+
+//------------------------------------------------------------------------------
+void write_expression_deref(fmt::ostream & out, const NodeExprPtr & node)
+{
+    out.print("    // To be filled in\n");
+}
+
+//------------------------------------------------------------------------------
+void write_expression_ref(fmt::ostream & out, const NodeExprPtr & node)
+{
+    out.print("    // To be filled in\n");
+}
+
+//------------------------------------------------------------------------------
+void write_expression_cast(fmt::ostream & out, const NodeExprPtr & node)
+{
+    out.print("    // To be filled in\n");
+}
+
+//------------------------------------------------------------------------------
+void write_expression(fmt::ostream & out, const NodeExprPtr & node)
+{
+    // Do nothing if this expression is empty
+    if(!node)
+    {
+        return;
+    }
+
+    switch (node->kind)
+    {
+        case NodeKind::FunctionCallExpr:
+            return write_expression_function_call(out, node);
+        case NodeKind::MethodCallExpr:
+            return write_expression_method_call(out, node);
+        case NodeKind::VarRefExpr:
+            return write_expression_var_ref(out, node);
+        case NodeKind::DerefExpr:
+            return write_expression_deref(out, node);
+        case NodeKind::RefExpr:
+            return write_expression_ref(out, node);
+        case NodeKind::CastExpr:
+            return write_expression_cast(out, node);
+        default:
+            break;
+    }
+
+    assert("Shouldn't get here"); // TODO LT: Clean this up
+}
+
+//------------------------------------------------------------------------------
+void write_function_body(fmt::ostream & out, const NodePtr & node)
+{
+    const NodeFunction & function =
+        *static_cast<const NodeFunction*>(node.get());
+
+    out.print("{}(", convert_param(function.return_type,
+                                   function.name));
+    write_params(out, function);
+    out.print(")\n");
+    out.print("{{\n");
+    write_expression(out, function.body);
+    out.print("}}\n");
+}
+
+//------------------------------------------------------------------------------
 void write_header(const TranslationUnit & tu)
 {
     auto out = fmt::output_file(compute_c_header_path(tu.filename));
@@ -177,7 +260,15 @@ void write_header(const TranslationUnit & tu)
 void write_source(const TranslationUnit & tu)
 {
     auto out = fmt::output_file(tu.filename);
-    //out.print("Don't {}", "Panic");
+
+    // Write out the function bodies
+    for(const auto & node : tu.decls)
+    {
+        if (node->kind == NodeKind::Function)
+        {
+            write_function_body(out, node);
+        }
+    }
 }
 
 //------------------------------------------------------------------------------
