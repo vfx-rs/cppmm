@@ -3,11 +3,12 @@
 //------------------------------------------------------------------------------
 #include "cppmm_ast_add_c.hpp"
 #include "pystring.h"
-#include <cassert>
 #include <iostream>
 #include <unordered_map>
 
 #include <cstdlib> // for exit function
+
+#define cassert(M) std::cerr << M << std::endl; abort()
 
 namespace cppmm {
 namespace transform {
@@ -157,7 +158,7 @@ NodeTypePtr convert_type(RecordRegistry & record_registry,
             break;
     }
 
-    assert("Shouldn't get here"); // TODO LT: Clean this up
+    cassert("Shouldn't get here"); // TODO LT: Clean this up
 }
 
 //------------------------------------------------------------------------------
@@ -303,7 +304,7 @@ NodeExprPtr convert_pointer_arg(const NodeTypePtr & t, const std::string & name)
             break;
     }
     
-    assert("Shouldn't get here"); // TODO LT: Clean this up
+    cassert("Shouldn't get here"); // TODO LT: Clean this up
 }
 
 //------------------------------------------------------------------------------
@@ -321,7 +322,7 @@ NodeExprPtr convert_argument(const NodeTypePtr & t, const std::string & name)
             break;
     }
 
-    assert("Shouldn't get here"); // TODO LT: Clean this up
+    cassert("Shouldn't get here"); // TODO LT: Clean this up
 }
 
 //------------------------------------------------------------------------------

@@ -8,9 +8,10 @@
 #include "pystring.h"
 
 #include <fmt/os.h>
-#include <cassert>
 
 #include <iostream>
+
+#define cassert(M) std::cerr << M << std::endl; abort()
 
 namespace cppmm
 {
@@ -93,7 +94,7 @@ std::string convert_param(const NodeTypePtr & t,
             break;
     }
 
-    assert("Shouldn't get here"); // TODO LT: Clean this up
+    cassert("Shouldn't get here"); // TODO LT: Clean this up
 }
 
 //------------------------------------------------------------------------------
@@ -283,7 +284,7 @@ void write_expression(fmt::ostream & out, size_t depth,
             break;
     }
 
-    assert("Shouldn't get here"); // TODO LT: Clean this up
+    cassert("Shouldn't get here"); // TODO LT: Clean this up
 }
 
 //------------------------------------------------------------------------------
@@ -351,7 +352,7 @@ void write_translation_unit(const TranslationUnit & tu)
 //------------------------------------------------------------------------------
 void cpp(const Root & root, size_t starting_point)
 {
-    assert(starting_point < root.tu.size());
+    cassert(starting_point < root.tu.size());
 
     const auto size = root.tus.size();
     for(size_t i=starting_point; i < size; ++i)

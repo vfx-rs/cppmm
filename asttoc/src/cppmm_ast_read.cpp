@@ -9,6 +9,8 @@
 #include <memory>
 #include <iostream>
 
+#define cassert(M) std::cerr << M << std::endl; abort()
+
 namespace fs = ghc::filesystem;
 
 namespace nln = nlohmann;
@@ -89,7 +91,7 @@ NodeTypePtr read_type(const nln::json & json) {
         return read_type_reference(json);
     }
 
-    assert("Shouldn't get here"); // TODO LT: Clean this up
+    cassert("Shouldn't get here"); // TODO LT: Clean this up
 }
 
 //------------------------------------------------------------------------------
@@ -108,6 +110,9 @@ NodeMethod read_method(const nln::json & json) {
     std::vector<std::string> _attrs;
 
     auto qualified_name = json[QUALIFIED_NAME].get<std::string>();
+
+    std::cerr << qualified_name << std::endl;
+
     auto short_name = json[SHORT_NAME].get<std::string>();
     auto id = json[ID].get<Id>();
     auto static_ = json[STATIC].get<bool>();
@@ -169,7 +174,7 @@ NodePtr read_node(const nln::json & json) {
         return read_record(json);
     }        
 
-    assert("Have hit a node type that we can't handle");
+    cassert("Have hit a node type that we can't handle");
 
     // TODO LT: Fix the return type
 }
