@@ -9,7 +9,7 @@
 #include <memory>
 #include <iostream>
 
-#define cassert(M) std::cerr << M << std::endl; abort()
+#define cassert(C, M) if(!(C)) { std::cerr << M << std::endl; abort(); }
 
 namespace fs = ghc::filesystem;
 
@@ -91,7 +91,7 @@ NodeTypePtr read_type(const nln::json & json) {
         return read_type_reference(json);
     }
 
-    cassert("Shouldn't get here"); // TODO LT: Clean this up
+    cassert(false, "Shouldn't get here"); // TODO LT: Clean this up
 }
 
 //------------------------------------------------------------------------------
@@ -174,7 +174,7 @@ NodePtr read_node(const nln::json & json) {
         return read_record(json);
     }        
 
-    cassert("Have hit a node type that we can't handle");
+    cassert(false, "Have hit a node type that we can't handle");
 
     // TODO LT: Fix the return type
 }

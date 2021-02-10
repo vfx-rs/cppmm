@@ -8,7 +8,7 @@
 
 #include <cstdlib> // for exit function
 
-#define cassert(M) std::cerr << M << std::endl; abort()
+#define cassert(C, M) if(!(C)) { std::cerr << M << std::endl; abort(); }
 
 namespace cppmm {
 namespace transform {
@@ -158,7 +158,7 @@ NodeTypePtr convert_type(RecordRegistry & record_registry,
             break;
     }
 
-    cassert("Shouldn't get here"); // TODO LT: Clean this up
+    cassert(false, "Shouldn't get here"); // TODO LT: Clean this up
 }
 
 //------------------------------------------------------------------------------
@@ -304,7 +304,7 @@ NodeExprPtr convert_pointer_arg(const NodeTypePtr & t, const std::string & name)
             break;
     }
     
-    cassert("Shouldn't get here"); // TODO LT: Clean this up
+    cassert(false, "Shouldn't get here"); // TODO LT: Clean this up
 }
 
 //------------------------------------------------------------------------------
@@ -322,7 +322,7 @@ NodeExprPtr convert_argument(const NodeTypePtr & t, const std::string & name)
             break;
     }
 
-    cassert("Shouldn't get here"); // TODO LT: Clean this up
+    cassert(false, "Shouldn't get here"); // TODO LT: Clean this up
 }
 
 //------------------------------------------------------------------------------
