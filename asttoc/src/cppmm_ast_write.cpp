@@ -162,12 +162,14 @@ void write_function_call_arguments(fmt::ostream & out,
     if(!function_call.args.empty())
     {
         // First argument
+        indent(out, depth + 1);
         write_expression(out, depth, function_call.args[0]);
 
         // All the others
         for(size_t i=1; i < function_call.args.size(); ++i)
         {
-            out.print(",");
+            out.print(",\n");
+            indent(out, depth + 1);
             write_expression(out, depth, function_call.args[i]);
         }
     }
@@ -182,7 +184,7 @@ void write_expression_function_call(fmt::ostream & out,
         *static_cast<const NodeMethodCallExpr*>(node.get());
 
     out.print("{}(\n", function_call.name);
-    write_function_call_arguments(out, depth, function_call);
+    write_function_call_arguments(out, depth+1, function_call);
     out.print(")");
 }
 
@@ -195,9 +197,10 @@ void write_expression_method_call(fmt::ostream & out,
 
     out.print("(");
     write_expression(out, depth, method_call.this_);
-    out.print(") -> ");
+    out.print(") -> \n");
+    indent(out, depth + 1);
     out.print("{}(\n", method_call.name);
-    write_function_call_arguments(out, depth, method_call);
+    write_function_call_arguments(out, depth+1, method_call);
     out.print(")");
 }
 
