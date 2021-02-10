@@ -115,7 +115,9 @@ NodeTypePtr convert_builtin_type(RecordRegistry & record_registry,
 NodeTypePtr convert_record_type(RecordRegistry & record_registry,
                                 const NodeTypePtr & t)
 {
-    const auto & c_type = record_registry.find_c(t->id);
+    const auto & cpp_record_type = *static_cast<const NodeRecordType*>(t.get());
+
+    const auto & c_type = record_registry.find_c(cpp_record_type.record);
     if (c_type == nullptr )
     {
         // TODO LT: Produce a warning here and return a failure so that
