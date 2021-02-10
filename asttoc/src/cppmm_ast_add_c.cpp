@@ -90,6 +90,8 @@ std::string compute_c_name(const std::string & cpp_record_name)
             case '>':
                 result.push_back('_');
                 break;
+            case ' ':
+                break;
             default:
                 result.push_back(c);
         }
