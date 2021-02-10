@@ -111,7 +111,7 @@ NodeMethod read_method(const nln::json & json) {
 
     auto qualified_name = json[QUALIFIED_NAME].get<std::string>();
 
-    std::cerr << qualified_name << std::endl;
+    //std::cerr << qualified_name << std::endl;
 
     auto short_name = json[SHORT_NAME].get<std::string>();
     auto id = json[ID].get<Id>();
@@ -203,7 +203,6 @@ Root json(const std::string & input_directory) {
 
     for(const auto & p: fs::directory_iterator(input_directory))
     {
-        //std::cout << "Reading << " << p.path() << std::endl;
         if (p.path().extension() == ".json")
         {
             // Open the json file
