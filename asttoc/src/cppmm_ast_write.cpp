@@ -249,7 +249,8 @@ void write_expression_cast(fmt::ostream & out, size_t depth,
     const auto & cast_expr =
         *static_cast<const NodeCastExpr*>(node.get());
 
-    out.print("reinterpret_cast<{}>(", convert_param(cast_expr.type, ""));
+    out.print("{}_cast<{}>(", cast_expr.cast_kind,
+                              convert_param(cast_expr.type, ""));
     write_expression(out, depth, cast_expr.inner);
     out.print(")");
 }

@@ -278,11 +278,14 @@ struct NodeDerefExpr : public NodeExpr { // TODO LT: Added by luke = *()
 struct NodeCastExpr : public NodeExpr { // TODO LT: Added by luke
     NodeExprPtr inner;
     NodeTypePtr type;
+    std::string cast_kind;
 
-    NodeCastExpr(NodeExprPtr && inner, NodeTypePtr && type)
+    NodeCastExpr(NodeExprPtr && inner, NodeTypePtr && type,
+                 std::string cast_kind)
         : NodeExpr(NodeKind::CastExpr)
         , inner(std::move(inner))
         , type(std::move(type))
+        , cast_kind(cast_kind)
     {}
 };
 

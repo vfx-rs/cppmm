@@ -219,7 +219,8 @@ NodeExprPtr this_reference(const NodeRecord & cpp_record, bool const_)
     );
     auto self = std::make_shared<NodeVarRefExpr>("self");
     auto cast = std::make_shared<NodeCastExpr>(std::move(self),
-                                               std::move(type));
+                                               std::move(type),
+                                               "reinterpret");
 
     return cast;
 }
@@ -229,12 +230,12 @@ NodeExprPtr convert_argument(const NodeTypePtr & t, const std::string & name);
 //------------------------------------------------------------------------------
 NodeExprPtr convert_builtin_arg(const NodeTypePtr & t, const std::string & name)
 {
-    // TODO LT: Might need to be smarter conversion here but for now, cast
-    // directly.
+    // TODO LT: Map c++ builtins to c ones. Likely static cast directly
     auto variable = std::make_shared<NodeVarRefExpr>(name);
     auto type = NodeTypePtr(t);
     return std::make_shared<NodeCastExpr>(std::move(variable),
-                                          std::move(type));
+                                          std::move(type),
+                                          "static");
 }
 
 //------------------------------------------------------------------------------
@@ -252,7 +253,7 @@ NodeExprPtr convert_record_arg(const NodeTypePtr & t, const std::string & name)
             false
     );
     auto inner = std::make_shared<NodeCastExpr>(
-        std::move(reference), std::move(type));
+        std::move(reference), std::move(type), "reinterpret");
     return std::make_shared<NodeDerefExpr>(std::move(inner));
 
     /*
@@ -281,7 +282,8 @@ NodeExprPtr convert_pointer_arg(const NodeTypePtr & t, const std::string & name)
                 auto variable = std::make_shared<NodeVarRefExpr>(name);
                 auto type = NodeTypePtr(t);
                 return std::make_shared<NodeCastExpr>(std::move(variable),
-                                                      std::move(type));
+                                                      std::move(type),
+                                                      "reinterpret");
             }
         case PointerKind::Reference:
             {
@@ -294,7 +296,7 @@ NodeExprPtr convert_pointer_arg(const NodeTypePtr & t, const std::string & name)
                         p->const_
                 );
                 auto inner = std::make_shared<NodeCastExpr>(
-                    std::move(variable), std::move(type));
+                    std::move(variable), std::move(type), "reinterpret");
                 return std::make_shared<NodeDerefExpr>(std::move(inner));
             }
         default:
