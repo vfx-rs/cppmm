@@ -151,40 +151,47 @@ void write_function(fmt::ostream & out, const NodePtr & node)
     out.print(");\n");
 }
 
+void write_expression(fmt::ostream & out, const NodeExprPtr & node);
+
 //------------------------------------------------------------------------------
-void write_expression_function_call(fmt::ostream & out, const NodeExprPtr & node)
+void write_expression_function_call(fmt::ostream & out,
+                                    const NodeExprPtr & node)
 {
-    out.print("    // To be filled in\n");
+    //out.print("    // To be filled in\n");
 }
 
 //------------------------------------------------------------------------------
 void write_expression_method_call(fmt::ostream & out, const NodeExprPtr & node)
 {
-    out.print("    // To be filled in\n");
+    const auto & method =
+        *static_cast<const NodeMethodCallExpr*>(node.get());
+    indent(out, 1);
+    out.print("("); write_expression(out, method.this_); out.print(") -> ");
+    out.print("{}()\n", method.name); // TODO LT: Add parameters
 }
 
 //------------------------------------------------------------------------------
 void write_expression_var_ref(fmt::ostream & out, const NodeExprPtr & node)
 {
-    out.print("    // To be filled in\n");
+    //out.print("    // To be filled in\n");
 }
 
 //------------------------------------------------------------------------------
 void write_expression_deref(fmt::ostream & out, const NodeExprPtr & node)
 {
-    out.print("    // To be filled in\n");
+    //out.print("    // To be filled in\n");
 }
 
 //------------------------------------------------------------------------------
 void write_expression_ref(fmt::ostream & out, const NodeExprPtr & node)
 {
-    out.print("    // To be filled in\n");
+    //out.print("    // To be filled in\n");
 }
 
 //------------------------------------------------------------------------------
 void write_expression_cast(fmt::ostream & out, const NodeExprPtr & node)
 {
-    out.print("    // To be filled in\n");
+    //out.print("    // To be filled in\n");
 }
 
 //------------------------------------------------------------------------------
@@ -261,7 +268,7 @@ void write_source(const TranslationUnit & tu)
 {
     auto out = fmt::output_file(tu.filename);
 
-    // Write out the function bodies
+    // Write out the function definitions
     for(const auto & node : tu.decls)
     {
         if (node->kind == NodeKind::Function)
