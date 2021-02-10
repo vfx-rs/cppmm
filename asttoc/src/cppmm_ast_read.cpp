@@ -198,7 +198,8 @@ Root json(const std::string & input_directory) {
 
     for(const auto & p: fs::directory_iterator(input_directory))
     {
-        if (p.path().extension() == "json")
+        //std::cout << "Reading << " << p.path() << std::endl;
+        if (p.path().extension() == ".json")
         {
             // Open the json file
             std::ifstream input_file;
