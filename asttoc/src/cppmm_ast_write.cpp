@@ -151,54 +151,59 @@ void write_function(fmt::ostream & out, const NodePtr & node)
     out.print(");\n");
 }
 
-void write_expression(fmt::ostream & out, const NodeExprPtr & node);
+void write_expression(fmt::ostream & out, size_t depth,
+                      const NodeExprPtr & node);
 
 //------------------------------------------------------------------------------
-void write_function_arguments(fmt::ostream & out,
-                              const NodeFunctionCallExpr & function_call)
+void write_function_call_arguments(fmt::ostream & out,
+                                   size_t depth,
+                                   const NodeFunctionCallExpr & function_call)
 {
     if(!function_call.args.empty())
     {
         // First argument
-        write_expression(out, function_call.args[0]);
+        write_expression(out, depth, function_call.args[0]);
 
         // All the others
         for(size_t i=1; i < function_call.args.size(); ++i)
         {
             out.print(",");
-            write_expression(out, function_call.args[i]);
+            write_expression(out, depth, function_call.args[i]);
         }
     }
 }
 
 //------------------------------------------------------------------------------
 void write_expression_function_call(fmt::ostream & out,
+                                    size_t depth,
                                     const NodeExprPtr & node)
 {
     const auto & function_call =
         *static_cast<const NodeMethodCallExpr*>(node.get());
 
     out.print("{}(\n", function_call.name);
-    write_function_arguments(out, function_call);
+    write_function_call_arguments(out, depth, function_call);
     out.print(")");
 }
 
 //------------------------------------------------------------------------------
-void write_expression_method_call(fmt::ostream & out, const NodeExprPtr & node)
+void write_expression_method_call(fmt::ostream & out,
+                                  size_t depth, const NodeExprPtr & node)
 {
     const auto & method_call =
         *static_cast<const NodeMethodCallExpr*>(node.get());
 
     out.print("(");
-    write_expression(out, method_call.this_);
+    write_expression(out, depth, method_call.this_);
     out.print(") -> ");
     out.print("{}(\n", method_call.name);
-    write_function_arguments(out, method_call);
+    write_function_call_arguments(out, depth, method_call);
     out.print(")");
 }
 
 //------------------------------------------------------------------------------
-void write_expression_var_ref(fmt::ostream & out, const NodeExprPtr & node)
+void write_expression_var_ref(fmt::ostream & out,  size_t depth,
+                              const NodeExprPtr & node)
 {
     const auto & var_ref =
         *static_cast<const NodeVarRefExpr*>(node.get());
@@ -207,40 +212,44 @@ void write_expression_var_ref(fmt::ostream & out, const NodeExprPtr & node)
 }
 
 //------------------------------------------------------------------------------
-void write_expression_deref(fmt::ostream & out, const NodeExprPtr & node)
+void write_expression_deref(fmt::ostream & out,  size_t depth,
+                            const NodeExprPtr & node)
 {
     const auto & deref =
         *static_cast<const NodeDerefExpr*>(node.get());
 
     out.print("*(");
-    write_expression(out, deref.inner);
+    write_expression(out, depth, deref.inner);
     out.print(")");
 }
 
 //------------------------------------------------------------------------------
-void write_expression_ref(fmt::ostream & out, const NodeExprPtr & node)
+void write_expression_ref(fmt::ostream & out, size_t depth,
+                          const NodeExprPtr & node)
 {
     const auto & ref =
         *static_cast<const NodeRefExpr*>(node.get());
 
     out.print("&(");
-    write_expression(out, ref.inner);
+    write_expression(out, depth, ref.inner);
     out.print(")");
 }
 
 //------------------------------------------------------------------------------
-void write_expression_cast(fmt::ostream & out, const NodeExprPtr & node)
+void write_expression_cast(fmt::ostream & out, size_t depth,
+                           const NodeExprPtr & node)
 {
     const auto & cast_expr =
         *static_cast<const NodeCastExpr*>(node.get());
 
     out.print("reinterpret_cast<{}>(", convert_param(cast_expr.type, ""));
-    write_expression(out, cast_expr.inner);
+    write_expression(out, depth, cast_expr.inner);
     out.print(")");
 }
 
 //------------------------------------------------------------------------------
-void write_expression(fmt::ostream & out, const NodeExprPtr & node)
+void write_expression(fmt::ostream & out, size_t depth,
+                      const NodeExprPtr & node)
 {
     // Do nothing if this expression is empty
     if(!node)
@@ -251,17 +260,17 @@ void write_expression(fmt::ostream & out, const NodeExprPtr & node)
     switch (node->kind)
     {
         case NodeKind::FunctionCallExpr:
-            return write_expression_function_call(out, node);
+            return write_expression_function_call(out, depth, node);
         case NodeKind::MethodCallExpr:
-            return write_expression_method_call(out, node);
+            return write_expression_method_call(out, depth, node);
         case NodeKind::VarRefExpr:
-            return write_expression_var_ref(out, node);
+            return write_expression_var_ref(out, depth, node);
         case NodeKind::DerefExpr:
-            return write_expression_deref(out, node);
+            return write_expression_deref(out, depth, node);
         case NodeKind::RefExpr:
-            return write_expression_ref(out, node);
+            return write_expression_ref(out, depth, node);
         case NodeKind::CastExpr:
-            return write_expression_cast(out, node);
+            return write_expression_cast(out, depth, node);
         default:
             break;
     }
@@ -281,7 +290,7 @@ void write_function_body(fmt::ostream & out, const NodePtr & node)
     out.print(")\n");
     out.print("{{\n");
     indent(out, 1);
-    write_expression(out, function.body);
+    write_expression(out, 1, function.body);
     out.print("}}\n");
 }
 
