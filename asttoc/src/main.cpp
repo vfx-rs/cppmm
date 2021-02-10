@@ -11,13 +11,12 @@
 
 int main()
 {
+    const std::string input_directory =
+        "/Volumes/src/cppmm/test/imath/ref";
     const std::string output_directory = "out/";
 
-    std::ifstream input_file;
-    input_file.open("/Volumes/src/cppmm/test/imath/ref/imath_vec.json");
-
     // Read the json ast
-    auto cpp_ast = cppmm::read::json(input_file);
+    auto cpp_ast = cppmm::read::json(input_directory);
 
     // Add the c translation units
     auto starting_point = cpp_ast.tus.size();

@@ -3,10 +3,13 @@
 // vfx-rs
 //------------------------------------------------------------------------------
 #include "cppmm_ast_read.hpp"
+#include "filesystem.hpp"
 #include "json.hh"
 
 #include <memory>
 #include <iostream>
+
+namespace fs = ghc::filesystem;
 
 namespace nln = nlohmann;
 
@@ -189,15 +192,26 @@ TranslationUnit read_translation_unit(const nln::json & json) {
 }
 
 //------------------------------------------------------------------------------
-Root json(std::istream & input) {
+Root json(const std::string & input_directory) {
+
     std::vector<TranslationUnit> tus;
 
-    // Convert the input stream into json structures
-    nln::json json;
-    input >> json;
+    for(const auto & p: fs::directory_iterator(input_directory))
+    {
+        if (p.path().extension() == "json")
+        {
+            // Open the json file
+            std::ifstream input_file;
+            input_file.open(p.path());
 
-    // Later this can be a loop taking in multiple translation units
-    tus.push_back(read_translation_unit(json));
+            // Convert the input stream into json structures
+            nln::json json;
+            input_file >> json;
+
+            // Later this can be a loop taking in multiple translation units
+            tus.push_back(read_translation_unit(json));
+        }
+    }
 
     return Root(std::move(tus));
 }

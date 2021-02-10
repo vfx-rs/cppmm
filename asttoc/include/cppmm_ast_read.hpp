@@ -2,13 +2,14 @@
 // vfx-rs
 //------------------------------------------------------------------------------
 #pragma once
-#include <istream>
 #include "cppmm_ast.hpp"
+
+#include <string>
 
 namespace cppmm
 {
 namespace read
 {
-Root json(std::istream & input);
+Root json(const std::string & input);
 } // namespace read
 } // namesapce cppmm
