@@ -203,11 +203,13 @@ NodeTypePtr convert_type(TranslationUnit & c_tu,
             return convert_record_type(c_tu, record_registry, t, in_reference);
         case NodeKind::PointerType:
             return convert_pointer_type(c_tu, record_registry, t, in_reference);
+        case NodeKind::EnumType:
+            return NodeTypePtr(); // TODO LT: Enum translation
         default:
             break;
     }
 
-    cassert(false, "Shouldn't get here"); // TODO LT: Clean this up
+    cassert(false, "convert_type: Shouldn't get here"); // TODO LT: Clean this up
 }
 
 //------------------------------------------------------------------------------
@@ -348,6 +350,7 @@ NodeExprPtr convert_pointer_arg(const NodeTypePtr & t, const std::string & name)
                                                       std::move(type),
                                                       "reinterpret");
             }
+        case PointerKind::RValueReference: // TODO LT: Add support for rvalue reference
         case PointerKind::Reference:
             {
                 auto variable = std::make_shared<NodeVarRefExpr>(name);
@@ -366,7 +369,7 @@ NodeExprPtr convert_pointer_arg(const NodeTypePtr & t, const std::string & name)
             break;
     }
     
-    cassert(false, "Shouldn't get here"); // TODO LT: Clean this up
+    cassert(false, "convert_pointer_arg Shouldn't get here"); // TODO LT: Clean this up
 }
 
 //------------------------------------------------------------------------------
@@ -384,7 +387,7 @@ NodeExprPtr convert_argument(const NodeTypePtr & t, const std::string & name)
             break;
     }
 
-    cassert(false, "Shouldn't get here"); // TODO LT: Clean this up
+    cassert(false, "convert_argument Shouldn't get here"); // TODO LT: Clean this up
 }
 
 //------------------------------------------------------------------------------
