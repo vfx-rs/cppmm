@@ -72,7 +72,7 @@ using NodePtr = std::shared_ptr<Node>;
 struct TranslationUnit {
     std::string filename;
     std::vector<NodePtr> decls;
-    std::vector<NodePtr> forward_decls;
+    std::set<NodePtr> forward_decls;
 
     std::string header_filename;
     std::set<std::string> source_includes;

@@ -48,17 +48,17 @@ public:
         return static_cast<NodeRecord&>(*node);
     }
 
-    const NodeRecord * find_c(NodeId id) const
+    NodePtr find_c(NodeId id) const
     {
         auto entry = m_mapping.find(id);
 
         if (entry == m_mapping.end())
         {
-            return nullptr; // TODO LT: Turn this into optional
+            return NodePtr(); // TODO LT: Turn this into optional
         }
         else
         {
-            return static_cast<NodeRecord*>(entry->second.m_c.get());
+            return entry->second.m_c;
         }
     }
 };
@@ -123,15 +123,17 @@ NodeTypePtr convert_builtin_type(TranslationUnit & c_tu,
 
 
 //------------------------------------------------------------------------------
-void add_declaration(TranslationUnit & c_tu, const NodeRecord & c_type,
+void add_declaration(TranslationUnit & c_tu, const NodePtr & node_ptr,
                      bool in_reference)
 {
-    if(auto r_tu = c_type.tu.lock())
+    const auto & record = *static_cast<const NodeRecord*>(node_ptr.get());
+    if(auto r_tu = record.tu.lock())
     {
         if(r_tu.get() != &c_tu)
         {
             if(in_reference) // Forward declaration
             {
+                c_tu.forward_decls.insert(node_ptr);
             }
             else // Header file
             {
@@ -148,8 +150,8 @@ NodeTypePtr convert_record_type(TranslationUnit & c_tu,
 {
     const auto & cpp_record_type = *static_cast<const NodeRecordType*>(t.get());
 
-    const auto & c_type = record_registry.find_c(cpp_record_type.record);
-    if (c_type == nullptr )
+    const auto & node_ptr = record_registry.find_c(cpp_record_type.record);
+    if (!node_ptr)
     {
         // TODO LT: Produce a warning here and return a failure so that
         // whatever depends on this type can be skipped.
@@ -159,10 +161,11 @@ NodeTypePtr convert_record_type(TranslationUnit & c_tu,
 
     // Add the header file or forward declaration needed for this type
     // to be available.
-    add_declaration(c_tu, *c_type, in_reference);
+    add_declaration(c_tu, node_ptr, in_reference);
 
-    return std::make_shared<NodeRecordType>(t->name, 0, c_type->name,
-                                            c_type->id, t->const_);
+    const auto & record = *static_cast<const NodeRecord*>(node_ptr.get());
+    return std::make_shared<NodeRecordType>(t->name, 0, record.name,
+                                            record.id, t->const_);
 }
 
 //------------------------------------------------------------------------------
