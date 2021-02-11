@@ -68,6 +68,7 @@ namespace generate
 {
 
 const NodeId PLACEHOLDER_ID = 0;
+const char * IGNORE = "cppmm:ignore";
 
 //------------------------------------------------------------------------------
 std::tuple<std::string, std::string>
@@ -286,6 +287,21 @@ NodeExprPtr this_reference(const NodeRecord & cpp_record, bool const_)
     return cast;
 }
 
+//------------------------------------------------------------------------------
+bool should_wrap(const NodeMethod & cpp_method)
+{
+    // Check its not ignored
+    for(const auto & a : cpp_method.attrs)
+    {
+        if(a == IGNORE)
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 NodeExprPtr convert_argument(const NodeTypePtr & t, const std::string & name);
 
 //------------------------------------------------------------------------------
@@ -428,6 +444,13 @@ void opaquebytes_method(RecordRegistry & record_registry,
                         const NodeRecord & c_record,
                         const NodeMethod & cpp_method)
 {
+    // Skip ignored methods
+    if(!should_wrap(cpp_method))
+    {
+        std::cerr << "ignoring method decl: " << cpp_method.name << std::endl;
+        return;
+    }
+
     // Convert params
     auto c_params = std::vector<Param>();
     c_params.push_back(self_param(c_record, false)); // TODO LT: Const needs to be passed in here
