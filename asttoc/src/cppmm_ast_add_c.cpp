@@ -586,7 +586,6 @@ void add_c(const std::string & output_directory, Root & root)
     // For storing the mappings between cpp and c records
     auto record_registry = RecordRegistry();
 
-
     // The starting id for newly created records
     NodeId current_record_id = generate::find_record_id_upper_bound(root) + 1;
 
