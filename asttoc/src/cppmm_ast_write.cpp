@@ -332,7 +332,7 @@ void write_source_includes(fmt::ostream & out, const TranslationUnit & tu)
 {
     if(!tu.header_filename.empty())
     {
-        out.print("#include <{}>\n\n", tu.header_filename);
+        out.print("{}\n\n", tu.header_filename);
     }
 
     for(size_t i=0; i != tu.source_includes.size(); ++i)

@@ -476,6 +476,15 @@ NodeId find_record_id_upper_bound(const Root & root)
 }
 
 //------------------------------------------------------------------------------
+std::string header_file_include(std::string header_filename)
+{
+    std::string result = "#include <";
+    result += header_filename;
+    result += ">";
+    return result;
+}
+
+//------------------------------------------------------------------------------
 void translation_unit_entries(
     NodeId & new_record_id,
     RecordRegistry & record_registry,
@@ -491,7 +500,7 @@ void translation_unit_entries(
 
     // Make the new translation unit
     auto c_tu = TranslationUnit::new_(std::get<1>(filepaths));
-    c_tu->header_filename = std::get<0>(filepaths);
+    c_tu->header_filename = header_file_include(std::get<0>(filepaths));
 
     // source includes -> source includes
     for (auto & i : cpp_tu->source_includes)
