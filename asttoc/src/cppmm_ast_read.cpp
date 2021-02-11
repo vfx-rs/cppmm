@@ -42,6 +42,7 @@ namespace {
     const char * TYPE = "type";
     const char * POINTEE = "pointee";
     const char * RETURN = "return";
+    const char * SOURCE_INCLUDES = "source_includes";
 }
 
 //------------------------------------------------------------------------------
@@ -186,6 +187,12 @@ TranslationUnit read_translation_unit(const nln::json & json) {
 
     // Instantiate the translation unit
     auto result = TranslationUnit(filename);
+
+    // Loop over the source includes
+    for(auto & i : json[SOURCE_INCLUDES])
+    {
+        result.source_includes.push_back(i.get<std::string>());
+    }
 
     // Parse the elements of the translation unit
     for (const auto & i : json[DECLS] ){
