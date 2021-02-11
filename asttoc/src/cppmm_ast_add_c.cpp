@@ -107,12 +107,12 @@ std::string compute_c_name(const std::string & cpp_record_name)
 
 NodeTypePtr convert_type(TranslationUnit & c_tu,
                          RecordRegistry & record_registry,
-                         const NodeTypePtr & t);
+                         const NodeTypePtr & t, bool in_reference);
 
 //------------------------------------------------------------------------------
 NodeTypePtr convert_builtin_type(TranslationUnit & c_tu,
                                  RecordRegistry & record_registry,
-                                 const NodeTypePtr & t)
+                                 const NodeTypePtr & t, bool _in_refererence)
 {
     // TODO LT: Do mapping of c++ builtins to c builtins
 
@@ -124,7 +124,7 @@ NodeTypePtr convert_builtin_type(TranslationUnit & c_tu,
 //------------------------------------------------------------------------------
 NodeTypePtr convert_record_type(TranslationUnit & c_tu,
                                 RecordRegistry & record_registry,
-                                const NodeTypePtr & t)
+                                const NodeTypePtr & t, bool in_reference)
 {
     const auto & cpp_record_type = *static_cast<const NodeRecordType*>(t.get());
 
@@ -154,7 +154,7 @@ NodeTypePtr convert_record_type(TranslationUnit & c_tu,
 //------------------------------------------------------------------------------
 NodeTypePtr convert_pointer_type(TranslationUnit & c_tu,
                                  RecordRegistry & record_registry,
-                                 const NodeTypePtr & t)
+                                 const NodeTypePtr & t, bool in_reference)
 {
     auto p = static_cast<const NodePointerType*>(t.get());
 
@@ -162,23 +162,24 @@ NodeTypePtr convert_pointer_type(TranslationUnit & c_tu,
     return std::make_shared<NodePointerType>(p->name, 0, p->type_name,
                                              PointerKind::Pointer,
                                              convert_type(c_tu, record_registry,
-                                                          p->pointee_type),
+                                                          p->pointee_type,
+                                                          true),
                                              p->const_);
 }
 
 //------------------------------------------------------------------------------
 NodeTypePtr convert_type(TranslationUnit & c_tu,
                          RecordRegistry & record_registry,
-                         const NodeTypePtr & t)
+                         const NodeTypePtr & t, bool in_reference=false)
 {
     switch (t->kind)
     {
         case NodeKind::BuiltinType:
-            return convert_builtin_type(c_tu, record_registry, t);
+            return convert_builtin_type(c_tu, record_registry, t, in_reference);
         case NodeKind::RecordType:
-            return convert_record_type(c_tu, record_registry, t);
+            return convert_record_type(c_tu, record_registry, t, in_reference);
         case NodeKind::PointerType:
-            return convert_pointer_type(c_tu, record_registry, t);
+            return convert_pointer_type(c_tu, record_registry, t, in_reference);
         default:
             break;
     }
