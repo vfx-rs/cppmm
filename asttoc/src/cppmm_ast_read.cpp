@@ -62,12 +62,13 @@ NodeTypePtr read_type_builtin(const nln::json & json) {
 }
 
 //------------------------------------------------------------------------------
-NodeTypePtr read_type_reference(const nln::json & json) {
+NodeTypePtr read_type_pointer(const nln::json & json,
+                              PointerKind pointer_kind) {
     return std::make_shared<NodePointerType>(
             "",
             json[ID].get<Id>(),
             json[TYPE].get<std::string>(),
-            PointerKind::Reference,
+            pointer_kind,
             read_type(json[POINTEE]),
             json[CONST].get<bool>()
     );
@@ -103,10 +104,14 @@ NodeTypePtr read_type(const nln::json & json) {
     } else if(kind == "RecordType") {
         return read_type_record(json);
     } else if(kind == "Reference") {
-        return read_type_reference(json);
+        return read_type_pointer(json, PointerKind::Reference);
+    } else if(kind == "Pointer") {
+        return read_type_pointer(json, PointerKind::Pointer);
     } else if(kind == "EnumType") {
         return read_type_enum(json);
     }
+
+    std::cerr << kind << std::endl;
 
     cassert(false, "Shouldn't get here"); // TODO LT: Clean this up
 }
