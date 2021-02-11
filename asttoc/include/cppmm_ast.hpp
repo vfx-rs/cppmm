@@ -75,6 +75,7 @@ struct TranslationUnit {
 
     std::string header_filename;
     std::set<std::string> source_includes;
+    std::set<std::string> header_includes;
 
     using Self = TranslationUnit;
     using Ptr = std::shared_ptr<Self>;

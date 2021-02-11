@@ -308,9 +308,23 @@ void write_function_body(fmt::ostream & out, const NodePtr & node)
 }
 
 //------------------------------------------------------------------------------
+void write_header_includes(fmt::ostream & out, const TranslationUnit & tu)
+{
+    for(const auto & i : tu.header_includes)
+    {
+        out.print("{}\n", i);
+    }
+
+    out.print("\n");
+}
+
+//------------------------------------------------------------------------------
 void write_header(const TranslationUnit & tu)
 {
     auto out = fmt::output_file(compute_c_header_path(tu.filename));
+
+    // Write all the includes needed in the header file
+    write_header_includes(out, tu);
 
     // Write out all the records first
     for(const auto & node : tu.decls)

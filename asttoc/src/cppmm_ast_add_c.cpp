@@ -137,6 +137,16 @@ NodeTypePtr convert_record_type(TranslationUnit & c_tu,
         exit(1);
     }
 
+    // TODO LT: Handle as forward declaration when possible.
+    // include the declaration for the type
+    if(auto r_tu = c_type->tu.lock())
+    {
+        if(r_tu.get() != &c_tu)
+        {
+            c_tu.header_includes.insert(r_tu->header_filename);
+        }
+    }
+
     return std::make_shared<NodeRecordType>(t->name, 0, c_type->name,
                                             c_type->id, t->const_);
 }
