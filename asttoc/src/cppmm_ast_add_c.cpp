@@ -70,16 +70,17 @@ namespace generate
 const NodeId PLACEHOLDER_ID = 0;
 
 //------------------------------------------------------------------------------
-std::string compute_c_filepath(const std::string & outdir,
-                               const std::string & cpp_filepath,
-                               const std::string & extension)
+std::tuple<std::string, std::string>
+             compute_c_filepath(const std::string & outdir,
+                               const std::string & cpp_filepath)
 {
     std::string root;
     std::string _ext;
     pystring::os::path::splitext(root, _ext,
                                  pystring::os::path::basename(cpp_filepath));
     
-    return pystring::os::path::join(outdir, root) + extension;
+    return {root + ".h",
+            pystring::os::path::join(outdir, root) + ".cpp"};
 }
 
 //------------------------------------------------------------------------------
@@ -474,6 +475,16 @@ NodeId find_record_id_upper_bound(const Root & root)
 }
 
 //------------------------------------------------------------------------------
+std::string make_include(const std::string & path)
+{
+    std::string result = "#include \"";
+    result += path;
+    result += "\"";
+
+    return result;
+}
+
+//------------------------------------------------------------------------------
 void translation_unit_entries(
     NodeId & new_record_id,
     RecordRegistry & record_registry,
@@ -482,19 +493,13 @@ void translation_unit_entries(
     const auto & cpp_tu = root.tus[cpp_tu_index];
 
     // Create a new translation unit
-    const auto source_filepath =
+    const auto filepaths =
         generate::compute_c_filepath(output_directory,
-                                     cpp_tu.filename,
-                                     ".cpp");
-    const auto header_filepath =
-        generate::compute_c_filepath(output_directory,
-                                     cpp_tu.filename,
-                                     ".h");
-
+                                     cpp_tu.filename);
 
     // Make the new translation unit
-    auto c_tu = TranslationUnit(source_filepath);
-    c_tu.source_includes.push_back(header_filepath);
+    auto c_tu = TranslationUnit(std::get<1>(filepaths));
+    c_tu.source_includes.push_back(make_include(std::get<0>(filepaths)));
 
     // source includes -> source includes
     for (auto & i : cpp_tu.source_includes)

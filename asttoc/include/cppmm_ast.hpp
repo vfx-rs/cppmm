@@ -83,11 +83,13 @@ struct TranslationUnit {
     TranslationUnit(Self && rhs)
         : filename(std::move(rhs.filename))
         , decls(std::move(rhs.decls))
+        , source_includes(std::move(rhs.source_includes))
     {}
 
     void operator==(Self && rhs) {
         filename = std::move(rhs.filename);
         decls = std::move(rhs.decls);
+        source_includes = std::move(rhs.source_includes);
     }
 };
 
