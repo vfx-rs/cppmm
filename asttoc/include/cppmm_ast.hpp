@@ -72,6 +72,8 @@ struct TranslationUnit {
     std::string filename;
     std::vector<NodePtr> decls;
 
+    std::vector<std::string> source_includes;
+
     using Self = TranslationUnit;
 
     TranslationUnit(std::string filename)

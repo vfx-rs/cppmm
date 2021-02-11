@@ -71,10 +71,15 @@ const NodeId PLACEHOLDER_ID = 0;
 
 //------------------------------------------------------------------------------
 std::string compute_c_filepath(const std::string & outdir,
-                                const std::string & cpp_filepath)
+                               const std::string & cpp_filepath,
+                               const std::string & extension)
 {
-    std::string cpp_filename = pystring::os::path::basename(cpp_filepath);
-    return pystring::os::path::join(outdir, cpp_filename);
+    std::string root;
+    std::string _ext;
+    pystring::os::path::splitext(root, _ext,
+                                 pystring::os::path::basename(cpp_filepath));
+    
+    return pystring::os::path::join(outdir, root) + extension;
 }
 
 //------------------------------------------------------------------------------
@@ -408,7 +413,7 @@ void opaquebytes_methods(RecordRegistry & record_registry,
 //------------------------------------------------------------------------------
 void record_entry(NodeId & record_id,
                   RecordRegistry & record_registry, TranslationUnit & c_tu,
-                  NodePtr & cpp_node)
+                  const NodePtr & cpp_node)
 {
     const auto & cpp_record =\
         *static_cast<const NodeRecord*>(cpp_node.get());
@@ -472,16 +477,34 @@ NodeId find_record_id_upper_bound(const Root & root)
 void translation_unit_entries(
     NodeId & new_record_id,
     RecordRegistry & record_registry,
-    const std::string & output_directory, Root & root, const size_t cpp_tu)
+    const std::string & output_directory, Root & root, const size_t cpp_tu_index)
 {
+    const auto & cpp_tu = root.tus[cpp_tu_index];
+
     // Create a new translation unit
-    const auto filepath =
+    const auto source_filepath =
         generate::compute_c_filepath(output_directory,
-                                     root.tus[cpp_tu].filename);
-    auto c_tu = TranslationUnit(filepath);
+                                     cpp_tu.filename,
+                                     ".cpp");
+    const auto header_filepath =
+        generate::compute_c_filepath(output_directory,
+                                     cpp_tu.filename,
+                                     ".h");
+
+
+    // Make the new translation unit
+    auto c_tu = TranslationUnit(source_filepath);
+    c_tu.source_includes.push_back(header_filepath);
+
+    // source includes -> source includes
+    for (auto & i : cpp_tu.source_includes)
+    {
+        c_tu.source_includes.push_back(i);
+    }
+
 
     // cpp records -> c records
-    for (auto & node : root.tus[cpp_tu].decls)
+    for (const auto & node : cpp_tu.decls)
     {
         if (node->kind == NodeKind::Record)
         {
