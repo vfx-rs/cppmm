@@ -22,6 +22,7 @@ namespace read
 
 namespace {
     const char * ALIGN = "align";
+    const char * ATTRIBUTES = "attributes";
     const char * CHILDREN = "children";
     const char * CONST = "const";
     const char * DECLS = "decls";
@@ -154,11 +155,19 @@ NodePtr read_function(const TranslationUnit::Ptr & tu, const nln::json & json) {
 }
 
 //------------------------------------------------------------------------------
+std::vector<std::string> read_attrs(const nln::json & json) {
+    auto attrs = std::vector<std::string>();
+    for(const auto & i: json[ATTRIBUTES]) {
+        attrs.push_back(i.get<std::string>());
+    }
+    return attrs;
+}
+
+//------------------------------------------------------------------------------
 NodeMethod read_method(const nln::json & json) {
-    // ignore for the moment
-    std::vector<std::string> _attrs;
 
     auto qualified_name = json[QUALIFIED_NAME].get<std::string>();
+    auto attrs = read_attrs(json);
 
     //std::cerr << qualified_name << std::endl;
 
@@ -172,7 +181,7 @@ NodeMethod read_method(const nln::json & json) {
         params.push_back(read_param(i));
     }
 
-    return NodeMethod(qualified_name, id, _attrs, short_name,
+    return NodeMethod(qualified_name, id, attrs, short_name,
                       std::move(return_type),
                       std::move(params), static_);
 }
