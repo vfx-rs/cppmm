@@ -25,6 +25,7 @@ namespace {
     const char * CHILDREN = "children";
     const char * CONST = "const";
     const char * DECLS = "decls";
+    const char * ENUM_C = "Enum";
     const char * FIELDS = "fields";
     const char * FILENAME = "filename";
     const char * ID = "id";
@@ -43,6 +44,7 @@ namespace {
     const char * POINTEE = "pointee";
     const char * RETURN = "return";
     const char * SOURCE_INCLUDES = "source_includes";
+    const char * VARIANTS = "variants";
 }
 
 //------------------------------------------------------------------------------
@@ -167,6 +169,36 @@ NodePtr read_record(const TranslationUnit::Ptr & tu, const nln::json & json) {
 }
 
 //------------------------------------------------------------------------------
+NodePtr read_enum(const TranslationUnit::Ptr & tu, const nln::json & json) {
+    // Ignore these for the moment
+    std::vector<std::string> _attrs;
+
+    // Dont ignore these
+    Id id = json[ID].get<Id>();
+    auto size = json[SIZE].get<uint64_t>();
+    auto align = json[ALIGN].get<uint64_t>();
+    auto name = json[NAME].get<std::string>();
+
+    // Pull out the variants
+    std::vector<std::pair<std::string, std::string>> variants;
+    for (const auto & i : json[VARIANTS].items() ){
+        variants.push_back(
+            std::make_pair(
+                i.key(),
+                i.value().get<std::string>() // TODO LT: Check with anders, can value be long int?
+            )
+        );
+    }
+
+    // Instantiate the translation unit
+    auto result =\
+        std::make_shared<NodeEnum>(tu, name, id, _attrs, variants, size, align);
+
+    // Return the result
+    return result;
+}
+
+//------------------------------------------------------------------------------
 NodePtr read_node(const TranslationUnit::Ptr & tu, const nln::json & json) {
     auto kind = json[KIND].get<std::string>();
 
@@ -174,6 +206,9 @@ NodePtr read_node(const TranslationUnit::Ptr & tu, const nln::json & json) {
     if(kind == RECORD_C) {
         return read_record(tu, json);
     }        
+    else if(kind == ENUM_C) {
+        return read_enum(tu, json);
+    }
 
     cassert(false, "Have hit a node type that we can't handle");
 

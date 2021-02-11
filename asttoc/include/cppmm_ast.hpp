@@ -392,8 +392,10 @@ struct NodeEnum : public NodeAttributeHolder {
     std::vector<std::pair<std::string, std::string>> variants;
     uint32_t size;
     uint32_t align;
+    TranslationUnit::WPtr tu;
 
-    NodeEnum(std::string qualified_name, NodeId id,
+    NodeEnum(const TranslationUnit::Ptr & tu,
+             std::string qualified_name, NodeId id,
              std::vector<std::string> attrs,
              std::vector<std::pair<std::string, std::string>> variants,
              uint32_t size, uint32_t align)
