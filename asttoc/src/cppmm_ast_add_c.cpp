@@ -105,11 +105,13 @@ std::string compute_c_name(const std::string & cpp_record_name)
     return result;
 }
 
-NodeTypePtr convert_type(RecordRegistry & record_registry,
+NodeTypePtr convert_type(TranslationUnit & c_tu,
+                         RecordRegistry & record_registry,
                          const NodeTypePtr & t);
 
 //------------------------------------------------------------------------------
-NodeTypePtr convert_builtin_type(RecordRegistry & record_registry,
+NodeTypePtr convert_builtin_type(TranslationUnit & c_tu,
+                                 RecordRegistry & record_registry,
                                  const NodeTypePtr & t)
 {
     // TODO LT: Do mapping of c++ builtins to c builtins
@@ -120,7 +122,8 @@ NodeTypePtr convert_builtin_type(RecordRegistry & record_registry,
 }
 
 //------------------------------------------------------------------------------
-NodeTypePtr convert_record_type(RecordRegistry & record_registry,
+NodeTypePtr convert_record_type(TranslationUnit & c_tu,
+                                RecordRegistry & record_registry,
                                 const NodeTypePtr & t)
 {
     const auto & cpp_record_type = *static_cast<const NodeRecordType*>(t.get());
@@ -139,7 +142,8 @@ NodeTypePtr convert_record_type(RecordRegistry & record_registry,
 }
 
 //------------------------------------------------------------------------------
-NodeTypePtr convert_pointer_type(RecordRegistry & record_registry,
+NodeTypePtr convert_pointer_type(TranslationUnit & c_tu,
+                                 RecordRegistry & record_registry,
                                  const NodeTypePtr & t)
 {
     auto p = static_cast<const NodePointerType*>(t.get());
@@ -147,23 +151,24 @@ NodeTypePtr convert_pointer_type(RecordRegistry & record_registry,
     // For now just copy everything one to one.
     return std::make_shared<NodePointerType>(p->name, 0, p->type_name,
                                              PointerKind::Pointer,
-                                             convert_type(record_registry,
+                                             convert_type(c_tu, record_registry,
                                                           p->pointee_type),
                                              p->const_);
 }
 
 //------------------------------------------------------------------------------
-NodeTypePtr convert_type(RecordRegistry & record_registry,
+NodeTypePtr convert_type(TranslationUnit & c_tu,
+                         RecordRegistry & record_registry,
                          const NodeTypePtr & t)
 {
     switch (t->kind)
     {
         case NodeKind::BuiltinType:
-            return convert_builtin_type(record_registry, t);
+            return convert_builtin_type(c_tu, record_registry, t);
         case NodeKind::RecordType:
-            return convert_record_type(record_registry, t);
+            return convert_record_type(c_tu, record_registry, t);
         case NodeKind::PointerType:
-            return convert_pointer_type(record_registry, t);
+            return convert_pointer_type(c_tu, record_registry, t);
         default:
             break;
     }
@@ -172,12 +177,13 @@ NodeTypePtr convert_type(RecordRegistry & record_registry,
 }
 
 //------------------------------------------------------------------------------
-void parameter(RecordRegistry & record_registry,
-                std::vector<Param> & params, const Param & param)
+void parameter(TranslationUnit & c_tu,
+               RecordRegistry & record_registry,
+               std::vector<Param> & params, const Param & param)
 {
     params.push_back(
             Param( std::string(param.name),
-                   convert_type(record_registry, param.type),
+                   convert_type(c_tu, record_registry, param.type),
                    params.size() )
     );
 }
@@ -372,21 +378,21 @@ NodeExprPtr opaquebytes_method_body(RecordRegistry & record_registry,
 
 //------------------------------------------------------------------------------
 void opaquebytes_method(RecordRegistry & record_registry,
-                           TranslationUnit & c_tu,
-                           const NodeRecord & cpp_record,
-                           const NodeRecord & c_record,
-                           const NodeMethod & cpp_method)
+                        TranslationUnit & c_tu,
+                        const NodeRecord & cpp_record,
+                        const NodeRecord & c_record,
+                        const NodeMethod & cpp_method)
 {
     // Convert params
     auto c_params = std::vector<Param>();
     c_params.push_back(self_param(c_record, false)); // TODO LT: Const needs to be passed in here
     for(const auto & p : cpp_method.params)
     {
-        parameter(record_registry, c_params, p);
+        parameter(c_tu, record_registry, c_params, p);
     }
 
     // Convert return type
-    auto c_return = convert_type(record_registry, cpp_method.return_type);
+    auto c_return = convert_type(c_tu, record_registry, cpp_method.return_type);
 
     // Creation function body
     auto c_function_body =
