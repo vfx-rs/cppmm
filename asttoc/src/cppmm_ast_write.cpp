@@ -330,17 +330,17 @@ void write_header(const TranslationUnit & tu)
 //------------------------------------------------------------------------------
 void write_source_includes(fmt::ostream & out, const TranslationUnit & tu)
 {
-    if(!tu.source_includes.empty())
+    if(!tu.header_filename.empty())
     {
-        out.print("{}\n\n", tu.source_includes[0]);
-
-        for(size_t i=1; i < tu.source_includes.size(); ++i)
-        {
-            out.print("{}\n", tu.source_includes[i]);
-        }
-
-        out.print("\n");
+        out.print("#include <{}>\n\n", tu.header_filename);
     }
+
+    for(size_t i=0; i != tu.source_includes.size(); ++i)
+    {
+        out.print("{}\n", tu.source_includes[i]);
+    }
+
+    out.print("\n");
 }
 
 //------------------------------------------------------------------------------

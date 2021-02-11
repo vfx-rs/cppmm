@@ -72,6 +72,7 @@ struct TranslationUnit {
     std::string filename;
     std::vector<NodePtr> decls;
 
+    std::string header_filename;
     std::vector<std::string> source_includes;
 
     using Self = TranslationUnit;
@@ -83,12 +84,14 @@ struct TranslationUnit {
     TranslationUnit(Self && rhs)
         : filename(std::move(rhs.filename))
         , decls(std::move(rhs.decls))
+        , header_filename(std::move(rhs.header_filename))
         , source_includes(std::move(rhs.source_includes))
     {}
 
     void operator==(Self && rhs) {
         filename = std::move(rhs.filename);
         decls = std::move(rhs.decls);
+        header_filename = std::move(rhs.header_filename);
         source_includes = std::move(rhs.source_includes);
     }
 };
