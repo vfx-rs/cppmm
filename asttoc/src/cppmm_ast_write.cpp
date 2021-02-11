@@ -210,7 +210,7 @@ void write_expression_method_call(fmt::ostream & out,
     out.print("{}(\n", method_call.name);
     write_function_call_arguments(out, depth+1, method_call);
     indent(out, depth + 1);
-    out.print(")\n");
+    out.print(")");
 }
 
 //------------------------------------------------------------------------------
@@ -304,6 +304,7 @@ void write_function_body(fmt::ostream & out, const NodePtr & node)
     out.print("{{\n");
     indent(out, 1);
     write_expression(out, 1, function.body);
+    out.print(";\n");
     out.print("}}\n");
 }
 
@@ -340,6 +341,7 @@ void write_header(const TranslationUnit & tu)
     {
         if (node->kind == NodeKind::Function)
         {
+            out.print("\n");
             write_function(out, node);
         }
     }
