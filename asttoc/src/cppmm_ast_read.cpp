@@ -29,6 +29,7 @@ namespace {
     const char * ENUM_L = "enum";
     const char * FIELDS = "fields";
     const char * FILENAME = "filename";
+    const char * FUNCTION_C = "Function";
     const char * ID = "id";
     const char * INDEX = "index";
     const char * KIND = "kind";
@@ -126,6 +127,30 @@ Param read_param(const nln::json & json) {
     auto index = json[INDEX].get<uint64_t>();
 
     return Param(std::move(name), std::move(type), index);
+}
+
+//------------------------------------------------------------------------------
+NodePtr read_function(const TranslationUnit::Ptr & tu, const nln::json & json) {
+    // ignore for the moment
+    std::vector<std::string> _attrs;
+
+    auto qualified_name = json[QUALIFIED_NAME].get<std::string>();
+
+    //std::cerr << qualified_name << std::endl;
+
+    auto short_name = json[SHORT_NAME].get<std::string>();
+    auto id = json[ID].get<Id>();
+    auto return_type = read_type(json[RETURN]);
+
+    auto params = std::vector<Param>();
+    for(const auto & i: json[PARAMS]) {
+        params.push_back(read_param(i));
+    }
+
+    return std::make_shared<NodeFunction>(
+                      qualified_name, id, _attrs, short_name,
+                      std::move(return_type),
+                      std::move(params));
 }
 
 //------------------------------------------------------------------------------
@@ -230,6 +255,11 @@ NodePtr read_node(const TranslationUnit::Ptr & tu, const nln::json & json) {
     else if(kind == ENUM_C) {
         return read_enum(tu, json);
     }
+    else if(kind == FUNCTION_C) {
+        return read_function(tu, json);
+    }
+
+    std::cerr << kind << std::endl;
 
     cassert(false, "Have hit a node type that we can't handle");
 
