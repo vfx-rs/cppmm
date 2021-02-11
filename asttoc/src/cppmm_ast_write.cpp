@@ -125,6 +125,13 @@ void write_record(fmt::ostream & out, const NodePtr & node)
 }
 
 //------------------------------------------------------------------------------
+void write_record_forward_decl(fmt::ostream & out, const NodePtr & node)
+{
+    const NodeRecord & record = *static_cast<const NodeRecord*>(node.get());
+    out.print("typedef struct {};\n", record.name);
+}
+
+//------------------------------------------------------------------------------
 void write_params(fmt::ostream & out, const NodeFunction & function)
 {
     if(!function.params.empty())
@@ -326,6 +333,15 @@ void write_header(const TranslationUnit & tu)
 
     // Write all the includes needed in the header file
     write_header_includes(out, tu);
+
+    // Write out all the forward declarations
+    for(const auto & node : tu.forward_decls)
+    {
+        if (node->kind == NodeKind::Record)
+        {
+            write_record_forward_decl(out, node);
+        }
+    }
 
     // Write out all the records first
     for(const auto & node : tu.decls)
