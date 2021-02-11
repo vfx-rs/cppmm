@@ -154,10 +154,8 @@ NodeTypePtr convert_record_type(TranslationUnit & c_tu,
     const auto & node_ptr = record_registry.find_c(cpp_record_type.record);
     if (!node_ptr)
     {
-        // TODO LT: Produce a warning here and return a failure so that
-        // whatever depends on this type can be skipped.
         std::cerr << "Found unsupported type: " << t->type_name << std::endl;
-        exit(1);
+        return NodeTypePtr();
     }
 
     // Add the header file or forward declaration needed for this type
@@ -176,12 +174,19 @@ NodeTypePtr convert_pointer_type(TranslationUnit & c_tu,
 {
     auto p = static_cast<const NodePointerType*>(t.get());
 
+    auto pointee_type =
+        convert_type(c_tu, record_registry, p->pointee_type, true);
+
+    // If we can't convert, then dont bother with this type either
+    if(!pointee_type)
+    {
+        return NodeTypePtr();
+    }
+
     // For now just copy everything one to one.
     return std::make_shared<NodePointerType>(p->name, 0, p->type_name,
                                              PointerKind::Pointer,
-                                             convert_type(c_tu, record_registry,
-                                                          p->pointee_type,
-                                                          true),
+                                             std::move(pointee_type),
                                              p->const_);
 }
 
@@ -206,15 +211,23 @@ NodeTypePtr convert_type(TranslationUnit & c_tu,
 }
 
 //------------------------------------------------------------------------------
-void parameter(TranslationUnit & c_tu,
+bool parameter(TranslationUnit & c_tu,
                RecordRegistry & record_registry,
                std::vector<Param> & params, const Param & param)
 {
+    auto param_type = convert_type(c_tu, record_registry, param.type);
+    if(!param_type)
+    {
+        return false;
+    }
+
     params.push_back(
             Param( std::string(param.name),
-                   convert_type(c_tu, record_registry, param.type),
+                   std::move(param_type),
                    params.size() )
     );
+
+    return true;
 }
 
 //------------------------------------------------------------------------------
@@ -417,11 +430,20 @@ void opaquebytes_method(RecordRegistry & record_registry,
     c_params.push_back(self_param(c_record, false)); // TODO LT: Const needs to be passed in here
     for(const auto & p : cpp_method.params)
     {
-        parameter(c_tu, record_registry, c_params, p);
+        if(!parameter(c_tu, record_registry, c_params, p))
+        {
+            std::cerr << "Skipping: " << cpp_method.name << std::endl;
+            return;
+        }
     }
 
     // Convert return type
     auto c_return = convert_type(c_tu, record_registry, cpp_method.return_type);
+    if(!c_return)
+    {
+        std::cerr << "Skipping: " << cpp_method.name << std::endl;
+        return;
+    }
 
     // Creation function body
     auto c_function_body =
