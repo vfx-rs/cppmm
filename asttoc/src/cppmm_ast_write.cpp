@@ -130,10 +130,14 @@ void write_params(fmt::ostream & out, const NodeFunction & function)
     if(!function.params.empty())
     {
         auto param_count = function.params.size();
+            out.print("\n");
+            indent(out, 1);
             out.print("{}", convert_param(function.params[0].type,
                                           function.params[0].name));
         for(size_t i=1; i < param_count; ++i)
         {
+            out.print("\n");
+            indent(out, 1);
             out.print(", {}", convert_param(function.params[i].type,
                                             function.params[i].name));
         }
