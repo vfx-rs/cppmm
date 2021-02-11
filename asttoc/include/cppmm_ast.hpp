@@ -4,6 +4,7 @@
 #pragma once
 #include <cstdint>
 #include <memory>
+#include <set>
 #include <string>
 #include <vector>
 
@@ -73,7 +74,7 @@ struct TranslationUnit {
     std::vector<NodePtr> decls;
 
     std::string header_filename;
-    std::vector<std::string> source_includes;
+    std::set<std::string> source_includes;
 
     using Self = TranslationUnit;
     using Ptr = std::shared_ptr<Self>;

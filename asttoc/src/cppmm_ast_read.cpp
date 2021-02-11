@@ -191,7 +191,7 @@ TranslationUnit::Ptr read_translation_unit(const nln::json & json) {
     // Loop over the source includes
     for(auto & i : json[SOURCE_INCLUDES])
     {
-        result->source_includes.push_back(i.get<std::string>());
+        result->source_includes.insert(i.get<std::string>());
     }
 
     // Parse the elements of the translation unit

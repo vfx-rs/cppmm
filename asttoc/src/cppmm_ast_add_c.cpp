@@ -505,7 +505,7 @@ void translation_unit_entries(
     // source includes -> source includes
     for (auto & i : cpp_tu->source_includes)
     {
-        c_tu->source_includes.push_back(i);
+        c_tu->source_includes.insert(i);
     }
 
 

@@ -335,9 +335,9 @@ void write_source_includes(fmt::ostream & out, const TranslationUnit & tu)
         out.print("{}\n\n", tu.header_filename);
     }
 
-    for(size_t i=0; i != tu.source_includes.size(); ++i)
+    for(const auto & i : tu.source_includes)
     {
-        out.print("{}\n", tu.source_includes[i]);
+        out.print("{}\n", i);
     }
 
     out.print("\n");
