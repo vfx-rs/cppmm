@@ -25,6 +25,7 @@ enum class NodeKind : uint32_t {
     BuiltinType,
     PointerType,
     RecordType,
+    EnumType,
     Parm,
     Function,
     FunctionCallExpr,
@@ -162,6 +163,17 @@ struct NodeRecordType : public NodeType {
                    std::string type_name, NodeId record, bool const_)
         : NodeType(qualified_name, id, NodeKind::RecordType, type_name, const_),
           record(record) {}
+};
+
+//------------------------------------------------------------------------------
+// NodeEnumType
+//------------------------------------------------------------------------------
+struct NodeEnumType : public NodeType {
+    NodeId enm;
+    NodeEnumType(std::string qualified_name, NodeId id,
+                 std::string type_name, NodeId enm)
+        : NodeType(qualified_name, id, NodeKind::EnumType, type_name, false), // TODO LT: Hook up const
+          enm(enm) {}
 };
 
 //------------------------------------------------------------------------------
