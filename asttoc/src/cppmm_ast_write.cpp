@@ -338,6 +338,8 @@ void write_source_includes(fmt::ostream & out, const TranslationUnit & tu)
         {
             out.print("{}\n", tu.source_includes[i]);
         }
+
+        out.print("\n");
     }
 }
 
