@@ -181,22 +181,22 @@ NodePtr read_node(const nln::json & json) {
 }
 
 //------------------------------------------------------------------------------
-TranslationUnit read_translation_unit(const nln::json & json) {
+TranslationUnit::Ptr read_translation_unit(const nln::json & json) {
     // Read the translation unit
     auto filename = json[FILENAME].get<std::string>();
 
     // Instantiate the translation unit
-    auto result = TranslationUnit(filename);
+    auto result = TranslationUnit::new_(filename);
 
     // Loop over the source includes
     for(auto & i : json[SOURCE_INCLUDES])
     {
-        result.source_includes.push_back(i.get<std::string>());
+        result->source_includes.push_back(i.get<std::string>());
     }
 
     // Parse the elements of the translation unit
     for (const auto & i : json[DECLS] ){
-        result.decls.push_back(read_node(i));
+        result->decls.push_back(read_node(i));
     }
 
     // Return the result
@@ -206,7 +206,7 @@ TranslationUnit read_translation_unit(const nln::json & json) {
 //------------------------------------------------------------------------------
 Root json(const std::string & input_directory) {
 
-    std::vector<TranslationUnit> tus;
+    std::vector<TranslationUnit::Ptr> tus;
 
     for(const auto & p: fs::directory_iterator(input_directory))
     {

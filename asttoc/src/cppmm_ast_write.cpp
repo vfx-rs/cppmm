@@ -377,7 +377,7 @@ void cpp(const Root & root, size_t starting_point)
     for(size_t i=starting_point; i < size; ++i)
     {
         const auto & tu = root.tus[i];
-        write_translation_unit(tu);
+        write_translation_unit(*tu);
     }
 }
 } // namespace read

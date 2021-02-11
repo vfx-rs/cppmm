@@ -462,7 +462,7 @@ NodeId find_record_id_upper_bound(const Root & root)
     NodeId upper_bound = 0;
     for(const auto & t: root.tus)
     {
-        for (const auto & node : t.decls)
+        for (const auto & node : t->decls)
         {
             if (node->kind == NodeKind::Record)
             {
@@ -478,32 +478,33 @@ NodeId find_record_id_upper_bound(const Root & root)
 void translation_unit_entries(
     NodeId & new_record_id,
     RecordRegistry & record_registry,
-    const std::string & output_directory, Root & root, const size_t cpp_tu_index)
+    const std::string & output_directory, Root & root,
+    const size_t cpp_tu_index)
 {
     const auto & cpp_tu = root.tus[cpp_tu_index];
 
     // Create a new translation unit
     const auto filepaths =
         generate::compute_c_filepath(output_directory,
-                                     cpp_tu.filename);
+                                     cpp_tu->filename);
 
     // Make the new translation unit
-    auto c_tu = TranslationUnit(std::get<1>(filepaths));
-    c_tu.header_filename = std::get<0>(filepaths);
+    auto c_tu = TranslationUnit::new_(std::get<1>(filepaths));
+    c_tu->header_filename = std::get<0>(filepaths);
 
     // source includes -> source includes
-    for (auto & i : cpp_tu.source_includes)
+    for (auto & i : cpp_tu->source_includes)
     {
-        c_tu.source_includes.push_back(i);
+        c_tu->source_includes.push_back(i);
     }
 
 
     // cpp records -> c records
-    for (const auto & node : cpp_tu.decls)
+    for (const auto & node : cpp_tu->decls)
     {
         if (node->kind == NodeKind::Record)
         {
-            generate::record_entry(new_record_id, record_registry, c_tu, node);
+            generate::record_entry(new_record_id, record_registry, *c_tu, node);
         }
     }
 
@@ -515,10 +516,10 @@ void translation_unit_details(
     RecordRegistry & record_registry,
     Root & root, const size_t cpp_tu_size, const size_t cpp_tu)
 {
-    auto & c_tu = root.tus[cpp_tu_size+cpp_tu];
+    auto & c_tu = *root.tus[cpp_tu_size+cpp_tu];
 
     // cpp methods -> c functions
-    for (const auto & node : root.tus[cpp_tu].decls)
+    for (const auto & node : root.tus[cpp_tu]->decls)
     {
         if (node->kind == NodeKind::Record)
         {

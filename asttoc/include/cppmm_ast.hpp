@@ -76,6 +76,7 @@ struct TranslationUnit {
     std::vector<std::string> source_includes;
 
     using Self = TranslationUnit;
+    using Ptr = std::shared_ptr<Self>;
 
     TranslationUnit(std::string filename)
         : filename(filename)
@@ -93,6 +94,11 @@ struct TranslationUnit {
         decls = std::move(rhs.decls);
         header_filename = std::move(rhs.header_filename);
         source_includes = std::move(rhs.source_includes);
+    }
+
+    static Ptr new_(std::string filename)
+    {
+        return std::make_shared<Self>(filename);
     }
 };
 
@@ -364,9 +370,9 @@ struct NodeRecord : public NodeAttributeHolder {
 // Root
 //------------------------------------------------------------------------------
 struct Root {
-    std::vector<TranslationUnit> tus;
+    std::vector<TranslationUnit::Ptr> tus;
 
-    Root(std::vector<TranslationUnit> && tus)
+    Root(std::vector<TranslationUnit::Ptr> && tus)
         : tus(std::move(tus))
     {}
 
