@@ -134,6 +134,7 @@ void add_declaration(TranslationUnit & c_tu, const NodePtr & node_ptr,
             if(in_reference) // Forward declaration
             {
                 c_tu.forward_decls.insert(node_ptr);
+                c_tu.source_includes.insert(r_tu->header_filename);
             }
             else // Header file
             {
