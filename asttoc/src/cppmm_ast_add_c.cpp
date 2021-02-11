@@ -121,6 +121,26 @@ NodeTypePtr convert_builtin_type(TranslationUnit & c_tu,
                                              t->const_);
 }
 
+
+//------------------------------------------------------------------------------
+void add_declaration(TranslationUnit & c_tu, const NodeRecord & c_type,
+                     bool in_reference)
+{
+    if(auto r_tu = c_type.tu.lock())
+    {
+        if(r_tu.get() != &c_tu)
+        {
+            if(in_reference) // Forward declaration
+            {
+            }
+            else // Header file
+            {
+                c_tu.header_includes.insert(r_tu->header_filename);
+            }
+        }
+    }
+}
+
 //------------------------------------------------------------------------------
 NodeTypePtr convert_record_type(TranslationUnit & c_tu,
                                 RecordRegistry & record_registry,
@@ -137,15 +157,9 @@ NodeTypePtr convert_record_type(TranslationUnit & c_tu,
         exit(1);
     }
 
-    // TODO LT: Handle as forward declaration when possible.
-    // include the declaration for the type
-    if(auto r_tu = c_type->tu.lock())
-    {
-        if(r_tu.get() != &c_tu)
-        {
-            c_tu.header_includes.insert(r_tu->header_filename);
-        }
-    }
+    // Add the header file or forward declaration needed for this type
+    // to be available.
+    add_declaration(c_tu, *c_type, in_reference);
 
     return std::make_shared<NodeRecordType>(t->name, 0, c_type->name,
                                             c_type->id, t->const_);
@@ -258,7 +272,7 @@ NodeExprPtr convert_argument(const NodeTypePtr & t, const std::string & name);
 //------------------------------------------------------------------------------
 NodeExprPtr convert_builtin_arg(const NodeTypePtr & t, const std::string & name)
 {
-    // TODO LT: Map c++ builtins to c ones. Likely static cast directly
+    // TODO LT: Map c++ builtins to c ones. Likely static cast directly...
     auto variable = std::make_shared<NodeVarRefExpr>(name);
 #if 0
     auto type = NodeTypePtr(t);
