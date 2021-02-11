@@ -105,6 +105,8 @@ NodeTypePtr read_type(const nln::json & json) {
         return read_type_record(json);
     } else if(kind == "Reference") {
         return read_type_pointer(json, PointerKind::Reference);
+    } else if(kind == "RValueReference") {
+        return read_type_pointer(json, PointerKind::RValueReference);
     } else if(kind == "Pointer") {
         return read_type_pointer(json, PointerKind::Pointer);
     } else if(kind == "EnumType") {

@@ -46,6 +46,7 @@ enum class NodeKind : uint32_t {
 enum class PointerKind : uint32_t {
     Pointer,
     Reference,
+    RValueReference,
 };
 
 using NodeId = uint64_t;
