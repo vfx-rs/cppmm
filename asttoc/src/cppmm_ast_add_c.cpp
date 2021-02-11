@@ -413,7 +413,7 @@ void opaquebytes_methods(RecordRegistry & record_registry,
 
 //------------------------------------------------------------------------------
 void record_entry(NodeId & record_id,
-                  RecordRegistry & record_registry, TranslationUnit & c_tu,
+                  RecordRegistry & record_registry, TranslationUnit::Ptr & c_tu,
                   const NodePtr & cpp_node)
 {
     const auto & cpp_record =\
@@ -424,6 +424,7 @@ void record_entry(NodeId & record_id,
     // Create the c record
     auto c_record =\
         std::make_shared<NodeRecord>(
+                   c_tu,
                    c_record_name, record_id++, cpp_record.attrs,
                    cpp_record.size, cpp_record.align);
 
@@ -431,7 +432,7 @@ void record_entry(NodeId & record_id,
     record_registry.add(cpp_node->id, cpp_node, c_record);
 
     // Finally add the record to the translation unit
-    c_tu.decls.push_back(std::move(c_record));
+    c_tu->decls.push_back(std::move(c_record));
 }
 
 //------------------------------------------------------------------------------
@@ -504,7 +505,7 @@ void translation_unit_entries(
     {
         if (node->kind == NodeKind::Record)
         {
-            generate::record_entry(new_record_id, record_registry, *c_tu, node);
+            generate::record_entry(new_record_id, record_registry, c_tu, node);
         }
     }
 

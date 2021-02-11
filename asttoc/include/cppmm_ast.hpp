@@ -77,6 +77,7 @@ struct TranslationUnit {
 
     using Self = TranslationUnit;
     using Ptr = std::shared_ptr<Self>;
+    using WPtr = std::weak_ptr<Self>;
 
     TranslationUnit(std::string filename)
         : filename(filename)
@@ -354,16 +355,18 @@ struct Field {
 struct NodeRecord : public NodeAttributeHolder {
     std::vector<Field> fields;
     std::vector<NodeMethod> methods;
+    TranslationUnit::WPtr tu;
 
     uint32_t size;
     uint32_t align;
     bool force_alignment;
 
-    NodeRecord(std::string qualified_name, NodeId id,
+    NodeRecord(const TranslationUnit::Ptr & tu,
+               std::string qualified_name, NodeId id,
                std::vector<std::string> attrs,
                uint32_t size, uint32_t align)
         : NodeAttributeHolder(qualified_name, id, NodeKind::Record, attrs),
-          size(size), align(align), force_alignment(false) {}
+          tu(tu), size(size), align(align), force_alignment(false) {}
 };
 
 //------------------------------------------------------------------------------

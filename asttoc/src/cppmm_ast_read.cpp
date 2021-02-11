@@ -138,7 +138,7 @@ Field read_field(const nln::json & json) {
 }
 
 //------------------------------------------------------------------------------
-NodePtr read_record(const nln::json & json) {
+NodePtr read_record(const TranslationUnit::Ptr & tu, const nln::json & json) {
     // Ignore these for the moment
     std::vector<std::string> _attrs;
 
@@ -150,7 +150,7 @@ NodePtr read_record(const nln::json & json) {
 
     // Instantiate the translation unit
     auto result =\
-        std::make_shared<NodeRecord>(name, id, _attrs, size, align);
+        std::make_shared<NodeRecord>(tu, name, id, _attrs, size, align);
 
     // Pull out the methods
     for (const auto & i : json[METHODS] ){
@@ -167,12 +167,12 @@ NodePtr read_record(const nln::json & json) {
 }
 
 //------------------------------------------------------------------------------
-NodePtr read_node(const nln::json & json) {
+NodePtr read_node(const TranslationUnit::Ptr & tu, const nln::json & json) {
     auto kind = json[KIND].get<std::string>();
 
     // TODO LT: Could kind be an enum instead of a string?
     if(kind == RECORD_C) {
-        return read_record(json);
+        return read_record(tu, json);
     }        
 
     cassert(false, "Have hit a node type that we can't handle");
@@ -196,7 +196,7 @@ TranslationUnit::Ptr read_translation_unit(const nln::json & json) {
 
     // Parse the elements of the translation unit
     for (const auto & i : json[DECLS] ){
-        result->decls.push_back(read_node(i));
+        result->decls.push_back(read_node(result, i));
     }
 
     // Return the result
