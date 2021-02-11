@@ -171,8 +171,8 @@ struct NodeRecordType : public NodeType {
 struct NodeEnumType : public NodeType {
     NodeId enm;
     NodeEnumType(std::string qualified_name, NodeId id,
-                 std::string type_name, NodeId enm)
-        : NodeType(qualified_name, id, NodeKind::EnumType, type_name, false), // TODO LT: Hook up const
+                 std::string type_name, NodeId enm, bool const_) // TODO LT: Hook up const later
+        : NodeType(qualified_name, id, NodeKind::EnumType, type_name, const_),
           enm(enm) {}
 };
 

@@ -26,6 +26,7 @@ namespace {
     const char * CONST = "const";
     const char * DECLS = "decls";
     const char * ENUM_C = "Enum";
+    const char * ENUM_L = "enum";
     const char * FIELDS = "fields";
     const char * FILENAME = "filename";
     const char * ID = "id";
@@ -84,6 +85,17 @@ NodeTypePtr read_type_record(const nln::json & json) {
 }
 
 //------------------------------------------------------------------------------
+NodeTypePtr read_type_enum(const nln::json & json) {
+    return std::make_shared<NodeEnumType>(
+            "",
+            json[ID].get<Id>(),
+            json[TYPE].get<std::string>(),
+            json[ENUM_L].get<NodeId>(),
+            json[CONST].get<bool>()
+    );
+}
+
+//------------------------------------------------------------------------------
 NodeTypePtr read_type(const nln::json & json) {
     auto kind = json[KIND].get<std::string>();
     if(kind == "BuiltinType") {
@@ -92,6 +104,8 @@ NodeTypePtr read_type(const nln::json & json) {
         return read_type_record(json);
     } else if(kind == "Reference") {
         return read_type_reference(json);
+    } else if(kind == "EnumType") {
+        return read_type_enum(json);
     }
 
     cassert(false, "Shouldn't get here"); // TODO LT: Clean this up
