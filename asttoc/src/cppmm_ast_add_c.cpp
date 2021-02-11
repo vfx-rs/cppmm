@@ -243,10 +243,14 @@ NodeExprPtr convert_builtin_arg(const NodeTypePtr & t, const std::string & name)
 {
     // TODO LT: Map c++ builtins to c ones. Likely static cast directly
     auto variable = std::make_shared<NodeVarRefExpr>(name);
+#if 0
     auto type = NodeTypePtr(t);
     return std::make_shared<NodeCastExpr>(std::move(variable),
                                           std::move(type),
                                           "static");
+#else
+    return variable;
+#endif
 }
 
 //------------------------------------------------------------------------------
