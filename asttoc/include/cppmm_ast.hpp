@@ -33,6 +33,7 @@ enum class NodeKind : uint32_t {
     DerefExpr,
     RefExpr,
     CastExpr,
+    Enum,
     Method,
     Record,
     Sentinal, // A sentinal entry to keep track of how many there are
@@ -370,6 +371,23 @@ struct NodeRecord : public NodeAttributeHolder {
                uint32_t size, uint32_t align)
         : NodeAttributeHolder(qualified_name, id, NodeKind::Record, attrs),
           tu(tu), size(size), align(align), force_alignment(false) {}
+};
+
+//------------------------------------------------------------------------------
+// NodeEnum
+//------------------------------------------------------------------------------
+struct NodeEnum : public NodeAttributeHolder {
+    std::vector<std::pair<std::string, std::string>> variants;
+    uint32_t size;
+    uint32_t align;
+
+    NodeEnum(std::string qualified_name, NodeId id,
+             std::vector<std::string> attrs,
+             std::vector<std::pair<std::string, std::string>> variants,
+             uint32_t size, uint32_t align)
+        : NodeAttributeHolder(qualified_name, id, NodeKind::Enum, attrs),
+          variants(variants), size(size), align(align) {
+    }
 };
 
 //------------------------------------------------------------------------------
