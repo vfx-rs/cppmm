@@ -304,8 +304,6 @@ bool should_wrap(const NodeMethod & cpp_method)
     return true;
 }
 
-NodeExprPtr convert_argument(const NodeTypePtr & t, const std::string & name);
-
 //------------------------------------------------------------------------------
 NodeExprPtr convert_builtin_to(const NodeTypePtr & t, const NodeExprPtr & name)
 {
@@ -460,7 +458,7 @@ NodeExprPtr opaquebytes_method_body(RecordRegistry & record_registry,
     );
 
     // Convert the result
-    //return convert_return(c_return_type, method_call);
+    //return convert_from(cpp_method.return_type, method_call);
     return method_call;
 }
 
