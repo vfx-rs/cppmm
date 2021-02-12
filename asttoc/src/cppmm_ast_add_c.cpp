@@ -416,6 +416,29 @@ void argument(std::vector<NodeExprPtr> & args, const Param & param)
 }
 
 //------------------------------------------------------------------------------
+NodeExprPtr opaquebytes_constructor_body(RecordRegistry & record_registry,
+                                         TranslationUnit & c_tu,
+                                         const NodeRecord & cpp_record,
+                                         const NodeRecord & c_record,
+                                         const NodeMethod & cpp_method)
+{
+    // Loop over the parameters, creating arguments for the method call
+    auto args = std::vector<NodeExprPtr>();
+    for(const auto & p : cpp_method.params)
+    {
+        argument(args, p);
+    }
+
+    // Create the method call expression
+    return std::make_shared<NodePlacementNewExpr>(
+        std::make_shared<NodeVarRefExpr>("self"),
+        std::make_shared<NodeFunctionCallExpr>(cpp_method.short_name,
+                                               args
+        )
+    );
+}
+
+//------------------------------------------------------------------------------
 NodeExprPtr opaquebytes_method_body(RecordRegistry & record_registry,
                                     TranslationUnit & c_tu,
                                     const NodeRecord & cpp_record,
@@ -437,6 +460,25 @@ NodeExprPtr opaquebytes_method_body(RecordRegistry & record_registry,
                                                 cpp_method.short_name,
                                                 args
     );
+}
+
+//------------------------------------------------------------------------------
+NodeExprPtr opaquebytes_c_function_body(RecordRegistry & record_registry,
+                                        TranslationUnit & c_tu,
+                                        const NodeRecord & cpp_record,
+                                        const NodeRecord & c_record,
+                                        const NodeMethod & cpp_method)
+{
+    if(cpp_method.is_constructor)
+    {
+        return opaquebytes_constructor_body(
+            record_registry, c_tu, cpp_record, c_record, cpp_method);
+    }
+    else
+    {
+        return opaquebytes_method_body(
+            record_registry, c_tu, cpp_record, c_record, cpp_method);
+    }
 }
 
 //------------------------------------------------------------------------------
@@ -473,10 +515,10 @@ void opaquebytes_method(RecordRegistry & record_registry,
         return;
     }
 
-    // Creation function body
+    // Function body
     auto c_function_body =
-        opaquebytes_method_body(record_registry, c_tu, cpp_record, c_record,
-                                cpp_method);
+        opaquebytes_c_function_body(record_registry, c_tu, cpp_record, c_record,
+                                    cpp_method);
 
     // Add the new function to the translation unit
     auto c_function = std::make_shared<NodeFunction>(

@@ -34,6 +34,7 @@ enum class NodeKind : uint32_t {
     DerefExpr,
     RefExpr,
     CastExpr,
+    PlacementNewExpr,
     Enum,
     Method,
     Record,
@@ -317,6 +318,20 @@ struct NodeCastExpr : public NodeExpr { // TODO LT: Added by luke
         , inner(std::move(inner))
         , type(std::move(type))
         , cast_kind(cast_kind)
+    {}
+};
+
+//------------------------------------------------------------------------------
+// NodePlacementNewExpr
+//------------------------------------------------------------------------------
+struct NodePlacementNewExpr : public NodeExpr { // TODO LT: Added by luke new () ();
+    NodeExprPtr address;
+    NodeExprPtr constructor;
+
+    NodePlacementNewExpr(NodeExprPtr && address, NodeExprPtr && constructor)
+        : NodeExpr(NodeKind::PlacementNewExpr)
+        , address(std::move(address))
+        , constructor(std::move(constructor))
     {}
 };
 

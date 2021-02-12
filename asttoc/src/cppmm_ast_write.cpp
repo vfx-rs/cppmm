@@ -171,8 +171,15 @@ void write_function_call_arguments(fmt::ostream & out,
                                    size_t depth,
                                    const NodeFunctionCallExpr & function_call)
 {
-    if(!function_call.args.empty())
+    if(function_call.args.empty())
     {
+        out.print("()");
+    }
+    else
+    {
+        // start
+        out.print("(\n");
+
         // First argument
         indent(out, depth + 1);
         out.print(" ");
@@ -187,6 +194,10 @@ void write_function_call_arguments(fmt::ostream & out,
             write_expression(out, depth, function_call.args[i]);
             out.print("\n");
         }
+
+        // start
+        indent(out, depth + 1);
+        out.print(")");
     }
 }
 
@@ -198,9 +209,8 @@ void write_expression_function_call(fmt::ostream & out,
     const auto & function_call =
         *static_cast<const NodeMethodCallExpr*>(node.get());
 
-    out.print("{}(\n", function_call.name);
+    out.print("{}", function_call.name);
     write_function_call_arguments(out, depth+1, function_call);
-    out.print(")");
 }
 
 //------------------------------------------------------------------------------
@@ -214,10 +224,8 @@ void write_expression_method_call(fmt::ostream & out,
     write_expression(out, depth, method_call.this_);
     out.print(") -> \n");
     indent(out, depth + 1);
-    out.print("{}(\n", method_call.name);
+    out.print("{}", method_call.name);
     write_function_call_arguments(out, depth+1, method_call);
-    indent(out, depth + 1);
-    out.print(")");
 }
 
 //------------------------------------------------------------------------------
@@ -268,6 +276,19 @@ void write_expression_cast(fmt::ostream & out, size_t depth,
 }
 
 //------------------------------------------------------------------------------
+void write_expression_placement_new(fmt::ostream & out, size_t depth,
+                                    const NodeExprPtr & node)
+{
+    const auto & plcmt_new_expr =
+        *static_cast<const NodePlacementNewExpr*>(node.get());
+
+    out.print("new (");
+    write_expression(out, depth, plcmt_new_expr.address);
+    out.print(") ");
+    write_expression(out, depth, plcmt_new_expr.constructor);
+}
+
+//------------------------------------------------------------------------------
 void write_expression(fmt::ostream & out, size_t depth,
                       const NodeExprPtr & node)
 {
@@ -291,11 +312,13 @@ void write_expression(fmt::ostream & out, size_t depth,
             return write_expression_ref(out, depth, node);
         case NodeKind::CastExpr:
             return write_expression_cast(out, depth, node);
+        case NodeKind::PlacementNewExpr:
+            return write_expression_placement_new(out, depth, node);
         default:
             break;
     }
 
-    cassert(false, "Shouldn't get here"); // TODO LT: Clean this up
+    cassert(false, "write expression Shouldn't get here"); // TODO LT: Clean this up
 }
 
 //------------------------------------------------------------------------------
