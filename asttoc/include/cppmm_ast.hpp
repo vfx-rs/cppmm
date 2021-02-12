@@ -345,15 +345,18 @@ struct NodeFunction : public NodeAttributeHolder {
 //------------------------------------------------------------------------------
 struct NodeMethod : public NodeFunction {
     bool is_static = false;
+    bool is_constructor = false;
     // TODO LT: Missing const here
 
     NodeMethod(std::string qualified_name, NodeId id,
                std::vector<std::string> attrs, std::string short_name,
                NodeTypePtr && return_type, std::vector<Param> && params,
-               bool is_static)
+               bool is_static, bool is_constructor)
         : NodeFunction(qualified_name, id, attrs, short_name,
-                       std::move(return_type), std::move(params)),
-          is_static(is_static) {
+                       std::move(return_type), std::move(params))
+          , is_static(is_static)
+          , is_constructor(is_constructor)
+    {
         kind = NodeKind::Method;
     }
 };
