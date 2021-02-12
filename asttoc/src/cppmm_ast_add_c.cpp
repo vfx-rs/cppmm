@@ -307,28 +307,25 @@ bool should_wrap(const NodeMethod & cpp_method)
 NodeExprPtr convert_argument(const NodeTypePtr & t, const std::string & name);
 
 //------------------------------------------------------------------------------
-NodeExprPtr convert_builtin_arg(const NodeTypePtr & t, const std::string & name)
+NodeExprPtr convert_builtin_arg(const NodeTypePtr & t, const NodeExprPtr & name)
 {
-    // TODO LT: Map c++ builtins to c ones. Likely static cast directly...
-    auto variable = std::make_shared<NodeVarRefExpr>(name);
 #if 0
     auto type = NodeTypePtr(t);
-    return std::make_shared<NodeCastExpr>(std::move(variable),
+    return std::make_shared<NodeCastExpr>(NodeExprPtr(name),
                                           std::move(type),
                                           "static");
 #else
-    return variable;
+    return NodeExprPtr(name);
 #endif
 }
 
 //------------------------------------------------------------------------------
-NodeExprPtr convert_record_arg(const NodeTypePtr & t, const std::string & name)
+NodeExprPtr convert_record_arg(const NodeTypePtr & t, const NodeExprPtr & name)
 {
     // TODO LT: Assuming opaquebytes at the moment, opaqueptr will have a
     // different implementation.
     //
-    auto variable = std::make_shared<NodeVarRefExpr>(name);
-    auto reference = std::make_shared<NodeRefExpr>(std::move(variable));
+    auto reference = std::make_shared<NodeRefExpr>(NodeExprPtr(name));
     auto type =\
         std::make_shared<NodePointerType>(
             "", 0, "", PointerKind::Pointer,
@@ -351,7 +348,7 @@ NodeExprPtr convert_record_arg(const NodeTypePtr & t, const std::string & name)
 }
 
 //------------------------------------------------------------------------------
-NodeExprPtr convert_pointer_arg(const NodeTypePtr & t, const std::string & name)
+NodeExprPtr convert_pointer_arg(const NodeTypePtr & t, const NodeExprPtr & name)
 {
     // TODO LT: Assuming opaquebytes at the moment, opaqueptr will have a
     // different implementation.
@@ -362,16 +359,14 @@ NodeExprPtr convert_pointer_arg(const NodeTypePtr & t, const std::string & name)
     {
         case PointerKind::Pointer:
             {
-                auto variable = std::make_shared<NodeVarRefExpr>(name);
                 auto type = NodeTypePtr(t);
-                return std::make_shared<NodeCastExpr>(std::move(variable),
+                return std::make_shared<NodeCastExpr>(NodeExprPtr(name),
                                                       std::move(type),
                                                       "reinterpret");
             }
         case PointerKind::RValueReference: // TODO LT: Add support for rvalue reference
         case PointerKind::Reference:
             {
-                auto variable = std::make_shared<NodeVarRefExpr>(name);
                 auto pointee = NodeTypePtr(p->pointee_type);
                 auto type =\
                     std::make_shared<NodePointerType>(
@@ -380,7 +375,7 @@ NodeExprPtr convert_pointer_arg(const NodeTypePtr & t, const std::string & name)
                         p->const_
                 );
                 auto inner = std::make_shared<NodeCastExpr>(
-                    std::move(variable), std::move(type), "reinterpret");
+                    NodeExprPtr(name), std::move(type), "reinterpret");
                 return std::make_shared<NodeDerefExpr>(std::move(inner));
             }
         default:
@@ -391,7 +386,7 @@ NodeExprPtr convert_pointer_arg(const NodeTypePtr & t, const std::string & name)
 }
 
 //------------------------------------------------------------------------------
-NodeExprPtr convert_argument(const NodeTypePtr & t, const std::string & name)
+NodeExprPtr convert_argument(const NodeTypePtr & t, const NodeExprPtr & name)
 {
     switch (t->kind)
     {
@@ -411,7 +406,9 @@ NodeExprPtr convert_argument(const NodeTypePtr & t, const std::string & name)
 //------------------------------------------------------------------------------
 void argument(std::vector<NodeExprPtr> & args, const Param & param)
 {
-    auto argument = convert_argument(param.type, param.name);
+    auto argument =
+        convert_argument(param.type,
+                         std::make_shared<NodeVarRefExpr>(param.name));
     args.push_back(argument);
 }
 
