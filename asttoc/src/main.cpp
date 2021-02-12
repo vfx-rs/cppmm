@@ -12,8 +12,8 @@
 int main()
 {
     //const std::string input_directory = "../test/imath/ref";
-    const std::string input_directory = "..//test/std/ref";
-    //const std::string input_directory = "../test/oiio/ref";
+    //const std::string input_directory = "..//test/std/ref";
+    const std::string input_directory = "../test/oiio/ref";
     const std::string output_directory = "out/";
 
     // Read the json ast
