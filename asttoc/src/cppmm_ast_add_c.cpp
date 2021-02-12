@@ -402,6 +402,81 @@ NodeExprPtr convert_to(const NodeTypePtr & t, const NodeExprPtr & name)
 }
 
 //------------------------------------------------------------------------------
+NodeExprPtr convert_builtin_from(
+                                 const NodeTypePtr & from_ptr,
+                                 const NodeTypePtr & to_ptr,
+                                 const NodeExprPtr & name)
+{
+    // TODO LT: Be smarter
+    return NodeExprPtr(name);
+}
+
+//------------------------------------------------------------------------------
+NodeExprPtr convert_record_from(
+                                 const NodeTypePtr & from_ptr,
+                                 const NodeTypePtr & to_ptr,
+                                 const NodeExprPtr & name)
+{
+    auto reference = std::make_shared<NodeRefExpr>(NodeExprPtr(name));
+    auto inner = std::make_shared<NodeCastExpr>(
+        std::move(reference), NodeTypePtr(to_ptr), "reinterpret");
+    return std::make_shared<NodeDerefExpr>(std::move(inner));
+}
+
+//------------------------------------------------------------------------------
+NodeExprPtr convert_pointer_from(
+                                 const NodeTypePtr & from_ptr,
+                                 const NodeTypePtr & to_ptr,
+                                 const NodeExprPtr & name)
+{
+    // TODO LT: Assuming opaquebytes at the moment, opaqueptr will have a
+    // different implementation.
+    //
+    auto from = static_cast<const NodePointerType*>(from_ptr.get());
+
+    switch (from->pointer_kind)
+    {
+        case PointerKind::Pointer:
+            {
+                return std::make_shared<NodeCastExpr>(NodeExprPtr(name),
+                                                      NodeTypePtr(to_ptr),
+                                                      "reinterpret");
+            }
+        case PointerKind::RValueReference: // TODO LT: Add support for rvalue reference
+        case PointerKind::Reference:
+            {
+                auto ref = std::make_shared<NodeRefExpr>(NodeExprPtr(name));
+                return std::make_shared<NodeCastExpr>(
+                    NodeExprPtr(name), NodeTypePtr(to_ptr), "reinterpret");
+            }
+        default:
+            break;
+    }
+    
+    cassert(false, "convert_pointer_arg Shouldn't get here"); // TODO LT: Clean this up
+}
+
+//------------------------------------------------------------------------------
+NodeExprPtr convert_from(const NodeTypePtr & from,
+                         const NodeTypePtr & to,
+                         const NodeExprPtr & name)
+{
+    switch (to->kind)
+    {
+        case NodeKind::BuiltinType:
+            return convert_builtin_from(from, to, name);
+        case NodeKind::RecordType:
+            return convert_record_from(from, to, name);
+        case NodeKind::PointerType:
+            return convert_pointer_from(from, to, name);
+        default:
+            break;
+    }
+
+    cassert(false, "convert_to Shouldn't get here"); // TODO LT: Clean this up
+}
+
+//------------------------------------------------------------------------------
 void argument(std::vector<NodeExprPtr> & args, const Param & param)
 {
     auto argument =
@@ -438,6 +513,7 @@ NodeExprPtr opaquebytes_method_body(RecordRegistry & record_registry,
                                     TranslationUnit & c_tu,
                                     const NodeRecord & cpp_record,
                                     const NodeRecord & c_record,
+                                    const NodeTypePtr & c_return,
                                     const NodeMethod & cpp_method)
 {
     // Create the reference to this
@@ -458,8 +534,8 @@ NodeExprPtr opaquebytes_method_body(RecordRegistry & record_registry,
     );
 
     // Convert the result
-    //return convert_from(cpp_method.return_type, method_call);
-    return method_call;
+    return convert_from(cpp_method.return_type, c_return, method_call);
+    //return method_call;
 }
 
 //------------------------------------------------------------------------------
@@ -467,6 +543,7 @@ NodeExprPtr opaquebytes_c_function_body(RecordRegistry & record_registry,
                                         TranslationUnit & c_tu,
                                         const NodeRecord & cpp_record,
                                         const NodeRecord & c_record,
+                                        const NodeTypePtr & c_return,
                                         const NodeMethod & cpp_method)
 {
     if(cpp_method.is_constructor)
@@ -477,7 +554,7 @@ NodeExprPtr opaquebytes_c_function_body(RecordRegistry & record_registry,
     else
     {
         return opaquebytes_method_body(
-            record_registry, c_tu, cpp_record, c_record, cpp_method);
+            record_registry, c_tu, cpp_record, c_record, c_return, cpp_method);
     }
 }
 
@@ -518,7 +595,7 @@ void opaquebytes_method(RecordRegistry & record_registry,
     // Function body
     auto c_function_body =
         opaquebytes_c_function_body(record_registry, c_tu, cpp_record, c_record,
-                                    cpp_method);
+                                    c_return, cpp_method);
 
     // Add the new function to the translation unit
     auto c_function = std::make_shared<NodeFunction>(
