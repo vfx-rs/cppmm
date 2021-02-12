@@ -307,7 +307,7 @@ bool should_wrap(const NodeMethod & cpp_method)
 NodeExprPtr convert_argument(const NodeTypePtr & t, const std::string & name);
 
 //------------------------------------------------------------------------------
-NodeExprPtr convert_builtin_arg(const NodeTypePtr & t, const NodeExprPtr & name)
+NodeExprPtr convert_builtin_to(const NodeTypePtr & t, const NodeExprPtr & name)
 {
 #if 0
     auto type = NodeTypePtr(t);
@@ -320,7 +320,7 @@ NodeExprPtr convert_builtin_arg(const NodeTypePtr & t, const NodeExprPtr & name)
 }
 
 //------------------------------------------------------------------------------
-NodeExprPtr convert_record_arg(const NodeTypePtr & t, const NodeExprPtr & name)
+NodeExprPtr convert_record_to(const NodeTypePtr & t, const NodeExprPtr & name)
 {
     // TODO LT: Assuming opaquebytes at the moment, opaqueptr will have a
     // different implementation.
@@ -348,7 +348,7 @@ NodeExprPtr convert_record_arg(const NodeTypePtr & t, const NodeExprPtr & name)
 }
 
 //------------------------------------------------------------------------------
-NodeExprPtr convert_pointer_arg(const NodeTypePtr & t, const NodeExprPtr & name)
+NodeExprPtr convert_pointer_to(const NodeTypePtr & t, const NodeExprPtr & name)
 {
     // TODO LT: Assuming opaquebytes at the moment, opaqueptr will have a
     // different implementation.
@@ -386,29 +386,29 @@ NodeExprPtr convert_pointer_arg(const NodeTypePtr & t, const NodeExprPtr & name)
 }
 
 //------------------------------------------------------------------------------
-NodeExprPtr convert_argument(const NodeTypePtr & t, const NodeExprPtr & name)
+NodeExprPtr convert_to(const NodeTypePtr & t, const NodeExprPtr & name)
 {
     switch (t->kind)
     {
         case NodeKind::BuiltinType:
-            return convert_builtin_arg(t, name);
+            return convert_builtin_to(t, name);
         case NodeKind::RecordType:
-            return convert_record_arg(t, name);
+            return convert_record_to(t, name);
         case NodeKind::PointerType:
-            return convert_pointer_arg(t, name);
+            return convert_pointer_to(t, name);
         default:
             break;
     }
 
-    cassert(false, "convert_argument Shouldn't get here"); // TODO LT: Clean this up
+    cassert(false, "convert_to Shouldn't get here"); // TODO LT: Clean this up
 }
 
 //------------------------------------------------------------------------------
 void argument(std::vector<NodeExprPtr> & args, const Param & param)
 {
     auto argument =
-        convert_argument(param.type,
-                         std::make_shared<NodeVarRefExpr>(param.name));
+        convert_to(param.type,
+                   std::make_shared<NodeVarRefExpr>(param.name));
     args.push_back(argument);
 }
 
