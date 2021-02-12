@@ -341,11 +341,11 @@ NodeExprPtr convert_record_arg(const NodeTypePtr & t, const std::string & name)
 
     /*
     // Above code could look like this later.
-    return DerefExpr::new_(
-        CastExpr::new_(
-            RefExpr::new_(
-                VarRefExpr::new_( name ) ),
-            PointerType::new_( t, false ))
+    return DerefExpr::n(
+        CastExpr::n(
+            RefExpr::n(
+                VarRefExpr::n( name ) ),
+            PointerType::n( t, false ))
     )
     */
 }
@@ -456,10 +456,15 @@ NodeExprPtr opaquebytes_method_body(RecordRegistry & record_registry,
     }
 
     // Create the method call expression
-    return std::make_shared<NodeMethodCallExpr>(std::move(this_),
-                                                cpp_method.short_name,
-                                                args
+    auto method_call =
+        std::make_shared<NodeMethodCallExpr>(std::move(this_),
+                                             cpp_method.short_name,
+                                             args
     );
+
+    // Convert the result
+    //return convert_return(c_return_type, method_call);
+    return method_call;
 }
 
 //------------------------------------------------------------------------------
