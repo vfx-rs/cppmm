@@ -93,6 +93,8 @@ std::string compute_c_name(const std::string & cpp_record_name)
         switch (c)
         {
             case ':':
+            case ',':
+            case '*':
             case '<':
             case '>':
                 result.push_back('_');
