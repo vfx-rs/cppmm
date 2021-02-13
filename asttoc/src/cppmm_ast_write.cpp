@@ -289,6 +289,17 @@ void write_expression_placement_new(fmt::ostream & out, size_t depth,
 }
 
 //------------------------------------------------------------------------------
+void write_expression_return(fmt::ostream & out, size_t depth,
+                             const NodeExprPtr & node)
+{
+    const auto & return_expr =
+        *static_cast<const NodeReturnExpr*>(node.get());
+
+    out.print("return ");
+    write_expression(out, depth, return_expr.inner);
+}
+
+//------------------------------------------------------------------------------
 void write_expression(fmt::ostream & out, size_t depth,
                       const NodeExprPtr & node)
 {
@@ -314,6 +325,8 @@ void write_expression(fmt::ostream & out, size_t depth,
             return write_expression_cast(out, depth, node);
         case NodeKind::PlacementNewExpr:
             return write_expression_placement_new(out, depth, node);
+        case NodeKind::ReturnExpr:
+            return write_expression_return(out, depth, node);
         default:
             break;
     }

@@ -534,7 +534,19 @@ NodeExprPtr opaquebytes_method_body(RecordRegistry & record_registry,
     );
 
     // Convert the result
-    return convert_from(cpp_method.return_type, c_return, method_call);
+    auto is_void =
+        c_return->kind == NodeKind::BuiltinType &&
+        static_cast<const NodeBuiltinType*>(c_return.get())->type_name == "void";
+
+    if(is_void)
+    {
+        return method_call;
+    }
+    else
+    {
+        return std::make_shared<NodeReturnExpr>(
+            convert_from(cpp_method.return_type, c_return, method_call));
+    }
     //return method_call;
 }
 
