@@ -1,7 +1,6 @@
 //------------------------------------------------------------------------------
 // vfx-rs
 //------------------------------------------------------------------------------
-//#include "cereal/cereal.hpp"
 #include "cppmm_ast.hpp"
 #include "cppmm_ast_read.hpp"
 #include "cppmm_ast_write.hpp"
@@ -9,12 +8,10 @@
 
 #include <fstream>
 
-int main()
+void generate(const char * input, const char * output)
 {
-    //const std::string input_directory = "../test/imath/ref";
-    //const std::string input_directory = "..//test/std/ref";
-    const std::string input_directory = "../test/oiio/ref";
-    const std::string output_directory = "out/";
+    const std::string input_directory = input;
+    const std::string output_directory = output;
 
     // Read the json ast
     auto cpp_ast = cppmm::read::json(input_directory);
@@ -25,6 +22,13 @@ int main()
 
     // Save out only the c translation units
     cppmm::write::cpp(cpp_ast, starting_point);
+}
+
+int main()
+{
+    generate("../test/imath/ref", "out");
+    generate("../test/std/ref", "out");
+    generate("../test/oiio/ref", "out");
 
     return 0;
 }
