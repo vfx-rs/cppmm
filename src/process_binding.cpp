@@ -619,6 +619,8 @@ struct NodeEnum : public NodeAttributeHolder {
     std::vector<std::pair<std::string, std::string>> variants;
     /// Name of the enum without any qualifiers
     std::string short_name;
+    /// Full namespace path
+    std::vector<std::string> namespaces;
     /// Size of the enum in bits
     uint32_t size;
     /// Alignment of the enum in bits
@@ -626,12 +628,13 @@ struct NodeEnum : public NodeAttributeHolder {
 
     NodeEnum(std::string qualified_name, NodeId id, NodeId context,
              std::vector<std::string> attrs, std::string short_name,
+             std::vector<std::string> namespaces,
              std::vector<std::pair<std::string, std::string>> variants,
              uint32_t size, uint32_t align)
         : NodeAttributeHolder(qualified_name, id, context, NodeKind::Enum,
                               attrs),
-          short_name(short_name), variants(variants), size(size), align(align) {
-    }
+          short_name(std::move(short_name)), namespaces(std::move(namespaces)),
+          variants(variants), size(size), align(align) {}
 
     virtual void write_json_attrs(json& o) const override {
         NodeAttributeHolder::write_json_attrs(o);
@@ -642,6 +645,8 @@ struct NodeEnum : public NodeAttributeHolder {
     virtual void write_json(json& o) const override {
         o["kind"] = "Enum";
         o["name"] = qualified_name;
+        o["short_name"] = short_name;
+        o["namespaces"] = namespaces;
         write_json_attrs(o);
         write_attrs_json(o);
 
@@ -1069,49 +1074,9 @@ bool method_in_list(NodeMethod* m, const std::vector<NodePtr>& binding_methods,
     return false;
 }
 
-/// Create a NodeEnum for the given EnumDecl contained in the given file and
-/// store it in the AST.
-void process_enum_decl(const EnumDecl* ed, std::string filename) {
-    ed = ed->getCanonicalDecl();
-    assert(ed && "canonical decl is null");
-    const std::string enum_name = ed->getQualifiedNameAsString();
-    const std::string enum_short_name = ed->getNameAsString();
-    ASTContext& ctx = ed->getASTContext();
-    uint32_t size, align;
-    if (!get_abi_info(dyn_cast<TypeDecl>(ed), ctx, size, align)) {
-        SPDLOG_CRITICAL("Could not get ABI info for {}", enum_name);
-    }
-
-    std::vector<std::pair<std::string, std::string>> variants;
-    for (const auto& ecd : ed->enumerators()) {
-        SPDLOG_DEBUG("        {}", ecd->getNameAsString());
-        variants.push_back(std::make_pair(ecd->getNameAsString(),
-                                          ecd->getInitVal().toString(10)));
-    }
-
-    // Get the translation unit node we're going to add this Enum to
-    auto* node_tu = get_translation_unit(filename);
-
-    std::vector<std::string> attrs = get_attrs(ed);
-
-    NodeId new_id = NODES.size();
-    auto node_enum =
-        std::make_unique<NodeEnum>(enum_name, new_id, 0, std::move(attrs),
-                                   enum_short_name, variants, size, align);
-    NODES.emplace_back(std::move(node_enum));
-    NODE_MAP[enum_name] = new_id;
-    // add this record to the TU
-    node_tu->children.push_back(new_id);
-
-    // Find any EnumType nodes that need the new id
-    auto it_enum_type = NODE_MAP.find("TYPE:" + enum_name);
-    if (it_enum_type != NODE_MAP.end()) {
-        auto* node_enum_type =
-            (NodeEnumType*)NODES.at(it_enum_type->second).get();
-        node_enum_type->enm = new_id;
-    }
-}
-
+/// Get the full set of namespaces (including parent records) that lead to
+/// a given decl. The decl passed here is expected to be the *parent* of the
+/// decl we care about
 std::vector<std::string> get_namespaces(const clang::DeclContext* parent) {
     std::vector<std::string> result;
 
@@ -1137,6 +1102,51 @@ std::vector<std::string> get_namespaces(const clang::DeclContext* parent) {
     std::reverse(result.begin(), result.end());
     return result;
 }
+
+/// Create a NodeEnum for the given EnumDecl contained in the given file and
+/// store it in the AST.
+void process_enum_decl(const EnumDecl* ed, std::string filename) {
+    ed = ed->getCanonicalDecl();
+    assert(ed && "canonical decl is null");
+    const std::string enum_name = ed->getQualifiedNameAsString();
+    const std::string enum_short_name = ed->getNameAsString();
+    const std::vector<std::string> namespaces = get_namespaces(ed->getParent());
+    ASTContext& ctx = ed->getASTContext();
+    uint32_t size, align;
+    if (!get_abi_info(dyn_cast<TypeDecl>(ed), ctx, size, align)) {
+        SPDLOG_CRITICAL("Could not get ABI info for {}", enum_name);
+    }
+
+    std::vector<std::pair<std::string, std::string>> variants;
+    for (const auto& ecd : ed->enumerators()) {
+        SPDLOG_DEBUG("        {}", ecd->getNameAsString());
+        variants.push_back(std::make_pair(ecd->getNameAsString(),
+                                          ecd->getInitVal().toString(10)));
+    }
+
+    // Get the translation unit node we're going to add this Enum to
+    auto* node_tu = get_translation_unit(filename);
+
+    std::vector<std::string> attrs = get_attrs(ed);
+
+    NodeId new_id = NODES.size();
+    auto node_enum = std::make_unique<NodeEnum>(
+        enum_name, new_id, 0, std::move(attrs), std::move(enum_short_name),
+        std::move(namespaces), variants, size, align);
+    NODES.emplace_back(std::move(node_enum));
+    NODE_MAP[enum_name] = new_id;
+    // add this record to the TU
+    node_tu->children.push_back(new_id);
+
+    // Find any EnumType nodes that need the new id
+    auto it_enum_type = NODE_MAP.find("TYPE:" + enum_name);
+    if (it_enum_type != NODE_MAP.end()) {
+        auto* node_enum_type =
+            (NodeEnumType*)NODES.at(it_enum_type->second).get();
+        node_enum_type->enm = new_id;
+    }
+}
+
 /// Create a new NodeRecord for the given record decl and store it in the AST.
 /// `crd` must represent a "concrete" record - i.e. it must not be dependent
 /// on any template parameters. This is done in the binding file by explicitly
@@ -1401,7 +1411,7 @@ void handle_binding_enum(const EnumDecl* ed) {
     auto attrs = get_attrs(ed);
 
     auto node_enum = NodeEnum(enum_qual_name, -1, node_tu->id, std::move(attrs),
-                              enum_short_name, {}, 0, 0);
+                              enum_short_name, {}, {}, 0, 0);
     binding_enums.insert(std::make_pair(enum_qual_name, std::move(node_enum)));
 }
 
