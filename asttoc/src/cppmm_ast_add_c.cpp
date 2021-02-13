@@ -120,8 +120,7 @@ NodeTypePtr convert_builtin_type(TranslationUnit & c_tu,
     // TODO LT: Do mapping of c++ builtins to c builtins
 
     // For now just copy everything one to one.
-    return std::make_shared<NodeBuiltinType>(t->name, 0, t->type_name,
-                                             t->const_);
+    return NodeBuiltinType::n(t->name, 0, t->type_name, t->const_);
 }
 
 
@@ -167,8 +166,7 @@ NodeTypePtr convert_record_type(TranslationUnit & c_tu,
 
     const auto & record = *static_cast<const NodeRecord*>(node_ptr.get());
 
-    return std::make_shared<NodeRecordType>(t->name, 0, record.name,
-                                            record.id, t->const_);
+    return NodeRecordType::n(t->name, 0, record.name, record.id, t->const_);
 }
 
 //------------------------------------------------------------------------------
@@ -188,10 +186,10 @@ NodeTypePtr convert_pointer_type(TranslationUnit & c_tu,
     }
 
     // For now just copy everything one to one.
-    return std::make_shared<NodePointerType>(p->name, 0, p->type_name,
-                                             PointerKind::Pointer,
-                                             std::move(pointee_type),
-                                             p->const_);
+    return NodePointerType::n(p->name, 0, p->type_name,
+                              PointerKind::Pointer,
+                              std::move(pointee_type),
+                              p->const_);
 }
 
 //------------------------------------------------------------------------------
@@ -255,19 +253,19 @@ void opaquebytes_record(NodeRecord & c_record)
 Param self_param(const NodeRecord & c_record, bool const_)
 {
 
-    auto record = std::make_shared<NodeRecordType>(
-                                                "",
-                                                0,
-                                                c_record.name,
-                                                c_record.id,
-                                                const_
-                                           );
+    auto record = NodeRecordType::n(
+                                    "",
+                                    0,
+                                    c_record.name,
+                                    c_record.id,
+                                    const_
+    );
 
-    auto pointer = std::make_shared<NodePointerType>("", 0,
-                                           "",
-                                           PointerKind::Pointer,
-                                           std::move(record), false // TODO LT: Maybe references should be const pointers
-                                           );
+    auto pointer = NodePointerType::n("", 0,
+                                      "",
+                                      PointerKind::Pointer,
+                                      std::move(record), false // TODO LT: Maybe references should be const pointers
+                                      );
 
     return Param("self", std::move(pointer), 0);
 }
@@ -275,17 +273,17 @@ Param self_param(const NodeRecord & c_record, bool const_)
 //------------------------------------------------------------------------------
 NodeExprPtr this_reference(const NodeRecord & cpp_record, bool const_)
 {
-    auto record = std::make_shared<NodeRecordType>(
+    auto record = NodeRecordType::n(
                     "", 0, cpp_record.name, cpp_record.id, const_
     );
-    auto type = std::make_shared<NodePointerType>(
+    auto type = NodePointerType::n(
                     "", 0, "", PointerKind::Pointer,
                     std::move(record), false 
     );
-    auto self = std::make_shared<NodeVarRefExpr>("self");
-    auto cast = std::make_shared<NodeCastExpr>(std::move(self),
-                                               std::move(type),
-                                               "reinterpret");
+    auto self = NodeVarRefExpr::n("self");
+    auto cast = NodeCastExpr::n(std::move(self),
+                                std::move(type),
+                                "reinterpret");
 
     return cast;
 }
@@ -308,14 +306,8 @@ bool should_wrap(const NodeMethod & cpp_method)
 //------------------------------------------------------------------------------
 NodeExprPtr convert_builtin_to(const NodeTypePtr & t, const NodeExprPtr & name)
 {
-#if 0
-    auto type = NodeTypePtr(t);
-    return std::make_shared<NodeCastExpr>(NodeExprPtr(name),
-                                          std::move(type),
-                                          "static");
-#else
+    // TODO LT: Will make this smarter
     return NodeExprPtr(name);
-#endif
 }
 
 //------------------------------------------------------------------------------
@@ -324,16 +316,16 @@ NodeExprPtr convert_record_to(const NodeTypePtr & t, const NodeExprPtr & name)
     // TODO LT: Assuming opaquebytes at the moment, opaqueptr will have a
     // different implementation.
     //
-    auto reference = std::make_shared<NodeRefExpr>(NodeExprPtr(name));
+    auto reference = NodeRefExpr::n(NodeExprPtr(name));
     auto type =\
-        std::make_shared<NodePointerType>(
+        NodePointerType::n(
             "", 0, "", PointerKind::Pointer,
             std::move(NodeTypePtr(t)),
             false
     );
-    auto inner = std::make_shared<NodeCastExpr>(
+    auto inner = NodeCastExpr::n(
         std::move(reference), std::move(type), "reinterpret");
-    return std::make_shared<NodeDerefExpr>(std::move(inner));
+    return NodeDerefExpr::n(std::move(inner));
 
     /*
     // Above code could look like this later.
@@ -359,23 +351,23 @@ NodeExprPtr convert_pointer_to(const NodeTypePtr & t, const NodeExprPtr & name)
         case PointerKind::Pointer:
             {
                 auto type = NodeTypePtr(t);
-                return std::make_shared<NodeCastExpr>(NodeExprPtr(name),
-                                                      std::move(type),
-                                                      "reinterpret");
+                return NodeCastExpr::n(NodeExprPtr(name),
+                                       std::move(type),
+                                       "reinterpret");
             }
         case PointerKind::RValueReference: // TODO LT: Add support for rvalue reference
         case PointerKind::Reference:
             {
                 auto pointee = NodeTypePtr(p->pointee_type);
                 auto type =\
-                    std::make_shared<NodePointerType>(
+                    NodePointerType::n(
                         "", 0, "", PointerKind::Pointer,
                         std::move(pointee),
                         p->const_
                 );
-                auto inner = std::make_shared<NodeCastExpr>(
+                auto inner = NodeCastExpr::n(
                     NodeExprPtr(name), std::move(type), "reinterpret");
-                return std::make_shared<NodeDerefExpr>(std::move(inner));
+                return NodeDerefExpr::n(std::move(inner));
             }
         default:
             break;
@@ -418,10 +410,10 @@ NodeExprPtr convert_record_from(
                                  const NodeTypePtr & to_ptr,
                                  const NodeExprPtr & name)
 {
-    auto reference = std::make_shared<NodeRefExpr>(NodeExprPtr(name));
-    auto inner = std::make_shared<NodeCastExpr>(
+    auto reference = NodeRefExpr::n(NodeExprPtr(name));
+    auto inner = NodeCastExpr::n(
         std::move(reference), NodeTypePtr(to_ptr), "reinterpret");
-    return std::make_shared<NodeDerefExpr>(std::move(inner));
+    return NodeDerefExpr::n(std::move(inner));
 }
 
 //------------------------------------------------------------------------------
@@ -439,15 +431,15 @@ NodeExprPtr convert_pointer_from(
     {
         case PointerKind::Pointer:
             {
-                return std::make_shared<NodeCastExpr>(NodeExprPtr(name),
+                return NodeCastExpr::n(NodeExprPtr(name),
                                                       NodeTypePtr(to_ptr),
                                                       "reinterpret");
             }
         case PointerKind::RValueReference: // TODO LT: Add support for rvalue reference
         case PointerKind::Reference:
             {
-                auto ref = std::make_shared<NodeRefExpr>(NodeExprPtr(name));
-                return std::make_shared<NodeCastExpr>(
+                auto ref = NodeRefExpr::n(NodeExprPtr(name));
+                return NodeCastExpr::n(
                     NodeExprPtr(name), NodeTypePtr(to_ptr), "reinterpret");
             }
         default:
@@ -482,7 +474,7 @@ void argument(std::vector<NodeExprPtr> & args, const Param & param)
 {
     auto argument =
         convert_to(param.type,
-                   std::make_shared<NodeVarRefExpr>(param.name));
+                   NodeVarRefExpr::n(param.name));
     args.push_back(argument);
 }
 
@@ -501,11 +493,9 @@ NodeExprPtr opaquebytes_constructor_body(RecordRegistry & record_registry,
     }
 
     // Create the method call expression
-    return std::make_shared<NodePlacementNewExpr>(
-        std::make_shared<NodeVarRefExpr>("self"),
-        std::make_shared<NodeFunctionCallExpr>(cpp_method.short_name,
-                                               args
-        )
+    return NodePlacementNewExpr::n(
+        NodeVarRefExpr::n("self"),
+        NodeFunctionCallExpr::n(cpp_method.short_name, args)
     );
 }
 
@@ -529,9 +519,9 @@ NodeExprPtr opaquebytes_method_body(RecordRegistry & record_registry,
 
     // Create the method call expression
     auto method_call =
-        std::make_shared<NodeMethodCallExpr>(std::move(this_),
-                                             cpp_method.short_name,
-                                             args
+        NodeMethodCallExpr::n(std::move(this_),
+                              cpp_method.short_name,
+                              args
     );
 
     // Convert the result
@@ -545,7 +535,7 @@ NodeExprPtr opaquebytes_method_body(RecordRegistry & record_registry,
     }
     else
     {
-        return std::make_shared<NodeReturnExpr>(
+        return NodeReturnExpr::n(
             convert_from(cpp_method.return_type, c_return, method_call));
     }
     //return method_call;
@@ -611,7 +601,7 @@ void opaquebytes_method(RecordRegistry & record_registry,
                                     c_return, cpp_method);
 
     // Add the new function to the translation unit
-    auto c_function = std::make_shared<NodeFunction>(
+    auto c_function = NodeFunction::n(
                         compute_c_name(cpp_method.name), PLACEHOLDER_ID,
                         cpp_method.attrs, "", std::move(c_return),
                         std::move(c_params));
