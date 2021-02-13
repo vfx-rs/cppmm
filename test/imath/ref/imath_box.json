@@ -13,9 +13,14 @@
         {
             "kind": "Record",
             "name": "Imath_2_4::Box<Imath::Vec3<float> >",
+            "short_name": "Box",
+            "namespaces": [
+                "Imath_2_4"
+            ],
             "id": 6,
             "size": 192,
             "align": 32,
+            "alias": "Box3f",
             "attributes": [
                 "cppmm:valuetype"
             ],
@@ -27,7 +32,7 @@
                         "kind": "RecordType",
                         "id": 1,
                         "type": "Imath_2_4::Vec3<float>",
-                        "record": 15,
+                        "record": 24,
                         "const": false
                     }
                 },
@@ -38,7 +43,7 @@
                         "kind": "RecordType",
                         "id": 1,
                         "type": "Imath_2_4::Vec3<float>",
-                        "record": 15,
+                        "record": 24,
                         "const": false
                     }
                 }
@@ -82,7 +87,7 @@
                                     "kind": "RecordType",
                                     "id": 1,
                                     "type": "Imath_2_4::Vec3<float>",
-                                    "record": 15,
+                                    "record": 24,
                                     "const": true
                                 },
                                 "const": false
@@ -130,6 +135,141 @@
                                     "id": 3,
                                     "type": "Imath_2_4::Box<Imath::Vec3<float> >",
                                     "record": 6,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "kind": "Record",
+            "name": "Imath_2_4::Box<Imath::Vec3<int> >",
+            "short_name": "Box",
+            "namespaces": [
+                "Imath_2_4"
+            ],
+            "id": 17,
+            "size": 192,
+            "align": 32,
+            "alias": "Box3i",
+            "attributes": [
+                "cppmm:valuetype"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "min",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 13,
+                        "type": "Imath_2_4::Vec3<int>",
+                        "record": 31,
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "max",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 13,
+                        "type": "Imath_2_4::Vec3<int>",
+                        "record": 31,
+                        "const": false
+                    }
+                }
+            ],
+            "methods": [
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "extendBy",
+                    "qualified_name": "Imath_2_4::Box<Imath_2_4::Vec3<int> >::extendBy",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 0,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "point",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 14,
+                                "type": "const class Imath_2_4::Vec3<int> &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 13,
+                                    "type": "Imath_2_4::Vec3<int>",
+                                    "record": 31,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "extendBy",
+                    "qualified_name": "Imath_2_4::Box<Imath_2_4::Vec3<int> >::extendBy",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 0,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "box",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 16,
+                                "type": "const class Imath_2_4::Box<Imath::Vec3<int> > &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 15,
+                                    "type": "Imath_2_4::Box<Imath::Vec3<int> >",
+                                    "record": 17,
                                     "const": true
                                 },
                                 "const": false

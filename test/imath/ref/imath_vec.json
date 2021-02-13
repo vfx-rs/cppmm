@@ -9,14 +9,19 @@
     "include_paths": [
         "/home/anders/packages/openexr/2.4.0/include"
     ],
-    "id": 14,
+    "id": 23,
     "decls": [
         {
             "kind": "Record",
             "name": "Imath_2_4::Vec3<float>",
-            "id": 15,
+            "short_name": "Vec3",
+            "namespaces": [
+                "Imath_2_4"
+            ],
+            "id": 24,
             "size": 96,
             "align": 32,
+            "alias": "V3f",
             "attributes": [
                 "cppmm:valuetype"
             ],
@@ -26,7 +31,7 @@
                     "name": "x",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 13,
+                        "id": 22,
                         "type": "float",
                         "const": false
                     }
@@ -36,7 +41,7 @@
                     "name": "y",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 13,
+                        "id": 22,
                         "type": "float",
                         "const": false
                     }
@@ -46,7 +51,7 @@
                     "name": "z",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 13,
+                        "id": 22,
                         "type": "float",
                         "const": false
                     }
@@ -85,7 +90,7 @@
                             "name": "a",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 13,
+                                "id": 22,
                                 "type": "float",
                                 "const": false
                             },
@@ -96,7 +101,7 @@
                             "name": "b",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 13,
+                                "id": 22,
                                 "type": "float",
                                 "const": false
                             },
@@ -107,8 +112,119 @@
                             "name": "c",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 13,
+                                "id": 22,
                                 "type": "float",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "kind": "Record",
+            "name": "Imath_2_4::Vec3<int>",
+            "short_name": "Vec3",
+            "namespaces": [
+                "Imath_2_4"
+            ],
+            "id": 31,
+            "size": 96,
+            "align": 32,
+            "alias": "V3i",
+            "attributes": [
+                "cppmm:valuetype"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "x",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 26,
+                        "type": "int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "y",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 26,
+                        "type": "int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "z",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 26,
+                        "type": "int",
+                        "const": false
+                    }
+                }
+            ],
+            "methods": [
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "setValue",
+                    "qualified_name": "Imath_2_4::Vec3<int>::setValue",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 0,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "a",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 26,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "b",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 26,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 2,
+                            "name": "c",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 26,
+                                "type": "int",
                                 "const": false
                             },
                             "attrs": []

@@ -7,14 +7,18 @@
         "#include <cppmm_bind.hpp>"
     ],
     "include_paths": [
-        "/home/anders/packages/oiio/2.2.8/include",
-        "/home/anders/packages/openexr/2.4.0/include"
+        "/home/anders/packages/oiio/2.2.8/include/",
+        ""
     ],
     "id": 5,
     "decls": [
         {
             "kind": "Record",
             "name": "OpenImageIO_v2_2::ROI",
+            "short_name": "ROI",
+            "namespaces": [
+                "OpenImageIO_v2_2"
+            ],
             "id": 6,
             "size": 256,
             "align": 32,
@@ -336,6 +340,10 @@
         {
             "kind": "Record",
             "name": "OpenImageIO_v2_2::ImageSpec",
+            "short_name": "ImageSpec",
+            "namespaces": [
+                "OpenImageIO_v2_2"
+            ],
             "id": 31,
             "size": 1280,
             "align": 64,
@@ -1396,6 +1404,11 @@
         {
             "kind": "Enum",
             "name": "OpenImageIO_v2_2::ImageSpec::SerialFormat",
+            "short_name": "SerialFormat",
+            "namespaces": [
+                "OpenImageIO_v2_2",
+                "ImageSpec"
+            ],
             "id": 62,
             "size": 32,
             "align": 32,
@@ -1408,6 +1421,11 @@
         {
             "kind": "Enum",
             "name": "OpenImageIO_v2_2::ImageSpec::SerialVerbose",
+            "short_name": "SerialVerbose",
+            "namespaces": [
+                "OpenImageIO_v2_2",
+                "ImageSpec"
+            ],
             "id": 63,
             "size": 32,
             "align": 32,
@@ -1421,6 +1439,10 @@
         {
             "kind": "Record",
             "name": "OpenImageIO_v2_2::ImageInput",
+            "short_name": "ImageInput",
+            "namespaces": [
+                "OpenImageIO_v2_2"
+            ],
             "id": 71,
             "size": 1984,
             "align": 64,

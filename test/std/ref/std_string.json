@@ -5,12 +5,19 @@
         "#include <string>",
         "#include <cppmm_bind.hpp>"
     ],
-    "include_paths": [],
+    "include_paths": [
+        "."
+    ],
     "id": 8,
     "decls": [
         {
             "kind": "Record",
             "name": "std::__cxx11::basic_string<char>",
+            "short_name": "basic_string",
+            "namespaces": [
+                "std",
+                "__cxx11"
+            ],
             "id": 9,
             "size": 256,
             "align": 64,
