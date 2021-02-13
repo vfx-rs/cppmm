@@ -548,6 +548,10 @@ struct Field {
 struct NodeRecord : public NodeAttributeHolder {
     std::vector<Field> fields;
     std::vector<NodeId> methods;
+    /// The 'leaf' of the qualified name
+    std::string short_name;
+    /// The full path of namespaces leading to this record
+    std::vector<std::string> namespaces;
     /// Alias for the record, set by e.g.:
     /// using V3f = Imath::Vec3<float>;
     std::string alias;
@@ -561,10 +565,12 @@ struct NodeRecord : public NodeAttributeHolder {
     uint32_t align;
 
     NodeRecord(std::string qualified_name, NodeId id, NodeId context,
-               std::vector<std::string> attrs, RecordKind record_kind,
+               std::vector<std::string> attrs, std::string short_name,
+               std::vector<std::string> namespaces, RecordKind record_kind,
                uint32_t size, uint32_t align)
         : NodeAttributeHolder(qualified_name, id, context, NodeKind::Record,
                               attrs),
+          short_name(std::move(short_name)), namespaces(std::move(namespaces)),
           record_kind(record_kind), size(size), align(align) {}
 
     virtual void write_json_attrs(json& o) const override {
@@ -579,6 +585,8 @@ struct NodeRecord : public NodeAttributeHolder {
     virtual void write_json(json& o) const override {
         o["kind"] = "Record";
         o["name"] = qualified_name;
+        o["short_name"] = short_name;
+        o["namespaces"] = namespaces;
         write_json_attrs(o);
         write_attrs_json(o);
 
@@ -1104,6 +1112,31 @@ void process_enum_decl(const EnumDecl* ed, std::string filename) {
     }
 }
 
+std::vector<std::string> get_namespaces(const clang::DeclContext* parent) {
+    std::vector<std::string> result;
+
+    while (parent) {
+        if (parent->isNamespace()) {
+            const clang::NamespaceDecl* ns =
+                static_cast<const clang::NamespaceDecl*>(parent);
+            if (ns->getNameAsString() == "cppmm_bind") {
+                break;
+            }
+            result.push_back(ns->getNameAsString());
+            parent = parent->getParent();
+        } else if (parent->isRecord()) {
+            const clang::RecordDecl* rd =
+                static_cast<const clang::RecordDecl*>(parent);
+            result.push_back(rd->getNameAsString());
+            parent = parent->getParent();
+        } else {
+            break;
+        }
+    }
+
+    std::reverse(result.begin(), result.end());
+    return result;
+}
 /// Create a new NodeRecord for the given record decl and store it in the AST.
 /// `crd` must represent a "concrete" record - i.e. it must not be dependent
 /// on any template parameters. This is done in the binding file by explicitly
@@ -1118,6 +1151,8 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
 
     crd = crd->getCanonicalDecl();
     const std::string record_name = get_record_name(crd);
+    const std::string short_name = crd->getNameAsString();
+    std::vector<std::string> namespaces = get_namespaces(crd->getParent());
 
     // Get the translation unit node we're going to add this Record to
     auto* node_tu = get_translation_unit(filename);
@@ -1132,7 +1167,8 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
     NodeId new_id = NODES.size();
     auto node_record = std::make_unique<NodeRecord>(
         record_name, new_id, node_tu->id, std::move(attrs),
-        RecordKind::OpaquePtr, size, align);
+        std::move(short_name), std::move(namespaces), RecordKind::OpaquePtr,
+        size, align);
     auto* node_record_ptr = node_record.get();
     NODES.emplace_back(std::move(node_record));
     NODE_MAP[record_name] = new_id;
