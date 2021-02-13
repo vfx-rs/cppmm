@@ -27,6 +27,9 @@ public:
 
 // This 'pulls' the Imath::Box specialization through
 template class Box<Imath::Vec3<float>>;
+template class Box<Imath::Vec3<int>>;
+using Box3f = Imath::Box3f;
+using Box3i = Imath::Box3i;
 
 } // namespace IMATH_INTERNAL_NAMESPACE
 } // namespace cppmm_bind
@@ -38,3 +41,4 @@ template class Box<Imath::Vec3<float>>;
 // Need this explicit instantiation to actually get the library templates
 // in the AST
 template class Imath::Box<Imath::Vec3<float>>;
+template class Imath::Box<Imath::Vec3<int>>;

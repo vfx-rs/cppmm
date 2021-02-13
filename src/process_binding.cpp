@@ -8,8 +8,8 @@
 #include "clang/ASTMatchers/ASTMatchers.h"
 #include "clang/Basic/LLVM.h"
 #include "llvm/Support/Casting.h"
-#include <cstdint>
 #include <cassert>
+#include <cstdint>
 #include <memory>
 #include <unordered_map>
 
@@ -158,7 +158,7 @@ struct Node {
         : qualified_name(qualified_name), id(id), context(context),
           node_kind(node_kind) {}
 
-    virtual ~Node(){}
+    virtual ~Node() {}
 
     virtual void write_json_attrs(json& o) const {
         if (id >= 0) {
@@ -548,6 +548,9 @@ struct Field {
 struct NodeRecord : public NodeAttributeHolder {
     std::vector<Field> fields;
     std::vector<NodeId> methods;
+    /// Alias for the record, set by e.g.:
+    /// using V3f = Imath::Vec3<float>;
+    std::string alias;
     /// The kind of the record, i.e. how we want it to be represented in C.
     /// See the RecordKind enum for more info
     RecordKind record_kind;
@@ -568,6 +571,9 @@ struct NodeRecord : public NodeAttributeHolder {
         NodeAttributeHolder::write_json_attrs(o);
         o["size"] = size;
         o["align"] = align;
+        if (!alias.empty()) {
+            o["alias"] = alias;
+        }
     }
 
     virtual void write_json(json& o) const override {
@@ -1263,11 +1269,39 @@ void handle_cxx_record_decl(const CXXRecordDecl* crd) {
     if (bound_rd) {
         process_concrete_record(bound_rd, filename, std::move(attrs),
                                 std::move(methods), std::move(child_enums));
+        return;
     }
 
     // Don't *think* we should ever get here, but we'll leave this log in in
     // case we do because we'll want to figure out what case we didn't consider
     SPDLOG_CRITICAL("Fell through on handle_cxx_record");
+    crd->dump();
+}
+
+void handle_typealias_decl(const TypeAliasDecl* tad, const CXXRecordDecl* crd) {
+    auto record_qualified_name = get_record_name(crd);
+    auto alias_name = tad->getNameAsString();
+    if (alias_name == "BoundType") {
+        // skip this because it's the type "pointer" we use on the class
+        // TODO AL - there's got to be a cleaner way of not getting this
+        // in the first place - on the matcher?
+        return;
+    }
+
+    // First of all, make sure we have already processed the Record that this
+    // alias refers to. I *think* this should always have happened, but not sure
+    // yet
+    auto it = NODE_MAP.find(record_qualified_name);
+    if (it == NODE_MAP.end()) {
+        SPDLOG_ERROR(
+            "TypeAlias {0} renames {1} but {1} hasn't been processed yet",
+            alias_name, record_qualified_name);
+        return;
+    }
+
+    NodeId id_rec = it->second;
+    NodeRecord* node_rec = (NodeRecord*)NODES[id_rec].get();
+    node_rec->alias = alias_name;
 }
 
 std::unordered_map<std::string, std::vector<NodeFunction>> binding_functions;
@@ -1419,7 +1453,10 @@ void ProcessBindingCallback::run(const MatchFinder::MatchResult& result) {
                    result.Nodes.getNodeAs<TypeAliasDecl>("typeAliasDecl")) {
         if (const auto* crd =
                 tdecl->getUnderlyingType()->getAsCXXRecordDecl()) {
-            SPDLOG_TRACE("GOT CXXRECORDTTYPE from TAD");
+            SPDLOG_INFO("GOT CXXRECORDTTYPE {} from TAD {}",
+                        crd->getQualifiedNameAsString(),
+                        tdecl->getNameAsString());
+            handle_typealias_decl(tdecl, crd);
         }
     } else if (const FunctionDecl* function =
                    result.Nodes.getNodeAs<FunctionDecl>("functionDecl")) {
@@ -1453,7 +1490,7 @@ ProcessBindingConsumer::ProcessBindingConsumer(ASTContext* context) {
     // match all typedef declrations in the cppmm_bind namespace
     DeclarationMatcher typedef_decl_matcher =
         typeAliasDecl(hasAncestor(namespaceDecl(hasName("cppmm_bind"))),
-                      unless(isImplicit()))
+                      unless(hasAncestor(recordDecl())), unless(isImplicit()))
             .bind("typeAliasDecl");
     _match_finder.addMatcher(typedef_decl_matcher, &_handler);
 
