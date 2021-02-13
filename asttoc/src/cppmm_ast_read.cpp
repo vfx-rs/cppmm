@@ -56,7 +56,7 @@ NodeTypePtr read_type(const nln::json & json);
 
 //------------------------------------------------------------------------------
 NodeTypePtr read_type_builtin(const nln::json & json) {
-    return std::make_shared<NodeBuiltinType>(
+    return NodeBuiltinType::n(
             "",
             json[ID].get<Id>(),
             json[TYPE].get<std::string>(),
@@ -67,7 +67,7 @@ NodeTypePtr read_type_builtin(const nln::json & json) {
 //------------------------------------------------------------------------------
 NodeTypePtr read_type_pointer(const nln::json & json,
                               PointerKind pointer_kind) {
-    return std::make_shared<NodePointerType>(
+    return NodePointerType::n(
             "",
             json[ID].get<Id>(),
             json[TYPE].get<std::string>(),
@@ -79,7 +79,7 @@ NodeTypePtr read_type_pointer(const nln::json & json,
 
 //------------------------------------------------------------------------------
 NodeTypePtr read_type_record(const nln::json & json) {
-    return std::make_shared<NodeRecordType>(
+    return NodeRecordType::n(
             "",
             json[ID].get<Id>(),
             json[TYPE].get<std::string>(),
@@ -90,7 +90,7 @@ NodeTypePtr read_type_record(const nln::json & json) {
 
 //------------------------------------------------------------------------------
 NodeTypePtr read_type_enum(const nln::json & json) {
-    return std::make_shared<NodeEnumType>(
+    return NodeEnumType::n(
             "",
             json[ID].get<Id>(),
             json[TYPE].get<std::string>(),
@@ -149,7 +149,7 @@ NodePtr read_function(const TranslationUnit::Ptr & tu, const nln::json & json) {
         params.push_back(read_param(i));
     }
 
-    return std::make_shared<NodeFunction>(
+    return NodeFunction::n(
                       qualified_name, id, _attrs, short_name,
                       std::move(return_type),
                       std::move(params));
@@ -209,7 +209,7 @@ NodePtr read_record(const TranslationUnit::Ptr & tu, const nln::json & json) {
 
     // Instantiate the translation unit
     auto result =\
-        std::make_shared<NodeRecord>(tu, name, id, _attrs, size, align);
+        NodeRecord::n(tu, name, id, _attrs, size, align);
 
     // Pull out the methods
     for (const auto & i : json[METHODS] ){
@@ -248,8 +248,8 @@ NodePtr read_enum(const TranslationUnit::Ptr & tu, const nln::json & json) {
     }
 
     // Instantiate the translation unit
-    auto result =\
-        std::make_shared<NodeEnum>(tu, name, id, _attrs, variants, size, align);
+    auto result =
+        NodeEnum::n(tu, name, id, _attrs, variants, size, align);
 
     // Return the result
     return result;
