@@ -17,6 +17,7 @@ endif()
 
 add_subdirectory(spdlog)
 add_subdirectory(json)
+add_subdirectory(asttoc)
 
 add_executable(cppmm
   src/cppmm.cpp

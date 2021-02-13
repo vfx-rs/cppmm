@@ -108,15 +108,17 @@ int main(int argc_, const char** argv_) {
     // get the path to the binary, assuming that the resources folder will be
     // stored alongside it
     // FIXME: this method will work only on linux...
-    char exe_path[2048];
-    auto len = readlink("/proc/self/exe", exe_path, sizeof(exe_path));
-    if (len <= 0 || len >= sizeof(exe_path))  {
+    auto exe_path = cwd / fs::path(argv[0]);
+    if(fs::is_symlink(exe_path))
+    {
+        exe_path = fs::read_symlink(exe_path);
+    }
+    if (exe_path.empty())  {
         SPDLOG_CRITICAL("Could not get exe path");
         return -1;
     }
-    exe_path[len] = '\0';
 
-    std::string respath1 = (fs::path(exe_path).parent_path() / "resources").string();
+    std::string respath1 = (exe_path.parent_path() / "resources").string();
     SPDLOG_WARN("respath1 = {}", respath1);
     argv[i++] = "-isystem";
     argv[i++] = respath1.c_str();
