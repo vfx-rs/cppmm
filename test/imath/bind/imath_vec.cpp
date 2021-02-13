@@ -63,8 +63,8 @@ public:
 // explicit instantiation
 template class Vec3<float>;
 template class Vec3<int>;
-using V3f = Vec3<float>::BoundType;
-using V3i = Vec3<int>::BoundType;
+using V3f = Imath::V3f;
+using V3i = Imath::V3i;
 
 // note the 'extern' here otherwise we get an error because we're not
 // defining the template body up above
