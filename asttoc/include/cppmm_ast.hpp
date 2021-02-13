@@ -415,6 +415,14 @@ struct NodeRecord : public NodeAttributeHolder {
                uint32_t size, uint32_t align)
         : NodeAttributeHolder(qualified_name, id, NodeKind::Record, attrs),
           tu(tu), size(size), align(align), force_alignment(false) {}
+
+    // A static method for creating this as a shared pointer
+    using This = NodeRecord;
+	template<typename ... Args>
+	static std::shared_ptr<This> n(Args&& ... args)
+	{
+		return std::make_shared<This>(std::forward<Args>(args)...);
+	}
 };
 
 //------------------------------------------------------------------------------

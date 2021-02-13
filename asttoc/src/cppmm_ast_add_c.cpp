@@ -166,6 +166,7 @@ NodeTypePtr convert_record_type(TranslationUnit & c_tu,
     add_declaration(c_tu, node_ptr, in_reference);
 
     const auto & record = *static_cast<const NodeRecord*>(node_ptr.get());
+
     return std::make_shared<NodeRecordType>(t->name, 0, record.name,
                                             record.id, t->const_);
 }
@@ -642,8 +643,7 @@ void record_entry(NodeId & record_id,
     const auto c_record_name = compute_c_name(cpp_record.name);
 
     // Create the c record
-    auto c_record =\
-        std::make_shared<NodeRecord>(
+    auto c_record = NodeRecord::n(
                    c_tu,
                    c_record_name, record_id++, cpp_record.attrs,
                    cpp_record.size, cpp_record.align);
