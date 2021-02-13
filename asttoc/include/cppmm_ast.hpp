@@ -144,11 +144,11 @@ struct NodeBuiltinType : public NodeType {
 
     // A static method for creating this as a shared pointer
     using This = NodeBuiltinType;
-	template<typename ... Args>
-	static std::shared_ptr<This> n(Args&& ... args)
-	{
-		return std::make_shared<This>(std::forward<Args>(args)...);
-	}
+    template<typename ... Args>
+    static std::shared_ptr<This> n(Args&& ... args)
+    {
+        return std::make_shared<This>(std::forward<Args>(args)...);
+    }
 };
 
 //------------------------------------------------------------------------------
@@ -166,11 +166,11 @@ struct NodePointerType : public NodeType {
 
     // A static method for creating this as a shared pointer
     using This = NodePointerType;
-	template<typename ... Args>
-	static std::shared_ptr<This> n(Args&& ... args)
-	{
-		return std::make_shared<This>(std::forward<Args>(args)...);
-	}
+    template<typename ... Args>
+    static std::shared_ptr<This> n(Args&& ... args)
+    {
+        return std::make_shared<This>(std::forward<Args>(args)...);
+    }
 };
 
 //------------------------------------------------------------------------------
@@ -185,11 +185,11 @@ struct NodeRecordType : public NodeType {
 
     // A static method for creating this as a shared pointer
     using This = NodeRecordType;
-	template<typename ... Args>
-	static std::shared_ptr<This> n(Args&& ... args)
-	{
-		return std::make_shared<This>(std::forward<Args>(args)...);
-	}
+    template<typename ... Args>
+    static std::shared_ptr<This> n(Args&& ... args)
+    {
+        return std::make_shared<This>(std::forward<Args>(args)...);
+    }
 };
 
 //------------------------------------------------------------------------------
@@ -204,11 +204,11 @@ struct NodeEnumType : public NodeType {
 
     // A static method for creating this as a shared pointer
     using This = NodeEnumType;
-	template<typename ... Args>
-	static std::shared_ptr<This> n(Args&& ... args)
-	{
-		return std::make_shared<This>(std::forward<Args>(args)...);
-	}
+    template<typename ... Args>
+    static std::shared_ptr<This> n(Args&& ... args)
+    {
+        return std::make_shared<This>(std::forward<Args>(args)...);
+    }
 };
 
 //------------------------------------------------------------------------------
@@ -227,11 +227,11 @@ struct NodeArrayType : public NodeType {
 
     // A static method for creating this as a shared pointer
     using This = NodeArrayType;
-	template<typename ... Args>
-	static std::shared_ptr<This> n(Args&& ... args)
-	{
-		return std::make_shared<This>(std::forward<Args>(args)...);
-	}
+    template<typename ... Args>
+    static std::shared_ptr<This> n(Args&& ... args)
+    {
+        return std::make_shared<This>(std::forward<Args>(args)...);
+    }
 };
 
 //------------------------------------------------------------------------------
@@ -297,11 +297,11 @@ struct NodeFunctionCallExpr : public NodeExpr { // TODO LT: Added by luke, like 
 
     // A static method for creating this as a shared pointer
     using This = NodeFunctionCallExpr;
-	template<typename ... Args>
-	static std::shared_ptr<This> n(Args&& ... args)
-	{
-		return std::make_shared<This>(std::forward<Args>(args)...);
-	}
+    template<typename ... Args>
+    static std::shared_ptr<This> n(Args&& ... args)
+    {
+        return std::make_shared<This>(std::forward<Args>(args)...);
+    }
 };
 
 //------------------------------------------------------------------------------
@@ -318,11 +318,11 @@ struct NodeMethodCallExpr : public NodeFunctionCallExpr { // TODO LT: Added by l
 
     // A static method for creating this as a shared pointer
     using This = NodeMethodCallExpr;
-	template<typename ... Args>
-	static std::shared_ptr<This> n(Args&& ... args)
-	{
-		return std::make_shared<This>(std::forward<Args>(args)...);
-	}
+    template<typename ... Args>
+    static std::shared_ptr<This> n(Args&& ... args)
+    {
+        return std::make_shared<This>(std::forward<Args>(args)...);
+    }
 };
 
 //------------------------------------------------------------------------------
@@ -338,11 +338,11 @@ struct NodeVarRefExpr : public NodeExpr { // TODO LT: Added by luke, like clang 
 
     // A static method for creating this as a shared pointer
     using This = NodeVarRefExpr;
-	template<typename ... Args>
-	static std::shared_ptr<This> n(Args&& ... args)
-	{
-		return std::make_shared<This>(std::forward<Args>(args)...);
-	}
+    template<typename ... Args>
+    static std::shared_ptr<This> n(Args&& ... args)
+    {
+        return std::make_shared<This>(std::forward<Args>(args)...);
+    }
 };
 
 //------------------------------------------------------------------------------
@@ -358,11 +358,11 @@ struct NodeRefExpr : public NodeExpr { // TODO LT: Added by luke = &()
 
     // A static method for creating this as a shared pointer
     using This = NodeRefExpr;
-	template<typename ... Args>
-	static std::shared_ptr<This> n(Args&& ... args)
-	{
-		return std::make_shared<This>(std::forward<Args>(args)...);
-	}
+    template<typename ... Args>
+    static std::shared_ptr<This> n(Args&& ... args)
+    {
+        return std::make_shared<This>(std::forward<Args>(args)...);
+    }
 };
 
 //------------------------------------------------------------------------------
@@ -378,11 +378,11 @@ struct NodeDerefExpr : public NodeExpr { // TODO LT: Added by luke = *()
 
     // A static method for creating this as a shared pointer
     using This = NodeDerefExpr;
-	template<typename ... Args>
-	static std::shared_ptr<This> n(Args&& ... args)
-	{
-		return std::make_shared<This>(std::forward<Args>(args)...);
-	}
+    template<typename ... Args>
+    static std::shared_ptr<This> n(Args&& ... args)
+    {
+        return std::make_shared<This>(std::forward<Args>(args)...);
+    }
 };
 
 //------------------------------------------------------------------------------
@@ -398,11 +398,11 @@ struct NodeReturnExpr : public NodeExpr { // TODO LT: Added by luke = *()
 
     // A static method for creating this as a shared pointer
     using This = NodeReturnExpr;
-	template<typename ... Args>
-	static std::shared_ptr<This> n(Args&& ... args)
-	{
-		return std::make_shared<This>(std::forward<Args>(args)...);
-	}
+    template<typename ... Args>
+    static std::shared_ptr<This> n(Args&& ... args)
+    {
+        return std::make_shared<This>(std::forward<Args>(args)...);
+    }
 };
 
 //------------------------------------------------------------------------------
@@ -423,11 +423,11 @@ struct NodeCastExpr : public NodeExpr { // TODO LT: Added by luke
 
     // A static method for creating this as a shared pointer
     using This = NodeCastExpr;
-	template<typename ... Args>
-	static std::shared_ptr<This> n(Args&& ... args)
-	{
-		return std::make_shared<This>(std::forward<Args>(args)...);
-	}
+    template<typename ... Args>
+    static std::shared_ptr<This> n(Args&& ... args)
+    {
+        return std::make_shared<This>(std::forward<Args>(args)...);
+    }
 };
 
 //------------------------------------------------------------------------------
@@ -445,11 +445,11 @@ struct NodePlacementNewExpr : public NodeExpr { // TODO LT: Added by luke new ()
 
     // A static method for creating this as a shared pointer
     using This = NodePlacementNewExpr;
-	template<typename ... Args>
-	static std::shared_ptr<This> n(Args&& ... args)
-	{
-		return std::make_shared<This>(std::forward<Args>(args)...);
-	}
+    template<typename ... Args>
+    static std::shared_ptr<This> n(Args&& ... args)
+    {
+        return std::make_shared<This>(std::forward<Args>(args)...);
+    }
 };
 
 //------------------------------------------------------------------------------
@@ -473,11 +473,11 @@ struct NodeFunction : public NodeAttributeHolder {
 
     // A static method for creating this as a shared pointer
     using This = NodeFunction;
-	template<typename ... Args>
-	static std::shared_ptr<This> n(Args&& ... args)
-	{
-		return std::make_shared<This>(std::forward<Args>(args)...);
-	}
+    template<typename ... Args>
+    static std::shared_ptr<This> n(Args&& ... args)
+    {
+        return std::make_shared<This>(std::forward<Args>(args)...);
+    }
 };
 
 //------------------------------------------------------------------------------
@@ -502,11 +502,11 @@ struct NodeMethod : public NodeFunction {
 
     // A static method for creating this as a shared pointer
     using This = NodeMethod;
-	template<typename ... Args>
-	static std::shared_ptr<This> n(Args&& ... args)
-	{
-		return std::make_shared<This>(std::forward<Args>(args)...);
-	}
+    template<typename ... Args>
+    static std::shared_ptr<This> n(Args&& ... args)
+    {
+        return std::make_shared<This>(std::forward<Args>(args)...);
+    }
 };
 
 //------------------------------------------------------------------------------
@@ -538,11 +538,11 @@ struct NodeRecord : public NodeAttributeHolder {
 
     // A static method for creating this as a shared pointer
     using This = NodeRecord;
-	template<typename ... Args>
-	static std::shared_ptr<This> n(Args&& ... args)
-	{
-		return std::make_shared<This>(std::forward<Args>(args)...);
-	}
+    template<typename ... Args>
+    static std::shared_ptr<This> n(Args&& ... args)
+    {
+        return std::make_shared<This>(std::forward<Args>(args)...);
+    }
 };
 
 //------------------------------------------------------------------------------
@@ -564,11 +564,11 @@ struct NodeEnum : public NodeAttributeHolder {
     }
 
     using This = NodeEnum;
-	template<typename ... Args>
-	static std::shared_ptr<This> n(Args&& ... args)
-	{
-		return std::make_shared<This>(std::forward<Args>(args)...);
-	}
+    template<typename ... Args>
+    static std::shared_ptr<This> n(Args&& ... args)
+    {
+        return std::make_shared<This>(std::forward<Args>(args)...);
+    }
 };
 
 //------------------------------------------------------------------------------
