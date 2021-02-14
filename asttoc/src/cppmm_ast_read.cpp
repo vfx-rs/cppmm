@@ -177,6 +177,7 @@ NodeMethod read_method(const nln::json & json) {
     auto static_ = json[STATIC].get<bool>();
     auto constructor = json[CONSTRUCTOR].get<bool>();
     auto return_type = read_type(json[RETURN]);
+    auto const_ = json[CONST].get<bool>();
 
     auto params = std::vector<Param>();
     for(const auto & i: json[PARAMS]) {
@@ -185,7 +186,7 @@ NodeMethod read_method(const nln::json & json) {
 
     return NodeMethod(qualified_name, id, attrs, short_name,
                       std::move(return_type),
-                      std::move(params), static_, constructor);
+                      std::move(params), static_, constructor, const_);
 }
 
 //------------------------------------------------------------------------------
