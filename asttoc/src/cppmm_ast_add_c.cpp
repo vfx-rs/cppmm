@@ -186,8 +186,7 @@ NodeTypePtr convert_pointer_type(TranslationUnit & c_tu,
     }
 
     // For now just copy everything one to one.
-    return NodePointerType::n(p->name, 0, p->type_name,
-                              PointerKind::Pointer,
+    return NodePointerType::n(PointerKind::Pointer,
                               std::move(pointee_type),
                               p->const_);
 }
@@ -261,9 +260,7 @@ Param self_param(const NodeRecord & c_record, bool const_)
                                     const_
     );
 
-    auto pointer = NodePointerType::n("", 0,
-                                      "",
-                                      PointerKind::Pointer,
+    auto pointer = NodePointerType::n(PointerKind::Pointer,
                                       std::move(record), false // TODO LT: Maybe references should be const pointers
                                       );
 
@@ -277,7 +274,7 @@ NodeExprPtr this_reference(const NodeRecord & cpp_record, bool const_)
                     "", 0, cpp_record.name, cpp_record.id, const_
     );
     auto type = NodePointerType::n(
-                    "", 0, "", PointerKind::Pointer,
+                    PointerKind::Pointer,
                     std::move(record), false 
     );
     auto self = NodeVarRefExpr::n("self");
@@ -319,7 +316,7 @@ NodeExprPtr convert_record_to(const NodeTypePtr & t, const NodeExprPtr & name)
     auto reference = NodeRefExpr::n(NodeExprPtr(name));
     auto type =\
         NodePointerType::n(
-            "", 0, "", PointerKind::Pointer,
+            PointerKind::Pointer,
             std::move(NodeTypePtr(t)),
             false
     );
@@ -361,7 +358,7 @@ NodeExprPtr convert_pointer_to(const NodeTypePtr & t, const NodeExprPtr & name)
                 auto pointee = NodeTypePtr(p->pointee_type);
                 auto type =\
                     NodePointerType::n(
-                        "", 0, "", PointerKind::Pointer,
+                        PointerKind::Pointer,
                         std::move(pointee),
                         p->const_
                 );
@@ -412,7 +409,11 @@ NodeExprPtr convert_record_from(
 {
     auto reference = NodeRefExpr::n(NodeExprPtr(name));
     auto inner = NodeCastExpr::n(
-        std::move(reference), NodeTypePtr(to_ptr), "reinterpret");
+        std::move(reference), NodePointerType::n(PointerKind::Pointer,
+                                                 NodeTypePtr(to_ptr),
+                                                 false),
+        "reinterpret"
+    );
     return NodeDerefExpr::n(std::move(inner));
 }
 
@@ -508,7 +509,7 @@ NodeExprPtr opaquebytes_method_body(RecordRegistry & record_registry,
                                     const NodeMethod & cpp_method)
 {
     // Create the reference to this
-    auto this_ = this_reference(cpp_record, false); // TODO LT: Missing cpp_method.const_
+    auto this_ = this_reference(cpp_record, cpp_method.is_const);
 
     // Loop over the parameters, creating arguments for the method call
     auto args = std::vector<NodeExprPtr>();
@@ -577,7 +578,7 @@ void opaquebytes_method(RecordRegistry & record_registry,
 
     // Convert params
     auto c_params = std::vector<Param>();
-    c_params.push_back(self_param(c_record, false)); // TODO LT: Const needs to be passed in here
+    c_params.push_back(self_param(c_record, cpp_method.is_const));
     for(const auto & p : cpp_method.params)
     {
         if(!parameter(c_tu, record_registry, c_params, p))

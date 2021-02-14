@@ -1,13 +1,16 @@
 {
     "kind": "TranslationUnit",
-    "filename": "/home/anders/code/cppmm/test/imath/bind/imath_vec.cpp",
+    "filename": "/Volumes/src/cppmm/test/imath/bind/imath_vec.cpp",
     "source_includes": [
         "#include <OpenEXR/ImathVec.h>",
         "#include <vector>",
         "#include <cppmm_bind.hpp>"
     ],
     "include_paths": [
-        "/home/anders/packages/openexr/2.4.0/include"
+        "../test/",
+        "../test/imath/bind",
+        "/Volumes/src/packages/usr/local/include",
+        "/Volumes/src/cppmm/build/../test/imath/bind"
     ],
     "id": 24,
     "decls": [
@@ -19,7 +22,7 @@
         },
         {
             "kind": "Record",
-            "name": "Imath_2_4::Vec3<float>",
+            "name": "Imath_2_5::Vec3<float>",
             "short_name": "Vec3",
             "namespaces": [
                 6
@@ -67,8 +70,8 @@
                 {
                     "kind": "Method",
                     "id": 0,
-                    "short_name": "setValue",
-                    "qualified_name": "Imath_2_4::Vec3<float>::setValue",
+                    "short_name": "normalize",
+                    "qualified_name": "Imath_2_5::Vec3<float>::normalize",
                     "in_binding": true,
                     "in_library": false,
                     "static": false,
@@ -161,9 +164,11 @@
                         "id": 27,
                         "type": "int",
                         "const": false
-                    }
+                    },
+                    "params": null
                 },
                 {
+
                     "kind": "Field",
                     "name": "z",
                     "type": {
@@ -178,13 +183,13 @@
                 {
                     "kind": "Method",
                     "id": 0,
-                    "short_name": "setValue",
-                    "qualified_name": "Imath_2_4::Vec3<int>::setValue",
+                    "short_name": "normalized",
+                    "qualified_name": "Imath_2_5::Vec3<float>::normalized",
                     "in_binding": true,
                     "in_library": false,
                     "static": false,
                     "user_provided": true,
-                    "const": false,
+                    "const": true,
                     "virtual": false,
                     "overloaded_operator": false,
                     "copy_assignment_operator": false,
@@ -196,11 +201,13 @@
                     "destructor": false,
                     "attributes": null,
                     "return": {
-                        "kind": "BuiltinType",
-                        "id": 0,
-                        "type": "void",
+                        "kind": "RecordType",
+                        "id": 1,
+                        "type": "Imath_2_5::Vec3<float>",
+                        "record": 23,
                         "const": false
                     },
+
                     "params": [
                         {
                             "index": 0,

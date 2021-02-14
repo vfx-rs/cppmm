@@ -11,8 +11,8 @@ template <class T> class Vec3 {
 public:
     // This allows us to see through to the type in Imath
     using BoundType = ::Imath::Vec3<T>;
+#if 0
 
-    /*
     // we're not actually paying any attention to the method declarations yet
     // no matching
     bool equalWithAbsError(const Vec3<T>& v, T e) const;
@@ -20,18 +20,23 @@ public:
 
     T dot(const ::Imath::Vec3<T>& v) const;
     ::Imath::Vec3<T> cross(const ::Imath::Vec3<T>& v) const;
+    const ::Imath::Vec3<T>& operator+=(const ::Imath::Vec3<T>& v) CPPMM_RENAME(op_iadd) ;
+#endif
 
-    const ::Imath::Vec3<T>& operator+=(const ::Imath::Vec3<T>& v);
+    const ::Imath::Vec3<T>&	normalize ();
+    ::Imath::Vec3<T>     	normalized () const;
+
+#if 0
     ::Imath::Vec3<T> operator+(const ::Imath::Vec3<T>& v) const;
 
     const ::Imath::Vec3<T>& operator-=(const ::Imath::Vec3<T>& v);
     ::Imath::Vec3<T> operator-(const ::Imath::Vec3<T>& v) const
-    CPPMM_RENAME(op_neg);
+    CPPMM_RENAME(op_sub);
 
-    constexpr ::Imath::Vec3<T> operator-() const;// CPPMM_RENAME(op_neg);
+    constexpr ::Imath::Vec3<T> operator-() const CPPMM_RENAME(op_neg);
 
-    const ::Imath::Vec3<T>& operator*=(const ::Imath::Vec3<T>& v);
-    const ::Imath::Vec3<T>& operator*=(T a) CPPMM_RENAME(mul_assign_t);
+    const ::Imath::Vec3<T>& operator*=(const ::Imath::Vec3<T>& v) CPPMM_RENAME(op_neg);
+    const ::Imath::Vec3<T>& operator*=(T a) CPPMM_RENAME(mul_assign_t) CPPMM_RENAME(op_neg);
     ::Imath::Vec3<T> operator*(const ::Imath::Vec3<T>& v) const;
     ::Imath::Vec3<T> operator*(T a) const CPPMM_RENAME(mul_t);
 
@@ -45,7 +50,6 @@ public:
 
     const ::Imath::Vec3<T>& normalize();    // modifies *this
     ::Imath::Vec3<T> normalized() const; // does not modify *this
-    */
 
     // constexpr static unsigned int dimensions();
 
@@ -57,24 +61,29 @@ public:
     // ugh - in order for the explicit instantiation to work we must provide
     // a function body here.
     template <class S> void setValue(S a, S b, S c);
+#endif
 
 } CPPMM_VALUETYPE;
 
 // explicit instantiation
 template class Vec3<float>;
-template class Vec3<int>;
+//template class Vec3<int>;
 using V3f = Imath::V3f;
-using V3i = Imath::V3i;
+//using V3i = Imath::V3i;
 
+#if 0
 // note the 'extern' here otherwise we get an error because we're not
 // defining the template body up above
 extern template void Vec3<float>::setValue(float a, float b, float c);
 extern template void Vec3<int>::setValue(int a, int b, int c);
+#endif
 
 } // namespace cppmm_bind
 
 template class Imath::Vec3<float>;
-template class Imath::Vec3<int>;
+//template class Imath::Vec3<int>;
 
+#if 0
 extern template void Imath::Vec3<float>::setValue(float a, float b, float c);
 extern template void Imath::Vec3<int>::setValue(int a, int b, int c);
+#endif
