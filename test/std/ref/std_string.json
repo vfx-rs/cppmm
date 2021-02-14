@@ -11,16 +11,29 @@
     "id": 8,
     "decls": [
         {
+            "kind": "Namespace",
+            "name": "std::__cxx11",
+            "id": 9,
+            "short_name": "__cxx11"
+        },
+        {
+            "kind": "Namespace",
+            "name": "std",
+            "id": 10,
+            "short_name": "std"
+        },
+        {
             "kind": "Record",
             "name": "std::__cxx11::basic_string<char>",
             "short_name": "basic_string",
             "namespaces": [
-                "std",
-                "__cxx11"
+                10,
+                9
             ],
-            "id": 9,
+            "id": 11,
             "size": 256,
             "align": 64,
+            "alias": "string",
             "attributes": [
                 "cppmm:opaquebytes"
             ],
@@ -30,7 +43,7 @@
                     "name": "_M_dataplus",
                     "type": {
                         "kind": "RecordType",
-                        "id": 25,
+                        "id": 27,
                         "type": "std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_Alloc_hider",
                         "record": -1,
                         "const": false
@@ -51,7 +64,7 @@
                     "name": "",
                     "type": {
                         "kind": "RecordType",
-                        "id": 26,
+                        "id": 28,
                         "type": "std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::(anonymous at /usr/lib/gcc/x86_64-linux-gnu/10/../../../../include/c++/10/bits/basic_string.h:171:7)",
                         "record": -1,
                         "const": false
@@ -164,7 +177,7 @@
                             "kind": "RecordType",
                             "id": 6,
                             "type": "std::__cxx11::basic_string<char>",
-                            "record": 9,
+                            "record": 11,
                             "const": false
                         },
                         "const": false

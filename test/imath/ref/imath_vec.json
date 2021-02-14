@@ -9,16 +9,22 @@
     "include_paths": [
         "/home/anders/packages/openexr/2.4.0/include"
     ],
-    "id": 23,
+    "id": 24,
     "decls": [
+        {
+            "kind": "Namespace",
+            "name": "Imath_2_4",
+            "id": 6,
+            "short_name": "Imath_2_4"
+        },
         {
             "kind": "Record",
             "name": "Imath_2_4::Vec3<float>",
             "short_name": "Vec3",
             "namespaces": [
-                "Imath_2_4"
+                6
             ],
-            "id": 24,
+            "id": 25,
             "size": 96,
             "align": 32,
             "alias": "V3f",
@@ -31,7 +37,7 @@
                     "name": "x",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 22,
+                        "id": 23,
                         "type": "float",
                         "const": false
                     }
@@ -41,7 +47,7 @@
                     "name": "y",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 22,
+                        "id": 23,
                         "type": "float",
                         "const": false
                     }
@@ -51,7 +57,7 @@
                     "name": "z",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 22,
+                        "id": 23,
                         "type": "float",
                         "const": false
                     }
@@ -90,7 +96,7 @@
                             "name": "a",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 22,
+                                "id": 23,
                                 "type": "float",
                                 "const": false
                             },
@@ -101,7 +107,7 @@
                             "name": "b",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 22,
+                                "id": 23,
                                 "type": "float",
                                 "const": false
                             },
@@ -112,7 +118,7 @@
                             "name": "c",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 22,
+                                "id": 23,
                                 "type": "float",
                                 "const": false
                             },
@@ -127,9 +133,9 @@
             "name": "Imath_2_4::Vec3<int>",
             "short_name": "Vec3",
             "namespaces": [
-                "Imath_2_4"
+                6
             ],
-            "id": 31,
+            "id": 32,
             "size": 96,
             "align": 32,
             "alias": "V3i",
@@ -142,7 +148,7 @@
                     "name": "x",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 26,
+                        "id": 27,
                         "type": "int",
                         "const": false
                     }
@@ -152,7 +158,7 @@
                     "name": "y",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 26,
+                        "id": 27,
                         "type": "int",
                         "const": false
                     }
@@ -162,7 +168,7 @@
                     "name": "z",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 26,
+                        "id": 27,
                         "type": "int",
                         "const": false
                     }
@@ -201,7 +207,7 @@
                             "name": "a",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 26,
+                                "id": 27,
                                 "type": "int",
                                 "const": false
                             },
@@ -212,7 +218,7 @@
                             "name": "b",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 26,
+                                "id": 27,
                                 "type": "int",
                                 "const": false
                             },
@@ -223,7 +229,7 @@
                             "name": "c",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 26,
+                                "id": 27,
                                 "type": "int",
                                 "const": false
                             },
