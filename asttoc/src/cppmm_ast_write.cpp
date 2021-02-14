@@ -391,6 +391,11 @@ void write_private_header(const TranslationUnit & tu)
     auto out =
         fmt::output_file(compute_c_header_path(tu.filename, "_private.h"));
 
+    if(!tu.header_filename.empty())
+    {
+        out.print("{}\n\n", tu.header_filename);
+    }
+
 #if 0
     // Then all the private functions
     for(const auto & node : tu.decls)
