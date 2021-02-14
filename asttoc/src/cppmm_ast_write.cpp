@@ -53,7 +53,8 @@ std::string convert_builtin_param(const NodeTypePtr & t,
 std::string convert_record_param(const NodeTypePtr & t,
                                  const std::string & name)
 {
-    return fmt::format("{} {}", t->type_name, name);
+    const char * const_ = t->const_ ? " const " : " ";
+    return fmt::format("{}{}{}", t->type_name, const_, name);
 }
 
 //------------------------------------------------------------------------------
