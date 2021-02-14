@@ -8,7 +8,7 @@
     ],
     "include_paths": [
         "/home/anders/packages/oiio/2.2.8/include",
-        "/home/anders/packages/openexr/2.4.0/include"
+        "/home/anders/packages/openexr/2.5.5/include"
     ],
     "id": 5,
     "decls": [
