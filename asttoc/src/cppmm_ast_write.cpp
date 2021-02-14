@@ -19,6 +19,12 @@ class Root;
 
 namespace write
 {
+
+enum class Access : uint32_t {
+    Private = 0,
+    Public
+};
+
 //------------------------------------------------------------------------------
 void indent(fmt::ostream & out, const size_t depth)
 {
@@ -154,15 +160,19 @@ void write_params(fmt::ostream & out, const NodeFunction & function)
 }
 
 //------------------------------------------------------------------------------
-void write_function(fmt::ostream & out, const NodePtr & node)
+void write_function(fmt::ostream & out, const NodePtr & node, Access access)
 {
     const NodeFunction & function =
         *static_cast<const NodeFunction*>(node.get());
 
-    out.print("{}(", convert_param(function.return_type,
-                                   function.name));
-    write_params(out, function);
-    out.print(");\n");
+    const bool private_ = (access == Access::Private);
+    if(private_ == function.private_)
+    {
+        out.print("{}(", convert_param(function.return_type,
+                                       function.name));
+        write_params(out, function);
+        out.print(");\n");
+    }
 }
 
 void write_expression(fmt::ostream & out, size_t depth,
@@ -401,17 +411,15 @@ void write_private_header(const TranslationUnit & tu)
         out.print("{}\n\n", tu.header_filename);
     }
 
-#if 0
     // Then all the private functions
     for(const auto & node : tu.decls)
     {
         if (node->kind == NodeKind::Function)
         {
             out.print("\n");
-            write_function(out, node);
+            write_function(out, node, Access::Private);
         }
     }
-#endif
 }
 
 //------------------------------------------------------------------------------
@@ -440,13 +448,13 @@ void write_header(const TranslationUnit & tu)
         }
     }
 
-    // Then all the functions
+    // Then all the public functions
     for(const auto & node : tu.decls)
     {
         if (node->kind == NodeKind::Function)
         {
             out.print("\n");
-            write_function(out, node);
+            write_function(out, node, Access::Public);
         }
     }
 }
