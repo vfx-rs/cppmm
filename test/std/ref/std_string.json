@@ -5,9 +5,7 @@
         "#include <string>",
         "#include <cppmm_bind.hpp>"
     ],
-    "include_paths": [
-        "."
-    ],
+    "include_paths": [],
     "id": 8,
     "decls": [
         {

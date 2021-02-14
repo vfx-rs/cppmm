@@ -16,7 +16,10 @@ else:
 shutil.rmtree(output_dir, ignore_errors=True)
 os.makedirs(output_dir)
 
-result = subprocess.Popen([cppmm_exe, binding_dir, '-o', output_dir, '--'] + cppmm_args, stderr=subprocess.STDOUT, stdout=subprocess.PIPE) 
+args = [cppmm_exe, binding_dir, '-o', output_dir, '--'] + cppmm_args
+print('Running ' + ' '.join(args))
+
+result = subprocess.Popen(args, stderr=subprocess.STDOUT, stdout=subprocess.PIPE) 
 (stdout, _) = result.communicate(None)
 
 if result.returncode != 0:
