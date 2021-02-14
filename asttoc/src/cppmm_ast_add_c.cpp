@@ -92,7 +92,7 @@ const NodeId PLACEHOLDER_ID = 0;
 const char * IGNORE = "cppmm:ignore";
 
 //------------------------------------------------------------------------------
-std::tuple<std::string, std::string>
+std::tuple<std::string, std::string, std::string>
              compute_c_filepath(const std::string & outdir,
                                const std::string & cpp_filepath)
 {
@@ -100,9 +100,13 @@ std::tuple<std::string, std::string>
     std::string _ext;
     pystring::os::path::splitext(root, _ext,
                                  pystring::os::path::basename(cpp_filepath));
+
+    const auto abs_root = pystring::os::path::join(outdir, root);
     
     return {root + ".h",
-            pystring::os::path::join(outdir, root) + ".cpp"};
+            abs_root + ".cpp",
+            root + "_private.h",
+    };
 }
 
 //------------------------------------------------------------------------------
@@ -764,9 +768,17 @@ void translation_unit_entries(
         generate::compute_c_filepath(output_directory,
                                      cpp_tu->filename);
 
+    enum Outputs {
+        Header = 0,
+        Source = 1,
+        PrivateHeader = 2,
+    };
+
     // Make the new translation unit
-    auto c_tu = TranslationUnit::new_(std::get<1>(filepaths));
-    c_tu->header_filename = header_file_include(std::get<0>(filepaths));
+    auto c_tu = TranslationUnit::new_(std::get<Source>(filepaths));
+    c_tu->header_filename = header_file_include(std::get<Header>(filepaths));
+    c_tu->private_header_filename =
+        header_file_include(std::get<PrivateHeader>(filepaths));
 
     // source includes -> source includes
     for (auto & i : cpp_tu->source_includes)

@@ -81,6 +81,7 @@ struct TranslationUnit {
     std::set<NodePtr> forward_decls;
 
     std::string header_filename;
+    std::string private_header_filename;
     std::set<std::string> source_includes;
     std::set<std::string> header_includes;
 
@@ -96,6 +97,7 @@ struct TranslationUnit {
         : filename(std::move(rhs.filename))
         , decls(std::move(rhs.decls))
         , header_filename(std::move(rhs.header_filename))
+        , private_header_filename(std::move(rhs.private_header_filename))
         , source_includes(std::move(rhs.source_includes))
     {}
 
@@ -103,6 +105,7 @@ struct TranslationUnit {
         filename = std::move(rhs.filename);
         decls = std::move(rhs.decls);
         header_filename = std::move(rhs.header_filename);
+        private_header_filename = std::move(rhs.private_header_filename);
         source_includes = std::move(rhs.source_includes);
     }
 
