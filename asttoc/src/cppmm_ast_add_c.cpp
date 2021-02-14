@@ -577,7 +577,7 @@ void opaquebytes_method(RecordRegistry & record_registry,
 
     // Convert params
     auto c_params = std::vector<Param>();
-    c_params.push_back(self_param(c_record, false)); // TODO LT: Const needs to be passed in here
+    c_params.push_back(self_param(c_record, cpp_method.is_const));
     for(const auto & p : cpp_method.params)
     {
         if(!parameter(c_tu, record_registry, c_params, p))
