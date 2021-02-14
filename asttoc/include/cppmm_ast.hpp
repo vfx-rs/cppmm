@@ -23,7 +23,6 @@ enum class NodeKind : uint32_t {
     Namespace,
     ArrayType,
     BuiltinType,
-    ConstType,
     PointerType,
     RecordType,
     EnumType,
