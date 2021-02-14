@@ -159,10 +159,9 @@ struct NodeBuiltinType : public NodeType {
 struct NodePointerType : public NodeType {
     NodeTypePtr pointee_type;
     PointerKind pointer_kind;
-    NodePointerType(std::string qualified_name, NodeId id,
-                    std::string type_name, PointerKind pointer_kind,
+    NodePointerType(PointerKind pointer_kind,
                     NodeTypePtr && pointee_type, bool const_)
-        : NodeType(qualified_name, id, NodeKind::PointerType, type_name, const_)
+        : NodeType("", 0, NodeKind::PointerType, "", const_)
         , pointer_kind(pointer_kind), pointee_type(std::move(pointee_type)) {}
 
     // A static method for creating this as a shared pointer

@@ -68,9 +68,6 @@ NodeTypePtr read_type_builtin(const nln::json & json) {
 NodeTypePtr read_type_pointer(const nln::json & json,
                               PointerKind pointer_kind) {
     return NodePointerType::n(
-            "",
-            json[ID].get<Id>(),
-            json[TYPE].get<std::string>(),
             pointer_kind,
             read_type(json[POINTEE]),
             json[CONST].get<bool>()
