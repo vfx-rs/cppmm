@@ -508,7 +508,7 @@ NodeExprPtr opaquebytes_method_body(RecordRegistry & record_registry,
                                     const NodeMethod & cpp_method)
 {
     // Create the reference to this
-    auto this_ = this_reference(cpp_record, false); // TODO LT: Missing cpp_method.const_
+    auto this_ = this_reference(cpp_record, cpp_method.is_const);
 
     // Loop over the parameters, creating arguments for the method call
     auto args = std::vector<NodeExprPtr>();
