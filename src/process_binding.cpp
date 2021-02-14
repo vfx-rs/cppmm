@@ -216,7 +216,25 @@ struct NodeTranslationUnit : public Node {
 };
 
 /// Namespace node. Currently not used
-struct NodeNamespace : public Node {};
+struct NodeNamespace : public Node {
+    std::string short_name;
+
+    NodeNamespace(std::string qualified_name, NodeId id, NodeId context,
+                  std::string short_name)
+        : Node(std::move(qualified_name), id, context, NodeKind::Namespace),
+          short_name(std::move(short_name)) {}
+
+    virtual void write_json_attrs(json& o) const override {
+        Node::write_json_attrs(o);
+        o["short_name"] = short_name;
+    }
+
+    virtual void write_json(json& o) const override {
+        o["kind"] = "Namespace";
+        o["name"] = qualified_name;
+        write_json_attrs(o);
+    }
+};
 
 /// Base struct represent a node that stores a type.
 /// Types are references to the actual record and enum declarations that
@@ -551,7 +569,7 @@ struct NodeRecord : public NodeAttributeHolder {
     /// The 'leaf' of the qualified name
     std::string short_name;
     /// The full path of namespaces leading to this record
-    std::vector<std::string> namespaces;
+    std::vector<NodeId> namespaces;
     /// Alias for the record, set by e.g.:
     /// using V3f = Imath::Vec3<float>;
     std::string alias;
@@ -566,7 +584,7 @@ struct NodeRecord : public NodeAttributeHolder {
 
     NodeRecord(std::string qualified_name, NodeId id, NodeId context,
                std::vector<std::string> attrs, std::string short_name,
-               std::vector<std::string> namespaces, RecordKind record_kind,
+               std::vector<NodeId> namespaces, RecordKind record_kind,
                uint32_t size, uint32_t align)
         : NodeAttributeHolder(qualified_name, id, context, NodeKind::Record,
                               attrs),
@@ -620,7 +638,7 @@ struct NodeEnum : public NodeAttributeHolder {
     /// Name of the enum without any qualifiers
     std::string short_name;
     /// Full namespace path
-    std::vector<std::string> namespaces;
+    std::vector<NodeId> namespaces;
     /// Size of the enum in bits
     uint32_t size;
     /// Alignment of the enum in bits
@@ -628,7 +646,7 @@ struct NodeEnum : public NodeAttributeHolder {
 
     NodeEnum(std::string qualified_name, NodeId id, NodeId context,
              std::vector<std::string> attrs, std::string short_name,
-             std::vector<std::string> namespaces,
+             std::vector<NodeId> namespaces,
              std::vector<std::pair<std::string, std::string>> variants,
              uint32_t size, uint32_t align)
         : NodeAttributeHolder(qualified_name, id, context, NodeKind::Enum,
@@ -1076,23 +1094,61 @@ bool method_in_list(NodeMethod* m, const std::vector<NodePtr>& binding_methods,
 
 /// Get the full set of namespaces (including parent records) that lead to
 /// a given decl. The decl passed here is expected to be the *parent* of the
-/// decl we care about
-std::vector<std::string> get_namespaces(const clang::DeclContext* parent) {
-    std::vector<std::string> result;
+/// decl we care about, as in `get_namespaces(target_decl->getParent())`
+std::vector<NodeId> get_namespaces(const clang::DeclContext* parent,
+                                   NodeTranslationUnit* node_tu) {
+    std::vector<NodeId> result;
 
     while (parent) {
         if (parent->isNamespace()) {
             const clang::NamespaceDecl* ns =
                 static_cast<const clang::NamespaceDecl*>(parent);
-            if (ns->getNameAsString() == "cppmm_bind") {
+
+            auto qualified_name = ns->getQualifiedNameAsString();
+            auto short_name = ns->getNameAsString();
+            if (short_name == "cppmm_bind") {
                 break;
             }
-            result.push_back(ns->getNameAsString());
+
+            // Add the id of this namespace to our list of namespaces, creating
+            // a new NodeNamespace if it doesn't exist yet
+            auto it = NODE_MAP.find(qualified_name);
+            NodeId id;
+            if (it == NODE_MAP.end()) {
+                id = NODES.size();
+                auto node = std::make_unique<NodeNamespace>(qualified_name, id,
+                                                            0, short_name);
+                NODES.emplace_back(std::move(node));
+                NODE_MAP[qualified_name] = id;
+
+            } else {
+                id = it->second;
+            }
+
+            // add this node to the TU if it's not there already
+            if (std::find(node_tu->children.begin(), node_tu->children.end(),
+                          id) == node_tu->children.end()) {
+                node_tu->children.push_back(id);
+            }
+            result.push_back(id);
+
             parent = parent->getParent();
         } else if (parent->isRecord()) {
-            const clang::RecordDecl* rd =
-                static_cast<const clang::RecordDecl*>(parent);
-            result.push_back(rd->getNameAsString());
+            // Parent is a Record type. We should have created the record
+            // already by the time we get here...
+            const clang::CXXRecordDecl* crd =
+                static_cast<const clang::CXXRecordDecl*>(parent);
+
+            auto record_name = get_record_name(crd);
+            auto it = NODE_MAP.find(record_name);
+            if (it == NODE_MAP.end()) {
+                SPDLOG_CRITICAL(
+                    "Could not find record {} when processing namespaces",
+                    record_name);
+            } else {
+                result.push_back(it->second);
+            }
+
             parent = parent->getParent();
         } else {
             break;
@@ -1110,7 +1166,10 @@ void process_enum_decl(const EnumDecl* ed, std::string filename) {
     assert(ed && "canonical decl is null");
     const std::string enum_name = ed->getQualifiedNameAsString();
     const std::string enum_short_name = ed->getNameAsString();
-    const std::vector<std::string> namespaces = get_namespaces(ed->getParent());
+    // Get the translation unit node we're going to add this Enum to
+    auto* node_tu = get_translation_unit(filename);
+    const std::vector<NodeId> namespaces =
+        get_namespaces(ed->getParent(), node_tu);
     ASTContext& ctx = ed->getASTContext();
     uint32_t size, align;
     if (!get_abi_info(dyn_cast<TypeDecl>(ed), ctx, size, align)) {
@@ -1123,9 +1182,6 @@ void process_enum_decl(const EnumDecl* ed, std::string filename) {
         variants.push_back(std::make_pair(ecd->getNameAsString(),
                                           ecd->getInitVal().toString(10)));
     }
-
-    // Get the translation unit node we're going to add this Enum to
-    auto* node_tu = get_translation_unit(filename);
 
     std::vector<std::string> attrs = get_attrs(ed);
 
@@ -1162,10 +1218,10 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
     crd = crd->getCanonicalDecl();
     const std::string record_name = get_record_name(crd);
     const std::string short_name = crd->getNameAsString();
-    std::vector<std::string> namespaces = get_namespaces(crd->getParent());
-
+    //
     // Get the translation unit node we're going to add this Record to
     auto* node_tu = get_translation_unit(filename);
+    std::vector<NodeId> namespaces = get_namespaces(crd->getParent(), node_tu);
 
     // Get the size and alignment of the Record
     uint32_t size, align;
