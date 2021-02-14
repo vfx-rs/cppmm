@@ -500,6 +500,8 @@ struct NodeFunction : public NodeAttributeHolder {
     std::vector<Param> params;
     bool in_binding = false;
     bool in_library = false;
+    bool private_ = false;
+
     NodeExprPtr body;
 
     NodeFunction(std::string qualified_name, NodeId id,
