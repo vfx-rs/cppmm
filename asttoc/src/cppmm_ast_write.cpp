@@ -377,6 +377,11 @@ void write_source_includes(fmt::ostream & out, const TranslationUnit & tu)
         out.print("{}\n", i);
     }
 
+    for(const auto & i : tu.source_private_includes)
+    {
+        out.print("{}\n", i);
+    }
+
     if(!tu.private_header_filename.empty())
     {
         out.print("{}\n", tu.private_header_filename);
