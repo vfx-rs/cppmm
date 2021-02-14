@@ -706,6 +706,13 @@ void namespace_entry(TypeRegistry & type_registry, const NodePtr & cpp_node)
 }
 
 //------------------------------------------------------------------------------
+void opaquebytes_conversions(TranslationUnit & c_tu,
+                             const NodeRecord & cpp_record,
+                             const NodeRecord & c_record)
+{
+}
+
+//------------------------------------------------------------------------------
 void record_detail(TypeRegistry & type_registry, TranslationUnit & c_tu,
                    const NodePtr & cpp_node)
 {
@@ -722,6 +729,13 @@ void record_detail(TypeRegistry & type_registry, TranslationUnit & c_tu,
     // Least safe and most restrictive in use, but easiest to implement.
     // So doing that first. Later will switch depending on the cppm attributes.
 
+    // Record
+    opaquebytes_record(c_record);
+
+    // Conversions
+    opaquebytes_conversions(c_tu, cpp_record, c_record);
+
+    // Methods
     opaquebytes_methods(type_registry, c_tu, cpp_record, c_record);
 }
 
