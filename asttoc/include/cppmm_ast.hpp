@@ -141,6 +141,14 @@ struct NodeBuiltinType : public NodeType {
         : NodeType(qualified_name, id, NodeKind::BuiltinType,
                    type_name, const_)
     {}
+
+    // A static method for creating this as a shared pointer
+    using This = NodeBuiltinType;
+    template<typename ... Args>
+    static std::shared_ptr<This> n(Args&& ... args)
+    {
+        return std::make_shared<This>(std::forward<Args>(args)...);
+    }
 };
 
 //------------------------------------------------------------------------------
@@ -155,6 +163,14 @@ struct NodePointerType : public NodeType {
                     NodeTypePtr && pointee_type, bool const_)
         : NodeType(qualified_name, id, NodeKind::PointerType, type_name, const_)
         , pointer_kind(pointer_kind), pointee_type(std::move(pointee_type)) {}
+
+    // A static method for creating this as a shared pointer
+    using This = NodePointerType;
+    template<typename ... Args>
+    static std::shared_ptr<This> n(Args&& ... args)
+    {
+        return std::make_shared<This>(std::forward<Args>(args)...);
+    }
 };
 
 //------------------------------------------------------------------------------
@@ -166,6 +182,14 @@ struct NodeRecordType : public NodeType {
                    std::string type_name, NodeId record, bool const_)
         : NodeType(qualified_name, id, NodeKind::RecordType, type_name, const_),
           record(record) {}
+
+    // A static method for creating this as a shared pointer
+    using This = NodeRecordType;
+    template<typename ... Args>
+    static std::shared_ptr<This> n(Args&& ... args)
+    {
+        return std::make_shared<This>(std::forward<Args>(args)...);
+    }
 };
 
 //------------------------------------------------------------------------------
@@ -177,6 +201,14 @@ struct NodeEnumType : public NodeType {
                  std::string type_name, NodeId enm, bool const_) // TODO LT: Hook up const later
         : NodeType(qualified_name, id, NodeKind::EnumType, type_name, const_),
           enm(enm) {}
+
+    // A static method for creating this as a shared pointer
+    using This = NodeEnumType;
+    template<typename ... Args>
+    static std::shared_ptr<This> n(Args&& ... args)
+    {
+        return std::make_shared<This>(std::forward<Args>(args)...);
+    }
 };
 
 //------------------------------------------------------------------------------
@@ -192,6 +224,14 @@ struct NodeArrayType : public NodeType {
         : NodeType(qualified_name, id, NodeKind::ArrayType, type_name, const_)
         , size(size)
         , element_type(std::move(element_type)) {}
+
+    // A static method for creating this as a shared pointer
+    using This = NodeArrayType;
+    template<typename ... Args>
+    static std::shared_ptr<This> n(Args&& ... args)
+    {
+        return std::make_shared<This>(std::forward<Args>(args)...);
+    }
 };
 
 //------------------------------------------------------------------------------
@@ -254,6 +294,14 @@ struct NodeFunctionCallExpr : public NodeExpr { // TODO LT: Added by luke, like 
         : NodeExpr(kind, name)
         , args(args)
     {}
+
+    // A static method for creating this as a shared pointer
+    using This = NodeFunctionCallExpr;
+    template<typename ... Args>
+    static std::shared_ptr<This> n(Args&& ... args)
+    {
+        return std::make_shared<This>(std::forward<Args>(args)...);
+    }
 };
 
 //------------------------------------------------------------------------------
@@ -267,6 +315,14 @@ struct NodeMethodCallExpr : public NodeFunctionCallExpr { // TODO LT: Added by l
         : NodeFunctionCallExpr(name, args, NodeKind::MethodCallExpr)
         , this_(std::move(this_))
     {}
+
+    // A static method for creating this as a shared pointer
+    using This = NodeMethodCallExpr;
+    template<typename ... Args>
+    static std::shared_ptr<This> n(Args&& ... args)
+    {
+        return std::make_shared<This>(std::forward<Args>(args)...);
+    }
 };
 
 //------------------------------------------------------------------------------
@@ -279,6 +335,14 @@ struct NodeVarRefExpr : public NodeExpr { // TODO LT: Added by luke, like clang 
         : NodeExpr(NodeKind::VarRefExpr)
         , var_name(var_name)
     {}
+
+    // A static method for creating this as a shared pointer
+    using This = NodeVarRefExpr;
+    template<typename ... Args>
+    static std::shared_ptr<This> n(Args&& ... args)
+    {
+        return std::make_shared<This>(std::forward<Args>(args)...);
+    }
 };
 
 //------------------------------------------------------------------------------
@@ -291,6 +355,14 @@ struct NodeRefExpr : public NodeExpr { // TODO LT: Added by luke = &()
         : NodeExpr(NodeKind::RefExpr)
         , inner(std::move(inner))
     {}
+
+    // A static method for creating this as a shared pointer
+    using This = NodeRefExpr;
+    template<typename ... Args>
+    static std::shared_ptr<This> n(Args&& ... args)
+    {
+        return std::make_shared<This>(std::forward<Args>(args)...);
+    }
 };
 
 //------------------------------------------------------------------------------
@@ -303,6 +375,14 @@ struct NodeDerefExpr : public NodeExpr { // TODO LT: Added by luke = *()
         : NodeExpr(NodeKind::DerefExpr)
         , inner(std::move(inner))
     {}
+
+    // A static method for creating this as a shared pointer
+    using This = NodeDerefExpr;
+    template<typename ... Args>
+    static std::shared_ptr<This> n(Args&& ... args)
+    {
+        return std::make_shared<This>(std::forward<Args>(args)...);
+    }
 };
 
 //------------------------------------------------------------------------------
@@ -315,6 +395,14 @@ struct NodeReturnExpr : public NodeExpr { // TODO LT: Added by luke = *()
         : NodeExpr(NodeKind::ReturnExpr)
         , inner(std::move(inner))
     {}
+
+    // A static method for creating this as a shared pointer
+    using This = NodeReturnExpr;
+    template<typename ... Args>
+    static std::shared_ptr<This> n(Args&& ... args)
+    {
+        return std::make_shared<This>(std::forward<Args>(args)...);
+    }
 };
 
 //------------------------------------------------------------------------------
@@ -332,6 +420,14 @@ struct NodeCastExpr : public NodeExpr { // TODO LT: Added by luke
         , type(std::move(type))
         , cast_kind(cast_kind)
     {}
+
+    // A static method for creating this as a shared pointer
+    using This = NodeCastExpr;
+    template<typename ... Args>
+    static std::shared_ptr<This> n(Args&& ... args)
+    {
+        return std::make_shared<This>(std::forward<Args>(args)...);
+    }
 };
 
 //------------------------------------------------------------------------------
@@ -346,6 +442,14 @@ struct NodePlacementNewExpr : public NodeExpr { // TODO LT: Added by luke new ()
         , address(std::move(address))
         , constructor(std::move(constructor))
     {}
+
+    // A static method for creating this as a shared pointer
+    using This = NodePlacementNewExpr;
+    template<typename ... Args>
+    static std::shared_ptr<This> n(Args&& ... args)
+    {
+        return std::make_shared<This>(std::forward<Args>(args)...);
+    }
 };
 
 //------------------------------------------------------------------------------
@@ -366,6 +470,14 @@ struct NodeFunction : public NodeAttributeHolder {
                               attrs),
           short_name(short_name), return_type(std::move(return_type)),
           params(std::move(params)) {}
+
+    // A static method for creating this as a shared pointer
+    using This = NodeFunction;
+    template<typename ... Args>
+    static std::shared_ptr<This> n(Args&& ... args)
+    {
+        return std::make_shared<This>(std::forward<Args>(args)...);
+    }
 };
 
 //------------------------------------------------------------------------------
@@ -386,6 +498,14 @@ struct NodeMethod : public NodeFunction {
           , is_constructor(is_constructor)
     {
         kind = NodeKind::Method;
+    }
+
+    // A static method for creating this as a shared pointer
+    using This = NodeMethod;
+    template<typename ... Args>
+    static std::shared_ptr<This> n(Args&& ... args)
+    {
+        return std::make_shared<This>(std::forward<Args>(args)...);
     }
 };
 
@@ -415,6 +535,14 @@ struct NodeRecord : public NodeAttributeHolder {
                uint32_t size, uint32_t align)
         : NodeAttributeHolder(qualified_name, id, NodeKind::Record, attrs),
           tu(tu), size(size), align(align), force_alignment(false) {}
+
+    // A static method for creating this as a shared pointer
+    using This = NodeRecord;
+    template<typename ... Args>
+    static std::shared_ptr<This> n(Args&& ... args)
+    {
+        return std::make_shared<This>(std::forward<Args>(args)...);
+    }
 };
 
 //------------------------------------------------------------------------------
@@ -433,6 +561,13 @@ struct NodeEnum : public NodeAttributeHolder {
              uint32_t size, uint32_t align)
         : NodeAttributeHolder(qualified_name, id, NodeKind::Enum, attrs),
           variants(variants), size(size), align(align) {
+    }
+
+    using This = NodeEnum;
+    template<typename ... Args>
+    static std::shared_ptr<This> n(Args&& ... args)
+    {
+        return std::make_shared<This>(std::forward<Args>(args)...);
     }
 };
 
