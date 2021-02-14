@@ -29,12 +29,13 @@ void indent(fmt::ostream & out, const size_t depth)
 }
 
 //------------------------------------------------------------------------------
-std::string compute_c_header_path(const std::string & path)
+std::string compute_c_header_path(const std::string & path,
+                                  const char * extension)
 {
     std::string _;
     std::string result;
     pystring::os::path::splitext(result, _, path);
-    result += ".h";
+    result += extension;
 
     return result;
 }
@@ -364,9 +365,49 @@ void write_header_includes(fmt::ostream & out, const TranslationUnit & tu)
 }
 
 //------------------------------------------------------------------------------
+void write_source_includes(fmt::ostream & out, const TranslationUnit & tu)
+{
+    if(!tu.header_filename.empty())
+    {
+        out.print("{}\n\n", tu.header_filename);
+    }
+
+    for(const auto & i : tu.source_includes)
+    {
+        out.print("{}\n", i);
+    }
+
+    if(!tu.private_header_filename.empty())
+    {
+        out.print("{}\n", tu.private_header_filename);
+    }
+
+    out.print("\n");
+}
+
+//------------------------------------------------------------------------------
+void write_private_header(const TranslationUnit & tu)
+{
+    auto out =
+        fmt::output_file(compute_c_header_path(tu.filename, "_private.h"));
+
+#if 0
+    // Then all the private functions
+    for(const auto & node : tu.decls)
+    {
+        if (node->kind == NodeKind::Function)
+        {
+            out.print("\n");
+            write_function(out, node);
+        }
+    }
+#endif
+}
+
+//------------------------------------------------------------------------------
 void write_header(const TranslationUnit & tu)
 {
-    auto out = fmt::output_file(compute_c_header_path(tu.filename));
+    auto out = fmt::output_file(compute_c_header_path(tu.filename, ".h"));
 
     // Write all the includes needed in the header file
     write_header_includes(out, tu);
@@ -401,22 +442,6 @@ void write_header(const TranslationUnit & tu)
 }
 
 //------------------------------------------------------------------------------
-void write_source_includes(fmt::ostream & out, const TranslationUnit & tu)
-{
-    if(!tu.header_filename.empty())
-    {
-        out.print("{}\n\n", tu.header_filename);
-    }
-
-    for(const auto & i : tu.source_includes)
-    {
-        out.print("{}\n", i);
-    }
-
-    out.print("\n");
-}
-
-//------------------------------------------------------------------------------
 void write_source(const TranslationUnit & tu)
 {
     auto out = fmt::output_file(tu.filename);
@@ -438,6 +463,7 @@ void write_source(const TranslationUnit & tu)
 void write_translation_unit(const TranslationUnit & tu)
 {
     write_header(tu);
+    write_private_header(tu);
     write_source(tu);
 }
 
