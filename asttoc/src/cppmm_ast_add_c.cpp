@@ -706,10 +706,55 @@ void namespace_entry(TypeRegistry & type_registry, const NodePtr & cpp_node)
 }
 
 //------------------------------------------------------------------------------
+void opaquebytes_ref_to_c(TranslationUnit & c_tu,
+                          const NodeRecord & cpp_record,
+                          const NodeRecord & c_record)
+{
+    auto rhs =
+        NodePointerType::n(
+            PointerKind::Reference,
+            NodeRecordType::n("", 0, cpp_record.name, cpp_record.id, true),
+            false
+    );
+
+    auto c_return =
+        NodePointerType::n(
+            PointerKind::Pointer,
+                NodeRecordType::n("", 0, c_record.name, c_record.id, true),
+    false);
+
+    // Function body
+    auto c_function_body =
+        NodeReturnExpr::n(
+            NodeCastExpr::n(
+                NodeRefExpr::n(
+                    NodeVarRefExpr::n("rhs")
+                ),
+                NodeTypePtr(c_return),
+                "reinterpret"
+            )
+        );
+
+    // Add the new function to the translation unit
+    std::vector<std::string> attrs;
+    std::vector<Param> params = {Param("rhs", rhs, 0)};
+    auto c_function = NodeFunction::n(
+                        "to_c", PLACEHOLDER_ID,
+                        attrs, "", std::move(c_return),
+                        std::move(params));
+
+    c_function->body = c_function_body;
+    c_function->private_ = true;
+
+    c_tu.decls.push_back(std::move(c_function));
+}
+
+//------------------------------------------------------------------------------
 void opaquebytes_conversions(TranslationUnit & c_tu,
                              const NodeRecord & cpp_record,
                              const NodeRecord & c_record)
 {
+    opaquebytes_ref_to_c(c_tu, cpp_record, c_record);
 }
 
 //------------------------------------------------------------------------------

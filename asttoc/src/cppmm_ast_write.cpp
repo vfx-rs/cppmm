@@ -70,8 +70,19 @@ std::string convert_pointer_param(const NodeTypePtr & t,
 {
     auto p = static_cast<const NodePointerType*>(t.get());
 
-    return convert_param(p->pointee_type,
-                         fmt::format("*{}", name));
+    switch(p->pointer_kind)
+    {
+        case PointerKind::Pointer:
+            return convert_param(p->pointee_type,
+                                 fmt::format("*{}", name));
+        case PointerKind::Reference:
+            return convert_param(p->pointee_type,
+                                 fmt::format("&{}", name));
+        default:
+            break;
+    }
+
+    return "";
 }
 
 //------------------------------------------------------------------------------
