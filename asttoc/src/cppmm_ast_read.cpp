@@ -39,6 +39,7 @@ namespace {
     const char * METHODS = "methods";
     const char * NAME = "name";
     const char * NAMESPACE_C = "Namespace";
+    const char * NAMESPACES = "namespaces";
     const char * QUALIFIED_NAME = "qualified_name";
     const char * SHORT_NAME = "short_name";
     const char * PARAMS = "params";
@@ -208,9 +209,16 @@ NodePtr read_record(const TranslationUnit::Ptr & tu, const nln::json & json) {
     auto name = json[NAME].get<std::string>();
     auto alias = json[ALIAS].get<std::string>();
 
+    // Namespaces
+    std::vector<NodeId> namespaces;
+    for(const auto & ns : json[NAMESPACES])
+    {
+        namespaces.push_back(ns);
+    }
+
     // Instantiate the translation unit
     auto result =\
-        NodeRecord::n(tu, name, id, _attrs, size, align, alias);
+        NodeRecord::n(tu, name, id, _attrs, size, align, alias, namespaces);
 
     // Pull out the methods
     for (const auto & i : json[METHODS] ){
