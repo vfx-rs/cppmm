@@ -37,6 +37,7 @@ namespace {
     const char * KIND = "kind";
     const char * METHODS = "methods";
     const char * NAME = "name";
+    const char * NAMESPACE_C = "Namespace";
     const char * QUALIFIED_NAME = "qualified_name";
     const char * SHORT_NAME = "short_name";
     const char * PARAMS = "params";
@@ -254,10 +255,27 @@ NodePtr read_enum(const TranslationUnit::Ptr & tu, const nln::json & json) {
 }
 
 //------------------------------------------------------------------------------
+NodePtr read_namespace(const TranslationUnit::Ptr & tu,
+                       const nln::json & json) {
+    // Ignore these for the moment
+    std::vector<std::string> _attrs;
+
+    // Dont ignore these
+    Id id = json[ID].get<Id>();
+    auto name = json[NAME].get<std::string>();
+    auto short_name = json[SHORT_NAME].get<std::string>();
+
+    auto result =
+        NodeNamespace::n(name, id, short_name);
+
+    // Return the result
+    return result;
+}
+
+//------------------------------------------------------------------------------
 NodePtr read_node(const TranslationUnit::Ptr & tu, const nln::json & json) {
     auto kind = json[KIND].get<std::string>();
 
-    // TODO LT: Could kind be an enum instead of a string?
     if(kind == RECORD_C) {
         return read_record(tu, json);
     }        
@@ -266,6 +284,9 @@ NodePtr read_node(const TranslationUnit::Ptr & tu, const nln::json & json) {
     }
     else if(kind == FUNCTION_C) {
         return read_function(tu, json);
+    }
+    else if(kind == NAMESPACE_C) {
+        return read_namespace(tu, json);
     }
 
     std::cerr << kind << std::endl;

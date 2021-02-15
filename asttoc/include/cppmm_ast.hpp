@@ -117,9 +117,17 @@ struct TranslationUnit {
 struct NodeNamespace : public Node {
     std::string short_name;
 
-    NodeType(std::string qualified_name, NodeId id, std::string short_name)
-        : Node(qualified_name, id, NodeKind::Namespace)
+    NodeNamespace(std::string name, NodeId id, std::string short_name)
+        : Node(name, id, NodeKind::Namespace)
         , short_name(short_name) {}
+
+    // A static method for creating this as a shared pointer
+    using This = NodeNamespace;
+    template<typename ... Args>
+    static std::shared_ptr<This> n(Args&& ... args)
+    {
+        return std::make_shared<This>(std::forward<Args>(args)...);
+    }
 };
 
 //------------------------------------------------------------------------------
