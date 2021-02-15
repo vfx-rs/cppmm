@@ -708,19 +708,20 @@ void namespace_entry(TypeRegistry & type_registry, const NodePtr & cpp_node)
 //------------------------------------------------------------------------------
 void opaquebytes_ref_to_c(TranslationUnit & c_tu,
                           const NodeRecord & cpp_record,
-                          const NodeRecord & c_record)
+                          const NodeRecord & c_record,
+                          bool const_)
 {
     auto rhs =
         NodePointerType::n(
             PointerKind::Reference,
-            NodeRecordType::n("", 0, cpp_record.name, cpp_record.id, true),
+            NodeRecordType::n("", 0, cpp_record.name, cpp_record.id, const_),
             false
     );
 
     auto c_return =
         NodePointerType::n(
             PointerKind::Pointer,
-                NodeRecordType::n("", 0, c_record.name, c_record.id, true),
+                NodeRecordType::n("", 0, c_record.name, c_record.id, const_),
     false);
 
     // Function body
@@ -754,7 +755,8 @@ void opaquebytes_conversions(TranslationUnit & c_tu,
                              const NodeRecord & cpp_record,
                              const NodeRecord & c_record)
 {
-    opaquebytes_ref_to_c(c_tu, cpp_record, c_record);
+    opaquebytes_ref_to_c(c_tu, cpp_record, c_record, true);
+    opaquebytes_ref_to_c(c_tu, cpp_record, c_record, false);
 }
 
 //------------------------------------------------------------------------------
