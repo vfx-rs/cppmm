@@ -26,8 +26,10 @@ class TypeRegistry
 
     // The node entries are sparse, so store them in a map for the moment.
     using Mapping = std::unordered_map<NodeId, Records>;
+    using Namespaces = std::unordered_map<NodeId, NodePtr>;
 
     Mapping m_mapping;
+    Namespaces m_namespaces;
 
 public:
     void add(NodeId id, NodePtr cpp, NodePtr c)
@@ -38,6 +40,25 @@ public:
                                                       std::move(c)
                                               }
         ));
+    }
+
+    void add_namespace(NodeId id, NodePtr ns)
+    {
+        // TODO LT: Assert for double entries
+        m_namespaces[id] = ns;
+    }
+
+    NodePtr find_namespace(NodeId id) const
+    {
+        auto result = m_namespaces.find(id);
+        if(result == m_namespaces.end())
+        {
+            return NodePtr();
+        }
+        else
+        {
+            return result->second;
+        }
     }
 
     NodeRecord & edit_c(NodeId id)
@@ -647,6 +668,15 @@ void record_entry(NodeId & record_id,
 }
 
 //------------------------------------------------------------------------------
+void namespace_entry(TypeRegistry & type_registry, const NodePtr & cpp_node)
+{
+    const auto & cpp_namespace =\
+        *static_cast<const NodeNamespace*>(cpp_node.get());
+
+    type_registry.add_namespace(cpp_namespace.id, cpp_node);
+}
+
+//------------------------------------------------------------------------------
 void record_detail(TypeRegistry & type_registry, TranslationUnit & c_tu,
                    const NodePtr & cpp_node)
 {
@@ -719,13 +749,29 @@ void translation_unit_entries(
         c_tu->source_includes.insert(i);
     }
 
+    // cpp namespaces
+    for (const auto & node : cpp_tu->decls)
+    {
+        switch (node->kind)
+        {
+        case NodeKind::Namespace:
+            generate::namespace_entry(type_registry, node);
+            break;
+        default:
+            break;
+        }
+    }
 
     // cpp records -> c records
     for (const auto & node : cpp_tu->decls)
     {
-        if (node->kind == NodeKind::Record)
+        switch (node->kind)
         {
+        case NodeKind::Record:
             generate::record_entry(new_record_id, type_registry, c_tu, node);
+            break;
+        default:
+            break;
         }
     }
 
