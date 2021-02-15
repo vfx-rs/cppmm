@@ -26,7 +26,7 @@ class TypeRegistry
 
     // The node entries are sparse, so store them in a map for the moment.
     using Mapping = std::unordered_map<NodeId, Records>;
-    using Namespaces = std::unordered_map<NodeId, NodePtr>;
+    using Namespaces = std::unordered_map<NodeId, std::string>;
 
     Mapping m_mapping;
     Namespaces m_namespaces;
@@ -42,22 +42,22 @@ public:
         ));
     }
 
-    void add_namespace(NodeId id, NodePtr ns)
+    void add_namespace(NodeId id, const std::string & ns)
     {
         // TODO LT: Assert for double entries
         m_namespaces[id] = ns;
     }
 
-    NodePtr find_namespace(NodeId id) const
+    const char * find_namespace(NodeId id) const
     {
         auto result = m_namespaces.find(id);
         if(result == m_namespaces.end())
         {
-            return NodePtr();
+            return "";
         }
         else
         {
-            return result->second;
+            return result->second.c_str();
         }
     }
 
@@ -106,10 +106,10 @@ std::tuple<std::string, std::string>
 }
 
 //------------------------------------------------------------------------------
-std::string compute_c_name(const std::string & cpp_record_name)
+std::string compute_c_name(const std::string & name)
 {
     std::string result;
-    for( auto const & c : cpp_record_name )
+    for( auto const & c : name )
     {
         switch (c)
         {
@@ -126,6 +126,23 @@ std::string compute_c_name(const std::string & cpp_record_name)
                 result.push_back(c);
         }
     }
+    return result;
+}
+
+//------------------------------------------------------------------------------
+std::string compute_record_name(const TypeRegistry & type_registry,
+                                const std::vector<NodeId> & namespaces,
+                                const std::string & alias)
+{
+    std::string result;
+    for(const auto & ns: namespaces)
+    {
+        result += type_registry.find_namespace(ns);
+        result += "_";
+    }
+
+    result += alias;
+
     return result;
 }
 
@@ -623,8 +640,11 @@ void opaquebytes_method(TypeRegistry & type_registry,
                                     c_return, cpp_method);
 
     // Add the new function to the translation unit
+    std::string method_name = c_record.name;
+    method_name += "_";
+    method_name += compute_c_name(cpp_method.short_name);
     auto c_function = NodeFunction::n(
-                        compute_c_name(cpp_method.name), PLACEHOLDER_ID,
+                        method_name, PLACEHOLDER_ID,
                         cpp_method.attrs, "", std::move(c_return),
                         std::move(c_params));
 
@@ -652,7 +672,9 @@ void record_entry(NodeId & record_id,
     const auto & cpp_record =\
         *static_cast<const NodeRecord*>(cpp_node.get());
 
-    const auto c_record_name = compute_c_name(cpp_record.name);
+    const auto c_record_name =
+        compute_record_name(type_registry, cpp_record.namespaces,
+                            cpp_record.alias);
 
     // Create the c record
     auto c_record = NodeRecord::n(
@@ -674,7 +696,7 @@ void namespace_entry(TypeRegistry & type_registry, const NodePtr & cpp_node)
     const auto & cpp_namespace =\
         *static_cast<const NodeNamespace*>(cpp_node.get());
 
-    type_registry.add_namespace(cpp_namespace.id, cpp_node);
+    type_registry.add_namespace(cpp_namespace.id, cpp_namespace.short_name);
 }
 
 //------------------------------------------------------------------------------
