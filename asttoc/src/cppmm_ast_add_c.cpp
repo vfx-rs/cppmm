@@ -53,7 +53,7 @@ public:
         auto result = m_namespaces.find(id);
         if(result == m_namespaces.end())
         {
-            return "";
+            return ""; // TODO LT: optional return with error would be better
         }
         else
         {
