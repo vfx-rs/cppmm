@@ -114,7 +114,13 @@ struct TranslationUnit {
 //------------------------------------------------------------------------------
 // NodeNamespace
 //------------------------------------------------------------------------------
-struct NodeNamespace : public Node {};
+struct NodeNamespace : public Node {
+    std::string short_name;
+
+    NodeType(std::string qualified_name, NodeId id, std::string short_name)
+        : Node(qualified_name, id, NodeKind::Namespace)
+        , short_name(short_name) {}
+};
 
 //------------------------------------------------------------------------------
 // NodeType
