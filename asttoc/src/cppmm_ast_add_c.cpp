@@ -14,9 +14,9 @@ namespace cppmm {
 namespace transform {
 
 //------------------------------------------------------------------------------
-// RecordRegistry
+// TypeRegistry
 //------------------------------------------------------------------------------
-class RecordRegistry
+class TypeRegistry
 {
     struct Records
     {
@@ -109,12 +109,12 @@ std::string compute_c_name(const std::string & cpp_record_name)
 }
 
 NodeTypePtr convert_type(TranslationUnit & c_tu,
-                         RecordRegistry & record_registry,
+                         TypeRegistry & type_registry,
                          const NodeTypePtr & t, bool in_reference);
 
 //------------------------------------------------------------------------------
 NodeTypePtr convert_builtin_type(TranslationUnit & c_tu,
-                                 RecordRegistry & record_registry,
+                                 TypeRegistry & type_registry,
                                  const NodeTypePtr & t, bool _in_refererence)
 {
     // TODO LT: Do mapping of c++ builtins to c builtins
@@ -148,12 +148,12 @@ void add_declaration(TranslationUnit & c_tu, const NodePtr & node_ptr,
 
 //------------------------------------------------------------------------------
 NodeTypePtr convert_record_type(TranslationUnit & c_tu,
-                                RecordRegistry & record_registry,
+                                TypeRegistry & type_registry,
                                 const NodeTypePtr & t, bool in_reference)
 {
     const auto & cpp_record_type = *static_cast<const NodeRecordType*>(t.get());
 
-    const auto & node_ptr = record_registry.find_c(cpp_record_type.record);
+    const auto & node_ptr = type_registry.find_c(cpp_record_type.record);
     if (!node_ptr)
     {
         std::cerr << "Found unsupported type: " << t->type_name << std::endl;
@@ -171,13 +171,13 @@ NodeTypePtr convert_record_type(TranslationUnit & c_tu,
 
 //------------------------------------------------------------------------------
 NodeTypePtr convert_pointer_type(TranslationUnit & c_tu,
-                                 RecordRegistry & record_registry,
+                                 TypeRegistry & type_registry,
                                  const NodeTypePtr & t, bool in_reference)
 {
     auto p = static_cast<const NodePointerType*>(t.get());
 
     auto pointee_type =
-        convert_type(c_tu, record_registry, p->pointee_type, true);
+        convert_type(c_tu, type_registry, p->pointee_type, true);
 
     // If we can't convert, then dont bother with this type either
     if(!pointee_type)
@@ -193,17 +193,17 @@ NodeTypePtr convert_pointer_type(TranslationUnit & c_tu,
 
 //------------------------------------------------------------------------------
 NodeTypePtr convert_type(TranslationUnit & c_tu,
-                         RecordRegistry & record_registry,
+                         TypeRegistry & type_registry,
                          const NodeTypePtr & t, bool in_reference=false)
 {
     switch (t->kind)
     {
         case NodeKind::BuiltinType:
-            return convert_builtin_type(c_tu, record_registry, t, in_reference);
+            return convert_builtin_type(c_tu, type_registry, t, in_reference);
         case NodeKind::RecordType:
-            return convert_record_type(c_tu, record_registry, t, in_reference);
+            return convert_record_type(c_tu, type_registry, t, in_reference);
         case NodeKind::PointerType:
-            return convert_pointer_type(c_tu, record_registry, t, in_reference);
+            return convert_pointer_type(c_tu, type_registry, t, in_reference);
         case NodeKind::EnumType:
             return NodeTypePtr(); // TODO LT: Enum translation
         default:
@@ -215,10 +215,10 @@ NodeTypePtr convert_type(TranslationUnit & c_tu,
 
 //------------------------------------------------------------------------------
 bool parameter(TranslationUnit & c_tu,
-               RecordRegistry & record_registry,
+               TypeRegistry & type_registry,
                std::vector<Param> & params, const Param & param)
 {
-    auto param_type = convert_type(c_tu, record_registry, param.type);
+    auto param_type = convert_type(c_tu, type_registry, param.type);
     if(!param_type)
     {
         return false;
@@ -480,7 +480,7 @@ void argument(std::vector<NodeExprPtr> & args, const Param & param)
 }
 
 //------------------------------------------------------------------------------
-NodeExprPtr opaquebytes_constructor_body(RecordRegistry & record_registry,
+NodeExprPtr opaquebytes_constructor_body(TypeRegistry & type_registry,
                                          TranslationUnit & c_tu,
                                          const NodeRecord & cpp_record,
                                          const NodeRecord & c_record,
@@ -501,7 +501,7 @@ NodeExprPtr opaquebytes_constructor_body(RecordRegistry & record_registry,
 }
 
 //------------------------------------------------------------------------------
-NodeExprPtr opaquebytes_method_body(RecordRegistry & record_registry,
+NodeExprPtr opaquebytes_method_body(TypeRegistry & type_registry,
                                     TranslationUnit & c_tu,
                                     const NodeRecord & cpp_record,
                                     const NodeRecord & c_record,
@@ -543,7 +543,7 @@ NodeExprPtr opaquebytes_method_body(RecordRegistry & record_registry,
 }
 
 //------------------------------------------------------------------------------
-NodeExprPtr opaquebytes_c_function_body(RecordRegistry & record_registry,
+NodeExprPtr opaquebytes_c_function_body(TypeRegistry & type_registry,
                                         TranslationUnit & c_tu,
                                         const NodeRecord & cpp_record,
                                         const NodeRecord & c_record,
@@ -553,17 +553,17 @@ NodeExprPtr opaquebytes_c_function_body(RecordRegistry & record_registry,
     if(cpp_method.is_constructor)
     {
         return opaquebytes_constructor_body(
-            record_registry, c_tu, cpp_record, c_record, cpp_method);
+            type_registry, c_tu, cpp_record, c_record, cpp_method);
     }
     else
     {
         return opaquebytes_method_body(
-            record_registry, c_tu, cpp_record, c_record, c_return, cpp_method);
+            type_registry, c_tu, cpp_record, c_record, c_return, cpp_method);
     }
 }
 
 //------------------------------------------------------------------------------
-void opaquebytes_method(RecordRegistry & record_registry,
+void opaquebytes_method(TypeRegistry & type_registry,
                         TranslationUnit & c_tu,
                         const NodeRecord & cpp_record,
                         const NodeRecord & c_record,
@@ -581,7 +581,7 @@ void opaquebytes_method(RecordRegistry & record_registry,
     c_params.push_back(self_param(c_record, cpp_method.is_const));
     for(const auto & p : cpp_method.params)
     {
-        if(!parameter(c_tu, record_registry, c_params, p))
+        if(!parameter(c_tu, type_registry, c_params, p))
         {
             std::cerr << "Skipping: " << cpp_method.name << std::endl;
             return;
@@ -589,7 +589,7 @@ void opaquebytes_method(RecordRegistry & record_registry,
     }
 
     // Convert return type
-    auto c_return = convert_type(c_tu, record_registry, cpp_method.return_type);
+    auto c_return = convert_type(c_tu, type_registry, cpp_method.return_type);
     if(!c_return)
     {
         std::cerr << "Skipping: " << cpp_method.name << std::endl;
@@ -598,7 +598,7 @@ void opaquebytes_method(RecordRegistry & record_registry,
 
     // Function body
     auto c_function_body =
-        opaquebytes_c_function_body(record_registry, c_tu, cpp_record, c_record,
+        opaquebytes_c_function_body(type_registry, c_tu, cpp_record, c_record,
                                     c_return, cpp_method);
 
     // Add the new function to the translation unit
@@ -613,19 +613,19 @@ void opaquebytes_method(RecordRegistry & record_registry,
 }
 
 //------------------------------------------------------------------------------
-void opaquebytes_methods(RecordRegistry & record_registry,
+void opaquebytes_methods(TypeRegistry & type_registry,
                          TranslationUnit & c_tu, const NodeRecord & cpp_record,
                          const NodeRecord & c_record)
 {
     for(const auto & m: cpp_record.methods)
     {
-        opaquebytes_method(record_registry, c_tu, cpp_record, c_record, m);
+        opaquebytes_method(type_registry, c_tu, cpp_record, c_record, m);
     }
 }
 
 //------------------------------------------------------------------------------
 void record_entry(NodeId & record_id,
-                  RecordRegistry & record_registry, TranslationUnit::Ptr & c_tu,
+                  TypeRegistry & type_registry, TranslationUnit::Ptr & c_tu,
                   const NodePtr & cpp_node)
 {
     const auto & cpp_record =\
@@ -640,14 +640,14 @@ void record_entry(NodeId & record_id,
                    cpp_record.size, cpp_record.align);
 
     // Add the cpp and c record to the registry
-    record_registry.add(cpp_node->id, cpp_node, c_record);
+    type_registry.add(cpp_node->id, cpp_node, c_record);
 
     // Finally add the record to the translation unit
     c_tu->decls.push_back(std::move(c_record));
 }
 
 //------------------------------------------------------------------------------
-void record_detail(RecordRegistry & record_registry, TranslationUnit & c_tu,
+void record_detail(TypeRegistry & type_registry, TranslationUnit & c_tu,
                    const NodePtr & cpp_node)
 {
     const auto & cpp_record =\
@@ -656,14 +656,14 @@ void record_detail(RecordRegistry & record_registry, TranslationUnit & c_tu,
     // Most simple record implementation is the opaque bytes.
     // Least safe and most restrictive in use, but easiest to implement.
     // So doing that first. Later will switch depending on the cppm attributes.
-    auto & c_record = record_registry.edit_c(cpp_record.id); // TODO LT: Return optional for error
+    auto & c_record = type_registry.edit_c(cpp_record.id); // TODO LT: Return optional for error
     opaquebytes_record(c_record);
 
     // Most simple record implementation is the opaque bytes.
     // Least safe and most restrictive in use, but easiest to implement.
     // So doing that first. Later will switch depending on the cppm attributes.
 
-    opaquebytes_methods(record_registry, c_tu, cpp_record, c_record);
+    opaquebytes_methods(type_registry, c_tu, cpp_record, c_record);
 }
 
 //------------------------------------------------------------------------------
@@ -698,7 +698,7 @@ std::string header_file_include(std::string header_filename)
 //------------------------------------------------------------------------------
 void translation_unit_entries(
     NodeId & new_record_id,
-    RecordRegistry & record_registry,
+    TypeRegistry & type_registry,
     const std::string & output_directory, Root & root,
     const size_t cpp_tu_index)
 {
@@ -725,7 +725,7 @@ void translation_unit_entries(
     {
         if (node->kind == NodeKind::Record)
         {
-            generate::record_entry(new_record_id, record_registry, c_tu, node);
+            generate::record_entry(new_record_id, type_registry, c_tu, node);
         }
     }
 
@@ -734,7 +734,7 @@ void translation_unit_entries(
 
 //------------------------------------------------------------------------------
 void translation_unit_details(
-    RecordRegistry & record_registry,
+    TypeRegistry & type_registry,
     Root & root, const size_t cpp_tu_size, const size_t cpp_tu)
 {
     auto & c_tu = *root.tus[cpp_tu_size+cpp_tu];
@@ -744,7 +744,7 @@ void translation_unit_details(
     {
         if (node->kind == NodeKind::Record)
         {
-            generate::record_detail(record_registry, c_tu, node);
+            generate::record_detail(type_registry, c_tu, node);
         }
     }
 }
@@ -756,7 +756,7 @@ void translation_unit_details(
 void add_c(const std::string & output_directory, Root & root)
 {
     // For storing the mappings between cpp and c records
-    auto record_registry = RecordRegistry();
+    auto type_registry = TypeRegistry();
 
     // The starting id for newly created records
     NodeId current_record_id = generate::find_record_id_upper_bound(root) + 1;
@@ -767,13 +767,13 @@ void add_c(const std::string & output_directory, Root & root)
     {
         generate::translation_unit_entries(
             current_record_id,
-            record_registry, output_directory, root, i);
+            type_registry, output_directory, root, i);
     }
 
     // Implement the records
     for (size_t i=0; i != tu_count; ++i)
     {
-        generate::translation_unit_details(record_registry, root, tu_count, i);
+        generate::translation_unit_details(type_registry, root, tu_count, i);
     }
 }
 
