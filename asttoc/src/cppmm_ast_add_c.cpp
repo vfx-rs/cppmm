@@ -658,7 +658,7 @@ void record_entry(NodeId & record_id,
     auto c_record = NodeRecord::n(
                    c_tu,
                    c_record_name, record_id++, cpp_record.attrs,
-                   cpp_record.size, cpp_record.align);
+                   cpp_record.size, cpp_record.align, cpp_record.alias);
 
     // Add the cpp and c record to the registry
     type_registry.add(cpp_node->id, cpp_node, c_record);

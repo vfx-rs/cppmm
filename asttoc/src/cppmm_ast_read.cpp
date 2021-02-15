@@ -22,6 +22,7 @@ namespace read
 
 namespace {
     const char * ALIGN = "align";
+    const char * ALIAS = "alias";
     const char * ATTRIBUTES = "attributes";
     const char * CHILDREN = "children";
     const char * CONSTRUCTOR = "constructor";
@@ -205,10 +206,11 @@ NodePtr read_record(const TranslationUnit::Ptr & tu, const nln::json & json) {
     auto size = json[SIZE].get<uint64_t>();
     auto align = json[ALIGN].get<uint64_t>();
     auto name = json[NAME].get<std::string>();
+    auto alias = json[ALIAS].get<std::string>();
 
     // Instantiate the translation unit
     auto result =\
-        NodeRecord::n(tu, name, id, _attrs, size, align);
+        NodeRecord::n(tu, name, id, _attrs, size, align, alias);
 
     // Pull out the methods
     for (const auto & i : json[METHODS] ){

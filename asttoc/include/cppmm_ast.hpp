@@ -543,12 +543,15 @@ struct NodeRecord : public NodeAttributeHolder {
     uint32_t align;
     bool force_alignment;
 
+    std::string alias;
+
     NodeRecord(const TranslationUnit::Ptr & tu,
                std::string qualified_name, NodeId id,
                std::vector<std::string> attrs,
-               uint32_t size, uint32_t align)
+               uint32_t size, uint32_t align, const std::string & alias)
         : NodeAttributeHolder(qualified_name, id, NodeKind::Record, attrs),
-          tu(tu), size(size), align(align), force_alignment(false) {}
+          tu(tu), size(size), align(align), force_alignment(false), alias(alias)
+    {}
 
     // A static method for creating this as a shared pointer
     using This = NodeRecord;
