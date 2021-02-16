@@ -30,6 +30,7 @@ enum class NodeKind : uint32_t {
     Parm,
     Function,
     AssignExpr,
+    BlockExpr,
     FunctionCallExpr,
     MethodCallExpr,
     VarRefExpr,
@@ -508,6 +509,26 @@ struct NodeCastExpr : public NodeExpr { // TODO LT: Added by luke
 
     // A static method for creating this as a shared pointer
     using This = NodeCastExpr;
+    template<typename ... Args>
+    static std::shared_ptr<This> n(Args&& ... args)
+    {
+        return std::make_shared<This>(std::forward<Args>(args)...);
+    }
+};
+
+//------------------------------------------------------------------------------
+// NodeBlockExpr
+//------------------------------------------------------------------------------
+struct NodeBlockExpr : public NodeExpr { // TODO LT: Added by luke new () ();
+    std::vector<NodeExprPtr> expressions;
+
+    NodeBlockExpr(std::vector<NodeExprPtr> && expressions)
+        : NodeExpr(NodeKind::BlockExpr)
+        , expressions(expressions)
+    {}
+
+    // A static method for creating this as a shared pointer
+    using This = NodeBlockExpr;
     template<typename ... Args>
     static std::shared_ptr<This> n(Args&& ... args)
     {
