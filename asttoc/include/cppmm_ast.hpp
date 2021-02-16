@@ -26,6 +26,7 @@ enum class NodeKind : uint32_t {
     PointerType,
     RecordType,
     EnumType,
+    FunctionProtoType,
     Parm,
     Function,
     FunctionCallExpr,
@@ -176,6 +177,27 @@ struct NodePointerType : public NodeType {
                     NodeTypePtr && pointee_type, bool const_)
         : NodeType("", 0, NodeKind::PointerType, "", const_)
         , pointer_kind(pointer_kind), pointee_type(std::move(pointee_type)) {}
+
+    // A static method for creating this as a shared pointer
+    using This = NodePointerType;
+    template<typename ... Args>
+    static std::shared_ptr<This> n(Args&& ... args)
+    {
+        return std::make_shared<This>(std::forward<Args>(args)...);
+    }
+};
+
+//------------------------------------------------------------------------------
+// NodeFunctionProtoType
+//------------------------------------------------------------------------------
+struct NodeFunctionProtoType : public NodeType {
+    NodeTypePtr return_type;
+    std::string type;
+
+    NodeFunctionProtoType(const NodeTypePtr & return_type,
+                          const std::string & type)
+        : NodeType("", 0, NodeKind::FunctionProtoType, "", false)
+        , return_type(return_type), type(type) {}
 
     // A static method for creating this as a shared pointer
     using This = NodePointerType;
