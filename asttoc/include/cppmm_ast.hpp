@@ -32,6 +32,7 @@ enum class NodeKind : uint32_t {
     FunctionCallExpr,
     MethodCallExpr,
     VarRefExpr,
+    VarDeclExpr,
     DerefExpr,
     RefExpr,
     CastExpr,
@@ -377,6 +378,28 @@ struct NodeVarRefExpr : public NodeExpr { // TODO LT: Added by luke, like clang 
 
     // A static method for creating this as a shared pointer
     using This = NodeVarRefExpr;
+    template<typename ... Args>
+    static std::shared_ptr<This> n(Args&& ... args)
+    {
+        return std::make_shared<This>(std::forward<Args>(args)...);
+    }
+};
+
+//------------------------------------------------------------------------------
+// NodeVarDeclExpr
+//------------------------------------------------------------------------------
+struct NodeVarDeclExpr : public NodeExpr { // TODO LT: Added by luke
+    NodeTypePtr var_type;
+    std::string var_name;
+
+    NodeVarDeclExpr(NodeTypePtr var_type, std::string var_name)
+        : NodeExpr(NodeKind::VarDeclExpr)
+        , var_type(var_type)
+        , var_name(var_name)
+    {}
+
+    // A static method for creating this as a shared pointer
+    using This = NodeVarDeclExpr;
     template<typename ... Args>
     static std::shared_ptr<This> n(Args&& ... args)
     {
