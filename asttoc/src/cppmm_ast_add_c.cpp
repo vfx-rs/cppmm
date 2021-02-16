@@ -709,11 +709,12 @@ void namespace_entry(TypeRegistry & type_registry, const NodePtr & cpp_node)
 void opaquebytes_ref_to_c(TranslationUnit & c_tu,
                           const NodeRecord & cpp_record,
                           const NodeRecord & c_record,
-                          bool const_)
+                          bool const_,
+                          PointerKind pointer_kind)
 {
     auto rhs =
         NodePointerType::n(
-            PointerKind::Reference,
+            pointer_kind,
             NodeRecordType::n("", 0, cpp_record.name, cpp_record.id, const_),
             false
     );
@@ -724,13 +725,24 @@ void opaquebytes_ref_to_c(TranslationUnit & c_tu,
                 NodeRecordType::n("", 0, c_record.name, c_record.id, const_),
     false);
 
+    // Cast type
+    NodeExprPtr cast_expr;
+    if(pointer_kind == PointerKind::Reference)
+    {
+        cast_expr = NodeRefExpr::n(
+                    NodeVarRefExpr::n("rhs")
+                );
+    }
+    else
+    {
+        cast_expr = NodeVarRefExpr::n("rhs");
+    }
+
     // Function body
     auto c_function_body =
         NodeReturnExpr::n(
             NodeCastExpr::n(
-                NodeRefExpr::n(
-                    NodeVarRefExpr::n("rhs")
-                ),
+                std::move(cast_expr),
                 NodeTypePtr(c_return),
                 "reinterpret"
             )
@@ -755,8 +767,13 @@ void opaquebytes_conversions(TranslationUnit & c_tu,
                              const NodeRecord & cpp_record,
                              const NodeRecord & c_record)
 {
-    opaquebytes_ref_to_c(c_tu, cpp_record, c_record, true);
-    opaquebytes_ref_to_c(c_tu, cpp_record, c_record, false);
+    // Conversions for going from cpp to c
+    opaquebytes_ref_to_c(c_tu, cpp_record, c_record, true, PointerKind::Reference);
+    opaquebytes_ref_to_c(c_tu, cpp_record, c_record, false, PointerKind::Reference);
+    opaquebytes_ref_to_c(c_tu, cpp_record, c_record, true, PointerKind::Pointer);
+    opaquebytes_ref_to_c(c_tu, cpp_record, c_record, false, PointerKind::Pointer);
+
+    // Conversions for going from c to cpp
 }
 
 //------------------------------------------------------------------------------
