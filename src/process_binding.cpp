@@ -597,6 +597,8 @@ struct NodeRecord : public NodeAttributeHolder {
         o["align"] = align;
         if (!alias.empty()) {
             o["alias"] = alias;
+        } else {
+            o["alias"] = short_name;
         }
     }
 

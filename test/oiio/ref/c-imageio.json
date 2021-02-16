@@ -7,8 +7,8 @@
         "#include <cppmm_bind.hpp>"
     ],
     "include_paths": [
-        "/home/anders/packages/oiio/2.2.8/include",
-        "/home/anders/packages/openexr/2.5.5/include"
+        "/home/anders/packages/oiio/2.2.8/include/",
+        "/home/anders/packages/openexr/2.5.5/include/"
     ],
     "id": 5,
     "decls": [
@@ -28,6 +28,7 @@
             "id": 7,
             "size": 256,
             "align": 32,
+            "alias": "ROI",
             "attributes": [
                 "cppmm:valuetype"
             ],
@@ -353,6 +354,7 @@
             "id": 32,
             "size": 1280,
             "align": 64,
+            "alias": "ImageSpec",
             "attributes": [
                 "cppmm:opaqueptr"
             ],
@@ -1452,6 +1454,7 @@
             "id": 72,
             "size": 1984,
             "align": 64,
+            "alias": "ImageInput",
             "attributes": [
                 "cppmm:opaqueptr"
             ],
