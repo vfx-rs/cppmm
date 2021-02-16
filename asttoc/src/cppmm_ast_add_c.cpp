@@ -244,6 +244,8 @@ NodeTypePtr convert_type(TranslationUnit & c_tu,
             return convert_pointer_type(c_tu, type_registry, t, in_reference);
         case NodeKind::EnumType:
             return NodeTypePtr(); // TODO LT: Enum translation
+        case NodeKind::FunctionProtoType:
+            return NodeTypePtr(); // TODO LT: Function proto type translation
         default:
             break;
     }
