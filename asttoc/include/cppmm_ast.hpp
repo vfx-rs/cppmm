@@ -114,7 +114,21 @@ struct TranslationUnit {
 //------------------------------------------------------------------------------
 // NodeNamespace
 //------------------------------------------------------------------------------
-struct NodeNamespace : public Node {};
+struct NodeNamespace : public Node {
+    std::string short_name;
+
+    NodeNamespace(std::string name, NodeId id, std::string short_name)
+        : Node(name, id, NodeKind::Namespace)
+        , short_name(short_name) {}
+
+    // A static method for creating this as a shared pointer
+    using This = NodeNamespace;
+    template<typename ... Args>
+    static std::shared_ptr<This> n(Args&& ... args)
+    {
+        return std::make_shared<This>(std::forward<Args>(args)...);
+    }
+};
 
 //------------------------------------------------------------------------------
 // NodeType
@@ -529,12 +543,18 @@ struct NodeRecord : public NodeAttributeHolder {
     uint32_t align;
     bool force_alignment;
 
+    std::string alias;
+    std::vector<NodeId> namespaces;
+
     NodeRecord(const TranslationUnit::Ptr & tu,
                std::string qualified_name, NodeId id,
                std::vector<std::string> attrs,
-               uint32_t size, uint32_t align)
+               uint32_t size, uint32_t align, const std::string & alias,
+               const std::vector<NodeId> & namespaces)
         : NodeAttributeHolder(qualified_name, id, NodeKind::Record, attrs),
-          tu(tu), size(size), align(align), force_alignment(false) {}
+          tu(tu), size(size), align(align), force_alignment(false), alias(alias)
+          , namespaces(namespaces)
+    {}
 
     // A static method for creating this as a shared pointer
     using This = NodeRecord;
