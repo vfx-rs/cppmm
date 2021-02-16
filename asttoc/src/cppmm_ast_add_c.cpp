@@ -706,11 +706,11 @@ void namespace_entry(TypeRegistry & type_registry, const NodePtr & cpp_node)
 }
 
 //------------------------------------------------------------------------------
-void opaquebytes_ref_to_cpp(TranslationUnit & c_tu,
-                            const NodeRecord & cpp_record,
-                            const NodeRecord & c_record,
-                            bool const_,
-                            PointerKind pointer_kind)
+void opaquebytes_to_cpp(TranslationUnit & c_tu,
+                        const NodeRecord & cpp_record,
+                        const NodeRecord & c_record,
+                        bool const_,
+                        PointerKind pointer_kind)
 {
     auto rhs =
         NodePointerType::n(
@@ -772,10 +772,10 @@ void opaquebytes_conversions(TranslationUnit & c_tu,
                              const NodeRecord & c_record)
 {
     // Conversions for going from cpp to c
-    opaquebytes_ref_to_cpp(c_tu, cpp_record, c_record, true, PointerKind::Reference);
-    opaquebytes_ref_to_cpp(c_tu, cpp_record, c_record, false, PointerKind::Reference);
-    opaquebytes_ref_to_cpp(c_tu, cpp_record, c_record, true, PointerKind::Pointer);
-    opaquebytes_ref_to_cpp(c_tu, cpp_record, c_record, false, PointerKind::Pointer);
+    opaquebytes_to_cpp(c_tu, cpp_record, c_record, true, PointerKind::Reference);
+    opaquebytes_to_cpp(c_tu, cpp_record, c_record, false, PointerKind::Reference);
+    opaquebytes_to_cpp(c_tu, cpp_record, c_record, true, PointerKind::Pointer);
+    opaquebytes_to_cpp(c_tu, cpp_record, c_record, false, PointerKind::Pointer);
 
     // Conversions for going from c to cpp
 }
