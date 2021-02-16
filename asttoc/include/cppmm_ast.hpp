@@ -200,7 +200,7 @@ struct NodeFunctionProtoType : public NodeType {
         , return_type(return_type), type(type) {}
 
     // A static method for creating this as a shared pointer
-    using This = NodePointerType;
+    using This = NodeFunctionProtoType;
     template<typename ... Args>
     static std::shared_ptr<This> n(Args&& ... args)
     {
