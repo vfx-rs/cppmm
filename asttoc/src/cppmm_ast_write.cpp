@@ -74,10 +74,10 @@ std::string convert_pointer_param(const NodeTypePtr & t,
     {
         case PointerKind::Pointer:
             return convert_param(p->pointee_type,
-                                 fmt::format("*{}", name));
+                                 fmt::format("* {}", name));
         case PointerKind::Reference:
             return convert_param(p->pointee_type,
-                                 fmt::format("&{}", name));
+                                 fmt::format("& {}", name));
         default:
             break;
     }

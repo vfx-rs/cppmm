@@ -706,53 +706,57 @@ void namespace_entry(TypeRegistry & type_registry, const NodePtr & cpp_node)
 }
 
 //------------------------------------------------------------------------------
-void opaquebytes_ref_to_c(TranslationUnit & c_tu,
-                          const NodeRecord & cpp_record,
-                          const NodeRecord & c_record,
-                          bool const_,
-                          PointerKind pointer_kind)
+void opaquebytes_ref_to_cpp(TranslationUnit & c_tu,
+                            const NodeRecord & cpp_record,
+                            const NodeRecord & c_record,
+                            bool const_,
+                            PointerKind pointer_kind)
 {
     auto rhs =
         NodePointerType::n(
-            pointer_kind,
-            NodeRecordType::n("", 0, cpp_record.name, cpp_record.id, const_),
+            PointerKind::Pointer,
+            NodeRecordType::n("", 0, c_record.name, c_record.id, const_),
             false
     );
 
     auto c_return =
         NodePointerType::n(
-            PointerKind::Pointer,
-                NodeRecordType::n("", 0, c_record.name, c_record.id, const_),
+            pointer_kind,
+                NodeRecordType::n("", 0, cpp_record.name, cpp_record.id,
+                                  const_),
     false);
 
     // Cast type
-    NodeExprPtr cast_expr;
+    NodeExprPtr cast_expr =
+        NodeCastExpr::n(
+            NodeVarRefExpr::n("rhs"),
+            NodePointerType::n(PointerKind::Pointer,
+                               NodeRecordType::n("", 0, cpp_record.name,
+                                                 cpp_record.id, const_),
+                               false
+                              ),
+            "reinterpret"
+        );
+
     if(pointer_kind == PointerKind::Reference)
     {
-        cast_expr = NodeRefExpr::n(
-                    NodeVarRefExpr::n("rhs")
-                );
-    }
-    else
-    {
-        cast_expr = NodeVarRefExpr::n("rhs");
+        cast_expr = NodeDerefExpr::n(std::move(cast_expr));
     }
 
     // Function body
     auto c_function_body =
-        NodeReturnExpr::n(
-            NodeCastExpr::n(
-                std::move(cast_expr),
-                NodeTypePtr(c_return),
-                "reinterpret"
-            )
-        );
+        NodeReturnExpr::n(std::move(cast_expr));
 
     // Add the new function to the translation unit
     std::vector<std::string> attrs;
     std::vector<Param> params = {Param("rhs", rhs, 0)};
+    std::string function_name = "to_cpp";
+    if(pointer_kind == PointerKind::Reference)
+    {
+        function_name += "_ref";
+    }
     auto c_function = NodeFunction::n(
-                        "to_c", PLACEHOLDER_ID,
+                        function_name, PLACEHOLDER_ID,
                         attrs, "", std::move(c_return),
                         std::move(params));
 
@@ -768,10 +772,10 @@ void opaquebytes_conversions(TranslationUnit & c_tu,
                              const NodeRecord & c_record)
 {
     // Conversions for going from cpp to c
-    opaquebytes_ref_to_c(c_tu, cpp_record, c_record, true, PointerKind::Reference);
-    opaquebytes_ref_to_c(c_tu, cpp_record, c_record, false, PointerKind::Reference);
-    opaquebytes_ref_to_c(c_tu, cpp_record, c_record, true, PointerKind::Pointer);
-    opaquebytes_ref_to_c(c_tu, cpp_record, c_record, false, PointerKind::Pointer);
+    opaquebytes_ref_to_cpp(c_tu, cpp_record, c_record, true, PointerKind::Reference);
+    opaquebytes_ref_to_cpp(c_tu, cpp_record, c_record, false, PointerKind::Reference);
+    opaquebytes_ref_to_cpp(c_tu, cpp_record, c_record, true, PointerKind::Pointer);
+    opaquebytes_ref_to_cpp(c_tu, cpp_record, c_record, false, PointerKind::Pointer);
 
     // Conversions for going from c to cpp
 }
