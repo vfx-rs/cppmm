@@ -719,7 +719,7 @@ void opaquebytes_to_cpp(TranslationUnit & c_tu,
             false
     );
 
-    auto c_return =
+    auto cpp_return =
         NodePointerType::n(
             pointer_kind,
                 NodeRecordType::n("", 0, cpp_record.name, cpp_record.id,
@@ -757,6 +757,44 @@ void opaquebytes_to_cpp(TranslationUnit & c_tu,
     }
     auto c_function = NodeFunction::n(
                         function_name, PLACEHOLDER_ID,
+                        attrs, "", std::move(cpp_return),
+                        std::move(params));
+
+    c_function->body = c_function_body;
+    c_function->private_ = true;
+
+    c_tu.decls.push_back(std::move(c_function));
+}
+
+//------------------------------------------------------------------------------
+void opaquebytes_from_cpp(TranslationUnit & c_tu,
+                          const NodeRecord & cpp_record,
+                          const NodeRecord & c_record)
+{
+    auto rhs =
+        NodePointerType::n(
+            PointerKind::Reference,
+            NodeRecordType::n("", 0, cpp_record.name, cpp_record.id, true),
+            false
+    );
+
+    auto c_return = NodeRecordType::n("", 0, c_record.name, c_record.id, false);
+
+    // Function body
+    auto c_function_body =
+        NodeBlockExpr::n(std::vector<NodeExprPtr>({
+            NodeVarDeclExpr::n(
+                NodeTypePtr(c_return),
+                "result"
+            )
+            //NodeReturnExpr::n(std::move(cast_expr))
+        }));
+
+    // Add the new function to the translation unit
+    std::vector<std::string> attrs;
+    std::vector<Param> params = {Param("rhs", rhs, 0)};
+    auto c_function = NodeFunction::n(
+                        "from_cpp", PLACEHOLDER_ID,
                         attrs, "", std::move(c_return),
                         std::move(params));
 
@@ -778,6 +816,7 @@ void opaquebytes_conversions(TranslationUnit & c_tu,
     opaquebytes_to_cpp(c_tu, cpp_record, c_record, false, PointerKind::Pointer);
 
     // Conversions for going from c to cpp
+    opaquebytes_from_cpp(c_tu, cpp_record, c_record);
 }
 
 //------------------------------------------------------------------------------
