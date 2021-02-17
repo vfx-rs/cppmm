@@ -100,6 +100,14 @@ NodeTypePtr read_type_enum(const nln::json & json) {
 }
 
 //------------------------------------------------------------------------------
+NodeTypePtr read_type_function_proto(const nln::json & json) {
+    return NodeFunctionProtoType::n(
+            read_type(json[RETURN]),
+            json[TYPE].get<std::string>()
+    );
+}
+
+//------------------------------------------------------------------------------
 NodeTypePtr read_type(const nln::json & json) {
     auto kind = json[KIND].get<std::string>();
     if(kind == "BuiltinType") {
@@ -114,6 +122,8 @@ NodeTypePtr read_type(const nln::json & json) {
         return read_type_pointer(json, PointerKind::Pointer);
     } else if(kind == "EnumType") {
         return read_type_enum(json);
+    } else if(kind == "FunctionProtoType") {
+        return read_type_function_proto(json);
     }
 
     std::cerr << kind << std::endl;

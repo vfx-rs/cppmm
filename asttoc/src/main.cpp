@@ -26,9 +26,9 @@ void generate(const char * input, const char * output)
 
 int main()
 {
-    generate("../test/imath/ref", "out");
+    //generate("../test/imath/ref", "out");
     //generate("../test/std/ref", "out");
-    //generate("../test/oiio/ref", "out");
+    generate("../test/oiio/ref", "out");
 
     return 0;
 }
