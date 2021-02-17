@@ -204,7 +204,7 @@ void write_function_call_arguments(fmt::ostream & out,
         out.print("(\n");
 
         // First argument
-        indent(out, depth + 1);
+        indent(out, depth);
         out.print(" ");
         write_expression(out, depth, function_call.args[0]);
         out.print("\n");
@@ -212,14 +212,14 @@ void write_function_call_arguments(fmt::ostream & out,
         // All the others
         for(size_t i=1; i < function_call.args.size(); ++i)
         {
-            indent(out, depth + 1);
+            indent(out, depth);
             out.print(",");
             write_expression(out, depth, function_call.args[i]);
             out.print("\n");
         }
 
         // start
-        indent(out, depth + 1);
+        indent(out, depth);
         out.print(")");
     }
 }
@@ -233,7 +233,7 @@ void write_expression_function_call(fmt::ostream & out,
         *static_cast<const NodeMethodCallExpr*>(node.get());
 
     out.print("{}", function_call.name);
-    write_function_call_arguments(out, depth+1, function_call);
+    write_function_call_arguments(out, depth, function_call);
 }
 
 //------------------------------------------------------------------------------
@@ -248,7 +248,7 @@ void write_expression_method_call(fmt::ostream & out,
     out.print(") -> \n");
     indent(out, depth + 1);
     out.print("{}", method_call.name);
-    write_function_call_arguments(out, depth+1, method_call);
+    write_function_call_arguments(out, depth, method_call);
 }
 
 //------------------------------------------------------------------------------
@@ -323,6 +323,45 @@ void write_expression_return(fmt::ostream & out, size_t depth,
 }
 
 //------------------------------------------------------------------------------
+void write_expression_var_decl(fmt::ostream & out, size_t depth,
+                               const NodeExprPtr & node)
+{
+    const auto & var_decl_expr =
+        *static_cast<const NodeVarDeclExpr*>(node.get());
+
+    out.print("{}", convert_param(var_decl_expr.var_type,
+                                  var_decl_expr.var_name));
+}
+
+//------------------------------------------------------------------------------
+void write_expression_block(fmt::ostream & out, size_t depth,
+                               const NodeExprPtr & node)
+{
+    const auto & block_expr =
+        *static_cast<const NodeBlockExpr*>(node.get());
+
+    for(auto & i : block_expr.expressions)
+    {
+        indent(out, depth);
+        write_expression(out, depth + 1, i);
+        out.print(";\n");
+    }
+}
+
+//------------------------------------------------------------------------------
+void write_expression_assign(fmt::ostream & out, size_t depth,
+                             const NodeExprPtr & node)
+{
+    const auto & assign_expr =
+        *static_cast<const NodeAssignExpr*>(node.get());
+
+    
+    write_expression(out, depth + 1, assign_expr.lhs);
+    out.print(" = ");
+    write_expression(out, depth + 1, assign_expr.rhs);
+}
+
+//------------------------------------------------------------------------------
 void write_expression(fmt::ostream & out, size_t depth,
                       const NodeExprPtr & node)
 {
@@ -350,6 +389,12 @@ void write_expression(fmt::ostream & out, size_t depth,
             return write_expression_placement_new(out, depth, node);
         case NodeKind::ReturnExpr:
             return write_expression_return(out, depth, node);
+        case NodeKind::VarDeclExpr:
+            return write_expression_var_decl(out, depth, node);
+        case NodeKind::BlockExpr:
+            return write_expression_block(out, depth, node);
+        case NodeKind::AssignExpr:
+            return write_expression_assign(out, depth, node);
         default:
             break;
     }
@@ -368,7 +413,6 @@ void write_function_body(fmt::ostream & out, const NodePtr & node)
     write_params(out, function);
     out.print(")\n");
     out.print("{{\n");
-    indent(out, 1);
     write_expression(out, 1, function.body);
     out.print(";\n");
     out.print("}}\n");

@@ -26,6 +26,7 @@ namespace {
     const char * ATTRIBUTES = "attributes";
     const char * CHILDREN = "children";
     const char * CONSTRUCTOR = "constructor";
+    const char * COPY_CONSTRUCTOR = "copy_constructor";
     const char * CONST = "const";
     const char * DECLS = "decls";
     const char * ENUM_C = "Enum";
@@ -186,6 +187,7 @@ NodeMethod read_method(const nln::json & json) {
     auto id = json[ID].get<Id>();
     auto static_ = json[STATIC].get<bool>();
     auto constructor = json[CONSTRUCTOR].get<bool>();
+    auto copy_constructor = json[COPY_CONSTRUCTOR].get<bool>();
     auto return_type = read_type(json[RETURN]);
     auto const_ = json[CONST].get<bool>();
 
@@ -196,7 +198,8 @@ NodeMethod read_method(const nln::json & json) {
 
     return NodeMethod(qualified_name, id, attrs, short_name,
                       std::move(return_type),
-                      std::move(params), static_, constructor, const_);
+                      std::move(params), static_, constructor, copy_constructor,
+                      const_);
 }
 
 //------------------------------------------------------------------------------
