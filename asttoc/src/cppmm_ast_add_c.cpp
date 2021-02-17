@@ -869,23 +869,6 @@ void opaquebytes_from_cpp_copy(TranslationUnit & c_tu,
     );
 
     auto c_return = NodeRecordType::n("", 0, c_record.name, c_record.id, false);
-    auto bit_cast =
-        NodeFunctionCallExpr::n(
-            "memcpy",
-            std::vector<NodeExprPtr>({
-                NodeRefExpr::n(
-                    NodeVarRefExpr::n("result")
-                ),
-                NodeRefExpr::n(
-                    NodeVarRefExpr::n("rhs")
-                ),
-                NodeFunctionCallExpr::n("sizeof",
-                                        std::vector<NodeExprPtr>({
-                                            NodeVarRefExpr::n("rhs")
-                                        })
-                )
-            })
-    );
 
     // Function body
     auto c_function_body =
