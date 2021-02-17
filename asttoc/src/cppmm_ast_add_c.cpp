@@ -184,6 +184,7 @@ void add_declaration(TranslationUnit & c_tu, const NodePtr & node_ptr,
             {
                 c_tu.header_includes.insert(r_tu->header_filename);
             }
+            c_tu.source_private_includes.insert(r_tu->private_header_filename);
         }
     }
 }
