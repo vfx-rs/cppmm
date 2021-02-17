@@ -1,15 +1,18 @@
 {
     "kind": "TranslationUnit",
-    "filename": "/home/anders/code/cppmm/test/imath/bind/imath_vec.cpp",
+    "filename": "/Volumes/src/cppmm/test/imath/bind/imath_vec.cpp",
     "source_includes": [
         "#include <OpenEXR/ImathVec.h>",
         "#include <vector>",
         "#include <cppmm_bind.hpp>"
     ],
     "include_paths": [
-        "/home/anders/packages/openexr/2.5.5/include"
+        "../test/",
+        "../test/imath/bind",
+        "/Volumes/src/packages/usr/local/include",
+        "/Volumes/src/cppmm/build/../test/imath/bind"
     ],
-    "id": 23,
+    "id": 24,
     "decls": [
         {
             "kind": "Namespace",
@@ -24,7 +27,7 @@
             "namespaces": [
                 6
             ],
-            "id": 24,
+            "id": 25,
             "size": 96,
             "align": 32,
             "alias": "V3f",
@@ -37,7 +40,7 @@
                     "name": "x",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 25,
+                        "id": 23,
                         "type": "float",
                         "const": false
                     }
@@ -47,7 +50,7 @@
                     "name": "y",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 25,
+                        "id": 23,
                         "type": "float",
                         "const": false
                     }
@@ -57,13 +60,916 @@
                     "name": "z",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 25,
+                        "id": 23,
                         "type": "float",
                         "const": false
                     }
                 }
             ],
             "methods": [
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "Vec3",
+                    "qualified_name": "Imath_2_5::Vec3<float>::Vec3",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": true,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 0,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "Vec3",
+                    "qualified_name": "Imath_2_5::Vec3<float>::Vec3",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": true,
+                    "copy_constructor": true,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 0,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "v",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 2,
+                                "type": "const class Imath_2_5::Vec3<float> &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 1,
+                                    "type": "Imath_2_5::Vec3<float>",
+                                    "record": 25,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "Vec3",
+                    "qualified_name": "Imath_2_5::Vec3<float>::Vec3",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": true,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 0,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "v",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 2,
+                                "type": "const class Imath_2_5::Vec3<float> &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 1,
+                                    "type": "Imath_2_5::Vec3<float>",
+                                    "record": 25,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "dot",
+                    "qualified_name": "Imath_2_5::Vec3<float>::dot",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 23,
+                        "type": "float",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "v",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 2,
+                                "type": "const class Imath_2_5::Vec3<float> &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 1,
+                                    "type": "Imath_2_5::Vec3<float>",
+                                    "record": 25,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "cross",
+                    "qualified_name": "Imath_2_5::Vec3<float>::cross",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "RecordType",
+                        "id": 1,
+                        "type": "Imath_2_5::Vec3<float>",
+                        "record": 25,
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "v",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 2,
+                                "type": "const class Imath_2_5::Vec3<float> &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 1,
+                                    "type": "Imath_2_5::Vec3<float>",
+                                    "record": 25,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "operator+=",
+                    "qualified_name": "Imath_2_5::Vec3<float>::operator+=",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": true,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm:rename:op_iadd"
+                    ],
+                    "return": {
+                        "kind": "Reference",
+                        "id": 2,
+                        "type": "const class Imath_2_5::Vec3<float> &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 1,
+                            "type": "Imath_2_5::Vec3<float>",
+                            "record": 25,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "v",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 2,
+                                "type": "const class Imath_2_5::Vec3<float> &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 1,
+                                    "type": "Imath_2_5::Vec3<float>",
+                                    "record": 25,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "operator+",
+                    "qualified_name": "Imath_2_5::Vec3<float>::operator+",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": true,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "RecordType",
+                        "id": 1,
+                        "type": "Imath_2_5::Vec3<float>",
+                        "record": 25,
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "v",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 2,
+                                "type": "const class Imath_2_5::Vec3<float> &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 1,
+                                    "type": "Imath_2_5::Vec3<float>",
+                                    "record": 25,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "operator-=",
+                    "qualified_name": "Imath_2_5::Vec3<float>::operator-=",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": true,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "Reference",
+                        "id": 2,
+                        "type": "const class Imath_2_5::Vec3<float> &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 1,
+                            "type": "Imath_2_5::Vec3<float>",
+                            "record": 25,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "v",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 2,
+                                "type": "const class Imath_2_5::Vec3<float> &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 1,
+                                    "type": "Imath_2_5::Vec3<float>",
+                                    "record": 25,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "operator-",
+                    "qualified_name": "Imath_2_5::Vec3<float>::operator-",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": true,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm:rename:op_sub"
+                    ],
+                    "return": {
+                        "kind": "RecordType",
+                        "id": 1,
+                        "type": "Imath_2_5::Vec3<float>",
+                        "record": 25,
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "v",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 2,
+                                "type": "const class Imath_2_5::Vec3<float> &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 1,
+                                    "type": "Imath_2_5::Vec3<float>",
+                                    "record": 25,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "operator-",
+                    "qualified_name": "Imath_2_5::Vec3<float>::operator-",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": true,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm:rename:op_neg"
+                    ],
+                    "return": {
+                        "kind": "RecordType",
+                        "id": 1,
+                        "type": "Imath_2_5::Vec3<float>",
+                        "record": 25,
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "operator*=",
+                    "qualified_name": "Imath_2_5::Vec3<float>::operator*=",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": true,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm:rename:op_neg"
+                    ],
+                    "return": {
+                        "kind": "Reference",
+                        "id": 2,
+                        "type": "const class Imath_2_5::Vec3<float> &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 1,
+                            "type": "Imath_2_5::Vec3<float>",
+                            "record": 25,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "v",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 2,
+                                "type": "const class Imath_2_5::Vec3<float> &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 1,
+                                    "type": "Imath_2_5::Vec3<float>",
+                                    "record": 25,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "operator*=",
+                    "qualified_name": "Imath_2_5::Vec3<float>::operator*=",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": true,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm:rename:mul_assign_t",
+                        "cppmm:rename:op_neg"
+                    ],
+                    "return": {
+                        "kind": "Reference",
+                        "id": 2,
+                        "type": "const class Imath_2_5::Vec3<float> &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 1,
+                            "type": "Imath_2_5::Vec3<float>",
+                            "record": 25,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "a",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 23,
+                                "type": "float",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "operator*",
+                    "qualified_name": "Imath_2_5::Vec3<float>::operator*",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": true,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "RecordType",
+                        "id": 1,
+                        "type": "Imath_2_5::Vec3<float>",
+                        "record": 25,
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "v",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 2,
+                                "type": "const class Imath_2_5::Vec3<float> &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 1,
+                                    "type": "Imath_2_5::Vec3<float>",
+                                    "record": 25,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "operator*",
+                    "qualified_name": "Imath_2_5::Vec3<float>::operator*",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": true,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm:rename:mul_t"
+                    ],
+                    "return": {
+                        "kind": "RecordType",
+                        "id": 1,
+                        "type": "Imath_2_5::Vec3<float>",
+                        "record": 25,
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "a",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 23,
+                                "type": "float",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "operator/=",
+                    "qualified_name": "Imath_2_5::Vec3<float>::operator/=",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": true,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "Reference",
+                        "id": 2,
+                        "type": "const class Imath_2_5::Vec3<float> &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 1,
+                            "type": "Imath_2_5::Vec3<float>",
+                            "record": 25,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "v",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 2,
+                                "type": "const class Imath_2_5::Vec3<float> &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 1,
+                                    "type": "Imath_2_5::Vec3<float>",
+                                    "record": 25,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "operator/=",
+                    "qualified_name": "Imath_2_5::Vec3<float>::operator/=",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": true,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm:rename:div_assign_t"
+                    ],
+                    "return": {
+                        "kind": "Reference",
+                        "id": 2,
+                        "type": "const class Imath_2_5::Vec3<float> &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 1,
+                            "type": "Imath_2_5::Vec3<float>",
+                            "record": 25,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "a",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 23,
+                                "type": "float",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "operator/",
+                    "qualified_name": "Imath_2_5::Vec3<float>::operator/",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": true,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "RecordType",
+                        "id": 1,
+                        "type": "Imath_2_5::Vec3<float>",
+                        "record": 25,
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "v",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 2,
+                                "type": "const class Imath_2_5::Vec3<float> &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 1,
+                                    "type": "Imath_2_5::Vec3<float>",
+                                    "record": 25,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "operator/",
+                    "qualified_name": "Imath_2_5::Vec3<float>::operator/",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": true,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm:rename:div_t"
+                    ],
+                    "return": {
+                        "kind": "RecordType",
+                        "id": 1,
+                        "type": "Imath_2_5::Vec3<float>",
+                        "record": 25,
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "a",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 23,
+                                "type": "float",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "length",
+                    "qualified_name": "Imath_2_5::Vec3<float>::length",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 23,
+                        "type": "float",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "length2",
+                    "qualified_name": "Imath_2_5::Vec3<float>::length2",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 23,
+                        "type": "float",
+                        "const": false
+                    },
+                    "params": null
+                },
                 {
                     "kind": "Method",
                     "id": 0,
@@ -92,7 +998,7 @@
                             "kind": "RecordType",
                             "id": 1,
                             "type": "Imath_2_5::Vec3<float>",
-                            "record": 24,
+                            "record": 25,
                             "const": true
                         },
                         "const": false
@@ -123,7 +1029,7 @@
                         "kind": "RecordType",
                         "id": 1,
                         "type": "Imath_2_5::Vec3<float>",
-                        "record": 24,
+                        "record": 25,
                         "const": false
                     },
                     "params": null
