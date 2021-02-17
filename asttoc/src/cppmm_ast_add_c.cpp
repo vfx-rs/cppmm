@@ -852,7 +852,6 @@ void opaquebytes_from_cpp(TranslationUnit & c_tu,
 }
 */
 
-/*
 //------------------------------------------------------------------------------
 void opaquebytes_from_cpp_copy(TranslationUnit & c_tu,
                                const NodeRecord & cpp_record,
@@ -860,7 +859,7 @@ void opaquebytes_from_cpp_copy(TranslationUnit & c_tu,
                                const NodePtr & copy_constructor_ptr)
 {
     const auto & copy_constructor =\
-        *static_cast<const NodeFunction*>(copy_constructor.get());
+        *static_cast<const NodeFunction*>(copy_constructor_ptr.get());
 
     auto rhs =
         NodePointerType::n(
@@ -905,15 +904,16 @@ void opaquebytes_from_cpp_copy(TranslationUnit & c_tu,
                         NodeVarRefExpr::n("result")
                     ),
                     NodeCastExpr::n(
+                        NodeRefExpr::n(
+                            NodeVarRefExpr::n("rhs")
+                        ),
                         NodePointerType::n(
                             PointerKind::Pointer,
                             NodeRecordType::n("", 0, c_record.name, c_record.id,
                                               true),
                             false
                         ),
-                        NodeRefExpr::n(
-                            NodeVarRefExpr::n("rhs")
-                        )
+                        "reinterpret"
                     )
                 })
             ),
@@ -937,7 +937,6 @@ void opaquebytes_from_cpp_copy(TranslationUnit & c_tu,
 
     c_tu.decls.push_back(std::move(c_function));
 }
-*/
 
 //------------------------------------------------------------------------------
 void opaquebytes_conversions(TranslationUnit & c_tu,
@@ -953,12 +952,10 @@ void opaquebytes_conversions(TranslationUnit & c_tu,
 
     // We need the copy constructor in order to be able to return records
     // by value
-    /*
     if(copy_constructor)
     {
         opaquebytes_from_cpp_copy(c_tu, cpp_record, c_record, copy_constructor);
     }
-    */
 }
 
 //------------------------------------------------------------------------------
