@@ -779,6 +779,66 @@ void opaquebytes_to_cpp(TranslationUnit & c_tu,
     c_tu.decls.push_back(std::move(c_function));
 }
 
+//------------------------------------------------------------------------------
+void opaquebytes_to_c(TranslationUnit & c_tu,
+                      const NodeRecord & cpp_record,
+                      const NodeRecord & c_record,
+                      bool const_,
+                      PointerKind pointer_kind)
+{
+    auto rhs =
+        NodePointerType::n(
+            pointer_kind,
+            NodeRecordType::n("", 0, cpp_record.name, cpp_record.id, const_),
+            false
+    );
+
+    auto c_return =
+        NodePointerType::n(
+            PointerKind::Pointer,
+                NodeRecordType::n("", 0, c_record.name, c_record.id,
+                                  const_),
+    false);
+
+    NodeExprPtr var_ref_expr = NodeVarRefExpr::n("rhs");
+    if(pointer_kind == PointerKind::Reference)
+    {
+        var_ref_expr = NodeRefExpr::n(std::move(var_ref_expr));
+    }
+
+    // Cast type
+    NodeExprPtr cast_expr =
+        NodeCastExpr::n(
+            std::move(var_ref_expr),
+            NodePointerType::n(PointerKind::Pointer,
+                               NodeRecordType::n("", 0, c_record.name,
+                                                 c_record.id, const_),
+                               false
+                              ),
+            "reinterpret"
+        );
+
+    // Function body
+    auto c_function_body =
+        NodeBlockExpr::n(std::vector<NodeExprPtr>({
+            NodeReturnExpr::n(std::move(cast_expr)),
+        }));
+
+    // Add the new function to the translation unit
+    std::vector<std::string> attrs;
+    std::vector<Param> params = {Param("rhs", rhs, 0)};
+    auto c_function = NodeFunction::n(
+                        "to_c", PLACEHOLDER_ID,
+                        attrs, "", std::move(c_return),
+                        std::move(params));
+
+    c_function->body = c_function_body;
+    c_function->private_ = true;
+    c_function->inline_ = true;
+
+    c_tu.decls.push_back(std::move(c_function));
+}
+
 /*
 //------------------------------------------------------------------------------
 void opaquebytes_from_cpp(TranslationUnit & c_tu,
@@ -855,7 +915,7 @@ void opaquebytes_from_cpp(TranslationUnit & c_tu,
 */
 
 //------------------------------------------------------------------------------
-void opaquebytes_from_cpp_copy(TranslationUnit & c_tu,
+void opaquebytes_to_c_copy(TranslationUnit & c_tu,
                                const NodeRecord & cpp_record,
                                const NodeRecord & c_record,
                                const NodePtr & copy_constructor_ptr)
@@ -913,7 +973,7 @@ void opaquebytes_from_cpp_copy(TranslationUnit & c_tu,
     std::vector<std::string> attrs;
     std::vector<Param> params = {Param("rhs", rhs, 0)};
     auto c_function = NodeFunction::n(
-                        "from_cpp_copy", PLACEHOLDER_ID,
+                        "to_c_copy", PLACEHOLDER_ID,
                         attrs, "", std::move(c_return),
                         std::move(params));
 
@@ -938,9 +998,14 @@ void opaquebytes_conversions(TranslationUnit & c_tu,
 
     // We need the copy constructor in order to be able to return records
     // by value
+    opaquebytes_to_c(c_tu, cpp_record, c_record, true, PointerKind::Reference);
+    opaquebytes_to_c(c_tu, cpp_record, c_record, true, PointerKind::Pointer);
+    opaquebytes_to_c(c_tu, cpp_record, c_record, false, PointerKind::Reference);
+    opaquebytes_to_c(c_tu, cpp_record, c_record, false, PointerKind::Pointer);
+
     if(copy_constructor)
     {
-        opaquebytes_from_cpp_copy(c_tu, cpp_record, c_record, copy_constructor);
+        opaquebytes_to_c_copy(c_tu, cpp_record, c_record, copy_constructor);
     }
 }
 
