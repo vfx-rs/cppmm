@@ -568,6 +568,7 @@ struct NodeFunction : public NodeAttributeHolder {
     bool in_binding = false;
     bool in_library = false;
     bool private_ = false;
+    bool inline_ = false;
 
     NodeExprPtr body;
 

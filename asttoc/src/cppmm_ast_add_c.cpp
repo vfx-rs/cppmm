@@ -773,6 +773,7 @@ void opaquebytes_to_cpp(TranslationUnit & c_tu,
 
     c_function->body = c_function_body;
     c_function->private_ = true;
+    c_function->inline_ = true;
 
     c_tu.decls.push_back(std::move(c_function));
 }
@@ -917,6 +918,7 @@ void opaquebytes_from_cpp_copy(TranslationUnit & c_tu,
 
     c_function->body = c_function_body;
     c_function->private_ = true;
+    c_function->inline_ = true;
 
     c_tu.decls.push_back(std::move(c_function));
 }

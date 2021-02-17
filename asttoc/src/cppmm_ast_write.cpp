@@ -25,6 +25,11 @@ enum class Access : uint32_t {
     Public
 };
 
+enum class Place : uint32_t {
+    Header = 0,
+    Source 
+};
+
 //------------------------------------------------------------------------------
 void indent(fmt::ostream & out, const size_t depth)
 {
@@ -171,7 +176,7 @@ void write_params(fmt::ostream & out, const NodeFunction & function)
 }
 
 //------------------------------------------------------------------------------
-void write_function(fmt::ostream & out, const NodePtr & node, Access access)
+void write_function_dcl(fmt::ostream & out, const NodePtr & node, Access access)
 {
     const NodeFunction & function =
         *static_cast<const NodeFunction*>(node.get());
@@ -186,6 +191,7 @@ void write_function(fmt::ostream & out, const NodePtr & node, Access access)
     }
 }
 
+//------------------------------------------------------------------------------
 void write_expression(fmt::ostream & out, size_t depth,
                       const NodeExprPtr & node);
 
@@ -403,20 +409,62 @@ void write_expression(fmt::ostream & out, size_t depth,
 }
 
 //------------------------------------------------------------------------------
-void write_function_body(fmt::ostream & out, const NodePtr & node)
+void write_function_bdy(fmt::ostream & out, const NodePtr & node, Access access)
 {
     const NodeFunction & function =
         *static_cast<const NodeFunction*>(node.get());
 
-    out.print("{}(", convert_param(function.return_type,
-                                   function.name));
-    write_params(out, function);
-    out.print(")\n");
-    out.print("{{\n");
-    write_expression(out, 1, function.body);
-    out.print(";\n");
-    out.print("}}\n");
+    const bool private_ = (access == Access::Private);
+    if(private_ == function.private_)
+    {
+        if(function.inline_)
+        {
+            out.print("inline ");
+        }
+
+        out.print("{}(", convert_param(function.return_type,
+                                       function.name));
+        write_params(out, function);
+        out.print(")\n");
+        out.print("{{\n");
+        write_expression(out, 1, function.body);
+        out.print(";\n");
+        out.print("}}\n");
+    }
 }
+
+//------------------------------------------------------------------------------
+void write_function(fmt::ostream & out, const NodePtr & node, Access access,
+                    Place place)
+{
+    const NodeFunction & function =
+        *static_cast<const NodeFunction*>(node.get());
+
+    if(function.inline_)
+    {
+        switch(place)
+        {
+        case Place::Header:
+            write_function_bdy(out, node, access);
+            return;
+        default:
+            return;
+        }
+    }
+    else
+    {
+        switch(place)
+        {
+        case Place::Header:
+            write_function_dcl(out, node, access);
+            return;
+        case Place::Source:
+            write_function_bdy(out, node, access);
+            return;
+        }
+    }
+}
+
 
 //------------------------------------------------------------------------------
 void write_header_includes(fmt::ostream & out, const TranslationUnit & tu)
@@ -472,7 +520,7 @@ void write_private_header(const TranslationUnit & tu)
         if (node->kind == NodeKind::Function)
         {
             out.print("\n");
-            write_function(out, node, Access::Private);
+            write_function(out, node, Access::Private, Place::Header);
         }
     }
 }
@@ -509,7 +557,7 @@ void write_header(const TranslationUnit & tu)
         if (node->kind == NodeKind::Function)
         {
             out.print("\n");
-            write_function(out, node, Access::Public);
+            write_function(out, node, Access::Public, Place::Header);
         }
     }
 }
@@ -527,7 +575,7 @@ void write_source(const TranslationUnit & tu)
     {
         if (node->kind == NodeKind::Function)
         {
-            write_function_body(out, node);
+            write_function(out, node, Access::Public, Place::Source);
         }
     }
 }
