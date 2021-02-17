@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <cstring>
 #include <fstream>
 #include <iostream>
 #include <unistd.h>
@@ -96,30 +97,38 @@ int main(int argc_, const char** argv_) {
     auto _console = spdlog::stdout_color_mt("console");
     std::string cwd = fs::current_path();
 
-    // FIXME: there's got to be a more sensible way of doing this but I can't figure it out...
+    // FIXME: there's got to be a more sensible way of doing this but I can't
+    // figure it out...
 #if 1
     int argc = argc_ + 2;
-    const char** argv = new const char*[argc];
+    const char** argv = new const char*[argc + 1];
     int i;
+    bool has_ddash = false;
     for (i = 0; i < argc_; ++i) {
         argv[i] = argv_[i];
+        if (!strcmp(argv[i], "--")) {
+            has_ddash = true;
+        }
     }
 
     // get the path to the binary, assuming that the resources folder will be
     // stored alongside it
     // FIXME: this method will work only on linux...
     auto exe_path = cwd / fs::path(argv[0]);
-    if(fs::is_symlink(exe_path))
-    {
+    if (fs::is_symlink(exe_path)) {
         exe_path = fs::read_symlink(exe_path);
     }
-    if (exe_path.empty())  {
+    if (exe_path.empty()) {
         SPDLOG_CRITICAL("Could not get exe path");
         return -1;
     }
 
     std::string respath1 = (exe_path.parent_path() / "resources").string();
     SPDLOG_WARN("respath1 = {}", respath1);
+    if (!has_ddash) {
+        argv[i++] = "--";
+        argc++;
+    }
     argv[i++] = "-isystem";
     argv[i++] = respath1.c_str();
 #else
@@ -127,8 +136,7 @@ int main(int argc_, const char** argv_) {
     const char** argv = argv_;
 #endif
 
-    project_includes =
-        parse_project_includes(argc, argv);
+    project_includes = parse_project_includes(argc, argv);
 
     CommonOptionsParser OptionsParser(argc, argv, CppmmCategory);
 
@@ -192,6 +200,7 @@ int main(int argc_, const char** argv_) {
     if (opt_output_directory != "") {
         output_dir = opt_output_directory;
     }
+    std::cerr << "OUTPUT DIR: " << output_dir << std::endl;
 
     for (const auto& i : opt_includes) {
         project_includes.push_back(i);
@@ -207,10 +216,10 @@ int main(int argc_, const char** argv_) {
 
     // get direct includes from the binding files to re-insert into the
     // generated bindings
-     for (const auto& src : dir_paths) {
-         const auto src_path = ps::os::path::join(cwd, src);
-         source_includes[src_path] = parse_file_includes(src_path);
-     }
+    for (const auto& src : dir_paths) {
+        const auto src_path = ps::os::path::join(cwd, src);
+        source_includes[src_path] = parse_file_includes(src_path);
+    }
 
     // Get namespace renames from command-line options
     /* for (const auto& o : opt_rename_namespace) { */
@@ -236,9 +245,11 @@ int main(int argc_, const char** argv_) {
     //     newFrontendActionFactory<cppmm::MatchBindingsAction>();
     // int result = Tool.run(match_exports_action.get());
 
-    // std::ofstream os;
-    // os.open("out.xml", std::ios::out | std::ios::trunc);
-    // cppmm::dump_nodes(os);
+    if (!fs::exists(output_dir) && !fs::create_directories(output_dir)) {
+        SPDLOG_ERROR("Could not create output directory '{}'", output_dir);
+        return -2;
+    }
+
     cppmm::write_tus(output_dir);
 
 #if 0
@@ -330,7 +341,7 @@ int main(int argc_, const char** argv_) {
             }
         }
     }
- #endif
+#endif
 
     return result;
 }
