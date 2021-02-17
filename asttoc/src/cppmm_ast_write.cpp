@@ -428,7 +428,6 @@ void write_function_bdy(fmt::ostream & out, const NodePtr & node, Access access)
         out.print(")\n");
         out.print("{{\n");
         write_expression(out, 1, function.body);
-        out.print(";\n");
         out.print("}}\n");
     }
 }

@@ -757,7 +757,9 @@ void opaquebytes_to_cpp(TranslationUnit & c_tu,
 
     // Function body
     auto c_function_body =
-        NodeReturnExpr::n(std::move(cast_expr));
+        NodeBlockExpr::n(std::vector<NodeExprPtr>({
+            NodeReturnExpr::n(std::move(cast_expr)),
+        }));
 
     // Add the new function to the translation unit
     std::vector<std::string> attrs;
