@@ -359,25 +359,9 @@ NodeExprPtr convert_record_to(const NodeTypePtr & t, const NodeExprPtr & name)
     // different implementation.
     //
     auto reference = NodeRefExpr::n(NodeExprPtr(name));
-    auto type =\
-        NodePointerType::n(
-            PointerKind::Pointer,
-            std::move(NodeTypePtr(t)),
-            false
+    return NodeFunctionCallExpr::n("to_cpp_ref",
+                                   std::vector<NodeExprPtr>({ reference })
     );
-    auto inner = NodeCastExpr::n(
-        std::move(reference), std::move(type), "reinterpret");
-    return NodeDerefExpr::n(std::move(inner));
-
-    /*
-    // Above code could look like this later.
-    return DerefExpr::n(
-        CastExpr::n(
-            RefExpr::n(
-                VarRefExpr::n( name ) ),
-            PointerType::n( t, false ))
-    )
-    */
 }
 
 //------------------------------------------------------------------------------
@@ -392,24 +376,16 @@ NodeExprPtr convert_pointer_to(const NodeTypePtr & t, const NodeExprPtr & name)
     {
         case PointerKind::Pointer:
             {
-                auto type = NodeTypePtr(t);
-                return NodeCastExpr::n(NodeExprPtr(name),
-                                       std::move(type),
-                                       "reinterpret");
+                return NodeFunctionCallExpr::n("to_cpp",
+                                               std::vector<NodeExprPtr>({ name })
+                );
             }
         case PointerKind::RValueReference: // TODO LT: Add support for rvalue reference
         case PointerKind::Reference:
             {
-                auto pointee = NodeTypePtr(p->pointee_type);
-                auto type =\
-                    NodePointerType::n(
-                        PointerKind::Pointer,
-                        std::move(pointee),
-                        p->const_
+                return NodeFunctionCallExpr::n("to_cpp_ref",
+                                               std::vector<NodeExprPtr>({ name })
                 );
-                auto inner = NodeCastExpr::n(
-                    NodeExprPtr(name), std::move(type), "reinterpret");
-                return NodeDerefExpr::n(std::move(inner));
             }
         default:
             break;
