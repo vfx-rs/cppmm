@@ -207,25 +207,19 @@ void write_function_call_arguments(fmt::ostream & out,
     else
     {
         // start
-        out.print("(\n");
+        out.print("(");
 
         // First argument
-        indent(out, depth);
-        out.print(" ");
         write_expression(out, depth, function_call.args[0]);
-        out.print("\n");
 
         // All the others
         for(size_t i=1; i < function_call.args.size(); ++i)
         {
-            indent(out, depth);
-            out.print(",");
+            out.print(", ");
             write_expression(out, depth, function_call.args[i]);
-            out.print("\n");
         }
 
         // start
-        indent(out, depth);
         out.print(")");
     }
 }
@@ -251,9 +245,7 @@ void write_expression_method_call(fmt::ostream & out,
 
     out.print("(");
     write_expression(out, depth, method_call.this_);
-    out.print(") -> \n");
-    indent(out, depth + 1);
-    out.print("{}", method_call.name);
+    out.print(") -> {}", method_call.name);
     write_function_call_arguments(out, depth, method_call);
 }
 

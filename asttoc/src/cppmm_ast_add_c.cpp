@@ -315,19 +315,10 @@ Param self_param(const NodeRecord & c_record, bool const_)
 //------------------------------------------------------------------------------
 NodeExprPtr this_reference(const NodeRecord & cpp_record, bool const_)
 {
-    auto record = NodeRecordType::n(
-                    "", 0, cpp_record.name, cpp_record.id, const_
-    );
-    auto type = NodePointerType::n(
-                    PointerKind::Pointer,
-                    std::move(record), false 
-    );
-    auto self = NodeVarRefExpr::n("self");
-    auto cast = NodeCastExpr::n(std::move(self),
-                                std::move(type),
-                                "reinterpret");
-
-    return cast;
+    return NodeFunctionCallExpr::n("to_cpp",
+                                        std::vector<NodeExprPtr>({
+        NodeVarRefExpr::n("self")
+    }));
 }
 
 //------------------------------------------------------------------------------
@@ -515,10 +506,12 @@ NodeExprPtr opaquebytes_constructor_body(TypeRegistry & type_registry,
     }
 
     // Create the method call expression
-    return NodePlacementNewExpr::n(
-        NodeVarRefExpr::n("self"),
-        NodeFunctionCallExpr::n(cpp_method.short_name, args)
-    );
+    return NodeBlockExpr::n(
+                    std::vector<NodeExprPtr>({
+                        NodePlacementNewExpr::n(
+                            NodeVarRefExpr::n("self"),
+                            NodeFunctionCallExpr::n(cpp_method.short_name, args)
+    )}));
 }
 
 //------------------------------------------------------------------------------
@@ -557,8 +550,12 @@ NodeExprPtr opaquebytes_method_body(TypeRegistry & type_registry,
     }
     else
     {
-        return NodeReturnExpr::n(
-            convert_from(cpp_method.return_type, c_return, method_call));
+        return NodeBlockExpr::n(
+                    std::vector<NodeExprPtr>({
+                        NodeReturnExpr::n(
+                            convert_from(cpp_method.return_type,
+                                         c_return, method_call))
+        }));
     }
     //return method_call;
 }
