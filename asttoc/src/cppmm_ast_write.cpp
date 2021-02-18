@@ -184,6 +184,7 @@ void write_function_dcl(fmt::ostream & out, const NodePtr & node, Access access)
     const bool private_ = (access == Access::Private);
     if(private_ == function.private_)
     {
+        out.print("\n");
         out.print("{}(", convert_param(function.return_type,
                                        function.name));
         write_params(out, function);
@@ -409,6 +410,7 @@ void write_function_bdy(fmt::ostream & out, const NodePtr & node, Access access)
     const bool private_ = (access == Access::Private);
     if(private_ == function.private_)
     {
+        out.print("\n");
         if(function.inline_)
         {
             out.print("inline ");
