@@ -419,14 +419,8 @@ NodeExprPtr convert_record_from(
                                  const NodeTypePtr & to_ptr,
                                  const NodeExprPtr & name)
 {
-    auto reference = NodeRefExpr::n(NodeExprPtr(name));
-    auto inner = NodeCastExpr::n(
-        std::move(reference), NodePointerType::n(PointerKind::Pointer,
-                                                 NodeTypePtr(to_ptr),
-                                                 false),
-        "reinterpret"
-    );
-    return NodeDerefExpr::n(std::move(inner));
+    return NodeFunctionCallExpr::n("to_c_copy",
+                                   std::vector<NodeExprPtr>({ name }));
 }
 
 //------------------------------------------------------------------------------
@@ -435,25 +429,17 @@ NodeExprPtr convert_pointer_from(
                                  const NodeTypePtr & to_ptr,
                                  const NodeExprPtr & name)
 {
-    // TODO LT: Assuming opaquebytes at the moment, opaqueptr will have a
-    // different implementation.
-    //
     auto from = static_cast<const NodePointerType*>(from_ptr.get());
 
     switch (from->pointer_kind)
     {
-        case PointerKind::Pointer:
-            {
-                return NodeCastExpr::n(NodeExprPtr(name),
-                                                      NodeTypePtr(to_ptr),
-                                                      "reinterpret");
-            }
         case PointerKind::RValueReference: // TODO LT: Add support for rvalue reference
+        case PointerKind::Pointer:
         case PointerKind::Reference:
             {
-                auto ref = NodeRefExpr::n(NodeExprPtr(name));
-                return NodeCastExpr::n(
-                    NodeExprPtr(name), NodeTypePtr(to_ptr), "reinterpret");
+                return NodeFunctionCallExpr::n("to_c",
+                                               std::vector<NodeExprPtr>({ name })
+                );
             }
         default:
             break;
