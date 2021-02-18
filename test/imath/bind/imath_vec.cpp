@@ -23,8 +23,8 @@ public:
     const ::Imath::Vec3<T>& operator+=(const ::Imath::Vec3<T>& v) CPPMM_RENAME(op_iadd) ;
 #endif
 
-    const ::Imath::Vec3<T>&	normalize ();
-    ::Imath::Vec3<T>     	normalized () const;
+    const ::Imath::Vec3<T>& normalize();
+    ::Imath::Vec3<T> normalized() const;
 
 #if 0
     ::Imath::Vec3<T> operator+(const ::Imath::Vec3<T>& v) const;
@@ -45,9 +45,6 @@ public:
     ::Imath::Vec3<T> operator/(const ::Imath::Vec3<T>& v) const;
     ::Imath::Vec3<T> operator/(T a) const CPPMM_RENAME(div_t);
 
-    T length() const;
-    constexpr T length2() const;
-
     const ::Imath::Vec3<T>& normalize();    // modifies *this
     ::Imath::Vec3<T> normalized() const; // does not modify *this
 
@@ -57,33 +54,29 @@ public:
     // constexpr static T baseTypeMax();
     // constexpr static T baseTypeSmallest();
     // constexpr static T baseTypeEpsilon();
-
-    // ugh - in order for the explicit instantiation to work we must provide
-    // a function body here.
-    template <class S> void setValue(S a, S b, S c);
 #endif
+    T length() const;
+    constexpr T length2() const;
+
+    template <class S> void setValue(S a, S b, S c);
 
 } CPPMM_VALUETYPE;
 
 // explicit instantiation
 template class Vec3<float>;
-//template class Vec3<int>;
+// template class Vec3<int>;
 using V3f = Imath::V3f;
-//using V3i = Imath::V3i;
+// using V3i = Imath::V3i;
 
-#if 0
 // note the 'extern' here otherwise we get an error because we're not
 // defining the template body up above
 extern template void Vec3<float>::setValue(float a, float b, float c);
-extern template void Vec3<int>::setValue(int a, int b, int c);
-#endif
+// extern template void Vec3<int>::setValue(int a, int b, int c);
 
 } // namespace cppmm_bind
 
 template class Imath::Vec3<float>;
-//template class Imath::Vec3<int>;
+// template class Imath::Vec3<int>;
 
-#if 0
 extern template void Imath::Vec3<float>::setValue(float a, float b, float c);
-extern template void Imath::Vec3<int>::setValue(int a, int b, int c);
-#endif
+// extern template void Imath::Vec3<int>::setValue(int a, int b, int c);
