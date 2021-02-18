@@ -47,7 +47,8 @@ if result.returncode != 0:
 
 
 # diff entire directory with a crummy attempt to ignore paths
-result = subprocess.Popen(['diff', '-I\s*\"\/.*\/.*', output_dir, ref_dir], stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
+ignore_regex = '-I\s*\"\/.*\/.*'
+result = subprocess.Popen(['diff', '-r', ignore_regex, output_dir, ref_dir], stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
 (stdout, _) = result.communicate(None)
 
 if result.returncode != 0:
