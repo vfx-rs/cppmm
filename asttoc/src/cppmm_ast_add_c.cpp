@@ -532,18 +532,17 @@ NodeExprPtr opaquebytes_method_body(TypeRegistry & type_registry,
 
     if(is_void)
     {
-        return method_call;
-    }
-    else
-    {
         return NodeBlockExpr::n(
-                    std::vector<NodeExprPtr>({
-                        NodeReturnExpr::n(
-                            convert_from(cpp_method.return_type,
-                                         c_return, method_call))
+                    std::vector<NodeExprPtr>({method_call
         }));
     }
-    //return method_call;
+
+    return NodeBlockExpr::n(
+                std::vector<NodeExprPtr>({
+                    NodeReturnExpr::n(
+                        convert_from(cpp_method.return_type,
+                                     c_return, method_call))
+    }));
 }
 
 //------------------------------------------------------------------------------
