@@ -26,6 +26,7 @@ namespace {
     const char * ATTRIBUTES = "attributes";
     const char * CHILDREN = "children";
     const char * CONSTRUCTOR = "constructor";
+    const char * COPY_CONSTRUCTOR = "copy_constructor";
     const char * CONST = "const";
     const char * DECLS = "decls";
     const char * ENUM_C = "Enum";
@@ -186,6 +187,7 @@ NodeMethod read_method(const nln::json & json) {
     auto id = json[ID].get<Id>();
     auto static_ = json[STATIC].get<bool>();
     auto constructor = json[CONSTRUCTOR].get<bool>();
+    auto copy_constructor = json[COPY_CONSTRUCTOR].get<bool>();
     auto return_type = read_type(json[RETURN]);
     auto const_ = json[CONST].get<bool>();
 
@@ -196,7 +198,8 @@ NodeMethod read_method(const nln::json & json) {
 
     return NodeMethod(qualified_name, id, attrs, short_name,
                       std::move(return_type),
-                      std::move(params), static_, constructor, const_);
+                      std::move(params), static_, constructor, copy_constructor,
+                      const_);
 }
 
 //------------------------------------------------------------------------------
@@ -216,8 +219,15 @@ NodePtr read_record(const TranslationUnit::Ptr & tu, const nln::json & json) {
     Id id = json[ID].get<Id>();
     auto size = json[SIZE].get<uint64_t>();
     auto align = json[ALIGN].get<uint64_t>();
-    auto name = json[NAME].get<std::string>();
-    auto alias = json[ALIAS].get<std::string>();
+    auto qual_name = json[NAME].get<std::string>();
+    auto name = json[SHORT_NAME].get<std::string>();
+ 
+    // Override the name with an alias if one is provided 
+    auto alias = json.find(ALIAS);
+    if( alias != json.end() )
+    {
+        name = alias->get<std::string>();
+    }
 
     // Namespaces
     std::vector<NodeId> namespaces;
@@ -228,7 +238,7 @@ NodePtr read_record(const TranslationUnit::Ptr & tu, const nln::json & json) {
 
     // Instantiate the translation unit
     auto result =\
-        NodeRecord::n(tu, name, id, _attrs, size, align, alias, namespaces);
+        NodeRecord::n(tu, qual_name, id, _attrs, size, align, name, namespaces);
 
     // Pull out the methods
     for (const auto & i : json[METHODS] ){

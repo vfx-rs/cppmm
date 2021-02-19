@@ -29,9 +29,12 @@ enum class NodeKind : uint32_t {
     FunctionProtoType,
     Parm,
     Function,
+    AssignExpr,
+    BlockExpr,
     FunctionCallExpr,
     MethodCallExpr,
     VarRefExpr,
+    VarDeclExpr,
     DerefExpr,
     RefExpr,
     CastExpr,
@@ -81,7 +84,9 @@ struct TranslationUnit {
     std::set<NodePtr> forward_decls;
 
     std::string header_filename;
+    std::string private_header_filename;
     std::set<std::string> source_includes;
+    std::set<std::string> source_private_includes;
     std::set<std::string> header_includes;
 
     using Self = TranslationUnit;
@@ -96,6 +101,7 @@ struct TranslationUnit {
         : filename(std::move(rhs.filename))
         , decls(std::move(rhs.decls))
         , header_filename(std::move(rhs.header_filename))
+        , private_header_filename(std::move(rhs.private_header_filename))
         , source_includes(std::move(rhs.source_includes))
     {}
 
@@ -103,6 +109,7 @@ struct TranslationUnit {
         filename = std::move(rhs.filename);
         decls = std::move(rhs.decls);
         header_filename = std::move(rhs.header_filename);
+        private_header_filename = std::move(rhs.private_header_filename);
         source_includes = std::move(rhs.source_includes);
     }
 
@@ -381,6 +388,50 @@ struct NodeVarRefExpr : public NodeExpr { // TODO LT: Added by luke, like clang 
 };
 
 //------------------------------------------------------------------------------
+// NodeVarDeclExpr
+//------------------------------------------------------------------------------
+struct NodeVarDeclExpr : public NodeExpr { // TODO LT: Added by luke
+    NodeTypePtr var_type;
+    std::string var_name;
+
+    NodeVarDeclExpr(NodeTypePtr var_type, std::string var_name)
+        : NodeExpr(NodeKind::VarDeclExpr)
+        , var_type(var_type)
+        , var_name(var_name)
+    {}
+
+    // A static method for creating this as a shared pointer
+    using This = NodeVarDeclExpr;
+    template<typename ... Args>
+    static std::shared_ptr<This> n(Args&& ... args)
+    {
+        return std::make_shared<This>(std::forward<Args>(args)...);
+    }
+};
+
+//------------------------------------------------------------------------------
+// NodeAssignExpr
+//------------------------------------------------------------------------------
+struct NodeAssignExpr : public NodeExpr { // TODO LT: Added by luke
+    NodeExprPtr lhs;
+    NodeExprPtr rhs;
+
+    NodeAssignExpr(NodeExprPtr lhs, NodeExprPtr rhs)
+        : NodeExpr(NodeKind::AssignExpr)
+        , lhs(lhs)
+        , rhs(rhs)
+    {}
+
+    // A static method for creating this as a shared pointer
+    using This = NodeAssignExpr;
+    template<typename ... Args>
+    static std::shared_ptr<This> n(Args&& ... args)
+    {
+        return std::make_shared<This>(std::forward<Args>(args)...);
+    }
+};
+
+//------------------------------------------------------------------------------
 // NodeRefExpr
 //------------------------------------------------------------------------------
 struct NodeRefExpr : public NodeExpr { // TODO LT: Added by luke = &()
@@ -466,6 +517,26 @@ struct NodeCastExpr : public NodeExpr { // TODO LT: Added by luke
 };
 
 //------------------------------------------------------------------------------
+// NodeBlockExpr
+//------------------------------------------------------------------------------
+struct NodeBlockExpr : public NodeExpr { // TODO LT: Added by luke new () ();
+    std::vector<NodeExprPtr> expressions;
+
+    NodeBlockExpr(std::vector<NodeExprPtr> && expressions)
+        : NodeExpr(NodeKind::BlockExpr)
+        , expressions(expressions)
+    {}
+
+    // A static method for creating this as a shared pointer
+    using This = NodeBlockExpr;
+    template<typename ... Args>
+    static std::shared_ptr<This> n(Args&& ... args)
+    {
+        return std::make_shared<This>(std::forward<Args>(args)...);
+    }
+};
+
+//------------------------------------------------------------------------------
 // NodePlacementNewExpr
 //------------------------------------------------------------------------------
 struct NodePlacementNewExpr : public NodeExpr { // TODO LT: Added by luke new () ();
@@ -496,6 +567,9 @@ struct NodeFunction : public NodeAttributeHolder {
     std::vector<Param> params;
     bool in_binding = false;
     bool in_library = false;
+    bool private_ = false;
+    bool inline_ = false;
+
     NodeExprPtr body;
 
     NodeFunction(std::string qualified_name, NodeId id,
@@ -521,16 +595,19 @@ struct NodeFunction : public NodeAttributeHolder {
 struct NodeMethod : public NodeFunction {
     bool is_static;
     bool is_constructor;
+    bool is_copy_constructor;
     bool is_const;
 
     NodeMethod(std::string qualified_name, NodeId id,
                std::vector<std::string> attrs, std::string short_name,
                NodeTypePtr && return_type, std::vector<Param> && params,
-               bool is_static, bool is_constructor, bool is_const)
+               bool is_static, bool is_constructor, 
+               bool is_copy_constructor, bool is_const)
         : NodeFunction(qualified_name, id, attrs, short_name,
                        std::move(return_type), std::move(params))
           , is_static(is_static)
           , is_constructor(is_constructor)
+          , is_copy_constructor(is_copy_constructor)
           , is_const(is_const)
     {
         kind = NodeKind::Method;
