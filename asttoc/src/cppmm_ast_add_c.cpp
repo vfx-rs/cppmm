@@ -281,13 +281,16 @@ bool parameter(TranslationUnit & c_tu,
 //------------------------------------------------------------------------------
 void opaquebytes_record(NodeRecord & c_record)
 {
+    constexpr auto sizeof_byte = 8;
+    auto size_in_bytes = c_record.size / sizeof_byte;
+
     auto is_const = false;
     auto array_type =\
         std::make_unique<NodeArrayType>(
             "", PLACEHOLDER_ID, "",
             std::make_unique<NodeBuiltinType>("", PLACEHOLDER_ID, "char",
                                               is_const),
-            c_record.size, is_const);
+            size_in_bytes, is_const);
 
     c_record.force_alignment = true;
     c_record.fields.push_back(Field{ "data", std::move(array_type) });

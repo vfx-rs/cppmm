@@ -142,9 +142,12 @@ void write_record(fmt::ostream & out, const NodePtr & node)
 {
     const NodeRecord & record = *static_cast<const NodeRecord*>(node.get());
 
+    constexpr auto sizeof_byte = 8;
+    const auto align = record.align / sizeof_byte;
+
     out.print("typedef struct {{\n");
     write_fields(out, record);
-    out.print("}} __attribute__((aligned({}))) {};\n", record.align, // TODO LT: Only force alignment if 'align' attribute is on it.
+    out.print("}} __attribute__((aligned({}))) {};\n", align, // TODO LT: Only force alignment if 'align' attribute is on it.
               record.name);
 }
 
