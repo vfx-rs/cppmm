@@ -975,6 +975,7 @@ NodePtr process_method_decl(const CXXMethodDecl* cmd,
 /// node tables.
 std::vector<NodePtr> process_methods(const CXXRecordDecl* crd) {
     std::vector<NodePtr> result;
+    SPDLOG_TRACE("process_methods({})", get_record_name(crd));
     for (const Decl* d : crd->decls()) {
         // we want to ignore anything that's not public for obvious reasons
         // since we're using this function for getting methods both from the
@@ -1217,9 +1218,15 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
     SourceManager& sm = ctx.getSourceManager();
     const auto& loc = crd->getLocation();
 
-    crd = crd->getCanonicalDecl();
+    // crd = crd->getCanonicalDecl(); // FIXME: this ends up taking us to a fwd
+    // declaration
+    crd = crd->getDefinition(); // TODO: this seems to do what we want... but
+                                // does it? Can you imagine a world in which
+                                // Clang was actually documented?
     const std::string record_name = get_record_name(crd);
     const std::string short_name = crd->getNameAsString();
+
+    SPDLOG_TRACE("Processing concrete record {}", record_name);
     //
     // Get the translation unit node we're going to add this Record to
     auto* node_tu = get_translation_unit(filename);
@@ -1246,6 +1253,7 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
 
     // grab all the methods that are specified in the binding
     std::vector<NodePtr> methods = process_methods(crd);
+    SPDLOG_TRACE("record {} has {} methods", record_name, methods.size());
     for (NodePtr& method : methods) {
         NodeMethod* mptr = (NodeMethod*)method.get();
         if (method_in_list(mptr, binding_methods, attrs)) {
