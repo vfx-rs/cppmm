@@ -1,15 +1,12 @@
 {
     "kind": "TranslationUnit",
-    "filename": "/Volumes/src/cppmm/test/imath/bind/imath_box.cpp",
+    "filename": "/home/anders/code/cppmm/test/imath/bind/imath_box.cpp",
     "source_includes": [
         "#include <OpenEXR/ImathBox.h>",
         "#include <cppmm_bind.hpp>"
     ],
     "include_paths": [
-        "../test/",
-        "../test/imath/bind",
-        "/Volumes/src/packages/usr/local/include",
-        "/Volumes/src/cppmm/build/../test/imath/bind"
+        "/home/anders/packages/openexr/2.5.5/include"
     ],
     "id": 5,
     "decls": [
@@ -62,7 +59,7 @@
                     "kind": "Method",
                     "id": 0,
                     "short_name": "extendBy",
-                    "qualified_name": "Imath_2_5::Box<Imath_2_5::Vec3<float>>::extendBy",
+                    "qualified_name": "Imath_2_5::Box<Imath_2_5::Vec3<float> >::extendBy",
                     "in_binding": true,
                     "in_library": false,
                     "static": false,
@@ -109,7 +106,7 @@
                     "kind": "Method",
                     "id": 0,
                     "short_name": "extendBy",
-                    "qualified_name": "Imath_2_5::Box<Imath_2_5::Vec3<float>>::extendBy",
+                    "qualified_name": "Imath_2_5::Box<Imath_2_5::Vec3<float> >::extendBy",
                     "in_binding": true,
                     "in_library": false,
                     "static": false,
@@ -197,7 +194,7 @@
                     "kind": "Method",
                     "id": 0,
                     "short_name": "extendBy",
-                    "qualified_name": "Imath_2_5::Box<Imath_2_5::Vec3<int>>::extendBy",
+                    "qualified_name": "Imath_2_5::Box<Imath_2_5::Vec3<int> >::extendBy",
                     "in_binding": true,
                     "in_library": false,
                     "static": false,
@@ -244,7 +241,7 @@
                     "kind": "Method",
                     "id": 0,
                     "short_name": "extendBy",
-                    "qualified_name": "Imath_2_5::Box<Imath_2_5::Vec3<int>>::extendBy",
+                    "qualified_name": "Imath_2_5::Box<Imath_2_5::Vec3<int> >::extendBy",
                     "in_binding": true,
                     "in_library": false,
                     "static": false,

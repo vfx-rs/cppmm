@@ -1,0 +1,1210 @@
+{
+    "kind": "TranslationUnit",
+    "filename": "/home/anders/code/cppmm/test/oiio/bind/c-filesystem.cpp",
+    "source_includes": [
+        "#include <OpenImageIO/filesystem.h>",
+        "#include <cppmm_bind.hpp>"
+    ],
+    "include_paths": [
+        "/home/anders/packages/oiio/2.2.8/include",
+        "/home/anders/packages/openexr/2.5.5/include"
+    ],
+    "id": 107,
+    "decls": [
+        {
+            "kind": "Namespace",
+            "name": "OpenImageIO_v2_2::Filesystem",
+            "id": 112,
+            "short_name": "Filesystem"
+        },
+        {
+            "kind": "Namespace",
+            "name": "OpenImageIO_v2_2",
+            "id": 5,
+            "short_name": "OpenImageIO_v2_2"
+        },
+        {
+            "kind": "Record",
+            "name": "OpenImageIO_v2_2::Filesystem::IOProxy",
+            "short_name": "IOProxy",
+            "namespaces": [
+                5,
+                112
+            ],
+            "id": 113,
+            "size": 704,
+            "align": 64,
+            "alias": "IOProxy",
+            "attributes": [
+                "cppmm:opaqueptr"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "m_filename",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 42,
+                        "type": "std::__cxx11::basic_string<char>",
+                        "record": -1,
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "m_pos",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 39,
+                        "type": "long",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "m_mode",
+                    "type": {
+                        "kind": "EnumType",
+                        "id": 108,
+                        "type": "OpenImageIO_v2_2::Filesystem::IOProxy::Mode",
+                        "enum": 130,
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "m_error",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 42,
+                        "type": "std::__cxx11::basic_string<char>",
+                        "record": -1,
+                        "const": false
+                    }
+                }
+            ],
+            "methods": [
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "IOProxy",
+                    "qualified_name": "OpenImageIO_v2_2::Filesystem::IOProxy::IOProxy",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": true,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm:ignore"
+                    ],
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 0,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "IOProxy",
+                    "qualified_name": "OpenImageIO_v2_2::Filesystem::IOProxy::IOProxy",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": true,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm:ignore"
+                    ],
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 0,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "filename",
+                            "type": {
+                                "kind": "RecordType",
+                                "id": 11,
+                                "type": "OpenImageIO_v2_2::string_view",
+                                "record": -1,
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "mode",
+                            "type": {
+                                "kind": "EnumType",
+                                "id": 108,
+                                "type": "OpenImageIO_v2_2::Filesystem::IOProxy::Mode",
+                                "enum": 130,
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "~IOProxy",
+                    "qualified_name": "OpenImageIO_v2_2::Filesystem::IOProxy::~IOProxy",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": true,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": true,
+                    "attributes": [
+                        "cppmm:rename:delete"
+                    ],
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 0,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "proxytype",
+                    "qualified_name": "OpenImageIO_v2_2::Filesystem::IOProxy::proxytype",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": true,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "Pointer",
+                        "id": 15,
+                        "type": "const char *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 14,
+                            "type": "char",
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "close",
+                    "qualified_name": "OpenImageIO_v2_2::Filesystem::IOProxy::close",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": true,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 0,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "opened",
+                    "qualified_name": "OpenImageIO_v2_2::Filesystem::IOProxy::opened",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": true,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 17,
+                        "type": "_Bool",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "tell",
+                    "qualified_name": "OpenImageIO_v2_2::Filesystem::IOProxy::tell",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": true,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 39,
+                        "type": "long",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "seek",
+                    "qualified_name": "OpenImageIO_v2_2::Filesystem::IOProxy::seek",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": true,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 17,
+                        "type": "_Bool",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "offset",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 39,
+                                "type": "long",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "read",
+                    "qualified_name": "OpenImageIO_v2_2::Filesystem::IOProxy::read",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": true,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 16,
+                        "type": "unsigned long",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "buf",
+                            "type": {
+                                "kind": "Pointer",
+                                "id": 54,
+                                "type": "void *",
+                                "pointee": {
+                                    "kind": "BuiltinType",
+                                    "id": 0,
+                                    "type": "void",
+                                    "const": false
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "size",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 16,
+                                "type": "unsigned long",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "write",
+                    "qualified_name": "OpenImageIO_v2_2::Filesystem::IOProxy::write",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": true,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 16,
+                        "type": "unsigned long",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "buf",
+                            "type": {
+                                "kind": "Pointer",
+                                "id": 41,
+                                "type": "const void *",
+                                "pointee": {
+                                    "kind": "BuiltinType",
+                                    "id": 0,
+                                    "type": "void",
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "size",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 16,
+                                "type": "unsigned long",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "pread",
+                    "qualified_name": "OpenImageIO_v2_2::Filesystem::IOProxy::pread",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": true,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 16,
+                        "type": "unsigned long",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "buf",
+                            "type": {
+                                "kind": "Pointer",
+                                "id": 54,
+                                "type": "void *",
+                                "pointee": {
+                                    "kind": "BuiltinType",
+                                    "id": 0,
+                                    "type": "void",
+                                    "const": false
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "size",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 16,
+                                "type": "unsigned long",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 2,
+                            "name": "offset",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 39,
+                                "type": "long",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "pwrite",
+                    "qualified_name": "OpenImageIO_v2_2::Filesystem::IOProxy::pwrite",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": true,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 16,
+                        "type": "unsigned long",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "buf",
+                            "type": {
+                                "kind": "Pointer",
+                                "id": 41,
+                                "type": "const void *",
+                                "pointee": {
+                                    "kind": "BuiltinType",
+                                    "id": 0,
+                                    "type": "void",
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "size",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 16,
+                                "type": "unsigned long",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 2,
+                            "name": "offset",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 39,
+                                "type": "long",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "filename",
+                    "qualified_name": "OpenImageIO_v2_2::Filesystem::IOProxy::filename",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "Reference",
+                        "id": 79,
+                        "type": "const class std::__cxx11::basic_string<char> &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 42,
+                            "type": "std::__cxx11::basic_string<char>",
+                            "record": -1,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "seek",
+                    "qualified_name": "OpenImageIO_v2_2::Filesystem::IOProxy::seek",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 17,
+                        "type": "_Bool",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "offset",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 39,
+                                "type": "long",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "origin",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 10,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "kind": "Enum",
+            "name": "OpenImageIO_v2_2::Filesystem::IOProxy::Mode",
+            "short_name": "Mode",
+            "namespaces": [
+                5,
+                112,
+                113
+            ],
+            "id": 130,
+            "size": 32,
+            "align": 32,
+            "attributes": null,
+            "variants": {
+                "Closed": "0",
+                "Read": "114",
+                "Write": "119"
+            }
+        },
+        {
+            "kind": "Record",
+            "name": "OpenImageIO_v2_2::Filesystem::IOMemReader",
+            "short_name": "IOMemReader",
+            "namespaces": [
+                5,
+                112
+            ],
+            "id": 134,
+            "size": 832,
+            "align": 64,
+            "alias": "IOMemReader",
+            "attributes": [
+                "cppmm:opaqueptr"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "m_buf",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 135,
+                        "type": "OpenImageIO_v2_2::span<const unsigned char, -1>",
+                        "record": -1,
+                        "const": false
+                    }
+                }
+            ],
+            "methods": [
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "IOMemReader",
+                    "qualified_name": "OpenImageIO_v2_2::Filesystem::IOMemReader::IOMemReader",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": true,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm:rename:new"
+                    ],
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 0,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "buf",
+                            "type": {
+                                "kind": "Pointer",
+                                "id": 54,
+                                "type": "void *",
+                                "pointee": {
+                                    "kind": "BuiltinType",
+                                    "id": 0,
+                                    "type": "void",
+                                    "const": false
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "size",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 16,
+                                "type": "unsigned long",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "proxytype",
+                    "qualified_name": "OpenImageIO_v2_2::Filesystem::IOMemReader::proxytype",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": true,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "Pointer",
+                        "id": 15,
+                        "type": "const char *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 14,
+                            "type": "char",
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "seek",
+                    "qualified_name": "OpenImageIO_v2_2::Filesystem::IOMemReader::seek",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": true,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 17,
+                        "type": "_Bool",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "offset",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 39,
+                                "type": "long",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "read",
+                    "qualified_name": "OpenImageIO_v2_2::Filesystem::IOMemReader::read",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": true,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 16,
+                        "type": "unsigned long",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "buf",
+                            "type": {
+                                "kind": "Pointer",
+                                "id": 54,
+                                "type": "void *",
+                                "pointee": {
+                                    "kind": "BuiltinType",
+                                    "id": 0,
+                                    "type": "void",
+                                    "const": false
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "size",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 16,
+                                "type": "unsigned long",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "pread",
+                    "qualified_name": "OpenImageIO_v2_2::Filesystem::IOMemReader::pread",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": true,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 16,
+                        "type": "unsigned long",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "buf",
+                            "type": {
+                                "kind": "Pointer",
+                                "id": 54,
+                                "type": "void *",
+                                "pointee": {
+                                    "kind": "BuiltinType",
+                                    "id": 0,
+                                    "type": "void",
+                                    "const": false
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "size",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 16,
+                                "type": "unsigned long",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 2,
+                            "name": "offset",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 39,
+                                "type": "long",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "~IOMemReader",
+                    "qualified_name": "OpenImageIO_v2_2::Filesystem::IOMemReader::~IOMemReader",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": false,
+                    "const": false,
+                    "virtual": true,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": true,
+                    "attributes": [
+                        "cppmm:rename:delete"
+                    ],
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 0,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": null
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 146,
+            "short_name": "filename",
+            "qualified_name": "OpenImageIO_v2_2::Filesystem::filename",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "return": {
+                "kind": "RecordType",
+                "id": 42,
+                "type": "std::__cxx11::basic_string<char>",
+                "record": -1,
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "filepath",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 79,
+                        "type": "const class std::__cxx11::basic_string<char> &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 42,
+                            "type": "std::__cxx11::basic_string<char>",
+                            "record": -1,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 147,
+            "short_name": "extension",
+            "qualified_name": "OpenImageIO_v2_2::Filesystem::extension",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "return": {
+                "kind": "RecordType",
+                "id": 42,
+                "type": "std::__cxx11::basic_string<char>",
+                "record": -1,
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "filepath",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 79,
+                        "type": "const class std::__cxx11::basic_string<char> &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 42,
+                            "type": "std::__cxx11::basic_string<char>",
+                            "record": -1,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "include_dot",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 17,
+                        "type": "_Bool",
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 148,
+            "short_name": "parent_path",
+            "qualified_name": "OpenImageIO_v2_2::Filesystem::parent_path",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "return": {
+                "kind": "RecordType",
+                "id": 42,
+                "type": "std::__cxx11::basic_string<char>",
+                "record": -1,
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "filepath",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 79,
+                        "type": "const class std::__cxx11::basic_string<char> &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 42,
+                            "type": "std::__cxx11::basic_string<char>",
+                            "record": -1,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 149,
+            "short_name": "replace_extension",
+            "qualified_name": "OpenImageIO_v2_2::Filesystem::replace_extension",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "return": {
+                "kind": "RecordType",
+                "id": 42,
+                "type": "std::__cxx11::basic_string<char>",
+                "record": -1,
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "filepath",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 79,
+                        "type": "const class std::__cxx11::basic_string<char> &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 42,
+                            "type": "std::__cxx11::basic_string<char>",
+                            "record": -1,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "new_extension",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 79,
+                        "type": "const class std::__cxx11::basic_string<char> &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 42,
+                            "type": "std::__cxx11::basic_string<char>",
+                            "record": -1,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        }
+    ]
+}

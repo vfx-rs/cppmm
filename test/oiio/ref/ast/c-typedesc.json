@@ -1,0 +1,170 @@
+{
+    "kind": "TranslationUnit",
+    "filename": "/home/anders/code/cppmm/test/oiio/bind/c-typedesc.cpp",
+    "source_includes": [
+        "#include <OpenImageIO/typedesc.h>"
+    ],
+    "include_paths": [
+        "/home/anders/packages/oiio/2.2.8/include",
+        "/home/anders/packages/openexr/2.5.5/include"
+    ],
+    "id": 4,
+    "decls": [
+        {
+            "kind": "Namespace",
+            "name": "OpenImageIO_v2_2",
+            "id": 5,
+            "short_name": "OpenImageIO_v2_2"
+        },
+        {
+            "kind": "Record",
+            "name": "OpenImageIO_v2_2::TypeDesc",
+            "short_name": "TypeDesc",
+            "namespaces": [
+                5
+            ],
+            "id": 6,
+            "size": 64,
+            "align": 32,
+            "alias": "TypeDesc",
+            "attributes": null,
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "basetype",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 21,
+                        "type": "unsigned char",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "aggregate",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 21,
+                        "type": "unsigned char",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "vecsemantics",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 21,
+                        "type": "unsigned char",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "reserved",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 21,
+                        "type": "unsigned char",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "arraylen",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 10,
+                        "type": "int",
+                        "const": false
+                    }
+                }
+            ],
+            "methods": null
+        },
+        {
+            "kind": "Enum",
+            "name": "OpenImageIO_v2_2::TypeDesc::BASETYPE",
+            "short_name": "BASETYPE",
+            "namespaces": [
+                5,
+                6
+            ],
+            "id": 18,
+            "size": 32,
+            "align": 32,
+            "attributes": null,
+            "variants": {
+                "UNKNOWN": "0",
+                "NONE": "1",
+                "UINT8": "2",
+                "UCHAR": "2",
+                "INT8": "3",
+                "CHAR": "3",
+                "UINT16": "4",
+                "USHORT": "4",
+                "INT16": "5",
+                "SHORT": "5",
+                "UINT32": "6",
+                "UINT": "6",
+                "INT32": "7",
+                "INT": "7",
+                "UINT64": "8",
+                "ULONGLONG": "8",
+                "INT64": "9",
+                "LONGLONG": "9",
+                "HALF": "10",
+                "FLOAT": "11",
+                "DOUBLE": "12",
+                "STRING": "13",
+                "PTR": "14",
+                "LASTBASE": "15"
+            }
+        },
+        {
+            "kind": "Enum",
+            "name": "OpenImageIO_v2_2::TypeDesc::AGGREGATE",
+            "short_name": "AGGREGATE",
+            "namespaces": [
+                5,
+                6
+            ],
+            "id": 19,
+            "size": 32,
+            "align": 32,
+            "attributes": null,
+            "variants": {
+                "SCALAR": "1",
+                "VEC2": "2",
+                "VEC3": "3",
+                "VEC4": "4",
+                "MATRIX33": "9",
+                "MATRIX44": "16"
+            }
+        },
+        {
+            "kind": "Enum",
+            "name": "OpenImageIO_v2_2::TypeDesc::VECSEMANTICS",
+            "short_name": "VECSEMANTICS",
+            "namespaces": [
+                5,
+                6
+            ],
+            "id": 20,
+            "size": 32,
+            "align": 32,
+            "attributes": null,
+            "variants": {
+                "NOXFORM": "0",
+                "NOSEMANTICS": "0",
+                "COLOR": "1",
+                "POINT": "2",
+                "VECTOR": "3",
+                "NORMAL": "4",
+                "TIMECODE": "5",
+                "KEYCODE": "6",
+                "RATIONAL": "7"
+            }
+        }
+    ]
+}

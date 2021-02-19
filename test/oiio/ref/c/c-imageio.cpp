@@ -3,127 +3,138 @@
 #include <OpenImageIO/filesystem.h>
 #include <OpenImageIO/imageio.h>
 #include <cppmm_bind.hpp>
+#include <c-typedesc_private.h>
+#include <c-imageio_private.h>
+
 
 void OpenImageIO_v2_2_ROI_ROI(
-    OpenImageIO_v2_2_ROI *self)
+    OpenImageIO_v2_2_ROI * self)
 {
     new (self) ROI();
 }
+
 _Bool OpenImageIO_v2_2_ROI_defined(
-    OpenImageIO_v2_2_ROI const *self)
+    OpenImageIO_v2_2_ROI const * self)
 {
-    return (reinterpret_cast<OpenImageIO_v2_2::ROI const *>(self)) -> 
-        defined();
+    return (to_cpp(self)) -> defined();
 }
+
 int OpenImageIO_v2_2_ROI_width(
-    OpenImageIO_v2_2_ROI const *self)
+    OpenImageIO_v2_2_ROI const * self)
 {
-    return (reinterpret_cast<OpenImageIO_v2_2::ROI const *>(self)) -> 
-        width();
+    return (to_cpp(self)) -> width();
 }
+
 int OpenImageIO_v2_2_ROI_height(
-    OpenImageIO_v2_2_ROI const *self)
+    OpenImageIO_v2_2_ROI const * self)
 {
-    return (reinterpret_cast<OpenImageIO_v2_2::ROI const *>(self)) -> 
-        height();
+    return (to_cpp(self)) -> height();
 }
+
 int OpenImageIO_v2_2_ROI_depth(
-    OpenImageIO_v2_2_ROI const *self)
+    OpenImageIO_v2_2_ROI const * self)
 {
-    return (reinterpret_cast<OpenImageIO_v2_2::ROI const *>(self)) -> 
-        depth();
+    return (to_cpp(self)) -> depth();
 }
+
 int OpenImageIO_v2_2_ROI_nchannels(
-    OpenImageIO_v2_2_ROI const *self)
+    OpenImageIO_v2_2_ROI const * self)
 {
-    return (reinterpret_cast<OpenImageIO_v2_2::ROI const *>(self)) -> 
-        nchannels();
+    return (to_cpp(self)) -> nchannels();
 }
+
 unsigned long OpenImageIO_v2_2_ROI_npixels(
-    OpenImageIO_v2_2_ROI const *self)
+    OpenImageIO_v2_2_ROI const * self)
 {
-    return (reinterpret_cast<OpenImageIO_v2_2::ROI const *>(self)) -> 
-        npixels();
+    return (to_cpp(self)) -> npixels();
 }
+
 OpenImageIO_v2_2_ROI OpenImageIO_v2_2_ROI_All(
-    OpenImageIO_v2_2_ROI *self)
+    OpenImageIO_v2_2_ROI * self)
 {
-    return *(reinterpret_cast<OpenImageIO_v2_2_ROI *>(&((reinterpret_cast<OpenImageIO_v2_2::ROI *>(self)) -> 
-        All())));
+    return to_c_copy((to_cpp(self)) -> All());
 }
+
+void OpenImageIO_v2_2_ImageSpec_ImageSpec(
+    OpenImageIO_v2_2_ImageSpec * self
+    , OpenImageIO_v2_2_TypeDesc format)
+{
+    new (self) ImageSpec(to_cpp_ref(&(format)));
+}
+
+void OpenImageIO_v2_2_ImageSpec_ImageSpec(
+    OpenImageIO_v2_2_ImageSpec * self
+    , int xres
+    , int yres
+    , int nchans
+    , OpenImageIO_v2_2_TypeDesc fmt)
+{
+    new (self) ImageSpec(xres, yres, nchans, to_cpp_ref(&(fmt)));
+}
+
+void OpenImageIO_v2_2_ImageSpec_set_format(
+    OpenImageIO_v2_2_ImageSpec * self
+    , OpenImageIO_v2_2_TypeDesc fmt)
+{
+    (to_cpp(self)) -> set_format(to_cpp_ref(&(fmt)));
+}
+
 void OpenImageIO_v2_2_ImageSpec_default_channel_names(
-    OpenImageIO_v2_2_ImageSpec *self)
+    OpenImageIO_v2_2_ImageSpec * self)
 {
-    (reinterpret_cast<OpenImageIO_v2_2::ImageSpec *>(self)) -> 
-        default_channel_names();
+    (to_cpp(self)) -> default_channel_names();
 }
+
 unsigned long OpenImageIO_v2_2_ImageSpec_channel_bytes(
-    OpenImageIO_v2_2_ImageSpec const *self)
+    OpenImageIO_v2_2_ImageSpec const * self)
 {
-    return (reinterpret_cast<OpenImageIO_v2_2::ImageSpec const *>(self)) -> 
-        channel_bytes();
+    return (to_cpp(self)) -> channel_bytes();
 }
+
 unsigned long OpenImageIO_v2_2_ImageSpec_channel_bytes(
-    OpenImageIO_v2_2_ImageSpec const *self
+    OpenImageIO_v2_2_ImageSpec const * self
     , int chan
     , _Bool native)
 {
-    return (reinterpret_cast<OpenImageIO_v2_2::ImageSpec const *>(self)) -> 
-        channel_bytes(
-             chan
-            ,native
-            );
+    return (to_cpp(self)) -> channel_bytes(chan, native);
 }
+
 unsigned long OpenImageIO_v2_2_ImageSpec_scanline_bytes(
-    OpenImageIO_v2_2_ImageSpec const *self
+    OpenImageIO_v2_2_ImageSpec const * self
     , _Bool native)
 {
-    return (reinterpret_cast<OpenImageIO_v2_2::ImageSpec const *>(self)) -> 
-        scanline_bytes(
-             native
-            );
+    return (to_cpp(self)) -> scanline_bytes(native);
 }
+
 void OpenImageIO_v2_2_ImageSpec_auto_stride(
-    OpenImageIO_v2_2_ImageSpec *self
-    , long *xstride
-    , long *ystride
-    , long *zstride
+    OpenImageIO_v2_2_ImageSpec * self
+    , long * xstride
+    , long * ystride
+    , long * zstride
     , long channelsize
     , int nchannels
     , int width
     , int height)
 {
-    (reinterpret_cast<OpenImageIO_v2_2::ImageSpec *>(self)) -> 
-        auto_stride(
-             *(reinterpret_cast<long *>(xstride))
-            ,*(reinterpret_cast<long *>(ystride))
-            ,*(reinterpret_cast<long *>(zstride))
-            ,channelsize
-            ,nchannels
-            ,width
-            ,height
-            );
+    (to_cpp(self)) -> auto_stride(to_cpp_ref(xstride), to_cpp_ref(ystride), to_cpp_ref(zstride), channelsize, nchannels, width, height);
 }
+
 void OpenImageIO_v2_2_ImageSpec_ImageSpec(
-    OpenImageIO_v2_2_ImageSpec *self
-    , OpenImageIO_v2_2_ImageSpec const *other)
+    OpenImageIO_v2_2_ImageSpec * self
+    , OpenImageIO_v2_2_ImageSpec const * other)
 {
-    new (self) ImageSpec(
-             *(reinterpret_cast<OpenImageIO_v2_2::ImageSpec const *>(other))
-            );
+    new (self) ImageSpec(to_cpp_ref(other));
 }
-OpenImageIO_v2_2_ImageSpec *OpenImageIO_v2_2_ImageSpec_operator=(
-    OpenImageIO_v2_2_ImageSpec *self
-    , OpenImageIO_v2_2_ImageSpec const *other)
+
+OpenImageIO_v2_2_ImageSpec * OpenImageIO_v2_2_ImageSpec_operator=(
+    OpenImageIO_v2_2_ImageSpec * self
+    , OpenImageIO_v2_2_ImageSpec const * other)
 {
-    return reinterpret_cast<OpenImageIO_v2_2_ImageSpec *>((reinterpret_cast<OpenImageIO_v2_2::ImageSpec *>(self)) -> 
-        operator=(
-             *(reinterpret_cast<OpenImageIO_v2_2::ImageSpec const *>(other))
-            ));
+    return to_c((to_cpp(self)) -> operator=(to_cpp_ref(other)));
 }
-char *OpenImageIO_v2_2_ImageInput_format_name(
-    OpenImageIO_v2_2_ImageInput const *self)
+
+char * OpenImageIO_v2_2_ImageInput_format_name(
+    OpenImageIO_v2_2_ImageInput const * self)
 {
-    return reinterpret_cast<char *>((reinterpret_cast<OpenImageIO_v2_2::ImageInput const *>(self)) -> 
-        format_name());
+    return to_c((to_cpp(self)) -> format_name());
 }
