@@ -1169,6 +1169,12 @@ void process_enum_decl(const EnumDecl* ed, std::string filename) {
     assert(ed && "canonical decl is null");
     const std::string enum_name = ed->getQualifiedNameAsString();
     const std::string enum_short_name = ed->getNameAsString();
+
+    if (NODE_MAP.find(enum_name) != NODE_MAP.end()) {
+        // already done this one
+        return;
+    }
+
     // Get the translation unit node we're going to add this Enum to
     auto* node_tu = get_translation_unit(filename);
     const std::vector<NodeId> namespaces =
@@ -1648,13 +1654,12 @@ void ProcessBindingConsumer::HandleTranslationUnit(ASTContext& context) {
     // and a matcher for each enum
     for (const auto& kv : binding_enums) {
         SPDLOG_DEBUG("Adding matcher for enum {}", kv.first);
-        DeclarationMatcher function_decl_matcher =
-            functionDecl(
-                hasName(kv.second.short_name),
-                unless(hasAncestor(namespaceDecl(hasName("cppmm_bind")))),
-                unless(hasAncestor(recordDecl())))
+        DeclarationMatcher enum_decl_matcher =
+            enumDecl(hasName(kv.second.short_name),
+                     unless(hasAncestor(namespaceDecl(hasName("cppmm_bind")))),
+                     unless(hasAncestor(recordDecl())))
                 .bind("libraryEnumDecl");
-        _library_finder.addMatcher(function_decl_matcher, &_library_handler);
+        _library_finder.addMatcher(enum_decl_matcher, &_library_handler);
     }
 
     _library_finder.matchAST(context);
