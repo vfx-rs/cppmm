@@ -980,7 +980,6 @@ void record_detail(TypeRegistry & type_registry, TranslationUnit & c_tu,
     // Least safe and most restrictive in use, but easiest to implement.
     // So doing that first. Later will switch depending on the cppm attributes.
     auto & c_record = type_registry.edit_c(cpp_record.id); // TODO LT: Return optional for error
-    opaquebytes_record(c_record);
 
     // Most simple record implementation is the opaque bytes.
     // Least safe and most restrictive in use, but easiest to implement.
