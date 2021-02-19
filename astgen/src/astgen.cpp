@@ -124,7 +124,6 @@ int main(int argc_, const char** argv_) {
     }
 
     std::string respath1 = (exe_path.parent_path() / "resources").string();
-    SPDLOG_WARN("respath1 = {}", respath1);
     if (!has_ddash) {
         argv[i++] = "--";
         argc++;
@@ -200,7 +199,6 @@ int main(int argc_, const char** argv_) {
     if (opt_output_directory != "") {
         output_dir = opt_output_directory;
     }
-    std::cerr << "OUTPUT DIR: " << output_dir << std::endl;
 
     for (const auto& i : opt_includes) {
         project_includes.push_back(i);
@@ -210,9 +208,6 @@ int main(int argc_, const char** argv_) {
     for (const auto& l : opt_libraries) {
         project_libraries.push_back(l);
     }
-
-    fmt::print("source files: [{}]\n",
-               ps::join(", ", OptionsParser.getSourcePathList()));
 
     // get direct includes from the binding files to re-insert into the
     // generated bindings
