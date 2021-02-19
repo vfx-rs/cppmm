@@ -26,6 +26,14 @@ env LLVM_ROOT=</path/to/llvm/installation> cmake ..
 make
 ```
 
+### Build a debug build
+To build:
+```
+mkdir build && cd build
+env LLVM_ROOT=</path/to/llvm/installation> cmake -DCMAKE_BUILD_TYPE=Debug ..
+make
+```
+
 ### Test
 Some basic integration tests are in place using CTest. To run them you'll need to set the environment variables `OIIO_ROOT` and `OPENEXR_ROOT` to point to the relevant installations. Since the tests diff the output against reference you'll probably need the same versions (at least to minor versions) in order to not get spurious errors. Those versions are:
 ```

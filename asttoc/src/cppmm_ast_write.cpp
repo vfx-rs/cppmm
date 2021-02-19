@@ -19,6 +19,17 @@ class Root;
 
 namespace write
 {
+
+enum class Access : uint32_t {
+    Private = 0,
+    Public
+};
+
+enum class Place : uint32_t {
+    Header = 0,
+    Source 
+};
+
 //------------------------------------------------------------------------------
 void indent(fmt::ostream & out, const size_t depth)
 {
@@ -29,12 +40,13 @@ void indent(fmt::ostream & out, const size_t depth)
 }
 
 //------------------------------------------------------------------------------
-std::string compute_c_header_path(const std::string & path)
+std::string compute_c_header_path(const std::string & path,
+                                  const char * extension)
 {
     std::string _;
     std::string result;
     pystring::os::path::splitext(result, _, path);
-    result += ".h";
+    result += extension;
 
     return result;
 }
@@ -63,8 +75,19 @@ std::string convert_pointer_param(const NodeTypePtr & t,
 {
     auto p = static_cast<const NodePointerType*>(t.get());
 
-    return convert_param(p->pointee_type,
-                         fmt::format("*{}", name));
+    switch(p->pointer_kind)
+    {
+        case PointerKind::Pointer:
+            return convert_param(p->pointee_type,
+                                 fmt::format("* {}", name));
+        case PointerKind::Reference:
+            return convert_param(p->pointee_type,
+                                 fmt::format("& {}", name));
+        default:
+            break;
+    }
+
+    return "";
 }
 
 //------------------------------------------------------------------------------
@@ -153,17 +176,23 @@ void write_params(fmt::ostream & out, const NodeFunction & function)
 }
 
 //------------------------------------------------------------------------------
-void write_function(fmt::ostream & out, const NodePtr & node)
+void write_function_dcl(fmt::ostream & out, const NodePtr & node, Access access)
 {
     const NodeFunction & function =
         *static_cast<const NodeFunction*>(node.get());
 
-    out.print("{}(", convert_param(function.return_type,
-                                   function.name));
-    write_params(out, function);
-    out.print(");\n");
+    const bool private_ = (access == Access::Private);
+    if(private_ == function.private_)
+    {
+        out.print("\n");
+        out.print("{}(", convert_param(function.return_type,
+                                       function.name));
+        write_params(out, function);
+        out.print(");\n");
+    }
 }
 
+//------------------------------------------------------------------------------
 void write_expression(fmt::ostream & out, size_t depth,
                       const NodeExprPtr & node);
 
@@ -179,25 +208,19 @@ void write_function_call_arguments(fmt::ostream & out,
     else
     {
         // start
-        out.print("(\n");
+        out.print("(");
 
         // First argument
-        indent(out, depth + 1);
-        out.print(" ");
         write_expression(out, depth, function_call.args[0]);
-        out.print("\n");
 
         // All the others
         for(size_t i=1; i < function_call.args.size(); ++i)
         {
-            indent(out, depth + 1);
-            out.print(",");
+            out.print(", ");
             write_expression(out, depth, function_call.args[i]);
-            out.print("\n");
         }
 
         // start
-        indent(out, depth + 1);
         out.print(")");
     }
 }
@@ -211,7 +234,7 @@ void write_expression_function_call(fmt::ostream & out,
         *static_cast<const NodeMethodCallExpr*>(node.get());
 
     out.print("{}", function_call.name);
-    write_function_call_arguments(out, depth+1, function_call);
+    write_function_call_arguments(out, depth, function_call);
 }
 
 //------------------------------------------------------------------------------
@@ -223,10 +246,8 @@ void write_expression_method_call(fmt::ostream & out,
 
     out.print("(");
     write_expression(out, depth, method_call.this_);
-    out.print(") -> \n");
-    indent(out, depth + 1);
-    out.print("{}", method_call.name);
-    write_function_call_arguments(out, depth+1, method_call);
+    out.print(") -> {}", method_call.name);
+    write_function_call_arguments(out, depth, method_call);
 }
 
 //------------------------------------------------------------------------------
@@ -301,6 +322,45 @@ void write_expression_return(fmt::ostream & out, size_t depth,
 }
 
 //------------------------------------------------------------------------------
+void write_expression_var_decl(fmt::ostream & out, size_t depth,
+                               const NodeExprPtr & node)
+{
+    const auto & var_decl_expr =
+        *static_cast<const NodeVarDeclExpr*>(node.get());
+
+    out.print("{}", convert_param(var_decl_expr.var_type,
+                                  var_decl_expr.var_name));
+}
+
+//------------------------------------------------------------------------------
+void write_expression_block(fmt::ostream & out, size_t depth,
+                               const NodeExprPtr & node)
+{
+    const auto & block_expr =
+        *static_cast<const NodeBlockExpr*>(node.get());
+
+    for(auto & i : block_expr.expressions)
+    {
+        indent(out, depth);
+        write_expression(out, depth + 1, i);
+        out.print(";\n");
+    }
+}
+
+//------------------------------------------------------------------------------
+void write_expression_assign(fmt::ostream & out, size_t depth,
+                             const NodeExprPtr & node)
+{
+    const auto & assign_expr =
+        *static_cast<const NodeAssignExpr*>(node.get());
+
+    
+    write_expression(out, depth + 1, assign_expr.lhs);
+    out.print(" = ");
+    write_expression(out, depth + 1, assign_expr.rhs);
+}
+
+//------------------------------------------------------------------------------
 void write_expression(fmt::ostream & out, size_t depth,
                       const NodeExprPtr & node)
 {
@@ -328,6 +388,12 @@ void write_expression(fmt::ostream & out, size_t depth,
             return write_expression_placement_new(out, depth, node);
         case NodeKind::ReturnExpr:
             return write_expression_return(out, depth, node);
+        case NodeKind::VarDeclExpr:
+            return write_expression_var_decl(out, depth, node);
+        case NodeKind::BlockExpr:
+            return write_expression_block(out, depth, node);
+        case NodeKind::AssignExpr:
+            return write_expression_assign(out, depth, node);
         default:
             break;
     }
@@ -336,21 +402,62 @@ void write_expression(fmt::ostream & out, size_t depth,
 }
 
 //------------------------------------------------------------------------------
-void write_function_body(fmt::ostream & out, const NodePtr & node)
+void write_function_bdy(fmt::ostream & out, const NodePtr & node, Access access)
 {
     const NodeFunction & function =
         *static_cast<const NodeFunction*>(node.get());
 
-    out.print("{}(", convert_param(function.return_type,
-                                   function.name));
-    write_params(out, function);
-    out.print(")\n");
-    out.print("{{\n");
-    indent(out, 1);
-    write_expression(out, 1, function.body);
-    out.print(";\n");
-    out.print("}}\n");
+    const bool private_ = (access == Access::Private);
+    if(private_ == function.private_)
+    {
+        out.print("\n");
+        if(function.inline_)
+        {
+            out.print("inline ");
+        }
+
+        out.print("{}(", convert_param(function.return_type,
+                                       function.name));
+        write_params(out, function);
+        out.print(")\n");
+        out.print("{{\n");
+        write_expression(out, 1, function.body);
+        out.print("}}\n");
+    }
 }
+
+//------------------------------------------------------------------------------
+void write_function(fmt::ostream & out, const NodePtr & node, Access access,
+                    Place place)
+{
+    const NodeFunction & function =
+        *static_cast<const NodeFunction*>(node.get());
+
+    if(function.inline_)
+    {
+        switch(place)
+        {
+        case Place::Header:
+            write_function_bdy(out, node, access);
+            return;
+        default:
+            return;
+        }
+    }
+    else
+    {
+        switch(place)
+        {
+        case Place::Header:
+            write_function_dcl(out, node, access);
+            return;
+        case Place::Source:
+            write_function_bdy(out, node, access);
+            return;
+        }
+    }
+}
+
 
 //------------------------------------------------------------------------------
 void write_header_includes(fmt::ostream & out, const TranslationUnit & tu)
@@ -364,9 +471,52 @@ void write_header_includes(fmt::ostream & out, const TranslationUnit & tu)
 }
 
 //------------------------------------------------------------------------------
+void write_source_includes(fmt::ostream & out, const TranslationUnit & tu)
+{
+    if(!tu.header_filename.empty())
+    {
+        out.print("{}\n\n", tu.header_filename);
+    }
+
+    for(const auto & i : tu.source_includes)
+    {
+        out.print("{}\n", i);
+    }
+
+    for(const auto & i : tu.source_private_includes)
+    {
+        out.print("{}\n", i);
+    }
+
+    if(!tu.private_header_filename.empty())
+    {
+        out.print("{}\n", tu.private_header_filename);
+    }
+
+    out.print("\n");
+}
+
+//------------------------------------------------------------------------------
+void write_private_header(const TranslationUnit & tu)
+{
+    auto out =
+        fmt::output_file(compute_c_header_path(tu.filename, "_private.h"));
+
+    // Then all the private functions
+    for(const auto & node : tu.decls)
+    {
+        if (node->kind == NodeKind::Function)
+        {
+            out.print("\n");
+            write_function(out, node, Access::Private, Place::Header);
+        }
+    }
+}
+
+//------------------------------------------------------------------------------
 void write_header(const TranslationUnit & tu)
 {
-    auto out = fmt::output_file(compute_c_header_path(tu.filename));
+    auto out = fmt::output_file(compute_c_header_path(tu.filename, ".h"));
 
     // Write all the includes needed in the header file
     write_header_includes(out, tu);
@@ -389,31 +539,15 @@ void write_header(const TranslationUnit & tu)
         }
     }
 
-    // Then all the functions
+    // Then all the public functions
     for(const auto & node : tu.decls)
     {
         if (node->kind == NodeKind::Function)
         {
             out.print("\n");
-            write_function(out, node);
+            write_function(out, node, Access::Public, Place::Header);
         }
     }
-}
-
-//------------------------------------------------------------------------------
-void write_source_includes(fmt::ostream & out, const TranslationUnit & tu)
-{
-    if(!tu.header_filename.empty())
-    {
-        out.print("{}\n\n", tu.header_filename);
-    }
-
-    for(const auto & i : tu.source_includes)
-    {
-        out.print("{}\n", i);
-    }
-
-    out.print("\n");
 }
 
 //------------------------------------------------------------------------------
@@ -429,7 +563,7 @@ void write_source(const TranslationUnit & tu)
     {
         if (node->kind == NodeKind::Function)
         {
-            write_function_body(out, node);
+            write_function(out, node, Access::Public, Place::Source);
         }
     }
 }
@@ -438,6 +572,7 @@ void write_source(const TranslationUnit & tu)
 void write_translation_unit(const TranslationUnit & tu)
 {
     write_header(tu);
+    write_private_header(tu);
     write_source(tu);
 }
 

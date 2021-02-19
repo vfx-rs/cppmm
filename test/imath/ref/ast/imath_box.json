@@ -1,12 +1,15 @@
 {
     "kind": "TranslationUnit",
-    "filename": "/home/anders/code/cppmm/test/imath/bind/imath_box.cpp",
+    "filename": "/Volumes/src/cppmm/test/imath/bind/imath_box.cpp",
     "source_includes": [
         "#include <OpenEXR/ImathBox.h>",
         "#include <cppmm_bind.hpp>"
     ],
     "include_paths": [
-        "/home/anders/packages/openexr/2.5.5/include"
+        "../test/",
+        "../test/imath/bind",
+        "/Volumes/src/packages/usr/local/include",
+        "/Volumes/src/cppmm/build/../test/imath/bind"
     ],
     "id": 5,
     "decls": [
@@ -38,7 +41,7 @@
                         "kind": "RecordType",
                         "id": 1,
                         "type": "Imath_2_5::Vec3<float>",
-                        "record": 24,
+                        "record": 25,
                         "const": false
                     }
                 },
@@ -49,7 +52,7 @@
                         "kind": "RecordType",
                         "id": 1,
                         "type": "Imath_2_5::Vec3<float>",
-                        "record": 24,
+                        "record": 25,
                         "const": false
                     }
                 }
@@ -59,7 +62,7 @@
                     "kind": "Method",
                     "id": 0,
                     "short_name": "extendBy",
-                    "qualified_name": "Imath_2_5::Box<Imath_2_5::Vec3<float> >::extendBy",
+                    "qualified_name": "Imath_2_5::Box<Imath_2_5::Vec3<float>>::extendBy",
                     "in_binding": true,
                     "in_library": false,
                     "static": false,
@@ -93,7 +96,7 @@
                                     "kind": "RecordType",
                                     "id": 1,
                                     "type": "Imath_2_5::Vec3<float>",
-                                    "record": 24,
+                                    "record": 25,
                                     "const": true
                                 },
                                 "const": false
@@ -106,7 +109,7 @@
                     "kind": "Method",
                     "id": 0,
                     "short_name": "extendBy",
-                    "qualified_name": "Imath_2_5::Box<Imath_2_5::Vec3<float> >::extendBy",
+                    "qualified_name": "Imath_2_5::Box<Imath_2_5::Vec3<float>>::extendBy",
                     "in_binding": true,
                     "in_library": false,
                     "static": false,
@@ -194,7 +197,7 @@
                     "kind": "Method",
                     "id": 0,
                     "short_name": "extendBy",
-                    "qualified_name": "Imath_2_5::Box<Imath_2_5::Vec3<int> >::extendBy",
+                    "qualified_name": "Imath_2_5::Box<Imath_2_5::Vec3<int>>::extendBy",
                     "in_binding": true,
                     "in_library": false,
                     "static": false,
@@ -241,7 +244,7 @@
                     "kind": "Method",
                     "id": 0,
                     "short_name": "extendBy",
-                    "qualified_name": "Imath_2_5::Box<Imath_2_5::Vec3<int> >::extendBy",
+                    "qualified_name": "Imath_2_5::Box<Imath_2_5::Vec3<int>>::extendBy",
                     "in_binding": true,
                     "in_library": false,
                     "static": false,

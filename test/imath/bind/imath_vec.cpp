@@ -11,17 +11,20 @@ template <class T> class Vec3 {
 public:
     // This allows us to see through to the type in Imath
     using BoundType = ::Imath::Vec3<T>;
-#if 0
+
+    Vec3( );
+    Vec3( const ::Imath::Vec3<T>& v );
 
     // we're not actually paying any attention to the method declarations yet
     // no matching
+    /*
     bool equalWithAbsError(const Vec3<T>& v, T e) const;
     bool equalWithRelError(const Vec3<T>& v, T e) const;
+    */
 
     T dot(const ::Imath::Vec3<T>& v) const;
     ::Imath::Vec3<T> cross(const ::Imath::Vec3<T>& v) const;
     const ::Imath::Vec3<T>& operator+=(const ::Imath::Vec3<T>& v) CPPMM_RENAME(op_iadd) ;
-#endif
 
     const ::Imath::Vec3<T>& normalize();
     ::Imath::Vec3<T> normalized() const;
