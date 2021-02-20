@@ -1,0 +1,190 @@
+{
+    "kind": "TranslationUnit",
+    "filename": "/home/anders/code/cppmm/test/openexr/bind/imf_flatimagechannel.cpp",
+    "source_includes": [
+        "#include <OpenEXR/ImfFlatImageChannel.h>",
+        "#include <cppmm_bind.hpp>"
+    ],
+    "include_paths": [
+        "/home/anders/packages/openexr/2.5.5/include",
+        "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
+    ],
+    "id": 82,
+    "decls": [
+        {
+            "kind": "Namespace",
+            "name": "Imf_2_5",
+            "id": 1,
+            "short_name": "Imf_2_5"
+        },
+        {
+            "kind": "Record",
+            "name": "Imf_2_5::FlatImageChannel",
+            "short_name": "FlatImageChannel",
+            "namespaces": [
+                1
+            ],
+            "id": 83,
+            "size": 384,
+            "align": 64,
+            "alias": "FlatImageChannel",
+            "attributes": [
+                "cppmm:opaquebytes"
+            ],
+            "fields": null,
+            "methods": null
+        },
+        {
+            "kind": "Record",
+            "name": "Imf_2_5::TypedFlatImageChannel<half>",
+            "short_name": "TypedFlatImageChannel",
+            "namespaces": [
+                1
+            ],
+            "id": 88,
+            "size": 512,
+            "align": 64,
+            "alias": "FlatHalfChannel",
+            "attributes": [
+                "cppmm:opaquebytes"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "_pixels",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 93,
+                        "type": "class half *",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 90,
+                            "type": "half",
+                            "record": 239,
+                            "const": false
+                        },
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_base",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 93,
+                        "type": "class half *",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 90,
+                            "type": "half",
+                            "record": 239,
+                            "const": false
+                        },
+                        "const": false
+                    }
+                }
+            ],
+            "methods": null
+        },
+        {
+            "kind": "Record",
+            "name": "Imf_2_5::TypedFlatImageChannel<float>",
+            "short_name": "TypedFlatImageChannel",
+            "namespaces": [
+                1
+            ],
+            "id": 95,
+            "size": 512,
+            "align": 64,
+            "alias": "FlatFloatChannel",
+            "attributes": [
+                "cppmm:opaquebytes"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "_pixels",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 59,
+                        "type": "float *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 14,
+                            "type": "float",
+                            "const": false
+                        },
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_base",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 59,
+                        "type": "float *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 14,
+                            "type": "float",
+                            "const": false
+                        },
+                        "const": false
+                    }
+                }
+            ],
+            "methods": null
+        },
+        {
+            "kind": "Record",
+            "name": "Imf_2_5::TypedFlatImageChannel<unsigned int>",
+            "short_name": "TypedFlatImageChannel",
+            "namespaces": [
+                1
+            ],
+            "id": 98,
+            "size": 512,
+            "align": 64,
+            "alias": "FlatUIntChannel",
+            "attributes": [
+                "cppmm:opaquebytes"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "_pixels",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 102,
+                        "type": "unsigned int *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 99,
+                            "type": "unsigned int",
+                            "const": false
+                        },
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_base",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 102,
+                        "type": "unsigned int *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 99,
+                            "type": "unsigned int",
+                            "const": false
+                        },
+                        "const": false
+                    }
+                }
+            ],
+            "methods": null
+        }
+    ]
+}

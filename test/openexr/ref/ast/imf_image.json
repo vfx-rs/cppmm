@@ -1,0 +1,94 @@
+{
+    "kind": "TranslationUnit",
+    "filename": "/home/anders/code/cppmm/test/openexr/bind/imf_image.cpp",
+    "source_includes": [
+        "#include <OpenEXR/ImfImage.h>",
+        "#include <cppmm_bind.hpp>"
+    ],
+    "include_paths": [
+        "/home/anders/packages/openexr/2.5.5/include",
+        "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
+    ],
+    "id": 381,
+    "decls": [
+        {
+            "kind": "Namespace",
+            "name": "Imf_2_5",
+            "id": 1,
+            "short_name": "Imf_2_5"
+        },
+        {
+            "kind": "Record",
+            "name": "Imf_2_5::Image",
+            "short_name": "Image",
+            "namespaces": [
+                1
+            ],
+            "id": 382,
+            "size": 832,
+            "align": 64,
+            "alias": "Image",
+            "attributes": [
+                "cppmm:opaquebytes"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "_dataWindow",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 12,
+                        "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
+                        "record": -1,
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_levelMode",
+                    "type": {
+                        "kind": "EnumType",
+                        "id": 198,
+                        "type": "Imf_2_5::LevelMode",
+                        "enum": 400,
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_levelRoundingMode",
+                    "type": {
+                        "kind": "EnumType",
+                        "id": 199,
+                        "type": "Imf_2_5::LevelRoundingMode",
+                        "enum": 401,
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_channels",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 386,
+                        "type": "std::map<std::__cxx11::basic_string<char>, Imf_2_5::Image::ChannelInfo, std::less<std::__cxx11::basic_string<char> >, std::allocator<std::pair<const std::__cxx11::basic_string<char>, Imf_2_5::Image::ChannelInfo> > >",
+                        "record": -1,
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_levels",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 387,
+                        "type": "Imf_2_5::Array2D<Imf_2_5::ImageLevel *>",
+                        "record": -1,
+                        "const": false
+                    }
+                }
+            ],
+            "methods": null
+        }
+    ]
+}

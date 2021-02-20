@@ -1,0 +1,56 @@
+{
+    "kind": "TranslationUnit",
+    "filename": "/home/anders/code/cppmm/test/openexr/bind/imf_outputfile.cpp",
+    "source_includes": [
+        "#include <OpenEXR/ImfOutputFile.h>",
+        "#include <cppmm_bind.hpp>"
+    ],
+    "include_paths": [
+        "/home/anders/packages/openexr/2.5.5/include",
+        "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
+    ],
+    "id": 264,
+    "decls": [
+        {
+            "kind": "Namespace",
+            "name": "Imf_2_5",
+            "id": 1,
+            "short_name": "Imf_2_5"
+        },
+        {
+            "kind": "Record",
+            "name": "Imf_2_5::OutputFile",
+            "short_name": "OutputFile",
+            "namespaces": [
+                1
+            ],
+            "id": 265,
+            "size": 128,
+            "align": 64,
+            "alias": "OutputFile",
+            "attributes": [
+                "cppmm:opaquebytes"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "_data",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 271,
+                        "type": "struct Imf_2_5::OutputFile::Data *",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 270,
+                            "type": "Imf_2_5::OutputFile::Data",
+                            "record": -1,
+                            "const": false
+                        },
+                        "const": false
+                    }
+                }
+            ],
+            "methods": null
+        }
+    ]
+}

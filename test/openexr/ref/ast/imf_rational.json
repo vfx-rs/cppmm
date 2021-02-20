@@ -1,0 +1,59 @@
+{
+    "kind": "TranslationUnit",
+    "filename": "/home/anders/code/cppmm/test/openexr/bind/imf_rational.cpp",
+    "source_includes": [
+        "#include <OpenEXR/ImfRational.h>",
+        "#include <cppmm_bind.hpp>"
+    ],
+    "include_paths": [
+        "/home/anders/packages/openexr/2.5.5/include",
+        "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
+    ],
+    "id": 871,
+    "decls": [
+        {
+            "kind": "Namespace",
+            "name": "Imf_2_5",
+            "id": 1,
+            "short_name": "Imf_2_5"
+        },
+        {
+            "kind": "Record",
+            "name": "Imf_2_5::Rational",
+            "short_name": "Rational",
+            "namespaces": [
+                1
+            ],
+            "id": 872,
+            "size": 64,
+            "align": 32,
+            "alias": "Rational",
+            "attributes": [
+                "cppmm:valuetype"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "n",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "d",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 99,
+                        "type": "unsigned int",
+                        "const": false
+                    }
+                }
+            ],
+            "methods": null
+        }
+    ]
+}

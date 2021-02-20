@@ -1,0 +1,186 @@
+{
+    "kind": "TranslationUnit",
+    "filename": "/home/anders/code/cppmm/test/openexr/bind/imf_b44compressor.cpp",
+    "source_includes": [
+        "#include <OpenEXR/ImfB44Compressor.h>",
+        "#include <cppmm_bind.hpp>"
+    ],
+    "include_paths": [
+        "/home/anders/packages/openexr/2.5.5/include",
+        "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
+    ],
+    "id": 402,
+    "decls": [
+        {
+            "kind": "Namespace",
+            "name": "Imf_2_5",
+            "id": 1,
+            "short_name": "Imf_2_5"
+        },
+        {
+            "kind": "Record",
+            "name": "Imf_2_5::B44Compressor",
+            "short_name": "B44Compressor",
+            "namespaces": [
+                1
+            ],
+            "id": 403,
+            "size": 704,
+            "align": 64,
+            "alias": "B44Compressor",
+            "attributes": [
+                "cppmm:opaqueptr"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "_maxScanLineSize",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_optFlatFields",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 31,
+                        "type": "_Bool",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_format",
+                    "type": {
+                        "kind": "EnumType",
+                        "id": 408,
+                        "type": "Imf_2_5::Compressor::Format",
+                        "enum": -1,
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_numScanLines",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_tmpBuffer",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 409,
+                        "type": "unsigned short *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 241,
+                            "type": "unsigned short",
+                            "const": false
+                        },
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_outBuffer",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 72,
+                        "type": "char *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 29,
+                            "type": "char",
+                            "const": false
+                        },
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_numChans",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_channels",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 321,
+                        "type": "const class Imf_2_5::ChannelList &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 319,
+                            "type": "Imf_2_5::ChannelList",
+                            "record": 766,
+                            "const": true
+                        },
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_channelData",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 411,
+                        "type": "struct Imf_2_5::B44Compressor::ChannelData *",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 410,
+                            "type": "Imf_2_5::B44Compressor::ChannelData",
+                            "record": -1,
+                            "const": false
+                        },
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_minX",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_maxX",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_maxY",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    }
+                }
+            ],
+            "methods": null
+        }
+    ]
+}

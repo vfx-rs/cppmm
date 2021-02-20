@@ -1,0 +1,134 @@
+{
+    "kind": "TranslationUnit",
+    "filename": "/home/anders/code/cppmm/test/openexr/bind/imf_previewimage.cpp",
+    "source_includes": [
+        "#include <OpenEXR/ImfPreviewImage.h>",
+        "#include <cppmm_bind.hpp>"
+    ],
+    "include_paths": [
+        "/home/anders/packages/openexr/2.5.5/include",
+        "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
+    ],
+    "id": 285,
+    "decls": [
+        {
+            "kind": "Namespace",
+            "name": "Imf_2_5",
+            "id": 1,
+            "short_name": "Imf_2_5"
+        },
+        {
+            "kind": "Record",
+            "name": "Imf_2_5::PreviewRgba",
+            "short_name": "PreviewRgba",
+            "namespaces": [
+                1
+            ],
+            "id": 286,
+            "size": 32,
+            "align": 8,
+            "alias": "PreviewRgba",
+            "attributes": [
+                "cppmm:valuetype"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "r",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 287,
+                        "type": "unsigned char",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "g",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 287,
+                        "type": "unsigned char",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "b",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 287,
+                        "type": "unsigned char",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "a",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 287,
+                        "type": "unsigned char",
+                        "const": false
+                    }
+                }
+            ],
+            "methods": null
+        },
+        {
+            "kind": "Record",
+            "name": "Imf_2_5::PreviewImage",
+            "short_name": "PreviewImage",
+            "namespaces": [
+                1
+            ],
+            "id": 288,
+            "size": 128,
+            "align": 64,
+            "alias": "PreviewImage",
+            "attributes": [
+                "cppmm:opaquebytes"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "_width",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 99,
+                        "type": "unsigned int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_height",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 99,
+                        "type": "unsigned int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_pixels",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 292,
+                        "type": "struct Imf_2_5::PreviewRgba *",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 21,
+                            "type": "Imf_2_5::PreviewRgba",
+                            "record": 286,
+                            "const": false
+                        },
+                        "const": false
+                    }
+                }
+            ],
+            "methods": null
+        }
+    ]
+}

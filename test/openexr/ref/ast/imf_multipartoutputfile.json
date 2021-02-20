@@ -1,0 +1,56 @@
+{
+    "kind": "TranslationUnit",
+    "filename": "/home/anders/code/cppmm/test/openexr/bind/imf_multipartoutputfile.cpp",
+    "source_includes": [
+        "#include <OpenEXR/ImfMultiPartOutputFile.h>",
+        "#include <cppmm_bind.hpp>"
+    ],
+    "include_paths": [
+        "/home/anders/packages/openexr/2.5.5/include",
+        "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
+    ],
+    "id": 695,
+    "decls": [
+        {
+            "kind": "Namespace",
+            "name": "Imf_2_5",
+            "id": 1,
+            "short_name": "Imf_2_5"
+        },
+        {
+            "kind": "Record",
+            "name": "Imf_2_5::MultiPartOutputFile",
+            "short_name": "MultiPartOutputFile",
+            "namespaces": [
+                1
+            ],
+            "id": 696,
+            "size": 128,
+            "align": 64,
+            "alias": "MultiPartOutputFile",
+            "attributes": [
+                "cppmm:opaquebytes"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "_data",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 701,
+                        "type": "struct Imf_2_5::MultiPartOutputFile::Data *",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 700,
+                            "type": "Imf_2_5::MultiPartOutputFile::Data",
+                            "record": -1,
+                            "const": false
+                        },
+                        "const": false
+                    }
+                }
+            ],
+            "methods": null
+        }
+    ]
+}

@@ -1,0 +1,119 @@
+{
+    "kind": "TranslationUnit",
+    "filename": "/home/anders/code/cppmm/test/openexr/bind/imf_array.cpp",
+    "source_includes": [
+        "#include <OpenEXR/ImfArray.h>",
+        "#include <cppmm_bind.hpp>"
+    ],
+    "include_paths": [
+        "/home/anders/packages/openexr/2.5.5/include",
+        "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
+    ],
+    "id": 295,
+    "decls": [
+        {
+            "kind": "Namespace",
+            "name": "Imf_2_5",
+            "id": 1,
+            "short_name": "Imf_2_5"
+        },
+        {
+            "kind": "Record",
+            "name": "Imf_2_5::Array<float>",
+            "short_name": "Array",
+            "namespaces": [
+                1
+            ],
+            "id": 296,
+            "size": 128,
+            "align": 64,
+            "alias": "ArrayFloat",
+            "attributes": [
+                "cppmm:opaquebytes"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "_size",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 44,
+                        "type": "long",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_data",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 59,
+                        "type": "float *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 14,
+                            "type": "float",
+                            "const": false
+                        },
+                        "const": false
+                    }
+                }
+            ],
+            "methods": null
+        },
+        {
+            "kind": "Record",
+            "name": "Imf_2_5::Array2D<float>",
+            "short_name": "Array2D",
+            "namespaces": [
+                1
+            ],
+            "id": 297,
+            "size": 192,
+            "align": 64,
+            "alias": "Array2DFloat",
+            "attributes": [
+                "cppmm:opaquebytes"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "_sizeX",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 44,
+                        "type": "long",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_sizeY",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 44,
+                        "type": "long",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_data",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 59,
+                        "type": "float *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 14,
+                            "type": "float",
+                            "const": false
+                        },
+                        "const": false
+                    }
+                }
+            ],
+            "methods": null
+        }
+    ]
+}

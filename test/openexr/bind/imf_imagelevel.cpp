@@ -1,0 +1,18 @@
+#include <OpenEXR/ImfImageLevel.h>
+
+#include <cppmm_bind.hpp>
+
+namespace cppmm_bind {
+
+namespace OPENEXR_IMF_INTERNAL_NAMESPACE {
+
+namespace Imf = ::OPENEXR_IMF_INTERNAL_NAMESPACE;
+
+struct ImageLevel {
+    using BoundType = Imf::ImageLevel;
+
+} CPPMM_OPAQUEPTR;
+
+} // namespace OPENEXR_IMF_INTERNAL_NAMESPACE
+
+} // namespace cppmm_bind

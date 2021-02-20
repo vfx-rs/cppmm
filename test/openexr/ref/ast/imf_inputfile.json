@@ -1,0 +1,56 @@
+{
+    "kind": "TranslationUnit",
+    "filename": "/home/anders/code/cppmm/test/openexr/bind/imf_inputfile.cpp",
+    "source_includes": [
+        "#include <OpenEXR/ImfInputFile.h>",
+        "#include <cppmm_bind.hpp>"
+    ],
+    "include_paths": [
+        "/home/anders/packages/openexr/2.5.5/include",
+        "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
+    ],
+    "id": 223,
+    "decls": [
+        {
+            "kind": "Namespace",
+            "name": "Imf_2_5",
+            "id": 1,
+            "short_name": "Imf_2_5"
+        },
+        {
+            "kind": "Record",
+            "name": "Imf_2_5::InputFile",
+            "short_name": "InputFile",
+            "namespaces": [
+                1
+            ],
+            "id": 224,
+            "size": 128,
+            "align": 64,
+            "alias": "InputFile",
+            "attributes": [
+                "cppmm:opaquebytes"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "_data",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 226,
+                        "type": "struct Imf_2_5::InputFile::Data *",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 225,
+                            "type": "Imf_2_5::InputFile::Data",
+                            "record": -1,
+                            "const": false
+                        },
+                        "const": false
+                    }
+                }
+            ],
+            "methods": null
+        }
+    ]
+}

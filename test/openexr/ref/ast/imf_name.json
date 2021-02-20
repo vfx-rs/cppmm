@@ -1,0 +1,47 @@
+{
+    "kind": "TranslationUnit",
+    "filename": "/home/anders/code/cppmm/test/openexr/bind/imf_name.cpp",
+    "source_includes": [
+        "#include <OpenEXR/ImfName.h>",
+        "#include <cppmm_bind.hpp>"
+    ],
+    "include_paths": [
+        "/home/anders/packages/openexr/2.5.5/include",
+        "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
+    ],
+    "id": 388,
+    "decls": [
+        {
+            "kind": "Namespace",
+            "name": "Imf_2_5",
+            "id": 1,
+            "short_name": "Imf_2_5"
+        },
+        {
+            "kind": "Record",
+            "name": "Imf_2_5::Name",
+            "short_name": "Name",
+            "namespaces": [
+                1
+            ],
+            "id": 389,
+            "size": 2048,
+            "align": 8,
+            "alias": "Name",
+            "attributes": [
+                "cppmm:opaquebytes"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "_text",
+                    "type": {
+                        "type": "UNKNOWN",
+                        "const": false
+                    }
+                }
+            ],
+            "methods": null
+        }
+    ]
+}

@@ -1,0 +1,169 @@
+{
+    "kind": "TranslationUnit",
+    "filename": "/home/anders/code/cppmm/test/openexr/bind/imf_channellist.cpp",
+    "source_includes": [
+        "#include <OpenEXR/ImfChannelList.h>",
+        "#include <cppmm_bind.hpp>"
+    ],
+    "include_paths": [
+        "/home/anders/packages/openexr/2.5.5/include",
+        "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
+    ],
+    "id": 763,
+    "decls": [
+        {
+            "kind": "Namespace",
+            "name": "Imf_2_5",
+            "id": 1,
+            "short_name": "Imf_2_5"
+        },
+        {
+            "kind": "Record",
+            "name": "Imf_2_5::Channel",
+            "short_name": "Channel",
+            "namespaces": [
+                1
+            ],
+            "id": 764,
+            "size": 128,
+            "align": 32,
+            "alias": "Channel",
+            "attributes": [
+                "cppmm:valuetype"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "type",
+                    "type": {
+                        "kind": "EnumType",
+                        "id": 89,
+                        "type": "Imf_2_5::PixelType",
+                        "enum": 417,
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "xSampling",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "ySampling",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "pLinear",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 31,
+                        "type": "_Bool",
+                        "const": false
+                    }
+                }
+            ],
+            "methods": null
+        },
+        {
+            "kind": "Record",
+            "name": "Imf_2_5::ChannelList",
+            "short_name": "ChannelList",
+            "namespaces": [
+                1
+            ],
+            "id": 766,
+            "size": 384,
+            "align": 64,
+            "alias": "ChannelList",
+            "attributes": [
+                "cppmm:opaqueptr"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "_map",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 777,
+                        "type": "std::map<Imf_2_5::Name, Imf_2_5::Channel, std::less<Imf_2_5::Name>, std::allocator<std::pair<const Imf_2_5::Name, Imf_2_5::Channel> > >",
+                        "record": -1,
+                        "const": false
+                    }
+                }
+            ],
+            "methods": null
+        },
+        {
+            "kind": "Record",
+            "name": "Imf_2_5::ChannelList::Iterator",
+            "short_name": "Iterator",
+            "namespaces": [
+                1,
+                766
+            ],
+            "id": 778,
+            "size": 64,
+            "align": 64,
+            "alias": "Iterator",
+            "attributes": [
+                "cppmm:opaqueptr"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "_i",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 779,
+                        "type": "std::_Rb_tree_iterator<std::pair<const Imf_2_5::Name, Imf_2_5::Channel> >",
+                        "record": -1,
+                        "const": false
+                    }
+                }
+            ],
+            "methods": null
+        },
+        {
+            "kind": "Record",
+            "name": "Imf_2_5::ChannelList::ConstIterator",
+            "short_name": "ConstIterator",
+            "namespaces": [
+                1,
+                766
+            ],
+            "id": 783,
+            "size": 64,
+            "align": 64,
+            "alias": "ConstIterator",
+            "attributes": [
+                "cppmm:opaqueptr"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "_i",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 784,
+                        "type": "std::_Rb_tree_const_iterator<std::pair<const Imf_2_5::Name, Imf_2_5::Channel> >",
+                        "record": -1,
+                        "const": false
+                    }
+                }
+            ],
+            "methods": null
+        }
+    ]
+}

@@ -1,0 +1,136 @@
+{
+    "kind": "TranslationUnit",
+    "filename": "/home/anders/code/cppmm/test/openexr/bind/imf_rgbafile.cpp",
+    "source_includes": [
+        "#include <OpenEXR/ImfRgbaFile.h>",
+        "#include <cppmm_bind.hpp>"
+    ],
+    "include_paths": [
+        "/home/anders/packages/openexr/2.5.5/include",
+        "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
+    ],
+    "id": 756,
+    "decls": [
+        {
+            "kind": "Namespace",
+            "name": "Imf_2_5",
+            "id": 1,
+            "short_name": "Imf_2_5"
+        },
+        {
+            "kind": "Record",
+            "name": "Imf_2_5::RgbaOutputFile",
+            "short_name": "RgbaOutputFile",
+            "namespaces": [
+                1
+            ],
+            "id": 757,
+            "size": 192,
+            "align": 64,
+            "alias": "RgbaOutputFile",
+            "attributes": [
+                "cppmm:opaquebytes"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "_outputFile",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 415,
+                        "type": "class Imf_2_5::OutputFile *",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 414,
+                            "type": "Imf_2_5::OutputFile",
+                            "record": 265,
+                            "const": false
+                        },
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_toYca",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 759,
+                        "type": "class Imf_2_5::RgbaOutputFile::ToYca *",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 758,
+                            "type": "Imf_2_5::RgbaOutputFile::ToYca",
+                            "record": -1,
+                            "const": false
+                        },
+                        "const": false
+                    }
+                }
+            ],
+            "methods": null
+        },
+        {
+            "kind": "Record",
+            "name": "Imf_2_5::RgbaInputFile",
+            "short_name": "RgbaInputFile",
+            "namespaces": [
+                1
+            ],
+            "id": 760,
+            "size": 448,
+            "align": 64,
+            "alias": "RgbaInputFile",
+            "attributes": [
+                "cppmm:opaquebytes"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "_inputFile",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 755,
+                        "type": "class Imf_2_5::InputFile *",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 266,
+                            "type": "Imf_2_5::InputFile",
+                            "record": 224,
+                            "const": false
+                        },
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_fromYca",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 762,
+                        "type": "class Imf_2_5::RgbaInputFile::FromYca *",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 761,
+                            "type": "Imf_2_5::RgbaInputFile::FromYca",
+                            "record": -1,
+                            "const": false
+                        },
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_channelNamePrefix",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 4,
+                        "type": "std::__cxx11::basic_string<char>",
+                        "record": -1,
+                        "const": false
+                    }
+                }
+            ],
+            "methods": null
+        }
+    ]
+}

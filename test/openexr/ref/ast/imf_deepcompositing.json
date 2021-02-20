@@ -1,0 +1,38 @@
+{
+    "kind": "TranslationUnit",
+    "filename": "/home/anders/code/cppmm/test/openexr/bind/imf_deepcompositing.cpp",
+    "source_includes": [
+        "#include <OpenEXR/ImfDeepCompositing.h>",
+        "#include <cppmm_bind.hpp>"
+    ],
+    "include_paths": [
+        "/home/anders/packages/openexr/2.5.5/include",
+        "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
+    ],
+    "id": 57,
+    "decls": [
+        {
+            "kind": "Namespace",
+            "name": "Imf_2_5",
+            "id": 1,
+            "short_name": "Imf_2_5"
+        },
+        {
+            "kind": "Record",
+            "name": "Imf_2_5::DeepCompositing",
+            "short_name": "DeepCompositing",
+            "namespaces": [
+                1
+            ],
+            "id": 58,
+            "size": 64,
+            "align": 64,
+            "alias": "DeepCompositing",
+            "attributes": [
+                "cppmm:opaqueptr"
+            ],
+            "fields": null,
+            "methods": null
+        }
+    ]
+}

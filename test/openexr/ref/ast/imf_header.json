@@ -1,0 +1,120 @@
+{
+    "kind": "TranslationUnit",
+    "filename": "/home/anders/code/cppmm/test/openexr/bind/imf_header.cpp",
+    "source_includes": [
+        "#include <OpenEXR/ImfHeader.h>",
+        "#include <cppmm_bind.hpp>"
+    ],
+    "include_paths": [
+        "/home/anders/packages/openexr/2.5.5/include",
+        "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
+    ],
+    "id": 310,
+    "decls": [
+        {
+            "kind": "Namespace",
+            "name": "Imf_2_5",
+            "id": 1,
+            "short_name": "Imf_2_5"
+        },
+        {
+            "kind": "Record",
+            "name": "Imf_2_5::Header",
+            "short_name": "Header",
+            "namespaces": [
+                1
+            ],
+            "id": 311,
+            "size": 448,
+            "align": 64,
+            "alias": "Header",
+            "attributes": [
+                "cppmm:opaquebytes"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "_map",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 331,
+                        "type": "std::map<Imf_2_5::Name, Imf_2_5::Attribute *, std::less<Imf_2_5::Name>, std::allocator<std::pair<const Imf_2_5::Name, Imf_2_5::Attribute *> > >",
+                        "record": -1,
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_readsNothing",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 31,
+                        "type": "_Bool",
+                        "const": false
+                    }
+                }
+            ],
+            "methods": null
+        },
+        {
+            "kind": "Record",
+            "name": "Imf_2_5::Header::Iterator",
+            "short_name": "Iterator",
+            "namespaces": [
+                1,
+                311
+            ],
+            "id": 332,
+            "size": 64,
+            "align": 64,
+            "alias": "Iterator",
+            "attributes": [
+                "cppmm:opaquebytes"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "_i",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 333,
+                        "type": "std::_Rb_tree_iterator<std::pair<const Imf_2_5::Name, Imf_2_5::Attribute *> >",
+                        "record": -1,
+                        "const": false
+                    }
+                }
+            ],
+            "methods": null
+        },
+        {
+            "kind": "Record",
+            "name": "Imf_2_5::Header::ConstIterator",
+            "short_name": "ConstIterator",
+            "namespaces": [
+                1,
+                311
+            ],
+            "id": 338,
+            "size": 64,
+            "align": 64,
+            "alias": "ConstIterator",
+            "attributes": [
+                "cppmm:opaquebytes"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "_i",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 339,
+                        "type": "std::_Rb_tree_const_iterator<std::pair<const Imf_2_5::Name, Imf_2_5::Attribute *> >",
+                        "record": -1,
+                        "const": false
+                    }
+                }
+            ],
+            "methods": null
+        }
+    ]
+}

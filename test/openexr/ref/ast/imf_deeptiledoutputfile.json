@@ -1,0 +1,56 @@
+{
+    "kind": "TranslationUnit",
+    "filename": "/home/anders/code/cppmm/test/openexr/bind/imf_deeptiledoutputfile.cpp",
+    "source_includes": [
+        "#include <OpenEXR/ImfDeepTiledOutputFile.h>",
+        "#include <cppmm_bind.hpp>"
+    ],
+    "include_paths": [
+        "/home/anders/packages/openexr/2.5.5/include",
+        "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
+    ],
+    "id": 421,
+    "decls": [
+        {
+            "kind": "Namespace",
+            "name": "Imf_2_5",
+            "id": 1,
+            "short_name": "Imf_2_5"
+        },
+        {
+            "kind": "Record",
+            "name": "Imf_2_5::DeepTiledOutputFile",
+            "short_name": "DeepTiledOutputFile",
+            "namespaces": [
+                1
+            ],
+            "id": 422,
+            "size": 128,
+            "align": 64,
+            "alias": "DeepTiledOutputFile",
+            "attributes": [
+                "cppmm:opaquebytes"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "_data",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 427,
+                        "type": "struct Imf_2_5::DeepTiledOutputFile::Data *",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 426,
+                            "type": "Imf_2_5::DeepTiledOutputFile::Data",
+                            "record": -1,
+                            "const": false
+                        },
+                        "const": false
+                    }
+                }
+            ],
+            "methods": null
+        }
+    ]
+}
