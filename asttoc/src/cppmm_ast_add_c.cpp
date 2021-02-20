@@ -569,6 +569,22 @@ NodeExprPtr opaquebytes_c_function_body(TypeRegistry & type_registry,
 }
 
 //------------------------------------------------------------------------------
+std::string find_method_short_name(const NodeMethod & cpp_method)
+{
+    auto prefix = std::string("cppmm:rename:");
+    for(auto & a: cpp_method.attrs)
+    {
+        if(pystring::startswith(a, prefix))
+        {
+            auto short_name = pystring::slice(a, prefix.size());
+            return short_name;
+        }
+    }
+
+    return cpp_method.short_name;
+}
+
+//------------------------------------------------------------------------------
 void opaquebytes_method(TypeRegistry & type_registry,
                         TranslationUnit & c_tu,
                         const NodeRecord & cpp_record,
@@ -608,10 +624,12 @@ void opaquebytes_method(TypeRegistry & type_registry,
         opaquebytes_c_function_body(type_registry, c_tu, cpp_record, c_record,
                                     c_return, cpp_method);
 
+    auto short_name = find_method_short_name(cpp_method);
+
     // Add the new function to the translation unit
     std::string method_name = c_record.name;
     method_name += "_";
-    method_name += compute_c_name(cpp_method.short_name);
+    method_name += compute_c_name(short_name);
     auto c_function = NodeFunction::n(
                         method_name, PLACEHOLDER_ID,
                         cpp_method.attrs, "", std::move(c_return),
