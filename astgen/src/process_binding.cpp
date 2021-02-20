@@ -82,6 +82,7 @@ enum class NodeKind : uint32_t {
     Method,
     Record,
     Enum,
+    ConstantArrayType,
 };
 
 std::ostream& operator<<(std::ostream& os, NodeKind k) {
@@ -323,6 +324,28 @@ struct NodePointerType : public NodeType {
 
         o["pointee"] = {};
         pointee_type.write_json(o["pointee"]);
+    }
+};
+
+/// A C-style array, e.g. float[3]
+struct NodeConstantArrayType : public NodeType {
+    QType element_type;
+    uint64_t size;
+
+    NodeConstantArrayType(std::string qualified_name, NodeId id, NodeId context,
+                          std::string type_name, QType element_type,
+                          uint64_t size)
+        : NodeType(std::move(qualified_name), id, context,
+                   NodeKind::ConstantArrayType, std::move(type_name)),
+          element_type(element_type), size(size) {}
+
+    virtual void write_json(json& o) const override {
+        o["kind"] = "ConstantArrayType";
+        write_json_attrs(o);
+
+        o["size"] = size;
+        o["element_type"] = {};
+        element_type.write_json(o["element_type"]);
     }
 };
 
@@ -809,6 +832,27 @@ QType process_qtype(const QualType& qt) {
             NODE_MAP[pointer_type_name] = id;
         } else {
             // already done this type
+            id = it->second;
+        }
+
+        return QType{id, qt.isConstQualified()};
+    } else if (qt->isConstantArrayType()) {
+        // e.g. float[3]
+        const std::string type_name = qt.getCanonicalType().getAsString();
+        const std::string type_node_name = "TYPE:" + type_name;
+        auto it = NODE_MAP.find(type_node_name);
+        NodeId id;
+        if (it == NODE_MAP.end()) {
+            const ConstantArrayType* cat =
+                dyn_cast<ConstantArrayType>(qt.getTypePtr());
+            QType element_type = process_qtype(cat->getElementType());
+            id = NODES.size();
+            auto node_type = std::make_unique<NodeConstantArrayType>(
+                type_node_name, id, 0, type_name, element_type,
+                cat->getSize().getLimitedValue());
+            NODES.emplace_back(std::move(node_type));
+            NODE_MAP[type_node_name] = id;
+        } else {
             id = it->second;
         }
 
