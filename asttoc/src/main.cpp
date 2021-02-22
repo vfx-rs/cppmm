@@ -5,6 +5,7 @@
 #include "cppmm_ast_add_c.hpp"
 #include "cppmm_ast_read.hpp"
 #include "cppmm_ast_write_c.hpp"
+#include "cppmm_ast_write_cmake.hpp"
 
 #include "filesystem.hpp"
 
@@ -29,6 +30,9 @@ void generate(const char* input, const char* output) {
 
     // Save out only the c translation units
     cppmm::write::c(cpp_ast, starting_point);
+
+    // Create a cmake file as well
+    cppmm::write::cmake(cpp_ast, starting_point);
 }
 
 static cl::opt<std::string> opt_in_dir(cl::Positional, cl::desc("<input dir>"),
