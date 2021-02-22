@@ -8,6 +8,7 @@ add_executable(asttoc
   src/cppmm_ast_read.cpp
   src/cppmm_ast_add_c.cpp
   src/cppmm_ast_write_c.cpp
+  src/cppmm_ast_write_cmake.cpp
 )
 
 target_include_directories(asttoc PRIVATE include)
