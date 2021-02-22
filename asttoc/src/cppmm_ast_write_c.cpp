@@ -1,7 +1,7 @@
 //------------------------------------------------------------------------------
 // vfx-rs
 //------------------------------------------------------------------------------
-#include "cppmm_ast_write.hpp"
+#include "cppmm_ast_write_c.hpp"
 
 #include "cppmm_ast.hpp"
 
@@ -580,7 +580,7 @@ void write_translation_unit(const TranslationUnit & tu)
 }
 
 //------------------------------------------------------------------------------
-void cpp(const Root & root, size_t starting_point)
+void c(const Root & root, size_t starting_point)
 {
     cassert(starting_point < root.tus.size(), "starting point is out of range");
 

@@ -4,7 +4,7 @@
 #include "cppmm_ast.hpp"
 #include "cppmm_ast_add_c.hpp"
 #include "cppmm_ast_read.hpp"
-#include "cppmm_ast_write.hpp"
+#include "cppmm_ast_write_c.hpp"
 
 #include "filesystem.hpp"
 
@@ -28,7 +28,7 @@ void generate(const char* input, const char* output) {
     cppmm::transform::add_c(output_directory, cpp_ast);
 
     // Save out only the c translation units
-    cppmm::write::cpp(cpp_ast, starting_point);
+    cppmm::write::c(cpp_ast, starting_point);
 }
 
 static cl::opt<std::string> opt_in_dir(cl::Positional, cl::desc("<input dir>"),
