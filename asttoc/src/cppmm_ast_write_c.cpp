@@ -31,7 +31,7 @@ enum class Place : uint32_t {
 };
 
 //------------------------------------------------------------------------------
-void indent(fmt::ostream & out, const size_t depth)
+static void indent(fmt::ostream & out, const size_t depth)
 {
     for(size_t i=0; i!= depth; ++i)
     {

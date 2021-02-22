@@ -50,6 +50,36 @@ void write_translation_unit(const TranslationUnit & tu)
 }
 #endif
 
+/*
+cmake_minimum_required(VERSION 3.5)
+
+add_subdirectory(fmt)
+
+add_executable(asttoc
+  src/main.cpp
+  src/pystring.cpp
+  src/cppmm_ast_read.cpp
+  src/cppmm_ast_add_c.cpp
+  src/cppmm_ast_write_c.cpp
+  src/cppmm_ast_write_cmake.cpp
+)
+
+target_include_directories(asttoc PRIVATE include)
+target_include_directories(asttoc PRIVATE fmt/include)
+target_include_directories(asttoc PRIVATE ${LLVM_INCLUDE_DIRS})
+
+target_link_libraries(asttoc fmt LLVMSupport)
+*/
+
+//------------------------------------------------------------------------------
+static void indent(fmt::ostream & out, const size_t depth)
+{
+    for(size_t i=0; i!= depth; ++i)
+    {
+        out.print("    ");
+    }
+}
+
 const std::string compute_cmakefile_path(const std::string & filename)
 {
     return fs::path(filename).parent_path() / "CMakeLists.txt";
@@ -59,16 +89,31 @@ const std::string compute_cmakefile_path(const std::string & filename)
 void cmake(const Root & root, size_t starting_point)
 {
     cassert(starting_point < root.tus.size(), "starting point is out of range");
-    auto cmakefile_path = compute_cmakefile_path(root.tus[0]->filename);
+    auto cmakefile_path =
+        compute_cmakefile_path(root.tus[starting_point]->filename);
+
+    //std::cerr << cmakefile_path << std::endl;
 
     auto out = fmt::output_file(cmakefile_path);
 
+    // Minimum version
+#if 1
+    out.print("cmake_minimum_required(VERSION 3.5)\n");
+
+    // Library    
+    out.print("add_library(mm_binding\n");
     const auto size = root.tus.size();
     for(size_t i=starting_point; i < size; ++i)
     {
         const auto & tu = root.tus[i];
-        //write_translation_unit(*tu);
+
+        indent(out, 1);
+        out.print("{}\n", tu->filename);
     }
+    out.print(")");
+
+    // Include directories
+#endif
 }
 
 } // namespace write
