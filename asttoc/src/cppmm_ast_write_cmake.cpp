@@ -13,6 +13,10 @@
 
 #define cassert(C, M) if(!(C)) { std::cerr << M << std::endl; abort(); }
 
+#include "filesystem.hpp"
+
+namespace fs = ghc::filesystem;
+
 namespace cppmm
 {
 namespace write
@@ -46,19 +50,25 @@ void write_translation_unit(const TranslationUnit & tu)
 }
 #endif
 
+const std::string compute_cmakefile_path(const std::string & filename)
+{
+    return fs::path(filename).parent_path() / "CMakeLists.txt";
+}
+
 //------------------------------------------------------------------------------
 void cmake(const Root & root, size_t starting_point)
 {
-#if 0
     cassert(starting_point < root.tus.size(), "starting point is out of range");
+    auto cmakefile_path = compute_cmakefile_path(root.tus[0]->filename);
+
+    auto out = fmt::output_file(cmakefile_path);
 
     const auto size = root.tus.size();
     for(size_t i=starting_point; i < size; ++i)
     {
         const auto & tu = root.tus[i];
-        write_translation_unit(*tu);
+        //write_translation_unit(*tu);
     }
-#endif
 }
 
 } // namespace write
