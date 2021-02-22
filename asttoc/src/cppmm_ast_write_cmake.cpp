@@ -120,12 +120,12 @@ void cmake(const Root & root, size_t starting_point)
             include_paths.insert(i);
         }
     }
-    out.print(")");
+    out.print(")\n");
 
     // Include directories
     for(auto & include_path: include_paths)
     {
-        out.print("target_include_directories({} PRIVATE {})", project_name,
+        out.print("target_include_directories({} PRIVATE {})\n", project_name,
                    include_path);
     }
 }
