@@ -10,6 +10,7 @@
 #include <fmt/os.h>
 
 #include <iostream>
+#include <set>
 
 #define cassert(C, M) if(!(C)) { std::cerr << M << std::endl; abort(); }
 
@@ -92,6 +93,8 @@ void cmake(const Root & root, size_t starting_point)
     auto cmakefile_path =
         compute_cmakefile_path(root.tus[starting_point]->filename);
 
+    auto project_name = "mm_binding";
+
     //std::cerr << cmakefile_path << std::endl;
 
     auto out = fmt::output_file(cmakefile_path);
@@ -101,7 +104,9 @@ void cmake(const Root & root, size_t starting_point)
     out.print("cmake_minimum_required(VERSION 3.5)\n");
 
     // Library    
-    out.print("add_library(mm_binding\n");
+    std::set<std::string> include_paths;
+
+    out.print("add_library({}\n", project_name);
     const auto size = root.tus.size();
     for(size_t i=starting_point; i < size; ++i)
     {
@@ -109,10 +114,23 @@ void cmake(const Root & root, size_t starting_point)
 
         indent(out, 1);
         out.print("{}\n", tu->filename);
+
+        // Add all the include paths
+#if 0
+        for(auto & i: tu->include_paths)
+        {
+            include_paths.insert(i);
+        }
+#endif
     }
     out.print(")");
 
     // Include directories
+    for(auto & include_path: include_paths)
+    {
+        out.print("target_include_directories({} PRIVATE {})", project_name,
+                   include_path);
+    }
 #endif
 }
 
