@@ -100,7 +100,6 @@ void cmake(const Root & root, size_t starting_point)
     auto out = fmt::output_file(cmakefile_path);
 
     // Minimum version
-#if 1
     out.print("cmake_minimum_required(VERSION 3.5)\n");
 
     // Library    
@@ -116,12 +115,10 @@ void cmake(const Root & root, size_t starting_point)
         out.print("{}\n", tu->filename);
 
         // Add all the include paths
-#if 0
         for(auto & i: tu->include_paths)
         {
             include_paths.insert(i);
         }
-#endif
     }
     out.print(")");
 
@@ -131,7 +128,6 @@ void cmake(const Root & root, size_t starting_point)
         out.print("target_include_directories({} PRIVATE {})", project_name,
                    include_path);
     }
-#endif
 }
 
 } // namespace write
