@@ -137,6 +137,16 @@ void cmake(const Root & root, size_t starting_point, const Libs & libs,
         out.print("target_include_directories({} PRIVATE {})\n", project_name,
                    include_path);
     }
+
+    // Add the libraries
+    for(auto & lib_dir: lib_dirs)
+    {
+        out.print("link_directories(BEFORE {})\n", lib_dir);
+    }
+    for(auto & lib: libs)
+    {
+        out.print("target_link_libraries ({} {})\n", project_name, lib);
+    }
 }
 
 } // namespace write
