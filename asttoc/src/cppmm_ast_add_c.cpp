@@ -499,7 +499,7 @@ NodeExprPtr opaquebytes_constructor_body(TypeRegistry & type_registry,
                     std::vector<NodeExprPtr>({
                         NodePlacementNewExpr::n(
                             NodeVarRefExpr::n("self"),
-                            NodeFunctionCallExpr::n(cpp_method.short_name, args)
+                            NodeFunctionCallExpr::n(cpp_record.name, args)
     )}));
 }
 
