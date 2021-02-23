@@ -16,8 +16,6 @@
 
 namespace cl = llvm::cl;
 namespace fs = ghc::filesystem;
-using Libs = std::vector<std::string>;
-using LibDirs = std::vector<std::string>;
 
 static cl::opt<std::string> opt_in_dir(cl::Positional, cl::desc("<input dir>"),
                                        cl::Required);
@@ -44,8 +42,8 @@ std::vector<std::string> to_vector(const T & t)
     return result;
 }
 
-void generate(const char* input, const char* output, const Libs & libs,
-              const LibDirs & lib_dirs) {
+void generate(const char* input, const char* output, const cppmm::Libs & libs,
+              const cppmm::LibDirs & lib_dirs) {
     const std::string input_directory = input;
     const std::string output_directory = output;
 
@@ -60,7 +58,7 @@ void generate(const char* input, const char* output, const Libs & libs,
     cppmm::write::c(cpp_ast, starting_point);
 
     // Create a cmake file as well
-    cppmm::write::cmake(cpp_ast, starting_point);
+    cppmm::write::cmake(cpp_ast, starting_point, libs, lib_dirs);
 }
 
 int main(int argc, char** argv) {

@@ -92,7 +92,8 @@ const std::string compute_cmakefile_path(const std::string & filename)
 }
 
 //------------------------------------------------------------------------------
-void cmake(const Root & root, size_t starting_point)
+void cmake(const Root & root, size_t starting_point, const Libs & libs,
+           const LibDirs & lib_dirs)
 {
     cassert(starting_point < root.tus.size(), "starting point is out of range");
     auto cmakefile_path =
