@@ -5,10 +5,9 @@ Same as for cppmm
 
 *Make sure you run it from inside the build folder*
 
-Right now all parameters are hard coded into asttoc so you just need to run it
-with no arguments.
+An example of how to run it.
 
 ```
 cd build
-./asttoc/asttoc
+./asttoc/asttoc -L /usr/local/loc -l Imath -o out ../test/imath/ref/ast
 ```
