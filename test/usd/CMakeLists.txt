@@ -11,5 +11,6 @@ add_test(NAME ${testname}
             ${CMAKE_CURRENT_SOURCE_DIR}/ref
             -I$ENV{OPENEXR_ROOT}/include
             -I$ENV{USD_ROOT}/include
+            -I$ENV{BOOST_ROOT}/include
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
 )
