@@ -134,7 +134,7 @@ inline OpenImageIO_v2_2_ImageSpec to_c_copy(
     OpenImageIO_v2_2::ImageSpec const & rhs)
 {
     OpenImageIO_v2_2_ImageSpec result;
-    OpenImageIO_v2_2_ImageSpec_ImageSpec(&(result), reinterpret_cast<OpenImageIO_v2_2_ImageSpec const * >(&(rhs)));
+    OpenImageIO_v2_2_ImageSpec_copy(&(result), reinterpret_cast<OpenImageIO_v2_2_ImageSpec const * >(&(rhs)));
     return result;
 }
 

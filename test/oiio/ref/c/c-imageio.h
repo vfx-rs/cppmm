@@ -1,20 +1,17 @@
 #include <c-typedesc.h>
 
 typedef struct {
-    char data[256];
-    char data[256];
-} __attribute__((aligned(32))) OpenImageIO_v2_2_ROI;
+    char data[32];
+} __attribute__((aligned(4))) OpenImageIO_v2_2_ROI;
 typedef struct {
-    char data[1280];
-    char data[1280];
-} __attribute__((aligned(64))) OpenImageIO_v2_2_ImageSpec;
+    char data[160];
+} __attribute__((aligned(8))) OpenImageIO_v2_2_ImageSpec;
 typedef struct {
-    char data[1984];
-    char data[1984];
-} __attribute__((aligned(64))) OpenImageIO_v2_2_ImageInput;
+    char data[248];
+} __attribute__((aligned(8))) OpenImageIO_v2_2_ImageInput;
 
 
-void OpenImageIO_v2_2_ROI_ROI(
+void OpenImageIO_v2_2_ROI_default(
     OpenImageIO_v2_2_ROI * self);
 
 
@@ -59,7 +56,7 @@ void OpenImageIO_v2_2_ImageSpec_ImageSpec(
     , OpenImageIO_v2_2_TypeDesc format);
 
 
-void OpenImageIO_v2_2_ImageSpec_ImageSpec(
+void OpenImageIO_v2_2_ImageSpec_new_with_dimensions(
     OpenImageIO_v2_2_ImageSpec * self
     , int xres
     , int yres
@@ -80,7 +77,7 @@ unsigned long OpenImageIO_v2_2_ImageSpec_channel_bytes(
     OpenImageIO_v2_2_ImageSpec const * self);
 
 
-unsigned long OpenImageIO_v2_2_ImageSpec_channel_bytes(
+unsigned long OpenImageIO_v2_2_ImageSpec_channel_bytes_for(
     OpenImageIO_v2_2_ImageSpec const * self
     , int chan
     , _Bool native);
@@ -102,12 +99,12 @@ void OpenImageIO_v2_2_ImageSpec_auto_stride(
     , int height);
 
 
-void OpenImageIO_v2_2_ImageSpec_ImageSpec(
+void OpenImageIO_v2_2_ImageSpec_copy(
     OpenImageIO_v2_2_ImageSpec * self
     , OpenImageIO_v2_2_ImageSpec const * other);
 
 
-OpenImageIO_v2_2_ImageSpec * OpenImageIO_v2_2_ImageSpec_operator=(
+OpenImageIO_v2_2_ImageSpec * OpenImageIO_v2_2_ImageSpec_assign(
     OpenImageIO_v2_2_ImageSpec * self
     , OpenImageIO_v2_2_ImageSpec const * other);
 

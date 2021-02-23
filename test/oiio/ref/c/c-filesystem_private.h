@@ -73,6 +73,16 @@ inline OpenImageIO_v2_2_Filesystem_IOProxy * to_c(
 
 
 
+
+
+
+
+
+
+
+
+
+
 inline OpenImageIO_v2_2::Filesystem::IOMemReader const & to_cpp_ref(
     OpenImageIO_v2_2_Filesystem_IOMemReader const * rhs)
 {

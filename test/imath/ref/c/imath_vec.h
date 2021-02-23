@@ -1,8 +1,7 @@
 
 typedef struct {
-    char data[96];
-    char data[96];
-} __attribute__((aligned(32))) Imath_2_5_V3f;
+    char data[12];
+} __attribute__((aligned(4))) Imath_2_5_V3f;
 
 
 void Imath_2_5_V3f_Vec3(
@@ -36,7 +35,7 @@ Imath_2_5_V3f Imath_2_5_V3f_cross(
     , Imath_2_5_V3f const * v);
 
 
-Imath_2_5_V3f const * Imath_2_5_V3f_operator+=(
+Imath_2_5_V3f const * Imath_2_5_V3f_op_iadd(
     Imath_2_5_V3f * self
     , Imath_2_5_V3f const * v);
 

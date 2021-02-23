@@ -34,7 +34,7 @@
                     "name": "basetype",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 21,
+                        "id": 18,
                         "type": "unsigned char",
                         "const": false
                     }
@@ -44,7 +44,7 @@
                     "name": "aggregate",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 21,
+                        "id": 18,
                         "type": "unsigned char",
                         "const": false
                     }
@@ -54,7 +54,7 @@
                     "name": "vecsemantics",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 21,
+                        "id": 18,
                         "type": "unsigned char",
                         "const": false
                     }
@@ -64,7 +64,7 @@
                     "name": "reserved",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 21,
+                        "id": 18,
                         "type": "unsigned char",
                         "const": false
                     }
@@ -90,7 +90,7 @@
                 5,
                 6
             ],
-            "id": 18,
+            "id": 19,
             "size": 32,
             "align": 32,
             "attributes": null,
@@ -129,7 +129,7 @@
                 5,
                 6
             ],
-            "id": 19,
+            "id": 20,
             "size": 32,
             "align": 32,
             "attributes": null,
@@ -150,7 +150,7 @@
                 5,
                 6
             ],
-            "id": 20,
+            "id": 21,
             "size": 32,
             "align": 32,
             "attributes": null,

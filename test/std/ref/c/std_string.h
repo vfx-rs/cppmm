@@ -1,8 +1,7 @@
 
 typedef struct {
-    char data[256];
-    char data[256];
-} __attribute__((aligned(64))) std___cxx11_string;
+    char data[32];
+} __attribute__((aligned(8))) std___cxx11_string;
 
 
 std___cxx11_string * std___cxx11_string_assign(

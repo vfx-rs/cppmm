@@ -1,13 +1,11 @@
 
 typedef struct Imath_2_5_V3f;
 typedef struct {
-    char data[192];
-    char data[192];
-} __attribute__((aligned(32))) Imath_2_5_Box3f;
+    char data[24];
+} __attribute__((aligned(4))) Imath_2_5_Box3f;
 typedef struct {
-    char data[192];
-    char data[192];
-} __attribute__((aligned(32))) Imath_2_5_Box3i;
+    char data[24];
+} __attribute__((aligned(4))) Imath_2_5_Box3i;
 
 
 void Imath_2_5_Box3f_extendBy(
