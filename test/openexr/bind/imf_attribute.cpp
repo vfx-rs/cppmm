@@ -31,11 +31,62 @@ namespace Imf = ::OPENEXR_IMF_INTERNAL_NAMESPACE;
 class Attribute {
 public:
     using BoundType = Imf::Attribute;
+
+    virtual const char* typeName() const = 0;
+    virtual Imf::Attribute* copy() const = 0;
+
+    virtual void writeValueTo(Imf::OStream& os, int version) const = 0;
+
+    virtual void readValueFrom(Imf::IStream& is, int size, int version) = 0;
+
+    virtual void copyValueFrom(const Imf::Attribute& other) = 0;
+
+    IMF_EXPORT
+    static Imf::Attribute* newAttribute(const char typeName[]);
+
+    IMF_EXPORT
+    static bool knownType(const char typeName[]);
+
 } CPPMM_OPAQUEPTR;
 
-template <class T> class TypedAttribute {
+template <class T> class TypedAttribute : public Attribute {
 public:
     using BoundType = Imf::TypedAttribute<T>;
+
+    TypedAttribute() CPPMM_RENAME(ctor);
+    TypedAttribute(const T& value) CPPMM_RENAME(from_value);
+    TypedAttribute(const TypedAttribute<T>& other) CPPMM_RENAME(ctor_copy);
+
+    virtual ~TypedAttribute() CPPMM_RENAME(dtor);
+
+    Imf::TypedAttribute<T>& operator=(const TypedAttribute<T>& other)
+        CPPMM_RENAME(assign);
+
+    T& value();
+    const T& value() const CPPMM_RENAME(value_const);
+
+    virtual const char* typeName() const;
+    static const char* staticTypeName();
+    static Imf::Attribute* makeNewAttribute();
+    virtual Imf::Attribute* copy() const;
+
+    virtual void writeValueTo(Imf::OStream& os, int version) const;
+
+    virtual void readValueFrom(Imf::IStream& is, int size, int version);
+
+    virtual void copyValueFrom(const Attribute& other);
+
+    static Imf::TypedAttribute<T>* cast(Attribute* attribute)
+        CPPMM_RENAME(cast_ptr);
+    static const Imf::TypedAttribute<T>* cast(const Imf::Attribute* attribute)
+        CPPMM_RENAME(cast_ptr_const);
+    static Imf::TypedAttribute<T>& cast(Attribute& attribute)
+        CPPMM_RENAME(cast);
+    static const Imf::TypedAttribute<T>& cast(const Imf::Attribute& attribute)
+        CPPMM_RENAME(cast_const);
+
+    static void registerAttributeType();
+    static void unRegisterAttributeType();
 } CPPMM_OPAQUEPTR;
 
 template class TypedAttribute<unsigned int>;

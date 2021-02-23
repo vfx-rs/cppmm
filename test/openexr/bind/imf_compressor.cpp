@@ -1,4 +1,4 @@
-#include <OpenEXR/ImfB44Compressor.h>
+#include <OpenEXR/ImfCompressor.h>
 
 #include <cppmm_bind.hpp>
 
@@ -8,16 +8,18 @@ namespace OPENEXR_IMF_INTERNAL_NAMESPACE {
 
 namespace Imf = ::OPENEXR_IMF_INTERNAL_NAMESPACE;
 
-class B44Compressor {
+class Compressor {
 public:
-    using BoundType = Imf::B44Compressor;
+    using BoundType = Imf::Compressor;
+
+    enum Format {};
 
     IMF_EXPORT
-    B44Compressor(const Imf::Header& hdr, size_t maxScanLineSize,
-                  size_t numScanLines, bool optFlatFields);
+    Compressor(const Imf::Header& hdr, size_t maxScanLineSize,
+               size_t numScanLines, bool optFlatFields);
 
     IMF_EXPORT
-    virtual ~B44Compressor();
+    virtual ~Compressor();
 
     IMF_EXPORT
     virtual int numScanLines() const;

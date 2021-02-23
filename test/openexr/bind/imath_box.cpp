@@ -40,12 +40,20 @@ using Box3d = Imath::Box3d;
 } // namespace IMATH_INTERNAL_NAMESPACE
 } // namespace cppmm_bind
 
-template class Imath::Box<Imath::Vec2<short>>;
-template class Imath::Box<Imath::Vec2<int>>;
-template class Imath::Box<Imath::Vec2<float>>;
-template class Imath::Box<Imath::Vec2<double>>;
+template class IMATH_INTERNAL_NAMESPACE::Box<
+    IMATH_INTERNAL_NAMESPACE::Vec2<short>>;
+template class IMATH_INTERNAL_NAMESPACE::Box<
+    IMATH_INTERNAL_NAMESPACE::Vec2<int>>;
+template class IMATH_INTERNAL_NAMESPACE::Box<
+    IMATH_INTERNAL_NAMESPACE::Vec2<float>>;
+template class IMATH_INTERNAL_NAMESPACE::Box<
+    IMATH_INTERNAL_NAMESPACE::Vec2<double>>;
 
-template class Imath::Box<Imath::Vec3<short>>;
-template class Imath::Box<Imath::Vec3<int>>;
-template class Imath::Box<Imath::Vec3<float>>;
-template class Imath::Box<Imath::Vec3<double>>;
+template class IMATH_INTERNAL_NAMESPACE::Box<
+    IMATH_INTERNAL_NAMESPACE::Vec3<short>>;
+template class IMATH_INTERNAL_NAMESPACE::Box<
+    IMATH_INTERNAL_NAMESPACE::Vec3<int>>;
+template class IMATH_INTERNAL_NAMESPACE::Box<
+    IMATH_INTERNAL_NAMESPACE::Vec3<float>>;
+template class IMATH_INTERNAL_NAMESPACE::Box<
+    IMATH_INTERNAL_NAMESPACE::Vec3<double>>;
