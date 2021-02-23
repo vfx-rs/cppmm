@@ -216,29 +216,9 @@ int main(int argc_, const char** argv_) {
         source_includes[src_path] = parse_file_includes(src_path);
     }
 
-    // Get namespace renames from command-line options
-    /* for (const auto& o : opt_rename_namespace) { */
-    /*     std::vector<std::string> toks; */
-    /*     ps::split(o, toks, "="); */
-    /*     if (toks.size() == 2) { */
-    /*         cppmm::add_namespace_rename(toks[1], toks[0]); */
-    /*     } */
-    /* } */
-
-    //--------------------------------------------------------------------------
-    // First pass - find all declarations in namespace cppmm_bind that will
-    // tell us what we want to bind
-    SPDLOG_DEBUG("");
-    SPDLOG_DEBUG(" -------------------------------");
-    SPDLOG_DEBUG("|         BINDING PHASE         |");
-    SPDLOG_DEBUG(" -------------------------------");
-    SPDLOG_DEBUG("");
     auto process_binding_action =
         newFrontendActionFactory<cppmm::ProcessBindingAction>();
     int result = Tool.run(process_binding_action.get());
-    // auto match_exports_action =
-    //     newFrontendActionFactory<cppmm::MatchBindingsAction>();
-    // int result = Tool.run(match_exports_action.get());
 
     if (!fs::exists(output_dir) && !fs::create_directories(output_dir)) {
         SPDLOG_ERROR("Could not create output directory '{}'", output_dir);
@@ -246,97 +226,6 @@ int main(int argc_, const char** argv_) {
     }
 
     cppmm::write_tus(output_dir);
-
-#if 0
-    // for (const auto& ex_file : ex_files) {
-    //     fmt::print("FILE: {}\n", ex_file.first);
-    //     for (const auto& ex_fun : ex_file.second.functions) {
-    //         fmt::print("    {}\n", ex_fun);
-    //     }
-    // }
-    //
-
-    SPDLOG_DEBUG("Binding records:");
-    for (const auto& ex_record : cppmm::ex_records) {
-        SPDLOG_DEBUG("\n{}\n", ex_record.second);
-    }
-
-    SPDLOG_DEBUG("Binding specializations:");
-    for (const auto& ex_specvec : cppmm::ex_specs) {
-        SPDLOG_DEBUG("{}", ex_specvec.first);
-        for (const auto& ex_spec: ex_specvec.second) {
-            SPDLOG_DEBUG("    {}", ex_spec);
-        }
-    }
-
-    //--------------------------------------------------------------------------
-    // Second pass - find matching methods to the ones declared in the first
-    // pass and filter out the ones we want to generate bindings for
-    SPDLOG_DEBUG("");
-    SPDLOG_DEBUG(" --------------------------------");
-    SPDLOG_DEBUG("|         MATCHING PHASE         |");
-    SPDLOG_DEBUG(" --------------------------------");
-    SPDLOG_DEBUG("");
-    auto cppmm_action = newFrontendActionFactory<cppmm::MatchDeclsAction>();
-    result = Tool.run(cppmm_action.get());
-
-    // fmt::print("{:-^30}\n", " OUTPUT ");
-    // fmt::print("Types: \n");
-    // for (const auto& type : ex_types) {
-    //     fmt::print("    {}\n", type.second->name);
-    // }
-
-    if (!fs::exists(output_dir) && !fs::create_directories(output_dir)) {
-        SPDLOG_ERROR("Could not create output directory '{}'", output_dir);
-        return -2;
-    }
-
-    //--------------------------------------------------------------------------
-    // Finally - process the filtered methods to generate the actual
-    // bindings we'll generate one file of bindings for each file of input,
-    // and stick all the bindings in that output, together with all the
-    // necessary includes
-    std::vector<std::unique_ptr<cppmm::Generator>> generators;
-    generators.push_back(
-        std::unique_ptr<cppmm::Generator>(new cppmm::GeneratorC(output_dir)));
-
-    if (opt_rust_sys_directory != "") {
-        std::string output_dir = opt_rust_sys_directory;
-        if (!fs::exists(output_dir) && !fs::create_directories(output_dir)) {
-            SPDLOG_ERROR("Could not create output directory '{}'", output_dir);
-            return -2;
-        }
-
-        generators.push_back(std::unique_ptr<cppmm::Generator>(
-            new cppmm::GeneratorRustSys(output_dir)));
-    }
-
-    for (const auto& g : generators) {
-        g->generate(cppmm::files, cppmm::records, cppmm::enums, cppmm::vectors,
-                    project_includes, project_libraries);
-    }
-
-    if (opt_warn_unbound) {
-        size_t total = 0;
-        for (const auto& ex_record : cppmm::ex_records) {
-            total += ex_record.second.rejected_methods.size();
-        }
-        if (total != 0) {
-            SPDLOG_WARN(
-                "The following methods were not bound, ignored or manually "
-                "overriden:");
-            for (const auto& ex_record : cppmm::ex_records) {
-                if (ex_record.second.rejected_methods.size()) {
-                    SPDLOG_WARN("{}", ex_record.second.cpp_qname);
-                    for (const auto& rejected_method :
-                         ex_record.second.rejected_methods) {
-                        SPDLOG_WARN("    {}", rejected_method);
-                    }
-                }
-            }
-        }
-    }
-#endif
 
     return result;
 }

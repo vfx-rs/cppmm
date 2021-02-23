@@ -1020,6 +1020,20 @@ NodePtr process_method_decl(const CXXMethodDecl* cmd,
 std::vector<NodePtr> process_methods(const CXXRecordDecl* crd) {
     std::vector<NodePtr> result;
     SPDLOG_TRACE("process_methods({})", get_record_name(crd));
+
+    // get all the public base classes of this record, and process those methods
+    SPDLOG_TRACE("class has {} bases", crd->getNumBases());
+    for (const auto base : crd->bases()) {
+        if (const CXXRecordDecl* base_crd =
+                base.getType()->getAsCXXRecordDecl()) {
+            SPDLOG_TRACE("found base {}", get_record_name(crd));
+            auto base_methods = process_methods(base_crd);
+            for (auto&& m : base_methods) {
+                result.emplace_back(std::move(m));
+            }
+        }
+    }
+
     for (const Decl* d : crd->decls()) {
         // we want to ignore anything that's not public for obvious reasons
         // since we're using this function for getting methods both from the
@@ -1256,6 +1270,26 @@ void process_enum_decl(const EnumDecl* ed, std::string filename) {
     }
 }
 
+void process_fields(const CXXRecordDecl* crd, NodeRecord* node_record_ptr) {
+    // recurse through all bases and grab their fields
+    for (const auto& base : crd->bases()) {
+        if (const auto* base_crd = base.getType()->getAsCXXRecordDecl()) {
+            process_fields(base_crd, node_record_ptr);
+        }
+    }
+
+    // Now grab the fields for this decl
+    for (const Decl* d : crd->decls()) {
+        const auto record_name = get_record_name(crd);
+        if (const auto* fd = dyn_cast<FieldDecl>(d)) {
+            const std::string field_name = fd->getNameAsString();
+            SPDLOG_TRACE("    FIELD {}::{}", record_name, field_name);
+            QType qtype = process_qtype(fd->getType());
+            node_record_ptr->fields.push_back(Field{field_name, qtype.ty});
+        }
+    }
+}
+
 /// Create a new NodeRecord for the given record decl and store it in the AST.
 /// `crd` must represent a "concrete" record - i.e. it must not be dependent
 /// on any template parameters. This is done in the binding file by explicitly
@@ -1268,8 +1302,6 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
     SourceManager& sm = ctx.getSourceManager();
     const auto& loc = crd->getLocation();
 
-    // crd = crd->getCanonicalDecl(); // FIXME: this ends up taking us to a fwd
-    // declaration
     crd = crd->getCanonicalDecl()
               ->getDefinition(); // TODO: this seems to do what we want... but
                                  // does it? Can you imagine a world in which
@@ -1324,13 +1356,12 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
     }
 
     // process remaining children
+    // first process (recursively) the fields from this decl and all bases
+    process_fields(crd, node_record_ptr);
+
+    // now get other child decls
     for (const Decl* d : crd->decls()) {
-        if (const auto* fd = dyn_cast<FieldDecl>(d)) {
-            const std::string field_name = fd->getNameAsString();
-            SPDLOG_TRACE("    FIELD {}", field_name);
-            QType qtype = process_qtype(fd->getType());
-            node_record_ptr->fields.push_back(Field{field_name, qtype.ty});
-        } else if (const auto* md = dyn_cast<CXXMethodDecl>(d)) {
+        if (const auto* md = dyn_cast<CXXMethodDecl>(d)) {
             // pass
         } else if (const auto* fd = dyn_cast<FunctionDecl>(d)) {
             SPDLOG_TRACE(" FUNCTION {}", fd->getQualifiedNameAsString());
