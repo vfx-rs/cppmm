@@ -145,9 +145,10 @@ void write_record(fmt::ostream & out, const NodePtr & node)
     constexpr auto sizeof_byte = 8;
     const auto align_in_bytes = record.align / sizeof_byte;
 
-    out.print("typedef struct {{\n");
+    out.print("typedef struct {}_s {{\n", record.name);
     write_fields(out, record);
-    out.print("}} __attribute__((aligned({}))) {};\n", align_in_bytes, // TODO LT: Only force alignment if 'align' attribute is on it.
+    out.print("}} __attribute__((aligned({}))) {};\n",
+              align_in_bytes, // TODO LT: Only force alignment if 'align' attribute is on it.
               record.name);
 }
 
@@ -155,7 +156,7 @@ void write_record(fmt::ostream & out, const NodePtr & node)
 void write_record_forward_decl(fmt::ostream & out, const NodePtr & node)
 {
     const NodeRecord & record = *static_cast<const NodeRecord*>(node.get());
-    out.print("typedef struct {};\n", record.name);
+    out.print("typedef struct {0}_s {0};\n", record.name);
 }
 
 //------------------------------------------------------------------------------
