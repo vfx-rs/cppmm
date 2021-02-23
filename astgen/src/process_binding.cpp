@@ -1270,9 +1270,10 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
 
     // crd = crd->getCanonicalDecl(); // FIXME: this ends up taking us to a fwd
     // declaration
-    crd = crd->getDefinition(); // TODO: this seems to do what we want... but
-                                // does it? Can you imagine a world in which
-                                // Clang was actually documented?
+    crd = crd->getCanonicalDecl()
+              ->getDefinition(); // TODO: this seems to do what we want... but
+                                 // does it? Can you imagine a world in which
+                                 // Clang was actually documented?
     const std::string record_name = get_record_name(crd);
     const std::string short_name = crd->getNameAsString();
 
