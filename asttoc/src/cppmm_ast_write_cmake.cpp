@@ -107,6 +107,7 @@ void cmake(const Root & root, size_t starting_point, const Libs & libs,
 
     // Minimum version
     out.print("cmake_minimum_required(VERSION 3.5)\n");
+    out.print("project({})\n", project_name);
     out.print("set(CMAKE_CXX_STANDARD 14 CACHE STRING \"\")\n");
 
     // Library    
