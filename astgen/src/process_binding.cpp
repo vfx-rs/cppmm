@@ -1013,73 +1013,7 @@ NodePtr process_method_decl(const CXXMethodDecl* cmd,
 
     return node_function;
 }
-
-/// Extract all the public methods on a decl and return them for later use.
-/// The resulting methods are NOT inserted in the AST or stored in the global
-/// node tables.
-std::vector<NodePtr> process_methods(const CXXRecordDecl* crd) {
-    std::vector<NodePtr> result;
-    SPDLOG_TRACE("process_methods({})", get_record_name(crd));
-
-    // get all the public base classes of this record, and process those methods
-    SPDLOG_TRACE("class has {} bases", crd->getNumBases());
-    for (const auto base : crd->bases()) {
-        if (const CXXRecordDecl* base_crd =
-                base.getType()->getAsCXXRecordDecl()) {
-            SPDLOG_TRACE("found base {}", get_record_name(crd));
-            auto base_methods = process_methods(base_crd);
-            for (auto&& m : base_methods) {
-                result.emplace_back(std::move(m));
-            }
-        }
-    }
-
-    for (const Decl* d : crd->decls()) {
-        // we want to ignore anything that's not public for obvious reasons
-        // since we're using this function for getting methods both from the
-        // library type and the binding type, this does mean we need to add a
-        // "public" specifier to the binding type, but eh...
-        if (d->getAccess() != AS_public) {
-            continue;
-        }
-        // A FunctionTemplateDecl represents methods that are dependent on
-        // their own template parameters (aside from the Record template
-        // parameter list).
-        if (const FunctionTemplateDecl* ftd =
-                dyn_cast<FunctionTemplateDecl>(d)) {
-            for (const FunctionDecl* fd : ftd->specializations()) {
-                std::vector<std::string> attrs = get_attrs(fd);
-                if (const auto* cmd = dyn_cast<CXXMethodDecl>(fd)) {
-                    auto node_function = process_method_decl(cmd, attrs);
-                    result.emplace_back(std::move(node_function));
-                } else {
-                    // shouldn't get here
-                    assert(false && "method spec couldn't be converted to CMD");
-                    const std::string function_name =
-                        ftd->getQualifiedNameAsString();
-                    const std::string method_short_name = fd->getNameAsString();
-                    QType return_qtype;
-                    std::vector<Param> params;
-                    process_function_parameters(fd, return_qtype, params);
-
-                    auto node_function = std::make_unique<NodeMethod>(
-                        function_name, -1, -1, std::move(attrs),
-                        method_short_name, return_qtype, std::move(params),
-                        fd->isStatic());
-                    result.emplace_back(std::move(node_function));
-                }
-            }
-        } else if (const auto* cmd = dyn_cast<CXXMethodDecl>(d)) {
-            // just a regular boring old method
-            std::vector<std::string> attrs = get_attrs(d);
-            auto node_function = process_method_decl(cmd, attrs);
-            result.emplace_back(std::move(node_function));
-        }
-    }
-
-    return result;
-}
-
+//
 /// Determine if two functions are equivalent. Equivalent in this case means
 /// that their return types and parameters are the same and they have the
 /// same short (not qualified) name
@@ -1134,6 +1068,88 @@ bool match_method(const NodeMethod* a, const NodeMethod* b) {
     }
 
     return true;
+}
+
+void add_method_to_list(NodePtr method,
+                        std::vector<NodePtr>& existing_methods) {
+    auto it = std::find_if(existing_methods.begin(), existing_methods.end(),
+                           [&](const NodePtr& em) {
+                               return match_method((NodeMethod*)method.get(),
+                                                   (NodeMethod*)em.get());
+                           });
+    if (it == existing_methods.end()) {
+        existing_methods.emplace_back(std::move(method));
+    } else {
+        *it = std::move(method);
+    }
+}
+
+/// Extract all the public methods on a decl and return them for later use.
+/// The resulting methods are NOT inserted in the AST or stored in the global
+/// node tables.
+std::vector<NodePtr> process_methods(const CXXRecordDecl* crd) {
+    std::vector<NodePtr> result;
+    SPDLOG_TRACE("process_methods({})", get_record_name(crd));
+
+    // get all the public base classes of this record, and process those methods
+    SPDLOG_TRACE("class has {} bases", crd->getNumBases());
+    for (const auto base : crd->bases()) {
+        if (const CXXRecordDecl* base_crd =
+                base.getType()->getAsCXXRecordDecl()) {
+            SPDLOG_TRACE("found base {}", get_record_name(crd));
+            auto base_methods = process_methods(base_crd);
+            for (auto&& m : base_methods) {
+                result.emplace_back(std::move(m));
+            }
+        }
+    }
+
+    // FIXME: need to replace existing methods from the base class
+    // for overrides
+    for (const Decl* d : crd->decls()) {
+        // we want to ignore anything that's not public for obvious reasons
+        // since we're using this function for getting methods both from the
+        // library type and the binding type, this does mean we need to add a
+        // "public" specifier to the binding type, but eh...
+        if (d->getAccess() != AS_public) {
+            continue;
+        }
+        // A FunctionTemplateDecl represents methods that are dependent on
+        // their own template parameters (aside from the Record template
+        // parameter list).
+        if (const FunctionTemplateDecl* ftd =
+                dyn_cast<FunctionTemplateDecl>(d)) {
+            for (const FunctionDecl* fd : ftd->specializations()) {
+                std::vector<std::string> attrs = get_attrs(fd);
+                if (const auto* cmd = dyn_cast<CXXMethodDecl>(fd)) {
+                    auto node_function = process_method_decl(cmd, attrs);
+                    add_method_to_list(std::move(node_function), result);
+                } else {
+                    // shouldn't get here
+                    assert(false && "method spec couldn't be converted to CMD");
+                    const std::string function_name =
+                        ftd->getQualifiedNameAsString();
+                    const std::string method_short_name = fd->getNameAsString();
+                    QType return_qtype;
+                    std::vector<Param> params;
+                    process_function_parameters(fd, return_qtype, params);
+
+                    auto node_function = std::make_unique<NodeMethod>(
+                        function_name, -1, -1, std::move(attrs),
+                        method_short_name, return_qtype, std::move(params),
+                        fd->isStatic());
+                    add_method_to_list(std::move(node_function), result);
+                }
+            }
+        } else if (const auto* cmd = dyn_cast<CXXMethodDecl>(d)) {
+            // just a regular boring old method
+            std::vector<std::string> attrs = get_attrs(d);
+            auto node_function = process_method_decl(cmd, attrs);
+            add_method_to_list(std::move(node_function), result);
+        }
+    }
+
+    return result;
 }
 
 /// Check if the given method, `m`, has an equivalent method in

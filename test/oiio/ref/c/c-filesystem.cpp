@@ -165,36 +165,6 @@ void OpenImageIO_v2_2_Filesystem_IOMemReader_new(
     new (self) IOMemReader(to_cpp(buf), size);
 }
 
-char * OpenImageIO_v2_2_Filesystem_IOMemReader_proxytype(
-    OpenImageIO_v2_2_Filesystem_IOMemReader const * self)
-{
-    return to_c((to_cpp(self)) -> proxytype());
-}
-
-_Bool OpenImageIO_v2_2_Filesystem_IOMemReader_seek(
-    OpenImageIO_v2_2_Filesystem_IOMemReader * self
-    , long offset)
-{
-    return (to_cpp(self)) -> seek(offset);
-}
-
-unsigned long OpenImageIO_v2_2_Filesystem_IOMemReader_read(
-    OpenImageIO_v2_2_Filesystem_IOMemReader * self
-    , void * buf
-    , unsigned long size)
-{
-    return (to_cpp(self)) -> read(to_cpp(buf), size);
-}
-
-unsigned long OpenImageIO_v2_2_Filesystem_IOMemReader_pread(
-    OpenImageIO_v2_2_Filesystem_IOMemReader * self
-    , void * buf
-    , unsigned long size
-    , long offset)
-{
-    return (to_cpp(self)) -> pread(to_cpp(buf), size, offset);
-}
-
 void OpenImageIO_v2_2_Filesystem_IOMemReader_delete(
     OpenImageIO_v2_2_Filesystem_IOMemReader * self)
 {

@@ -790,7 +790,7 @@
                     "kind": "Method",
                     "id": 0,
                     "short_name": "proxytype",
-                    "qualified_name": "OpenImageIO_v2_2::Filesystem::IOProxy::proxytype",
+                    "qualified_name": "OpenImageIO_v2_2::Filesystem::IOMemReader::proxytype",
                     "in_binding": true,
                     "in_library": false,
                     "static": false,
@@ -908,7 +908,7 @@
                     "kind": "Method",
                     "id": 0,
                     "short_name": "seek",
-                    "qualified_name": "OpenImageIO_v2_2::Filesystem::IOProxy::seek",
+                    "qualified_name": "OpenImageIO_v2_2::Filesystem::IOMemReader::seek",
                     "in_binding": true,
                     "in_library": false,
                     "static": false,
@@ -948,7 +948,7 @@
                     "kind": "Method",
                     "id": 0,
                     "short_name": "read",
-                    "qualified_name": "OpenImageIO_v2_2::Filesystem::IOProxy::read",
+                    "qualified_name": "OpenImageIO_v2_2::Filesystem::IOMemReader::read",
                     "in_binding": true,
                     "in_library": false,
                     "static": false,
@@ -1062,7 +1062,7 @@
                     "kind": "Method",
                     "id": 0,
                     "short_name": "pread",
-                    "qualified_name": "OpenImageIO_v2_2::Filesystem::IOProxy::pread",
+                    "qualified_name": "OpenImageIO_v2_2::Filesystem::IOMemReader::pread",
                     "in_binding": true,
                     "in_library": false,
                     "static": false,
@@ -1307,205 +1307,6 @@
                 {
                     "kind": "Method",
                     "id": 0,
-                    "short_name": "proxytype",
-                    "qualified_name": "OpenImageIO_v2_2::Filesystem::IOMemReader::proxytype",
-                    "in_binding": true,
-                    "in_library": false,
-                    "static": false,
-                    "user_provided": true,
-                    "const": true,
-                    "virtual": true,
-                    "overloaded_operator": false,
-                    "copy_assignment_operator": false,
-                    "move_assignment_operator": false,
-                    "constructor": false,
-                    "copy_constructor": false,
-                    "move_constructor": false,
-                    "conversion_decl": false,
-                    "destructor": false,
-                    "attributes": null,
-                    "return": {
-                        "kind": "Pointer",
-                        "id": 15,
-                        "type": "const char *",
-                        "pointee": {
-                            "kind": "BuiltinType",
-                            "id": 14,
-                            "type": "char",
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "params": null
-                },
-                {
-                    "kind": "Method",
-                    "id": 0,
-                    "short_name": "seek",
-                    "qualified_name": "OpenImageIO_v2_2::Filesystem::IOMemReader::seek",
-                    "in_binding": true,
-                    "in_library": false,
-                    "static": false,
-                    "user_provided": true,
-                    "const": false,
-                    "virtual": true,
-                    "overloaded_operator": false,
-                    "copy_assignment_operator": false,
-                    "move_assignment_operator": false,
-                    "constructor": false,
-                    "copy_constructor": false,
-                    "move_constructor": false,
-                    "conversion_decl": false,
-                    "destructor": false,
-                    "attributes": null,
-                    "return": {
-                        "kind": "BuiltinType",
-                        "id": 17,
-                        "type": "_Bool",
-                        "const": false
-                    },
-                    "params": [
-                        {
-                            "index": 0,
-                            "name": "offset",
-                            "type": {
-                                "kind": "BuiltinType",
-                                "id": 39,
-                                "type": "long",
-                                "const": false
-                            },
-                            "attrs": []
-                        }
-                    ]
-                },
-                {
-                    "kind": "Method",
-                    "id": 0,
-                    "short_name": "read",
-                    "qualified_name": "OpenImageIO_v2_2::Filesystem::IOMemReader::read",
-                    "in_binding": true,
-                    "in_library": false,
-                    "static": false,
-                    "user_provided": true,
-                    "const": false,
-                    "virtual": true,
-                    "overloaded_operator": false,
-                    "copy_assignment_operator": false,
-                    "move_assignment_operator": false,
-                    "constructor": false,
-                    "copy_constructor": false,
-                    "move_constructor": false,
-                    "conversion_decl": false,
-                    "destructor": false,
-                    "attributes": null,
-                    "return": {
-                        "kind": "BuiltinType",
-                        "id": 16,
-                        "type": "unsigned long",
-                        "const": false
-                    },
-                    "params": [
-                        {
-                            "index": 0,
-                            "name": "buf",
-                            "type": {
-                                "kind": "Pointer",
-                                "id": 54,
-                                "type": "void *",
-                                "pointee": {
-                                    "kind": "BuiltinType",
-                                    "id": 0,
-                                    "type": "void",
-                                    "const": false
-                                },
-                                "const": false
-                            },
-                            "attrs": []
-                        },
-                        {
-                            "index": 1,
-                            "name": "size",
-                            "type": {
-                                "kind": "BuiltinType",
-                                "id": 16,
-                                "type": "unsigned long",
-                                "const": false
-                            },
-                            "attrs": []
-                        }
-                    ]
-                },
-                {
-                    "kind": "Method",
-                    "id": 0,
-                    "short_name": "pread",
-                    "qualified_name": "OpenImageIO_v2_2::Filesystem::IOMemReader::pread",
-                    "in_binding": true,
-                    "in_library": false,
-                    "static": false,
-                    "user_provided": true,
-                    "const": false,
-                    "virtual": true,
-                    "overloaded_operator": false,
-                    "copy_assignment_operator": false,
-                    "move_assignment_operator": false,
-                    "constructor": false,
-                    "copy_constructor": false,
-                    "move_constructor": false,
-                    "conversion_decl": false,
-                    "destructor": false,
-                    "attributes": null,
-                    "return": {
-                        "kind": "BuiltinType",
-                        "id": 16,
-                        "type": "unsigned long",
-                        "const": false
-                    },
-                    "params": [
-                        {
-                            "index": 0,
-                            "name": "buf",
-                            "type": {
-                                "kind": "Pointer",
-                                "id": 54,
-                                "type": "void *",
-                                "pointee": {
-                                    "kind": "BuiltinType",
-                                    "id": 0,
-                                    "type": "void",
-                                    "const": false
-                                },
-                                "const": false
-                            },
-                            "attrs": []
-                        },
-                        {
-                            "index": 1,
-                            "name": "size",
-                            "type": {
-                                "kind": "BuiltinType",
-                                "id": 16,
-                                "type": "unsigned long",
-                                "const": false
-                            },
-                            "attrs": []
-                        },
-                        {
-                            "index": 2,
-                            "name": "offset",
-                            "type": {
-                                "kind": "BuiltinType",
-                                "id": 39,
-                                "type": "long",
-                                "const": false
-                            },
-                            "attrs": []
-                        }
-                    ]
-                },
-                {
-                    "kind": "Method",
-                    "id": 0,
                     "short_name": "~IOMemReader",
                     "qualified_name": "OpenImageIO_v2_2::Filesystem::IOMemReader::~IOMemReader",
                     "in_binding": true,
@@ -1537,7 +1338,7 @@
         },
         {
             "kind": "Function",
-            "id": 156,
+            "id": 152,
             "short_name": "filename",
             "qualified_name": "OpenImageIO_v2_2::Filesystem::filename",
             "in_binding": false,
@@ -1573,7 +1374,7 @@
         },
         {
             "kind": "Function",
-            "id": 157,
+            "id": 153,
             "short_name": "extension",
             "qualified_name": "OpenImageIO_v2_2::Filesystem::extension",
             "in_binding": false,
@@ -1620,7 +1421,7 @@
         },
         {
             "kind": "Function",
-            "id": 158,
+            "id": 154,
             "short_name": "parent_path",
             "qualified_name": "OpenImageIO_v2_2::Filesystem::parent_path",
             "in_binding": false,
@@ -1656,7 +1457,7 @@
         },
         {
             "kind": "Function",
-            "id": 159,
+            "id": 155,
             "short_name": "replace_extension",
             "qualified_name": "OpenImageIO_v2_2::Filesystem::replace_extension",
             "in_binding": false,

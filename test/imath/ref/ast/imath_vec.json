@@ -107,53 +107,6 @@
                     "copy_assignment_operator": false,
                     "move_assignment_operator": false,
                     "constructor": true,
-                    "copy_constructor": true,
-                    "move_constructor": false,
-                    "conversion_decl": false,
-                    "destructor": false,
-                    "attributes": null,
-                    "return": {
-                        "kind": "BuiltinType",
-                        "id": 0,
-                        "type": "void",
-                        "const": false
-                    },
-                    "params": [
-                        {
-                            "index": 0,
-                            "name": "v",
-                            "type": {
-                                "kind": "Reference",
-                                "id": 2,
-                                "type": "const class Imath_2_5::Vec3<float> &",
-                                "pointee": {
-                                    "kind": "RecordType",
-                                    "id": 1,
-                                    "type": "Imath_2_5::Vec3<float>",
-                                    "record": 25,
-                                    "const": true
-                                },
-                                "const": false
-                            },
-                            "attrs": []
-                        }
-                    ]
-                },
-                {
-                    "kind": "Method",
-                    "id": 0,
-                    "short_name": "Vec3",
-                    "qualified_name": "Imath_2_5::Vec3<float>::Vec3",
-                    "in_binding": true,
-                    "in_library": false,
-                    "static": false,
-                    "user_provided": true,
-                    "const": false,
-                    "virtual": false,
-                    "overloaded_operator": false,
-                    "copy_assignment_operator": false,
-                    "move_assignment_operator": false,
-                    "constructor": true,
                     "copy_constructor": false,
                     "move_constructor": false,
                     "conversion_decl": false,

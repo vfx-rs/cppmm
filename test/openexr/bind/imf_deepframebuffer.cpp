@@ -16,7 +16,6 @@ struct DeepSlice {
               double fillValue, bool xTileCoords, bool yTileCoords);
 } CPPMM_VALUETYPE;
 
-/*
 struct DeepFrameBuffer {
     using BoundType = Imf::DeepFrameBuffer;
 
@@ -127,7 +126,6 @@ struct DeepFrameBuffer {
     } CPPMM_OPAQUEBYTES;
 
 } CPPMM_OPAQUEBYTES;
-*/
 
 } // namespace OPENEXR_IMF_INTERNAL_NAMESPACE
 

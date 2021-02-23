@@ -10,10 +10,49 @@ namespace Imf = ::OPENEXR_IMF_INTERNAL_NAMESPACE;
 
 struct DeepImageChannel {
     using BoundType = Imf::DeepImageChannel;
-} CPPMM_OPAQUEBYTES;
+
+    // from ImageChannel
+    IMFUTIL_EXPORT
+    Imf::Channel channel() const;
+    int xSampling() const;
+    int ySampling() const;
+    bool pLinear() const;
+    int pixelsPerRow() const;
+    int pixelsPerColumn() const;
+    size_t numPixels() const;
+    virtual Imf::PixelType pixelType() const;
+
+    virtual Imf::DeepSlice slice() const = 0;
+
+    IMFUTIL_EXPORT Imf::DeepImageLevel& deepLevel();
+    IMFUTIL_EXPORT const Imf::DeepImageLevel& deepLevel() const;
+
+    IMFUTIL_EXPORT Imf::SampleCountChannel& sampleCounts();
+    IMFUTIL_EXPORT const Imf::SampleCountChannel& sampleCounts() const;
+} CPPMM_OPAQUEPTR;
 
 template <typename T> struct TypedDeepImageChannel {
     using BoundType = Imf::TypedDeepImageChannel<T>;
+
+    // from ImageChannel
+    IMFUTIL_EXPORT
+    Imf::Channel channel() const;
+    int xSampling() const;
+    int ySampling() const;
+    bool pLinear() const;
+    int pixelsPerRow() const;
+    int pixelsPerColumn() const;
+    size_t numPixels() const;
+    virtual Imf::PixelType pixelType() const;
+
+    virtual Imf::DeepSlice slice() const;
+    T* operator()(int x, int y) CPPMM_RENAME(index);
+    const T* operator()(int x, int y) const CPPMM_RENAME(index_const);
+    T* at(int x, int y);
+    const T* at(int x, int y) const CPPMM_RENAME(at_const);
+    T* const* row(int r);
+    const T* const* row(int r) const CPPMM_RENAME(row_const);
+
 } CPPMM_OPAQUEBYTES;
 
 template class TypedDeepImageChannel<half>;
