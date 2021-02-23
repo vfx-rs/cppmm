@@ -25,6 +25,6 @@ enable_testing()
 
 add_subdirectory(test/std)
 add_subdirectory(test/imath)
-add_subdirectory(test/openexr)
+# add_subdirectory(test/openexr)
 add_subdirectory(test/oiio)
 add_subdirectory(test/usd)
