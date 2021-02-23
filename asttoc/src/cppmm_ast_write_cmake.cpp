@@ -81,6 +81,11 @@ static void indent(fmt::ostream & out, const size_t depth)
     }
 }
 
+const std::string compute_out_include_path(const std::string & filename)
+{
+    return fs::path(filename).parent_path();
+}
+
 const std::string compute_cmakefile_path(const std::string & filename)
 {
     return fs::path(filename).parent_path() / "CMakeLists.txt";
@@ -121,6 +126,9 @@ void cmake(const Root & root, size_t starting_point)
         }
     }
     out.print(")\n");
+
+    // Add the include path of the output headers
+    include_paths.insert(compute_out_include_path("./"));
 
     // Include directories
     for(auto & include_path: include_paths)
