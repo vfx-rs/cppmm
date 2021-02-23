@@ -117,8 +117,10 @@ void cmake(const Root & root, size_t starting_point, const Libs & libs,
     {
         const auto & tu = root.tus[i];
 
+        // For now we assume the output source code is in the same
+        // folder as the CMakeLists.txt file
         indent(out, 1);
-        out.print("{}\n", tu->filename);
+        out.print("{}\n", fs::path(tu->filename).filename().c_str());
 
         // Add all the include paths
         for(auto & i: tu->include_paths)
