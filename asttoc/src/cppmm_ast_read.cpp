@@ -52,6 +52,7 @@ namespace {
     const char * POINTEE = "pointee";
     const char * RETURN = "return";
     const char * SOURCE_INCLUDES = "source_includes";
+    const char * INCLUDE_PATHS = "include_paths";
     const char * VARIANTS = "variants";
 }
 
@@ -338,6 +339,12 @@ TranslationUnit::Ptr read_translation_unit(const nln::json & json) {
     for(auto & i : json[SOURCE_INCLUDES])
     {
         result->source_includes.insert(i.get<std::string>());
+    }
+
+    // Loop over the include directories
+    for(auto & i : json[INCLUDE_PATHS])
+    {
+        result->include_paths.push_back(i.get<std::string>());
     }
 
     // Parse the elements of the translation unit

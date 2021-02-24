@@ -89,6 +89,8 @@ struct TranslationUnit {
     std::set<std::string> source_private_includes;
     std::set<std::string> header_includes;
 
+    std::vector<std::string> include_paths;
+
     using Self = TranslationUnit;
     using Ptr = std::shared_ptr<Self>;
     using WPtr = std::weak_ptr<Self>;
