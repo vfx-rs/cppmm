@@ -149,6 +149,9 @@ void cmake(const Root & root, size_t starting_point, const Libs & libs,
     }
     for(auto & lib: libs)
     {
+        // TODO LT: Do it this way
+        // find_library ( IMATH NAMES Imath PATHS /Volumes/src/packages/usr/local/lib)
+        // target_link_libraries (mm_binding ${IMATH} )
         out.print("target_link_libraries ({} {})\n", project_name, lib);
     }
 }
