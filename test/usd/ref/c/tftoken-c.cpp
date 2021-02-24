@@ -9,7 +9,7 @@ void pxrInternal_v0_20__pxrReserved___TfToken_copy(
     pxrInternal_v0_20__pxrReserved___TfToken * self
     , pxrInternal_v0_20__pxrReserved___TfToken const * rhs)
 {
-    new (self) TfToken(to_cpp_ref(rhs));
+    new (self) pxrInternal_v0_20__pxrReserved__::TfToken(to_cpp_ref(rhs));
 }
 
 pxrInternal_v0_20__pxrReserved___TfToken * pxrInternal_v0_20__pxrReserved___TfToken_assign(
@@ -29,7 +29,7 @@ void pxrInternal_v0_20__pxrReserved___TfToken_from_string(
     pxrInternal_v0_20__pxrReserved___TfToken * self
     , char * s)
 {
-    new (self) TfToken(to_cpp(s));
+    new (self) pxrInternal_v0_20__pxrReserved__::TfToken(to_cpp(s));
 }
 
 unsigned long pxrInternal_v0_20__pxrReserved___TfToken_Hash(

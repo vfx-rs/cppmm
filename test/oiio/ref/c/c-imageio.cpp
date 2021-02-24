@@ -10,7 +10,7 @@
 void OpenImageIO_v2_2_ROI_default(
     OpenImageIO_v2_2_ROI * self)
 {
-    new (self) ROI();
+    new (self) OpenImageIO_v2_2::ROI();
 }
 
 _Bool OpenImageIO_v2_2_ROI_defined(
@@ -59,7 +59,7 @@ void OpenImageIO_v2_2_ImageSpec_ImageSpec(
     OpenImageIO_v2_2_ImageSpec * self
     , OpenImageIO_v2_2_TypeDesc format)
 {
-    new (self) ImageSpec(to_cpp_ref(&(format)));
+    new (self) OpenImageIO_v2_2::ImageSpec(to_cpp_ref(&(format)));
 }
 
 void OpenImageIO_v2_2_ImageSpec_new_with_dimensions(
@@ -69,7 +69,7 @@ void OpenImageIO_v2_2_ImageSpec_new_with_dimensions(
     , int nchans
     , OpenImageIO_v2_2_TypeDesc fmt)
 {
-    new (self) ImageSpec(xres, yres, nchans, to_cpp_ref(&(fmt)));
+    new (self) OpenImageIO_v2_2::ImageSpec(xres, yres, nchans, to_cpp_ref(&(fmt)));
 }
 
 void OpenImageIO_v2_2_ImageSpec_set_format(
@@ -123,7 +123,7 @@ void OpenImageIO_v2_2_ImageSpec_copy(
     OpenImageIO_v2_2_ImageSpec * self
     , OpenImageIO_v2_2_ImageSpec const * other)
 {
-    new (self) ImageSpec(to_cpp_ref(other));
+    new (self) OpenImageIO_v2_2::ImageSpec(to_cpp_ref(other));
 }
 
 OpenImageIO_v2_2_ImageSpec * OpenImageIO_v2_2_ImageSpec_assign(

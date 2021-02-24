@@ -162,7 +162,7 @@ void OpenImageIO_v2_2_Filesystem_IOMemReader_new(
     , void * buf
     , unsigned long size)
 {
-    new (self) IOMemReader(to_cpp(buf), size);
+    new (self) OpenImageIO_v2_2::Filesystem::IOMemReader(to_cpp(buf), size);
 }
 
 void OpenImageIO_v2_2_Filesystem_IOMemReader_delete(

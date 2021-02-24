@@ -9,14 +9,14 @@
 void Imath_2_5_V3f_Vec3(
     Imath_2_5_V3f * self)
 {
-    new (self) Vec3();
+    new (self) Imath_2_5::Vec3<float>();
 }
 
 void Imath_2_5_V3f_Vec3(
     Imath_2_5_V3f * self
     , Imath_2_5_V3f const * v)
 {
-    new (self) Vec3(to_cpp_ref(v));
+    new (self) Imath_2_5::Vec3<float>(to_cpp_ref(v));
 }
 
 void Imath_2_5_V3f_setValue(

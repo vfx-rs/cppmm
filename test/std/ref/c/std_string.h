@@ -1,5 +1,5 @@
 
-typedef struct {
+typedef struct std___cxx11_string_s {
     char data[32];
 } __attribute__((aligned(8))) std___cxx11_string;
 

@@ -1,5 +1,5 @@
 
-typedef struct {
+typedef struct pxrInternal_v0_20__pxrReserved___TfToken_s {
     char data[8];
 } __attribute__((aligned(8))) pxrInternal_v0_20__pxrReserved___TfToken;
 

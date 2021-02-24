@@ -1,12 +1,12 @@
 #include <c-typedesc.h>
 
-typedef struct {
+typedef struct OpenImageIO_v2_2_ROI_s {
     char data[32];
 } __attribute__((aligned(4))) OpenImageIO_v2_2_ROI;
-typedef struct {
+typedef struct OpenImageIO_v2_2_ImageSpec_s {
     char data[160];
 } __attribute__((aligned(8))) OpenImageIO_v2_2_ImageSpec;
-typedef struct {
+typedef struct OpenImageIO_v2_2_ImageInput_s {
     char data[248];
 } __attribute__((aligned(8))) OpenImageIO_v2_2_ImageInput;
 

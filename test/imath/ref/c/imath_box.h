@@ -1,9 +1,9 @@
 
-typedef struct Imath_2_5_V3f;
-typedef struct {
+typedef struct Imath_2_5_V3f_s Imath_2_5_V3f;
+typedef struct Imath_2_5_Box3f_s {
     char data[24];
 } __attribute__((aligned(4))) Imath_2_5_Box3f;
-typedef struct {
+typedef struct Imath_2_5_Box3i_s {
     char data[24];
 } __attribute__((aligned(4))) Imath_2_5_Box3i;
 

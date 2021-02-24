@@ -1,5 +1,5 @@
 
-typedef struct {
+typedef struct Imath_2_5_V3f_s {
     char data[12];
 } __attribute__((aligned(4))) Imath_2_5_V3f;
 

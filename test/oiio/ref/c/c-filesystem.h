@@ -1,8 +1,8 @@
 
-typedef struct {
+typedef struct OpenImageIO_v2_2_Filesystem_IOProxy_s {
     char data[88];
 } __attribute__((aligned(8))) OpenImageIO_v2_2_Filesystem_IOProxy;
-typedef struct {
+typedef struct OpenImageIO_v2_2_Filesystem_IOMemReader_s {
     char data[104];
 } __attribute__((aligned(8))) OpenImageIO_v2_2_Filesystem_IOMemReader;
 
