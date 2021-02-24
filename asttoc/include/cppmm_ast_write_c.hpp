@@ -11,6 +11,6 @@ class Root;
 
 namespace write
 {
-void cpp(const Root & root, size_t starting_point);
+void c(const Root & root, size_t starting_point);
 } // namespace read
 } // namesapce cppmm

@@ -499,7 +499,7 @@ NodeExprPtr opaquebytes_constructor_body(TypeRegistry & type_registry,
                     std::vector<NodeExprPtr>({
                         NodePlacementNewExpr::n(
                             NodeVarRefExpr::n("self"),
-                            NodeFunctionCallExpr::n(cpp_method.short_name, args)
+                            NodeFunctionCallExpr::n(cpp_record.name, args)
     )}));
 }
 
@@ -1072,6 +1072,7 @@ void translation_unit_entries(
     c_tu->header_filename = header_file_include(std::get<Header>(filepaths));
     c_tu->private_header_filename =
         header_file_include(std::get<PrivateHeader>(filepaths));
+    c_tu->include_paths = cpp_tu->include_paths;
 
     // source includes -> source includes
     for (auto & i : cpp_tu->source_includes)
