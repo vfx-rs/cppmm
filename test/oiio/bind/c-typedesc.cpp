@@ -1,5 +1,7 @@
 #include <OpenImageIO/typedesc.h>
 
+#include <cppmm_bind.hpp>
+
 namespace cppmm_bind {
 namespace OIIO_NAMESPACE {
 
