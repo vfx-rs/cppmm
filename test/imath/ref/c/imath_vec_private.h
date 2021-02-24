@@ -64,3 +64,12 @@ inline Imath_2_5_V3f * to_c(
 {
     return reinterpret_cast<Imath_2_5_V3f * >(rhs);
 }
+
+
+inline Imath_2_5_V3f to_c_copy(
+    Imath_2_5::Vec3<float> const & rhs)
+{
+    Imath_2_5_V3f result;
+    Imath_2_5_V3f_Vec3(&(result), reinterpret_cast<Imath_2_5_V3f const * >(&(rhs)));
+    return result;
+}

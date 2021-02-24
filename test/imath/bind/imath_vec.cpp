@@ -12,8 +12,9 @@ public:
     // This allows us to see through to the type in Imath
     using BoundType = ::Imath::Vec3<T>;
 
-    Vec3( );
-    Vec3( const ::Imath::Vec3<T>& v );
+    Vec3();
+    Vec3(const ::Imath::Vec3<T>& v);
+    template <typename S> Vec3(const ::Imath::Vec3<S>& v);
 
     // we're not actually paying any attention to the method declarations yet
     // no matching
@@ -24,7 +25,8 @@ public:
 
     T dot(const ::Imath::Vec3<T>& v) const;
     ::Imath::Vec3<T> cross(const ::Imath::Vec3<T>& v) const;
-    const ::Imath::Vec3<T>& operator+=(const ::Imath::Vec3<T>& v) CPPMM_RENAME(op_iadd) ;
+    const ::Imath::Vec3<T>& operator+=(const ::Imath::Vec3<T>& v)
+        CPPMM_RENAME(op_iadd);
 
     const ::Imath::Vec3<T>& normalize();
     ::Imath::Vec3<T> normalized() const;

@@ -193,6 +193,8 @@ int main(int argc_, const char** argv_) {
 #define CPPMM_OPAQUEPTR __attribute__((annotate("cppmm:opaqueptr")))
 #define CPPMM_OPAQUEBYTES __attribute__((annotate("cppmm:opaquebytes")))
 #define CPPMM_VALUETYPE __attribute__((annotate("cppmm:valuetype")))
+
+#define CPPMM_THROWS(x) __attribute__((annotate("cppmm:throws:" #x)))
 )#");
 
     std::string output_dir = cwd;

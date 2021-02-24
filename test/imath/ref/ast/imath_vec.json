@@ -107,7 +107,7 @@
                     "copy_assignment_operator": false,
                     "move_assignment_operator": false,
                     "constructor": true,
-                    "copy_constructor": false,
+                    "copy_constructor": true,
                     "move_constructor": false,
                     "conversion_decl": false,
                     "destructor": false,

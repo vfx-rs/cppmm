@@ -545,6 +545,9 @@ struct NodeMethod : public NodeFunction {
     /// Is the method a conversion decl, e.g. "operator bool()"
     bool is_conversion_decl = false;
     bool is_destructor = false;
+    /// Is this method the result of a FunctionTemplateDecl specialization
+    /// We use this to differentiate `foo(int)` from `foo<T>(T)` with `T=int`.
+    bool is_specialization = false;
 
     NodeMethod(std::string qualified_name, NodeId id, NodeId context,
                std::vector<std::string> attrs, std::string short_name,
@@ -578,6 +581,53 @@ struct NodeMethod : public NodeFunction {
         write_parameters_json(o);
     }
 };
+
+std::ostream& operator<<(std::ostream& os, const NodeMethod& f) {
+    if (f.is_static) {
+        os << "static ";
+    }
+    if (f.is_virtual) {
+        os << "virtual ";
+    }
+    os << f.qualified_name << "(";
+    for (const Param& p : f.params) {
+        os << p << ", ";
+    }
+    os << ") -> " << f.return_type;
+    if (f.is_const) {
+        os << " const";
+    }
+    os << "[[";
+    if (f.is_user_provided) {
+        os << "user_provided, ";
+    }
+    if (f.is_overloaded_operator) {
+        os << "overloaded_operator, ";
+    }
+    if (f.is_copy_assignment_operator) {
+        os << "copy_assignment_operator, ";
+    }
+    if (f.is_move_assignment_operator) {
+        os << "move_assignment_operator, ";
+    }
+    if (f.is_constructor) {
+        os << "constructor, ";
+    }
+    if (f.is_copy_constructor) {
+        os << "copy_constructor, ";
+    }
+    if (f.is_move_constructor) {
+        os << "move_constructor, ";
+    }
+    if (f.is_conversion_decl) {
+        os << "conversion_decl, ";
+    }
+    if (f.is_destructor) {
+        os << "destructor, ";
+    }
+    os << "]]";
+    return os;
+}
 
 /// A field of a class or struct as a (name, type) pair
 struct Field {
@@ -980,10 +1030,10 @@ std::string get_record_name(const CXXRecordDecl* crd) {
 
 /// Create a new node for the given method decl and return it
 NodePtr process_method_decl(const CXXMethodDecl* cmd,
-                            std::vector<std::string> attrs) {
+                            std::vector<std::string> attrs,
+                            bool is_specialization = false) {
     const std::string method_name = cmd->getQualifiedNameAsString();
     const std::string method_short_name = cmd->getNameAsString();
-    SPDLOG_TRACE("    METHOD {}", method_name);
 
     QType return_qtype;
     std::vector<Param> params;
@@ -1010,6 +1060,10 @@ NodePtr process_method_decl(const CXXMethodDecl* cmd,
     } else if (const auto* ccd = dyn_cast<CXXConversionDecl>(cmd)) {
         m->is_conversion_decl = true;
     }
+
+    m->is_specialization = is_specialization;
+
+    SPDLOG_DEBUG("Processed method {}", *m);
 
     return node_function;
 }
@@ -1060,6 +1114,10 @@ bool match_method(const NodeMethod* a, const NodeMethod* b) {
     }
 
     if (a->is_static != b->is_static) {
+        return false;
+    }
+
+    if (a->is_specialization != b->is_specialization) {
         return false;
     }
 
@@ -1122,7 +1180,7 @@ std::vector<NodePtr> process_methods(const CXXRecordDecl* crd) {
             for (const FunctionDecl* fd : ftd->specializations()) {
                 std::vector<std::string> attrs = get_attrs(fd);
                 if (const auto* cmd = dyn_cast<CXXMethodDecl>(fd)) {
-                    auto node_function = process_method_decl(cmd, attrs);
+                    auto node_function = process_method_decl(cmd, attrs, true);
                     add_method_to_list(std::move(node_function), result);
                 } else {
                     // shouldn't get here
