@@ -188,13 +188,13 @@ int main(int argc_, const char** argv_) {
                    ArrayRef<std::string>(dir_paths));
 
     Tool.mapVirtualFile("/usr/local/include/cppmm_bind.hpp", R"#(
-#define CPPMM_IGNORE __attribute__((annotate("cppmm:ignore")))
-#define CPPMM_RENAME(x) __attribute__((annotate("cppmm:rename:" #x)))
-#define CPPMM_OPAQUEPTR __attribute__((annotate("cppmm:opaqueptr")))
-#define CPPMM_OPAQUEBYTES __attribute__((annotate("cppmm:opaquebytes")))
-#define CPPMM_VALUETYPE __attribute__((annotate("cppmm:valuetype")))
+#define CPPMM_IGNORE __attribute__((annotate("cppmm|ignore")))
+#define CPPMM_RENAME(x) __attribute__((annotate("cppmm|rename|" #x)))
+#define CPPMM_OPAQUEPTR __attribute__((annotate("cppmm|opaqueptr")))
+#define CPPMM_OPAQUEBYTES __attribute__((annotate("cppmm|opaquebytes")))
+#define CPPMM_VALUETYPE __attribute__((annotate("cppmm|valuetype")))
 
-#define CPPMM_THROWS(x) __attribute__((annotate("cppmm:throws:" #x)))
+#define CPPMM_THROWS(EX, VAR) __attribute__((annotate("cppmm|throws|" #EX "|" #VAR)))
 )#");
 
     std::string output_dir = cwd;
