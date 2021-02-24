@@ -48,8 +48,9 @@ template <typename T> struct TypedDeepImageChannel {
     virtual Imf::DeepSlice slice() const;
     T* operator()(int x, int y) CPPMM_RENAME(index);
     const T* operator()(int x, int y) const CPPMM_RENAME(index_const);
-    T* at(int x, int y);
-    const T* at(int x, int y) const CPPMM_RENAME(at_const);
+    T* at(int x, int y) CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
+    const T* at(int x, int y) const CPPMM_RENAME(at_const)
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
     T* const* row(int r);
     const T* const* row(int r) const CPPMM_RENAME(row_const);
 

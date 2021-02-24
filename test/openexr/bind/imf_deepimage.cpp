@@ -18,7 +18,7 @@ struct DeepImage {
     Imf::LevelRoundingMode levelRoundingMode() const;
 
     IMFUTIL_EXPORT
-    int numLevels() const CPPMM_THROWS(Iex::LogicExc);
+    int numLevels() const CPPMM_THROWS(Iex::LogicExc, IEX_LOGIC_ERROR);
     IMFUTIL_EXPORT
     int numXLevels() const;
     IMFUTIL_EXPORT
@@ -37,7 +37,8 @@ struct DeepImage {
     int levelHeight(int ly) const;
 
     IMFUTIL_EXPORT
-    void shiftPixels(int dx, int dy) CPPMM_THROWS(Iex::ArgExc);
+    void shiftPixels(int dx, int dy)
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
 
     IMFUTIL_EXPORT
     void resize(const IMATH_NAMESPACE::Box2i& dataWindow);
@@ -63,11 +64,13 @@ struct DeepImage {
 
     IMFUTIL_EXPORT
     void renameChannel(const std::string& oldName, const std::string& newName)
-        CPPMM_THROWS(Iex::BaseExc);
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT)
+            CPPMM_THROWS(std::exception, IEX_OUT_OF_MEMORY);
 
     IMFUTIL_EXPORT
     void renameChannels(const Imf::RenamingMap& oldToNewNames)
-        CPPMM_THROWS(Iex::BaseExc);
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT)
+            CPPMM_THROWS(std::exception, IEX_OUT_OF_MEMORY);
 
     // DeepImage
     IMFUTIL_EXPORT DeepImage() CPPMM_RENAME(default);

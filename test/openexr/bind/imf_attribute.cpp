@@ -77,13 +77,14 @@ public:
     virtual void copyValueFrom(const Attribute& other);
 
     static Imf::TypedAttribute<T>* cast(Attribute* attribute)
-        CPPMM_RENAME(cast_ptr);
+        CPPMM_RENAME(cast_ptr) CPPMM_THROWS(Iex::TypeExc, IEX_INVALID_TYPE);
     static const Imf::TypedAttribute<T>* cast(const Imf::Attribute* attribute)
-        CPPMM_RENAME(cast_ptr_const);
-    static Imf::TypedAttribute<T>& cast(Attribute& attribute)
-        CPPMM_RENAME(cast);
+        CPPMM_RENAME(cast_ptr_const)
+            CPPMM_THROWS(Iex::TypeExc, IEX_INVALID_TYPE);
+    static Imf::TypedAttribute<T>& cast(Attribute& attribute) CPPMM_RENAME(cast)
+        CPPMM_THROWS(Iex::TypeExc, IEX_INVALID_TYPE);
     static const Imf::TypedAttribute<T>& cast(const Imf::Attribute& attribute)
-        CPPMM_RENAME(cast_const);
+        CPPMM_RENAME(cast_const) CPPMM_THROWS(Iex::TypeExc, IEX_INVALID_TYPE);
 
     static void registerAttributeType();
     static void unRegisterAttributeType();
