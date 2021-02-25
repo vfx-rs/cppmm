@@ -32,28 +32,20 @@ struct DeepFrameBuffer {
     const Imf::DeepSlice& operator[](const char name[]) const;
 
     IMF_EXPORT
-    DeepSlice& operator[](const std::string& name) CPPMM_IGNORE;
+    Imf::DeepSlice& operator[](const std::string& name) CPPMM_IGNORE;
     IMF_EXPORT
-    const DeepSlice& operator[](const std::string& name) const CPPMM_IGNORE;
+    const Imf::DeepSlice&
+    operator[](const std::string& name) const CPPMM_IGNORE;
 
     IMF_EXPORT
-    DeepSlice* findSlice(const char name[]);
+    Imf::DeepSlice* findSlice(const char name[]);
     IMF_EXPORT
-    const DeepSlice* findSlice(const char name[]) const;
+    const Imf::DeepSlice* findSlice(const char name[]) const;
 
     IMF_EXPORT
-    DeepSlice* findSlice(const std::string& name) CPPMM_IGNORE;
+    Imf::DeepSlice* findSlice(const std::string& name) CPPMM_IGNORE;
     IMF_EXPORT
-    const DeepSlice* findSlice(const std::string& name) const CPPMM_IGNORE;
-
-    //-----------------------------------------
-    // Iterator-style access to existing slices
-    //-----------------------------------------
-
-    // typedef std::map<Name, DeepSlice> SliceMap;
-
-    // class Iterator;
-    // class ConstIterator;
+    const Imf::DeepSlice* findSlice(const std::string& name) const CPPMM_IGNORE;
 
     IMF_EXPORT
     Imf::DeepFrameBuffer::Iterator begin();

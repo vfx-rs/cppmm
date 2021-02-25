@@ -8,6 +8,9 @@ namespace OPENEXR_IMF_INTERNAL_NAMESPACE {
 
 namespace Imf = ::OPENEXR_IMF_INTERNAL_NAMESPACE;
 
+IMF_EXPORT int globalThreadCount();
+IMF_EXPORT void setGlobalThreadCount(int count);
+
 } // namespace OPENEXR_IMF_INTERNAL_NAMESPACE
 
 } // namespace cppmm_bind

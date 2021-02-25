@@ -13,8 +13,6 @@ struct FlatImageChannel {
 
     // Inherited from ImageChannel
     virtual Imf::PixelType pixelType() const = 0;
-    IMFUTIL_EXPORT
-    Imf::Channel channel() const;
     int xSampling() const;
     int ySampling() const;
     bool pLinear() const;
@@ -38,8 +36,6 @@ template <typename T> struct TypedFlatImageChannel {
 
     // Inherited from ImageChannel
     virtual Imf::PixelType pixelType() const = 0;
-    IMFUTIL_EXPORT
-    Imf::Channel channel() const;
     int xSampling() const;
     int ySampling() const;
     bool pLinear() const;

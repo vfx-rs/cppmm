@@ -1,5 +1,7 @@
 #include <OpenEXR/ImfStandardAttributes.h>
 
+// FIXME: get this working
+
 #include <cppmm_bind.hpp>
 
 namespace cppmm_bind {
