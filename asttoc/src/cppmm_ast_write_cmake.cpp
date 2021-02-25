@@ -113,7 +113,7 @@ void cmake(const Root & root, size_t starting_point, const Libs & libs,
     // Library    
     std::set<std::string> include_paths;
 
-    out.print("add_library({}\n", project_name);
+    out.print("add_library({} SHARED\n", project_name);
     const auto size = root.tus.size();
     for(size_t i=starting_point; i < size; ++i)
     {
