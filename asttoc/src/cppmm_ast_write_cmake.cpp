@@ -143,16 +143,18 @@ void cmake(const Root & root, size_t starting_point, const Libs & libs,
     }
 
     // Add the libraries
-    for(auto & lib_dir: lib_dirs)
-    {
-        out.print("link_directories(BEFORE {})\n", lib_dir);
-    }
     for(auto & lib: libs)
     {
-        // TODO LT: Do it this way
-        // find_library ( IMATH NAMES Imath PATHS /Volumes/src/packages/usr/local/lib)
-        // target_link_libraries (mm_binding ${IMATH} )
-        out.print("target_link_libraries ({} {})\n", project_name, lib);
+        auto lib_var = std::string("LIB_") + pystring::upper(lib);
+
+        out.print("find_library ( {} NAMES {} PATHS", lib_var, lib);
+        for(auto & lib_dir: lib_dirs)
+        {
+            out.print(" {}", lib_dir);
+        }
+        out.print(")\n");
+        out.print("target_link_libraries ({} ${{{}}})\n", project_name,
+                                                          lib_var);
     }
 }
 
