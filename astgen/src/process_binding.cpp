@@ -83,6 +83,7 @@ enum class NodeKind : uint32_t {
     Record,
     Enum,
     ConstantArrayType,
+    Var,
 };
 
 std::ostream& operator<<(std::ostream& os, NodeKind k) {
@@ -464,6 +465,31 @@ struct NodeAttributeHolder : public Node {
         for (const auto& a : attrs) {
             o["attributes"].emplace_back(a);
         }
+    }
+};
+
+struct NodeVar : public NodeAttributeHolder {
+    std::string short_name;
+    QType qtype;
+
+    NodeVar(std::string qualified_name, NodeId id, NodeId context,
+            std::vector<std::string> attrs, std::string short_name, QType qtype)
+        : NodeAttributeHolder(std::move(qualified_name), id, context,
+                              NodeKind::Var, std::move(attrs)),
+          qtype(qtype), short_name(std::move(short_name)) {}
+
+    virtual void write_json_attrs(json& o) const override {
+        NodeAttributeHolder::write_json_attrs(o);
+    }
+
+    virtual void write_json(json& o) const override {
+        o["kind"] = "Var";
+        o["qualified_name"] = qualified_name;
+        o["short_name"] = short_name;
+        o["type"] = {};
+        qtype.write_json(o["type"]);
+        write_json_attrs(o);
+        write_attrs_json(o);
     }
 };
 
@@ -1344,6 +1370,40 @@ void process_enum_decl(const EnumDecl* ed, std::string filename) {
     }
 }
 
+/// Create a NodeVar for the given VarDecl contained in the given file and
+/// store it in the AST.
+void process_var_decl(const VarDecl* vd, std::string filename) {
+    vd = vd->getCanonicalDecl();
+    assert(vd && "canonical decl is null");
+    const std::string var_name = vd->getQualifiedNameAsString();
+    const std::string var_short_name = vd->getNameAsString();
+
+    if (NODE_MAP.find(var_name) != NODE_MAP.end()) {
+        // already done this one
+        return;
+    }
+
+    std::vector<std::string> attrs = get_attrs(vd);
+
+    auto qtype = process_qtype(vd->getType());
+
+    // Get the translation unit node we're going to add this Var to
+    auto* node_tu = get_translation_unit(filename);
+    // const std::vector<NodeId> namespaces =
+    //     get_namespaces(vd->getParent(), node_tu);
+    std::vector<NodeId> namespaces{};
+    ASTContext& ctx = vd->getASTContext();
+
+    NodeId new_id = NODES.size();
+    auto node_var =
+        std::make_unique<NodeVar>(var_name, new_id, 0, std::move(attrs),
+                                  std::move(var_short_name), qtype);
+    NODES.emplace_back(std::move(node_var));
+    NODE_MAP[var_name] = new_id;
+    // add this record to the TU
+    node_tu->children.push_back(new_id);
+}
+
 void process_fields(const CXXRecordDecl* crd, NodeRecord* node_record_ptr) {
     // recurse through all bases and grab their fields
     for (const auto& base : crd->bases()) {
@@ -1574,6 +1634,7 @@ void handle_typealias_decl(const TypeAliasDecl* tad, const CXXRecordDecl* crd) {
 
 std::unordered_map<std::string, std::vector<NodeFunction>> binding_functions;
 std::unordered_map<std::string, NodeEnum> binding_enums;
+std::unordered_map<std::string, NodeVar> binding_vars;
 
 /// This function is responsible for storing the description of the given
 /// FunctionDecl so that we can match against it later. Only functions that
@@ -1637,6 +1698,32 @@ void handle_binding_enum(const EnumDecl* ed) {
     binding_enums.insert(std::make_pair(enum_qual_name, std::move(node_enum)));
 }
 
+/// Store a description of the given VarDecl so we can match it against a
+/// corresponding decl in the library later to decide whether we want to
+/// process said library decl
+void handle_binding_var(const VarDecl* vd) {
+    const std::string var_qual_name =
+        pystring::replace(vd->getQualifiedNameAsString(), "cppmm_bind::", "");
+    const std::string var_short_name = vd->getNameAsString();
+    SPDLOG_DEBUG("    BIND VAR {}", var_qual_name);
+
+    ASTContext& ctx = vd->getASTContext();
+    SourceManager& sm = ctx.getSourceManager();
+    const auto& loc = vd->getLocation();
+    std::string filename = sm.getFilename(loc).str();
+
+    // Get the translation unit node we're going to add this Enum to
+    auto* node_tu = get_translation_unit(filename);
+
+    auto attrs = get_attrs(vd);
+
+    auto qtype = process_qtype(vd->getType());
+
+    auto node_var = NodeVar(var_qual_name, -1, node_tu->id, std::move(attrs),
+                            var_short_name, qtype);
+    binding_vars.insert(std::make_pair(var_qual_name, std::move(node_var)));
+}
+
 /// Decide if we want to store the given library FunctionDecl in the AST by
 /// matching it against a decl from the bindings. If so, create the new
 /// NodeFunction and store it in the AST
@@ -1697,23 +1784,26 @@ void handle_enum(const EnumDecl* ed) {
     process_enum_decl(ed, std::move(filename));
 }
 
+/// Decide if we want to store the given library VarDecl in the AST by
+/// matching it against a decl from the bindings. If so, create the new NodeVar
+/// and store it in the AST
+void handle_var(const VarDecl* vd) {
+    const std::string var_qual_name = vd->getQualifiedNameAsString();
+    auto it = binding_vars.find(var_qual_name);
+    if (it == binding_vars.end()) {
+        return;
+    }
+
+    const std::string filename =
+        ((NodeTranslationUnit*)NODES.at(it->second.context).get())
+            ->qualified_name;
+
+    process_var_decl(vd, std::move(filename));
+}
+
 /// Clang AST matcher that matches on the decls we're interested in in the
 /// bindings and dispatches to our handling functions
 void ProcessBindingCallback::run(const MatchFinder::MatchResult& result) {
-    // if (const TypeAliasDecl* tdecl =
-    //         result.Nodes.getNodeAs<TypeAliasDecl>("typeAliasDecl")) {
-    //     handle_typealias(tdecl);
-    // } else if (const CXXRecordDecl* record =
-    //                result.Nodes.getNodeAs<CXXRecordDecl>("recordDecl")) {
-    //     handle_record(record);
-    // } else if (const EnumDecl* enum_decl =
-    //                result.Nodes.getNodeAs<EnumDecl>("enumDecl")) {
-    //     handle_enum(enum_decl);
-    // } else if (const FunctionDecl* function =
-    //                result.Nodes.getNodeAs<FunctionDecl>("functionDecl")) {
-    //     handle_function(function);
-    // }
-
     if (const CXXRecordDecl* rec_decl =
             result.Nodes.getNodeAs<CXXRecordDecl>("recordDecl")) {
         handle_cxx_record_decl(rec_decl);
@@ -1732,6 +1822,9 @@ void ProcessBindingCallback::run(const MatchFinder::MatchResult& result) {
     } else if (const EnumDecl* enum_decl =
                    result.Nodes.getNodeAs<EnumDecl>("enumDecl")) {
         handle_binding_enum(enum_decl);
+    } else if (const VarDecl* var_decl =
+                   result.Nodes.getNodeAs<VarDecl>("varDecl")) {
+        handle_binding_var(var_decl);
     }
 }
 
@@ -1744,6 +1837,9 @@ void ProcessLibraryCallback::run(const MatchFinder::MatchResult& result) {
     } else if (const EnumDecl* ed =
                    result.Nodes.getNodeAs<EnumDecl>("libraryEnumDecl")) {
         handle_enum(ed);
+    } else if (const VarDecl* vd =
+                   result.Nodes.getNodeAs<VarDecl>("libraryVarDecl")) {
+        handle_var(vd);
     }
 }
 
@@ -1775,6 +1871,13 @@ ProcessBindingConsumer::ProcessBindingConsumer(ASTContext* context) {
                  unless(isImplicit()))
             .bind("enumDecl");
     _match_finder.addMatcher(enum_decl_matcher, &_handler);
+
+    // match all variable declrations in the cppmm_bind namespace
+    DeclarationMatcher var_decl_matcher =
+        varDecl(hasAncestor(namespaceDecl(hasName("cppmm_bind"))),
+                unless(anyOf(isImplicit(), parmVarDecl())))
+            .bind("varDecl");
+    _match_finder.addMatcher(var_decl_matcher, &_handler);
 }
 
 /// Run the binding AST matcher, then run secondary matchers to find functions
@@ -1810,6 +1913,16 @@ void ProcessBindingConsumer::HandleTranslationUnit(ASTContext& context) {
                      unless(hasAncestor(recordDecl())))
                 .bind("libraryEnumDecl");
         _library_finder.addMatcher(enum_decl_matcher, &_library_handler);
+    }
+
+    // and a matcher for each var
+    for (const auto& kv : binding_vars) {
+        SPDLOG_DEBUG("Adding matcher for var {}", kv.first);
+        DeclarationMatcher var_decl_matcher =
+            varDecl(hasName(kv.second.short_name),
+                    unless(hasAncestor(namespaceDecl(hasName("cppmm_bind")))))
+                .bind("libraryVarDecl");
+        _library_finder.addMatcher(var_decl_matcher, &_library_handler);
     }
 
     _library_finder.matchAST(context);
