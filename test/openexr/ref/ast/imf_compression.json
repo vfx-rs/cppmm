@@ -1,0 +1,46 @@
+{
+    "kind": "TranslationUnit",
+    "filename": "/home/anders/code/cppmm/test/openexr/bind/imf_compression.cpp",
+    "source_includes": [
+        "#include <OpenEXR/ImfCompression.h>",
+        "#include <cppmm_bind.hpp>"
+    ],
+    "include_paths": [
+        "/home/anders/packages/openexr/2.5.5/include",
+        "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
+    ],
+    "id": 543,
+    "decls": [
+        {
+            "kind": "Namespace",
+            "name": "Imf_2_5",
+            "id": 26,
+            "short_name": "Imf_2_5"
+        },
+        {
+            "kind": "Enum",
+            "name": "Imf_2_5::Compression",
+            "short_name": "Compression",
+            "namespaces": [
+                26
+            ],
+            "id": 544,
+            "size": 32,
+            "align": 32,
+            "attributes": null,
+            "variants": {
+                "NO_COMPRESSION": "0",
+                "RLE_COMPRESSION": "1",
+                "ZIPS_COMPRESSION": "2",
+                "ZIP_COMPRESSION": "3",
+                "PIZ_COMPRESSION": "4",
+                "PXR24_COMPRESSION": "5",
+                "B44_COMPRESSION": "6",
+                "B44A_COMPRESSION": "7",
+                "DWAA_COMPRESSION": "8",
+                "DWAB_COMPRESSION": "9",
+                "NUM_COMPRESSION_METHODS": "10"
+            }
+        }
+    ]
+}

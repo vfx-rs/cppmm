@@ -1,0 +1,2783 @@
+{
+    "kind": "TranslationUnit",
+    "filename": "/home/anders/code/cppmm/test/openexr/bind/imf_deepimagechannel.cpp",
+    "source_includes": [
+        "#include <OpenEXR/ImfDeepImageChannel.h>",
+        "#include <cppmm_bind.hpp>"
+    ],
+    "include_paths": [
+        "/home/anders/packages/openexr/2.5.5/include",
+        "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
+    ],
+    "id": 3000,
+    "decls": [
+        {
+            "kind": "Namespace",
+            "name": "Imf_2_5",
+            "id": 26,
+            "short_name": "Imf_2_5"
+        },
+        {
+            "kind": "Record",
+            "name": "Imf_2_5::DeepImageChannel",
+            "short_name": "DeepImageChannel",
+            "namespaces": [
+                26
+            ],
+            "id": 3001,
+            "size": 384,
+            "align": 64,
+            "alias": "DeepImageChannel",
+            "attributes": [
+                "cppmm|opaqueptr"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "_level",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 202,
+                        "type": "class Imf_2_5::ImageLevel &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 201,
+                            "type": "Imf_2_5::ImageLevel",
+                            "record": 1432,
+                            "const": false
+                        },
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_xSampling",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_ySampling",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_pLinear",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 53,
+                        "type": "_Bool",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_pixelsPerRow",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_pixelsPerColumn",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_numPixels",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 20,
+                        "type": "unsigned long",
+                        "const": false
+                    }
+                }
+            ],
+            "methods": [
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "pixelType",
+                    "qualified_name": "Imf_2_5::ImageChannel::pixelType",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": true,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "EnumType",
+                        "id": 200,
+                        "type": "Imf_2_5::PixelType",
+                        "enum": 1630,
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "channel",
+                    "qualified_name": "Imf_2_5::ImageChannel::channel",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "RecordType",
+                        "id": 214,
+                        "type": "Imf_2_5::Channel",
+                        "record": 2894,
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "xSampling",
+                    "qualified_name": "Imf_2_5::ImageChannel::xSampling",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "ySampling",
+                    "qualified_name": "Imf_2_5::ImageChannel::ySampling",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "pLinear",
+                    "qualified_name": "Imf_2_5::ImageChannel::pLinear",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 53,
+                        "type": "_Bool",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "pixelsPerRow",
+                    "qualified_name": "Imf_2_5::ImageChannel::pixelsPerRow",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "pixelsPerColumn",
+                    "qualified_name": "Imf_2_5::ImageChannel::pixelsPerColumn",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "numPixels",
+                    "qualified_name": "Imf_2_5::ImageChannel::numPixels",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 20,
+                        "type": "unsigned long",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "slice",
+                    "qualified_name": "Imf_2_5::DeepImageChannel::slice",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": true,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "RecordType",
+                        "id": 335,
+                        "type": "Imf_2_5::DeepSlice",
+                        "record": 328,
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "deepLevel",
+                    "qualified_name": "Imf_2_5::DeepImageChannel::deepLevel",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "Reference",
+                        "id": 888,
+                        "type": "class Imf_2_5::DeepImageLevel &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 887,
+                            "type": "Imf_2_5::DeepImageLevel",
+                            "record": 1443,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "deepLevel",
+                    "qualified_name": "Imf_2_5::DeepImageChannel::deepLevel",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "Reference",
+                        "id": 889,
+                        "type": "const class Imf_2_5::DeepImageLevel &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 887,
+                            "type": "Imf_2_5::DeepImageLevel",
+                            "record": 1443,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "sampleCounts",
+                    "qualified_name": "Imf_2_5::DeepImageChannel::sampleCounts",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "Reference",
+                        "id": 899,
+                        "type": "class Imf_2_5::SampleCountChannel &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 897,
+                            "type": "Imf_2_5::SampleCountChannel",
+                            "record": 896,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "sampleCounts",
+                    "qualified_name": "Imf_2_5::DeepImageChannel::sampleCounts",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "Reference",
+                        "id": 898,
+                        "type": "const class Imf_2_5::SampleCountChannel &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 897,
+                            "type": "Imf_2_5::SampleCountChannel",
+                            "record": 896,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "params": null
+                }
+            ]
+        },
+        {
+            "kind": "Record",
+            "name": "Imf_2_5::TypedDeepImageChannel<half>",
+            "short_name": "TypedDeepImageChannel",
+            "namespaces": [
+                26
+            ],
+            "id": 3023,
+            "size": 576,
+            "align": 64,
+            "alias": "DeepHalfChannel",
+            "attributes": [
+                "cppmm|opaquebytes"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "_level",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 202,
+                        "type": "class Imf_2_5::ImageLevel &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 201,
+                            "type": "Imf_2_5::ImageLevel",
+                            "record": 1432,
+                            "const": false
+                        },
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_xSampling",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_ySampling",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_pLinear",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 53,
+                        "type": "_Bool",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_pixelsPerRow",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_pixelsPerColumn",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_numPixels",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 20,
+                        "type": "unsigned long",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_sampleListPointers",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 3039,
+                        "type": "class half **",
+                        "pointee": {
+                            "kind": "Pointer",
+                            "id": 230,
+                            "type": "class half *",
+                            "pointee": {
+                                "kind": "RecordType",
+                                "id": 227,
+                                "type": "half",
+                                "record": 854,
+                                "const": false
+                            },
+                            "const": false
+                        },
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_base",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 3039,
+                        "type": "class half **",
+                        "pointee": {
+                            "kind": "Pointer",
+                            "id": 230,
+                            "type": "class half *",
+                            "pointee": {
+                                "kind": "RecordType",
+                                "id": 227,
+                                "type": "half",
+                                "record": 854,
+                                "const": false
+                            },
+                            "const": false
+                        },
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_sampleBuffer",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 230,
+                        "type": "class half *",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 227,
+                            "type": "half",
+                            "record": 854,
+                            "const": false
+                        },
+                        "const": false
+                    }
+                }
+            ],
+            "methods": [
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "pixelType",
+                    "qualified_name": "Imf_2_5::TypedDeepImageChannel<half>::pixelType",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": true,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "EnumType",
+                        "id": 200,
+                        "type": "Imf_2_5::PixelType",
+                        "enum": 1630,
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "channel",
+                    "qualified_name": "Imf_2_5::ImageChannel::channel",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "RecordType",
+                        "id": 214,
+                        "type": "Imf_2_5::Channel",
+                        "record": 2894,
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "xSampling",
+                    "qualified_name": "Imf_2_5::ImageChannel::xSampling",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "ySampling",
+                    "qualified_name": "Imf_2_5::ImageChannel::ySampling",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "pLinear",
+                    "qualified_name": "Imf_2_5::ImageChannel::pLinear",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 53,
+                        "type": "_Bool",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "pixelsPerRow",
+                    "qualified_name": "Imf_2_5::ImageChannel::pixelsPerRow",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "pixelsPerColumn",
+                    "qualified_name": "Imf_2_5::ImageChannel::pixelsPerColumn",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "numPixels",
+                    "qualified_name": "Imf_2_5::ImageChannel::numPixels",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 20,
+                        "type": "unsigned long",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "slice",
+                    "qualified_name": "Imf_2_5::TypedDeepImageChannel<half>::slice",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": true,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "RecordType",
+                        "id": 335,
+                        "type": "Imf_2_5::DeepSlice",
+                        "record": 328,
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "operator()",
+                    "qualified_name": "Imf_2_5::TypedDeepImageChannel<half>::operator()",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": true,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm|rename|index"
+                    ],
+                    "return": {
+                        "kind": "Pointer",
+                        "id": 230,
+                        "type": "class half *",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 227,
+                            "type": "half",
+                            "record": 854,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "x",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "y",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "operator()",
+                    "qualified_name": "Imf_2_5::TypedDeepImageChannel<half>::operator()",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": true,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm|rename|index_const"
+                    ],
+                    "return": {
+                        "kind": "Pointer",
+                        "id": 231,
+                        "type": "const class half *",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 227,
+                            "type": "half",
+                            "record": 854,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "x",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "y",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "at",
+                    "qualified_name": "Imf_2_5::TypedDeepImageChannel<half>::at",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm|throws|Iex::ArgExc|IEX_INVALID_ARGUMENT"
+                    ],
+                    "return": {
+                        "kind": "Pointer",
+                        "id": 230,
+                        "type": "class half *",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 227,
+                            "type": "half",
+                            "record": 854,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "x",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "y",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "at",
+                    "qualified_name": "Imf_2_5::TypedDeepImageChannel<half>::at",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm|rename|at_const",
+                        "cppmm|throws|Iex::ArgExc|IEX_INVALID_ARGUMENT"
+                    ],
+                    "return": {
+                        "kind": "Pointer",
+                        "id": 231,
+                        "type": "const class half *",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 227,
+                            "type": "half",
+                            "record": 854,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "x",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "y",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "row",
+                    "qualified_name": "Imf_2_5::TypedDeepImageChannel<half>::row",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "Pointer",
+                        "id": 3016,
+                        "type": "class half *const *",
+                        "pointee": {
+                            "kind": "Pointer",
+                            "id": 3015,
+                            "type": "class half *const",
+                            "pointee": {
+                                "kind": "RecordType",
+                                "id": 227,
+                                "type": "half",
+                                "record": 854,
+                                "const": false
+                            },
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "r",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "row",
+                    "qualified_name": "Imf_2_5::TypedDeepImageChannel<half>::row",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm|rename|row_const"
+                    ],
+                    "return": {
+                        "kind": "Pointer",
+                        "id": 3018,
+                        "type": "const class half *const *",
+                        "pointee": {
+                            "kind": "Pointer",
+                            "id": 3017,
+                            "type": "const class half *const",
+                            "pointee": {
+                                "kind": "RecordType",
+                                "id": 227,
+                                "type": "half",
+                                "record": 854,
+                                "const": true
+                            },
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "r",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "kind": "Record",
+            "name": "Imf_2_5::TypedDeepImageChannel<float>",
+            "short_name": "TypedDeepImageChannel",
+            "namespaces": [
+                26
+            ],
+            "id": 3048,
+            "size": 576,
+            "align": 64,
+            "alias": "DeepFloatChannel",
+            "attributes": [
+                "cppmm|opaquebytes"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "_level",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 202,
+                        "type": "class Imf_2_5::ImageLevel &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 201,
+                            "type": "Imf_2_5::ImageLevel",
+                            "record": 1432,
+                            "const": false
+                        },
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_xSampling",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_ySampling",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_pLinear",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 53,
+                        "type": "_Bool",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_pixelsPerRow",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_pixelsPerColumn",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_numPixels",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 20,
+                        "type": "unsigned long",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_sampleListPointers",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 3064,
+                        "type": "float **",
+                        "pointee": {
+                            "kind": "Pointer",
+                            "id": 128,
+                            "type": "float *",
+                            "pointee": {
+                                "kind": "BuiltinType",
+                                "id": 14,
+                                "type": "float",
+                                "const": false
+                            },
+                            "const": false
+                        },
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_base",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 3064,
+                        "type": "float **",
+                        "pointee": {
+                            "kind": "Pointer",
+                            "id": 128,
+                            "type": "float *",
+                            "pointee": {
+                                "kind": "BuiltinType",
+                                "id": 14,
+                                "type": "float",
+                                "const": false
+                            },
+                            "const": false
+                        },
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_sampleBuffer",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 128,
+                        "type": "float *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 14,
+                            "type": "float",
+                            "const": false
+                        },
+                        "const": false
+                    }
+                }
+            ],
+            "methods": [
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "pixelType",
+                    "qualified_name": "Imf_2_5::TypedDeepImageChannel<float>::pixelType",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": true,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "EnumType",
+                        "id": 200,
+                        "type": "Imf_2_5::PixelType",
+                        "enum": 1630,
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "channel",
+                    "qualified_name": "Imf_2_5::ImageChannel::channel",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "RecordType",
+                        "id": 214,
+                        "type": "Imf_2_5::Channel",
+                        "record": 2894,
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "xSampling",
+                    "qualified_name": "Imf_2_5::ImageChannel::xSampling",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "ySampling",
+                    "qualified_name": "Imf_2_5::ImageChannel::ySampling",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "pLinear",
+                    "qualified_name": "Imf_2_5::ImageChannel::pLinear",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 53,
+                        "type": "_Bool",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "pixelsPerRow",
+                    "qualified_name": "Imf_2_5::ImageChannel::pixelsPerRow",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "pixelsPerColumn",
+                    "qualified_name": "Imf_2_5::ImageChannel::pixelsPerColumn",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "numPixels",
+                    "qualified_name": "Imf_2_5::ImageChannel::numPixels",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 20,
+                        "type": "unsigned long",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "slice",
+                    "qualified_name": "Imf_2_5::TypedDeepImageChannel<float>::slice",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": true,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "RecordType",
+                        "id": 335,
+                        "type": "Imf_2_5::DeepSlice",
+                        "record": 328,
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "operator()",
+                    "qualified_name": "Imf_2_5::TypedDeepImageChannel<float>::operator()",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": true,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm|rename|index"
+                    ],
+                    "return": {
+                        "kind": "Pointer",
+                        "id": 128,
+                        "type": "float *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 14,
+                            "type": "float",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "x",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "y",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "operator()",
+                    "qualified_name": "Imf_2_5::TypedDeepImageChannel<float>::operator()",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": true,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm|rename|index_const"
+                    ],
+                    "return": {
+                        "kind": "Pointer",
+                        "id": 129,
+                        "type": "const float *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 14,
+                            "type": "float",
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "x",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "y",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "at",
+                    "qualified_name": "Imf_2_5::TypedDeepImageChannel<float>::at",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm|throws|Iex::ArgExc|IEX_INVALID_ARGUMENT"
+                    ],
+                    "return": {
+                        "kind": "Pointer",
+                        "id": 128,
+                        "type": "float *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 14,
+                            "type": "float",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "x",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "y",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "at",
+                    "qualified_name": "Imf_2_5::TypedDeepImageChannel<float>::at",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm|rename|at_const",
+                        "cppmm|throws|Iex::ArgExc|IEX_INVALID_ARGUMENT"
+                    ],
+                    "return": {
+                        "kind": "Pointer",
+                        "id": 129,
+                        "type": "const float *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 14,
+                            "type": "float",
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "x",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "y",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "row",
+                    "qualified_name": "Imf_2_5::TypedDeepImageChannel<float>::row",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "Pointer",
+                        "id": 3041,
+                        "type": "float *const *",
+                        "pointee": {
+                            "kind": "Pointer",
+                            "id": 3040,
+                            "type": "float *const",
+                            "pointee": {
+                                "kind": "BuiltinType",
+                                "id": 14,
+                                "type": "float",
+                                "const": false
+                            },
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "r",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "row",
+                    "qualified_name": "Imf_2_5::TypedDeepImageChannel<float>::row",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm|rename|row_const"
+                    ],
+                    "return": {
+                        "kind": "Pointer",
+                        "id": 3043,
+                        "type": "const float *const *",
+                        "pointee": {
+                            "kind": "Pointer",
+                            "id": 3042,
+                            "type": "const float *const",
+                            "pointee": {
+                                "kind": "BuiltinType",
+                                "id": 14,
+                                "type": "float",
+                                "const": true
+                            },
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "r",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "kind": "Record",
+            "name": "Imf_2_5::TypedDeepImageChannel<unsigned int>",
+            "short_name": "TypedDeepImageChannel",
+            "namespaces": [
+                26
+            ],
+            "id": 3073,
+            "size": 576,
+            "align": 64,
+            "alias": "DeepUIntChannel",
+            "attributes": [
+                "cppmm|opaquebytes"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "_level",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 202,
+                        "type": "class Imf_2_5::ImageLevel &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 201,
+                            "type": "Imf_2_5::ImageLevel",
+                            "record": 1432,
+                            "const": false
+                        },
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_xSampling",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_ySampling",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_pLinear",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 53,
+                        "type": "_Bool",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_pixelsPerRow",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_pixelsPerColumn",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_numPixels",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 20,
+                        "type": "unsigned long",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_sampleListPointers",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 3089,
+                        "type": "unsigned int **",
+                        "pointee": {
+                            "kind": "Pointer",
+                            "id": 283,
+                            "type": "unsigned int *",
+                            "pointee": {
+                                "kind": "BuiltinType",
+                                "id": 280,
+                                "type": "unsigned int",
+                                "const": false
+                            },
+                            "const": false
+                        },
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_base",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 3089,
+                        "type": "unsigned int **",
+                        "pointee": {
+                            "kind": "Pointer",
+                            "id": 283,
+                            "type": "unsigned int *",
+                            "pointee": {
+                                "kind": "BuiltinType",
+                                "id": 280,
+                                "type": "unsigned int",
+                                "const": false
+                            },
+                            "const": false
+                        },
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_sampleBuffer",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 283,
+                        "type": "unsigned int *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 280,
+                            "type": "unsigned int",
+                            "const": false
+                        },
+                        "const": false
+                    }
+                }
+            ],
+            "methods": [
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "pixelType",
+                    "qualified_name": "Imf_2_5::TypedDeepImageChannel<unsigned int>::pixelType",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": true,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "EnumType",
+                        "id": 200,
+                        "type": "Imf_2_5::PixelType",
+                        "enum": 1630,
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "channel",
+                    "qualified_name": "Imf_2_5::ImageChannel::channel",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "RecordType",
+                        "id": 214,
+                        "type": "Imf_2_5::Channel",
+                        "record": 2894,
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "xSampling",
+                    "qualified_name": "Imf_2_5::ImageChannel::xSampling",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "ySampling",
+                    "qualified_name": "Imf_2_5::ImageChannel::ySampling",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "pLinear",
+                    "qualified_name": "Imf_2_5::ImageChannel::pLinear",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 53,
+                        "type": "_Bool",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "pixelsPerRow",
+                    "qualified_name": "Imf_2_5::ImageChannel::pixelsPerRow",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "pixelsPerColumn",
+                    "qualified_name": "Imf_2_5::ImageChannel::pixelsPerColumn",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "numPixels",
+                    "qualified_name": "Imf_2_5::ImageChannel::numPixels",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 20,
+                        "type": "unsigned long",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "slice",
+                    "qualified_name": "Imf_2_5::TypedDeepImageChannel<unsigned int>::slice",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": true,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "RecordType",
+                        "id": 335,
+                        "type": "Imf_2_5::DeepSlice",
+                        "record": 328,
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "operator()",
+                    "qualified_name": "Imf_2_5::TypedDeepImageChannel<unsigned int>::operator()",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": true,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm|rename|index"
+                    ],
+                    "return": {
+                        "kind": "Pointer",
+                        "id": 283,
+                        "type": "unsigned int *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 280,
+                            "type": "unsigned int",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "x",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "y",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "operator()",
+                    "qualified_name": "Imf_2_5::TypedDeepImageChannel<unsigned int>::operator()",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": true,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm|rename|index_const"
+                    ],
+                    "return": {
+                        "kind": "Pointer",
+                        "id": 284,
+                        "type": "const unsigned int *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 280,
+                            "type": "unsigned int",
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "x",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "y",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "at",
+                    "qualified_name": "Imf_2_5::TypedDeepImageChannel<unsigned int>::at",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm|throws|Iex::ArgExc|IEX_INVALID_ARGUMENT"
+                    ],
+                    "return": {
+                        "kind": "Pointer",
+                        "id": 283,
+                        "type": "unsigned int *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 280,
+                            "type": "unsigned int",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "x",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "y",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "at",
+                    "qualified_name": "Imf_2_5::TypedDeepImageChannel<unsigned int>::at",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm|rename|at_const",
+                        "cppmm|throws|Iex::ArgExc|IEX_INVALID_ARGUMENT"
+                    ],
+                    "return": {
+                        "kind": "Pointer",
+                        "id": 284,
+                        "type": "const unsigned int *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 280,
+                            "type": "unsigned int",
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "x",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "y",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "row",
+                    "qualified_name": "Imf_2_5::TypedDeepImageChannel<unsigned int>::row",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "Pointer",
+                        "id": 3066,
+                        "type": "unsigned int *const *",
+                        "pointee": {
+                            "kind": "Pointer",
+                            "id": 3065,
+                            "type": "unsigned int *const",
+                            "pointee": {
+                                "kind": "BuiltinType",
+                                "id": 280,
+                                "type": "unsigned int",
+                                "const": false
+                            },
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "r",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "row",
+                    "qualified_name": "Imf_2_5::TypedDeepImageChannel<unsigned int>::row",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm|rename|row_const"
+                    ],
+                    "return": {
+                        "kind": "Pointer",
+                        "id": 3068,
+                        "type": "const unsigned int *const *",
+                        "pointee": {
+                            "kind": "Pointer",
+                            "id": 3067,
+                            "type": "const unsigned int *const",
+                            "pointee": {
+                                "kind": "BuiltinType",
+                                "id": 280,
+                                "type": "unsigned int",
+                                "const": true
+                            },
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "r",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

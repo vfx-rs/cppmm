@@ -1,0 +1,1780 @@
+{
+    "kind": "TranslationUnit",
+    "filename": "/home/anders/code/cppmm/test/openexr/bind/imf_aces_file.cpp",
+    "source_includes": [
+        "#include <OpenEXR/ImfAcesFile.h>",
+        "#include <cppmm_bind.hpp>"
+    ],
+    "include_paths": [
+        "/home/anders/packages/openexr/2.5.5/include",
+        "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
+    ],
+    "id": 0,
+    "decls": [
+        {
+            "kind": "Namespace",
+            "name": "Imf_2_5",
+            "id": 26,
+            "short_name": "Imf_2_5"
+        },
+        {
+            "kind": "Record",
+            "name": "Imf_2_5::AcesOutputFile",
+            "short_name": "AcesOutputFile",
+            "namespaces": [
+                26
+            ],
+            "id": 27,
+            "size": 128,
+            "align": 64,
+            "alias": "AcesOutputFile",
+            "attributes": [
+                "cppmm|opaqueptr"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "_data",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 47,
+                        "type": "class Imf_2_5::AcesOutputFile::Data *",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 46,
+                            "type": "Imf_2_5::AcesOutputFile::Data",
+                            "record": -1,
+                            "const": false
+                        },
+                        "const": false
+                    }
+                }
+            ],
+            "methods": [
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "AcesOutputFile",
+                    "qualified_name": "Imf_2_5::AcesOutputFile::AcesOutputFile",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": true,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm|rename|new"
+                    ],
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 3,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "name",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 5,
+                                "type": "const class std::__cxx11::basic_string<char> &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 4,
+                                    "type": "std::__cxx11::basic_string<char>",
+                                    "record": -1,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "header",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 7,
+                                "type": "const class Imf_2_5::Header &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 6,
+                                    "type": "Imf_2_5::Header",
+                                    "record": 1297,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 2,
+                            "name": "rgbaChannels",
+                            "type": {
+                                "kind": "EnumType",
+                                "id": 8,
+                                "type": "Imf_2_5::RgbaChannels",
+                                "enum": 1261,
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 3,
+                            "name": "numThreads",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "AcesOutputFile",
+                    "qualified_name": "Imf_2_5::AcesOutputFile::AcesOutputFile",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": true,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm|rename|new_with_stream"
+                    ],
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 3,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "os",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 11,
+                                "type": "class Imf_2_5::OStream &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 10,
+                                    "type": "Imf_2_5::OStream",
+                                    "record": 990,
+                                    "const": false
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "header",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 7,
+                                "type": "const class Imf_2_5::Header &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 6,
+                                    "type": "Imf_2_5::Header",
+                                    "record": 1297,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 2,
+                            "name": "rgbaChannels",
+                            "type": {
+                                "kind": "EnumType",
+                                "id": 8,
+                                "type": "Imf_2_5::RgbaChannels",
+                                "enum": 1261,
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 3,
+                            "name": "numThreads",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "AcesOutputFile",
+                    "qualified_name": "Imf_2_5::AcesOutputFile::AcesOutputFile",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": true,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm|rename|new_with_header"
+                    ],
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 3,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "name",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 5,
+                                "type": "const class std::__cxx11::basic_string<char> &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 4,
+                                    "type": "std::__cxx11::basic_string<char>",
+                                    "record": -1,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "displayWindow",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 13,
+                                "type": "const class Imath_2_5::Box<class Imath_2_5::Vec2<int> > &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 12,
+                                    "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
+                                    "record": 2761,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 2,
+                            "name": "dataWindow",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 13,
+                                "type": "const class Imath_2_5::Box<class Imath_2_5::Vec2<int> > &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 12,
+                                    "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
+                                    "record": 2761,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 3,
+                            "name": "rgbaChannels",
+                            "type": {
+                                "kind": "EnumType",
+                                "id": 8,
+                                "type": "Imf_2_5::RgbaChannels",
+                                "enum": 1261,
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 4,
+                            "name": "pixelAspectRatio",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 14,
+                                "type": "float",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 5,
+                            "name": "screenWindowCenter",
+                            "type": {
+                                "kind": "RecordType",
+                                "id": 15,
+                                "type": "Imath_2_5::Vec2<float>",
+                                "record": 3101,
+                                "const": true
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 6,
+                            "name": "screenWindowWidth",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 14,
+                                "type": "float",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 7,
+                            "name": "lineOrder",
+                            "type": {
+                                "kind": "EnumType",
+                                "id": 16,
+                                "type": "Imf_2_5::LineOrder",
+                                "enum": 732,
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 8,
+                            "name": "compression",
+                            "type": {
+                                "kind": "EnumType",
+                                "id": 17,
+                                "type": "Imf_2_5::Compression",
+                                "enum": 544,
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 9,
+                            "name": "numThreads",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "AcesOutputFile",
+                    "qualified_name": "Imf_2_5::AcesOutputFile::AcesOutputFile",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": true,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm|ignore"
+                    ],
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 3,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "name",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 5,
+                                "type": "const class std::__cxx11::basic_string<char> &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 4,
+                                    "type": "std::__cxx11::basic_string<char>",
+                                    "record": -1,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "width",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 2,
+                            "name": "height",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 3,
+                            "name": "rgbaChannels",
+                            "type": {
+                                "kind": "EnumType",
+                                "id": 8,
+                                "type": "Imf_2_5::RgbaChannels",
+                                "enum": 1261,
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 4,
+                            "name": "pixelAspectRatio",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 14,
+                                "type": "float",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 5,
+                            "name": "screenWindowCenter",
+                            "type": {
+                                "kind": "RecordType",
+                                "id": 15,
+                                "type": "Imath_2_5::Vec2<float>",
+                                "record": 3101,
+                                "const": true
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 6,
+                            "name": "screenWindowWidth",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 14,
+                                "type": "float",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 7,
+                            "name": "lineOrder",
+                            "type": {
+                                "kind": "EnumType",
+                                "id": 16,
+                                "type": "Imf_2_5::LineOrder",
+                                "enum": 732,
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 8,
+                            "name": "compression",
+                            "type": {
+                                "kind": "EnumType",
+                                "id": 17,
+                                "type": "Imf_2_5::Compression",
+                                "enum": 544,
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 9,
+                            "name": "numThreads",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "~AcesOutputFile",
+                    "qualified_name": "Imf_2_5::AcesOutputFile::~AcesOutputFile",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": true,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": true,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 3,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "setFrameBuffer",
+                    "qualified_name": "Imf_2_5::AcesOutputFile::setFrameBuffer",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 3,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "base",
+                            "type": {
+                                "kind": "Pointer",
+                                "id": 19,
+                                "type": "const struct Imf_2_5::Rgba *",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 18,
+                                    "type": "Imf_2_5::Rgba",
+                                    "record": 2797,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "xStride",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 20,
+                                "type": "unsigned long",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 2,
+                            "name": "yStride",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 20,
+                                "type": "unsigned long",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "writePixels",
+                    "qualified_name": "Imf_2_5::AcesOutputFile::writePixels",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 3,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "numScanLines",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "currentScanLine",
+                    "qualified_name": "Imf_2_5::AcesOutputFile::currentScanLine",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "header",
+                    "qualified_name": "Imf_2_5::AcesOutputFile::header",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "Reference",
+                        "id": 7,
+                        "type": "const class Imf_2_5::Header &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 6,
+                            "type": "Imf_2_5::Header",
+                            "record": 1297,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "displayWindow",
+                    "qualified_name": "Imf_2_5::AcesOutputFile::displayWindow",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "Reference",
+                        "id": 13,
+                        "type": "const class Imath_2_5::Box<class Imath_2_5::Vec2<int> > &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 12,
+                            "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
+                            "record": 2761,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "dataWindow",
+                    "qualified_name": "Imf_2_5::AcesOutputFile::dataWindow",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "Reference",
+                        "id": 13,
+                        "type": "const class Imath_2_5::Box<class Imath_2_5::Vec2<int> > &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 12,
+                            "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
+                            "record": 2761,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "pixelAspectRatio",
+                    "qualified_name": "Imf_2_5::AcesOutputFile::pixelAspectRatio",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 14,
+                        "type": "float",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "screenWindowCenter",
+                    "qualified_name": "Imf_2_5::AcesOutputFile::screenWindowCenter",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "RecordType",
+                        "id": 15,
+                        "type": "Imath_2_5::Vec2<float>",
+                        "record": 3101,
+                        "const": true
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "screenWindowWidth",
+                    "qualified_name": "Imf_2_5::AcesOutputFile::screenWindowWidth",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 14,
+                        "type": "float",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "lineOrder",
+                    "qualified_name": "Imf_2_5::AcesOutputFile::lineOrder",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "EnumType",
+                        "id": 16,
+                        "type": "Imf_2_5::LineOrder",
+                        "enum": 732,
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "compression",
+                    "qualified_name": "Imf_2_5::AcesOutputFile::compression",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "EnumType",
+                        "id": 17,
+                        "type": "Imf_2_5::Compression",
+                        "enum": 544,
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "channels",
+                    "qualified_name": "Imf_2_5::AcesOutputFile::channels",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "EnumType",
+                        "id": 8,
+                        "type": "Imf_2_5::RgbaChannels",
+                        "enum": 1261,
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "updatePreviewImage",
+                    "qualified_name": "Imf_2_5::AcesOutputFile::updatePreviewImage",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 3,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "",
+                            "type": {
+                                "kind": "Pointer",
+                                "id": 22,
+                                "type": "const struct Imf_2_5::PreviewRgba *",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 21,
+                                    "type": "Imf_2_5::PreviewRgba",
+                                    "record": 1132,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "kind": "Record",
+            "name": "Imf_2_5::AcesInputFile",
+            "short_name": "AcesInputFile",
+            "namespaces": [
+                26
+            ],
+            "id": 57,
+            "size": 128,
+            "align": 64,
+            "alias": "AcesInputFile",
+            "attributes": [
+                "cppmm|opaqueptr"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "_data",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 77,
+                        "type": "class Imf_2_5::AcesInputFile::Data *",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 76,
+                            "type": "Imf_2_5::AcesInputFile::Data",
+                            "record": -1,
+                            "const": false
+                        },
+                        "const": false
+                    }
+                }
+            ],
+            "methods": [
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "AcesInputFile",
+                    "qualified_name": "Imf_2_5::AcesInputFile::AcesInputFile",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": true,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm|rename|new"
+                    ],
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 3,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "name",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 5,
+                                "type": "const class std::__cxx11::basic_string<char> &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 4,
+                                    "type": "std::__cxx11::basic_string<char>",
+                                    "record": -1,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "numThreads",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "AcesInputFile",
+                    "qualified_name": "Imf_2_5::AcesInputFile::AcesInputFile",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": true,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm|rename|new_with_stream"
+                    ],
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 3,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "is",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 49,
+                                "type": "class Imf_2_5::IStream &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 48,
+                                    "type": "Imf_2_5::IStream",
+                                    "record": 999,
+                                    "const": false
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "numThreads",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "~AcesInputFile",
+                    "qualified_name": "Imf_2_5::AcesInputFile::~AcesInputFile",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": true,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": true,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 3,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "setFrameBuffer",
+                    "qualified_name": "Imf_2_5::AcesInputFile::setFrameBuffer",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 3,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "base",
+                            "type": {
+                                "kind": "Pointer",
+                                "id": 50,
+                                "type": "struct Imf_2_5::Rgba *",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 18,
+                                    "type": "Imf_2_5::Rgba",
+                                    "record": 2797,
+                                    "const": false
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "xStride",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 20,
+                                "type": "unsigned long",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 2,
+                            "name": "yStride",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 20,
+                                "type": "unsigned long",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "readPixels",
+                    "qualified_name": "Imf_2_5::AcesInputFile::readPixels",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 3,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "scanLine1",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "scanLine2",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "readPixels",
+                    "qualified_name": "Imf_2_5::AcesInputFile::readPixels",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm|ignore"
+                    ],
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 3,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "scanLine",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "header",
+                    "qualified_name": "Imf_2_5::AcesInputFile::header",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "Reference",
+                        "id": 7,
+                        "type": "const class Imf_2_5::Header &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 6,
+                            "type": "Imf_2_5::Header",
+                            "record": 1297,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "displayWindow",
+                    "qualified_name": "Imf_2_5::AcesInputFile::displayWindow",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "Reference",
+                        "id": 13,
+                        "type": "const class Imath_2_5::Box<class Imath_2_5::Vec2<int> > &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 12,
+                            "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
+                            "record": 2761,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "dataWindow",
+                    "qualified_name": "Imf_2_5::AcesInputFile::dataWindow",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "Reference",
+                        "id": 13,
+                        "type": "const class Imath_2_5::Box<class Imath_2_5::Vec2<int> > &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 12,
+                            "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
+                            "record": 2761,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "pixelAspectRatio",
+                    "qualified_name": "Imf_2_5::AcesInputFile::pixelAspectRatio",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 14,
+                        "type": "float",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "screenWindowCenter",
+                    "qualified_name": "Imf_2_5::AcesInputFile::screenWindowCenter",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "RecordType",
+                        "id": 15,
+                        "type": "Imath_2_5::Vec2<float>",
+                        "record": 3101,
+                        "const": true
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "screenWindowWidth",
+                    "qualified_name": "Imf_2_5::AcesInputFile::screenWindowWidth",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 14,
+                        "type": "float",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "lineOrder",
+                    "qualified_name": "Imf_2_5::AcesInputFile::lineOrder",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "EnumType",
+                        "id": 16,
+                        "type": "Imf_2_5::LineOrder",
+                        "enum": 732,
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "compression",
+                    "qualified_name": "Imf_2_5::AcesInputFile::compression",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "EnumType",
+                        "id": 17,
+                        "type": "Imf_2_5::Compression",
+                        "enum": 544,
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "channels",
+                    "qualified_name": "Imf_2_5::AcesInputFile::channels",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "EnumType",
+                        "id": 8,
+                        "type": "Imf_2_5::RgbaChannels",
+                        "enum": 1261,
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "fileName",
+                    "qualified_name": "Imf_2_5::AcesInputFile::fileName",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "Pointer",
+                        "id": 52,
+                        "type": "const char *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 51,
+                            "type": "char",
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "isComplete",
+                    "qualified_name": "Imf_2_5::AcesInputFile::isComplete",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 53,
+                        "type": "_Bool",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "version",
+                    "qualified_name": "Imf_2_5::AcesInputFile::version",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    },
+                    "params": null
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 78,
+            "short_name": "acesChromaticities",
+            "qualified_name": "Imf_2_5::acesChromaticities",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "return": {
+                "kind": "Reference",
+                "id": 2,
+                "type": "const struct Imf_2_5::Chromaticities &",
+                "pointee": {
+                    "kind": "RecordType",
+                    "id": 1,
+                    "type": "Imf_2_5::Chromaticities",
+                    "record": 1392,
+                    "const": true
+                },
+                "const": false
+            },
+            "params": null
+        }
+    ]
+}

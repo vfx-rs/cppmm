@@ -1,0 +1,1034 @@
+{
+    "kind": "TranslationUnit",
+    "filename": "/home/anders/code/cppmm/test/openexr/bind/imf_samplecountchannel.cpp",
+    "source_includes": [
+        "#include <OpenEXR/ImfSampleCountChannel.h>",
+        "#include <cppmm_bind.hpp>"
+    ],
+    "include_paths": [
+        "/home/anders/packages/openexr/2.5.5/include",
+        "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
+    ],
+    "id": 895,
+    "decls": [
+        {
+            "kind": "Namespace",
+            "name": "Imf_2_5",
+            "id": 26,
+            "short_name": "Imf_2_5"
+        },
+        {
+            "kind": "Record",
+            "name": "Imf_2_5::SampleCountChannel",
+            "short_name": "SampleCountChannel",
+            "namespaces": [
+                26
+            ],
+            "id": 896,
+            "size": 832,
+            "align": 64,
+            "alias": "SampleCountChannel",
+            "attributes": [
+                "cppmm|valuetype"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "_level",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 202,
+                        "type": "class Imf_2_5::ImageLevel &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 201,
+                            "type": "Imf_2_5::ImageLevel",
+                            "record": 1432,
+                            "const": false
+                        },
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_xSampling",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_ySampling",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_pLinear",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 53,
+                        "type": "_Bool",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_pixelsPerRow",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_pixelsPerColumn",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_numPixels",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 20,
+                        "type": "unsigned long",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_numSamples",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 283,
+                        "type": "unsigned int *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 280,
+                            "type": "unsigned int",
+                            "const": false
+                        },
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_base",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 283,
+                        "type": "unsigned int *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 280,
+                            "type": "unsigned int",
+                            "const": false
+                        },
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_sampleListSizes",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 283,
+                        "type": "unsigned int *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 280,
+                            "type": "unsigned int",
+                            "const": false
+                        },
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_sampleListPositions",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 916,
+                        "type": "unsigned long *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 20,
+                            "type": "unsigned long",
+                            "const": false
+                        },
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_totalNumSamples",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 20,
+                        "type": "unsigned long",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_totalSamplesOccupied",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 20,
+                        "type": "unsigned long",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_sampleBufferSize",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 20,
+                        "type": "unsigned long",
+                        "const": false
+                    }
+                }
+            ],
+            "methods": [
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "pixelType",
+                    "qualified_name": "Imf_2_5::SampleCountChannel::pixelType",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": true,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "EnumType",
+                        "id": 200,
+                        "type": "Imf_2_5::PixelType",
+                        "enum": 1630,
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "slice",
+                    "qualified_name": "Imf_2_5::SampleCountChannel::slice",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "RecordType",
+                        "id": 204,
+                        "type": "Imf_2_5::Slice",
+                        "record": 3165,
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "deepLevel",
+                    "qualified_name": "Imf_2_5::SampleCountChannel::deepLevel",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "Reference",
+                        "id": 888,
+                        "type": "class Imf_2_5::DeepImageLevel &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 887,
+                            "type": "Imf_2_5::DeepImageLevel",
+                            "record": 1443,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "deepLevel",
+                    "qualified_name": "Imf_2_5::SampleCountChannel::deepLevel",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "Reference",
+                        "id": 889,
+                        "type": "const class Imf_2_5::DeepImageLevel &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 887,
+                            "type": "Imf_2_5::DeepImageLevel",
+                            "record": 1443,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "operator()",
+                    "qualified_name": "Imf_2_5::SampleCountChannel::operator()",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": true,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm|rename|index"
+                    ],
+                    "return": {
+                        "kind": "Reference",
+                        "id": 282,
+                        "type": "const unsigned int &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 280,
+                            "type": "unsigned int",
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "x",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "y",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "at",
+                    "qualified_name": "Imf_2_5::SampleCountChannel::at",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm|throws|Iex::ArgExc|IEX_INVALID_ARGUMENT"
+                    ],
+                    "return": {
+                        "kind": "Reference",
+                        "id": 282,
+                        "type": "const unsigned int &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 280,
+                            "type": "unsigned int",
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "x",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "y",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "row",
+                    "qualified_name": "Imf_2_5::SampleCountChannel::row",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "Pointer",
+                        "id": 284,
+                        "type": "const unsigned int *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 280,
+                            "type": "unsigned int",
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "r",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "set",
+                    "qualified_name": "Imf_2_5::SampleCountChannel::set",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm|throws|Iex::ArgExc|IEX_INVALID_ARGUMENT"
+                    ],
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 3,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "x",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "y",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 2,
+                            "name": "newNumSamples",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 280,
+                                "type": "unsigned int",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "set",
+                    "qualified_name": "Imf_2_5::SampleCountChannel::set",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm|rename|set_row",
+                        "cppmm|throws|Iex::ArgExc|IEX_INVALID_ARGUMENT"
+                    ],
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 3,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "r",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "newNumSamples",
+                            "type": {
+                                "kind": "Pointer",
+                                "id": 283,
+                                "type": "unsigned int *",
+                                "pointee": {
+                                    "kind": "BuiltinType",
+                                    "id": 280,
+                                    "type": "unsigned int",
+                                    "const": false
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "clear",
+                    "qualified_name": "Imf_2_5::SampleCountChannel::clear",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 3,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "beginEdit",
+                    "qualified_name": "Imf_2_5::SampleCountChannel::beginEdit",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "Pointer",
+                        "id": 283,
+                        "type": "unsigned int *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 280,
+                            "type": "unsigned int",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "endEdit",
+                    "qualified_name": "Imf_2_5::SampleCountChannel::endEdit",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 3,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "numSamples",
+                    "qualified_name": "Imf_2_5::SampleCountChannel::numSamples",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "Pointer",
+                        "id": 284,
+                        "type": "const unsigned int *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 280,
+                            "type": "unsigned int",
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "sampleListSizes",
+                    "qualified_name": "Imf_2_5::SampleCountChannel::sampleListSizes",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "Pointer",
+                        "id": 284,
+                        "type": "const unsigned int *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 280,
+                            "type": "unsigned int",
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "sampleListPositions",
+                    "qualified_name": "Imf_2_5::SampleCountChannel::sampleListPositions",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "Pointer",
+                        "id": 890,
+                        "type": "const unsigned long *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 20,
+                            "type": "unsigned long",
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "sampleBufferSize",
+                    "qualified_name": "Imf_2_5::SampleCountChannel::sampleBufferSize",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 20,
+                        "type": "unsigned long",
+                        "const": false
+                    },
+                    "params": null
+                }
+            ]
+        },
+        {
+            "kind": "Record",
+            "name": "Imf_2_5::SampleCountChannel::Edit",
+            "short_name": "Edit",
+            "namespaces": [
+                26,
+                896
+            ],
+            "id": 917,
+            "size": 128,
+            "align": 64,
+            "alias": "Edit",
+            "attributes": [
+                "cppmm|opaquebytes"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "_channel",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 899,
+                        "type": "class Imf_2_5::SampleCountChannel &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 897,
+                            "type": "Imf_2_5::SampleCountChannel",
+                            "record": 896,
+                            "const": false
+                        },
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_sampleCounts",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 283,
+                        "type": "unsigned int *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 280,
+                            "type": "unsigned int",
+                            "const": false
+                        },
+                        "const": false
+                    }
+                }
+            ],
+            "methods": [
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "Edit",
+                    "qualified_name": "Imf_2_5::SampleCountChannel::Edit::Edit",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": true,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 3,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "level",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 899,
+                                "type": "class Imf_2_5::SampleCountChannel &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 897,
+                                    "type": "Imf_2_5::SampleCountChannel",
+                                    "record": 896,
+                                    "const": false
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "~Edit",
+                    "qualified_name": "Imf_2_5::SampleCountChannel::Edit::~Edit",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": true,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 3,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "sampleCounts",
+                    "qualified_name": "Imf_2_5::SampleCountChannel::Edit::sampleCounts",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "Pointer",
+                        "id": 283,
+                        "type": "unsigned int *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 280,
+                            "type": "unsigned int",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "params": null
+                }
+            ]
+        },
+        {
+            "kind": "Enum",
+            "name": "Imf_2_5::RgbaChannels",
+            "short_name": "RgbaChannels",
+            "namespaces": [
+                26
+            ],
+            "id": 1261,
+            "size": 32,
+            "align": 32,
+            "attributes": null,
+            "variants": {
+                "WRITE_R": "1",
+                "WRITE_G": "2",
+                "WRITE_B": "4",
+                "WRITE_A": "8",
+                "WRITE_Y": "16",
+                "WRITE_C": "32",
+                "WRITE_RGB": "7",
+                "WRITE_RGBA": "15",
+                "WRITE_YC": "48",
+                "WRITE_YA": "24",
+                "WRITE_YCA": "56"
+            }
+        }
+    ]
+}

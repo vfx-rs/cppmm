@@ -1,0 +1,1323 @@
+{
+    "kind": "TranslationUnit",
+    "filename": "/home/anders/code/cppmm/test/openexr/bind/imf_deepimage.cpp",
+    "source_includes": [
+        "#include <OpenEXR/ImfDeepImage.h>",
+        "#include <cppmm_bind.hpp>"
+    ],
+    "include_paths": [
+        "/home/anders/packages/openexr/2.5.5/include",
+        "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
+    ],
+    "id": 1051,
+    "decls": [
+        {
+            "kind": "Namespace",
+            "name": "Imf_2_5",
+            "id": 26,
+            "short_name": "Imf_2_5"
+        },
+        {
+            "kind": "Record",
+            "name": "Imf_2_5::DeepImage",
+            "short_name": "DeepImage",
+            "namespaces": [
+                26
+            ],
+            "id": 1052,
+            "size": 832,
+            "align": 64,
+            "alias": "DeepImage",
+            "attributes": [
+                "cppmm|opaquebytes"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "_dataWindow",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 12,
+                        "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
+                        "record": 2761,
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_levelMode",
+                    "type": {
+                        "kind": "EnumType",
+                        "id": 664,
+                        "type": "Imf_2_5::LevelMode",
+                        "enum": 1583,
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_levelRoundingMode",
+                    "type": {
+                        "kind": "EnumType",
+                        "id": 665,
+                        "type": "Imf_2_5::LevelRoundingMode",
+                        "enum": 1584,
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_channels",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 1079,
+                        "type": "std::map<std::__cxx11::basic_string<char>, Imf_2_5::Image::ChannelInfo, std::less<std::__cxx11::basic_string<char> >, std::allocator<std::pair<const std::__cxx11::basic_string<char>, Imf_2_5::Image::ChannelInfo> > >",
+                        "record": -1,
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_levels",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 1080,
+                        "type": "Imf_2_5::Array2D<Imf_2_5::ImageLevel *>",
+                        "record": -1,
+                        "const": false
+                    }
+                }
+            ],
+            "methods": [
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "levelMode",
+                    "qualified_name": "Imf_2_5::Image::levelMode",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "EnumType",
+                        "id": 664,
+                        "type": "Imf_2_5::LevelMode",
+                        "enum": 1583,
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "levelRoundingMode",
+                    "qualified_name": "Imf_2_5::Image::levelRoundingMode",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "EnumType",
+                        "id": 665,
+                        "type": "Imf_2_5::LevelRoundingMode",
+                        "enum": 1584,
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "numLevels",
+                    "qualified_name": "Imf_2_5::Image::numLevels",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm|throws|Iex::LogicExc|IEX_LOGIC_ERROR"
+                    ],
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "numXLevels",
+                    "qualified_name": "Imf_2_5::Image::numXLevels",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "numYLevels",
+                    "qualified_name": "Imf_2_5::Image::numYLevels",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "dataWindow",
+                    "qualified_name": "Imf_2_5::Image::dataWindow",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "Reference",
+                        "id": 13,
+                        "type": "const class Imath_2_5::Box<class Imath_2_5::Vec2<int> > &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 12,
+                            "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
+                            "record": 2761,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "dataWindowForLevel",
+                    "qualified_name": "Imf_2_5::Image::dataWindowForLevel",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "Reference",
+                        "id": 13,
+                        "type": "const class Imath_2_5::Box<class Imath_2_5::Vec2<int> > &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 12,
+                            "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
+                            "record": 2761,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "l",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "dataWindowForLevel",
+                    "qualified_name": "Imf_2_5::Image::dataWindowForLevel",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "Reference",
+                        "id": 13,
+                        "type": "const class Imath_2_5::Box<class Imath_2_5::Vec2<int> > &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 12,
+                            "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
+                            "record": 2761,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "lx",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "ly",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "levelWidth",
+                    "qualified_name": "Imf_2_5::Image::levelWidth",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "lx",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "levelHeight",
+                    "qualified_name": "Imf_2_5::Image::levelHeight",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "ly",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "resize",
+                    "qualified_name": "Imf_2_5::Image::resize",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 3,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "dataWindow",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 13,
+                                "type": "const class Imath_2_5::Box<class Imath_2_5::Vec2<int> > &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 12,
+                                    "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
+                                    "record": 2761,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "resize",
+                    "qualified_name": "Imf_2_5::Image::resize",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": true,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm|rename|resize_with_mode"
+                    ],
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 3,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "dataWindow",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 13,
+                                "type": "const class Imath_2_5::Box<class Imath_2_5::Vec2<int> > &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 12,
+                                    "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
+                                    "record": 2761,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "levelMode",
+                            "type": {
+                                "kind": "EnumType",
+                                "id": 664,
+                                "type": "Imf_2_5::LevelMode",
+                                "enum": 1583,
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 2,
+                            "name": "levelRoundingMode",
+                            "type": {
+                                "kind": "EnumType",
+                                "id": 665,
+                                "type": "Imf_2_5::LevelRoundingMode",
+                                "enum": 1584,
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "shiftPixels",
+                    "qualified_name": "Imf_2_5::Image::shiftPixels",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm|throws|Iex::ArgExc|IEX_INVALID_ARGUMENT"
+                    ],
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 3,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "dx",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "dy",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "insertChannel",
+                    "qualified_name": "Imf_2_5::Image::insertChannel",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm|rename|insertChannel_with"
+                    ],
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 3,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "name",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 5,
+                                "type": "const class std::__cxx11::basic_string<char> &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 4,
+                                    "type": "std::__cxx11::basic_string<char>",
+                                    "record": -1,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "type",
+                            "type": {
+                                "kind": "EnumType",
+                                "id": 200,
+                                "type": "Imf_2_5::PixelType",
+                                "enum": 1630,
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 2,
+                            "name": "xSamplingt",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 3,
+                            "name": "ySampling",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 4,
+                            "name": "pLinear",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 53,
+                                "type": "_Bool",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "insertChannel",
+                    "qualified_name": "Imf_2_5::Image::insertChannel",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 3,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "name",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 5,
+                                "type": "const class std::__cxx11::basic_string<char> &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 4,
+                                    "type": "std::__cxx11::basic_string<char>",
+                                    "record": -1,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "channel",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 1045,
+                                "type": "const struct Imf_2_5::Channel &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 214,
+                                    "type": "Imf_2_5::Channel",
+                                    "record": 2894,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "eraseChannel",
+                    "qualified_name": "Imf_2_5::Image::eraseChannel",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 3,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "name",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 5,
+                                "type": "const class std::__cxx11::basic_string<char> &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 4,
+                                    "type": "std::__cxx11::basic_string<char>",
+                                    "record": -1,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "clearChannels",
+                    "qualified_name": "Imf_2_5::Image::clearChannels",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 3,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "renameChannel",
+                    "qualified_name": "Imf_2_5::Image::renameChannel",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm|throws|Iex::ArgExc|IEX_INVALID_ARGUMENT",
+                        "cppmm|throws|std::exception|IEX_OUT_OF_MEMORY"
+                    ],
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 3,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "oldName",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 5,
+                                "type": "const class std::__cxx11::basic_string<char> &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 4,
+                                    "type": "std::__cxx11::basic_string<char>",
+                                    "record": -1,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "newName",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 5,
+                                "type": "const class std::__cxx11::basic_string<char> &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 4,
+                                    "type": "std::__cxx11::basic_string<char>",
+                                    "record": -1,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "renameChannels",
+                    "qualified_name": "Imf_2_5::Image::renameChannels",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm|throws|Iex::ArgExc|IEX_INVALID_ARGUMENT",
+                        "cppmm|throws|std::exception|IEX_OUT_OF_MEMORY"
+                    ],
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 3,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "oldToNewNames",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 1047,
+                                "type": "const class std::map<class std::__cxx11::basic_string<char>, class std::__cxx11::basic_string<char>, struct std::less<class std::__cxx11::basic_string<char> >, class std::allocator<struct std::pair<const class std::__cxx11::basic_string<char>, class std::__cxx11::basic_string<char> > > > &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 1046,
+                                    "type": "std::map<std::__cxx11::basic_string<char>, std::__cxx11::basic_string<char>, std::less<std::__cxx11::basic_string<char> >, std::allocator<std::pair<const std::__cxx11::basic_string<char>, std::__cxx11::basic_string<char> > > >",
+                                    "record": -1,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "DeepImage",
+                    "qualified_name": "Imf_2_5::DeepImage::DeepImage",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": true,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm|rename|default"
+                    ],
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 3,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "DeepImage",
+                    "qualified_name": "Imf_2_5::DeepImage::DeepImage",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": true,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 3,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "dataWindow",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 13,
+                                "type": "const class Imath_2_5::Box<class Imath_2_5::Vec2<int> > &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 12,
+                                    "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
+                                    "record": 2761,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "levelMode",
+                            "type": {
+                                "kind": "EnumType",
+                                "id": 664,
+                                "type": "Imf_2_5::LevelMode",
+                                "enum": 1583,
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 2,
+                            "name": "levelRoundingMode",
+                            "type": {
+                                "kind": "EnumType",
+                                "id": 665,
+                                "type": "Imf_2_5::LevelRoundingMode",
+                                "enum": 1584,
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "~DeepImage",
+                    "qualified_name": "Imf_2_5::DeepImage::~DeepImage",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": true,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": true,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 3,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "level",
+                    "qualified_name": "Imf_2_5::DeepImage::level",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": true,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "Reference",
+                        "id": 888,
+                        "type": "class Imf_2_5::DeepImageLevel &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 887,
+                            "type": "Imf_2_5::DeepImageLevel",
+                            "record": 1443,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "l",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "level",
+                    "qualified_name": "Imf_2_5::DeepImage::level",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": true,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "Reference",
+                        "id": 889,
+                        "type": "const class Imf_2_5::DeepImageLevel &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 887,
+                            "type": "Imf_2_5::DeepImageLevel",
+                            "record": 1443,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "l",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "level",
+                    "qualified_name": "Imf_2_5::DeepImage::level",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": true,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "Reference",
+                        "id": 888,
+                        "type": "class Imf_2_5::DeepImageLevel &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 887,
+                            "type": "Imf_2_5::DeepImageLevel",
+                            "record": 1443,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "lx",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "ly",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "level",
+                    "qualified_name": "Imf_2_5::DeepImage::level",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": true,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "Reference",
+                        "id": 889,
+                        "type": "const class Imf_2_5::DeepImageLevel &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 887,
+                            "type": "Imf_2_5::DeepImageLevel",
+                            "record": 1443,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "lx",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "ly",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

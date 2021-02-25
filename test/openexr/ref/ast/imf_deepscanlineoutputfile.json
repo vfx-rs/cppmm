@@ -1,0 +1,600 @@
+{
+    "kind": "TranslationUnit",
+    "filename": "/home/anders/code/cppmm/test/openexr/bind/imf_deepscanlineoutputfile.cpp",
+    "source_includes": [
+        "#include <OpenEXR/ImfDeepScanLineOutputFile.h>",
+        "#include <cppmm_bind.hpp>"
+    ],
+    "include_paths": [
+        "/home/anders/packages/openexr/2.5.5/include",
+        "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
+    ],
+    "id": 793,
+    "decls": [
+        {
+            "kind": "Namespace",
+            "name": "Imf_2_5",
+            "id": 26,
+            "short_name": "Imf_2_5"
+        },
+        {
+            "kind": "Record",
+            "name": "Imf_2_5::DeepScanLineOutputFile",
+            "short_name": "DeepScanLineOutputFile",
+            "namespaces": [
+                26
+            ],
+            "id": 794,
+            "size": 128,
+            "align": 64,
+            "alias": "DeepScanLineOutputFile",
+            "attributes": [
+                "cppmm|opaquebytes"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "_data",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 811,
+                        "type": "struct Imf_2_5::DeepScanLineOutputFile::Data *",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 810,
+                            "type": "Imf_2_5::DeepScanLineOutputFile::Data",
+                            "record": -1,
+                            "const": false
+                        },
+                        "const": false
+                    }
+                }
+            ],
+            "methods": [
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "DeepScanLineOutputFile",
+                    "qualified_name": "Imf_2_5::DeepScanLineOutputFile::DeepScanLineOutputFile",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": true,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 3,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "fileName",
+                            "type": {
+                                "kind": "Pointer",
+                                "id": 52,
+                                "type": "const char *",
+                                "pointee": {
+                                    "kind": "BuiltinType",
+                                    "id": 51,
+                                    "type": "char",
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "header",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 7,
+                                "type": "const class Imf_2_5::Header &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 6,
+                                    "type": "Imf_2_5::Header",
+                                    "record": 1297,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 2,
+                            "name": "numThreads",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "DeepScanLineOutputFile",
+                    "qualified_name": "Imf_2_5::DeepScanLineOutputFile::DeepScanLineOutputFile",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": true,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm|rename|from_stream"
+                    ],
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 3,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "os",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 11,
+                                "type": "class Imf_2_5::OStream &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 10,
+                                    "type": "Imf_2_5::OStream",
+                                    "record": 990,
+                                    "const": false
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "header",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 7,
+                                "type": "const class Imf_2_5::Header &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 6,
+                                    "type": "Imf_2_5::Header",
+                                    "record": 1297,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 2,
+                            "name": "numThreads",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "~DeepScanLineOutputFile",
+                    "qualified_name": "Imf_2_5::DeepScanLineOutputFile::~DeepScanLineOutputFile",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": true,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": true,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 3,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "fileName",
+                    "qualified_name": "Imf_2_5::DeepScanLineOutputFile::fileName",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "Pointer",
+                        "id": 52,
+                        "type": "const char *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 51,
+                            "type": "char",
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "header",
+                    "qualified_name": "Imf_2_5::DeepScanLineOutputFile::header",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "Reference",
+                        "id": 7,
+                        "type": "const class Imf_2_5::Header &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 6,
+                            "type": "Imf_2_5::Header",
+                            "record": 1297,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "setFrameBuffer",
+                    "qualified_name": "Imf_2_5::DeepScanLineOutputFile::setFrameBuffer",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 3,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "frameBuffer",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 147,
+                                "type": "const class Imf_2_5::DeepFrameBuffer &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 146,
+                                    "type": "Imf_2_5::DeepFrameBuffer",
+                                    "record": 344,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "frameBuffer",
+                    "qualified_name": "Imf_2_5::DeepScanLineOutputFile::frameBuffer",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "Reference",
+                        "id": 147,
+                        "type": "const class Imf_2_5::DeepFrameBuffer &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 146,
+                            "type": "Imf_2_5::DeepFrameBuffer",
+                            "record": 344,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "writePixels",
+                    "qualified_name": "Imf_2_5::DeepScanLineOutputFile::writePixels",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 3,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "numScanLines",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "currentScanLine",
+                    "qualified_name": "Imf_2_5::DeepScanLineOutputFile::currentScanLine",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "copyPixels",
+                    "qualified_name": "Imf_2_5::DeepScanLineOutputFile::copyPixels",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 3,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "in",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 178,
+                                "type": "class Imf_2_5::DeepScanLineInputFile &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 105,
+                                    "type": "Imf_2_5::DeepScanLineInputFile",
+                                    "record": 173,
+                                    "const": false
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "copyPixels",
+                    "qualified_name": "Imf_2_5::DeepScanLineOutputFile::copyPixels",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm|rename|copyPixels_to_part"
+                    ],
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 3,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "in",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 789,
+                                "type": "class Imf_2_5::DeepScanLineInputPart &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 103,
+                                    "type": "Imf_2_5::DeepScanLineInputPart",
+                                    "record": 151,
+                                    "const": false
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "updatePreviewImage",
+                    "qualified_name": "Imf_2_5::DeepScanLineOutputFile::updatePreviewImage",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 3,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "newPixels",
+                            "type": {
+                                "kind": "Pointer",
+                                "id": 22,
+                                "type": "const struct Imf_2_5::PreviewRgba *",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 21,
+                                    "type": "Imf_2_5::PreviewRgba",
+                                    "record": 1132,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

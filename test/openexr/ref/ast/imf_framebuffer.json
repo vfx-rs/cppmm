@@ -1,0 +1,1785 @@
+{
+    "kind": "TranslationUnit",
+    "filename": "/home/anders/code/cppmm/test/openexr/bind/imf_framebuffer.cpp",
+    "source_includes": [
+        "#include <OpenEXR/ImfFrameBuffer.h>",
+        "#include <cppmm_bind.hpp>"
+    ],
+    "include_paths": [
+        "/home/anders/packages/openexr/2.5.5/include",
+        "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
+    ],
+    "id": 3164,
+    "decls": [
+        {
+            "kind": "Namespace",
+            "name": "Imf_2_5",
+            "id": 26,
+            "short_name": "Imf_2_5"
+        },
+        {
+            "kind": "Record",
+            "name": "Imf_2_5::Slice",
+            "short_name": "Slice",
+            "namespaces": [
+                26
+            ],
+            "id": 3165,
+            "size": 448,
+            "align": 64,
+            "alias": "Slice",
+            "attributes": [
+                "cppmm|valuetype"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "type",
+                    "type": {
+                        "kind": "EnumType",
+                        "id": 200,
+                        "type": "Imf_2_5::PixelType",
+                        "enum": 1630,
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "base",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 148,
+                        "type": "char *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 51,
+                            "type": "char",
+                            "const": false
+                        },
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "xStride",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 20,
+                        "type": "unsigned long",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "yStride",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 20,
+                        "type": "unsigned long",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "xSampling",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "ySampling",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "fillValue",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 326,
+                        "type": "double",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "xTileCoords",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 53,
+                        "type": "_Bool",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "yTileCoords",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 53,
+                        "type": "_Bool",
+                        "const": false
+                    }
+                }
+            ],
+            "methods": [
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "Slice",
+                    "qualified_name": "Imf_2_5::Slice::Slice",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": true,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 3,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "type",
+                            "type": {
+                                "kind": "EnumType",
+                                "id": 200,
+                                "type": "Imf_2_5::PixelType",
+                                "enum": 1630,
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "base",
+                            "type": {
+                                "kind": "Pointer",
+                                "id": 148,
+                                "type": "char *",
+                                "pointee": {
+                                    "kind": "BuiltinType",
+                                    "id": 51,
+                                    "type": "char",
+                                    "const": false
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 2,
+                            "name": "xStride",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 20,
+                                "type": "unsigned long",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 3,
+                            "name": "yStride",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 20,
+                                "type": "unsigned long",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 4,
+                            "name": "xSampling",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 5,
+                            "name": "ySampling",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 6,
+                            "name": "fillValue",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 326,
+                                "type": "double",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 7,
+                            "name": "xTileCoords",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 53,
+                                "type": "_Bool",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 8,
+                            "name": "yTileCoords",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 53,
+                                "type": "_Bool",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "Make",
+                    "qualified_name": "Imf_2_5::Slice::Make",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": true,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm|ignore"
+                    ],
+                    "return": {
+                        "kind": "RecordType",
+                        "id": 204,
+                        "type": "Imf_2_5::Slice",
+                        "record": 3165,
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "type",
+                            "type": {
+                                "kind": "EnumType",
+                                "id": 200,
+                                "type": "Imf_2_5::PixelType",
+                                "enum": 1630,
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "ptr",
+                            "type": {
+                                "kind": "Pointer",
+                                "id": 329,
+                                "type": "const void *",
+                                "pointee": {
+                                    "kind": "BuiltinType",
+                                    "id": 3,
+                                    "type": "void",
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 2,
+                            "name": "origin",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 331,
+                                "type": "const class Imath_2_5::Vec2<int> &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 330,
+                                    "type": "Imath_2_5::Vec2<int>",
+                                    "record": 3099,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 3,
+                            "name": "w",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 102,
+                                "type": "long",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 4,
+                            "name": "h",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 102,
+                                "type": "long",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 5,
+                            "name": "xStride",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 20,
+                                "type": "unsigned long",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 6,
+                            "name": "yStride",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 20,
+                                "type": "unsigned long",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 7,
+                            "name": "xSampling",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 8,
+                            "name": "ySampling",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 9,
+                            "name": "fillValue",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 326,
+                                "type": "double",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 10,
+                            "name": "xTileCoords",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 53,
+                                "type": "_Bool",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 11,
+                            "name": "yTileCoords",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 53,
+                                "type": "_Bool",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "Make",
+                    "qualified_name": "Imf_2_5::Slice::Make",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": true,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "RecordType",
+                        "id": 204,
+                        "type": "Imf_2_5::Slice",
+                        "record": 3165,
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "type",
+                            "type": {
+                                "kind": "EnumType",
+                                "id": 200,
+                                "type": "Imf_2_5::PixelType",
+                                "enum": 1630,
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "ptr",
+                            "type": {
+                                "kind": "Pointer",
+                                "id": 329,
+                                "type": "const void *",
+                                "pointee": {
+                                    "kind": "BuiltinType",
+                                    "id": 3,
+                                    "type": "void",
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 2,
+                            "name": "dataWindow",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 13,
+                                "type": "const class Imath_2_5::Box<class Imath_2_5::Vec2<int> > &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 12,
+                                    "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
+                                    "record": 2761,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 3,
+                            "name": "xStride",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 20,
+                                "type": "unsigned long",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 4,
+                            "name": "yStride",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 20,
+                                "type": "unsigned long",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 5,
+                            "name": "xSampling",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 6,
+                            "name": "ySampling",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 7,
+                            "name": "fillValue",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 326,
+                                "type": "double",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 8,
+                            "name": "xTileCoords",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 53,
+                                "type": "_Bool",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 9,
+                            "name": "yTileCoords",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 53,
+                                "type": "_Bool",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "kind": "Record",
+            "name": "Imf_2_5::FrameBuffer",
+            "short_name": "FrameBuffer",
+            "namespaces": [
+                26
+            ],
+            "id": 3173,
+            "size": 384,
+            "align": 64,
+            "alias": "FrameBuffer",
+            "attributes": [
+                "cppmm|opaquebytes"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "_map",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 3194,
+                        "type": "std::map<Imf_2_5::Name, Imf_2_5::Slice, std::less<Imf_2_5::Name>, std::allocator<std::pair<const Imf_2_5::Name, Imf_2_5::Slice> > >",
+                        "record": -1,
+                        "const": false
+                    }
+                }
+            ],
+            "methods": [
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "insert",
+                    "qualified_name": "Imf_2_5::FrameBuffer::insert",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 3,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "name",
+                            "type": {
+                                "kind": "Pointer",
+                                "id": 52,
+                                "type": "const char *",
+                                "pointee": {
+                                    "kind": "BuiltinType",
+                                    "id": 51,
+                                    "type": "char",
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "slice",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 332,
+                                "type": "const struct Imf_2_5::Slice &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 204,
+                                    "type": "Imf_2_5::Slice",
+                                    "record": 3165,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "insert",
+                    "qualified_name": "Imf_2_5::FrameBuffer::insert",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm|ignore"
+                    ],
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 3,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "name",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 5,
+                                "type": "const class std::__cxx11::basic_string<char> &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 4,
+                                    "type": "std::__cxx11::basic_string<char>",
+                                    "record": -1,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "slice",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 332,
+                                "type": "const struct Imf_2_5::Slice &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 204,
+                                    "type": "Imf_2_5::Slice",
+                                    "record": 3165,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "operator[]",
+                    "qualified_name": "Imf_2_5::FrameBuffer::operator[]",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": true,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "Reference",
+                        "id": 334,
+                        "type": "struct Imf_2_5::Slice &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 204,
+                            "type": "Imf_2_5::Slice",
+                            "record": 3165,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "name",
+                            "type": {
+                                "kind": "Pointer",
+                                "id": 52,
+                                "type": "const char *",
+                                "pointee": {
+                                    "kind": "BuiltinType",
+                                    "id": 51,
+                                    "type": "char",
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "operator[]",
+                    "qualified_name": "Imf_2_5::FrameBuffer::operator[]",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": true,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "Reference",
+                        "id": 332,
+                        "type": "const struct Imf_2_5::Slice &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 204,
+                            "type": "Imf_2_5::Slice",
+                            "record": 3165,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "name",
+                            "type": {
+                                "kind": "Pointer",
+                                "id": 52,
+                                "type": "const char *",
+                                "pointee": {
+                                    "kind": "BuiltinType",
+                                    "id": 51,
+                                    "type": "char",
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "operator[]",
+                    "qualified_name": "Imf_2_5::FrameBuffer::operator[]",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": true,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm|ignore"
+                    ],
+                    "return": {
+                        "kind": "Reference",
+                        "id": 334,
+                        "type": "struct Imf_2_5::Slice &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 204,
+                            "type": "Imf_2_5::Slice",
+                            "record": 3165,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "name",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 5,
+                                "type": "const class std::__cxx11::basic_string<char> &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 4,
+                                    "type": "std::__cxx11::basic_string<char>",
+                                    "record": -1,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "operator[]",
+                    "qualified_name": "Imf_2_5::FrameBuffer::operator[]",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": true,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm|ignore"
+                    ],
+                    "return": {
+                        "kind": "Reference",
+                        "id": 332,
+                        "type": "const struct Imf_2_5::Slice &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 204,
+                            "type": "Imf_2_5::Slice",
+                            "record": 3165,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "name",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 5,
+                                "type": "const class std::__cxx11::basic_string<char> &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 4,
+                                    "type": "std::__cxx11::basic_string<char>",
+                                    "record": -1,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "findSlice",
+                    "qualified_name": "Imf_2_5::FrameBuffer::findSlice",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "Pointer",
+                        "id": 3169,
+                        "type": "struct Imf_2_5::Slice *",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 204,
+                            "type": "Imf_2_5::Slice",
+                            "record": 3165,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "name",
+                            "type": {
+                                "kind": "Pointer",
+                                "id": 52,
+                                "type": "const char *",
+                                "pointee": {
+                                    "kind": "BuiltinType",
+                                    "id": 51,
+                                    "type": "char",
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "findSlice",
+                    "qualified_name": "Imf_2_5::FrameBuffer::findSlice",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "Pointer",
+                        "id": 3170,
+                        "type": "const struct Imf_2_5::Slice *",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 204,
+                            "type": "Imf_2_5::Slice",
+                            "record": 3165,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "name",
+                            "type": {
+                                "kind": "Pointer",
+                                "id": 52,
+                                "type": "const char *",
+                                "pointee": {
+                                    "kind": "BuiltinType",
+                                    "id": 51,
+                                    "type": "char",
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "findSlice",
+                    "qualified_name": "Imf_2_5::FrameBuffer::findSlice",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm|ignore"
+                    ],
+                    "return": {
+                        "kind": "Pointer",
+                        "id": 3169,
+                        "type": "struct Imf_2_5::Slice *",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 204,
+                            "type": "Imf_2_5::Slice",
+                            "record": 3165,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "name",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 5,
+                                "type": "const class std::__cxx11::basic_string<char> &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 4,
+                                    "type": "std::__cxx11::basic_string<char>",
+                                    "record": -1,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "findSlice",
+                    "qualified_name": "Imf_2_5::FrameBuffer::findSlice",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm|ignore"
+                    ],
+                    "return": {
+                        "kind": "Pointer",
+                        "id": 3170,
+                        "type": "const struct Imf_2_5::Slice *",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 204,
+                            "type": "Imf_2_5::Slice",
+                            "record": 3165,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "name",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 5,
+                                "type": "const class std::__cxx11::basic_string<char> &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 4,
+                                    "type": "std::__cxx11::basic_string<char>",
+                                    "record": -1,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "begin",
+                    "qualified_name": "Imf_2_5::FrameBuffer::begin",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "RecordType",
+                        "id": 3171,
+                        "type": "Imf_2_5::FrameBuffer::Iterator",
+                        "record": 3199,
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "begin",
+                    "qualified_name": "Imf_2_5::FrameBuffer::begin",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm|rename|begin_const"
+                    ],
+                    "return": {
+                        "kind": "RecordType",
+                        "id": 3172,
+                        "type": "Imf_2_5::FrameBuffer::ConstIterator",
+                        "record": 3209,
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "end",
+                    "qualified_name": "Imf_2_5::FrameBuffer::end",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "RecordType",
+                        "id": 3171,
+                        "type": "Imf_2_5::FrameBuffer::Iterator",
+                        "record": 3199,
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "end",
+                    "qualified_name": "Imf_2_5::FrameBuffer::end",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm|rename|end_const"
+                    ],
+                    "return": {
+                        "kind": "RecordType",
+                        "id": 3172,
+                        "type": "Imf_2_5::FrameBuffer::ConstIterator",
+                        "record": 3209,
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "find",
+                    "qualified_name": "Imf_2_5::FrameBuffer::find",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "RecordType",
+                        "id": 3171,
+                        "type": "Imf_2_5::FrameBuffer::Iterator",
+                        "record": 3199,
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "name",
+                            "type": {
+                                "kind": "Pointer",
+                                "id": 52,
+                                "type": "const char *",
+                                "pointee": {
+                                    "kind": "BuiltinType",
+                                    "id": 51,
+                                    "type": "char",
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "find",
+                    "qualified_name": "Imf_2_5::FrameBuffer::find",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "RecordType",
+                        "id": 3172,
+                        "type": "Imf_2_5::FrameBuffer::ConstIterator",
+                        "record": 3209,
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "name",
+                            "type": {
+                                "kind": "Pointer",
+                                "id": 52,
+                                "type": "const char *",
+                                "pointee": {
+                                    "kind": "BuiltinType",
+                                    "id": 51,
+                                    "type": "char",
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "find",
+                    "qualified_name": "Imf_2_5::FrameBuffer::find",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm|ignore"
+                    ],
+                    "return": {
+                        "kind": "RecordType",
+                        "id": 3171,
+                        "type": "Imf_2_5::FrameBuffer::Iterator",
+                        "record": 3199,
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "name",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 5,
+                                "type": "const class std::__cxx11::basic_string<char> &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 4,
+                                    "type": "std::__cxx11::basic_string<char>",
+                                    "record": -1,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "find",
+                    "qualified_name": "Imf_2_5::FrameBuffer::find",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm|ignore"
+                    ],
+                    "return": {
+                        "kind": "RecordType",
+                        "id": 3172,
+                        "type": "Imf_2_5::FrameBuffer::ConstIterator",
+                        "record": 3209,
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "name",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 5,
+                                "type": "const class std::__cxx11::basic_string<char> &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 4,
+                                    "type": "std::__cxx11::basic_string<char>",
+                                    "record": -1,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "kind": "Record",
+            "name": "Imf_2_5::FrameBuffer::Iterator",
+            "short_name": "Iterator",
+            "namespaces": [
+                26,
+                3173
+            ],
+            "id": 3199,
+            "size": 64,
+            "align": 64,
+            "alias": "Iterator",
+            "attributes": [
+                "cppmm|opaquebytes"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "_i",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 3195,
+                        "type": "std::_Rb_tree_iterator<std::pair<const Imf_2_5::Name, Imf_2_5::Slice> >",
+                        "record": -1,
+                        "const": false
+                    }
+                }
+            ],
+            "methods": [
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "Iterator",
+                    "qualified_name": "Imf_2_5::FrameBuffer::Iterator::Iterator",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": true,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 3,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "Iterator",
+                    "qualified_name": "Imf_2_5::FrameBuffer::Iterator::Iterator",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": true,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm|ignore"
+                    ],
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 3,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "i",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 3196,
+                                "type": "const struct std::_Rb_tree_iterator<struct std::pair<const class Imf_2_5::Name, struct Imf_2_5::Slice> > &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 3195,
+                                    "type": "std::_Rb_tree_iterator<std::pair<const Imf_2_5::Name, Imf_2_5::Slice> >",
+                                    "record": -1,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "name",
+                    "qualified_name": "Imf_2_5::FrameBuffer::Iterator::name",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "Pointer",
+                        "id": 52,
+                        "type": "const char *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 51,
+                            "type": "char",
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "slice",
+                    "qualified_name": "Imf_2_5::FrameBuffer::Iterator::slice",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "Reference",
+                        "id": 334,
+                        "type": "struct Imf_2_5::Slice &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 204,
+                            "type": "Imf_2_5::Slice",
+                            "record": 3165,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "params": null
+                }
+            ]
+        },
+        {
+            "kind": "Record",
+            "name": "Imf_2_5::FrameBuffer::ConstIterator",
+            "short_name": "ConstIterator",
+            "namespaces": [
+                26,
+                3173
+            ],
+            "id": 3209,
+            "size": 64,
+            "align": 64,
+            "alias": "ConstIterator",
+            "attributes": [
+                "cppmm|opaquebytes"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "_i",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 3210,
+                        "type": "std::_Rb_tree_const_iterator<std::pair<const Imf_2_5::Name, Imf_2_5::Slice> >",
+                        "record": -1,
+                        "const": false
+                    }
+                }
+            ],
+            "methods": [
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "ConstIterator",
+                    "qualified_name": "Imf_2_5::FrameBuffer::ConstIterator::ConstIterator",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": true,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 3,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "name",
+                    "qualified_name": "Imf_2_5::FrameBuffer::ConstIterator::name",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "Pointer",
+                        "id": 52,
+                        "type": "const char *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 51,
+                            "type": "char",
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "params": null
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,160 @@
+{
+    "kind": "TranslationUnit",
+    "filename": "/home/anders/code/cppmm/test/openexr/bind/imf_imagelevel.cpp",
+    "source_includes": [
+        "#include <OpenEXR/ImfImageLevel.h>",
+        "#include <cppmm_bind.hpp>"
+    ],
+    "include_paths": [
+        "/home/anders/packages/openexr/2.5.5/include",
+        "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
+    ],
+    "id": 1431,
+    "decls": [
+        {
+            "kind": "Namespace",
+            "name": "Imf_2_5",
+            "id": 26,
+            "short_name": "Imf_2_5"
+        },
+        {
+            "kind": "Record",
+            "name": "Imf_2_5::ImageLevel",
+            "short_name": "ImageLevel",
+            "namespaces": [
+                26
+            ],
+            "id": 1432,
+            "size": 320,
+            "align": 64,
+            "alias": "ImageLevel",
+            "attributes": [
+                "cppmm|opaqueptr"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "_image",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 408,
+                        "type": "class Imf_2_5::Image &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 407,
+                            "type": "Imf_2_5::Image",
+                            "record": 1490,
+                            "const": false
+                        },
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_xLevelNumber",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_yLevelNumber",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_dataWindow",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 12,
+                        "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
+                        "record": 2761,
+                        "const": false
+                    }
+                }
+            ],
+            "methods": [
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "image",
+                    "qualified_name": "Imf_2_5::ImageLevel::image",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "Reference",
+                        "id": 408,
+                        "type": "class Imf_2_5::Image &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 407,
+                            "type": "Imf_2_5::Image",
+                            "record": 1490,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "image",
+                    "qualified_name": "Imf_2_5::ImageLevel::image",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm|rename|image_const"
+                    ],
+                    "return": {
+                        "kind": "Reference",
+                        "id": 409,
+                        "type": "const class Imf_2_5::Image &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 407,
+                            "type": "Imf_2_5::Image",
+                            "record": 1490,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "params": null
+                }
+            ]
+        }
+    ]
+}

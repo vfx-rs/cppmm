@@ -1,0 +1,735 @@
+{
+    "kind": "TranslationUnit",
+    "filename": "/home/anders/code/cppmm/test/openexr/bind/imf_b44compressor.cpp",
+    "source_includes": [
+        "#include <OpenEXR/ImfB44Compressor.h>",
+        "#include <cppmm_bind.hpp>"
+    ],
+    "include_paths": [
+        "/home/anders/packages/openexr/2.5.5/include",
+        "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
+    ],
+    "id": 1588,
+    "decls": [
+        {
+            "kind": "Namespace",
+            "name": "Imf_2_5",
+            "id": 26,
+            "short_name": "Imf_2_5"
+        },
+        {
+            "kind": "Record",
+            "name": "Imf_2_5::B44Compressor",
+            "short_name": "B44Compressor",
+            "namespaces": [
+                26
+            ],
+            "id": 1589,
+            "size": 704,
+            "align": 64,
+            "alias": "B44Compressor",
+            "attributes": [
+                "cppmm|opaqueptr"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "_header",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 7,
+                        "type": "const class Imf_2_5::Header &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 6,
+                            "type": "Imf_2_5::Header",
+                            "record": 1297,
+                            "const": true
+                        },
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_maxScanLineSize",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_optFlatFields",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 53,
+                        "type": "_Bool",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_format",
+                    "type": {
+                        "kind": "EnumType",
+                        "id": 308,
+                        "type": "Imf_2_5::Compressor::Format",
+                        "enum": 325,
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_numScanLines",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_tmpBuffer",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 774,
+                        "type": "unsigned short *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 772,
+                            "type": "unsigned short",
+                            "const": false
+                        },
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_outBuffer",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 148,
+                        "type": "char *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 51,
+                            "type": "char",
+                            "const": false
+                        },
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_numChans",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_channels",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 1286,
+                        "type": "const class Imf_2_5::ChannelList &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 1284,
+                            "type": "Imf_2_5::ChannelList",
+                            "record": 2909,
+                            "const": true
+                        },
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_channelData",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 1603,
+                        "type": "struct Imf_2_5::B44Compressor::ChannelData *",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 1602,
+                            "type": "Imf_2_5::B44Compressor::ChannelData",
+                            "record": -1,
+                            "const": false
+                        },
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_minX",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_maxX",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_maxY",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    }
+                }
+            ],
+            "methods": [
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "numScanLines",
+                    "qualified_name": "Imf_2_5::B44Compressor::numScanLines",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": true,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "format",
+                    "qualified_name": "Imf_2_5::B44Compressor::format",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": true,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "EnumType",
+                        "id": 308,
+                        "type": "Imf_2_5::Compressor::Format",
+                        "enum": 325,
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "compress",
+                    "qualified_name": "Imf_2_5::B44Compressor::compress",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": true,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "inPtr",
+                            "type": {
+                                "kind": "Pointer",
+                                "id": 52,
+                                "type": "const char *",
+                                "pointee": {
+                                    "kind": "BuiltinType",
+                                    "id": 51,
+                                    "type": "char",
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "inSize",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 2,
+                            "name": "minY",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 3,
+                            "name": "outPtr",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 309,
+                                "type": "const char *&",
+                                "pointee": {
+                                    "kind": "Pointer",
+                                    "id": 52,
+                                    "type": "const char *",
+                                    "pointee": {
+                                        "kind": "BuiltinType",
+                                        "id": 51,
+                                        "type": "char",
+                                        "const": true
+                                    },
+                                    "const": false
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "compressTile",
+                    "qualified_name": "Imf_2_5::B44Compressor::compressTile",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": true,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "inPtr",
+                            "type": {
+                                "kind": "Pointer",
+                                "id": 52,
+                                "type": "const char *",
+                                "pointee": {
+                                    "kind": "BuiltinType",
+                                    "id": 51,
+                                    "type": "char",
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "inSize",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 2,
+                            "name": "range",
+                            "type": {
+                                "kind": "RecordType",
+                                "id": 12,
+                                "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
+                                "record": 2761,
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 3,
+                            "name": "outPtr",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 309,
+                                "type": "const char *&",
+                                "pointee": {
+                                    "kind": "Pointer",
+                                    "id": 52,
+                                    "type": "const char *",
+                                    "pointee": {
+                                        "kind": "BuiltinType",
+                                        "id": 51,
+                                        "type": "char",
+                                        "const": true
+                                    },
+                                    "const": false
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "uncompress",
+                    "qualified_name": "Imf_2_5::B44Compressor::uncompress",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": true,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "inPtr",
+                            "type": {
+                                "kind": "Pointer",
+                                "id": 52,
+                                "type": "const char *",
+                                "pointee": {
+                                    "kind": "BuiltinType",
+                                    "id": 51,
+                                    "type": "char",
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "inSize",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 2,
+                            "name": "minY",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 3,
+                            "name": "outPtr",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 309,
+                                "type": "const char *&",
+                                "pointee": {
+                                    "kind": "Pointer",
+                                    "id": 52,
+                                    "type": "const char *",
+                                    "pointee": {
+                                        "kind": "BuiltinType",
+                                        "id": 51,
+                                        "type": "char",
+                                        "const": true
+                                    },
+                                    "const": false
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "uncompressTile",
+                    "qualified_name": "Imf_2_5::B44Compressor::uncompressTile",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": true,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "inPtr",
+                            "type": {
+                                "kind": "Pointer",
+                                "id": 52,
+                                "type": "const char *",
+                                "pointee": {
+                                    "kind": "BuiltinType",
+                                    "id": 51,
+                                    "type": "char",
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "inSize",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 2,
+                            "name": "range",
+                            "type": {
+                                "kind": "RecordType",
+                                "id": 12,
+                                "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
+                                "record": 2761,
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 3,
+                            "name": "outPtr",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 309,
+                                "type": "const char *&",
+                                "pointee": {
+                                    "kind": "Pointer",
+                                    "id": 52,
+                                    "type": "const char *",
+                                    "pointee": {
+                                        "kind": "BuiltinType",
+                                        "id": 51,
+                                        "type": "char",
+                                        "const": true
+                                    },
+                                    "const": false
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "B44Compressor",
+                    "qualified_name": "Imf_2_5::B44Compressor::B44Compressor",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": true,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 3,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "hdr",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 7,
+                                "type": "const class Imf_2_5::Header &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 6,
+                                    "type": "Imf_2_5::Header",
+                                    "record": 1297,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "maxScanLineSize",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 20,
+                                "type": "unsigned long",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 2,
+                            "name": "numScanLines",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 20,
+                                "type": "unsigned long",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 3,
+                            "name": "optFlatFields",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 53,
+                                "type": "_Bool",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "~B44Compressor",
+                    "qualified_name": "Imf_2_5::B44Compressor::~B44Compressor",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": true,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": true,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 3,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": null
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,192 @@
+{
+    "kind": "TranslationUnit",
+    "filename": "/home/anders/code/cppmm/test/openexr/bind/imf_tiledescription.cpp",
+    "source_includes": [
+        "#include <OpenEXR/ImfTileDescription.h>",
+        "#include <cppmm_bind.hpp>"
+    ],
+    "include_paths": [
+        "/home/anders/packages/openexr/2.5.5/include",
+        "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
+    ],
+    "id": 1580,
+    "decls": [
+        {
+            "kind": "Namespace",
+            "name": "Imf_2_5",
+            "id": 26,
+            "short_name": "Imf_2_5"
+        },
+        {
+            "kind": "Record",
+            "name": "Imf_2_5::TileDescription",
+            "short_name": "TileDescription",
+            "namespaces": [
+                26
+            ],
+            "id": 1581,
+            "size": 128,
+            "align": 32,
+            "alias": "TileDescription",
+            "attributes": [
+                "cppmm|valuetype"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "xSize",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 280,
+                        "type": "unsigned int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "ySize",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 280,
+                        "type": "unsigned int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "mode",
+                    "type": {
+                        "kind": "EnumType",
+                        "id": 664,
+                        "type": "Imf_2_5::LevelMode",
+                        "enum": 1583,
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "roundingMode",
+                    "type": {
+                        "kind": "EnumType",
+                        "id": 665,
+                        "type": "Imf_2_5::LevelRoundingMode",
+                        "enum": 1584,
+                        "const": false
+                    }
+                }
+            ],
+            "methods": [
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "TileDescription",
+                    "qualified_name": "Imf_2_5::TileDescription::TileDescription",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": true,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 3,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "xs",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 280,
+                                "type": "unsigned int",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "ys",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 280,
+                                "type": "unsigned int",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 2,
+                            "name": "m",
+                            "type": {
+                                "kind": "EnumType",
+                                "id": 664,
+                                "type": "Imf_2_5::LevelMode",
+                                "enum": 1583,
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 3,
+                            "name": "r",
+                            "type": {
+                                "kind": "EnumType",
+                                "id": 665,
+                                "type": "Imf_2_5::LevelRoundingMode",
+                                "enum": 1584,
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "kind": "Enum",
+            "name": "Imf_2_5::LevelMode",
+            "short_name": "LevelMode",
+            "namespaces": [
+                26
+            ],
+            "id": 1583,
+            "size": 32,
+            "align": 32,
+            "attributes": null,
+            "variants": {
+                "ONE_LEVEL": "0",
+                "MIPMAP_LEVELS": "1",
+                "RIPMAP_LEVELS": "2",
+                "NUM_LEVELMODES": "3"
+            }
+        },
+        {
+            "kind": "Enum",
+            "name": "Imf_2_5::LevelRoundingMode",
+            "short_name": "LevelRoundingMode",
+            "namespaces": [
+                26
+            ],
+            "id": 1584,
+            "size": 32,
+            "align": 32,
+            "attributes": null,
+            "variants": {
+                "ROUND_DOWN": "0",
+                "ROUND_UP": "1",
+                "NUM_ROUNDINGMODES": "2"
+            }
+        }
+    ]
+}

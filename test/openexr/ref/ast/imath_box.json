@@ -1,0 +1,341 @@
+{
+    "kind": "TranslationUnit",
+    "filename": "/home/anders/code/cppmm/test/openexr/bind/imath_box.cpp",
+    "source_includes": [
+        "#include <OpenEXR/ImathBox.h>",
+        "#include <cppmm_bind.hpp>"
+    ],
+    "include_paths": [
+        "/home/anders/packages/openexr/2.5.5/include",
+        "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
+    ],
+    "id": 2753,
+    "decls": [
+        {
+            "kind": "Namespace",
+            "name": "Imath_2_5",
+            "id": 627,
+            "short_name": "Imath_2_5"
+        },
+        {
+            "kind": "Record",
+            "name": "Imath_2_5::Box<Imath_2_5::Vec2<short> >",
+            "short_name": "Box",
+            "namespaces": [
+                627
+            ],
+            "id": 2754,
+            "size": 64,
+            "align": 16,
+            "alias": "Box2s",
+            "attributes": [
+                "cppmm|valuetype"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "min",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 2755,
+                        "type": "Imath_2_5::Vec2<short>",
+                        "record": 3093,
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "max",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 2755,
+                        "type": "Imath_2_5::Vec2<short>",
+                        "record": 3093,
+                        "const": false
+                    }
+                }
+            ],
+            "methods": null
+        },
+        {
+            "kind": "Record",
+            "name": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
+            "short_name": "Box",
+            "namespaces": [
+                627
+            ],
+            "id": 2761,
+            "size": 128,
+            "align": 32,
+            "alias": "Box2i",
+            "attributes": [
+                "cppmm|valuetype"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "min",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 330,
+                        "type": "Imath_2_5::Vec2<int>",
+                        "record": 3099,
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "max",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 330,
+                        "type": "Imath_2_5::Vec2<int>",
+                        "record": 3099,
+                        "const": false
+                    }
+                }
+            ],
+            "methods": null
+        },
+        {
+            "kind": "Record",
+            "name": "Imath_2_5::Box<Imath_2_5::Vec2<float> >",
+            "short_name": "Box",
+            "namespaces": [
+                627
+            ],
+            "id": 2765,
+            "size": 128,
+            "align": 32,
+            "alias": "Box2f",
+            "attributes": [
+                "cppmm|valuetype"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "min",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 15,
+                        "type": "Imath_2_5::Vec2<float>",
+                        "record": 3101,
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "max",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 15,
+                        "type": "Imath_2_5::Vec2<float>",
+                        "record": 3101,
+                        "const": false
+                    }
+                }
+            ],
+            "methods": null
+        },
+        {
+            "kind": "Record",
+            "name": "Imath_2_5::Box<Imath_2_5::Vec2<double> >",
+            "short_name": "Box",
+            "namespaces": [
+                627
+            ],
+            "id": 2769,
+            "size": 256,
+            "align": 64,
+            "alias": "Box2d",
+            "attributes": [
+                "cppmm|valuetype"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "min",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 643,
+                        "type": "Imath_2_5::Vec2<double>",
+                        "record": 3102,
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "max",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 643,
+                        "type": "Imath_2_5::Vec2<double>",
+                        "record": 3102,
+                        "const": false
+                    }
+                }
+            ],
+            "methods": null
+        },
+        {
+            "kind": "Record",
+            "name": "Imath_2_5::Box<Imath_2_5::Vec3<short> >",
+            "short_name": "Box",
+            "namespaces": [
+                627
+            ],
+            "id": 2774,
+            "size": 96,
+            "align": 16,
+            "alias": "Box3s",
+            "attributes": [
+                "cppmm|valuetype"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "min",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 2775,
+                        "type": "Imath_2_5::Vec3<short>",
+                        "record": 3103,
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "max",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 2775,
+                        "type": "Imath_2_5::Vec3<short>",
+                        "record": 3103,
+                        "const": false
+                    }
+                }
+            ],
+            "methods": null
+        },
+        {
+            "kind": "Record",
+            "name": "Imath_2_5::Box<Imath_2_5::Vec3<int> >",
+            "short_name": "Box",
+            "namespaces": [
+                627
+            ],
+            "id": 2781,
+            "size": 192,
+            "align": 32,
+            "alias": "Box3i",
+            "attributes": [
+                "cppmm|valuetype"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "min",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 2603,
+                        "type": "Imath_2_5::Vec3<int>",
+                        "record": 3104,
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "max",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 2603,
+                        "type": "Imath_2_5::Vec3<int>",
+                        "record": 3104,
+                        "const": false
+                    }
+                }
+            ],
+            "methods": null
+        },
+        {
+            "kind": "Record",
+            "name": "Imath_2_5::Box<Imath_2_5::Vec3<float> >",
+            "short_name": "Box",
+            "namespaces": [
+                627
+            ],
+            "id": 2786,
+            "size": 192,
+            "align": 32,
+            "alias": "Box3f",
+            "attributes": [
+                "cppmm|valuetype"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "min",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 649,
+                        "type": "Imath_2_5::Vec3<float>",
+                        "record": 3105,
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "max",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 649,
+                        "type": "Imath_2_5::Vec3<float>",
+                        "record": 3105,
+                        "const": false
+                    }
+                }
+            ],
+            "methods": null
+        },
+        {
+            "kind": "Record",
+            "name": "Imath_2_5::Box<Imath_2_5::Vec3<double> >",
+            "short_name": "Box",
+            "namespaces": [
+                627
+            ],
+            "id": 2791,
+            "size": 384,
+            "align": 64,
+            "alias": "Box3d",
+            "attributes": [
+                "cppmm|valuetype"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "min",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 658,
+                        "type": "Imath_2_5::Vec3<double>",
+                        "record": 3106,
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "max",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 658,
+                        "type": "Imath_2_5::Vec3<double>",
+                        "record": 3106,
+                        "const": false
+                    }
+                }
+            ],
+            "methods": null
+        }
+    ]
+}

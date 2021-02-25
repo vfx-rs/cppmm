@@ -1,0 +1,235 @@
+{
+    "kind": "TranslationUnit",
+    "filename": "/home/anders/code/cppmm/test/openexr/bind/imf_threading.cpp",
+    "source_includes": [
+        "#include <OpenEXR/ImfThreading.h>",
+        "#include <cppmm_bind.hpp>"
+    ],
+    "include_paths": [
+        "/home/anders/packages/openexr/2.5.5/include",
+        "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
+    ],
+    "id": 2804,
+    "decls": [
+        {
+            "kind": "Function",
+            "id": 2805,
+            "short_name": "globalThreadCount",
+            "qualified_name": "Imf_2_5::globalThreadCount",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "return": {
+                "kind": "BuiltinType",
+                "id": 9,
+                "type": "int",
+                "const": false
+            },
+            "params": null
+        },
+        {
+            "kind": "Function",
+            "id": 2806,
+            "short_name": "setGlobalThreadCount",
+            "qualified_name": "Imf_2_5::setGlobalThreadCount",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "return": {
+                "kind": "BuiltinType",
+                "id": 3,
+                "type": "void",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "count",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 2823,
+            "short_name": "globalThreadCount",
+            "qualified_name": "Imf_2_5::globalThreadCount",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "return": {
+                "kind": "BuiltinType",
+                "id": 9,
+                "type": "int",
+                "const": false
+            },
+            "params": null
+        },
+        {
+            "kind": "Function",
+            "id": 2824,
+            "short_name": "setGlobalThreadCount",
+            "qualified_name": "Imf_2_5::setGlobalThreadCount",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "return": {
+                "kind": "BuiltinType",
+                "id": 3,
+                "type": "void",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "count",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 2890,
+            "short_name": "globalThreadCount",
+            "qualified_name": "Imf_2_5::globalThreadCount",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "return": {
+                "kind": "BuiltinType",
+                "id": 9,
+                "type": "int",
+                "const": false
+            },
+            "params": null
+        },
+        {
+            "kind": "Function",
+            "id": 2891,
+            "short_name": "setGlobalThreadCount",
+            "qualified_name": "Imf_2_5::setGlobalThreadCount",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "return": {
+                "kind": "BuiltinType",
+                "id": 3,
+                "type": "void",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "count",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 2963,
+            "short_name": "globalThreadCount",
+            "qualified_name": "Imf_2_5::globalThreadCount",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "return": {
+                "kind": "BuiltinType",
+                "id": 9,
+                "type": "int",
+                "const": false
+            },
+            "params": null
+        },
+        {
+            "kind": "Function",
+            "id": 2964,
+            "short_name": "setGlobalThreadCount",
+            "qualified_name": "Imf_2_5::setGlobalThreadCount",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "return": {
+                "kind": "BuiltinType",
+                "id": 3,
+                "type": "void",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "count",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 3152,
+            "short_name": "globalThreadCount",
+            "qualified_name": "Imf_2_5::globalThreadCount",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "return": {
+                "kind": "BuiltinType",
+                "id": 9,
+                "type": "int",
+                "const": false
+            },
+            "params": null
+        },
+        {
+            "kind": "Function",
+            "id": 3153,
+            "short_name": "setGlobalThreadCount",
+            "qualified_name": "Imf_2_5::setGlobalThreadCount",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "return": {
+                "kind": "BuiltinType",
+                "id": 3,
+                "type": "void",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "count",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        }
+    ]
+}

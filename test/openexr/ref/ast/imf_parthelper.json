@@ -1,0 +1,141 @@
+{
+    "kind": "TranslationUnit",
+    "filename": "/home/anders/code/cppmm/test/openexr/bind/imf_parthelper.cpp",
+    "source_includes": [
+        "#include <OpenEXR/ImfPartHelper.h>",
+        "#include <cppmm_bind.hpp>"
+    ],
+    "include_paths": [
+        "/home/anders/packages/openexr/2.5.5/include",
+        "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
+    ],
+    "id": 2956,
+    "decls": [
+        {
+            "kind": "Namespace",
+            "name": "Imf_2_5",
+            "id": 26,
+            "short_name": "Imf_2_5"
+        },
+        {
+            "kind": "Record",
+            "name": "Imf_2_5::MultiViewChannelName",
+            "short_name": "MultiViewChannelName",
+            "namespaces": [
+                26
+            ],
+            "id": 2957,
+            "size": 896,
+            "align": 64,
+            "alias": "MultiViewChannelName",
+            "attributes": [
+                "cppmm|opaquebytes"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "name",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 4,
+                        "type": "std::__cxx11::basic_string<char>",
+                        "record": -1,
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "view",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 4,
+                        "type": "std::__cxx11::basic_string<char>",
+                        "record": -1,
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "part_number",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "internal_name",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 4,
+                        "type": "std::__cxx11::basic_string<char>",
+                        "record": -1,
+                        "const": false
+                    }
+                }
+            ],
+            "methods": [
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "getLayer",
+                    "qualified_name": "Imf_2_5::MultiViewChannelName::getLayer",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "RecordType",
+                        "id": 4,
+                        "type": "std::__cxx11::basic_string<char>",
+                        "record": -1,
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "getSuffix",
+                    "qualified_name": "Imf_2_5::MultiViewChannelName::getSuffix",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "RecordType",
+                        "id": 4,
+                        "type": "std::__cxx11::basic_string<char>",
+                        "record": -1,
+                        "const": false
+                    },
+                    "params": null
+                }
+            ]
+        }
+    ]
+}

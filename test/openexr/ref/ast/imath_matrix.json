@@ -1,0 +1,190 @@
+{
+    "kind": "TranslationUnit",
+    "filename": "/home/anders/code/cppmm/test/openexr/bind/imath_matrix.cpp",
+    "source_includes": [
+        "#include <OpenEXR/ImathMatrix.h>",
+        "#include <vector>",
+        "#include <cppmm_bind.hpp>"
+    ],
+    "include_paths": [
+        "/home/anders/packages/openexr/2.5.5/include",
+        "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
+    ],
+    "id": 626,
+    "decls": [
+        {
+            "kind": "Namespace",
+            "name": "Imath_2_5",
+            "id": 627,
+            "short_name": "Imath_2_5"
+        },
+        {
+            "kind": "Record",
+            "name": "Imath_2_5::Matrix33<float>",
+            "short_name": "Matrix33",
+            "namespaces": [
+                627
+            ],
+            "id": 628,
+            "size": 288,
+            "align": 32,
+            "alias": "M33f",
+            "attributes": [
+                "cppmm|valuetype"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "x",
+                    "type": {
+                        "kind": "ConstantArrayType",
+                        "id": 635,
+                        "type": "float [3][3]",
+                        "size": 3,
+                        "element_type": {
+                            "kind": "ConstantArrayType",
+                            "id": 634,
+                            "type": "float [3]",
+                            "size": 3,
+                            "element_type": {
+                                "kind": "BuiltinType",
+                                "id": 14,
+                                "type": "float",
+                                "const": false
+                            },
+                            "const": false
+                        },
+                        "const": false
+                    }
+                }
+            ],
+            "methods": null
+        },
+        {
+            "kind": "Record",
+            "name": "Imath_2_5::Matrix33<double>",
+            "short_name": "Matrix33",
+            "namespaces": [
+                627
+            ],
+            "id": 636,
+            "size": 576,
+            "align": 64,
+            "alias": "M33d",
+            "attributes": [
+                "cppmm|valuetype"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "x",
+                    "type": {
+                        "kind": "ConstantArrayType",
+                        "id": 645,
+                        "type": "double [3][3]",
+                        "size": 3,
+                        "element_type": {
+                            "kind": "ConstantArrayType",
+                            "id": 644,
+                            "type": "double [3]",
+                            "size": 3,
+                            "element_type": {
+                                "kind": "BuiltinType",
+                                "id": 326,
+                                "type": "double",
+                                "const": false
+                            },
+                            "const": false
+                        },
+                        "const": false
+                    }
+                }
+            ],
+            "methods": null
+        },
+        {
+            "kind": "Record",
+            "name": "Imath_2_5::Matrix44<float>",
+            "short_name": "Matrix44",
+            "namespaces": [
+                627
+            ],
+            "id": 646,
+            "size": 512,
+            "align": 32,
+            "alias": "M44f",
+            "attributes": [
+                "cppmm|valuetype"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "x",
+                    "type": {
+                        "kind": "ConstantArrayType",
+                        "id": 654,
+                        "type": "float [4][4]",
+                        "size": 4,
+                        "element_type": {
+                            "kind": "ConstantArrayType",
+                            "id": 653,
+                            "type": "float [4]",
+                            "size": 4,
+                            "element_type": {
+                                "kind": "BuiltinType",
+                                "id": 14,
+                                "type": "float",
+                                "const": false
+                            },
+                            "const": false
+                        },
+                        "const": false
+                    }
+                }
+            ],
+            "methods": null
+        },
+        {
+            "kind": "Record",
+            "name": "Imath_2_5::Matrix44<double>",
+            "short_name": "Matrix44",
+            "namespaces": [
+                627
+            ],
+            "id": 655,
+            "size": 1024,
+            "align": 64,
+            "alias": "M44d",
+            "attributes": [
+                "cppmm|valuetype"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "x",
+                    "type": {
+                        "kind": "ConstantArrayType",
+                        "id": 663,
+                        "type": "double [4][4]",
+                        "size": 4,
+                        "element_type": {
+                            "kind": "ConstantArrayType",
+                            "id": 662,
+                            "type": "double [4]",
+                            "size": 4,
+                            "element_type": {
+                                "kind": "BuiltinType",
+                                "id": 326,
+                                "type": "double",
+                                "const": false
+                            },
+                            "const": false
+                        },
+                        "const": false
+                    }
+                }
+            ],
+            "methods": null
+        }
+    ]
+}

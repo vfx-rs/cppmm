@@ -1,0 +1,279 @@
+{
+    "kind": "TranslationUnit",
+    "filename": "/home/anders/code/cppmm/test/openexr/bind/imf_imagechannelrenaming.cpp",
+    "source_includes": [
+        "#include <OpenEXR/ImfImageChannelRenaming.h>",
+        "#include <cppmm_bind.hpp>"
+    ],
+    "include_paths": [
+        "/home/anders/packages/openexr/2.5.5/include",
+        "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
+    ],
+    "id": 1722,
+    "decls": [
+        {
+            "kind": "Function",
+            "id": 1724,
+            "short_name": "renameChannelsInMap",
+            "qualified_name": "Imf_2_5::renameChannelsInMap",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "return": {
+                "kind": "BuiltinType",
+                "id": 3,
+                "type": "void",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "oldToNewNames",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 1046,
+                        "type": "std::map<std::__cxx11::basic_string<char>, std::__cxx11::basic_string<char>, std::less<std::__cxx11::basic_string<char> >, std::allocator<std::pair<const std::__cxx11::basic_string<char>, std::__cxx11::basic_string<char> > > >",
+                        "record": -1,
+                        "const": true
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "channels",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 1723,
+                        "type": "type-parameter-0-0 &",
+                        "pointee": {
+                            "type": "UNKNOWN",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 1725,
+            "short_name": "renameChannelsInMap",
+            "qualified_name": "Imf_2_5::renameChannelsInMap",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "return": {
+                "kind": "BuiltinType",
+                "id": 3,
+                "type": "void",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "oldToNewNames",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 1046,
+                        "type": "std::map<std::__cxx11::basic_string<char>, std::__cxx11::basic_string<char>, std::less<std::__cxx11::basic_string<char> >, std::allocator<std::pair<const std::__cxx11::basic_string<char>, std::__cxx11::basic_string<char> > > >",
+                        "record": -1,
+                        "const": true
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "channels",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 1723,
+                        "type": "type-parameter-0-0 &",
+                        "pointee": {
+                            "type": "UNKNOWN",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 1808,
+            "short_name": "renameChannelsInMap",
+            "qualified_name": "Imf_2_5::renameChannelsInMap",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "return": {
+                "kind": "BuiltinType",
+                "id": 3,
+                "type": "void",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "oldToNewNames",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 1046,
+                        "type": "std::map<std::__cxx11::basic_string<char>, std::__cxx11::basic_string<char>, std::less<std::__cxx11::basic_string<char> >, std::allocator<std::pair<const std::__cxx11::basic_string<char>, std::__cxx11::basic_string<char> > > >",
+                        "record": -1,
+                        "const": true
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "channels",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 1723,
+                        "type": "type-parameter-0-0 &",
+                        "pointee": {
+                            "type": "UNKNOWN",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 1809,
+            "short_name": "renameChannelsInMap",
+            "qualified_name": "Imf_2_5::renameChannelsInMap",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "return": {
+                "kind": "BuiltinType",
+                "id": 3,
+                "type": "void",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "oldToNewNames",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 1046,
+                        "type": "std::map<std::__cxx11::basic_string<char>, std::__cxx11::basic_string<char>, std::less<std::__cxx11::basic_string<char> >, std::allocator<std::pair<const std::__cxx11::basic_string<char>, std::__cxx11::basic_string<char> > > >",
+                        "record": -1,
+                        "const": true
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "channels",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 1723,
+                        "type": "type-parameter-0-0 &",
+                        "pointee": {
+                            "type": "UNKNOWN",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 3090,
+            "short_name": "renameChannelsInMap",
+            "qualified_name": "Imf_2_5::renameChannelsInMap",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "return": {
+                "kind": "BuiltinType",
+                "id": 3,
+                "type": "void",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "oldToNewNames",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 1046,
+                        "type": "std::map<std::__cxx11::basic_string<char>, std::__cxx11::basic_string<char>, std::less<std::__cxx11::basic_string<char> >, std::allocator<std::pair<const std::__cxx11::basic_string<char>, std::__cxx11::basic_string<char> > > >",
+                        "record": -1,
+                        "const": true
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "channels",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 1723,
+                        "type": "type-parameter-0-0 &",
+                        "pointee": {
+                            "type": "UNKNOWN",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 3091,
+            "short_name": "renameChannelsInMap",
+            "qualified_name": "Imf_2_5::renameChannelsInMap",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "return": {
+                "kind": "BuiltinType",
+                "id": 3,
+                "type": "void",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "oldToNewNames",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 1046,
+                        "type": "std::map<std::__cxx11::basic_string<char>, std::__cxx11::basic_string<char>, std::less<std::__cxx11::basic_string<char> >, std::allocator<std::pair<const std::__cxx11::basic_string<char>, std::__cxx11::basic_string<char> > > >",
+                        "record": -1,
+                        "const": true
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "channels",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 1723,
+                        "type": "type-parameter-0-0 &",
+                        "pointee": {
+                            "type": "UNKNOWN",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        }
+    ]
+}

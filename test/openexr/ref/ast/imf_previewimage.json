@@ -1,0 +1,653 @@
+{
+    "kind": "TranslationUnit",
+    "filename": "/home/anders/code/cppmm/test/openexr/bind/imf_previewimage.cpp",
+    "source_includes": [
+        "#include <OpenEXR/ImfPreviewImage.h>",
+        "#include <cppmm_bind.hpp>"
+    ],
+    "include_paths": [
+        "/home/anders/packages/openexr/2.5.5/include",
+        "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
+    ],
+    "id": 1131,
+    "decls": [
+        {
+            "kind": "Namespace",
+            "name": "Imf_2_5",
+            "id": 26,
+            "short_name": "Imf_2_5"
+        },
+        {
+            "kind": "Record",
+            "name": "Imf_2_5::PreviewRgba",
+            "short_name": "PreviewRgba",
+            "namespaces": [
+                26
+            ],
+            "id": 1132,
+            "size": 32,
+            "align": 8,
+            "alias": "PreviewRgba",
+            "attributes": [
+                "cppmm|valuetype"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "r",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 1130,
+                        "type": "unsigned char",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "g",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 1130,
+                        "type": "unsigned char",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "b",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 1130,
+                        "type": "unsigned char",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "a",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 1130,
+                        "type": "unsigned char",
+                        "const": false
+                    }
+                }
+            ],
+            "methods": [
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "PreviewRgba",
+                    "qualified_name": "Imf_2_5::PreviewRgba::PreviewRgba",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": true,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 3,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "r",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 1130,
+                                "type": "unsigned char",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "g",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 1130,
+                                "type": "unsigned char",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 2,
+                            "name": "b",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 1130,
+                                "type": "unsigned char",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 3,
+                            "name": "a",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 1130,
+                                "type": "unsigned char",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "kind": "Record",
+            "name": "Imf_2_5::PreviewImage",
+            "short_name": "PreviewImage",
+            "namespaces": [
+                26
+            ],
+            "id": 1140,
+            "size": 128,
+            "align": 64,
+            "alias": "PreviewImage",
+            "attributes": [
+                "cppmm|opaquebytes"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "_width",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 280,
+                        "type": "unsigned int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_height",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 280,
+                        "type": "unsigned int",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_pixels",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 1137,
+                        "type": "struct Imf_2_5::PreviewRgba *",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 21,
+                            "type": "Imf_2_5::PreviewRgba",
+                            "record": 1132,
+                            "const": false
+                        },
+                        "const": false
+                    }
+                }
+            ],
+            "methods": [
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "PreviewImage",
+                    "qualified_name": "Imf_2_5::PreviewImage::PreviewImage",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": true,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 3,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "width",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 280,
+                                "type": "unsigned int",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "height",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 280,
+                                "type": "unsigned int",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 2,
+                            "name": "pixels",
+                            "type": {
+                                "kind": "Pointer",
+                                "id": 22,
+                                "type": "const struct Imf_2_5::PreviewRgba *",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 21,
+                                    "type": "Imf_2_5::PreviewRgba",
+                                    "record": 1132,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "PreviewImage",
+                    "qualified_name": "Imf_2_5::PreviewImage::PreviewImage",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": true,
+                    "copy_constructor": true,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 3,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "other",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 1135,
+                                "type": "const class Imf_2_5::PreviewImage &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 1134,
+                                    "type": "Imf_2_5::PreviewImage",
+                                    "record": 1140,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "~PreviewImage",
+                    "qualified_name": "Imf_2_5::PreviewImage::~PreviewImage",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": true,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 3,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "operator=",
+                    "qualified_name": "Imf_2_5::PreviewImage::operator=",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": true,
+                    "copy_assignment_operator": true,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "Reference",
+                        "id": 1136,
+                        "type": "class Imf_2_5::PreviewImage &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 1134,
+                            "type": "Imf_2_5::PreviewImage",
+                            "record": 1140,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "other",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 1135,
+                                "type": "const class Imf_2_5::PreviewImage &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 1134,
+                                    "type": "Imf_2_5::PreviewImage",
+                                    "record": 1140,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "width",
+                    "qualified_name": "Imf_2_5::PreviewImage::width",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 280,
+                        "type": "unsigned int",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "height",
+                    "qualified_name": "Imf_2_5::PreviewImage::height",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 280,
+                        "type": "unsigned int",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "pixels",
+                    "qualified_name": "Imf_2_5::PreviewImage::pixels",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "Pointer",
+                        "id": 1137,
+                        "type": "struct Imf_2_5::PreviewRgba *",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 21,
+                            "type": "Imf_2_5::PreviewRgba",
+                            "record": 1132,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "pixels",
+                    "qualified_name": "Imf_2_5::PreviewImage::pixels",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm|rename|pixels_const"
+                    ],
+                    "return": {
+                        "kind": "Pointer",
+                        "id": 22,
+                        "type": "const struct Imf_2_5::PreviewRgba *",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 21,
+                            "type": "Imf_2_5::PreviewRgba",
+                            "record": 1132,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "pixel",
+                    "qualified_name": "Imf_2_5::PreviewImage::pixel",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "Reference",
+                        "id": 1138,
+                        "type": "struct Imf_2_5::PreviewRgba &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 21,
+                            "type": "Imf_2_5::PreviewRgba",
+                            "record": 1132,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "x",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 280,
+                                "type": "unsigned int",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "y",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 280,
+                                "type": "unsigned int",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "pixel",
+                    "qualified_name": "Imf_2_5::PreviewImage::pixel",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm|rename|pixel_const"
+                    ],
+                    "return": {
+                        "kind": "Reference",
+                        "id": 1139,
+                        "type": "const struct Imf_2_5::PreviewRgba &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 21,
+                            "type": "Imf_2_5::PreviewRgba",
+                            "record": 1132,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "x",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 280,
+                                "type": "unsigned int",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "y",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 280,
+                                "type": "unsigned int",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

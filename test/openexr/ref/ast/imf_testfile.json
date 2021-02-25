@@ -1,0 +1,4393 @@
+{
+    "kind": "TranslationUnit",
+    "filename": "/home/anders/code/cppmm/test/openexr/bind/imf_testfile.cpp",
+    "source_includes": [
+        "#include <OpenEXR/ImfTestFile.h>",
+        "#include <cppmm_bind.hpp>"
+    ],
+    "include_paths": [
+        "/home/anders/packages/openexr/2.5.5/include",
+        "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
+    ],
+    "id": 465,
+    "decls": [
+        {
+            "kind": "Function",
+            "id": 467,
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|ignore"
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fileName",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 52,
+                        "type": "const char *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 51,
+                            "type": "char",
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 468,
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|ignore"
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fileName",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 52,
+                        "type": "const char *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 51,
+                            "type": "char",
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 469,
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|ignore"
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fileName",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 52,
+                        "type": "const char *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 51,
+                            "type": "char",
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 470,
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|ignore"
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fileName",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 52,
+                        "type": "const char *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 51,
+                            "type": "char",
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 471,
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|ignore"
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fileName",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 52,
+                        "type": "const char *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 51,
+                            "type": "char",
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 472,
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|ignore"
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fileName",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 52,
+                        "type": "const char *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 51,
+                            "type": "char",
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 473,
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|ignore"
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fileName",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 52,
+                        "type": "const char *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 51,
+                            "type": "char",
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 474,
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|ignore"
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fileName",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 52,
+                        "type": "const char *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 51,
+                            "type": "char",
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 475,
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|ignore"
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fileName",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 52,
+                        "type": "const char *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 51,
+                            "type": "char",
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "isTiled",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 476,
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|ignore"
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fileName",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 52,
+                        "type": "const char *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 51,
+                            "type": "char",
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "isTiled",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 477,
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|ignore"
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fileName",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 52,
+                        "type": "const char *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 51,
+                            "type": "char",
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "isTiled",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 478,
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|ignore"
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fileName",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 52,
+                        "type": "const char *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 51,
+                            "type": "char",
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "isTiled",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 479,
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|ignore"
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fileName",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 52,
+                        "type": "const char *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 51,
+                            "type": "char",
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "isTiled",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 480,
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|ignore"
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fileName",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 52,
+                        "type": "const char *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 51,
+                            "type": "char",
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "isTiled",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 481,
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|ignore"
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fileName",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 52,
+                        "type": "const char *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 51,
+                            "type": "char",
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "isTiled",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 482,
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|ignore"
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fileName",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 52,
+                        "type": "const char *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 51,
+                            "type": "char",
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "isTiled",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 483,
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|ignore"
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fileName",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 52,
+                        "type": "const char *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 51,
+                            "type": "char",
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "isTiled",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 2,
+                    "name": "isDeep",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 484,
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|ignore"
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fileName",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 52,
+                        "type": "const char *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 51,
+                            "type": "char",
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "isTiled",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 2,
+                    "name": "isDeep",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 485,
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|ignore"
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fileName",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 52,
+                        "type": "const char *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 51,
+                            "type": "char",
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "isTiled",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 2,
+                    "name": "isDeep",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 486,
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|ignore"
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fileName",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 52,
+                        "type": "const char *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 51,
+                            "type": "char",
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "isTiled",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 2,
+                    "name": "isDeep",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 487,
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|ignore"
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fileName",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 52,
+                        "type": "const char *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 51,
+                            "type": "char",
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "isTiled",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 2,
+                    "name": "isDeep",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 488,
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|ignore"
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fileName",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 52,
+                        "type": "const char *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 51,
+                            "type": "char",
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "isTiled",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 2,
+                    "name": "isDeep",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 489,
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|ignore"
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fileName",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 52,
+                        "type": "const char *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 51,
+                            "type": "char",
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "isTiled",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 2,
+                    "name": "isDeep",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 490,
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|ignore"
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fileName",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 52,
+                        "type": "const char *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 51,
+                            "type": "char",
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "isTiled",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 2,
+                    "name": "isDeep",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 491,
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fileName",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 52,
+                        "type": "const char *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 51,
+                            "type": "char",
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "isTiled",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 2,
+                    "name": "isDeep",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 3,
+                    "name": "isMultiPart",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 492,
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fileName",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 52,
+                        "type": "const char *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 51,
+                            "type": "char",
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "isTiled",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 2,
+                    "name": "isDeep",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 3,
+                    "name": "isMultiPart",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 493,
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fileName",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 52,
+                        "type": "const char *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 51,
+                            "type": "char",
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "isTiled",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 2,
+                    "name": "isDeep",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 3,
+                    "name": "isMultiPart",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 494,
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fileName",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 52,
+                        "type": "const char *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 51,
+                            "type": "char",
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "isTiled",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 2,
+                    "name": "isDeep",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 3,
+                    "name": "isMultiPart",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 495,
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fileName",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 52,
+                        "type": "const char *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 51,
+                            "type": "char",
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "isTiled",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 2,
+                    "name": "isDeep",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 3,
+                    "name": "isMultiPart",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 496,
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fileName",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 52,
+                        "type": "const char *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 51,
+                            "type": "char",
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "isTiled",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 2,
+                    "name": "isDeep",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 3,
+                    "name": "isMultiPart",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 497,
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fileName",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 52,
+                        "type": "const char *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 51,
+                            "type": "char",
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "isTiled",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 2,
+                    "name": "isDeep",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 3,
+                    "name": "isMultiPart",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 498,
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fileName",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 52,
+                        "type": "const char *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 51,
+                            "type": "char",
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "isTiled",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 2,
+                    "name": "isDeep",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 3,
+                    "name": "isMultiPart",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 499,
+            "short_name": "isTiledOpenExrFile",
+            "qualified_name": "Imf_2_5::isTiledOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fileName",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 52,
+                        "type": "const char *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 51,
+                            "type": "char",
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 500,
+            "short_name": "isTiledOpenExrFile",
+            "qualified_name": "Imf_2_5::isTiledOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fileName",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 52,
+                        "type": "const char *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 51,
+                            "type": "char",
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 501,
+            "short_name": "isDeepOpenExrFile",
+            "qualified_name": "Imf_2_5::isDeepOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fileName",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 52,
+                        "type": "const char *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 51,
+                            "type": "char",
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 502,
+            "short_name": "isDeepOpenExrFile",
+            "qualified_name": "Imf_2_5::isDeepOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fileName",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 52,
+                        "type": "const char *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 51,
+                            "type": "char",
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 503,
+            "short_name": "isMultiPartOpenExrFile",
+            "qualified_name": "Imf_2_5::isMultiPartOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fileName",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 52,
+                        "type": "const char *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 51,
+                            "type": "char",
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 504,
+            "short_name": "isMultiPartOpenExrFile",
+            "qualified_name": "Imf_2_5::isMultiPartOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fileName",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 52,
+                        "type": "const char *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 51,
+                            "type": "char",
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 505,
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|ignore"
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "is",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 49,
+                        "type": "class Imf_2_5::IStream &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 48,
+                            "type": "Imf_2_5::IStream",
+                            "record": 999,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 506,
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|ignore"
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "is",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 49,
+                        "type": "class Imf_2_5::IStream &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 48,
+                            "type": "Imf_2_5::IStream",
+                            "record": 999,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 507,
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|ignore"
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "is",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 49,
+                        "type": "class Imf_2_5::IStream &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 48,
+                            "type": "Imf_2_5::IStream",
+                            "record": 999,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 508,
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|ignore"
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "is",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 49,
+                        "type": "class Imf_2_5::IStream &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 48,
+                            "type": "Imf_2_5::IStream",
+                            "record": 999,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 509,
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|ignore"
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "is",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 49,
+                        "type": "class Imf_2_5::IStream &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 48,
+                            "type": "Imf_2_5::IStream",
+                            "record": 999,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 510,
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|ignore"
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "is",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 49,
+                        "type": "class Imf_2_5::IStream &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 48,
+                            "type": "Imf_2_5::IStream",
+                            "record": 999,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 511,
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|ignore"
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "is",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 49,
+                        "type": "class Imf_2_5::IStream &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 48,
+                            "type": "Imf_2_5::IStream",
+                            "record": 999,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 512,
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|ignore"
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "is",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 49,
+                        "type": "class Imf_2_5::IStream &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 48,
+                            "type": "Imf_2_5::IStream",
+                            "record": 999,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 513,
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|ignore"
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "is",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 49,
+                        "type": "class Imf_2_5::IStream &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 48,
+                            "type": "Imf_2_5::IStream",
+                            "record": 999,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "isTiled",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 514,
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|ignore"
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "is",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 49,
+                        "type": "class Imf_2_5::IStream &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 48,
+                            "type": "Imf_2_5::IStream",
+                            "record": 999,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "isTiled",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 515,
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|ignore"
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "is",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 49,
+                        "type": "class Imf_2_5::IStream &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 48,
+                            "type": "Imf_2_5::IStream",
+                            "record": 999,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "isTiled",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 516,
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|ignore"
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "is",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 49,
+                        "type": "class Imf_2_5::IStream &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 48,
+                            "type": "Imf_2_5::IStream",
+                            "record": 999,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "isTiled",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 517,
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|ignore"
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "is",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 49,
+                        "type": "class Imf_2_5::IStream &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 48,
+                            "type": "Imf_2_5::IStream",
+                            "record": 999,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "isTiled",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 518,
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|ignore"
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "is",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 49,
+                        "type": "class Imf_2_5::IStream &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 48,
+                            "type": "Imf_2_5::IStream",
+                            "record": 999,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "isTiled",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 519,
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|ignore"
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "is",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 49,
+                        "type": "class Imf_2_5::IStream &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 48,
+                            "type": "Imf_2_5::IStream",
+                            "record": 999,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "isTiled",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 520,
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|ignore"
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "is",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 49,
+                        "type": "class Imf_2_5::IStream &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 48,
+                            "type": "Imf_2_5::IStream",
+                            "record": 999,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "isTiled",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 521,
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|ignore"
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "is",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 49,
+                        "type": "class Imf_2_5::IStream &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 48,
+                            "type": "Imf_2_5::IStream",
+                            "record": 999,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "isTiled",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 2,
+                    "name": "isDeep",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 522,
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|ignore"
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "is",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 49,
+                        "type": "class Imf_2_5::IStream &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 48,
+                            "type": "Imf_2_5::IStream",
+                            "record": 999,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "isTiled",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 2,
+                    "name": "isDeep",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 523,
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|ignore"
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "is",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 49,
+                        "type": "class Imf_2_5::IStream &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 48,
+                            "type": "Imf_2_5::IStream",
+                            "record": 999,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "isTiled",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 2,
+                    "name": "isDeep",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 524,
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|ignore"
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "is",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 49,
+                        "type": "class Imf_2_5::IStream &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 48,
+                            "type": "Imf_2_5::IStream",
+                            "record": 999,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "isTiled",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 2,
+                    "name": "isDeep",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 525,
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|ignore"
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "is",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 49,
+                        "type": "class Imf_2_5::IStream &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 48,
+                            "type": "Imf_2_5::IStream",
+                            "record": 999,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "isTiled",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 2,
+                    "name": "isDeep",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 526,
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|ignore"
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "is",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 49,
+                        "type": "class Imf_2_5::IStream &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 48,
+                            "type": "Imf_2_5::IStream",
+                            "record": 999,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "isTiled",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 2,
+                    "name": "isDeep",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 527,
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|ignore"
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "is",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 49,
+                        "type": "class Imf_2_5::IStream &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 48,
+                            "type": "Imf_2_5::IStream",
+                            "record": 999,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "isTiled",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 2,
+                    "name": "isDeep",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 528,
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|ignore"
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "is",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 49,
+                        "type": "class Imf_2_5::IStream &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 48,
+                            "type": "Imf_2_5::IStream",
+                            "record": 999,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "isTiled",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 2,
+                    "name": "isDeep",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 529,
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|rename|stream_is_openexr_file"
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "is",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 49,
+                        "type": "class Imf_2_5::IStream &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 48,
+                            "type": "Imf_2_5::IStream",
+                            "record": 999,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "isTiled",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 2,
+                    "name": "isDeep",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 3,
+                    "name": "isMultiPart",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 530,
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|rename|stream_is_openexr_file"
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "is",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 49,
+                        "type": "class Imf_2_5::IStream &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 48,
+                            "type": "Imf_2_5::IStream",
+                            "record": 999,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "isTiled",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 2,
+                    "name": "isDeep",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 3,
+                    "name": "isMultiPart",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 531,
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|rename|stream_is_openexr_file"
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "is",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 49,
+                        "type": "class Imf_2_5::IStream &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 48,
+                            "type": "Imf_2_5::IStream",
+                            "record": 999,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "isTiled",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 2,
+                    "name": "isDeep",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 3,
+                    "name": "isMultiPart",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 532,
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|rename|stream_is_openexr_file"
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "is",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 49,
+                        "type": "class Imf_2_5::IStream &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 48,
+                            "type": "Imf_2_5::IStream",
+                            "record": 999,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "isTiled",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 2,
+                    "name": "isDeep",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 3,
+                    "name": "isMultiPart",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 533,
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|rename|stream_is_openexr_file"
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "is",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 49,
+                        "type": "class Imf_2_5::IStream &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 48,
+                            "type": "Imf_2_5::IStream",
+                            "record": 999,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "isTiled",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 2,
+                    "name": "isDeep",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 3,
+                    "name": "isMultiPart",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 534,
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|rename|stream_is_openexr_file"
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "is",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 49,
+                        "type": "class Imf_2_5::IStream &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 48,
+                            "type": "Imf_2_5::IStream",
+                            "record": 999,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "isTiled",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 2,
+                    "name": "isDeep",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 3,
+                    "name": "isMultiPart",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 535,
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|rename|stream_is_openexr_file"
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "is",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 49,
+                        "type": "class Imf_2_5::IStream &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 48,
+                            "type": "Imf_2_5::IStream",
+                            "record": 999,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "isTiled",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 2,
+                    "name": "isDeep",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 3,
+                    "name": "isMultiPart",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 536,
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|rename|stream_is_openexr_file"
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "is",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 49,
+                        "type": "class Imf_2_5::IStream &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 48,
+                            "type": "Imf_2_5::IStream",
+                            "record": 999,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "isTiled",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 2,
+                    "name": "isDeep",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 3,
+                    "name": "isMultiPart",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 466,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 53,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 537,
+            "short_name": "isTiledOpenExrFile",
+            "qualified_name": "Imf_2_5::isTiledOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|rename|stream_is_tiled_openexr_file"
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "is",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 49,
+                        "type": "class Imf_2_5::IStream &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 48,
+                            "type": "Imf_2_5::IStream",
+                            "record": 999,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 538,
+            "short_name": "isTiledOpenExrFile",
+            "qualified_name": "Imf_2_5::isTiledOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|rename|stream_is_tiled_openexr_file"
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "is",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 49,
+                        "type": "class Imf_2_5::IStream &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 48,
+                            "type": "Imf_2_5::IStream",
+                            "record": 999,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 539,
+            "short_name": "isDeepOpenExrFile",
+            "qualified_name": "Imf_2_5::isDeepOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|rename|stream_is_deep_openexr_file"
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "is",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 49,
+                        "type": "class Imf_2_5::IStream &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 48,
+                            "type": "Imf_2_5::IStream",
+                            "record": 999,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 540,
+            "short_name": "isDeepOpenExrFile",
+            "qualified_name": "Imf_2_5::isDeepOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|rename|stream_is_deep_openexr_file"
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "is",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 49,
+                        "type": "class Imf_2_5::IStream &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 48,
+                            "type": "Imf_2_5::IStream",
+                            "record": 999,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 541,
+            "short_name": "isMultiPartOpenExrFile",
+            "qualified_name": "Imf_2_5::isMultiPartOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|rename|stream_is_multi_part_openexr_file"
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "is",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 49,
+                        "type": "class Imf_2_5::IStream &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 48,
+                            "type": "Imf_2_5::IStream",
+                            "record": 999,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 542,
+            "short_name": "isMultiPartOpenExrFile",
+            "qualified_name": "Imf_2_5::isMultiPartOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|rename|stream_is_multi_part_openexr_file"
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 53,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "is",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 49,
+                        "type": "class Imf_2_5::IStream &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 48,
+                            "type": "Imf_2_5::IStream",
+                            "record": 999,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,193 @@
+{
+    "kind": "TranslationUnit",
+    "filename": "/home/anders/code/cppmm/test/openexr/bind/imf_wav.cpp",
+    "source_includes": [
+        "#include <OpenEXR/ImfWav.h>",
+        "#include <cppmm_bind.hpp>"
+    ],
+    "include_paths": [
+        "/home/anders/packages/openexr/2.5.5/include",
+        "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
+    ],
+    "id": 1008,
+    "decls": [
+        {
+            "kind": "Function",
+            "id": 1009,
+            "short_name": "wav2Encode",
+            "qualified_name": "Imf_2_5::wav2Encode",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "return": {
+                "kind": "BuiltinType",
+                "id": 3,
+                "type": "void",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "in",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 774,
+                        "type": "unsigned short *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 772,
+                            "type": "unsigned short",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "nx",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 2,
+                    "name": "ox",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 3,
+                    "name": "ny",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 4,
+                    "name": "oy",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 5,
+                    "name": "mx",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 772,
+                        "type": "unsigned short",
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 1010,
+            "short_name": "wav2Decode",
+            "qualified_name": "Imf_2_5::wav2Decode",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "return": {
+                "kind": "BuiltinType",
+                "id": 3,
+                "type": "void",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "in",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 774,
+                        "type": "unsigned short *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 772,
+                            "type": "unsigned short",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "nx",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 2,
+                    "name": "ox",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 3,
+                    "name": "ny",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 4,
+                    "name": "oy",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "int",
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 5,
+                    "name": "mx",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 772,
+                        "type": "unsigned short",
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,41 @@
+{
+    "kind": "TranslationUnit",
+    "filename": "/home/anders/code/cppmm/test/openexr/bind/half.cpp",
+    "source_includes": [
+        "#include <OpenEXR/half.h>",
+        "#include <cppmm_bind.hpp>"
+    ],
+    "include_paths": [
+        "/home/anders/packages/openexr/2.5.5/include",
+        "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
+    ],
+    "id": 853,
+    "decls": [
+        {
+            "kind": "Record",
+            "name": "half",
+            "short_name": "half",
+            "namespaces": [],
+            "id": 854,
+            "size": 16,
+            "align": 16,
+            "alias": "half",
+            "attributes": [
+                "cppmm|opaquebytes"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "_h",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 772,
+                        "type": "unsigned short",
+                        "const": false
+                    }
+                }
+            ],
+            "methods": null
+        }
+    ]
+}

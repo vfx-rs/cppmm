@@ -1,0 +1,345 @@
+{
+    "kind": "TranslationUnit",
+    "filename": "/home/anders/code/cppmm/test/openexr/bind/imf_deepcompositing.cpp",
+    "source_includes": [
+        "#include <OpenEXR/ImfDeepCompositing.h>",
+        "#include <cppmm_bind.hpp>"
+    ],
+    "include_paths": [
+        "/home/anders/packages/openexr/2.5.5/include",
+        "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
+    ],
+    "id": 136,
+    "decls": [
+        {
+            "kind": "Namespace",
+            "name": "Imf_2_5",
+            "id": 26,
+            "short_name": "Imf_2_5"
+        },
+        {
+            "kind": "Record",
+            "name": "Imf_2_5::DeepCompositing",
+            "short_name": "DeepCompositing",
+            "namespaces": [
+                26
+            ],
+            "id": 137,
+            "size": 64,
+            "align": 64,
+            "alias": "DeepCompositing",
+            "attributes": [
+                "cppmm|opaquebytes"
+            ],
+            "fields": null,
+            "methods": [
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "DeepCompositing",
+                    "qualified_name": "Imf_2_5::DeepCompositing::DeepCompositing",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": true,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 3,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "~DeepCompositing",
+                    "qualified_name": "Imf_2_5::DeepCompositing::~DeepCompositing",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": true,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": true,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 3,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "composite_pixel",
+                    "qualified_name": "Imf_2_5::DeepCompositing::composite_pixel",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": true,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 3,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "outputs",
+                            "type": {
+                                "kind": "Pointer",
+                                "id": 128,
+                                "type": "float *",
+                                "pointee": {
+                                    "kind": "BuiltinType",
+                                    "id": 14,
+                                    "type": "float",
+                                    "const": false
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "inputs",
+                            "type": {
+                                "kind": "Pointer",
+                                "id": 130,
+                                "type": "const float **",
+                                "pointee": {
+                                    "kind": "Pointer",
+                                    "id": 129,
+                                    "type": "const float *",
+                                    "pointee": {
+                                        "kind": "BuiltinType",
+                                        "id": 14,
+                                        "type": "float",
+                                        "const": true
+                                    },
+                                    "const": false
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 2,
+                            "name": "channel_names",
+                            "type": {
+                                "kind": "Pointer",
+                                "id": 131,
+                                "type": "const char **",
+                                "pointee": {
+                                    "kind": "Pointer",
+                                    "id": 52,
+                                    "type": "const char *",
+                                    "pointee": {
+                                        "kind": "BuiltinType",
+                                        "id": 51,
+                                        "type": "char",
+                                        "const": true
+                                    },
+                                    "const": false
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 3,
+                            "name": "num_channels",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 4,
+                            "name": "num_samples",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 5,
+                            "name": "sources",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "sort",
+                    "qualified_name": "Imf_2_5::DeepCompositing::sort",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": true,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 3,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "order",
+                            "type": {
+                                "kind": "Pointer",
+                                "id": 132,
+                                "type": "int *",
+                                "pointee": {
+                                    "kind": "BuiltinType",
+                                    "id": 9,
+                                    "type": "int",
+                                    "const": false
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 1,
+                            "name": "inputs",
+                            "type": {
+                                "kind": "Pointer",
+                                "id": 130,
+                                "type": "const float **",
+                                "pointee": {
+                                    "kind": "Pointer",
+                                    "id": 129,
+                                    "type": "const float *",
+                                    "pointee": {
+                                        "kind": "BuiltinType",
+                                        "id": 14,
+                                        "type": "float",
+                                        "const": true
+                                    },
+                                    "const": false
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 2,
+                            "name": "channel_names",
+                            "type": {
+                                "kind": "Pointer",
+                                "id": 131,
+                                "type": "const char **",
+                                "pointee": {
+                                    "kind": "Pointer",
+                                    "id": 52,
+                                    "type": "const char *",
+                                    "pointee": {
+                                        "kind": "BuiltinType",
+                                        "id": 51,
+                                        "type": "char",
+                                        "const": true
+                                    },
+                                    "const": false
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 3,
+                            "name": "num_channels",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 4,
+                            "name": "num_samples",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        },
+                        {
+                            "index": 5,
+                            "name": "sources",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 9,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

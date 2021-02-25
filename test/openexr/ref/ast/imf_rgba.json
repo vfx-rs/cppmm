@@ -1,0 +1,83 @@
+{
+    "kind": "TranslationUnit",
+    "filename": "/home/anders/code/cppmm/test/openexr/bind/imf_rgba.cpp",
+    "source_includes": [
+        "#include <OpenEXR/ImfRgba.h>",
+        "#include <cppmm_bind.hpp>"
+    ],
+    "include_paths": [
+        "/home/anders/packages/openexr/2.5.5/include",
+        "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
+    ],
+    "id": 2796,
+    "decls": [
+        {
+            "kind": "Namespace",
+            "name": "Imf_2_5",
+            "id": 26,
+            "short_name": "Imf_2_5"
+        },
+        {
+            "kind": "Record",
+            "name": "Imf_2_5::Rgba",
+            "short_name": "Rgba",
+            "namespaces": [
+                26
+            ],
+            "id": 2797,
+            "size": 64,
+            "align": 16,
+            "alias": "Rgba",
+            "attributes": [
+                "cppmm|valuetype"
+            ],
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "r",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 227,
+                        "type": "half",
+                        "record": 854,
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "g",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 227,
+                        "type": "half",
+                        "record": 854,
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "b",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 227,
+                        "type": "half",
+                        "record": 854,
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "a",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 227,
+                        "type": "half",
+                        "record": 854,
+                        "const": false
+                    }
+                }
+            ],
+            "methods": null
+        }
+    ]
+}
