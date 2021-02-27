@@ -54,6 +54,7 @@ namespace {
     const char * SOURCE_INCLUDES = "source_includes";
     const char * INCLUDE_PATHS = "include_paths";
     const char * VARIANTS = "variants";
+    const char * VAR_C = "Var";
 }
 
 //------------------------------------------------------------------------------
@@ -286,6 +287,23 @@ NodePtr read_enum(const TranslationUnit::Ptr & tu, const nln::json & json) {
 }
 
 //------------------------------------------------------------------------------
+NodePtr read_var(const TranslationUnit::Ptr & tu, const nln::json & json) {
+    // Ignore these for the moment
+    std::vector<std::string> _attrs;
+
+    // Dont ignore these
+    auto name = json[NAME].get<std::string>();
+    auto type = read_type(json[TYPE]);
+
+    // Instantiate the translation unit
+    auto result =
+        NodeVarDeclExpr::n(type, name);
+
+    // Return the result
+    return result;
+}
+
+//------------------------------------------------------------------------------
 NodePtr read_namespace(const TranslationUnit::Ptr & tu,
                        const nln::json & json) {
     // Ignore these for the moment
@@ -318,6 +336,9 @@ NodePtr read_node(const TranslationUnit::Ptr & tu, const nln::json & json) {
     }
     else if(kind == NAMESPACE_C) {
         return read_namespace(tu, json);
+    }
+    else if(kind == VAR_C) {
+        return read_var(tu, json);
     }
 
     std::cerr << kind << std::endl;
