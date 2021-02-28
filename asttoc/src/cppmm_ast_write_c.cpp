@@ -506,6 +506,8 @@ void write_private_header(const TranslationUnit & tu)
     auto out =
         fmt::output_file(compute_c_header_path(tu.filename, "_private.h"));
 
+    out.print("#pragma once\n");
+
     // Then all the private functions
     for(const auto & node : tu.decls)
     {
@@ -521,6 +523,8 @@ void write_private_header(const TranslationUnit & tu)
 void write_header(const TranslationUnit & tu)
 {
     auto out = fmt::output_file(compute_c_header_path(tu.filename, ".h"));
+
+    out.print("#pragma once\n");
 
     // Write all the includes needed in the header file
     write_header_includes(out, tu);

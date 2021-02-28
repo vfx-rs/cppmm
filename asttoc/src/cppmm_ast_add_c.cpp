@@ -160,6 +160,10 @@ NodeTypePtr convert_builtin_type(TranslationUnit & c_tu,
                                  const NodeTypePtr & t, bool _in_refererence)
 {
     // TODO LT: Do mapping of c++ builtins to c builtins
+    if(t->type_name == "_Bool")
+    {
+        c_tu.header_includes.insert("#include <stdbool.h>");
+    }
 
     // For now just copy everything one to one.
     return NodeBuiltinType::n(t->name, 0, t->type_name, t->const_);
