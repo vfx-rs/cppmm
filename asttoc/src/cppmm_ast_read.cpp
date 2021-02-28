@@ -55,6 +55,7 @@ namespace {
     const char * INCLUDE_PATHS = "include_paths";
     const char * VARIANTS = "variants";
     const char * VAR_C = "Var";
+    const char * ELEMENT_TYPE = "element_type";
 }
 
 //------------------------------------------------------------------------------
@@ -111,26 +112,60 @@ NodeTypePtr read_type_function_proto(const nln::json & json) {
 }
 
 //------------------------------------------------------------------------------
+NodeTypePtr read_type_const_array(const nln::json & json) {
+    return NodeArrayType::n(
+            "",
+            json[ID].get<NodeId>(),
+            json[TYPE].get<std::string>(),
+            read_type(json[ELEMENT_TYPE]),
+            json[SIZE].get<int>(),
+            json[CONST].get<bool>()
+    );
+}
+
+//------------------------------------------------------------------------------
+NodeTypePtr read_type_unknown(const nln::json & json) {
+    return NodeUnknownType::n(
+            json[CONST].get<bool>()
+    );
+}
+
+//------------------------------------------------------------------------------
 NodeTypePtr read_type(const nln::json & json) {
-    auto kind = json[KIND].get<std::string>();
-    if(kind == "BuiltinType") {
-        return read_type_builtin(json);
-    } else if(kind == "RecordType") {
-        return read_type_record(json);
-    } else if(kind == "Reference") {
-        return read_type_pointer(json, PointerKind::Reference);
-    } else if(kind == "RValueReference") {
-        return read_type_pointer(json, PointerKind::RValueReference);
-    } else if(kind == "Pointer") {
-        return read_type_pointer(json, PointerKind::Pointer);
-    } else if(kind == "EnumType") {
-        return read_type_enum(json);
-    } else if(kind == "FunctionProtoType") {
-        return read_type_function_proto(json);
+
+    auto kind_iter = json.find(KIND);
+    if(kind_iter != json.end())
+    {
+        auto kind = json[KIND].get<std::string>();
+        if(kind == "BuiltinType") {
+            return read_type_builtin(json);
+        } else if(kind == "RecordType") {
+            return read_type_record(json);
+        } else if(kind == "Reference") {
+            return read_type_pointer(json, PointerKind::Reference);
+        } else if(kind == "RValueReference") {
+            return read_type_pointer(json, PointerKind::RValueReference);
+        } else if(kind == "Pointer") {
+            return read_type_pointer(json, PointerKind::Pointer);
+        } else if(kind == "EnumType") {
+            return read_type_enum(json);
+        } else if(kind == "FunctionProtoType") {
+            return read_type_function_proto(json);
+        } else if(kind == "ConstantArrayType") {
+            return read_type_const_array(json);
+        }
+
+        std::cerr << kind << std::endl;
+    } else {
+        auto type_iter = json.find(TYPE);
+        if(type_iter != json.end() &&
+           type_iter->get<std::string>() == "UNKNOWN")
+        {
+            return read_type_unknown(json);
+        }
     }
 
-    std::cerr << kind << std::endl;
-
+    std::cerr << json << std::endl;
     cassert(false, "Shouldn't get here"); // TODO LT: Clean this up
 }
 
@@ -292,7 +327,8 @@ NodePtr read_var(const TranslationUnit::Ptr & tu, const nln::json & json) {
     std::vector<std::string> _attrs;
 
     // Dont ignore these
-    auto name = json[NAME].get<std::string>();
+    auto name = json[SHORT_NAME].get<std::string>();
+    //std::cout << "read type" << std::endl;
     auto type = read_type(json[TYPE]);
 
     // Instantiate the translation unit

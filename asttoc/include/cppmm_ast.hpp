@@ -27,6 +27,7 @@ enum class NodeKind : uint32_t {
     RecordType,
     EnumType,
     FunctionProtoType,
+    UnknownType,
     Parm,
     Function,
     AssignExpr,
@@ -258,8 +259,7 @@ struct NodeEnumType : public NodeType {
 //------------------------------------------------------------------------------
 // NodeArrayType
 //------------------------------------------------------------------------------
-// TODO LT: I added this one
-struct NodeArrayType : public NodeType {
+struct NodeArrayType : public NodeType { // TODO LT: Rename to ConstantArray
     uint64_t size;
     NodeTypePtr element_type;
 
@@ -271,6 +271,23 @@ struct NodeArrayType : public NodeType {
 
     // A static method for creating this as a shared pointer
     using This = NodeArrayType;
+    template<typename ... Args>
+    static std::shared_ptr<This> n(Args&& ... args)
+    {
+        return std::make_shared<This>(std::forward<Args>(args)...);
+    }
+};
+
+//------------------------------------------------------------------------------
+// NodeUnknownType
+//------------------------------------------------------------------------------
+struct NodeUnknownType : public NodeType { // TODO LT: Rename to ConstantArray
+    NodeUnknownType(bool const_)
+        : NodeType("", 0, NodeKind::UnknownType, "", const_)
+    {}
+
+    // A static method for creating this as a shared pointer
+    using This = NodeUnknownType;
     template<typename ... Args>
     static std::shared_ptr<This> n(Args&& ... args)
     {
