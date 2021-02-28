@@ -110,10 +110,86 @@ std::tuple<std::string, std::string, std::string>
 }
 
 //------------------------------------------------------------------------------
+std::string remap_special_methods(const std::string & name)
+{
+    if(name.empty())
+    {
+        return "";
+    }
+
+    // Destructor
+    if(name[0] == '~')
+    {
+        return std::string("dtor");
+    }
+
+    // Operators
+    if(name == "operator=")
+    {
+        return std::string("_assign");
+    }
+    if(name == "operator==")
+    {
+        return std::string("_eq");
+    }
+    if(name == "operator!=")
+    {
+        return std::string("_ne");
+    }
+    if(name == "operator++")
+    {
+        return std::string("_op_inc");
+    }
+    if(name == "operator--")
+    {
+        return std::string("_op_dec");
+    }
+    if(name == "operator+")
+    {
+        return std::string("_op_add");
+    }
+    if(name == "operator-")
+    {
+        return std::string("_op_sub");
+    }
+    if(name == "operator/")
+    {
+        return std::string("_op_div");
+    }
+    if(name == "operator*")
+    {
+        return std::string("_op_mul");
+    }
+    if(name == "operator[]")
+    {
+        return std::string("_index");
+    }
+    if(name == "operator+=")
+    {
+        return std::string("_op_iadd");
+    }
+    if(name == "operator-=")
+    {
+        return std::string("_op_isub");
+    }
+    if(name == "operator/=")
+    {
+        return std::string("_op_idiv");
+    }
+    if(name == "operator*=")
+    {
+        return std::string("_op_imul");
+    }
+
+    // Just use the input name
+    return name;
+}
+
+//------------------------------------------------------------------------------
 std::string compute_c_name(const std::string & name)
 {
     std::string result;
-    for( auto const & c : name )
+    for( auto const & c : remap_special_methods(name) )
     {
         switch (c)
         {
