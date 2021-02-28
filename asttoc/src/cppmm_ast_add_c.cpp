@@ -518,6 +518,7 @@ NodeExprPtr convert_pointer_from(
     // reference to the pointer. No need to convert it.
     //
     // TODO LT: Take into account pointers to pointers to builtin types
+    // TODO LT: Take into account reference to builtin type
     if(from->pointee_type->kind == NodeKind::BuiltinType)
     {
         return name;
