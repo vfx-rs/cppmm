@@ -772,6 +772,7 @@ void record_entry(NodeId & record_id,
 
     // Add the cpp and c record to the registry
     type_registry.add(cpp_node->id, cpp_node, c_record);
+    type_registry.add_namespace(cpp_record.id, cpp_record.alias);
 
     // Finally add the record to the translation unit
     c_tu->decls.push_back(std::move(c_record));
