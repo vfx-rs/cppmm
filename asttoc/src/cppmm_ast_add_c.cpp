@@ -439,6 +439,24 @@ NodeExprPtr convert_record_to(const NodeTypePtr & t, const NodeExprPtr & name)
 }
 
 //------------------------------------------------------------------------------
+bool leaf_type_is_builtin(const NodePointerType* p)
+{
+    switch(p->pointee_type->kind)
+    {
+        case NodeKind::BuiltinType:
+            return true;
+        case NodeKind::PointerType:
+        {
+            return leaf_type_is_builtin(
+                static_cast<const NodePointerType*>(p->pointee_type.get())
+            );
+        }
+        default:
+            return false;
+    }
+}
+
+//------------------------------------------------------------------------------
 NodeExprPtr convert_pointer_to(const NodeTypePtr & t, const NodeExprPtr & name)
 {
     // TODO LT: Assuming opaquebytes at the moment, opaqueptr will have a
@@ -448,9 +466,7 @@ NodeExprPtr convert_pointer_to(const NodeTypePtr & t, const NodeExprPtr & name)
 
     // If we're using a pointer to a builtin type
     //
-    // TODO LT: Take into account pointers to pointers to builtin types
-    // TODO LT: Take into account reference to builtin type
-    if(p->pointee_type->kind == NodeKind::BuiltinType)
+    if(leaf_type_is_builtin(p))
     {
         switch (p->pointer_kind)
         {
