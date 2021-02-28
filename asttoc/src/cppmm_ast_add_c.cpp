@@ -584,6 +584,10 @@ NodeExprPtr opaquebytes_constructor_body(TypeRegistry & type_registry,
         argument(args, p);
     }
 
+    // All constructors use placement new, so we need to make sure new is
+    // included
+    c_tu.source_includes.insert("#include <new>");
+
     // Create the method call expression
     return NodeBlockExpr::n(
                     std::vector<NodeExprPtr>({
