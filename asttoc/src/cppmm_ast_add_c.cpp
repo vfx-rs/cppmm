@@ -446,6 +446,28 @@ NodeExprPtr convert_pointer_to(const NodeTypePtr & t, const NodeExprPtr & name)
     //
     auto p = static_cast<const NodePointerType*>(t.get());
 
+    // If we're using a pointer to a builtin type
+    //
+    // TODO LT: Take into account pointers to pointers to builtin types
+    // TODO LT: Take into account reference to builtin type
+    if(p->pointee_type->kind == NodeKind::BuiltinType)
+    {
+        switch (p->pointer_kind)
+        {
+            case PointerKind::Pointer:
+                {
+                    return name;
+                }
+            case PointerKind::RValueReference: // TODO LT: Add support for rvalue reference
+            case PointerKind::Reference:
+                {
+                    return NodeDerefExpr::n(NodeExprPtr(name));
+                }
+            default:
+                break;
+        }
+    }
+
     switch (p->pointer_kind)
     {
         case PointerKind::Pointer:
