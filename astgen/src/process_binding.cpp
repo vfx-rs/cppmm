@@ -127,6 +127,12 @@ std::ostream& operator<<(std::ostream& os, NodeKind k) {
     case NodeKind::Enum:
         os << "Enum";
         break;
+    case NodeKind::ConstantArrayType:
+        os << "ConstantArrayType";
+        break;
+    case NodeKind::Var:
+        os << "Var";
+        break;
     }
     return os;
 }
@@ -1239,13 +1245,14 @@ std::vector<NodePtr> process_methods(const CXXRecordDecl* crd) {
 /// Check if the given method, `m`, has an equivalent method in
 /// `binding_methods` If `m` does match, its attrs field is set to `attrs`
 /// FIXME: modifying m here is a bit nasty
-bool method_in_list(NodeMethod* m, const std::vector<NodePtr>& binding_methods,
+bool method_in_list(NodeMethod* m, std::vector<NodePtr>& binding_methods,
                     std::vector<std::string>& attrs) {
-    for (const auto& n : binding_methods) {
-        const auto* b = (NodeMethod*)n.get();
+    for (auto& n : binding_methods) {
+        auto* b = (NodeMethod*)n.get();
         if (match_method(m, b)) {
             attrs = b->attrs;
             m->params = b->params;
+            b->in_library = true;
             return true;
         }
     }
@@ -1487,6 +1494,24 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
         NODE_MAP[method->qualified_name] = id;
         NODES.emplace_back(std::move(method));
         node_record_ptr->methods.push_back(id);
+    }
+
+    for (const auto& n : methods) {
+        const auto* m = (NodeMethod*)n.get();
+        if (m && !m->in_binding) {
+            SPDLOG_WARN("Method {} is present in the library but not declared "
+                        "in the binding",
+                        *m);
+        }
+    }
+
+    for (const auto& n : binding_methods) {
+        const auto* m = (NodeMethod*)n.get();
+        if (m && m->is_user_provided && !m->in_library) {
+            SPDLOG_WARN("Method {} is declared in the binding but not present "
+                        "in the library",
+                        *m);
+        }
     }
 
     // process remaining children

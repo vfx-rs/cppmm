@@ -15,6 +15,28 @@ public:
     // This allows us to see through to the type in Imath
     using BoundType = Imath::Box<V>;
 
+    Box();
+    Box(const T& point);
+    Box(const T& minT, const T& maxT);
+
+    bool operator==(const Box<T>& src) const;
+    bool operator!=(const Box<T>& src) const;
+
+    void makeEmpty();
+    void extendBy(const T& point);
+    void extendBy(const Box<T>& box);
+    void makeInfinite();
+
+    T size() const;
+    T center() const;
+    bool intersects(const T& point) const;
+    bool intersects(const Box<T>& box) const;
+
+    unsigned int majorAxis() const;
+
+    bool isEmpty() const;
+    bool hasVolume() const;
+    bool isInfinite() const;
 } CPPMM_VALUETYPE;
 
 template class Box<Imath::Vec2<short>>;
