@@ -514,6 +514,15 @@ NodeExprPtr convert_pointer_from(
 {
     auto from = static_cast<const NodePointerType*>(from_ptr.get());
 
+    // If we're returning a pointer to a builtin type, then just return the
+    // reference to the pointer. No need to convert it.
+    //
+    // TODO LT: Take into account pointers to pointers to builtin types
+    if(from->pointee_type->kind == NodeKind::BuiltinType)
+    {
+        return name;
+    }
+
     switch (from->pointer_kind)
     {
         case PointerKind::RValueReference: // TODO LT: Add support for rvalue reference
