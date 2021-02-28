@@ -166,6 +166,9 @@ public:
     static T baseTypeSmallest();
     static T baseTypeEpsilon();
 
+    Vec2();
+    Vec2(const ::Imath::Vec2<T>& v);
+
 } CPPMM_VALUETYPE;
 
 // explicit instantiation
@@ -183,6 +186,9 @@ public:
     // This allows us to see through to the type in Imath
     using BoundType = Imath::Vec3<T>;
 
+    Vec3();
+    Vec3(const ::Imath::Vec3<T>& v);
+
 } CPPMM_VALUETYPE;
 
 // explicit instantiation
@@ -199,6 +205,9 @@ template <class T> class Vec4 {
 public:
     // This allows us to see through to the type in Imath
     using BoundType = Imath::Vec4<T>;
+
+    Vec4();
+    Vec4(const ::Imath::Vec4<T>& v);
 
 } CPPMM_VALUETYPE;
 
