@@ -70,7 +70,7 @@ public:
     Imf::RgbaChannels channels() const;
 
     IMF_EXPORT
-    void updatePreviewImage(const Imf::PreviewRgba[]);
+    void updatePreviewImage(const Imf::PreviewRgba preview[]);
 } CPPMM_OPAQUEPTR;
 
 class AcesInputFile {
