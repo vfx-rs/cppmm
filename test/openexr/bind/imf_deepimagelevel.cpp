@@ -79,6 +79,8 @@ struct DeepImageLevel {
         IMFUTIL_EXPORT
         Iterator(const Imf::DeepImageLevel::ChannelMap::iterator& i)
             CPPMM_IGNORE;
+        IMF_EXPORT
+        Iterator(const Iterator& rhs);
 
         IMFUTIL_EXPORT
         Imf::DeepImageLevel::Iterator& operator++() CPPMM_RENAME(inc);
@@ -100,6 +102,8 @@ struct DeepImageLevel {
         IMFUTIL_EXPORT
         ConstIterator(const Imf::DeepImageLevel::ChannelMap::const_iterator& i)
             CPPMM_IGNORE;
+        IMF_EXPORT
+        ConstIterator(const ConstIterator& rhs);
 
         IMFUTIL_EXPORT
         Imf::DeepImageLevel::ConstIterator& operator++() CPPMM_RENAME(inc);
