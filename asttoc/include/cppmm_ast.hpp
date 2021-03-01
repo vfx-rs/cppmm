@@ -87,7 +87,7 @@ struct TranslationUnit {
     std::string header_filename;
     std::string private_header_filename;
     std::set<std::string> source_includes;
-    std::set<std::string> source_private_includes;
+    std::set<std::string> private_includes;
     std::set<std::string> header_includes;
 
     std::vector<std::string> include_paths;

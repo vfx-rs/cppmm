@@ -478,24 +478,16 @@ void write_header_includes(fmt::ostream & out, const TranslationUnit & tu)
 //------------------------------------------------------------------------------
 void write_source_includes(fmt::ostream & out, const TranslationUnit & tu)
 {
-    if(!tu.header_filename.empty())
+    if(!tu.private_header_filename.empty())
     {
-        out.print("{}\n\n", tu.header_filename);
+        out.print("{}\n", tu.private_header_filename);
     }
+
+    out.print("\n");
 
     for(const auto & i : tu.source_includes)
     {
         out.print("{}\n", i);
-    }
-
-    for(const auto & i : tu.source_private_includes)
-    {
-        out.print("{}\n", i);
-    }
-
-    if(!tu.private_header_filename.empty())
-    {
-        out.print("{}\n", tu.private_header_filename);
     }
 
     out.print("\n");
@@ -508,6 +500,18 @@ void write_private_header(const TranslationUnit & tu)
         fmt::output_file(compute_c_header_path(tu.filename, "_private.h"));
 
     out.print("#pragma once\n");
+
+    if(!tu.header_filename.empty())
+    {
+        out.print("{}\n\n", tu.header_filename);
+    }
+
+    out.print("\n");
+
+    for(const auto & i : tu.private_includes)
+    {
+        out.print("{}\n", i);
+    }
 
     // Then all the private functions
     for(const auto & node : tu.decls)

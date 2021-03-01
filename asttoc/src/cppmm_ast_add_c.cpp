@@ -258,13 +258,12 @@ void add_declaration(TranslationUnit & c_tu, const NodePtr & node_ptr,
             if(in_reference) // Forward declaration
             {
                 c_tu.forward_decls.insert(node_ptr);
-                c_tu.source_includes.insert(r_tu->header_filename);
             }
             else // Header file
             {
                 c_tu.header_includes.insert(r_tu->header_filename);
             }
-            c_tu.source_private_includes.insert(r_tu->private_header_filename);
+            c_tu.source_includes.insert(r_tu->private_header_filename);
         }
     }
 }
@@ -1207,10 +1206,11 @@ void translation_unit_entries(
         header_file_include(std::get<PrivateHeader>(filepaths));
     c_tu->include_paths = cpp_tu->include_paths;
 
-    // source includes -> source includes
+    // source includes -> private includes, this is so we have the types
+    // we for other translation units
     for (auto & i : cpp_tu->source_includes)
     {
-        c_tu->source_includes.insert(i);
+        c_tu->private_includes.insert(i);
     }
 
     // cpp namespaces
