@@ -1431,6 +1431,33 @@ void process_fields(const CXXRecordDecl* crd, NodeRecord* node_record_ptr) {
     }
 }
 
+std::unordered_map<std::string, std::string> pending_aliases;
+
+void handle_typealias_decl(const TypeAliasDecl* tad, const CXXRecordDecl* crd) {
+    auto record_qualified_name = get_record_name(crd);
+    auto alias_name = tad->getNameAsString();
+    if (alias_name == "BoundType") {
+        // skip this because it's the type "pointer" we use on the class
+        // TODO AL - there's got to be a cleaner way of not getting this
+        // in the first place - on the matcher?
+        return;
+    }
+
+    // First of all, make sure we have already processed the Record that this
+    // alias refers to. I *think* this should always have happened, but not sure
+    // yet
+    auto it = NODE_MAP.find(record_qualified_name);
+    if (it == NODE_MAP.end()) {
+        SPDLOG_DEBUG("Storing alias {} for {}", alias_name,
+                     record_qualified_name);
+        pending_aliases[record_qualified_name] = alias_name;
+    } else {
+        NodeId id_rec = it->second;
+        NodeRecord* node_rec = (NodeRecord*)NODES[id_rec].get();
+        node_rec->alias = alias_name;
+    }
+}
+
 /// Create a new NodeRecord for the given record decl and store it in the AST.
 /// `crd` must represent a "concrete" record - i.e. it must not be dependent
 /// on any template parameters. This is done in the binding file by explicitly
@@ -1542,6 +1569,15 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
             (NodeRecordType*)NODES.at(it_record_type->second).get();
         node_record_type->record = new_id;
     }
+
+    // and if we have a pending alias rename for this record, set it
+    auto alias_it = pending_aliases.find(record_name);
+    if (alias_it != pending_aliases.end()) {
+        SPDLOG_DEBUG("Found alias {} for {}", alias_it->second, record_name);
+        node_record_ptr->alias = alias_it->second;
+    } else {
+        SPDLOG_TRACE("No alias found for {}", record_name);
+    }
 }
 
 /// This function handles a CXXRecordDecl match. This will be called with the
@@ -1629,32 +1665,6 @@ void handle_cxx_record_decl(const CXXRecordDecl* crd) {
     // case we do because we'll want to figure out what case we didn't consider
     SPDLOG_CRITICAL("Fell through on handle_cxx_record");
     crd->dump();
-}
-
-void handle_typealias_decl(const TypeAliasDecl* tad, const CXXRecordDecl* crd) {
-    auto record_qualified_name = get_record_name(crd);
-    auto alias_name = tad->getNameAsString();
-    if (alias_name == "BoundType") {
-        // skip this because it's the type "pointer" we use on the class
-        // TODO AL - there's got to be a cleaner way of not getting this
-        // in the first place - on the matcher?
-        return;
-    }
-
-    // First of all, make sure we have already processed the Record that this
-    // alias refers to. I *think* this should always have happened, but not sure
-    // yet
-    auto it = NODE_MAP.find(record_qualified_name);
-    if (it == NODE_MAP.end()) {
-        SPDLOG_ERROR(
-            "TypeAlias {0} renames {1} but {1} hasn't been processed yet",
-            alias_name, record_qualified_name);
-        return;
-    }
-
-    NodeId id_rec = it->second;
-    NodeRecord* node_rec = (NodeRecord*)NODES[id_rec].get();
-    node_rec->alias = alias_name;
 }
 
 std::unordered_map<std::string, std::vector<NodeFunction>> binding_functions;
