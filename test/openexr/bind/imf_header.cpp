@@ -255,7 +255,7 @@ struct Header {
         IMF_EXPORT
         Iterator(const Imf::Header::AttributeMap::iterator& i) CPPMM_IGNORE;
         IMF_EXPORT
-        Iterator(const Iterator& rhs);
+        Iterator(const Imf::Header::Iterator& rhs);
 
         IMF_EXPORT
         Imf::Header::Iterator& operator++() CPPMM_RENAME(inc);
@@ -278,7 +278,7 @@ struct Header {
         ConstIterator(const Imf::Header::AttributeMap::iterator& i)
             CPPMM_IGNORE;
         IMF_EXPORT
-        ConstIterator(const ConstIterator& rhs);
+        ConstIterator(const Imf::Header::ConstIterator& rhs);
 
         IMF_EXPORT
         Imf::Header::ConstIterator& operator++() CPPMM_RENAME(inc);

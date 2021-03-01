@@ -74,7 +74,7 @@ struct FlatImageLevel {
         Iterator(const Imf::FlatImageLevel::ChannelMap::iterator& i)
             CPPMM_IGNORE;
         IMF_EXPORT
-        Iterator(const Iterator& rhs);
+        Iterator(const Imf::FlatImageLevel::Iterator& rhs);
 
         IMFUTIL_EXPORT
         Imf::FlatImageLevel::Iterator& operator++() CPPMM_RENAME(inc);
@@ -97,7 +97,7 @@ struct FlatImageLevel {
         ConstIterator(const Imf::FlatImageLevel::ChannelMap::const_iterator& i)
             CPPMM_IGNORE;
         IMF_EXPORT
-        ConstIterator(const ConstIterator& rhs);
+        ConstIterator(const Imf::FlatImageLevel::ConstIterator& rhs);
 
         IMFUTIL_EXPORT
         Imf::FlatImageLevel::ConstIterator& operator++() CPPMM_RENAME(inc);

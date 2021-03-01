@@ -91,7 +91,7 @@ struct FrameBuffer {
         IMF_EXPORT
         Iterator(const Imf::FrameBuffer::SliceMap::iterator& i) CPPMM_IGNORE;
         IMF_EXPORT
-        Iterator(const Iterator& rhs);
+        Iterator(const Imf::FrameBuffer::Iterator& rhs);
 
         IMF_EXPORT
         Iterator& operator++();
@@ -113,7 +113,7 @@ struct FrameBuffer {
         ConstIterator(const Imf::FrameBuffer::SliceMap::iterator& i)
             CPPMM_IGNORE;
         IMF_EXPORT
-        ConstIterator(const ConstIterator& rhs);
+        ConstIterator(const Imf::FrameBuffer::ConstIterator& rhs);
 
         IMF_EXPORT
         ConstIterator& operator++();

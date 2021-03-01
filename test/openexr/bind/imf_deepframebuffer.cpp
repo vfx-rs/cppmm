@@ -85,7 +85,7 @@ struct DeepFrameBuffer {
         Iterator(const Imf::DeepFrameBuffer::SliceMap::iterator& i)
             CPPMM_IGNORE;
         IMF_EXPORT
-        Iterator(const Iterator& rhs);
+        Iterator(const Imf::DeepFrameBuffer::Iterator& rhs);
 
         IMF_EXPORT
         Iterator& operator++();
@@ -107,7 +107,7 @@ struct DeepFrameBuffer {
         ConstIterator(const Imf::DeepFrameBuffer::SliceMap::iterator& i)
             CPPMM_IGNORE;
         IMF_EXPORT
-        ConstIterator(const ConstIterator& rhs);
+        ConstIterator(const Imf::DeepFrameBuffer::ConstIterator& rhs);
 
         IMF_EXPORT
         ConstIterator& operator++();
