@@ -110,7 +110,7 @@ public:
         IMF_EXPORT
         Iterator(const Imf::ChannelList::ChannelMap::iterator& i) CPPMM_IGNORE;
         IMF_EXPORT
-        Iterator(const Iterator& rhs);
+        Iterator(const Imf::ChannelList::Iterator& rhs);
 
         IMF_EXPORT
         Iterator& operator++();
@@ -134,7 +134,7 @@ public:
         ConstIterator(const Imf::ChannelList::ChannelMap::const_iterator& i)
             CPPMM_IGNORE;
         IMF_EXPORT
-        ConstIterator(const ConstIterator& rhs);
+        ConstIterator(const Imf::ChannelList::ConstIterator& rhs);
 
         IMF_EXPORT
         ConstIterator& operator++();
