@@ -497,7 +497,7 @@ void write_source_includes(fmt::ostream & out, const TranslationUnit & tu)
 void write_private_header(const TranslationUnit & tu)
 {
     auto out =
-        fmt::output_file(compute_c_header_path(tu.filename, "_private.h"));
+        fmt::output_file(compute_c_header_path(tu.filename, "private_.h"));
 
     out.print("#pragma once\n");
 

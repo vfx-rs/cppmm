@@ -103,9 +103,9 @@ std::tuple<std::string, std::string, std::string>
 
     const auto abs_root = pystring::os::path::join(outdir, root);
     
-    return {root + ".h",
-            abs_root + ".cpp",
-            root + "_private.h",
+    return {root + "_.h",
+            abs_root + "_.cpp",
+            root + "_private_.h",
     };
 }
 
