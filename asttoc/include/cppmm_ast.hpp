@@ -613,6 +613,7 @@ struct NodeFunction : public NodeAttributeHolder {
 //------------------------------------------------------------------------------
 struct NodeMethod : public NodeFunction {
     bool is_static;
+    bool is_destructor;
     bool is_constructor;
     bool is_copy_constructor;
     bool is_const;
@@ -621,12 +622,14 @@ struct NodeMethod : public NodeFunction {
                std::vector<std::string> attrs, std::string short_name,
                NodeTypePtr && return_type, std::vector<Param> && params,
                bool is_static, bool is_constructor, 
-               bool is_copy_constructor, bool is_const)
+               bool is_copy_constructor, bool is_destructor,
+               bool is_const)
         : NodeFunction(qualified_name, id, attrs, short_name,
                        std::move(return_type), std::move(params))
           , is_static(is_static)
           , is_constructor(is_constructor)
           , is_copy_constructor(is_copy_constructor)
+          , is_destructor(is_destructor)
           , is_const(is_const)
     {
         kind = NodeKind::Method;

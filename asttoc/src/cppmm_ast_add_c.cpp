@@ -652,10 +652,17 @@ NodeExprPtr opaquebytes_method_body(TypeRegistry & type_registry,
         argument(args, p);
     }
 
+    // Obtain the method name 
+    auto cpp_method_name = cpp_method.short_name;
+    if(cpp_method.is_destructor)
+    {
+        cpp_method_name = cpp_method.name;
+    }
+
     // Create the method call expression
     auto method_call =
         NodeMethodCallExpr::n(std::move(this_),
-                              cpp_method.short_name,
+                              cpp_method_name,
                               args
     );
 
