@@ -18,6 +18,9 @@ struct Slice {
           bool yTileCoords = false);
 
     IMF_EXPORT
+    Slice(const Imf::Slice & rhs);
+
+    IMF_EXPORT
     static Imf::Slice Make(Imf::PixelType type, const void* ptr,
                            const IMATH_NAMESPACE::V2i& origin, int64_t w,
                            int64_t h, size_t xStride = 0, size_t yStride = 0,
