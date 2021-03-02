@@ -77,7 +77,7 @@ public:
     //
 
     IMF_EXPORT
-    void setCompositing(Imf::DeepCompositing*);
+    void setCompositing(Imf::DeepCompositing* compositing);
 } CPPMM_OPAQUEBYTES;
 
 } // namespace OPENEXR_IMF_INTERNAL_NAMESPACE
