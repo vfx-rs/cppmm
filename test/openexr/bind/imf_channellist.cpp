@@ -16,6 +16,9 @@ public:
     Channel(Imf::PixelType type, int xSampling, int ySampling, bool pLinear);
 
     IMF_EXPORT
+    Channel(const Imf::Channel & rhs);
+
+    IMF_EXPORT
     bool operator==(const Imf::Channel& other) const;
 } CPPMM_VALUETYPE;
 
