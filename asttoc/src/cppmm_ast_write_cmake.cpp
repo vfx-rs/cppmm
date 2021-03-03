@@ -113,7 +113,7 @@ void cmake(const Root & root, size_t starting_point, const Libs & libs,
     // Library    
     std::set<std::string> include_paths;
 
-    out.print("add_library({}\n", project_name);
+    out.print("add_library({} SHARED\n", project_name);
     const auto size = root.tus.size();
     for(size_t i=starting_point; i < size; ++i)
     {
@@ -143,13 +143,18 @@ void cmake(const Root & root, size_t starting_point, const Libs & libs,
     }
 
     // Add the libraries
-    for(auto & lib_dir: lib_dirs)
-    {
-        out.print("link_directories(BEFORE {})\n", lib_dir);
-    }
     for(auto & lib: libs)
     {
-        out.print("target_link_libraries ({} {})\n", project_name, lib);
+        auto lib_var = std::string("LIB_") + pystring::upper(lib);
+
+        out.print("find_library ( {} NAMES {} PATHS", lib_var, lib);
+        for(auto & lib_dir: lib_dirs)
+        {
+            out.print(" {}", lib_dir);
+        }
+        out.print(")\n");
+        out.print("target_link_libraries ({} ${{{}}})\n", project_name,
+                                                          lib_var);
     }
 }
 

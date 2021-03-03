@@ -12,7 +12,7 @@
 #include <fstream>
 #include <iostream>
 
-#include <llvm/Support/CommandLine.h>
+#include <llvm/Support/CommandLine.h> // TODO: consider https://github.com/jarro2783/cxxopts to remove clang dep
 
 namespace cl = llvm::cl;
 namespace fs = ghc::filesystem;
