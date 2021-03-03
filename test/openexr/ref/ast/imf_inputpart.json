@@ -9,7 +9,7 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 2807,
+    "id": 3122,
     "decls": [
         {
             "kind": "Namespace",
@@ -24,7 +24,8 @@
             "namespaces": [
                 26
             ],
-            "id": 2808,
+            "id": 3123,
+            "abstract": false,
             "size": 64,
             "align": 64,
             "alias": "InputPart",
@@ -37,13 +38,13 @@
                     "name": "file",
                     "type": {
                         "kind": "Pointer",
-                        "id": 2822,
+                        "id": 3137,
                         "type": "class Imf_2_5::InputFile *",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 1011,
+                            "id": 1240,
                             "type": "Imf_2_5::InputFile",
-                            "record": 753,
+                            "record": 950,
                             "const": false
                         },
                         "const": false
@@ -89,7 +90,7 @@
                                     "kind": "RecordType",
                                     "id": 144,
                                     "type": "Imf_2_5::MultiPartInputFile",
-                                    "record": 1266,
+                                    "record": 1495,
                                     "const": false
                                 },
                                 "const": false
@@ -171,7 +172,7 @@
                             "kind": "RecordType",
                             "id": 6,
                             "type": "Imf_2_5::Header",
-                            "record": 1297,
+                            "record": 1526,
                             "const": true
                         },
                         "const": false
@@ -244,7 +245,7 @@
                                     "kind": "RecordType",
                                     "id": 107,
                                     "type": "Imf_2_5::FrameBuffer",
-                                    "record": 3173,
+                                    "record": 3660,
                                     "const": true
                                 },
                                 "const": false
@@ -281,7 +282,7 @@
                             "kind": "RecordType",
                             "id": 107,
                             "type": "Imf_2_5::FrameBuffer",
-                            "record": 3173,
+                            "record": 3660,
                             "const": true
                         },
                         "const": false
@@ -501,7 +502,7 @@
                             "name": "pixelDataSize",
                             "type": {
                                 "kind": "Reference",
-                                "id": 666,
+                                "id": 863,
                                 "type": "int &",
                                 "pointee": {
                                     "kind": "BuiltinType",
@@ -575,7 +576,7 @@
                             "name": "pixelDataSize",
                             "type": {
                                 "kind": "Reference",
-                                "id": 666,
+                                "id": 863,
                                 "type": "int &",
                                 "pointee": {
                                     "kind": "BuiltinType",
@@ -621,7 +622,7 @@
                             "name": "dx",
                             "type": {
                                 "kind": "Reference",
-                                "id": 666,
+                                "id": 863,
                                 "type": "int &",
                                 "pointee": {
                                     "kind": "BuiltinType",
@@ -638,7 +639,7 @@
                             "name": "dy",
                             "type": {
                                 "kind": "Reference",
-                                "id": 666,
+                                "id": 863,
                                 "type": "int &",
                                 "pointee": {
                                     "kind": "BuiltinType",
@@ -655,7 +656,7 @@
                             "name": "lx",
                             "type": {
                                 "kind": "Reference",
-                                "id": 666,
+                                "id": 863,
                                 "type": "int &",
                                 "pointee": {
                                     "kind": "BuiltinType",
@@ -672,7 +673,7 @@
                             "name": "ly",
                             "type": {
                                 "kind": "Reference",
-                                "id": 666,
+                                "id": 863,
                                 "type": "int &",
                                 "pointee": {
                                     "kind": "BuiltinType",
@@ -712,7 +713,7 @@
                             "name": "pixelDataSize",
                             "type": {
                                 "kind": "Reference",
-                                "id": 666,
+                                "id": 863,
                                 "type": "int &",
                                 "pointee": {
                                     "kind": "BuiltinType",

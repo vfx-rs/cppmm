@@ -9,7 +9,7 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 895,
+    "id": 1124,
     "decls": [
         {
             "kind": "Namespace",
@@ -24,7 +24,8 @@
             "namespaces": [
                 26
             ],
-            "id": 896,
+            "id": 1125,
+            "abstract": false,
             "size": 832,
             "align": 64,
             "alias": "SampleCountChannel",
@@ -43,7 +44,7 @@
                             "kind": "RecordType",
                             "id": 201,
                             "type": "Imf_2_5::ImageLevel",
-                            "record": 1432,
+                            "record": 1661,
                             "const": false
                         },
                         "const": false
@@ -162,7 +163,7 @@
                     "name": "_sampleListPositions",
                     "type": {
                         "kind": "Pointer",
-                        "id": 916,
+                        "id": 1145,
                         "type": "unsigned long *",
                         "pointee": {
                             "kind": "BuiltinType",
@@ -229,7 +230,7 @@
                         "kind": "EnumType",
                         "id": 200,
                         "type": "Imf_2_5::PixelType",
-                        "enum": 1630,
+                        "enum": 1859,
                         "const": false
                     },
                     "params": null
@@ -258,7 +259,7 @@
                         "kind": "RecordType",
                         "id": 204,
                         "type": "Imf_2_5::Slice",
-                        "record": 3165,
+                        "record": 3652,
                         "const": false
                     },
                     "params": null
@@ -285,13 +286,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 888,
+                        "id": 1117,
                         "type": "class Imf_2_5::DeepImageLevel &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 887,
+                            "id": 1116,
                             "type": "Imf_2_5::DeepImageLevel",
-                            "record": 1443,
+                            "record": 1672,
                             "const": false
                         },
                         "const": false
@@ -320,13 +321,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 889,
+                        "id": 1118,
                         "type": "const class Imf_2_5::DeepImageLevel &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 887,
+                            "id": 1116,
                             "type": "Imf_2_5::DeepImageLevel",
-                            "record": 1443,
+                            "record": 1672,
                             "const": true
                         },
                         "const": false
@@ -801,7 +802,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "Pointer",
-                        "id": 890,
+                        "id": 1119,
                         "type": "const unsigned long *",
                         "pointee": {
                             "kind": "BuiltinType",
@@ -849,9 +850,10 @@
             "short_name": "Edit",
             "namespaces": [
                 26,
-                896
+                1125
             ],
-            "id": 917,
+            "id": 1146,
+            "abstract": false,
             "size": 128,
             "align": 64,
             "alias": "Edit",
@@ -864,13 +866,13 @@
                     "name": "_channel",
                     "type": {
                         "kind": "Reference",
-                        "id": 899,
+                        "id": 1128,
                         "type": "class Imf_2_5::SampleCountChannel &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 897,
+                            "id": 1126,
                             "type": "Imf_2_5::SampleCountChannel",
-                            "record": 896,
+                            "record": 1125,
                             "const": false
                         },
                         "const": false
@@ -926,13 +928,13 @@
                             "name": "level",
                             "type": {
                                 "kind": "Reference",
-                                "id": 899,
+                                "id": 1128,
                                 "type": "class Imf_2_5::SampleCountChannel &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 897,
+                                    "id": 1126,
                                     "type": "Imf_2_5::SampleCountChannel",
-                                    "record": 896,
+                                    "record": 1125,
                                     "const": false
                                 },
                                 "const": false
@@ -1012,7 +1014,7 @@
             "namespaces": [
                 26
             ],
-            "id": 1261,
+            "id": 1490,
             "size": 32,
             "align": 32,
             "attributes": null,

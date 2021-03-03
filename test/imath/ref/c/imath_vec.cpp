@@ -42,7 +42,7 @@ Imath_2_5_V3f Imath_2_5_V3f_cross(
     return to_c_copy((to_cpp(self)) -> cross(to_cpp_ref(v)));
 }
 
-Imath_2_5_V3f const * Imath_2_5_V3f_op_iadd(
+Imath_2_5_V3f const * Imath_2_5_V3f_operator+=(
     Imath_2_5_V3f * self
     , Imath_2_5_V3f const * v)
 {

@@ -9,7 +9,7 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 1531,
+    "id": 1760,
     "decls": [
         {
             "kind": "Namespace",
@@ -24,7 +24,8 @@
             "namespaces": [
                 26
             ],
-            "id": 1532,
+            "id": 1761,
+            "abstract": false,
             "size": 128,
             "align": 64,
             "alias": "DeepTiledInputFile",
@@ -37,11 +38,11 @@
                     "name": "_data",
                     "type": {
                         "kind": "Pointer",
-                        "id": 1569,
+                        "id": 1798,
                         "type": "struct Imf_2_5::DeepTiledInputFile::Data *",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 1568,
+                            "id": 1797,
                             "type": "Imf_2_5::DeepTiledInputFile::Data",
                             "record": -1,
                             "const": false
@@ -148,7 +149,7 @@
                                     "kind": "RecordType",
                                     "id": 48,
                                     "type": "Imf_2_5::IStream",
-                                    "record": 999,
+                                    "record": 1228,
                                     "const": false
                                 },
                                 "const": false
@@ -258,7 +259,7 @@
                             "kind": "RecordType",
                             "id": 6,
                             "type": "Imf_2_5::Header",
-                            "record": 1297,
+                            "record": 1526,
                             "const": true
                         },
                         "const": false
@@ -481,9 +482,9 @@
                     "attributes": null,
                     "return": {
                         "kind": "EnumType",
-                        "id": 664,
+                        "id": 861,
                         "type": "Imf_2_5::LevelMode",
-                        "enum": 1583,
+                        "enum": 1812,
                         "const": false
                     },
                     "params": null
@@ -510,9 +511,9 @@
                     "attributes": null,
                     "return": {
                         "kind": "EnumType",
-                        "id": 665,
+                        "id": 862,
                         "type": "Imf_2_5::LevelRoundingMode",
-                        "enum": 1584,
+                        "enum": 1813,
                         "const": false
                     },
                     "params": null
@@ -866,7 +867,7 @@
                         "kind": "RecordType",
                         "id": 12,
                         "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                        "record": 2761,
+                        "record": 2973,
                         "const": false
                     },
                     "params": [
@@ -907,7 +908,7 @@
                         "kind": "RecordType",
                         "id": 12,
                         "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                        "record": 2761,
+                        "record": 2973,
                         "const": false
                     },
                     "params": [
@@ -961,7 +962,7 @@
                         "kind": "RecordType",
                         "id": 12,
                         "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                        "record": 2761,
+                        "record": 2973,
                         "const": false
                     },
                     "params": [
@@ -1024,7 +1025,7 @@
                         "kind": "RecordType",
                         "id": 12,
                         "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                        "record": 2761,
+                        "record": 2973,
                         "const": false
                     },
                     "params": [
@@ -1424,7 +1425,7 @@
                             "name": "dx",
                             "type": {
                                 "kind": "Reference",
-                                "id": 666,
+                                "id": 863,
                                 "type": "int &",
                                 "pointee": {
                                     "kind": "BuiltinType",
@@ -1441,7 +1442,7 @@
                             "name": "dy",
                             "type": {
                                 "kind": "Reference",
-                                "id": 666,
+                                "id": 863,
                                 "type": "int &",
                                 "pointee": {
                                     "kind": "BuiltinType",
@@ -1458,7 +1459,7 @@
                             "name": "lx",
                             "type": {
                                 "kind": "Reference",
-                                "id": 666,
+                                "id": 863,
                                 "type": "int &",
                                 "pointee": {
                                     "kind": "BuiltinType",
@@ -1475,7 +1476,7 @@
                             "name": "ly",
                             "type": {
                                 "kind": "Reference",
-                                "id": 666,
+                                "id": 863,
                                 "type": "int &",
                                 "pointee": {
                                     "kind": "BuiltinType",

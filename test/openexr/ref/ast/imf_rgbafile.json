@@ -9,7 +9,7 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 2838,
+    "id": 3153,
     "decls": [
         {
             "kind": "Namespace",
@@ -24,7 +24,8 @@
             "namespaces": [
                 26
             ],
-            "id": 2839,
+            "id": 3154,
+            "abstract": false,
             "size": 192,
             "align": 64,
             "alias": "RgbaOutputFile",
@@ -37,13 +38,13 @@
                     "name": "_outputFile",
                     "type": {
                         "kind": "Pointer",
-                        "id": 1618,
+                        "id": 1847,
                         "type": "class Imf_2_5::OutputFile *",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 1617,
+                            "id": 1846,
                             "type": "Imf_2_5::OutputFile",
-                            "record": 1019,
+                            "record": 1248,
                             "const": false
                         },
                         "const": false
@@ -54,11 +55,11 @@
                     "name": "_toYca",
                     "type": {
                         "kind": "Pointer",
-                        "id": 2861,
+                        "id": 3176,
                         "type": "class Imf_2_5::RgbaOutputFile::ToYca *",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 2860,
+                            "id": 3175,
                             "type": "Imf_2_5::RgbaOutputFile::ToYca",
                             "record": -1,
                             "const": false
@@ -123,7 +124,7 @@
                                     "kind": "RecordType",
                                     "id": 6,
                                     "type": "Imf_2_5::Header",
-                                    "record": 1297,
+                                    "record": 1526,
                                     "const": true
                                 },
                                 "const": false
@@ -137,7 +138,7 @@
                                 "kind": "EnumType",
                                 "id": 8,
                                 "type": "Imf_2_5::RgbaChannels",
-                                "enum": 1261,
+                                "enum": 1490,
                                 "const": false
                             },
                             "attrs": []
@@ -195,7 +196,7 @@
                                     "kind": "RecordType",
                                     "id": 10,
                                     "type": "Imf_2_5::OStream",
-                                    "record": 990,
+                                    "record": 1219,
                                     "const": false
                                 },
                                 "const": false
@@ -213,7 +214,7 @@
                                     "kind": "RecordType",
                                     "id": 6,
                                     "type": "Imf_2_5::Header",
-                                    "record": 1297,
+                                    "record": 1526,
                                     "const": true
                                 },
                                 "const": false
@@ -227,7 +228,7 @@
                                 "kind": "EnumType",
                                 "id": 8,
                                 "type": "Imf_2_5::RgbaChannels",
-                                "enum": 1261,
+                                "enum": 1490,
                                 "const": false
                             },
                             "attrs": []
@@ -300,7 +301,7 @@
                                     "kind": "RecordType",
                                     "id": 12,
                                     "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                                    "record": 2761,
+                                    "record": 2973,
                                     "const": true
                                 },
                                 "const": false
@@ -318,7 +319,7 @@
                                     "kind": "RecordType",
                                     "id": 12,
                                     "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                                    "record": 2761,
+                                    "record": 2973,
                                     "const": true
                                 },
                                 "const": false
@@ -332,7 +333,7 @@
                                 "kind": "EnumType",
                                 "id": 8,
                                 "type": "Imf_2_5::RgbaChannels",
-                                "enum": 1261,
+                                "enum": 1490,
                                 "const": false
                             },
                             "attrs": []
@@ -355,7 +356,7 @@
                                 "kind": "RecordType",
                                 "id": 15,
                                 "type": "Imath_2_5::Vec2<float>",
-                                "record": 3101,
+                                "record": 3502,
                                 "const": true
                             },
                             "attrs": []
@@ -378,7 +379,7 @@
                                 "kind": "EnumType",
                                 "id": 16,
                                 "type": "Imf_2_5::LineOrder",
-                                "enum": 732,
+                                "enum": 929,
                                 "const": false
                             },
                             "attrs": []
@@ -474,7 +475,7 @@
                                     "kind": "RecordType",
                                     "id": 18,
                                     "type": "Imf_2_5::Rgba",
-                                    "record": 2797,
+                                    "record": 3112,
                                     "const": true
                                 },
                                 "const": false
@@ -601,7 +602,7 @@
                             "kind": "RecordType",
                             "id": 6,
                             "type": "Imf_2_5::Header",
-                            "record": 1297,
+                            "record": 1526,
                             "const": true
                         },
                         "const": false
@@ -636,7 +637,7 @@
                             "kind": "RecordType",
                             "id": 107,
                             "type": "Imf_2_5::FrameBuffer",
-                            "record": 3173,
+                            "record": 3660,
                             "const": true
                         },
                         "const": false
@@ -671,7 +672,7 @@
                             "kind": "RecordType",
                             "id": 12,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
+                            "record": 2973,
                             "const": true
                         },
                         "const": false
@@ -706,7 +707,7 @@
                             "kind": "RecordType",
                             "id": 12,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
+                            "record": 2973,
                             "const": true
                         },
                         "const": false
@@ -765,7 +766,7 @@
                         "kind": "RecordType",
                         "id": 15,
                         "type": "Imath_2_5::Vec2<float>",
-                        "record": 3101,
+                        "record": 3502,
                         "const": true
                     },
                     "params": null
@@ -822,7 +823,7 @@
                         "kind": "EnumType",
                         "id": 16,
                         "type": "Imf_2_5::LineOrder",
-                        "enum": 732,
+                        "enum": 929,
                         "const": false
                     },
                     "params": null
@@ -880,7 +881,7 @@
                         "kind": "EnumType",
                         "id": 8,
                         "type": "Imf_2_5::RgbaChannels",
-                        "enum": 1261,
+                        "enum": 1490,
                         "const": false
                     },
                     "params": null
@@ -923,7 +924,7 @@
                                     "kind": "RecordType",
                                     "id": 21,
                                     "type": "Imf_2_5::PreviewRgba",
-                                    "record": 1132,
+                                    "record": 1361,
                                     "const": true
                                 },
                                 "const": false
@@ -1065,7 +1066,8 @@
             "namespaces": [
                 26
             ],
-            "id": 2865,
+            "id": 3180,
+            "abstract": false,
             "size": 448,
             "align": 64,
             "alias": "RgbaInputFile",
@@ -1078,13 +1080,13 @@
                     "name": "_inputFile",
                     "type": {
                         "kind": "Pointer",
-                        "id": 2822,
+                        "id": 3137,
                         "type": "class Imf_2_5::InputFile *",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 1011,
+                            "id": 1240,
                             "type": "Imf_2_5::InputFile",
-                            "record": 753,
+                            "record": 950,
                             "const": false
                         },
                         "const": false
@@ -1095,11 +1097,11 @@
                     "name": "_fromYca",
                     "type": {
                         "kind": "Pointer",
-                        "id": 2889,
+                        "id": 3204,
                         "type": "class Imf_2_5::RgbaInputFile::FromYca *",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 2888,
+                            "id": 3203,
                             "type": "Imf_2_5::RgbaInputFile::FromYca",
                             "record": -1,
                             "const": false
@@ -1217,7 +1219,7 @@
                                     "kind": "RecordType",
                                     "id": 48,
                                     "type": "Imf_2_5::IStream",
-                                    "record": 999,
+                                    "record": 1228,
                                     "const": false
                                 },
                                 "const": false
@@ -1354,7 +1356,7 @@
                                     "kind": "RecordType",
                                     "id": 48,
                                     "type": "Imf_2_5::IStream",
-                                    "record": 999,
+                                    "record": 1228,
                                     "const": false
                                 },
                                 "const": false
@@ -1458,7 +1460,7 @@
                                     "kind": "RecordType",
                                     "id": 18,
                                     "type": "Imf_2_5::Rgba",
-                                    "record": 2797,
+                                    "record": 3112,
                                     "const": false
                                 },
                                 "const": false
@@ -1657,7 +1659,7 @@
                             "kind": "RecordType",
                             "id": 6,
                             "type": "Imf_2_5::Header",
-                            "record": 1297,
+                            "record": 1526,
                             "const": true
                         },
                         "const": false
@@ -1692,7 +1694,7 @@
                             "kind": "RecordType",
                             "id": 107,
                             "type": "Imf_2_5::FrameBuffer",
-                            "record": 3173,
+                            "record": 3660,
                             "const": true
                         },
                         "const": false
@@ -1727,7 +1729,7 @@
                             "kind": "RecordType",
                             "id": 12,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
+                            "record": 2973,
                             "const": true
                         },
                         "const": false
@@ -1762,7 +1764,7 @@
                             "kind": "RecordType",
                             "id": 12,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
+                            "record": 2973,
                             "const": true
                         },
                         "const": false
@@ -1821,7 +1823,7 @@
                         "kind": "RecordType",
                         "id": 15,
                         "type": "Imath_2_5::Vec2<float>",
-                        "record": 3101,
+                        "record": 3502,
                         "const": true
                     },
                     "params": null
@@ -1878,7 +1880,7 @@
                         "kind": "EnumType",
                         "id": 16,
                         "type": "Imf_2_5::LineOrder",
-                        "enum": 732,
+                        "enum": 929,
                         "const": false
                     },
                     "params": null
@@ -1936,7 +1938,7 @@
                         "kind": "EnumType",
                         "id": 8,
                         "type": "Imf_2_5::RgbaChannels",
-                        "enum": 1261,
+                        "enum": 1490,
                         "const": false
                     },
                     "params": null
@@ -2035,7 +2037,7 @@
         },
         {
             "kind": "Function",
-            "id": 2892,
+            "id": 3207,
             "short_name": "ComputeBasePointer",
             "qualified_name": "Imf_2_5::ComputeBasePointer",
             "in_binding": false,
@@ -2049,7 +2051,7 @@
                     "kind": "RecordType",
                     "id": 18,
                     "type": "Imf_2_5::Rgba",
-                    "record": 2797,
+                    "record": 3112,
                     "const": false
                 },
                 "const": false
@@ -2066,7 +2068,7 @@
                             "kind": "RecordType",
                             "id": 18,
                             "type": "Imf_2_5::Rgba",
-                            "record": 2797,
+                            "record": 3112,
                             "const": false
                         },
                         "const": false
@@ -2084,7 +2086,7 @@
                             "kind": "RecordType",
                             "id": 12,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
+                            "record": 2973,
                             "const": true
                         },
                         "const": false

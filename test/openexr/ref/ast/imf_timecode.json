@@ -25,6 +25,7 @@
                 26
             ],
             "id": 590,
+            "abstract": false,
             "size": 64,
             "align": 32,
             "alias": "TimeCode",

@@ -681,6 +681,8 @@ struct NodeRecord : public NodeAttributeHolder {
     /// The kind of the record, i.e. how we want it to be represented in C.
     /// See the RecordKind enum for more info
     RecordKind record_kind;
+    /// Does the class have any pure virtual functions?
+    bool is_abstract;
 
     /// Size of the record, in bits
     uint32_t size;
@@ -690,14 +692,16 @@ struct NodeRecord : public NodeAttributeHolder {
     NodeRecord(std::string qualified_name, NodeId id, NodeId context,
                std::vector<std::string> attrs, std::string short_name,
                std::vector<NodeId> namespaces, RecordKind record_kind,
-               uint32_t size, uint32_t align)
+               bool is_abstract, uint32_t size, uint32_t align)
         : NodeAttributeHolder(qualified_name, id, context, NodeKind::Record,
                               attrs),
           short_name(std::move(short_name)), namespaces(std::move(namespaces)),
-          record_kind(record_kind), size(size), align(align) {}
+          record_kind(record_kind), is_abstract(is_abstract), size(size),
+          align(align) {}
 
     virtual void write_json_attrs(json& o) const override {
         NodeAttributeHolder::write_json_attrs(o);
+        o["abstract"] = is_abstract;
         o["size"] = size;
         o["align"] = align;
         if (!alias.empty()) {
@@ -1177,7 +1181,7 @@ void add_method_to_list(NodePtr method,
 /// Extract all the public methods on a decl and return them for later use.
 /// The resulting methods are NOT inserted in the AST or stored in the global
 /// node tables.
-std::vector<NodePtr> process_methods(const CXXRecordDecl* crd) {
+std::vector<NodePtr> process_methods(const CXXRecordDecl* crd, bool is_base) {
     std::vector<NodePtr> result;
     SPDLOG_TRACE("process_methods({})", get_record_name(crd));
 
@@ -1187,7 +1191,7 @@ std::vector<NodePtr> process_methods(const CXXRecordDecl* crd) {
         if (const CXXRecordDecl* base_crd =
                 base.getType()->getAsCXXRecordDecl()) {
             SPDLOG_TRACE("found base {}", get_record_name(crd));
-            auto base_methods = process_methods(base_crd);
+            auto base_methods = process_methods(base_crd, true);
             for (auto&& m : base_methods) {
                 result.emplace_back(std::move(m));
             }
@@ -1204,6 +1208,13 @@ std::vector<NodePtr> process_methods(const CXXRecordDecl* crd) {
         if (d->getAccess() != AS_public) {
             continue;
         }
+
+        // if we're processing a base class, ignore ctor/dtor
+        if (is_base && (dyn_cast<CXXConstructorDecl>(d) ||
+                        dyn_cast<CXXDestructorDecl>(d))) {
+            continue;
+        }
+
         // A FunctionTemplateDecl represents methods that are dependent on
         // their own template parameters (aside from the Record template
         // parameter list).
@@ -1494,7 +1505,7 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
     auto node_record = std::make_unique<NodeRecord>(
         record_name, new_id, node_tu->id, std::move(attrs),
         std::move(short_name), std::move(namespaces), RecordKind::OpaquePtr,
-        size, align);
+        crd->isAbstract(), size, align);
     auto* node_record_ptr = node_record.get();
     NODES.emplace_back(std::move(node_record));
     NODE_MAP[record_name] = new_id;
@@ -1503,7 +1514,7 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
     node_tu->children.push_back(new_id);
 
     // grab all the methods that are specified in the binding
-    std::vector<NodePtr> methods = process_methods(crd);
+    std::vector<NodePtr> methods = process_methods(crd, false);
     SPDLOG_TRACE("record {} has {} methods", record_name, methods.size());
     for (NodePtr& method : methods) {
         NodeMethod* mptr = (NodeMethod*)method.get();
@@ -1626,7 +1637,7 @@ void handle_cxx_record_decl(const CXXRecordDecl* crd) {
     std::vector<std::string> attrs = get_attrs(crd);
 
     // now get the methods so we can match
-    std::vector<NodePtr> methods = process_methods(crd);
+    std::vector<NodePtr> methods = process_methods(crd, false);
     for (const auto& n : methods) {
         const auto& m = *(NodeMethod*)n.get();
         SPDLOG_DEBUG("Adding binding method {}", m);

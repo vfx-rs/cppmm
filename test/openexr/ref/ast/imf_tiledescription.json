@@ -9,7 +9,7 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 1580,
+    "id": 1809,
     "decls": [
         {
             "kind": "Namespace",
@@ -24,7 +24,8 @@
             "namespaces": [
                 26
             ],
-            "id": 1581,
+            "id": 1810,
+            "abstract": false,
             "size": 128,
             "align": 32,
             "alias": "TileDescription",
@@ -57,9 +58,9 @@
                     "name": "mode",
                     "type": {
                         "kind": "EnumType",
-                        "id": 664,
+                        "id": 861,
                         "type": "Imf_2_5::LevelMode",
-                        "enum": 1583,
+                        "enum": 1812,
                         "const": false
                     }
                 },
@@ -68,9 +69,9 @@
                     "name": "roundingMode",
                     "type": {
                         "kind": "EnumType",
-                        "id": 665,
+                        "id": 862,
                         "type": "Imf_2_5::LevelRoundingMode",
-                        "enum": 1584,
+                        "enum": 1813,
                         "const": false
                     }
                 }
@@ -130,9 +131,9 @@
                             "name": "m",
                             "type": {
                                 "kind": "EnumType",
-                                "id": 664,
+                                "id": 861,
                                 "type": "Imf_2_5::LevelMode",
-                                "enum": 1583,
+                                "enum": 1812,
                                 "const": false
                             },
                             "attrs": []
@@ -142,9 +143,9 @@
                             "name": "r",
                             "type": {
                                 "kind": "EnumType",
-                                "id": 665,
+                                "id": 862,
                                 "type": "Imf_2_5::LevelRoundingMode",
-                                "enum": 1584,
+                                "enum": 1813,
                                 "const": false
                             },
                             "attrs": []
@@ -160,7 +161,7 @@
             "namespaces": [
                 26
             ],
-            "id": 1583,
+            "id": 1812,
             "size": 32,
             "align": 32,
             "attributes": null,
@@ -178,7 +179,7 @@
             "namespaces": [
                 26
             ],
-            "id": 1584,
+            "id": 1813,
             "size": 32,
             "align": 32,
             "attributes": null,

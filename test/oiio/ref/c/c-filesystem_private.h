@@ -11,6 +11,7 @@
 
 
 
+
 inline OpenImageIO_v2_2::Filesystem::IOProxy const & to_cpp_ref(
     OpenImageIO_v2_2_Filesystem_IOProxy const * rhs)
 {

@@ -29,11 +29,12 @@
                 9
             ],
             "id": 11,
+            "abstract": false,
             "size": 256,
             "align": 64,
             "alias": "string",
             "attributes": [
-                "cppmm:opaquebytes"
+                "cppmm|opaquebytes"
             ],
             "fields": [
                 {
@@ -142,7 +143,7 @@
                                 "const": false
                             },
                             "attrs": [
-                                "cppmm:ignore"
+                                "cppmm|ignore"
                             ]
                         }
                     ]

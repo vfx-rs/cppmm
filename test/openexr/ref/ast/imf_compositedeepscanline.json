@@ -25,6 +25,7 @@
                 26
             ],
             "id": 115,
+            "abstract": false,
             "size": 128,
             "align": 64,
             "alias": "CompositeDeepScanLine",
@@ -239,7 +240,7 @@
                                     "kind": "RecordType",
                                     "id": 107,
                                     "type": "Imf_2_5::FrameBuffer",
-                                    "record": 3173,
+                                    "record": 3660,
                                     "const": true
                                 },
                                 "const": false
@@ -276,7 +277,7 @@
                             "kind": "RecordType",
                             "id": 107,
                             "type": "Imf_2_5::FrameBuffer",
-                            "record": 3173,
+                            "record": 3660,
                             "const": true
                         },
                         "const": false
@@ -390,7 +391,7 @@
                             "kind": "RecordType",
                             "id": 12,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
+                            "record": 2973,
                             "const": true
                         },
                         "const": false

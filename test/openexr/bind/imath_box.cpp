@@ -16,21 +16,21 @@ public:
     using BoundType = Imath::Box<V>;
 
     Box();
-    Box(const T& point);
-    Box(const T& minT, const T& maxT);
+    Box(const V& point);
+    Box(const V& minV, const V& maxV);
 
-    bool operator==(const Box<T>& src) const;
-    bool operator!=(const Box<T>& src) const;
+    bool operator==(const Box<V>& src) const;
+    bool operator!=(const Box<V>& src) const;
 
     void makeEmpty();
-    void extendBy(const T& point);
-    void extendBy(const Box<T>& box);
+    void extendBy(const V& point);
+    void extendBy(const Box<V>& box);
     void makeInfinite();
 
-    T size() const;
-    T center() const;
-    bool intersects(const T& point) const;
-    bool intersects(const Box<T>& box) const;
+    V size() const;
+    V center() const;
+    bool intersects(const V& point) const;
+    bool intersects(const Box<V>& box) const;
 
     unsigned int majorAxis() const;
 

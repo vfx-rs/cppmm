@@ -9,11 +9,11 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 2804,
+    "id": 3119,
     "decls": [
         {
             "kind": "Function",
-            "id": 2805,
+            "id": 3120,
             "short_name": "globalThreadCount",
             "qualified_name": "Imf_2_5::globalThreadCount",
             "in_binding": false,
@@ -29,7 +29,7 @@
         },
         {
             "kind": "Function",
-            "id": 2806,
+            "id": 3121,
             "short_name": "setGlobalThreadCount",
             "qualified_name": "Imf_2_5::setGlobalThreadCount",
             "in_binding": false,
@@ -57,7 +57,7 @@
         },
         {
             "kind": "Function",
-            "id": 2823,
+            "id": 3138,
             "short_name": "globalThreadCount",
             "qualified_name": "Imf_2_5::globalThreadCount",
             "in_binding": false,
@@ -73,7 +73,7 @@
         },
         {
             "kind": "Function",
-            "id": 2824,
+            "id": 3139,
             "short_name": "setGlobalThreadCount",
             "qualified_name": "Imf_2_5::setGlobalThreadCount",
             "in_binding": false,
@@ -101,7 +101,7 @@
         },
         {
             "kind": "Function",
-            "id": 2890,
+            "id": 3205,
             "short_name": "globalThreadCount",
             "qualified_name": "Imf_2_5::globalThreadCount",
             "in_binding": false,
@@ -117,7 +117,7 @@
         },
         {
             "kind": "Function",
-            "id": 2891,
+            "id": 3206,
             "short_name": "setGlobalThreadCount",
             "qualified_name": "Imf_2_5::setGlobalThreadCount",
             "in_binding": false,
@@ -145,7 +145,7 @@
         },
         {
             "kind": "Function",
-            "id": 2963,
+            "id": 3278,
             "short_name": "globalThreadCount",
             "qualified_name": "Imf_2_5::globalThreadCount",
             "in_binding": false,
@@ -161,7 +161,7 @@
         },
         {
             "kind": "Function",
-            "id": 2964,
+            "id": 3279,
             "short_name": "setGlobalThreadCount",
             "qualified_name": "Imf_2_5::setGlobalThreadCount",
             "in_binding": false,
@@ -189,7 +189,7 @@
         },
         {
             "kind": "Function",
-            "id": 3152,
+            "id": 3639,
             "short_name": "globalThreadCount",
             "qualified_name": "Imf_2_5::globalThreadCount",
             "in_binding": false,
@@ -205,7 +205,7 @@
         },
         {
             "kind": "Function",
-            "id": 3153,
+            "id": 3640,
             "short_name": "setGlobalThreadCount",
             "qualified_name": "Imf_2_5::setGlobalThreadCount",
             "in_binding": false,

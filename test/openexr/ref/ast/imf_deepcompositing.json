@@ -25,6 +25,7 @@
                 26
             ],
             "id": 137,
+            "abstract": false,
             "size": 64,
             "align": 64,
             "alias": "DeepCompositing",

@@ -9,7 +9,7 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 731,
+    "id": 928,
     "decls": [
         {
             "kind": "Namespace",
@@ -24,7 +24,7 @@
             "namespaces": [
                 26
             ],
-            "id": 732,
+            "id": 929,
             "size": 32,
             "align": 32,
             "attributes": null,

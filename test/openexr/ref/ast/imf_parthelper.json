@@ -9,7 +9,7 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 2956,
+    "id": 3271,
     "decls": [
         {
             "kind": "Namespace",
@@ -24,7 +24,8 @@
             "namespaces": [
                 26
             ],
-            "id": 2957,
+            "id": 3272,
+            "abstract": false,
             "size": 896,
             "align": 64,
             "alias": "MultiViewChannelName",

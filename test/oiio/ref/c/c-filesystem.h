@@ -7,7 +7,11 @@ typedef struct OpenImageIO_v2_2_Filesystem_IOMemReader_s {
 } __attribute__((aligned(8))) OpenImageIO_v2_2_Filesystem_IOMemReader;
 
 
-void OpenImageIO_v2_2_Filesystem_IOProxy_delete(
+void OpenImageIO_v2_2_Filesystem_IOProxy_IOProxy(
+    OpenImageIO_v2_2_Filesystem_IOProxy * self);
+
+
+void OpenImageIO_v2_2_Filesystem_IOProxy_~IOProxy(
     OpenImageIO_v2_2_Filesystem_IOProxy * self);
 
 
@@ -125,13 +129,13 @@ _Bool OpenImageIO_v2_2_Filesystem_IOMemReader_seek(
     , int origin);
 
 
-void OpenImageIO_v2_2_Filesystem_IOMemReader_new(
+void OpenImageIO_v2_2_Filesystem_IOMemReader_IOMemReader(
     OpenImageIO_v2_2_Filesystem_IOMemReader * self
     , void * buf
     , unsigned long size);
 
 
-void OpenImageIO_v2_2_Filesystem_IOMemReader_delete(
+void OpenImageIO_v2_2_Filesystem_IOMemReader_~IOMemReader(
     OpenImageIO_v2_2_Filesystem_IOMemReader * self);
 
 

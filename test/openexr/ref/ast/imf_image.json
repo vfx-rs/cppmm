@@ -9,7 +9,7 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 1489,
+    "id": 1718,
     "decls": [
         {
             "kind": "Namespace",
@@ -24,7 +24,8 @@
             "namespaces": [
                 26
             ],
-            "id": 1490,
+            "id": 1719,
+            "abstract": true,
             "size": 832,
             "align": 64,
             "alias": "Image",
@@ -39,7 +40,7 @@
                         "kind": "RecordType",
                         "id": 12,
                         "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                        "record": 2761,
+                        "record": 2973,
                         "const": false
                     }
                 },
@@ -48,9 +49,9 @@
                     "name": "_levelMode",
                     "type": {
                         "kind": "EnumType",
-                        "id": 664,
+                        "id": 861,
                         "type": "Imf_2_5::LevelMode",
-                        "enum": 1583,
+                        "enum": 1812,
                         "const": false
                     }
                 },
@@ -59,9 +60,9 @@
                     "name": "_levelRoundingMode",
                     "type": {
                         "kind": "EnumType",
-                        "id": 665,
+                        "id": 862,
                         "type": "Imf_2_5::LevelRoundingMode",
-                        "enum": 1584,
+                        "enum": 1813,
                         "const": false
                     }
                 },
@@ -70,7 +71,7 @@
                     "name": "_channels",
                     "type": {
                         "kind": "RecordType",
-                        "id": 1079,
+                        "id": 1308,
                         "type": "std::map<std::__cxx11::basic_string<char>, Imf_2_5::Image::ChannelInfo, std::less<std::__cxx11::basic_string<char> >, std::allocator<std::pair<const std::__cxx11::basic_string<char>, Imf_2_5::Image::ChannelInfo> > >",
                         "record": -1,
                         "const": false
@@ -81,7 +82,7 @@
                     "name": "_levels",
                     "type": {
                         "kind": "RecordType",
-                        "id": 1080,
+                        "id": 1309,
                         "type": "Imf_2_5::Array2D<Imf_2_5::ImageLevel *>",
                         "record": -1,
                         "const": false
@@ -167,9 +168,9 @@
                     "attributes": null,
                     "return": {
                         "kind": "EnumType",
-                        "id": 664,
+                        "id": 861,
                         "type": "Imf_2_5::LevelMode",
-                        "enum": 1583,
+                        "enum": 1812,
                         "const": false
                     },
                     "params": null
@@ -196,9 +197,9 @@
                     "attributes": null,
                     "return": {
                         "kind": "EnumType",
-                        "id": 665,
+                        "id": 862,
                         "type": "Imf_2_5::LevelRoundingMode",
-                        "enum": 1584,
+                        "enum": 1813,
                         "const": false
                     },
                     "params": null
@@ -317,7 +318,7 @@
                             "kind": "RecordType",
                             "id": 12,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
+                            "record": 2973,
                             "const": true
                         },
                         "const": false
@@ -354,7 +355,7 @@
                             "kind": "RecordType",
                             "id": 12,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
+                            "record": 2973,
                             "const": true
                         },
                         "const": false
@@ -401,7 +402,7 @@
                             "kind": "RecordType",
                             "id": 12,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
+                            "record": 2973,
                             "const": true
                         },
                         "const": false
@@ -549,7 +550,7 @@
                                     "kind": "RecordType",
                                     "id": 12,
                                     "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                                    "record": 2761,
+                                    "record": 2973,
                                     "const": true
                                 },
                                 "const": false
@@ -596,7 +597,7 @@
                                     "kind": "RecordType",
                                     "id": 12,
                                     "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                                    "record": 2761,
+                                    "record": 2973,
                                     "const": true
                                 },
                                 "const": false
@@ -608,9 +609,9 @@
                             "name": "levelMode",
                             "type": {
                                 "kind": "EnumType",
-                                "id": 664,
+                                "id": 861,
                                 "type": "Imf_2_5::LevelMode",
-                                "enum": 1583,
+                                "enum": 1812,
                                 "const": false
                             },
                             "attrs": []
@@ -620,9 +621,9 @@
                             "name": "levelRoundingMode",
                             "type": {
                                 "kind": "EnumType",
-                                "id": 665,
+                                "id": 862,
                                 "type": "Imf_2_5::LevelRoundingMode",
-                                "enum": 1584,
+                                "enum": 1813,
                                 "const": false
                             },
                             "attrs": []
@@ -734,7 +735,7 @@
                                 "kind": "EnumType",
                                 "id": 200,
                                 "type": "Imf_2_5::PixelType",
-                                "enum": 1630,
+                                "enum": 1859,
                                 "const": false
                             },
                             "attrs": []
@@ -824,13 +825,13 @@
                             "name": "channel",
                             "type": {
                                 "kind": "Reference",
-                                "id": 1045,
+                                "id": 1274,
                                 "type": "const struct Imf_2_5::Channel &",
                                 "pointee": {
                                     "kind": "RecordType",
                                     "id": 214,
                                     "type": "Imf_2_5::Channel",
-                                    "record": 2894,
+                                    "record": 3209,
                                     "const": true
                                 },
                                 "const": false
@@ -1017,11 +1018,11 @@
                             "name": "oldToNewNames",
                             "type": {
                                 "kind": "Reference",
-                                "id": 1047,
+                                "id": 1276,
                                 "type": "const class std::map<class std::__cxx11::basic_string<char>, class std::__cxx11::basic_string<char>, struct std::less<class std::__cxx11::basic_string<char> >, class std::allocator<struct std::pair<const class std::__cxx11::basic_string<char>, class std::__cxx11::basic_string<char> > > > &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 1046,
+                                    "id": 1275,
                                     "type": "std::map<std::__cxx11::basic_string<char>, std::__cxx11::basic_string<char>, std::less<std::__cxx11::basic_string<char> >, std::allocator<std::pair<const std::__cxx11::basic_string<char>, std::__cxx11::basic_string<char> > > >",
                                     "record": -1,
                                     "const": true
@@ -1062,7 +1063,7 @@
                             "kind": "RecordType",
                             "id": 201,
                             "type": "Imf_2_5::ImageLevel",
-                            "record": 1432,
+                            "record": 1661,
                             "const": false
                         },
                         "const": false
@@ -1111,7 +1112,7 @@
                             "kind": "RecordType",
                             "id": 201,
                             "type": "Imf_2_5::ImageLevel",
-                            "record": 1432,
+                            "record": 1661,
                             "const": true
                         },
                         "const": false
@@ -1158,7 +1159,7 @@
                             "kind": "RecordType",
                             "id": 201,
                             "type": "Imf_2_5::ImageLevel",
-                            "record": 1432,
+                            "record": 1661,
                             "const": false
                         },
                         "const": false
@@ -1218,7 +1219,7 @@
                             "kind": "RecordType",
                             "id": 201,
                             "type": "Imf_2_5::ImageLevel",
-                            "record": 1432,
+                            "record": 1661,
                             "const": true
                         },
                         "const": false

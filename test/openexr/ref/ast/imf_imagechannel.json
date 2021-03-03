@@ -9,7 +9,7 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 816,
+    "id": 1013,
     "decls": [
         {
             "kind": "Namespace",
@@ -24,7 +24,8 @@
             "namespaces": [
                 26
             ],
-            "id": 817,
+            "id": 1014,
+            "abstract": true,
             "size": 384,
             "align": 64,
             "alias": "ImageChannel",
@@ -43,7 +44,7 @@
                             "kind": "RecordType",
                             "id": 201,
                             "type": "Imf_2_5::ImageLevel",
-                            "record": 1432,
+                            "record": 1661,
                             "const": false
                         },
                         "const": false
@@ -135,7 +136,7 @@
                         "kind": "EnumType",
                         "id": 200,
                         "type": "Imf_2_5::PixelType",
-                        "enum": 1630,
+                        "enum": 1859,
                         "const": false
                     },
                     "params": null
@@ -164,7 +165,7 @@
                         "kind": "RecordType",
                         "id": 214,
                         "type": "Imf_2_5::Channel",
-                        "record": 2894,
+                        "record": 3209,
                         "const": false
                     },
                     "params": null
@@ -365,7 +366,7 @@
                             "kind": "RecordType",
                             "id": 201,
                             "type": "Imf_2_5::ImageLevel",
-                            "record": 1432,
+                            "record": 1661,
                             "const": false
                         },
                         "const": false
@@ -400,7 +401,7 @@
                             "kind": "RecordType",
                             "id": 201,
                             "type": "Imf_2_5::ImageLevel",
-                            "record": 1432,
+                            "record": 1661,
                             "const": true
                         },
                         "const": false

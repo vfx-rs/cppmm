@@ -24,11 +24,12 @@
                 6
             ],
             "id": 7,
+            "abstract": false,
             "size": 192,
             "align": 32,
             "alias": "Box3f",
             "attributes": [
-                "cppmm:valuetype"
+                "cppmm|valuetype"
             ],
             "fields": [
                 {
@@ -159,11 +160,12 @@
                 6
             ],
             "id": 18,
+            "abstract": false,
             "size": 192,
             "align": 32,
             "alias": "Box3i",
             "attributes": [
-                "cppmm:valuetype"
+                "cppmm|valuetype"
             ],
             "fields": [
                 {

@@ -11,7 +11,7 @@ typedef struct OpenImageIO_v2_2_ImageInput_s {
 } __attribute__((aligned(8))) OpenImageIO_v2_2_ImageInput;
 
 
-void OpenImageIO_v2_2_ROI_default(
+void OpenImageIO_v2_2_ROI_ROI(
     OpenImageIO_v2_2_ROI * self);
 
 
@@ -56,7 +56,7 @@ void OpenImageIO_v2_2_ImageSpec_ImageSpec(
     , OpenImageIO_v2_2_TypeDesc format);
 
 
-void OpenImageIO_v2_2_ImageSpec_new_with_dimensions(
+void OpenImageIO_v2_2_ImageSpec_ImageSpec(
     OpenImageIO_v2_2_ImageSpec * self
     , int xres
     , int yres
@@ -77,7 +77,7 @@ unsigned long OpenImageIO_v2_2_ImageSpec_channel_bytes(
     OpenImageIO_v2_2_ImageSpec const * self);
 
 
-unsigned long OpenImageIO_v2_2_ImageSpec_channel_bytes_for(
+unsigned long OpenImageIO_v2_2_ImageSpec_channel_bytes(
     OpenImageIO_v2_2_ImageSpec const * self
     , int chan
     , _Bool native);
@@ -99,12 +99,22 @@ void OpenImageIO_v2_2_ImageSpec_auto_stride(
     , int height);
 
 
-void OpenImageIO_v2_2_ImageSpec_copy(
+void OpenImageIO_v2_2_ImageSpec_ImageSpec(
     OpenImageIO_v2_2_ImageSpec * self
     , OpenImageIO_v2_2_ImageSpec const * other);
 
 
-OpenImageIO_v2_2_ImageSpec * OpenImageIO_v2_2_ImageSpec_assign(
+void OpenImageIO_v2_2_ImageSpec_ImageSpec(
+    OpenImageIO_v2_2_ImageSpec * self
+    , OpenImageIO_v2_2_ImageSpec * other);
+
+
+OpenImageIO_v2_2_ImageSpec * OpenImageIO_v2_2_ImageSpec_operator=(
+    OpenImageIO_v2_2_ImageSpec * self
+    , OpenImageIO_v2_2_ImageSpec * other);
+
+
+OpenImageIO_v2_2_ImageSpec * OpenImageIO_v2_2_ImageSpec_operator=(
     OpenImageIO_v2_2_ImageSpec * self
     , OpenImageIO_v2_2_ImageSpec const * other);
 

@@ -26,11 +26,12 @@
                 9
             ],
             "id": 10,
+            "abstract": false,
             "size": 64,
             "align": 64,
             "alias": "TfToken",
             "attributes": [
-                "cppmm:opaquebytes"
+                "cppmm|opaquebytes"
             ],
             "fields": [
                 {
@@ -66,7 +67,7 @@
                     "conversion_decl": false,
                     "destructor": false,
                     "attributes": [
-                        "cppmm:rename:copy"
+                        "cppmm|rename|copy"
                     ],
                     "return": {
                         "kind": "BuiltinType",
@@ -115,7 +116,7 @@
                     "conversion_decl": false,
                     "destructor": false,
                     "attributes": [
-                        "cppmm:rename:assign"
+                        "cppmm|rename|assign"
                     ],
                     "return": {
                         "kind": "Reference",
@@ -171,7 +172,7 @@
                     "conversion_decl": false,
                     "destructor": true,
                     "attributes": [
-                        "cppmm:rename:destruct"
+                        "cppmm|rename|destruct"
                     ],
                     "return": {
                         "kind": "BuiltinType",
@@ -201,7 +202,7 @@
                     "conversion_decl": false,
                     "destructor": false,
                     "attributes": [
-                        "cppmm:rename:from_string"
+                        "cppmm|rename|from_string"
                     ],
                     "return": {
                         "kind": "BuiltinType",
@@ -467,7 +468,7 @@
                     "conversion_decl": false,
                     "destructor": false,
                     "attributes": [
-                        "cppmm:rename:eq_string"
+                        "cppmm|rename|eq_string"
                     ],
                     "return": {
                         "kind": "BuiltinType",
@@ -515,7 +516,7 @@
                     "conversion_decl": false,
                     "destructor": false,
                     "attributes": [
-                        "cppmm:rename:neq_string"
+                        "cppmm|rename|neq_string"
                     ],
                     "return": {
                         "kind": "BuiltinType",

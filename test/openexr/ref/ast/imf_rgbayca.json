@@ -9,7 +9,7 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 1657,
+    "id": 1886,
     "decls": [
         {
             "kind": "Var",
@@ -21,7 +21,7 @@
                 "type": "int",
                 "const": true
             },
-            "id": 1660,
+            "id": 1889,
             "attributes": null
         },
         {
@@ -34,12 +34,12 @@
                 "type": "int",
                 "const": true
             },
-            "id": 1661,
+            "id": 1890,
             "attributes": null
         },
         {
             "kind": "Function",
-            "id": 1662,
+            "id": 1891,
             "short_name": "computeYw",
             "qualified_name": "Imf_2_5::RgbaYca::computeYw",
             "in_binding": false,
@@ -47,9 +47,9 @@
             "attributes": null,
             "return": {
                 "kind": "RecordType",
-                "id": 649,
+                "id": 744,
                 "type": "Imath_2_5::Vec3<float>",
-                "record": 3105,
+                "record": 3592,
                 "const": false
             },
             "params": [
@@ -64,7 +64,7 @@
                             "kind": "RecordType",
                             "id": 1,
                             "type": "Imf_2_5::Chromaticities",
-                            "record": 1392,
+                            "record": 1621,
                             "const": true
                         },
                         "const": false
@@ -75,7 +75,7 @@
         },
         {
             "kind": "Function",
-            "id": 1663,
+            "id": 1892,
             "short_name": "RGBAtoYCA",
             "qualified_name": "Imf_2_5::RgbaYca::RGBAtoYCA",
             "in_binding": false,
@@ -93,13 +93,13 @@
                     "name": "yw",
                     "type": {
                         "kind": "Reference",
-                        "id": 1632,
+                        "id": 1861,
                         "type": "const class Imath_2_5::Vec3<float> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 649,
+                            "id": 744,
                             "type": "Imath_2_5::Vec3<float>",
-                            "record": 3105,
+                            "record": 3592,
                             "const": true
                         },
                         "const": false
@@ -139,7 +139,7 @@
                             "kind": "RecordType",
                             "id": 18,
                             "type": "Imf_2_5::Rgba",
-                            "record": 2797,
+                            "record": 3112,
                             "const": true
                         },
                         "const": false
@@ -157,7 +157,7 @@
                             "kind": "RecordType",
                             "id": 18,
                             "type": "Imf_2_5::Rgba",
-                            "record": 2797,
+                            "record": 3112,
                             "const": false
                         },
                         "const": false
@@ -168,7 +168,7 @@
         },
         {
             "kind": "Function",
-            "id": 1664,
+            "id": 1893,
             "short_name": "decimateChromaHoriz",
             "qualified_name": "Imf_2_5::RgbaYca::decimateChromaHoriz",
             "in_binding": false,
@@ -203,7 +203,7 @@
                             "kind": "RecordType",
                             "id": 18,
                             "type": "Imf_2_5::Rgba",
-                            "record": 2797,
+                            "record": 3112,
                             "const": true
                         },
                         "const": false
@@ -221,7 +221,7 @@
                             "kind": "RecordType",
                             "id": 18,
                             "type": "Imf_2_5::Rgba",
-                            "record": 2797,
+                            "record": 3112,
                             "const": false
                         },
                         "const": false
@@ -232,7 +232,7 @@
         },
         {
             "kind": "Function",
-            "id": 1665,
+            "id": 1894,
             "short_name": "decimateChromaVert",
             "qualified_name": "Imf_2_5::RgbaYca::decimateChromaVert",
             "in_binding": false,
@@ -261,17 +261,17 @@
                     "name": "ycaIn",
                     "type": {
                         "kind": "Pointer",
-                        "id": 1659,
+                        "id": 1888,
                         "type": "const struct Imf_2_5::Rgba *const *",
                         "pointee": {
                             "kind": "Pointer",
-                            "id": 1658,
+                            "id": 1887,
                             "type": "const struct Imf_2_5::Rgba *const",
                             "pointee": {
                                 "kind": "RecordType",
                                 "id": 18,
                                 "type": "Imf_2_5::Rgba",
-                                "record": 2797,
+                                "record": 3112,
                                 "const": true
                             },
                             "const": true
@@ -291,7 +291,7 @@
                             "kind": "RecordType",
                             "id": 18,
                             "type": "Imf_2_5::Rgba",
-                            "record": 2797,
+                            "record": 3112,
                             "const": false
                         },
                         "const": false
@@ -302,7 +302,7 @@
         },
         {
             "kind": "Function",
-            "id": 1666,
+            "id": 1895,
             "short_name": "roundYCA",
             "qualified_name": "Imf_2_5::RgbaYca::roundYCA",
             "in_binding": false,
@@ -359,7 +359,7 @@
                             "kind": "RecordType",
                             "id": 18,
                             "type": "Imf_2_5::Rgba",
-                            "record": 2797,
+                            "record": 3112,
                             "const": true
                         },
                         "const": false
@@ -377,7 +377,7 @@
                             "kind": "RecordType",
                             "id": 18,
                             "type": "Imf_2_5::Rgba",
-                            "record": 2797,
+                            "record": 3112,
                             "const": false
                         },
                         "const": false
@@ -388,7 +388,7 @@
         },
         {
             "kind": "Function",
-            "id": 1667,
+            "id": 1896,
             "short_name": "reconstructChromaHoriz",
             "qualified_name": "Imf_2_5::RgbaYca::reconstructChromaHoriz",
             "in_binding": false,
@@ -423,7 +423,7 @@
                             "kind": "RecordType",
                             "id": 18,
                             "type": "Imf_2_5::Rgba",
-                            "record": 2797,
+                            "record": 3112,
                             "const": true
                         },
                         "const": false
@@ -441,7 +441,7 @@
                             "kind": "RecordType",
                             "id": 18,
                             "type": "Imf_2_5::Rgba",
-                            "record": 2797,
+                            "record": 3112,
                             "const": false
                         },
                         "const": false
@@ -452,7 +452,7 @@
         },
         {
             "kind": "Function",
-            "id": 1668,
+            "id": 1897,
             "short_name": "reconstructChromaVert",
             "qualified_name": "Imf_2_5::RgbaYca::reconstructChromaVert",
             "in_binding": false,
@@ -481,17 +481,17 @@
                     "name": "ycaIn",
                     "type": {
                         "kind": "Pointer",
-                        "id": 1659,
+                        "id": 1888,
                         "type": "const struct Imf_2_5::Rgba *const *",
                         "pointee": {
                             "kind": "Pointer",
-                            "id": 1658,
+                            "id": 1887,
                             "type": "const struct Imf_2_5::Rgba *const",
                             "pointee": {
                                 "kind": "RecordType",
                                 "id": 18,
                                 "type": "Imf_2_5::Rgba",
-                                "record": 2797,
+                                "record": 3112,
                                 "const": true
                             },
                             "const": true
@@ -511,7 +511,7 @@
                             "kind": "RecordType",
                             "id": 18,
                             "type": "Imf_2_5::Rgba",
-                            "record": 2797,
+                            "record": 3112,
                             "const": false
                         },
                         "const": false
@@ -522,7 +522,7 @@
         },
         {
             "kind": "Function",
-            "id": 1669,
+            "id": 1898,
             "short_name": "YCAtoRGBA",
             "qualified_name": "Imf_2_5::RgbaYca::YCAtoRGBA",
             "in_binding": false,
@@ -540,13 +540,13 @@
                     "name": "yw",
                     "type": {
                         "kind": "Reference",
-                        "id": 1632,
+                        "id": 1861,
                         "type": "const class Imath_2_5::Vec3<float> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 649,
+                            "id": 744,
                             "type": "Imath_2_5::Vec3<float>",
-                            "record": 3105,
+                            "record": 3592,
                             "const": true
                         },
                         "const": false
@@ -575,7 +575,7 @@
                             "kind": "RecordType",
                             "id": 18,
                             "type": "Imf_2_5::Rgba",
-                            "record": 2797,
+                            "record": 3112,
                             "const": true
                         },
                         "const": false
@@ -593,7 +593,7 @@
                             "kind": "RecordType",
                             "id": 18,
                             "type": "Imf_2_5::Rgba",
-                            "record": 2797,
+                            "record": 3112,
                             "const": false
                         },
                         "const": false
@@ -604,7 +604,7 @@
         },
         {
             "kind": "Function",
-            "id": 1670,
+            "id": 1899,
             "short_name": "fixSaturation",
             "qualified_name": "Imf_2_5::RgbaYca::fixSaturation",
             "in_binding": false,
@@ -622,13 +622,13 @@
                     "name": "yw",
                     "type": {
                         "kind": "Reference",
-                        "id": 1632,
+                        "id": 1861,
                         "type": "const class Imath_2_5::Vec3<float> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 649,
+                            "id": 744,
                             "type": "Imath_2_5::Vec3<float>",
-                            "record": 3105,
+                            "record": 3592,
                             "const": true
                         },
                         "const": false
@@ -651,17 +651,17 @@
                     "name": "rgbaIn",
                     "type": {
                         "kind": "Pointer",
-                        "id": 1659,
+                        "id": 1888,
                         "type": "const struct Imf_2_5::Rgba *const *",
                         "pointee": {
                             "kind": "Pointer",
-                            "id": 1658,
+                            "id": 1887,
                             "type": "const struct Imf_2_5::Rgba *const",
                             "pointee": {
                                 "kind": "RecordType",
                                 "id": 18,
                                 "type": "Imf_2_5::Rgba",
-                                "record": 2797,
+                                "record": 3112,
                                 "const": true
                             },
                             "const": true
@@ -681,7 +681,7 @@
                             "kind": "RecordType",
                             "id": 18,
                             "type": "Imf_2_5::Rgba",
-                            "record": 2797,
+                            "record": 3112,
                             "const": false
                         },
                         "const": false

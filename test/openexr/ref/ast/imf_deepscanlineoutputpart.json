@@ -9,7 +9,7 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 1395,
+    "id": 1624,
     "decls": [
         {
             "kind": "Namespace",
@@ -24,7 +24,8 @@
             "namespaces": [
                 26
             ],
-            "id": 1396,
+            "id": 1625,
+            "abstract": false,
             "size": 64,
             "align": 64,
             "alias": "DeepScanLineOutputPart",
@@ -37,13 +38,13 @@
                     "name": "file",
                     "type": {
                         "kind": "Pointer",
-                        "id": 1408,
+                        "id": 1637,
                         "type": "class Imf_2_5::DeepScanLineOutputFile *",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 1407,
+                            "id": 1636,
                             "type": "Imf_2_5::DeepScanLineOutputFile",
-                            "record": 794,
+                            "record": 991,
                             "const": false
                         },
                         "const": false
@@ -83,13 +84,13 @@
                             "name": "multiPartFile",
                             "type": {
                                 "kind": "Reference",
-                                "id": 1082,
+                                "id": 1311,
                                 "type": "class Imf_2_5::MultiPartOutputFile &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 1081,
+                                    "id": 1310,
                                     "type": "Imf_2_5::MultiPartOutputFile",
-                                    "record": 2733,
+                                    "record": 2928,
                                     "const": false
                                 },
                                 "const": false
@@ -171,7 +172,7 @@
                             "kind": "RecordType",
                             "id": 6,
                             "type": "Imf_2_5::Header",
-                            "record": 1297,
+                            "record": 1526,
                             "const": true
                         },
                         "const": false
@@ -409,7 +410,7 @@
                             "name": "in",
                             "type": {
                                 "kind": "Reference",
-                                "id": 789,
+                                "id": 986,
                                 "type": "class Imf_2_5::DeepScanLineInputPart &",
                                 "pointee": {
                                     "kind": "RecordType",
@@ -462,7 +463,7 @@
                                     "kind": "RecordType",
                                     "id": 21,
                                     "type": "Imf_2_5::PreviewRgba",
-                                    "record": 1132,
+                                    "record": 1361,
                                     "const": true
                                 },
                                 "const": false

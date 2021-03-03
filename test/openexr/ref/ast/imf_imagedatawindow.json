@@ -9,7 +9,7 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 2801,
+    "id": 3116,
     "decls": [
         {
             "kind": "Namespace",
@@ -24,7 +24,7 @@
             "namespaces": [
                 26
             ],
-            "id": 2802,
+            "id": 3117,
             "size": 32,
             "align": 32,
             "attributes": null,
@@ -35,7 +35,7 @@
         },
         {
             "kind": "Function",
-            "id": 2803,
+            "id": 3118,
             "short_name": "dataWindowForFile",
             "qualified_name": "Imf_2_5::dataWindowForFile",
             "in_binding": false,
@@ -45,7 +45,7 @@
                 "kind": "RecordType",
                 "id": 12,
                 "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                "record": 2761,
+                "record": 2973,
                 "const": false
             },
             "params": [
@@ -60,7 +60,7 @@
                             "kind": "RecordType",
                             "id": 6,
                             "type": "Imf_2_5::Header",
-                            "record": 1297,
+                            "record": 1526,
                             "const": true
                         },
                         "const": false
@@ -78,7 +78,7 @@
                             "kind": "RecordType",
                             "id": 407,
                             "type": "Imf_2_5::Image",
-                            "record": 1490,
+                            "record": 1719,
                             "const": true
                         },
                         "const": false
@@ -92,7 +92,7 @@
                         "kind": "EnumType",
                         "id": 548,
                         "type": "Imf_2_5::DataWindowSource",
-                        "enum": 2802,
+                        "enum": 3117,
                         "const": false
                     },
                     "attrs": []

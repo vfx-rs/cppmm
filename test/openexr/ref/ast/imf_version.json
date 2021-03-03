@@ -9,7 +9,7 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 966,
+    "id": 1195,
     "decls": [
         {
             "kind": "Var",
@@ -21,7 +21,7 @@
                 "type": "int",
                 "const": true
             },
-            "id": 967,
+            "id": 1196,
             "attributes": null
         },
         {
@@ -34,7 +34,7 @@
                 "type": "int",
                 "const": true
             },
-            "id": 968,
+            "id": 1197,
             "attributes": null
         },
         {
@@ -47,7 +47,7 @@
                 "type": "int",
                 "const": true
             },
-            "id": 969,
+            "id": 1198,
             "attributes": null
         },
         {
@@ -60,7 +60,7 @@
                 "type": "int",
                 "const": true
             },
-            "id": 970,
+            "id": 1199,
             "attributes": null
         },
         {
@@ -73,7 +73,7 @@
                 "type": "int",
                 "const": true
             },
-            "id": 971,
+            "id": 1200,
             "attributes": null
         },
         {
@@ -86,7 +86,7 @@
                 "type": "int",
                 "const": true
             },
-            "id": 972,
+            "id": 1201,
             "attributes": null
         },
         {
@@ -99,7 +99,7 @@
                 "type": "int",
                 "const": true
             },
-            "id": 973,
+            "id": 1202,
             "attributes": null
         },
         {
@@ -112,7 +112,7 @@
                 "type": "int",
                 "const": true
             },
-            "id": 974,
+            "id": 1203,
             "attributes": null
         },
         {
@@ -125,12 +125,12 @@
                 "type": "int",
                 "const": true
             },
-            "id": 975,
+            "id": 1204,
             "attributes": null
         },
         {
             "kind": "Function",
-            "id": 976,
+            "id": 1205,
             "short_name": "isTiled",
             "qualified_name": "Imf_2_5::isTiled",
             "in_binding": false,
@@ -158,7 +158,7 @@
         },
         {
             "kind": "Function",
-            "id": 977,
+            "id": 1206,
             "short_name": "isTiled",
             "qualified_name": "Imf_2_5::isTiled",
             "in_binding": false,
@@ -186,7 +186,7 @@
         },
         {
             "kind": "Function",
-            "id": 978,
+            "id": 1207,
             "short_name": "isMultiPart",
             "qualified_name": "Imf_2_5::isMultiPart",
             "in_binding": false,
@@ -214,7 +214,7 @@
         },
         {
             "kind": "Function",
-            "id": 979,
+            "id": 1208,
             "short_name": "isNonImage",
             "qualified_name": "Imf_2_5::isNonImage",
             "in_binding": false,
@@ -242,7 +242,7 @@
         },
         {
             "kind": "Function",
-            "id": 980,
+            "id": 1209,
             "short_name": "makeTiled",
             "qualified_name": "Imf_2_5::makeTiled",
             "in_binding": false,
@@ -270,7 +270,7 @@
         },
         {
             "kind": "Function",
-            "id": 981,
+            "id": 1210,
             "short_name": "makeNotTiled",
             "qualified_name": "Imf_2_5::makeNotTiled",
             "in_binding": false,
@@ -298,7 +298,7 @@
         },
         {
             "kind": "Function",
-            "id": 982,
+            "id": 1211,
             "short_name": "getVersion",
             "qualified_name": "Imf_2_5::getVersion",
             "in_binding": false,
@@ -326,7 +326,7 @@
         },
         {
             "kind": "Function",
-            "id": 983,
+            "id": 1212,
             "short_name": "getFlags",
             "qualified_name": "Imf_2_5::getFlags",
             "in_binding": false,
@@ -354,7 +354,7 @@
         },
         {
             "kind": "Function",
-            "id": 984,
+            "id": 1213,
             "short_name": "supportsFlags",
             "qualified_name": "Imf_2_5::supportsFlags",
             "in_binding": false,
@@ -382,7 +382,7 @@
         },
         {
             "kind": "Function",
-            "id": 985,
+            "id": 1214,
             "short_name": "isImfMagic",
             "qualified_name": "Imf_2_5::isImfMagic",
             "in_binding": false,
@@ -416,7 +416,7 @@
         },
         {
             "kind": "Function",
-            "id": 1035,
+            "id": 1264,
             "short_name": "isTiled",
             "qualified_name": "Imf_2_5::isTiled",
             "in_binding": false,
@@ -444,7 +444,7 @@
         },
         {
             "kind": "Function",
-            "id": 1036,
+            "id": 1265,
             "short_name": "isTiled",
             "qualified_name": "Imf_2_5::isTiled",
             "in_binding": false,
@@ -472,7 +472,7 @@
         },
         {
             "kind": "Function",
-            "id": 1037,
+            "id": 1266,
             "short_name": "isMultiPart",
             "qualified_name": "Imf_2_5::isMultiPart",
             "in_binding": false,
@@ -500,7 +500,7 @@
         },
         {
             "kind": "Function",
-            "id": 1038,
+            "id": 1267,
             "short_name": "isNonImage",
             "qualified_name": "Imf_2_5::isNonImage",
             "in_binding": false,
@@ -528,7 +528,7 @@
         },
         {
             "kind": "Function",
-            "id": 1039,
+            "id": 1268,
             "short_name": "makeTiled",
             "qualified_name": "Imf_2_5::makeTiled",
             "in_binding": false,
@@ -556,7 +556,7 @@
         },
         {
             "kind": "Function",
-            "id": 1040,
+            "id": 1269,
             "short_name": "makeNotTiled",
             "qualified_name": "Imf_2_5::makeNotTiled",
             "in_binding": false,
@@ -584,7 +584,7 @@
         },
         {
             "kind": "Function",
-            "id": 1041,
+            "id": 1270,
             "short_name": "getVersion",
             "qualified_name": "Imf_2_5::getVersion",
             "in_binding": false,
@@ -612,7 +612,7 @@
         },
         {
             "kind": "Function",
-            "id": 1042,
+            "id": 1271,
             "short_name": "getFlags",
             "qualified_name": "Imf_2_5::getFlags",
             "in_binding": false,
@@ -640,7 +640,7 @@
         },
         {
             "kind": "Function",
-            "id": 1043,
+            "id": 1272,
             "short_name": "supportsFlags",
             "qualified_name": "Imf_2_5::supportsFlags",
             "in_binding": false,
@@ -668,7 +668,7 @@
         },
         {
             "kind": "Function",
-            "id": 1044,
+            "id": 1273,
             "short_name": "isImfMagic",
             "qualified_name": "Imf_2_5::isImfMagic",
             "in_binding": false,
@@ -702,7 +702,7 @@
         },
         {
             "kind": "Function",
-            "id": 1120,
+            "id": 1349,
             "short_name": "isTiled",
             "qualified_name": "Imf_2_5::isTiled",
             "in_binding": false,
@@ -730,7 +730,7 @@
         },
         {
             "kind": "Function",
-            "id": 1121,
+            "id": 1350,
             "short_name": "isTiled",
             "qualified_name": "Imf_2_5::isTiled",
             "in_binding": false,
@@ -758,7 +758,7 @@
         },
         {
             "kind": "Function",
-            "id": 1122,
+            "id": 1351,
             "short_name": "isMultiPart",
             "qualified_name": "Imf_2_5::isMultiPart",
             "in_binding": false,
@@ -786,7 +786,7 @@
         },
         {
             "kind": "Function",
-            "id": 1123,
+            "id": 1352,
             "short_name": "isNonImage",
             "qualified_name": "Imf_2_5::isNonImage",
             "in_binding": false,
@@ -814,7 +814,7 @@
         },
         {
             "kind": "Function",
-            "id": 1124,
+            "id": 1353,
             "short_name": "makeTiled",
             "qualified_name": "Imf_2_5::makeTiled",
             "in_binding": false,
@@ -842,7 +842,7 @@
         },
         {
             "kind": "Function",
-            "id": 1125,
+            "id": 1354,
             "short_name": "makeNotTiled",
             "qualified_name": "Imf_2_5::makeNotTiled",
             "in_binding": false,
@@ -870,7 +870,7 @@
         },
         {
             "kind": "Function",
-            "id": 1126,
+            "id": 1355,
             "short_name": "getVersion",
             "qualified_name": "Imf_2_5::getVersion",
             "in_binding": false,
@@ -898,7 +898,7 @@
         },
         {
             "kind": "Function",
-            "id": 1127,
+            "id": 1356,
             "short_name": "getFlags",
             "qualified_name": "Imf_2_5::getFlags",
             "in_binding": false,
@@ -926,7 +926,7 @@
         },
         {
             "kind": "Function",
-            "id": 1128,
+            "id": 1357,
             "short_name": "supportsFlags",
             "qualified_name": "Imf_2_5::supportsFlags",
             "in_binding": false,
@@ -954,7 +954,7 @@
         },
         {
             "kind": "Function",
-            "id": 1129,
+            "id": 1358,
             "short_name": "isImfMagic",
             "qualified_name": "Imf_2_5::isImfMagic",
             "in_binding": false,
@@ -988,7 +988,7 @@
         },
         {
             "kind": "Function",
-            "id": 1409,
+            "id": 1638,
             "short_name": "isTiled",
             "qualified_name": "Imf_2_5::isTiled",
             "in_binding": false,
@@ -1016,7 +1016,7 @@
         },
         {
             "kind": "Function",
-            "id": 1410,
+            "id": 1639,
             "short_name": "isTiled",
             "qualified_name": "Imf_2_5::isTiled",
             "in_binding": false,
@@ -1044,7 +1044,7 @@
         },
         {
             "kind": "Function",
-            "id": 1411,
+            "id": 1640,
             "short_name": "isMultiPart",
             "qualified_name": "Imf_2_5::isMultiPart",
             "in_binding": false,
@@ -1072,7 +1072,7 @@
         },
         {
             "kind": "Function",
-            "id": 1412,
+            "id": 1641,
             "short_name": "isNonImage",
             "qualified_name": "Imf_2_5::isNonImage",
             "in_binding": false,
@@ -1100,7 +1100,7 @@
         },
         {
             "kind": "Function",
-            "id": 1413,
+            "id": 1642,
             "short_name": "makeTiled",
             "qualified_name": "Imf_2_5::makeTiled",
             "in_binding": false,
@@ -1128,7 +1128,7 @@
         },
         {
             "kind": "Function",
-            "id": 1414,
+            "id": 1643,
             "short_name": "makeNotTiled",
             "qualified_name": "Imf_2_5::makeNotTiled",
             "in_binding": false,
@@ -1156,7 +1156,7 @@
         },
         {
             "kind": "Function",
-            "id": 1415,
+            "id": 1644,
             "short_name": "getVersion",
             "qualified_name": "Imf_2_5::getVersion",
             "in_binding": false,
@@ -1184,7 +1184,7 @@
         },
         {
             "kind": "Function",
-            "id": 1416,
+            "id": 1645,
             "short_name": "getFlags",
             "qualified_name": "Imf_2_5::getFlags",
             "in_binding": false,
@@ -1212,7 +1212,7 @@
         },
         {
             "kind": "Function",
-            "id": 1417,
+            "id": 1646,
             "short_name": "supportsFlags",
             "qualified_name": "Imf_2_5::supportsFlags",
             "in_binding": false,
@@ -1240,7 +1240,7 @@
         },
         {
             "kind": "Function",
-            "id": 1418,
+            "id": 1647,
             "short_name": "isImfMagic",
             "qualified_name": "Imf_2_5::isImfMagic",
             "in_binding": false,
@@ -1274,7 +1274,7 @@
         },
         {
             "kind": "Function",
-            "id": 1570,
+            "id": 1799,
             "short_name": "isTiled",
             "qualified_name": "Imf_2_5::isTiled",
             "in_binding": false,
@@ -1302,7 +1302,7 @@
         },
         {
             "kind": "Function",
-            "id": 1571,
+            "id": 1800,
             "short_name": "isTiled",
             "qualified_name": "Imf_2_5::isTiled",
             "in_binding": false,
@@ -1330,7 +1330,7 @@
         },
         {
             "kind": "Function",
-            "id": 1572,
+            "id": 1801,
             "short_name": "isMultiPart",
             "qualified_name": "Imf_2_5::isMultiPart",
             "in_binding": false,
@@ -1358,7 +1358,7 @@
         },
         {
             "kind": "Function",
-            "id": 1573,
+            "id": 1802,
             "short_name": "isNonImage",
             "qualified_name": "Imf_2_5::isNonImage",
             "in_binding": false,
@@ -1386,7 +1386,7 @@
         },
         {
             "kind": "Function",
-            "id": 1574,
+            "id": 1803,
             "short_name": "makeTiled",
             "qualified_name": "Imf_2_5::makeTiled",
             "in_binding": false,
@@ -1414,7 +1414,7 @@
         },
         {
             "kind": "Function",
-            "id": 1575,
+            "id": 1804,
             "short_name": "makeNotTiled",
             "qualified_name": "Imf_2_5::makeNotTiled",
             "in_binding": false,
@@ -1442,7 +1442,7 @@
         },
         {
             "kind": "Function",
-            "id": 1576,
+            "id": 1805,
             "short_name": "getVersion",
             "qualified_name": "Imf_2_5::getVersion",
             "in_binding": false,
@@ -1470,7 +1470,7 @@
         },
         {
             "kind": "Function",
-            "id": 1577,
+            "id": 1806,
             "short_name": "getFlags",
             "qualified_name": "Imf_2_5::getFlags",
             "in_binding": false,
@@ -1498,7 +1498,7 @@
         },
         {
             "kind": "Function",
-            "id": 1578,
+            "id": 1807,
             "short_name": "supportsFlags",
             "qualified_name": "Imf_2_5::supportsFlags",
             "in_binding": false,
@@ -1526,7 +1526,7 @@
         },
         {
             "kind": "Function",
-            "id": 1579,
+            "id": 1808,
             "short_name": "isImfMagic",
             "qualified_name": "Imf_2_5::isImfMagic",
             "in_binding": false,
@@ -1560,7 +1560,7 @@
         },
         {
             "kind": "Function",
-            "id": 1619,
+            "id": 1848,
             "short_name": "isTiled",
             "qualified_name": "Imf_2_5::isTiled",
             "in_binding": false,
@@ -1588,7 +1588,7 @@
         },
         {
             "kind": "Function",
-            "id": 1620,
+            "id": 1849,
             "short_name": "isTiled",
             "qualified_name": "Imf_2_5::isTiled",
             "in_binding": false,
@@ -1616,7 +1616,7 @@
         },
         {
             "kind": "Function",
-            "id": 1621,
+            "id": 1850,
             "short_name": "isMultiPart",
             "qualified_name": "Imf_2_5::isMultiPart",
             "in_binding": false,
@@ -1644,7 +1644,7 @@
         },
         {
             "kind": "Function",
-            "id": 1622,
+            "id": 1851,
             "short_name": "isNonImage",
             "qualified_name": "Imf_2_5::isNonImage",
             "in_binding": false,
@@ -1672,7 +1672,7 @@
         },
         {
             "kind": "Function",
-            "id": 1623,
+            "id": 1852,
             "short_name": "makeTiled",
             "qualified_name": "Imf_2_5::makeTiled",
             "in_binding": false,
@@ -1700,7 +1700,7 @@
         },
         {
             "kind": "Function",
-            "id": 1624,
+            "id": 1853,
             "short_name": "makeNotTiled",
             "qualified_name": "Imf_2_5::makeNotTiled",
             "in_binding": false,
@@ -1728,7 +1728,7 @@
         },
         {
             "kind": "Function",
-            "id": 1625,
+            "id": 1854,
             "short_name": "getVersion",
             "qualified_name": "Imf_2_5::getVersion",
             "in_binding": false,
@@ -1756,7 +1756,7 @@
         },
         {
             "kind": "Function",
-            "id": 1626,
+            "id": 1855,
             "short_name": "getFlags",
             "qualified_name": "Imf_2_5::getFlags",
             "in_binding": false,
@@ -1784,7 +1784,7 @@
         },
         {
             "kind": "Function",
-            "id": 1627,
+            "id": 1856,
             "short_name": "supportsFlags",
             "qualified_name": "Imf_2_5::supportsFlags",
             "in_binding": false,
@@ -1812,7 +1812,7 @@
         },
         {
             "kind": "Function",
-            "id": 1628,
+            "id": 1857,
             "short_name": "isImfMagic",
             "qualified_name": "Imf_2_5::isImfMagic",
             "in_binding": false,
@@ -1846,7 +1846,7 @@
         },
         {
             "kind": "Function",
-            "id": 1712,
+            "id": 1941,
             "short_name": "isTiled",
             "qualified_name": "Imf_2_5::isTiled",
             "in_binding": false,
@@ -1874,7 +1874,7 @@
         },
         {
             "kind": "Function",
-            "id": 1713,
+            "id": 1942,
             "short_name": "isTiled",
             "qualified_name": "Imf_2_5::isTiled",
             "in_binding": false,
@@ -1902,7 +1902,7 @@
         },
         {
             "kind": "Function",
-            "id": 1714,
+            "id": 1943,
             "short_name": "isMultiPart",
             "qualified_name": "Imf_2_5::isMultiPart",
             "in_binding": false,
@@ -1930,7 +1930,7 @@
         },
         {
             "kind": "Function",
-            "id": 1715,
+            "id": 1944,
             "short_name": "isNonImage",
             "qualified_name": "Imf_2_5::isNonImage",
             "in_binding": false,
@@ -1958,7 +1958,7 @@
         },
         {
             "kind": "Function",
-            "id": 1716,
+            "id": 1945,
             "short_name": "makeTiled",
             "qualified_name": "Imf_2_5::makeTiled",
             "in_binding": false,
@@ -1986,7 +1986,7 @@
         },
         {
             "kind": "Function",
-            "id": 1717,
+            "id": 1946,
             "short_name": "makeNotTiled",
             "qualified_name": "Imf_2_5::makeNotTiled",
             "in_binding": false,
@@ -2014,7 +2014,7 @@
         },
         {
             "kind": "Function",
-            "id": 1718,
+            "id": 1947,
             "short_name": "getVersion",
             "qualified_name": "Imf_2_5::getVersion",
             "in_binding": false,
@@ -2042,7 +2042,7 @@
         },
         {
             "kind": "Function",
-            "id": 1719,
+            "id": 1948,
             "short_name": "getFlags",
             "qualified_name": "Imf_2_5::getFlags",
             "in_binding": false,
@@ -2070,7 +2070,7 @@
         },
         {
             "kind": "Function",
-            "id": 1720,
+            "id": 1949,
             "short_name": "supportsFlags",
             "qualified_name": "Imf_2_5::supportsFlags",
             "in_binding": false,
@@ -2098,7 +2098,7 @@
         },
         {
             "kind": "Function",
-            "id": 1721,
+            "id": 1950,
             "short_name": "isImfMagic",
             "qualified_name": "Imf_2_5::isImfMagic",
             "in_binding": false,
@@ -2132,7 +2132,7 @@
         },
         {
             "kind": "Function",
-            "id": 1767,
+            "id": 1996,
             "short_name": "isTiled",
             "qualified_name": "Imf_2_5::isTiled",
             "in_binding": false,
@@ -2160,7 +2160,7 @@
         },
         {
             "kind": "Function",
-            "id": 1768,
+            "id": 1997,
             "short_name": "isTiled",
             "qualified_name": "Imf_2_5::isTiled",
             "in_binding": false,
@@ -2188,7 +2188,7 @@
         },
         {
             "kind": "Function",
-            "id": 1769,
+            "id": 1998,
             "short_name": "isMultiPart",
             "qualified_name": "Imf_2_5::isMultiPart",
             "in_binding": false,
@@ -2216,7 +2216,7 @@
         },
         {
             "kind": "Function",
-            "id": 1770,
+            "id": 1999,
             "short_name": "isNonImage",
             "qualified_name": "Imf_2_5::isNonImage",
             "in_binding": false,
@@ -2244,7 +2244,7 @@
         },
         {
             "kind": "Function",
-            "id": 1771,
+            "id": 2000,
             "short_name": "makeTiled",
             "qualified_name": "Imf_2_5::makeTiled",
             "in_binding": false,
@@ -2272,7 +2272,7 @@
         },
         {
             "kind": "Function",
-            "id": 1772,
+            "id": 2001,
             "short_name": "makeNotTiled",
             "qualified_name": "Imf_2_5::makeNotTiled",
             "in_binding": false,
@@ -2300,7 +2300,7 @@
         },
         {
             "kind": "Function",
-            "id": 1773,
+            "id": 2002,
             "short_name": "getVersion",
             "qualified_name": "Imf_2_5::getVersion",
             "in_binding": false,
@@ -2328,7 +2328,7 @@
         },
         {
             "kind": "Function",
-            "id": 1774,
+            "id": 2003,
             "short_name": "getFlags",
             "qualified_name": "Imf_2_5::getFlags",
             "in_binding": false,
@@ -2356,7 +2356,7 @@
         },
         {
             "kind": "Function",
-            "id": 1775,
+            "id": 2004,
             "short_name": "supportsFlags",
             "qualified_name": "Imf_2_5::supportsFlags",
             "in_binding": false,
@@ -2384,7 +2384,7 @@
         },
         {
             "kind": "Function",
-            "id": 1776,
+            "id": 2005,
             "short_name": "isImfMagic",
             "qualified_name": "Imf_2_5::isImfMagic",
             "in_binding": false,
@@ -2418,7 +2418,7 @@
         },
         {
             "kind": "Function",
-            "id": 2743,
+            "id": 2938,
             "short_name": "isTiled",
             "qualified_name": "Imf_2_5::isTiled",
             "in_binding": false,
@@ -2446,7 +2446,7 @@
         },
         {
             "kind": "Function",
-            "id": 2744,
+            "id": 2939,
             "short_name": "isTiled",
             "qualified_name": "Imf_2_5::isTiled",
             "in_binding": false,
@@ -2474,7 +2474,7 @@
         },
         {
             "kind": "Function",
-            "id": 2745,
+            "id": 2940,
             "short_name": "isMultiPart",
             "qualified_name": "Imf_2_5::isMultiPart",
             "in_binding": false,
@@ -2502,7 +2502,7 @@
         },
         {
             "kind": "Function",
-            "id": 2746,
+            "id": 2941,
             "short_name": "isNonImage",
             "qualified_name": "Imf_2_5::isNonImage",
             "in_binding": false,
@@ -2530,7 +2530,7 @@
         },
         {
             "kind": "Function",
-            "id": 2747,
+            "id": 2942,
             "short_name": "makeTiled",
             "qualified_name": "Imf_2_5::makeTiled",
             "in_binding": false,
@@ -2558,7 +2558,7 @@
         },
         {
             "kind": "Function",
-            "id": 2748,
+            "id": 2943,
             "short_name": "makeNotTiled",
             "qualified_name": "Imf_2_5::makeNotTiled",
             "in_binding": false,
@@ -2586,7 +2586,7 @@
         },
         {
             "kind": "Function",
-            "id": 2749,
+            "id": 2944,
             "short_name": "getVersion",
             "qualified_name": "Imf_2_5::getVersion",
             "in_binding": false,
@@ -2614,7 +2614,7 @@
         },
         {
             "kind": "Function",
-            "id": 2750,
+            "id": 2945,
             "short_name": "getFlags",
             "qualified_name": "Imf_2_5::getFlags",
             "in_binding": false,
@@ -2642,7 +2642,7 @@
         },
         {
             "kind": "Function",
-            "id": 2751,
+            "id": 2946,
             "short_name": "supportsFlags",
             "qualified_name": "Imf_2_5::supportsFlags",
             "in_binding": false,
@@ -2670,7 +2670,7 @@
         },
         {
             "kind": "Function",
-            "id": 2752,
+            "id": 2947,
             "short_name": "isImfMagic",
             "qualified_name": "Imf_2_5::isImfMagic",
             "in_binding": false,
@@ -2704,7 +2704,7 @@
         },
         {
             "kind": "Function",
-            "id": 2825,
+            "id": 3140,
             "short_name": "isTiled",
             "qualified_name": "Imf_2_5::isTiled",
             "in_binding": false,
@@ -2732,7 +2732,7 @@
         },
         {
             "kind": "Function",
-            "id": 2826,
+            "id": 3141,
             "short_name": "isTiled",
             "qualified_name": "Imf_2_5::isTiled",
             "in_binding": false,
@@ -2760,7 +2760,7 @@
         },
         {
             "kind": "Function",
-            "id": 2827,
+            "id": 3142,
             "short_name": "isMultiPart",
             "qualified_name": "Imf_2_5::isMultiPart",
             "in_binding": false,
@@ -2788,7 +2788,7 @@
         },
         {
             "kind": "Function",
-            "id": 2828,
+            "id": 3143,
             "short_name": "isNonImage",
             "qualified_name": "Imf_2_5::isNonImage",
             "in_binding": false,
@@ -2816,7 +2816,7 @@
         },
         {
             "kind": "Function",
-            "id": 2829,
+            "id": 3144,
             "short_name": "makeTiled",
             "qualified_name": "Imf_2_5::makeTiled",
             "in_binding": false,
@@ -2844,7 +2844,7 @@
         },
         {
             "kind": "Function",
-            "id": 2830,
+            "id": 3145,
             "short_name": "makeNotTiled",
             "qualified_name": "Imf_2_5::makeNotTiled",
             "in_binding": false,
@@ -2872,7 +2872,7 @@
         },
         {
             "kind": "Function",
-            "id": 2831,
+            "id": 3146,
             "short_name": "getVersion",
             "qualified_name": "Imf_2_5::getVersion",
             "in_binding": false,
@@ -2900,7 +2900,7 @@
         },
         {
             "kind": "Function",
-            "id": 2832,
+            "id": 3147,
             "short_name": "getFlags",
             "qualified_name": "Imf_2_5::getFlags",
             "in_binding": false,
@@ -2928,7 +2928,7 @@
         },
         {
             "kind": "Function",
-            "id": 2833,
+            "id": 3148,
             "short_name": "supportsFlags",
             "qualified_name": "Imf_2_5::supportsFlags",
             "in_binding": false,
@@ -2956,7 +2956,7 @@
         },
         {
             "kind": "Function",
-            "id": 2834,
+            "id": 3149,
             "short_name": "isImfMagic",
             "qualified_name": "Imf_2_5::isImfMagic",
             "in_binding": false,
@@ -2990,7 +2990,7 @@
         },
         {
             "kind": "Function",
-            "id": 3154,
+            "id": 3641,
             "short_name": "isTiled",
             "qualified_name": "Imf_2_5::isTiled",
             "in_binding": false,
@@ -3018,7 +3018,7 @@
         },
         {
             "kind": "Function",
-            "id": 3155,
+            "id": 3642,
             "short_name": "isTiled",
             "qualified_name": "Imf_2_5::isTiled",
             "in_binding": false,
@@ -3046,7 +3046,7 @@
         },
         {
             "kind": "Function",
-            "id": 3156,
+            "id": 3643,
             "short_name": "isMultiPart",
             "qualified_name": "Imf_2_5::isMultiPart",
             "in_binding": false,
@@ -3074,7 +3074,7 @@
         },
         {
             "kind": "Function",
-            "id": 3157,
+            "id": 3644,
             "short_name": "isNonImage",
             "qualified_name": "Imf_2_5::isNonImage",
             "in_binding": false,
@@ -3102,7 +3102,7 @@
         },
         {
             "kind": "Function",
-            "id": 3158,
+            "id": 3645,
             "short_name": "makeTiled",
             "qualified_name": "Imf_2_5::makeTiled",
             "in_binding": false,
@@ -3130,7 +3130,7 @@
         },
         {
             "kind": "Function",
-            "id": 3159,
+            "id": 3646,
             "short_name": "makeNotTiled",
             "qualified_name": "Imf_2_5::makeNotTiled",
             "in_binding": false,
@@ -3158,7 +3158,7 @@
         },
         {
             "kind": "Function",
-            "id": 3160,
+            "id": 3647,
             "short_name": "getVersion",
             "qualified_name": "Imf_2_5::getVersion",
             "in_binding": false,
@@ -3186,7 +3186,7 @@
         },
         {
             "kind": "Function",
-            "id": 3161,
+            "id": 3648,
             "short_name": "getFlags",
             "qualified_name": "Imf_2_5::getFlags",
             "in_binding": false,
@@ -3214,7 +3214,7 @@
         },
         {
             "kind": "Function",
-            "id": 3162,
+            "id": 3649,
             "short_name": "supportsFlags",
             "qualified_name": "Imf_2_5::supportsFlags",
             "in_binding": false,
@@ -3242,7 +3242,7 @@
         },
         {
             "kind": "Function",
-            "id": 3163,
+            "id": 3650,
             "short_name": "isImfMagic",
             "qualified_name": "Imf_2_5::isImfMagic",
             "in_binding": false,

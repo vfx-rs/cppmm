@@ -9,11 +9,11 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 1008,
+    "id": 1237,
     "decls": [
         {
             "kind": "Function",
-            "id": 1009,
+            "id": 1238,
             "short_name": "wav2Encode",
             "qualified_name": "Imf_2_5::wav2Encode",
             "in_binding": false,
@@ -31,11 +31,11 @@
                     "name": "in",
                     "type": {
                         "kind": "Pointer",
-                        "id": 774,
+                        "id": 971,
                         "type": "unsigned short *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 772,
+                            "id": 969,
                             "type": "unsigned short",
                             "const": false
                         },
@@ -92,7 +92,7 @@
                     "name": "mx",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 772,
+                        "id": 969,
                         "type": "unsigned short",
                         "const": false
                     },
@@ -102,7 +102,7 @@
         },
         {
             "kind": "Function",
-            "id": 1010,
+            "id": 1239,
             "short_name": "wav2Decode",
             "qualified_name": "Imf_2_5::wav2Decode",
             "in_binding": false,
@@ -120,11 +120,11 @@
                     "name": "in",
                     "type": {
                         "kind": "Pointer",
-                        "id": 774,
+                        "id": 971,
                         "type": "unsigned short *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 772,
+                            "id": 969,
                             "type": "unsigned short",
                             "const": false
                         },
@@ -181,7 +181,7 @@
                     "name": "mx",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 772,
+                        "id": 969,
                         "type": "unsigned short",
                         "const": false
                     },

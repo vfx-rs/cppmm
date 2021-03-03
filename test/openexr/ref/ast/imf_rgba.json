@@ -9,7 +9,7 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 2796,
+    "id": 3111,
     "decls": [
         {
             "kind": "Namespace",
@@ -24,7 +24,8 @@
             "namespaces": [
                 26
             ],
-            "id": 2797,
+            "id": 3112,
+            "abstract": false,
             "size": 64,
             "align": 16,
             "alias": "Rgba",
@@ -39,7 +40,7 @@
                         "kind": "RecordType",
                         "id": 227,
                         "type": "half",
-                        "record": 854,
+                        "record": 1052,
                         "const": false
                     }
                 },
@@ -50,7 +51,7 @@
                         "kind": "RecordType",
                         "id": 227,
                         "type": "half",
-                        "record": 854,
+                        "record": 1052,
                         "const": false
                     }
                 },
@@ -61,7 +62,7 @@
                         "kind": "RecordType",
                         "id": 227,
                         "type": "half",
-                        "record": 854,
+                        "record": 1052,
                         "const": false
                     }
                 },
@@ -72,7 +73,7 @@
                         "kind": "RecordType",
                         "id": 227,
                         "type": "half",
-                        "record": 854,
+                        "record": 1052,
                         "const": false
                     }
                 }
