@@ -408,6 +408,12 @@ NodeExprPtr this_reference(const NodeRecord & cpp_record, bool const_)
 //------------------------------------------------------------------------------
 bool should_wrap(const NodeRecord & cpp_record, const NodeMethod & cpp_method)
 {
+    // Skip static methods for now
+    if(cpp_method.is_static) // TODO LT: Bring in support for static methods
+    {
+        return false;
+    }
+
     // Check this is not a constructor for an abstract type
     if(cpp_method.is_constructor && cpp_record.abstract)
     {
