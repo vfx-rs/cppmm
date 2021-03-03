@@ -667,14 +667,16 @@ struct NodeRecord : public NodeAttributeHolder {
     std::string alias;
     std::vector<NodeId> namespaces;
 
+    bool abstract;
+
     NodeRecord(const TranslationUnit::Ptr & tu,
                std::string qualified_name, NodeId id,
                std::vector<std::string> attrs,
                uint32_t size, uint32_t align, const std::string & alias,
-               const std::vector<NodeId> & namespaces)
+               const std::vector<NodeId> & namespaces, bool abstract)
         : NodeAttributeHolder(qualified_name, id, NodeKind::Record, attrs),
           tu(tu), size(size), align(align), force_alignment(false), alias(alias)
-          , namespaces(namespaces)
+          , namespaces(namespaces), abstract(abstract)
     {}
 
     // A static method for creating this as a shared pointer

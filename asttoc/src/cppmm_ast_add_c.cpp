@@ -406,8 +406,14 @@ NodeExprPtr this_reference(const NodeRecord & cpp_record, bool const_)
 }
 
 //------------------------------------------------------------------------------
-bool should_wrap(const NodeMethod & cpp_method)
+bool should_wrap(const NodeRecord & cpp_record, const NodeMethod & cpp_method)
 {
+    // Check this is not a constructor for an abstract type
+    if(cpp_method.is_constructor && cpp_record.abstract)
+    {
+        return false;
+    }
+
     // Check its not ignored
     for(const auto & a : cpp_method.attrs)
     {
@@ -743,7 +749,7 @@ void opaquebytes_method(TypeRegistry & type_registry,
                         NodePtr & copy_constructor)
 {
     // Skip ignored methods
-    if(!should_wrap(cpp_method))
+    if(!should_wrap(cpp_record, cpp_method))
     {
         std::cerr << "ignoring method decl: " << cpp_method.name << std::endl;
         return;
@@ -828,7 +834,8 @@ void record_entry(NodeId & record_id,
                    c_tu,
                    c_record_name, record_id++, cpp_record.attrs,
                    cpp_record.size, cpp_record.align, cpp_record.alias,
-                   cpp_record.namespaces);
+                   cpp_record.namespaces,
+                   false);
 
     // Add the cpp and c record to the registry
     type_registry.add(cpp_node->id, cpp_node, c_record);

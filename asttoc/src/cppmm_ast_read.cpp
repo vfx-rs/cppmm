@@ -24,6 +24,7 @@ namespace {
     const char * ALIGN = "align";
     const char * ALIAS = "alias";
     const char * ATTRIBUTES = "attributes";
+    const char * ABSTRACT = "abstract";
     const char * CHILDREN = "children";
     const char * DESTRUCTOR = "destructor";
     const char * CONSTRUCTOR = "constructor";
@@ -261,6 +262,14 @@ NodePtr read_record(const TranslationUnit::Ptr & tu, const nln::json & json) {
     auto align = json[ALIGN].get<uint64_t>();
     auto qual_name = json[NAME].get<std::string>();
     auto name = json[SHORT_NAME].get<std::string>();
+
+    // Find if abstract
+    auto abstract = false;
+    auto abstract_a = json.find(ABSTRACT);
+    if( abstract_a != json.end() )
+    {
+        abstract = abstract_a->get<bool>();
+    }
  
     // Override the name with an alias if one is provided 
     auto alias = json.find(ALIAS);
@@ -278,7 +287,8 @@ NodePtr read_record(const TranslationUnit::Ptr & tu, const nln::json & json) {
 
     // Instantiate the translation unit
     auto result =\
-        NodeRecord::n(tu, qual_name, id, _attrs, size, align, name, namespaces);
+        NodeRecord::n(tu, qual_name, id, _attrs, size, align, name, namespaces,
+                      abstract);
 
     // Pull out the methods
     for (const auto & i : json[METHODS] ){
