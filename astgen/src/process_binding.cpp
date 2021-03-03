@@ -1181,7 +1181,7 @@ void add_method_to_list(NodePtr method,
 /// Extract all the public methods on a decl and return them for later use.
 /// The resulting methods are NOT inserted in the AST or stored in the global
 /// node tables.
-std::vector<NodePtr> process_methods(const CXXRecordDecl* crd) {
+std::vector<NodePtr> process_methods(const CXXRecordDecl* crd, bool is_base) {
     std::vector<NodePtr> result;
     SPDLOG_TRACE("process_methods({})", get_record_name(crd));
 
@@ -1191,7 +1191,7 @@ std::vector<NodePtr> process_methods(const CXXRecordDecl* crd) {
         if (const CXXRecordDecl* base_crd =
                 base.getType()->getAsCXXRecordDecl()) {
             SPDLOG_TRACE("found base {}", get_record_name(crd));
-            auto base_methods = process_methods(base_crd);
+            auto base_methods = process_methods(base_crd, true);
             for (auto&& m : base_methods) {
                 result.emplace_back(std::move(m));
             }
@@ -1208,6 +1208,13 @@ std::vector<NodePtr> process_methods(const CXXRecordDecl* crd) {
         if (d->getAccess() != AS_public) {
             continue;
         }
+
+        // if we're processing a base class, ignore ctor/dtor
+        if (is_base && (dyn_cast<CXXConstructorDecl>(d) ||
+                        dyn_cast<CXXDestructorDecl>(d))) {
+            continue;
+        }
+
         // A FunctionTemplateDecl represents methods that are dependent on
         // their own template parameters (aside from the Record template
         // parameter list).
@@ -1507,7 +1514,7 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
     node_tu->children.push_back(new_id);
 
     // grab all the methods that are specified in the binding
-    std::vector<NodePtr> methods = process_methods(crd);
+    std::vector<NodePtr> methods = process_methods(crd, false);
     SPDLOG_TRACE("record {} has {} methods", record_name, methods.size());
     for (NodePtr& method : methods) {
         NodeMethod* mptr = (NodeMethod*)method.get();
@@ -1630,7 +1637,7 @@ void handle_cxx_record_decl(const CXXRecordDecl* crd) {
     std::vector<std::string> attrs = get_attrs(crd);
 
     // now get the methods so we can match
-    std::vector<NodePtr> methods = process_methods(crd);
+    std::vector<NodePtr> methods = process_methods(crd, false);
     for (const auto& n : methods) {
         const auto& m = *(NodeMethod*)n.get();
         SPDLOG_DEBUG("Adding binding method {}", m);
