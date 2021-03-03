@@ -11,7 +11,7 @@ public:
     half();
     half(float f);
     ~half();
-    half(const ::half&);
+    half(const ::half& rhs);
     half(::half&&) CPPMM_IGNORE;
 
     operator float() const;
