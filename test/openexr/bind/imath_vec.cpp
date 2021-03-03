@@ -166,9 +166,6 @@ public:
     static T baseTypeSmallest();
     static T baseTypeEpsilon();
 
-    Vec2();
-    Vec2(const ::Imath::Vec2<T>& v);
-
 } CPPMM_VALUETYPE;
 
 // explicit instantiation
