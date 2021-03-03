@@ -9,7 +9,7 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 1265,
+    "id": 1494,
     "decls": [
         {
             "kind": "Namespace",
@@ -24,7 +24,8 @@
             "namespaces": [
                 26
             ],
-            "id": 1266,
+            "id": 1495,
+            "abstract": false,
             "size": 128,
             "align": 64,
             "alias": "MultiPartInputFile",
@@ -37,11 +38,11 @@
                     "name": "_data",
                     "type": {
                         "kind": "Pointer",
-                        "id": 1275,
+                        "id": 1504,
                         "type": "struct Imf_2_5::MultiPartInputFile::Data *",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 1274,
+                            "id": 1503,
                             "type": "Imf_2_5::MultiPartInputFile::Data",
                             "record": -1,
                             "const": false
@@ -159,7 +160,7 @@
                                     "kind": "RecordType",
                                     "id": 48,
                                     "type": "Imf_2_5::IStream",
-                                    "record": 999,
+                                    "record": 1228,
                                     "const": false
                                 },
                                 "const": false
@@ -274,7 +275,7 @@
                             "kind": "RecordType",
                             "id": 6,
                             "type": "Imf_2_5::Header",
-                            "record": 1297,
+                            "record": 1526,
                             "const": true
                         },
                         "const": false

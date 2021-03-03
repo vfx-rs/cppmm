@@ -25,11 +25,12 @@
                 6
             ],
             "id": 25,
+            "abstract": false,
             "size": 96,
             "align": 32,
             "alias": "V3f",
             "attributes": [
-                "cppmm:valuetype"
+                "cppmm|valuetype"
             ],
             "fields": [
                 {
@@ -316,7 +317,7 @@
                     "conversion_decl": false,
                     "destructor": false,
                     "attributes": [
-                        "cppmm:rename:op_iadd"
+                        "cppmm|rename|op_iadd"
                     ],
                     "return": {
                         "kind": "Reference",

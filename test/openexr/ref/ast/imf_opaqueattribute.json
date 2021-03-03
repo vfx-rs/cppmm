@@ -25,6 +25,7 @@
                 26
             ],
             "id": 90,
+            "abstract": false,
             "size": 512,
             "align": 64,
             "alias": "OpaqueAttribute",
@@ -128,7 +129,7 @@
                             "kind": "RecordType",
                             "id": 81,
                             "type": "Imf_2_5::Attribute",
-                            "record": 1815,
+                            "record": 2044,
                             "const": false
                         },
                         "const": false
@@ -173,7 +174,7 @@
                                     "kind": "RecordType",
                                     "id": 10,
                                     "type": "Imf_2_5::OStream",
-                                    "record": 990,
+                                    "record": 1219,
                                     "const": false
                                 },
                                 "const": false
@@ -231,7 +232,7 @@
                                     "kind": "RecordType",
                                     "id": 48,
                                     "type": "Imf_2_5::IStream",
-                                    "record": 999,
+                                    "record": 1228,
                                     "const": false
                                 },
                                 "const": false
@@ -300,7 +301,7 @@
                                     "kind": "RecordType",
                                     "id": 81,
                                     "type": "Imf_2_5::Attribute",
-                                    "record": 1815,
+                                    "record": 2044,
                                     "const": true
                                 },
                                 "const": false

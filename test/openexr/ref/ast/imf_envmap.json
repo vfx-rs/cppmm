@@ -9,7 +9,7 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 1631,
+    "id": 1860,
     "decls": [
         {
             "kind": "Namespace",
@@ -24,7 +24,7 @@
             "namespaces": [
                 26
             ],
-            "id": 1635,
+            "id": 1864,
             "size": 32,
             "align": 32,
             "attributes": null,
@@ -36,7 +36,7 @@
         },
         {
             "kind": "Function",
-            "id": 1636,
+            "id": 1865,
             "short_name": "latLong",
             "qualified_name": "Imf_2_5::LatLongMap::latLong",
             "in_binding": false,
@@ -46,7 +46,7 @@
                 "kind": "RecordType",
                 "id": 15,
                 "type": "Imath_2_5::Vec2<float>",
-                "record": 3101,
+                "record": 3502,
                 "const": false
             },
             "params": [
@@ -55,13 +55,13 @@
                     "name": "direction",
                     "type": {
                         "kind": "Reference",
-                        "id": 1632,
+                        "id": 1861,
                         "type": "const class Imath_2_5::Vec3<float> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 649,
+                            "id": 744,
                             "type": "Imath_2_5::Vec3<float>",
-                            "record": 3105,
+                            "record": 3592,
                             "const": true
                         },
                         "const": false
@@ -72,7 +72,7 @@
         },
         {
             "kind": "Function",
-            "id": 1637,
+            "id": 1866,
             "short_name": "latLong",
             "qualified_name": "Imf_2_5::LatLongMap::latLong",
             "in_binding": false,
@@ -82,7 +82,7 @@
                 "kind": "RecordType",
                 "id": 15,
                 "type": "Imath_2_5::Vec2<float>",
-                "record": 3101,
+                "record": 3502,
                 "const": false
             },
             "params": [
@@ -91,13 +91,13 @@
                     "name": "direction",
                     "type": {
                         "kind": "Reference",
-                        "id": 1632,
+                        "id": 1861,
                         "type": "const class Imath_2_5::Vec3<float> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 649,
+                            "id": 744,
                             "type": "Imath_2_5::Vec3<float>",
-                            "record": 3105,
+                            "record": 3592,
                             "const": true
                         },
                         "const": false
@@ -108,63 +108,7 @@
         },
         {
             "kind": "Function",
-            "id": 1638,
-            "short_name": "latLong",
-            "qualified_name": "Imf_2_5::LatLongMap::latLong",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": [
-                "cppmm|rename|latLong_pixel_position"
-            ],
-            "return": {
-                "kind": "RecordType",
-                "id": 15,
-                "type": "Imath_2_5::Vec2<float>",
-                "record": 3101,
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "dataWindow",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 13,
-                        "type": "const class Imath_2_5::Box<class Imath_2_5::Vec2<int> > &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 12,
-                            "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 1,
-                    "name": "pixelPosition",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 1276,
-                        "type": "const class Imath_2_5::Vec2<float> &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 15,
-                            "type": "Imath_2_5::Vec2<float>",
-                            "record": 3101,
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
-        },
-        {
-            "kind": "Function",
-            "id": 1639,
+            "id": 1867,
             "short_name": "latLong",
             "qualified_name": "Imf_2_5::LatLongMap::latLong",
             "in_binding": false,
@@ -176,7 +120,7 @@
                 "kind": "RecordType",
                 "id": 15,
                 "type": "Imath_2_5::Vec2<float>",
-                "record": 3101,
+                "record": 3502,
                 "const": false
             },
             "params": [
@@ -191,7 +135,7 @@
                             "kind": "RecordType",
                             "id": 12,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
+                            "record": 2973,
                             "const": true
                         },
                         "const": false
@@ -203,13 +147,13 @@
                     "name": "pixelPosition",
                     "type": {
                         "kind": "Reference",
-                        "id": 1276,
+                        "id": 1505,
                         "type": "const class Imath_2_5::Vec2<float> &",
                         "pointee": {
                             "kind": "RecordType",
                             "id": 15,
                             "type": "Imath_2_5::Vec2<float>",
-                            "record": 3101,
+                            "record": 3502,
                             "const": true
                         },
                         "const": false
@@ -220,7 +164,63 @@
         },
         {
             "kind": "Function",
-            "id": 1640,
+            "id": 1868,
+            "short_name": "latLong",
+            "qualified_name": "Imf_2_5::LatLongMap::latLong",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|rename|latLong_pixel_position"
+            ],
+            "return": {
+                "kind": "RecordType",
+                "id": 15,
+                "type": "Imath_2_5::Vec2<float>",
+                "record": 3502,
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "dataWindow",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 13,
+                        "type": "const class Imath_2_5::Box<class Imath_2_5::Vec2<int> > &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 12,
+                            "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
+                            "record": 2973,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "pixelPosition",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 1505,
+                        "type": "const class Imath_2_5::Vec2<float> &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 15,
+                            "type": "Imath_2_5::Vec2<float>",
+                            "record": 3502,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 1869,
             "short_name": "pixelPosition",
             "qualified_name": "Imf_2_5::LatLongMap::pixelPosition",
             "in_binding": false,
@@ -232,7 +232,7 @@
                 "kind": "RecordType",
                 "id": 15,
                 "type": "Imath_2_5::Vec2<float>",
-                "record": 3101,
+                "record": 3502,
                 "const": false
             },
             "params": [
@@ -247,7 +247,7 @@
                             "kind": "RecordType",
                             "id": 12,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
+                            "record": 2973,
                             "const": true
                         },
                         "const": false
@@ -259,13 +259,13 @@
                     "name": "latLong",
                     "type": {
                         "kind": "Reference",
-                        "id": 1276,
+                        "id": 1505,
                         "type": "const class Imath_2_5::Vec2<float> &",
                         "pointee": {
                             "kind": "RecordType",
                             "id": 15,
                             "type": "Imath_2_5::Vec2<float>",
-                            "record": 3101,
+                            "record": 3502,
                             "const": true
                         },
                         "const": false
@@ -276,7 +276,7 @@
         },
         {
             "kind": "Function",
-            "id": 1641,
+            "id": 1870,
             "short_name": "pixelPosition",
             "qualified_name": "Imf_2_5::LatLongMap::pixelPosition",
             "in_binding": false,
@@ -288,7 +288,7 @@
                 "kind": "RecordType",
                 "id": 15,
                 "type": "Imath_2_5::Vec2<float>",
-                "record": 3101,
+                "record": 3502,
                 "const": false
             },
             "params": [
@@ -303,7 +303,7 @@
                             "kind": "RecordType",
                             "id": 12,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
+                            "record": 2973,
                             "const": true
                         },
                         "const": false
@@ -315,13 +315,13 @@
                     "name": "latLong",
                     "type": {
                         "kind": "Reference",
-                        "id": 1276,
+                        "id": 1505,
                         "type": "const class Imath_2_5::Vec2<float> &",
                         "pointee": {
                             "kind": "RecordType",
                             "id": 15,
                             "type": "Imath_2_5::Vec2<float>",
-                            "record": 3101,
+                            "record": 3502,
                             "const": true
                         },
                         "const": false
@@ -332,7 +332,7 @@
         },
         {
             "kind": "Function",
-            "id": 1642,
+            "id": 1871,
             "short_name": "pixelPosition",
             "qualified_name": "Imf_2_5::LatLongMap::pixelPosition",
             "in_binding": false,
@@ -344,7 +344,7 @@
                 "kind": "RecordType",
                 "id": 15,
                 "type": "Imath_2_5::Vec2<float>",
-                "record": 3101,
+                "record": 3502,
                 "const": false
             },
             "params": [
@@ -359,7 +359,7 @@
                             "kind": "RecordType",
                             "id": 12,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
+                            "record": 2973,
                             "const": true
                         },
                         "const": false
@@ -371,13 +371,13 @@
                     "name": "latLong",
                     "type": {
                         "kind": "Reference",
-                        "id": 1276,
+                        "id": 1505,
                         "type": "const class Imath_2_5::Vec2<float> &",
                         "pointee": {
                             "kind": "RecordType",
                             "id": 15,
                             "type": "Imath_2_5::Vec2<float>",
-                            "record": 3101,
+                            "record": 3502,
                             "const": true
                         },
                         "const": false
@@ -388,7 +388,7 @@
         },
         {
             "kind": "Function",
-            "id": 1643,
+            "id": 1872,
             "short_name": "pixelPosition",
             "qualified_name": "Imf_2_5::LatLongMap::pixelPosition",
             "in_binding": false,
@@ -398,7 +398,7 @@
                 "kind": "RecordType",
                 "id": 15,
                 "type": "Imath_2_5::Vec2<float>",
-                "record": 3101,
+                "record": 3502,
                 "const": false
             },
             "params": [
@@ -413,7 +413,7 @@
                             "kind": "RecordType",
                             "id": 12,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
+                            "record": 2973,
                             "const": true
                         },
                         "const": false
@@ -425,13 +425,13 @@
                     "name": "direction",
                     "type": {
                         "kind": "Reference",
-                        "id": 1632,
+                        "id": 1861,
                         "type": "const class Imath_2_5::Vec3<float> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 649,
+                            "id": 744,
                             "type": "Imath_2_5::Vec3<float>",
-                            "record": 3105,
+                            "record": 3592,
                             "const": true
                         },
                         "const": false
@@ -442,7 +442,7 @@
         },
         {
             "kind": "Function",
-            "id": 1644,
+            "id": 1873,
             "short_name": "pixelPosition",
             "qualified_name": "Imf_2_5::LatLongMap::pixelPosition",
             "in_binding": false,
@@ -452,7 +452,7 @@
                 "kind": "RecordType",
                 "id": 15,
                 "type": "Imath_2_5::Vec2<float>",
-                "record": 3101,
+                "record": 3502,
                 "const": false
             },
             "params": [
@@ -467,7 +467,7 @@
                             "kind": "RecordType",
                             "id": 12,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
+                            "record": 2973,
                             "const": true
                         },
                         "const": false
@@ -479,13 +479,13 @@
                     "name": "direction",
                     "type": {
                         "kind": "Reference",
-                        "id": 1632,
+                        "id": 1861,
                         "type": "const class Imath_2_5::Vec3<float> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 649,
+                            "id": 744,
                             "type": "Imath_2_5::Vec3<float>",
-                            "record": 3105,
+                            "record": 3592,
                             "const": true
                         },
                         "const": false
@@ -496,7 +496,7 @@
         },
         {
             "kind": "Function",
-            "id": 1645,
+            "id": 1874,
             "short_name": "pixelPosition",
             "qualified_name": "Imf_2_5::LatLongMap::pixelPosition",
             "in_binding": false,
@@ -506,7 +506,7 @@
                 "kind": "RecordType",
                 "id": 15,
                 "type": "Imath_2_5::Vec2<float>",
-                "record": 3101,
+                "record": 3502,
                 "const": false
             },
             "params": [
@@ -521,7 +521,7 @@
                             "kind": "RecordType",
                             "id": 12,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
+                            "record": 2973,
                             "const": true
                         },
                         "const": false
@@ -533,13 +533,13 @@
                     "name": "direction",
                     "type": {
                         "kind": "Reference",
-                        "id": 1632,
+                        "id": 1861,
                         "type": "const class Imath_2_5::Vec3<float> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 649,
+                            "id": 744,
                             "type": "Imath_2_5::Vec3<float>",
-                            "record": 3105,
+                            "record": 3592,
                             "const": true
                         },
                         "const": false
@@ -550,7 +550,7 @@
         },
         {
             "kind": "Function",
-            "id": 1646,
+            "id": 1875,
             "short_name": "direction",
             "qualified_name": "Imf_2_5::LatLongMap::direction",
             "in_binding": false,
@@ -558,9 +558,9 @@
             "attributes": null,
             "return": {
                 "kind": "RecordType",
-                "id": 649,
+                "id": 744,
                 "type": "Imath_2_5::Vec3<float>",
-                "record": 3105,
+                "record": 3592,
                 "const": false
             },
             "params": [
@@ -575,7 +575,7 @@
                             "kind": "RecordType",
                             "id": 12,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
+                            "record": 2973,
                             "const": true
                         },
                         "const": false
@@ -587,13 +587,13 @@
                     "name": "pixelPosition",
                     "type": {
                         "kind": "Reference",
-                        "id": 1276,
+                        "id": 1505,
                         "type": "const class Imath_2_5::Vec2<float> &",
                         "pointee": {
                             "kind": "RecordType",
                             "id": 15,
                             "type": "Imath_2_5::Vec2<float>",
-                            "record": 3101,
+                            "record": 3502,
                             "const": true
                         },
                         "const": false
@@ -604,7 +604,7 @@
         },
         {
             "kind": "Function",
-            "id": 1647,
+            "id": 1876,
             "short_name": "direction",
             "qualified_name": "Imf_2_5::LatLongMap::direction",
             "in_binding": false,
@@ -612,9 +612,9 @@
             "attributes": null,
             "return": {
                 "kind": "RecordType",
-                "id": 649,
+                "id": 744,
                 "type": "Imath_2_5::Vec3<float>",
-                "record": 3105,
+                "record": 3592,
                 "const": false
             },
             "params": [
@@ -629,7 +629,7 @@
                             "kind": "RecordType",
                             "id": 12,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
+                            "record": 2973,
                             "const": true
                         },
                         "const": false
@@ -641,13 +641,13 @@
                     "name": "pixelPosition",
                     "type": {
                         "kind": "Reference",
-                        "id": 1276,
+                        "id": 1505,
                         "type": "const class Imath_2_5::Vec2<float> &",
                         "pointee": {
                             "kind": "RecordType",
                             "id": 15,
                             "type": "Imath_2_5::Vec2<float>",
-                            "record": 3101,
+                            "record": 3502,
                             "const": true
                         },
                         "const": false
@@ -663,7 +663,7 @@
             "namespaces": [
                 26
             ],
-            "id": 1648,
+            "id": 1877,
             "size": 32,
             "align": 32,
             "attributes": null,
@@ -678,7 +678,7 @@
         },
         {
             "kind": "Function",
-            "id": 1649,
+            "id": 1878,
             "short_name": "sizeOfFace",
             "qualified_name": "Imf_2_5::CubeMap::sizeOfFace",
             "in_binding": false,
@@ -702,7 +702,7 @@
                             "kind": "RecordType",
                             "id": 12,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
+                            "record": 2973,
                             "const": true
                         },
                         "const": false
@@ -713,7 +713,7 @@
         },
         {
             "kind": "Function",
-            "id": 1650,
+            "id": 1879,
             "short_name": "dataWindowForFace",
             "qualified_name": "Imf_2_5::CubeMap::dataWindowForFace",
             "in_binding": false,
@@ -723,7 +723,7 @@
                 "kind": "RecordType",
                 "id": 12,
                 "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                "record": 2761,
+                "record": 2973,
                 "const": false
             },
             "params": [
@@ -732,9 +732,9 @@
                     "name": "face",
                     "type": {
                         "kind": "EnumType",
-                        "id": 1633,
+                        "id": 1862,
                         "type": "Imf_2_5::CubeMapFace",
-                        "enum": 1648,
+                        "enum": 1877,
                         "const": false
                     },
                     "attrs": []
@@ -750,7 +750,7 @@
                             "kind": "RecordType",
                             "id": 12,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
+                            "record": 2973,
                             "const": true
                         },
                         "const": false
@@ -761,7 +761,7 @@
         },
         {
             "kind": "Function",
-            "id": 1651,
+            "id": 1880,
             "short_name": "pixelPosition",
             "qualified_name": "Imf_2_5::CubeMap::pixelPosition",
             "in_binding": false,
@@ -771,7 +771,7 @@
                 "kind": "RecordType",
                 "id": 15,
                 "type": "Imath_2_5::Vec2<float>",
-                "record": 3101,
+                "record": 3502,
                 "const": false
             },
             "params": [
@@ -780,9 +780,9 @@
                     "name": "face",
                     "type": {
                         "kind": "EnumType",
-                        "id": 1633,
+                        "id": 1862,
                         "type": "Imf_2_5::CubeMapFace",
-                        "enum": 1648,
+                        "enum": 1877,
                         "const": false
                     },
                     "attrs": []
@@ -798,7 +798,7 @@
                             "kind": "RecordType",
                             "id": 12,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
+                            "record": 2973,
                             "const": true
                         },
                         "const": false
@@ -812,7 +812,7 @@
                         "kind": "RecordType",
                         "id": 15,
                         "type": "Imath_2_5::Vec2<float>",
-                        "record": 3101,
+                        "record": 3502,
                         "const": false
                     },
                     "attrs": []
@@ -821,7 +821,7 @@
         },
         {
             "kind": "Function",
-            "id": 1652,
+            "id": 1881,
             "short_name": "pixelPosition",
             "qualified_name": "Imf_2_5::CubeMap::pixelPosition",
             "in_binding": false,
@@ -831,7 +831,7 @@
                 "kind": "RecordType",
                 "id": 15,
                 "type": "Imath_2_5::Vec2<float>",
-                "record": 3101,
+                "record": 3502,
                 "const": false
             },
             "params": [
@@ -840,9 +840,9 @@
                     "name": "face",
                     "type": {
                         "kind": "EnumType",
-                        "id": 1633,
+                        "id": 1862,
                         "type": "Imf_2_5::CubeMapFace",
-                        "enum": 1648,
+                        "enum": 1877,
                         "const": false
                     },
                     "attrs": []
@@ -858,7 +858,7 @@
                             "kind": "RecordType",
                             "id": 12,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
+                            "record": 2973,
                             "const": true
                         },
                         "const": false
@@ -872,7 +872,7 @@
                         "kind": "RecordType",
                         "id": 15,
                         "type": "Imath_2_5::Vec2<float>",
-                        "record": 3101,
+                        "record": 3502,
                         "const": false
                     },
                     "attrs": []
@@ -881,7 +881,7 @@
         },
         {
             "kind": "Function",
-            "id": 1653,
+            "id": 1882,
             "short_name": "pixelPosition",
             "qualified_name": "Imf_2_5::CubeMap::pixelPosition",
             "in_binding": false,
@@ -891,7 +891,7 @@
                 "kind": "RecordType",
                 "id": 15,
                 "type": "Imath_2_5::Vec2<float>",
-                "record": 3101,
+                "record": 3502,
                 "const": false
             },
             "params": [
@@ -900,9 +900,9 @@
                     "name": "face",
                     "type": {
                         "kind": "EnumType",
-                        "id": 1633,
+                        "id": 1862,
                         "type": "Imf_2_5::CubeMapFace",
-                        "enum": 1648,
+                        "enum": 1877,
                         "const": false
                     },
                     "attrs": []
@@ -918,7 +918,7 @@
                             "kind": "RecordType",
                             "id": 12,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
+                            "record": 2973,
                             "const": true
                         },
                         "const": false
@@ -932,7 +932,7 @@
                         "kind": "RecordType",
                         "id": 15,
                         "type": "Imath_2_5::Vec2<float>",
-                        "record": 3101,
+                        "record": 3502,
                         "const": false
                     },
                     "attrs": []
@@ -941,7 +941,7 @@
         },
         {
             "kind": "Function",
-            "id": 1654,
+            "id": 1883,
             "short_name": "faceAndPixelPosition",
             "qualified_name": "Imf_2_5::CubeMap::faceAndPixelPosition",
             "in_binding": false,
@@ -959,13 +959,13 @@
                     "name": "direction",
                     "type": {
                         "kind": "Reference",
-                        "id": 1632,
+                        "id": 1861,
                         "type": "const class Imath_2_5::Vec3<float> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 649,
+                            "id": 744,
                             "type": "Imath_2_5::Vec3<float>",
-                            "record": 3105,
+                            "record": 3592,
                             "const": true
                         },
                         "const": false
@@ -983,7 +983,7 @@
                             "kind": "RecordType",
                             "id": 12,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
+                            "record": 2973,
                             "const": true
                         },
                         "const": false
@@ -995,13 +995,13 @@
                     "name": "face",
                     "type": {
                         "kind": "Reference",
-                        "id": 1634,
+                        "id": 1863,
                         "type": "enum Imf_2_5::CubeMapFace &",
                         "pointee": {
                             "kind": "EnumType",
-                            "id": 1633,
+                            "id": 1862,
                             "type": "Imf_2_5::CubeMapFace",
-                            "enum": 1648,
+                            "enum": 1877,
                             "const": false
                         },
                         "const": false
@@ -1013,13 +1013,13 @@
                     "name": "positionInFace",
                     "type": {
                         "kind": "Reference",
-                        "id": 1283,
+                        "id": 1512,
                         "type": "class Imath_2_5::Vec2<float> &",
                         "pointee": {
                             "kind": "RecordType",
                             "id": 15,
                             "type": "Imath_2_5::Vec2<float>",
-                            "record": 3101,
+                            "record": 3502,
                             "const": false
                         },
                         "const": false
@@ -1030,7 +1030,7 @@
         },
         {
             "kind": "Function",
-            "id": 1655,
+            "id": 1884,
             "short_name": "direction",
             "qualified_name": "Imf_2_5::CubeMap::direction",
             "in_binding": false,
@@ -1038,9 +1038,9 @@
             "attributes": null,
             "return": {
                 "kind": "RecordType",
-                "id": 649,
+                "id": 744,
                 "type": "Imath_2_5::Vec3<float>",
-                "record": 3105,
+                "record": 3592,
                 "const": false
             },
             "params": [
@@ -1049,9 +1049,9 @@
                     "name": "face",
                     "type": {
                         "kind": "EnumType",
-                        "id": 1633,
+                        "id": 1862,
                         "type": "Imf_2_5::CubeMapFace",
-                        "enum": 1648,
+                        "enum": 1877,
                         "const": false
                     },
                     "attrs": []
@@ -1067,7 +1067,7 @@
                             "kind": "RecordType",
                             "id": 12,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
+                            "record": 2973,
                             "const": true
                         },
                         "const": false
@@ -1079,13 +1079,13 @@
                     "name": "positionInFace",
                     "type": {
                         "kind": "Reference",
-                        "id": 1276,
+                        "id": 1505,
                         "type": "const class Imath_2_5::Vec2<float> &",
                         "pointee": {
                             "kind": "RecordType",
                             "id": 15,
                             "type": "Imath_2_5::Vec2<float>",
-                            "record": 3101,
+                            "record": 3502,
                             "const": true
                         },
                         "const": false
@@ -1096,7 +1096,7 @@
         },
         {
             "kind": "Function",
-            "id": 1656,
+            "id": 1885,
             "short_name": "direction",
             "qualified_name": "Imf_2_5::CubeMap::direction",
             "in_binding": false,
@@ -1104,9 +1104,9 @@
             "attributes": null,
             "return": {
                 "kind": "RecordType",
-                "id": 649,
+                "id": 744,
                 "type": "Imath_2_5::Vec3<float>",
-                "record": 3105,
+                "record": 3592,
                 "const": false
             },
             "params": [
@@ -1115,9 +1115,9 @@
                     "name": "face",
                     "type": {
                         "kind": "EnumType",
-                        "id": 1633,
+                        "id": 1862,
                         "type": "Imf_2_5::CubeMapFace",
-                        "enum": 1648,
+                        "enum": 1877,
                         "const": false
                     },
                     "attrs": []
@@ -1133,7 +1133,7 @@
                             "kind": "RecordType",
                             "id": 12,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
+                            "record": 2973,
                             "const": true
                         },
                         "const": false
@@ -1145,13 +1145,13 @@
                     "name": "positionInFace",
                     "type": {
                         "kind": "Reference",
-                        "id": 1276,
+                        "id": 1505,
                         "type": "const class Imath_2_5::Vec2<float> &",
                         "pointee": {
                             "kind": "RecordType",
                             "id": 15,
                             "type": "Imath_2_5::Vec2<float>",
-                            "record": 3101,
+                            "record": 3502,
                             "const": true
                         },
                         "const": false
@@ -1162,7 +1162,7 @@
         },
         {
             "kind": "Function",
-            "id": 2711,
+            "id": 2906,
             "short_name": "latLong",
             "qualified_name": "Imf_2_5::LatLongMap::latLong",
             "in_binding": false,
@@ -1172,7 +1172,7 @@
                 "kind": "RecordType",
                 "id": 15,
                 "type": "Imath_2_5::Vec2<float>",
-                "record": 3101,
+                "record": 3502,
                 "const": false
             },
             "params": [
@@ -1181,13 +1181,13 @@
                     "name": "direction",
                     "type": {
                         "kind": "Reference",
-                        "id": 1632,
+                        "id": 1861,
                         "type": "const class Imath_2_5::Vec3<float> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 649,
+                            "id": 744,
                             "type": "Imath_2_5::Vec3<float>",
-                            "record": 3105,
+                            "record": 3592,
                             "const": true
                         },
                         "const": false
@@ -1198,7 +1198,7 @@
         },
         {
             "kind": "Function",
-            "id": 2712,
+            "id": 2907,
             "short_name": "latLong",
             "qualified_name": "Imf_2_5::LatLongMap::latLong",
             "in_binding": false,
@@ -1208,7 +1208,7 @@
                 "kind": "RecordType",
                 "id": 15,
                 "type": "Imath_2_5::Vec2<float>",
-                "record": 3101,
+                "record": 3502,
                 "const": false
             },
             "params": [
@@ -1217,13 +1217,13 @@
                     "name": "direction",
                     "type": {
                         "kind": "Reference",
-                        "id": 1632,
+                        "id": 1861,
                         "type": "const class Imath_2_5::Vec3<float> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 649,
+                            "id": 744,
                             "type": "Imath_2_5::Vec3<float>",
-                            "record": 3105,
+                            "record": 3592,
                             "const": true
                         },
                         "const": false
@@ -1234,63 +1234,7 @@
         },
         {
             "kind": "Function",
-            "id": 2713,
-            "short_name": "latLong",
-            "qualified_name": "Imf_2_5::LatLongMap::latLong",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": [
-                "cppmm|rename|latLong_pixel_position"
-            ],
-            "return": {
-                "kind": "RecordType",
-                "id": 15,
-                "type": "Imath_2_5::Vec2<float>",
-                "record": 3101,
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "dataWindow",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 13,
-                        "type": "const class Imath_2_5::Box<class Imath_2_5::Vec2<int> > &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 12,
-                            "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 1,
-                    "name": "pixelPosition",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 1276,
-                        "type": "const class Imath_2_5::Vec2<float> &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 15,
-                            "type": "Imath_2_5::Vec2<float>",
-                            "record": 3101,
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
-        },
-        {
-            "kind": "Function",
-            "id": 2714,
+            "id": 2908,
             "short_name": "latLong",
             "qualified_name": "Imf_2_5::LatLongMap::latLong",
             "in_binding": false,
@@ -1302,7 +1246,7 @@
                 "kind": "RecordType",
                 "id": 15,
                 "type": "Imath_2_5::Vec2<float>",
-                "record": 3101,
+                "record": 3502,
                 "const": false
             },
             "params": [
@@ -1317,7 +1261,7 @@
                             "kind": "RecordType",
                             "id": 12,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
+                            "record": 2973,
                             "const": true
                         },
                         "const": false
@@ -1329,13 +1273,13 @@
                     "name": "pixelPosition",
                     "type": {
                         "kind": "Reference",
-                        "id": 1276,
+                        "id": 1505,
                         "type": "const class Imath_2_5::Vec2<float> &",
                         "pointee": {
                             "kind": "RecordType",
                             "id": 15,
                             "type": "Imath_2_5::Vec2<float>",
-                            "record": 3101,
+                            "record": 3502,
                             "const": true
                         },
                         "const": false
@@ -1346,7 +1290,63 @@
         },
         {
             "kind": "Function",
-            "id": 2715,
+            "id": 2909,
+            "short_name": "latLong",
+            "qualified_name": "Imf_2_5::LatLongMap::latLong",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|rename|latLong_pixel_position"
+            ],
+            "return": {
+                "kind": "RecordType",
+                "id": 15,
+                "type": "Imath_2_5::Vec2<float>",
+                "record": 3502,
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "dataWindow",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 13,
+                        "type": "const class Imath_2_5::Box<class Imath_2_5::Vec2<int> > &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 12,
+                            "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
+                            "record": 2973,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "pixelPosition",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 1505,
+                        "type": "const class Imath_2_5::Vec2<float> &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 15,
+                            "type": "Imath_2_5::Vec2<float>",
+                            "record": 3502,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 2910,
             "short_name": "pixelPosition",
             "qualified_name": "Imf_2_5::LatLongMap::pixelPosition",
             "in_binding": false,
@@ -1358,7 +1358,7 @@
                 "kind": "RecordType",
                 "id": 15,
                 "type": "Imath_2_5::Vec2<float>",
-                "record": 3101,
+                "record": 3502,
                 "const": false
             },
             "params": [
@@ -1373,7 +1373,7 @@
                             "kind": "RecordType",
                             "id": 12,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
+                            "record": 2973,
                             "const": true
                         },
                         "const": false
@@ -1385,13 +1385,13 @@
                     "name": "latLong",
                     "type": {
                         "kind": "Reference",
-                        "id": 1276,
+                        "id": 1505,
                         "type": "const class Imath_2_5::Vec2<float> &",
                         "pointee": {
                             "kind": "RecordType",
                             "id": 15,
                             "type": "Imath_2_5::Vec2<float>",
-                            "record": 3101,
+                            "record": 3502,
                             "const": true
                         },
                         "const": false
@@ -1402,7 +1402,7 @@
         },
         {
             "kind": "Function",
-            "id": 2716,
+            "id": 2911,
             "short_name": "pixelPosition",
             "qualified_name": "Imf_2_5::LatLongMap::pixelPosition",
             "in_binding": false,
@@ -1414,7 +1414,7 @@
                 "kind": "RecordType",
                 "id": 15,
                 "type": "Imath_2_5::Vec2<float>",
-                "record": 3101,
+                "record": 3502,
                 "const": false
             },
             "params": [
@@ -1429,7 +1429,7 @@
                             "kind": "RecordType",
                             "id": 12,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
+                            "record": 2973,
                             "const": true
                         },
                         "const": false
@@ -1441,13 +1441,13 @@
                     "name": "latLong",
                     "type": {
                         "kind": "Reference",
-                        "id": 1276,
+                        "id": 1505,
                         "type": "const class Imath_2_5::Vec2<float> &",
                         "pointee": {
                             "kind": "RecordType",
                             "id": 15,
                             "type": "Imath_2_5::Vec2<float>",
-                            "record": 3101,
+                            "record": 3502,
                             "const": true
                         },
                         "const": false
@@ -1458,7 +1458,7 @@
         },
         {
             "kind": "Function",
-            "id": 2717,
+            "id": 2912,
             "short_name": "pixelPosition",
             "qualified_name": "Imf_2_5::LatLongMap::pixelPosition",
             "in_binding": false,
@@ -1470,7 +1470,7 @@
                 "kind": "RecordType",
                 "id": 15,
                 "type": "Imath_2_5::Vec2<float>",
-                "record": 3101,
+                "record": 3502,
                 "const": false
             },
             "params": [
@@ -1485,7 +1485,7 @@
                             "kind": "RecordType",
                             "id": 12,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
+                            "record": 2973,
                             "const": true
                         },
                         "const": false
@@ -1497,13 +1497,13 @@
                     "name": "latLong",
                     "type": {
                         "kind": "Reference",
-                        "id": 1276,
+                        "id": 1505,
                         "type": "const class Imath_2_5::Vec2<float> &",
                         "pointee": {
                             "kind": "RecordType",
                             "id": 15,
                             "type": "Imath_2_5::Vec2<float>",
-                            "record": 3101,
+                            "record": 3502,
                             "const": true
                         },
                         "const": false
@@ -1514,7 +1514,7 @@
         },
         {
             "kind": "Function",
-            "id": 2718,
+            "id": 2913,
             "short_name": "pixelPosition",
             "qualified_name": "Imf_2_5::LatLongMap::pixelPosition",
             "in_binding": false,
@@ -1524,7 +1524,7 @@
                 "kind": "RecordType",
                 "id": 15,
                 "type": "Imath_2_5::Vec2<float>",
-                "record": 3101,
+                "record": 3502,
                 "const": false
             },
             "params": [
@@ -1539,7 +1539,7 @@
                             "kind": "RecordType",
                             "id": 12,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
+                            "record": 2973,
                             "const": true
                         },
                         "const": false
@@ -1551,13 +1551,13 @@
                     "name": "direction",
                     "type": {
                         "kind": "Reference",
-                        "id": 1632,
+                        "id": 1861,
                         "type": "const class Imath_2_5::Vec3<float> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 649,
+                            "id": 744,
                             "type": "Imath_2_5::Vec3<float>",
-                            "record": 3105,
+                            "record": 3592,
                             "const": true
                         },
                         "const": false
@@ -1568,7 +1568,7 @@
         },
         {
             "kind": "Function",
-            "id": 2719,
+            "id": 2914,
             "short_name": "pixelPosition",
             "qualified_name": "Imf_2_5::LatLongMap::pixelPosition",
             "in_binding": false,
@@ -1578,7 +1578,7 @@
                 "kind": "RecordType",
                 "id": 15,
                 "type": "Imath_2_5::Vec2<float>",
-                "record": 3101,
+                "record": 3502,
                 "const": false
             },
             "params": [
@@ -1593,7 +1593,7 @@
                             "kind": "RecordType",
                             "id": 12,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
+                            "record": 2973,
                             "const": true
                         },
                         "const": false
@@ -1605,13 +1605,13 @@
                     "name": "direction",
                     "type": {
                         "kind": "Reference",
-                        "id": 1632,
+                        "id": 1861,
                         "type": "const class Imath_2_5::Vec3<float> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 649,
+                            "id": 744,
                             "type": "Imath_2_5::Vec3<float>",
-                            "record": 3105,
+                            "record": 3592,
                             "const": true
                         },
                         "const": false
@@ -1622,7 +1622,7 @@
         },
         {
             "kind": "Function",
-            "id": 2720,
+            "id": 2915,
             "short_name": "pixelPosition",
             "qualified_name": "Imf_2_5::LatLongMap::pixelPosition",
             "in_binding": false,
@@ -1632,7 +1632,7 @@
                 "kind": "RecordType",
                 "id": 15,
                 "type": "Imath_2_5::Vec2<float>",
-                "record": 3101,
+                "record": 3502,
                 "const": false
             },
             "params": [
@@ -1647,7 +1647,7 @@
                             "kind": "RecordType",
                             "id": 12,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
+                            "record": 2973,
                             "const": true
                         },
                         "const": false
@@ -1659,13 +1659,13 @@
                     "name": "direction",
                     "type": {
                         "kind": "Reference",
-                        "id": 1632,
+                        "id": 1861,
                         "type": "const class Imath_2_5::Vec3<float> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 649,
+                            "id": 744,
                             "type": "Imath_2_5::Vec3<float>",
-                            "record": 3105,
+                            "record": 3592,
                             "const": true
                         },
                         "const": false
@@ -1676,7 +1676,7 @@
         },
         {
             "kind": "Function",
-            "id": 2721,
+            "id": 2916,
             "short_name": "direction",
             "qualified_name": "Imf_2_5::LatLongMap::direction",
             "in_binding": false,
@@ -1684,9 +1684,9 @@
             "attributes": null,
             "return": {
                 "kind": "RecordType",
-                "id": 649,
+                "id": 744,
                 "type": "Imath_2_5::Vec3<float>",
-                "record": 3105,
+                "record": 3592,
                 "const": false
             },
             "params": [
@@ -1701,7 +1701,7 @@
                             "kind": "RecordType",
                             "id": 12,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
+                            "record": 2973,
                             "const": true
                         },
                         "const": false
@@ -1713,13 +1713,13 @@
                     "name": "pixelPosition",
                     "type": {
                         "kind": "Reference",
-                        "id": 1276,
+                        "id": 1505,
                         "type": "const class Imath_2_5::Vec2<float> &",
                         "pointee": {
                             "kind": "RecordType",
                             "id": 15,
                             "type": "Imath_2_5::Vec2<float>",
-                            "record": 3101,
+                            "record": 3502,
                             "const": true
                         },
                         "const": false
@@ -1730,7 +1730,7 @@
         },
         {
             "kind": "Function",
-            "id": 2722,
+            "id": 2917,
             "short_name": "direction",
             "qualified_name": "Imf_2_5::LatLongMap::direction",
             "in_binding": false,
@@ -1738,9 +1738,9 @@
             "attributes": null,
             "return": {
                 "kind": "RecordType",
-                "id": 649,
+                "id": 744,
                 "type": "Imath_2_5::Vec3<float>",
-                "record": 3105,
+                "record": 3592,
                 "const": false
             },
             "params": [
@@ -1755,7 +1755,7 @@
                             "kind": "RecordType",
                             "id": 12,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
+                            "record": 2973,
                             "const": true
                         },
                         "const": false
@@ -1767,13 +1767,13 @@
                     "name": "pixelPosition",
                     "type": {
                         "kind": "Reference",
-                        "id": 1276,
+                        "id": 1505,
                         "type": "const class Imath_2_5::Vec2<float> &",
                         "pointee": {
                             "kind": "RecordType",
                             "id": 15,
                             "type": "Imath_2_5::Vec2<float>",
-                            "record": 3101,
+                            "record": 3502,
                             "const": true
                         },
                         "const": false
@@ -1784,7 +1784,7 @@
         },
         {
             "kind": "Function",
-            "id": 2723,
+            "id": 2918,
             "short_name": "sizeOfFace",
             "qualified_name": "Imf_2_5::CubeMap::sizeOfFace",
             "in_binding": false,
@@ -1808,7 +1808,7 @@
                             "kind": "RecordType",
                             "id": 12,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
+                            "record": 2973,
                             "const": true
                         },
                         "const": false
@@ -1819,7 +1819,7 @@
         },
         {
             "kind": "Function",
-            "id": 2724,
+            "id": 2919,
             "short_name": "dataWindowForFace",
             "qualified_name": "Imf_2_5::CubeMap::dataWindowForFace",
             "in_binding": false,
@@ -1829,7 +1829,7 @@
                 "kind": "RecordType",
                 "id": 12,
                 "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                "record": 2761,
+                "record": 2973,
                 "const": false
             },
             "params": [
@@ -1838,9 +1838,9 @@
                     "name": "face",
                     "type": {
                         "kind": "EnumType",
-                        "id": 1633,
+                        "id": 1862,
                         "type": "Imf_2_5::CubeMapFace",
-                        "enum": 1648,
+                        "enum": 1877,
                         "const": false
                     },
                     "attrs": []
@@ -1856,7 +1856,7 @@
                             "kind": "RecordType",
                             "id": 12,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
+                            "record": 2973,
                             "const": true
                         },
                         "const": false
@@ -1867,7 +1867,7 @@
         },
         {
             "kind": "Function",
-            "id": 2725,
+            "id": 2920,
             "short_name": "pixelPosition",
             "qualified_name": "Imf_2_5::CubeMap::pixelPosition",
             "in_binding": false,
@@ -1877,7 +1877,7 @@
                 "kind": "RecordType",
                 "id": 15,
                 "type": "Imath_2_5::Vec2<float>",
-                "record": 3101,
+                "record": 3502,
                 "const": false
             },
             "params": [
@@ -1886,9 +1886,9 @@
                     "name": "face",
                     "type": {
                         "kind": "EnumType",
-                        "id": 1633,
+                        "id": 1862,
                         "type": "Imf_2_5::CubeMapFace",
-                        "enum": 1648,
+                        "enum": 1877,
                         "const": false
                     },
                     "attrs": []
@@ -1904,7 +1904,7 @@
                             "kind": "RecordType",
                             "id": 12,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
+                            "record": 2973,
                             "const": true
                         },
                         "const": false
@@ -1918,7 +1918,7 @@
                         "kind": "RecordType",
                         "id": 15,
                         "type": "Imath_2_5::Vec2<float>",
-                        "record": 3101,
+                        "record": 3502,
                         "const": false
                     },
                     "attrs": []
@@ -1927,7 +1927,7 @@
         },
         {
             "kind": "Function",
-            "id": 2726,
+            "id": 2921,
             "short_name": "pixelPosition",
             "qualified_name": "Imf_2_5::CubeMap::pixelPosition",
             "in_binding": false,
@@ -1937,7 +1937,7 @@
                 "kind": "RecordType",
                 "id": 15,
                 "type": "Imath_2_5::Vec2<float>",
-                "record": 3101,
+                "record": 3502,
                 "const": false
             },
             "params": [
@@ -1946,9 +1946,9 @@
                     "name": "face",
                     "type": {
                         "kind": "EnumType",
-                        "id": 1633,
+                        "id": 1862,
                         "type": "Imf_2_5::CubeMapFace",
-                        "enum": 1648,
+                        "enum": 1877,
                         "const": false
                     },
                     "attrs": []
@@ -1964,7 +1964,7 @@
                             "kind": "RecordType",
                             "id": 12,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
+                            "record": 2973,
                             "const": true
                         },
                         "const": false
@@ -1978,7 +1978,7 @@
                         "kind": "RecordType",
                         "id": 15,
                         "type": "Imath_2_5::Vec2<float>",
-                        "record": 3101,
+                        "record": 3502,
                         "const": false
                     },
                     "attrs": []
@@ -1987,7 +1987,7 @@
         },
         {
             "kind": "Function",
-            "id": 2727,
+            "id": 2922,
             "short_name": "pixelPosition",
             "qualified_name": "Imf_2_5::CubeMap::pixelPosition",
             "in_binding": false,
@@ -1997,7 +1997,7 @@
                 "kind": "RecordType",
                 "id": 15,
                 "type": "Imath_2_5::Vec2<float>",
-                "record": 3101,
+                "record": 3502,
                 "const": false
             },
             "params": [
@@ -2006,9 +2006,9 @@
                     "name": "face",
                     "type": {
                         "kind": "EnumType",
-                        "id": 1633,
+                        "id": 1862,
                         "type": "Imf_2_5::CubeMapFace",
-                        "enum": 1648,
+                        "enum": 1877,
                         "const": false
                     },
                     "attrs": []
@@ -2024,7 +2024,7 @@
                             "kind": "RecordType",
                             "id": 12,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
+                            "record": 2973,
                             "const": true
                         },
                         "const": false
@@ -2038,7 +2038,7 @@
                         "kind": "RecordType",
                         "id": 15,
                         "type": "Imath_2_5::Vec2<float>",
-                        "record": 3101,
+                        "record": 3502,
                         "const": false
                     },
                     "attrs": []
@@ -2047,7 +2047,7 @@
         },
         {
             "kind": "Function",
-            "id": 2728,
+            "id": 2923,
             "short_name": "faceAndPixelPosition",
             "qualified_name": "Imf_2_5::CubeMap::faceAndPixelPosition",
             "in_binding": false,
@@ -2065,13 +2065,13 @@
                     "name": "direction",
                     "type": {
                         "kind": "Reference",
-                        "id": 1632,
+                        "id": 1861,
                         "type": "const class Imath_2_5::Vec3<float> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 649,
+                            "id": 744,
                             "type": "Imath_2_5::Vec3<float>",
-                            "record": 3105,
+                            "record": 3592,
                             "const": true
                         },
                         "const": false
@@ -2089,7 +2089,7 @@
                             "kind": "RecordType",
                             "id": 12,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
+                            "record": 2973,
                             "const": true
                         },
                         "const": false
@@ -2101,13 +2101,13 @@
                     "name": "face",
                     "type": {
                         "kind": "Reference",
-                        "id": 1634,
+                        "id": 1863,
                         "type": "enum Imf_2_5::CubeMapFace &",
                         "pointee": {
                             "kind": "EnumType",
-                            "id": 1633,
+                            "id": 1862,
                             "type": "Imf_2_5::CubeMapFace",
-                            "enum": 1648,
+                            "enum": 1877,
                             "const": false
                         },
                         "const": false
@@ -2119,13 +2119,13 @@
                     "name": "positionInFace",
                     "type": {
                         "kind": "Reference",
-                        "id": 1283,
+                        "id": 1512,
                         "type": "class Imath_2_5::Vec2<float> &",
                         "pointee": {
                             "kind": "RecordType",
                             "id": 15,
                             "type": "Imath_2_5::Vec2<float>",
-                            "record": 3101,
+                            "record": 3502,
                             "const": false
                         },
                         "const": false
@@ -2136,7 +2136,7 @@
         },
         {
             "kind": "Function",
-            "id": 2729,
+            "id": 2924,
             "short_name": "direction",
             "qualified_name": "Imf_2_5::CubeMap::direction",
             "in_binding": false,
@@ -2144,9 +2144,9 @@
             "attributes": null,
             "return": {
                 "kind": "RecordType",
-                "id": 649,
+                "id": 744,
                 "type": "Imath_2_5::Vec3<float>",
-                "record": 3105,
+                "record": 3592,
                 "const": false
             },
             "params": [
@@ -2155,9 +2155,9 @@
                     "name": "face",
                     "type": {
                         "kind": "EnumType",
-                        "id": 1633,
+                        "id": 1862,
                         "type": "Imf_2_5::CubeMapFace",
-                        "enum": 1648,
+                        "enum": 1877,
                         "const": false
                     },
                     "attrs": []
@@ -2173,7 +2173,7 @@
                             "kind": "RecordType",
                             "id": 12,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
+                            "record": 2973,
                             "const": true
                         },
                         "const": false
@@ -2185,13 +2185,13 @@
                     "name": "positionInFace",
                     "type": {
                         "kind": "Reference",
-                        "id": 1276,
+                        "id": 1505,
                         "type": "const class Imath_2_5::Vec2<float> &",
                         "pointee": {
                             "kind": "RecordType",
                             "id": 15,
                             "type": "Imath_2_5::Vec2<float>",
-                            "record": 3101,
+                            "record": 3502,
                             "const": true
                         },
                         "const": false
@@ -2202,7 +2202,7 @@
         },
         {
             "kind": "Function",
-            "id": 2730,
+            "id": 2925,
             "short_name": "direction",
             "qualified_name": "Imf_2_5::CubeMap::direction",
             "in_binding": false,
@@ -2210,9 +2210,9 @@
             "attributes": null,
             "return": {
                 "kind": "RecordType",
-                "id": 649,
+                "id": 744,
                 "type": "Imath_2_5::Vec3<float>",
-                "record": 3105,
+                "record": 3592,
                 "const": false
             },
             "params": [
@@ -2221,9 +2221,9 @@
                     "name": "face",
                     "type": {
                         "kind": "EnumType",
-                        "id": 1633,
+                        "id": 1862,
                         "type": "Imf_2_5::CubeMapFace",
-                        "enum": 1648,
+                        "enum": 1877,
                         "const": false
                     },
                     "attrs": []
@@ -2239,7 +2239,7 @@
                             "kind": "RecordType",
                             "id": 12,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
+                            "record": 2973,
                             "const": true
                         },
                         "const": false
@@ -2251,13 +2251,13 @@
                     "name": "positionInFace",
                     "type": {
                         "kind": "Reference",
-                        "id": 1276,
+                        "id": 1505,
                         "type": "const class Imath_2_5::Vec2<float> &",
                         "pointee": {
                             "kind": "RecordType",
                             "id": 15,
                             "type": "Imath_2_5::Vec2<float>",
-                            "record": 3101,
+                            "record": 3502,
                             "const": true
                         },
                         "const": false
@@ -2268,7 +2268,7 @@
         },
         {
             "kind": "Function",
-            "id": 2965,
+            "id": 3280,
             "short_name": "latLong",
             "qualified_name": "Imf_2_5::LatLongMap::latLong",
             "in_binding": false,
@@ -2278,7 +2278,7 @@
                 "kind": "RecordType",
                 "id": 15,
                 "type": "Imath_2_5::Vec2<float>",
-                "record": 3101,
+                "record": 3502,
                 "const": false
             },
             "params": [
@@ -2287,13 +2287,13 @@
                     "name": "direction",
                     "type": {
                         "kind": "Reference",
-                        "id": 1632,
+                        "id": 1861,
                         "type": "const class Imath_2_5::Vec3<float> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 649,
+                            "id": 744,
                             "type": "Imath_2_5::Vec3<float>",
-                            "record": 3105,
+                            "record": 3592,
                             "const": true
                         },
                         "const": false
@@ -2304,7 +2304,7 @@
         },
         {
             "kind": "Function",
-            "id": 2966,
+            "id": 3281,
             "short_name": "latLong",
             "qualified_name": "Imf_2_5::LatLongMap::latLong",
             "in_binding": false,
@@ -2314,7 +2314,7 @@
                 "kind": "RecordType",
                 "id": 15,
                 "type": "Imath_2_5::Vec2<float>",
-                "record": 3101,
+                "record": 3502,
                 "const": false
             },
             "params": [
@@ -2323,13 +2323,13 @@
                     "name": "direction",
                     "type": {
                         "kind": "Reference",
-                        "id": 1632,
+                        "id": 1861,
                         "type": "const class Imath_2_5::Vec3<float> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 649,
+                            "id": 744,
                             "type": "Imath_2_5::Vec3<float>",
-                            "record": 3105,
+                            "record": 3592,
                             "const": true
                         },
                         "const": false
@@ -2340,63 +2340,7 @@
         },
         {
             "kind": "Function",
-            "id": 2967,
-            "short_name": "latLong",
-            "qualified_name": "Imf_2_5::LatLongMap::latLong",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": [
-                "cppmm|rename|latLong_pixel_position"
-            ],
-            "return": {
-                "kind": "RecordType",
-                "id": 15,
-                "type": "Imath_2_5::Vec2<float>",
-                "record": 3101,
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "dataWindow",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 13,
-                        "type": "const class Imath_2_5::Box<class Imath_2_5::Vec2<int> > &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 12,
-                            "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 1,
-                    "name": "pixelPosition",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 1276,
-                        "type": "const class Imath_2_5::Vec2<float> &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 15,
-                            "type": "Imath_2_5::Vec2<float>",
-                            "record": 3101,
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
-        },
-        {
-            "kind": "Function",
-            "id": 2968,
+            "id": 3282,
             "short_name": "latLong",
             "qualified_name": "Imf_2_5::LatLongMap::latLong",
             "in_binding": false,
@@ -2408,7 +2352,7 @@
                 "kind": "RecordType",
                 "id": 15,
                 "type": "Imath_2_5::Vec2<float>",
-                "record": 3101,
+                "record": 3502,
                 "const": false
             },
             "params": [
@@ -2423,7 +2367,7 @@
                             "kind": "RecordType",
                             "id": 12,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
+                            "record": 2973,
                             "const": true
                         },
                         "const": false
@@ -2435,13 +2379,13 @@
                     "name": "pixelPosition",
                     "type": {
                         "kind": "Reference",
-                        "id": 1276,
+                        "id": 1505,
                         "type": "const class Imath_2_5::Vec2<float> &",
                         "pointee": {
                             "kind": "RecordType",
                             "id": 15,
                             "type": "Imath_2_5::Vec2<float>",
-                            "record": 3101,
+                            "record": 3502,
                             "const": true
                         },
                         "const": false
@@ -2452,7 +2396,63 @@
         },
         {
             "kind": "Function",
-            "id": 2969,
+            "id": 3283,
+            "short_name": "latLong",
+            "qualified_name": "Imf_2_5::LatLongMap::latLong",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|rename|latLong_pixel_position"
+            ],
+            "return": {
+                "kind": "RecordType",
+                "id": 15,
+                "type": "Imath_2_5::Vec2<float>",
+                "record": 3502,
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "dataWindow",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 13,
+                        "type": "const class Imath_2_5::Box<class Imath_2_5::Vec2<int> > &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 12,
+                            "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
+                            "record": 2973,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "pixelPosition",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 1505,
+                        "type": "const class Imath_2_5::Vec2<float> &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 15,
+                            "type": "Imath_2_5::Vec2<float>",
+                            "record": 3502,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 3284,
             "short_name": "pixelPosition",
             "qualified_name": "Imf_2_5::LatLongMap::pixelPosition",
             "in_binding": false,
@@ -2464,7 +2464,7 @@
                 "kind": "RecordType",
                 "id": 15,
                 "type": "Imath_2_5::Vec2<float>",
-                "record": 3101,
+                "record": 3502,
                 "const": false
             },
             "params": [
@@ -2479,7 +2479,7 @@
                             "kind": "RecordType",
                             "id": 12,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
+                            "record": 2973,
                             "const": true
                         },
                         "const": false
@@ -2491,13 +2491,13 @@
                     "name": "latLong",
                     "type": {
                         "kind": "Reference",
-                        "id": 1276,
+                        "id": 1505,
                         "type": "const class Imath_2_5::Vec2<float> &",
                         "pointee": {
                             "kind": "RecordType",
                             "id": 15,
                             "type": "Imath_2_5::Vec2<float>",
-                            "record": 3101,
+                            "record": 3502,
                             "const": true
                         },
                         "const": false
@@ -2508,7 +2508,7 @@
         },
         {
             "kind": "Function",
-            "id": 2970,
+            "id": 3285,
             "short_name": "pixelPosition",
             "qualified_name": "Imf_2_5::LatLongMap::pixelPosition",
             "in_binding": false,
@@ -2520,7 +2520,7 @@
                 "kind": "RecordType",
                 "id": 15,
                 "type": "Imath_2_5::Vec2<float>",
-                "record": 3101,
+                "record": 3502,
                 "const": false
             },
             "params": [
@@ -2535,7 +2535,7 @@
                             "kind": "RecordType",
                             "id": 12,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
+                            "record": 2973,
                             "const": true
                         },
                         "const": false
@@ -2547,13 +2547,13 @@
                     "name": "latLong",
                     "type": {
                         "kind": "Reference",
-                        "id": 1276,
+                        "id": 1505,
                         "type": "const class Imath_2_5::Vec2<float> &",
                         "pointee": {
                             "kind": "RecordType",
                             "id": 15,
                             "type": "Imath_2_5::Vec2<float>",
-                            "record": 3101,
+                            "record": 3502,
                             "const": true
                         },
                         "const": false
@@ -2564,7 +2564,7 @@
         },
         {
             "kind": "Function",
-            "id": 2971,
+            "id": 3286,
             "short_name": "pixelPosition",
             "qualified_name": "Imf_2_5::LatLongMap::pixelPosition",
             "in_binding": false,
@@ -2576,7 +2576,7 @@
                 "kind": "RecordType",
                 "id": 15,
                 "type": "Imath_2_5::Vec2<float>",
-                "record": 3101,
+                "record": 3502,
                 "const": false
             },
             "params": [
@@ -2591,7 +2591,7 @@
                             "kind": "RecordType",
                             "id": 12,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
+                            "record": 2973,
                             "const": true
                         },
                         "const": false
@@ -2603,13 +2603,13 @@
                     "name": "latLong",
                     "type": {
                         "kind": "Reference",
-                        "id": 1276,
+                        "id": 1505,
                         "type": "const class Imath_2_5::Vec2<float> &",
                         "pointee": {
                             "kind": "RecordType",
                             "id": 15,
                             "type": "Imath_2_5::Vec2<float>",
-                            "record": 3101,
+                            "record": 3502,
                             "const": true
                         },
                         "const": false
@@ -2620,7 +2620,7 @@
         },
         {
             "kind": "Function",
-            "id": 2972,
+            "id": 3287,
             "short_name": "pixelPosition",
             "qualified_name": "Imf_2_5::LatLongMap::pixelPosition",
             "in_binding": false,
@@ -2630,7 +2630,7 @@
                 "kind": "RecordType",
                 "id": 15,
                 "type": "Imath_2_5::Vec2<float>",
-                "record": 3101,
+                "record": 3502,
                 "const": false
             },
             "params": [
@@ -2645,7 +2645,7 @@
                             "kind": "RecordType",
                             "id": 12,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
+                            "record": 2973,
                             "const": true
                         },
                         "const": false
@@ -2657,13 +2657,13 @@
                     "name": "direction",
                     "type": {
                         "kind": "Reference",
-                        "id": 1632,
+                        "id": 1861,
                         "type": "const class Imath_2_5::Vec3<float> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 649,
+                            "id": 744,
                             "type": "Imath_2_5::Vec3<float>",
-                            "record": 3105,
+                            "record": 3592,
                             "const": true
                         },
                         "const": false
@@ -2674,7 +2674,7 @@
         },
         {
             "kind": "Function",
-            "id": 2973,
+            "id": 3288,
             "short_name": "pixelPosition",
             "qualified_name": "Imf_2_5::LatLongMap::pixelPosition",
             "in_binding": false,
@@ -2684,7 +2684,7 @@
                 "kind": "RecordType",
                 "id": 15,
                 "type": "Imath_2_5::Vec2<float>",
-                "record": 3101,
+                "record": 3502,
                 "const": false
             },
             "params": [
@@ -2699,7 +2699,7 @@
                             "kind": "RecordType",
                             "id": 12,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
+                            "record": 2973,
                             "const": true
                         },
                         "const": false
@@ -2711,13 +2711,13 @@
                     "name": "direction",
                     "type": {
                         "kind": "Reference",
-                        "id": 1632,
+                        "id": 1861,
                         "type": "const class Imath_2_5::Vec3<float> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 649,
+                            "id": 744,
                             "type": "Imath_2_5::Vec3<float>",
-                            "record": 3105,
+                            "record": 3592,
                             "const": true
                         },
                         "const": false
@@ -2728,7 +2728,7 @@
         },
         {
             "kind": "Function",
-            "id": 2974,
+            "id": 3289,
             "short_name": "pixelPosition",
             "qualified_name": "Imf_2_5::LatLongMap::pixelPosition",
             "in_binding": false,
@@ -2738,7 +2738,7 @@
                 "kind": "RecordType",
                 "id": 15,
                 "type": "Imath_2_5::Vec2<float>",
-                "record": 3101,
+                "record": 3502,
                 "const": false
             },
             "params": [
@@ -2753,7 +2753,7 @@
                             "kind": "RecordType",
                             "id": 12,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
+                            "record": 2973,
                             "const": true
                         },
                         "const": false
@@ -2765,13 +2765,13 @@
                     "name": "direction",
                     "type": {
                         "kind": "Reference",
-                        "id": 1632,
+                        "id": 1861,
                         "type": "const class Imath_2_5::Vec3<float> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 649,
+                            "id": 744,
                             "type": "Imath_2_5::Vec3<float>",
-                            "record": 3105,
+                            "record": 3592,
                             "const": true
                         },
                         "const": false
@@ -2782,7 +2782,7 @@
         },
         {
             "kind": "Function",
-            "id": 2975,
+            "id": 3290,
             "short_name": "direction",
             "qualified_name": "Imf_2_5::LatLongMap::direction",
             "in_binding": false,
@@ -2790,9 +2790,9 @@
             "attributes": null,
             "return": {
                 "kind": "RecordType",
-                "id": 649,
+                "id": 744,
                 "type": "Imath_2_5::Vec3<float>",
-                "record": 3105,
+                "record": 3592,
                 "const": false
             },
             "params": [
@@ -2807,7 +2807,7 @@
                             "kind": "RecordType",
                             "id": 12,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
+                            "record": 2973,
                             "const": true
                         },
                         "const": false
@@ -2819,13 +2819,13 @@
                     "name": "pixelPosition",
                     "type": {
                         "kind": "Reference",
-                        "id": 1276,
+                        "id": 1505,
                         "type": "const class Imath_2_5::Vec2<float> &",
                         "pointee": {
                             "kind": "RecordType",
                             "id": 15,
                             "type": "Imath_2_5::Vec2<float>",
-                            "record": 3101,
+                            "record": 3502,
                             "const": true
                         },
                         "const": false
@@ -2836,7 +2836,7 @@
         },
         {
             "kind": "Function",
-            "id": 2976,
+            "id": 3291,
             "short_name": "direction",
             "qualified_name": "Imf_2_5::LatLongMap::direction",
             "in_binding": false,
@@ -2844,9 +2844,9 @@
             "attributes": null,
             "return": {
                 "kind": "RecordType",
-                "id": 649,
+                "id": 744,
                 "type": "Imath_2_5::Vec3<float>",
-                "record": 3105,
+                "record": 3592,
                 "const": false
             },
             "params": [
@@ -2861,7 +2861,7 @@
                             "kind": "RecordType",
                             "id": 12,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
+                            "record": 2973,
                             "const": true
                         },
                         "const": false
@@ -2873,13 +2873,13 @@
                     "name": "pixelPosition",
                     "type": {
                         "kind": "Reference",
-                        "id": 1276,
+                        "id": 1505,
                         "type": "const class Imath_2_5::Vec2<float> &",
                         "pointee": {
                             "kind": "RecordType",
                             "id": 15,
                             "type": "Imath_2_5::Vec2<float>",
-                            "record": 3101,
+                            "record": 3502,
                             "const": true
                         },
                         "const": false
@@ -2890,7 +2890,7 @@
         },
         {
             "kind": "Function",
-            "id": 2977,
+            "id": 3292,
             "short_name": "sizeOfFace",
             "qualified_name": "Imf_2_5::CubeMap::sizeOfFace",
             "in_binding": false,
@@ -2914,7 +2914,7 @@
                             "kind": "RecordType",
                             "id": 12,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
+                            "record": 2973,
                             "const": true
                         },
                         "const": false
@@ -2925,7 +2925,7 @@
         },
         {
             "kind": "Function",
-            "id": 2978,
+            "id": 3293,
             "short_name": "dataWindowForFace",
             "qualified_name": "Imf_2_5::CubeMap::dataWindowForFace",
             "in_binding": false,
@@ -2935,7 +2935,7 @@
                 "kind": "RecordType",
                 "id": 12,
                 "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                "record": 2761,
+                "record": 2973,
                 "const": false
             },
             "params": [
@@ -2944,9 +2944,9 @@
                     "name": "face",
                     "type": {
                         "kind": "EnumType",
-                        "id": 1633,
+                        "id": 1862,
                         "type": "Imf_2_5::CubeMapFace",
-                        "enum": 1648,
+                        "enum": 1877,
                         "const": false
                     },
                     "attrs": []
@@ -2962,7 +2962,7 @@
                             "kind": "RecordType",
                             "id": 12,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
+                            "record": 2973,
                             "const": true
                         },
                         "const": false
@@ -2973,7 +2973,7 @@
         },
         {
             "kind": "Function",
-            "id": 2979,
+            "id": 3294,
             "short_name": "pixelPosition",
             "qualified_name": "Imf_2_5::CubeMap::pixelPosition",
             "in_binding": false,
@@ -2983,7 +2983,7 @@
                 "kind": "RecordType",
                 "id": 15,
                 "type": "Imath_2_5::Vec2<float>",
-                "record": 3101,
+                "record": 3502,
                 "const": false
             },
             "params": [
@@ -2992,9 +2992,9 @@
                     "name": "face",
                     "type": {
                         "kind": "EnumType",
-                        "id": 1633,
+                        "id": 1862,
                         "type": "Imf_2_5::CubeMapFace",
-                        "enum": 1648,
+                        "enum": 1877,
                         "const": false
                     },
                     "attrs": []
@@ -3010,7 +3010,7 @@
                             "kind": "RecordType",
                             "id": 12,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
+                            "record": 2973,
                             "const": true
                         },
                         "const": false
@@ -3024,7 +3024,7 @@
                         "kind": "RecordType",
                         "id": 15,
                         "type": "Imath_2_5::Vec2<float>",
-                        "record": 3101,
+                        "record": 3502,
                         "const": false
                     },
                     "attrs": []
@@ -3033,7 +3033,7 @@
         },
         {
             "kind": "Function",
-            "id": 2980,
+            "id": 3295,
             "short_name": "pixelPosition",
             "qualified_name": "Imf_2_5::CubeMap::pixelPosition",
             "in_binding": false,
@@ -3043,7 +3043,7 @@
                 "kind": "RecordType",
                 "id": 15,
                 "type": "Imath_2_5::Vec2<float>",
-                "record": 3101,
+                "record": 3502,
                 "const": false
             },
             "params": [
@@ -3052,9 +3052,9 @@
                     "name": "face",
                     "type": {
                         "kind": "EnumType",
-                        "id": 1633,
+                        "id": 1862,
                         "type": "Imf_2_5::CubeMapFace",
-                        "enum": 1648,
+                        "enum": 1877,
                         "const": false
                     },
                     "attrs": []
@@ -3070,7 +3070,7 @@
                             "kind": "RecordType",
                             "id": 12,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
+                            "record": 2973,
                             "const": true
                         },
                         "const": false
@@ -3084,7 +3084,7 @@
                         "kind": "RecordType",
                         "id": 15,
                         "type": "Imath_2_5::Vec2<float>",
-                        "record": 3101,
+                        "record": 3502,
                         "const": false
                     },
                     "attrs": []
@@ -3093,7 +3093,7 @@
         },
         {
             "kind": "Function",
-            "id": 2981,
+            "id": 3296,
             "short_name": "pixelPosition",
             "qualified_name": "Imf_2_5::CubeMap::pixelPosition",
             "in_binding": false,
@@ -3103,7 +3103,7 @@
                 "kind": "RecordType",
                 "id": 15,
                 "type": "Imath_2_5::Vec2<float>",
-                "record": 3101,
+                "record": 3502,
                 "const": false
             },
             "params": [
@@ -3112,9 +3112,9 @@
                     "name": "face",
                     "type": {
                         "kind": "EnumType",
-                        "id": 1633,
+                        "id": 1862,
                         "type": "Imf_2_5::CubeMapFace",
-                        "enum": 1648,
+                        "enum": 1877,
                         "const": false
                     },
                     "attrs": []
@@ -3130,7 +3130,7 @@
                             "kind": "RecordType",
                             "id": 12,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
+                            "record": 2973,
                             "const": true
                         },
                         "const": false
@@ -3144,7 +3144,7 @@
                         "kind": "RecordType",
                         "id": 15,
                         "type": "Imath_2_5::Vec2<float>",
-                        "record": 3101,
+                        "record": 3502,
                         "const": false
                     },
                     "attrs": []
@@ -3153,7 +3153,7 @@
         },
         {
             "kind": "Function",
-            "id": 2982,
+            "id": 3297,
             "short_name": "faceAndPixelPosition",
             "qualified_name": "Imf_2_5::CubeMap::faceAndPixelPosition",
             "in_binding": false,
@@ -3171,13 +3171,13 @@
                     "name": "direction",
                     "type": {
                         "kind": "Reference",
-                        "id": 1632,
+                        "id": 1861,
                         "type": "const class Imath_2_5::Vec3<float> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 649,
+                            "id": 744,
                             "type": "Imath_2_5::Vec3<float>",
-                            "record": 3105,
+                            "record": 3592,
                             "const": true
                         },
                         "const": false
@@ -3195,7 +3195,7 @@
                             "kind": "RecordType",
                             "id": 12,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
+                            "record": 2973,
                             "const": true
                         },
                         "const": false
@@ -3207,13 +3207,13 @@
                     "name": "face",
                     "type": {
                         "kind": "Reference",
-                        "id": 1634,
+                        "id": 1863,
                         "type": "enum Imf_2_5::CubeMapFace &",
                         "pointee": {
                             "kind": "EnumType",
-                            "id": 1633,
+                            "id": 1862,
                             "type": "Imf_2_5::CubeMapFace",
-                            "enum": 1648,
+                            "enum": 1877,
                             "const": false
                         },
                         "const": false
@@ -3225,13 +3225,13 @@
                     "name": "positionInFace",
                     "type": {
                         "kind": "Reference",
-                        "id": 1283,
+                        "id": 1512,
                         "type": "class Imath_2_5::Vec2<float> &",
                         "pointee": {
                             "kind": "RecordType",
                             "id": 15,
                             "type": "Imath_2_5::Vec2<float>",
-                            "record": 3101,
+                            "record": 3502,
                             "const": false
                         },
                         "const": false
@@ -3242,7 +3242,7 @@
         },
         {
             "kind": "Function",
-            "id": 2983,
+            "id": 3298,
             "short_name": "direction",
             "qualified_name": "Imf_2_5::CubeMap::direction",
             "in_binding": false,
@@ -3250,9 +3250,9 @@
             "attributes": null,
             "return": {
                 "kind": "RecordType",
-                "id": 649,
+                "id": 744,
                 "type": "Imath_2_5::Vec3<float>",
-                "record": 3105,
+                "record": 3592,
                 "const": false
             },
             "params": [
@@ -3261,9 +3261,9 @@
                     "name": "face",
                     "type": {
                         "kind": "EnumType",
-                        "id": 1633,
+                        "id": 1862,
                         "type": "Imf_2_5::CubeMapFace",
-                        "enum": 1648,
+                        "enum": 1877,
                         "const": false
                     },
                     "attrs": []
@@ -3279,7 +3279,7 @@
                             "kind": "RecordType",
                             "id": 12,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
+                            "record": 2973,
                             "const": true
                         },
                         "const": false
@@ -3291,13 +3291,13 @@
                     "name": "positionInFace",
                     "type": {
                         "kind": "Reference",
-                        "id": 1276,
+                        "id": 1505,
                         "type": "const class Imath_2_5::Vec2<float> &",
                         "pointee": {
                             "kind": "RecordType",
                             "id": 15,
                             "type": "Imath_2_5::Vec2<float>",
-                            "record": 3101,
+                            "record": 3502,
                             "const": true
                         },
                         "const": false
@@ -3308,7 +3308,7 @@
         },
         {
             "kind": "Function",
-            "id": 2984,
+            "id": 3299,
             "short_name": "direction",
             "qualified_name": "Imf_2_5::CubeMap::direction",
             "in_binding": false,
@@ -3316,9 +3316,9 @@
             "attributes": null,
             "return": {
                 "kind": "RecordType",
-                "id": 649,
+                "id": 744,
                 "type": "Imath_2_5::Vec3<float>",
-                "record": 3105,
+                "record": 3592,
                 "const": false
             },
             "params": [
@@ -3327,9 +3327,9 @@
                     "name": "face",
                     "type": {
                         "kind": "EnumType",
-                        "id": 1633,
+                        "id": 1862,
                         "type": "Imf_2_5::CubeMapFace",
-                        "enum": 1648,
+                        "enum": 1877,
                         "const": false
                     },
                     "attrs": []
@@ -3345,7 +3345,7 @@
                             "kind": "RecordType",
                             "id": 12,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
+                            "record": 2973,
                             "const": true
                         },
                         "const": false
@@ -3357,13 +3357,13 @@
                     "name": "positionInFace",
                     "type": {
                         "kind": "Reference",
-                        "id": 1276,
+                        "id": 1505,
                         "type": "const class Imath_2_5::Vec2<float> &",
                         "pointee": {
                             "kind": "RecordType",
                             "id": 15,
                             "type": "Imath_2_5::Vec2<float>",
-                            "record": 3101,
+                            "record": 3502,
                             "const": true
                         },
                         "const": false

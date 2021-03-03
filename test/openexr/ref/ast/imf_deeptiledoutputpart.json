@@ -9,7 +9,7 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 3119,
+    "id": 3606,
     "decls": [
         {
             "kind": "Namespace",
@@ -24,7 +24,8 @@
             "namespaces": [
                 26
             ],
-            "id": 3120,
+            "id": 3607,
+            "abstract": false,
             "size": 64,
             "align": 64,
             "alias": "DeepTiledOutputPart",
@@ -37,13 +38,13 @@
                     "name": "file",
                     "type": {
                         "kind": "Pointer",
-                        "id": 3151,
+                        "id": 3638,
                         "type": "class Imf_2_5::DeepTiledOutputFile *",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 3150,
+                            "id": 3637,
                             "type": "Imf_2_5::DeepTiledOutputFile",
-                            "record": 1678,
+                            "record": 1907,
                             "const": false
                         },
                         "const": false
@@ -83,13 +84,13 @@
                             "name": "multiPartFile",
                             "type": {
                                 "kind": "Reference",
-                                "id": 1082,
+                                "id": 1311,
                                 "type": "class Imf_2_5::MultiPartOutputFile &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 1081,
+                                    "id": 1310,
                                     "type": "Imf_2_5::MultiPartOutputFile",
-                                    "record": 2733,
+                                    "record": 2928,
                                     "const": false
                                 },
                                 "const": false
@@ -171,7 +172,7 @@
                             "kind": "RecordType",
                             "id": 6,
                             "type": "Imf_2_5::Header",
-                            "record": 1297,
+                            "record": 1526,
                             "const": true
                         },
                         "const": false
@@ -338,9 +339,9 @@
                     "attributes": null,
                     "return": {
                         "kind": "EnumType",
-                        "id": 664,
+                        "id": 861,
                         "type": "Imf_2_5::LevelMode",
-                        "enum": 1583,
+                        "enum": 1812,
                         "const": false
                     },
                     "params": null
@@ -367,9 +368,9 @@
                     "attributes": null,
                     "return": {
                         "kind": "EnumType",
-                        "id": 665,
+                        "id": 862,
                         "type": "Imf_2_5::LevelRoundingMode",
-                        "enum": 1584,
+                        "enum": 1813,
                         "const": false
                     },
                     "params": null
@@ -695,7 +696,7 @@
                         "kind": "RecordType",
                         "id": 12,
                         "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                        "record": 2761,
+                        "record": 2973,
                         "const": false
                     },
                     "params": [
@@ -736,7 +737,7 @@
                         "kind": "RecordType",
                         "id": 12,
                         "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                        "record": 2761,
+                        "record": 2973,
                         "const": false
                     },
                     "params": [
@@ -790,7 +791,7 @@
                         "kind": "RecordType",
                         "id": 12,
                         "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                        "record": 2761,
+                        "record": 2973,
                         "const": false
                     },
                     "params": [
@@ -853,7 +854,7 @@
                         "kind": "RecordType",
                         "id": 12,
                         "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                        "record": 2761,
+                        "record": 2973,
                         "const": false
                     },
                     "params": [
@@ -1253,13 +1254,13 @@
                             "name": "in",
                             "type": {
                                 "kind": "Reference",
-                                "id": 1671,
+                                "id": 1900,
                                 "type": "class Imf_2_5::DeepTiledInputFile &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 959,
+                                    "id": 1188,
                                     "type": "Imf_2_5::DeepTiledInputFile",
-                                    "record": 1532,
+                                    "record": 1761,
                                     "const": false
                                 },
                                 "const": false
@@ -1302,13 +1303,13 @@
                             "name": "in",
                             "type": {
                                 "kind": "Reference",
-                                "id": 1673,
+                                "id": 1902,
                                 "type": "class Imf_2_5::DeepTiledInputPart &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 1672,
+                                    "id": 1901,
                                     "type": "Imf_2_5::DeepTiledInputPart",
-                                    "record": 926,
+                                    "record": 1155,
                                     "const": false
                                 },
                                 "const": false
@@ -1355,7 +1356,7 @@
                                     "kind": "RecordType",
                                     "id": 21,
                                     "type": "Imf_2_5::PreviewRgba",
-                                    "record": 1132,
+                                    "record": 1361,
                                     "const": true
                                 },
                                 "const": false

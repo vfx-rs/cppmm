@@ -9,7 +9,7 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 989,
+    "id": 1218,
     "decls": [
         {
             "kind": "Namespace",
@@ -24,7 +24,8 @@
             "namespaces": [
                 26
             ],
-            "id": 990,
+            "id": 1219,
+            "abstract": true,
             "size": 320,
             "align": 64,
             "alias": "OStream",
@@ -241,7 +242,8 @@
             "namespaces": [
                 26
             ],
-            "id": 999,
+            "id": 1228,
+            "abstract": true,
             "size": 320,
             "align": 64,
             "alias": "IStream",

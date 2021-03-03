@@ -9,7 +9,7 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 1151,
+    "id": 1380,
     "decls": [
         {
             "kind": "Namespace",
@@ -24,7 +24,8 @@
             "namespaces": [
                 26
             ],
-            "id": 1152,
+            "id": 1381,
+            "abstract": false,
             "size": 128,
             "align": 64,
             "alias": "ArrayFloat",
@@ -351,7 +352,8 @@
             "namespaces": [
                 26
             ],
-            "id": 1161,
+            "id": 1390,
+            "abstract": false,
             "size": 192,
             "align": 64,
             "alias": "Array2DFloat",

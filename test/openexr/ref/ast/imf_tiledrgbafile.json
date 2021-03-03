@@ -9,7 +9,7 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 1174,
+    "id": 1403,
     "decls": [
         {
             "kind": "Namespace",
@@ -24,7 +24,8 @@
             "namespaces": [
                 26
             ],
-            "id": 1175,
+            "id": 1404,
+            "abstract": false,
             "size": 192,
             "align": 64,
             "alias": "TiledRgbaOutputFile",
@@ -37,13 +38,13 @@
                     "name": "_outputFile",
                     "type": {
                         "kind": "Pointer",
-                        "id": 1119,
+                        "id": 1348,
                         "type": "class Imf_2_5::TiledOutputFile *",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 1118,
+                            "id": 1347,
                             "type": "Imf_2_5::TiledOutputFile",
-                            "record": 1730,
+                            "record": 1959,
                             "const": false
                         },
                         "const": false
@@ -54,11 +55,11 @@
                     "name": "_toYa",
                     "type": {
                         "kind": "Pointer",
-                        "id": 1214,
+                        "id": 1443,
                         "type": "class Imf_2_5::TiledRgbaOutputFile::ToYa *",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 1213,
+                            "id": 1442,
                             "type": "Imf_2_5::TiledRgbaOutputFile::ToYa",
                             "record": -1,
                             "const": false
@@ -125,7 +126,7 @@
                                     "kind": "RecordType",
                                     "id": 6,
                                     "type": "Imf_2_5::Header",
-                                    "record": 1297,
+                                    "record": 1526,
                                     "const": true
                                 },
                                 "const": false
@@ -139,7 +140,7 @@
                                 "kind": "EnumType",
                                 "id": 8,
                                 "type": "Imf_2_5::RgbaChannels",
-                                "enum": 1261,
+                                "enum": 1490,
                                 "const": false
                             },
                             "attrs": []
@@ -171,9 +172,9 @@
                             "name": "mode",
                             "type": {
                                 "kind": "EnumType",
-                                "id": 664,
+                                "id": 861,
                                 "type": "Imf_2_5::LevelMode",
-                                "enum": 1583,
+                                "enum": 1812,
                                 "const": false
                             },
                             "attrs": []
@@ -183,9 +184,9 @@
                             "name": "rmode",
                             "type": {
                                 "kind": "EnumType",
-                                "id": 665,
+                                "id": 862,
                                 "type": "Imf_2_5::LevelRoundingMode",
-                                "enum": 1584,
+                                "enum": 1813,
                                 "const": false
                             },
                             "attrs": []
@@ -243,7 +244,7 @@
                                     "kind": "RecordType",
                                     "id": 10,
                                     "type": "Imf_2_5::OStream",
-                                    "record": 990,
+                                    "record": 1219,
                                     "const": false
                                 },
                                 "const": false
@@ -261,7 +262,7 @@
                                     "kind": "RecordType",
                                     "id": 6,
                                     "type": "Imf_2_5::Header",
-                                    "record": 1297,
+                                    "record": 1526,
                                     "const": true
                                 },
                                 "const": false
@@ -275,7 +276,7 @@
                                 "kind": "EnumType",
                                 "id": 8,
                                 "type": "Imf_2_5::RgbaChannels",
-                                "enum": 1261,
+                                "enum": 1490,
                                 "const": false
                             },
                             "attrs": []
@@ -307,9 +308,9 @@
                             "name": "mode",
                             "type": {
                                 "kind": "EnumType",
-                                "id": 664,
+                                "id": 861,
                                 "type": "Imf_2_5::LevelMode",
-                                "enum": 1583,
+                                "enum": 1812,
                                 "const": false
                             },
                             "attrs": []
@@ -319,9 +320,9 @@
                             "name": "rmode",
                             "type": {
                                 "kind": "EnumType",
-                                "id": 665,
+                                "id": 862,
                                 "type": "Imf_2_5::LevelRoundingMode",
-                                "enum": 1584,
+                                "enum": 1813,
                                 "const": false
                             },
                             "attrs": []
@@ -410,9 +411,9 @@
                             "name": "mode",
                             "type": {
                                 "kind": "EnumType",
-                                "id": 664,
+                                "id": 861,
                                 "type": "Imf_2_5::LevelMode",
-                                "enum": 1583,
+                                "enum": 1812,
                                 "const": false
                             },
                             "attrs": []
@@ -422,9 +423,9 @@
                             "name": "rmode",
                             "type": {
                                 "kind": "EnumType",
-                                "id": 665,
+                                "id": 862,
                                 "type": "Imf_2_5::LevelRoundingMode",
-                                "enum": 1584,
+                                "enum": 1813,
                                 "const": false
                             },
                             "attrs": []
@@ -440,7 +441,7 @@
                                     "kind": "RecordType",
                                     "id": 12,
                                     "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                                    "record": 2761,
+                                    "record": 2973,
                                     "const": true
                                 },
                                 "const": false
@@ -458,7 +459,7 @@
                                     "kind": "RecordType",
                                     "id": 12,
                                     "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                                    "record": 2761,
+                                    "record": 2973,
                                     "const": true
                                 },
                                 "const": false
@@ -472,7 +473,7 @@
                                 "kind": "EnumType",
                                 "id": 8,
                                 "type": "Imf_2_5::RgbaChannels",
-                                "enum": 1261,
+                                "enum": 1490,
                                 "const": false
                             },
                             "attrs": []
@@ -495,7 +496,7 @@
                                 "kind": "RecordType",
                                 "id": 15,
                                 "type": "Imath_2_5::Vec2<float>",
-                                "record": 3101,
+                                "record": 3502,
                                 "const": true
                             },
                             "attrs": []
@@ -518,7 +519,7 @@
                                 "kind": "EnumType",
                                 "id": 16,
                                 "type": "Imf_2_5::LineOrder",
-                                "enum": 732,
+                                "enum": 929,
                                 "const": false
                             },
                             "attrs": []
@@ -614,7 +615,7 @@
                                     "kind": "RecordType",
                                     "id": 18,
                                     "type": "Imf_2_5::Rgba",
-                                    "record": 2797,
+                                    "record": 3112,
                                     "const": true
                                 },
                                 "const": false
@@ -673,7 +674,7 @@
                             "kind": "RecordType",
                             "id": 6,
                             "type": "Imf_2_5::Header",
-                            "record": 1297,
+                            "record": 1526,
                             "const": true
                         },
                         "const": false
@@ -708,7 +709,7 @@
                             "kind": "RecordType",
                             "id": 107,
                             "type": "Imf_2_5::FrameBuffer",
-                            "record": 3173,
+                            "record": 3660,
                             "const": true
                         },
                         "const": false
@@ -743,7 +744,7 @@
                             "kind": "RecordType",
                             "id": 12,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
+                            "record": 2973,
                             "const": true
                         },
                         "const": false
@@ -778,7 +779,7 @@
                             "kind": "RecordType",
                             "id": 12,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
+                            "record": 2973,
                             "const": true
                         },
                         "const": false
@@ -837,7 +838,7 @@
                         "kind": "RecordType",
                         "id": 15,
                         "type": "Imath_2_5::Vec2<float>",
-                        "record": 3101,
+                        "record": 3502,
                         "const": true
                     },
                     "params": null
@@ -894,7 +895,7 @@
                         "kind": "EnumType",
                         "id": 16,
                         "type": "Imf_2_5::LineOrder",
-                        "enum": 732,
+                        "enum": 929,
                         "const": false
                     },
                     "params": null
@@ -952,7 +953,7 @@
                         "kind": "EnumType",
                         "id": 8,
                         "type": "Imf_2_5::RgbaChannels",
-                        "enum": 1261,
+                        "enum": 1490,
                         "const": false
                     },
                     "params": null
@@ -1035,9 +1036,9 @@
                     "attributes": null,
                     "return": {
                         "kind": "EnumType",
-                        "id": 664,
+                        "id": 861,
                         "type": "Imf_2_5::LevelMode",
-                        "enum": 1583,
+                        "enum": 1812,
                         "const": false
                     },
                     "params": null
@@ -1064,9 +1065,9 @@
                     "attributes": null,
                     "return": {
                         "kind": "EnumType",
-                        "id": 665,
+                        "id": 862,
                         "type": "Imf_2_5::LevelRoundingMode",
-                        "enum": 1584,
+                        "enum": 1813,
                         "const": false
                     },
                     "params": null
@@ -1392,7 +1393,7 @@
                         "kind": "RecordType",
                         "id": 12,
                         "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                        "record": 2761,
+                        "record": 2973,
                         "const": false
                     },
                     "params": [
@@ -1433,7 +1434,7 @@
                         "kind": "RecordType",
                         "id": 12,
                         "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                        "record": 2761,
+                        "record": 2973,
                         "const": false
                     },
                     "params": [
@@ -1487,7 +1488,7 @@
                         "kind": "RecordType",
                         "id": 12,
                         "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                        "record": 2761,
+                        "record": 2973,
                         "const": false
                     },
                     "params": [
@@ -1550,7 +1551,7 @@
                         "kind": "RecordType",
                         "id": 12,
                         "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                        "record": 2761,
+                        "record": 2973,
                         "const": false
                     },
                     "params": [
@@ -1956,7 +1957,7 @@
                                     "kind": "RecordType",
                                     "id": 21,
                                     "type": "Imf_2_5::PreviewRgba",
-                                    "record": 1132,
+                                    "record": 1361,
                                     "const": true
                                 },
                                 "const": false
@@ -2080,7 +2081,8 @@
             "namespaces": [
                 26
             ],
-            "id": 1218,
+            "id": 1447,
+            "abstract": false,
             "size": 448,
             "align": 64,
             "alias": "TiledRgbaInputFile",
@@ -2093,13 +2095,13 @@
                     "name": "_inputFile",
                     "type": {
                         "kind": "Pointer",
-                        "id": 886,
+                        "id": 1115,
                         "type": "class Imf_2_5::TiledInputFile *",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 672,
+                            "id": 869,
                             "type": "Imf_2_5::TiledInputFile",
-                            "record": 671,
+                            "record": 868,
                             "const": false
                         },
                         "const": false
@@ -2110,11 +2112,11 @@
                     "name": "_fromYa",
                     "type": {
                         "kind": "Pointer",
-                        "id": 1260,
+                        "id": 1489,
                         "type": "class Imf_2_5::TiledRgbaInputFile::FromYa *",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 1259,
+                            "id": 1488,
                             "type": "Imf_2_5::TiledRgbaInputFile::FromYa",
                             "record": -1,
                             "const": false
@@ -2232,7 +2234,7 @@
                                     "kind": "RecordType",
                                     "id": 48,
                                     "type": "Imf_2_5::IStream",
-                                    "record": 999,
+                                    "record": 1228,
                                     "const": false
                                 },
                                 "const": false
@@ -2369,7 +2371,7 @@
                                     "kind": "RecordType",
                                     "id": 48,
                                     "type": "Imf_2_5::IStream",
-                                    "record": 999,
+                                    "record": 1228,
                                     "const": false
                                 },
                                 "const": false
@@ -2473,7 +2475,7 @@
                                     "kind": "RecordType",
                                     "id": 18,
                                     "type": "Imf_2_5::Rgba",
-                                    "record": 2797,
+                                    "record": 3112,
                                     "const": false
                                 },
                                 "const": false
@@ -2579,7 +2581,7 @@
                             "kind": "RecordType",
                             "id": 6,
                             "type": "Imf_2_5::Header",
-                            "record": 1297,
+                            "record": 1526,
                             "const": true
                         },
                         "const": false
@@ -2614,7 +2616,7 @@
                             "kind": "RecordType",
                             "id": 107,
                             "type": "Imf_2_5::FrameBuffer",
-                            "record": 3173,
+                            "record": 3660,
                             "const": true
                         },
                         "const": false
@@ -2649,7 +2651,7 @@
                             "kind": "RecordType",
                             "id": 12,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
+                            "record": 2973,
                             "const": true
                         },
                         "const": false
@@ -2684,7 +2686,7 @@
                             "kind": "RecordType",
                             "id": 12,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2761,
+                            "record": 2973,
                             "const": true
                         },
                         "const": false
@@ -2743,7 +2745,7 @@
                         "kind": "RecordType",
                         "id": 15,
                         "type": "Imath_2_5::Vec2<float>",
-                        "record": 3101,
+                        "record": 3502,
                         "const": true
                     },
                     "params": null
@@ -2800,7 +2802,7 @@
                         "kind": "EnumType",
                         "id": 16,
                         "type": "Imf_2_5::LineOrder",
-                        "enum": 732,
+                        "enum": 929,
                         "const": false
                     },
                     "params": null
@@ -2858,7 +2860,7 @@
                         "kind": "EnumType",
                         "id": 8,
                         "type": "Imf_2_5::RgbaChannels",
-                        "enum": 1261,
+                        "enum": 1490,
                         "const": false
                     },
                     "params": null
@@ -3031,9 +3033,9 @@
                     "attributes": null,
                     "return": {
                         "kind": "EnumType",
-                        "id": 664,
+                        "id": 861,
                         "type": "Imf_2_5::LevelMode",
-                        "enum": 1583,
+                        "enum": 1812,
                         "const": false
                     },
                     "params": null
@@ -3060,9 +3062,9 @@
                     "attributes": null,
                     "return": {
                         "kind": "EnumType",
-                        "id": 665,
+                        "id": 862,
                         "type": "Imf_2_5::LevelRoundingMode",
-                        "enum": 1584,
+                        "enum": 1813,
                         "const": false
                     },
                     "params": null
@@ -3388,7 +3390,7 @@
                         "kind": "RecordType",
                         "id": 12,
                         "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                        "record": 2761,
+                        "record": 2973,
                         "const": false
                     },
                     "params": [
@@ -3429,7 +3431,7 @@
                         "kind": "RecordType",
                         "id": 12,
                         "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                        "record": 2761,
+                        "record": 2973,
                         "const": false
                     },
                     "params": [
@@ -3483,7 +3485,7 @@
                         "kind": "RecordType",
                         "id": 12,
                         "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                        "record": 2761,
+                        "record": 2973,
                         "const": false
                     },
                     "params": [
@@ -3546,7 +3548,7 @@
                         "kind": "RecordType",
                         "id": 12,
                         "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                        "record": 2761,
+                        "record": 2973,
                         "const": false
                     },
                     "params": [

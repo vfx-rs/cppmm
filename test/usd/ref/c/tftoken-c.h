@@ -4,21 +4,21 @@ typedef struct pxrInternal_v0_20__pxrReserved___TfToken_s {
 } __attribute__((aligned(8))) pxrInternal_v0_20__pxrReserved___TfToken;
 
 
-void pxrInternal_v0_20__pxrReserved___TfToken_copy(
+void pxrInternal_v0_20__pxrReserved___TfToken_TfToken(
     pxrInternal_v0_20__pxrReserved___TfToken * self
     , pxrInternal_v0_20__pxrReserved___TfToken const * rhs);
 
 
-pxrInternal_v0_20__pxrReserved___TfToken * pxrInternal_v0_20__pxrReserved___TfToken_assign(
+pxrInternal_v0_20__pxrReserved___TfToken * pxrInternal_v0_20__pxrReserved___TfToken_operator=(
     pxrInternal_v0_20__pxrReserved___TfToken * self
     , pxrInternal_v0_20__pxrReserved___TfToken const * rhs);
 
 
-void pxrInternal_v0_20__pxrReserved___TfToken_destruct(
+void pxrInternal_v0_20__pxrReserved___TfToken_~TfToken(
     pxrInternal_v0_20__pxrReserved___TfToken * self);
 
 
-void pxrInternal_v0_20__pxrReserved___TfToken_from_string(
+void pxrInternal_v0_20__pxrReserved___TfToken_TfToken(
     pxrInternal_v0_20__pxrReserved___TfToken * self
     , char * s);
 
@@ -49,12 +49,12 @@ _Bool pxrInternal_v0_20__pxrReserved___TfToken_operator!=(
     , pxrInternal_v0_20__pxrReserved___TfToken const * o);
 
 
-_Bool pxrInternal_v0_20__pxrReserved___TfToken_eq_string(
+_Bool pxrInternal_v0_20__pxrReserved___TfToken_operator==(
     pxrInternal_v0_20__pxrReserved___TfToken const * self
     , char * o);
 
 
-_Bool pxrInternal_v0_20__pxrReserved___TfToken_neq_string(
+_Bool pxrInternal_v0_20__pxrReserved___TfToken_operator!=(
     pxrInternal_v0_20__pxrReserved___TfToken const * self
     , char * o);
 

@@ -25,6 +25,7 @@
                 26
             ],
             "id": 213,
+            "abstract": true,
             "size": 384,
             "align": 64,
             "alias": "FlatImageChannel",
@@ -43,7 +44,7 @@
                             "kind": "RecordType",
                             "id": 201,
                             "type": "Imf_2_5::ImageLevel",
-                            "record": 1432,
+                            "record": 1661,
                             "const": false
                         },
                         "const": false
@@ -135,7 +136,7 @@
                         "kind": "EnumType",
                         "id": 200,
                         "type": "Imf_2_5::PixelType",
-                        "enum": 1630,
+                        "enum": 1859,
                         "const": false
                     },
                     "params": null
@@ -336,7 +337,7 @@
                             "kind": "RecordType",
                             "id": 201,
                             "type": "Imf_2_5::ImageLevel",
-                            "record": 1432,
+                            "record": 1661,
                             "const": false
                         },
                         "const": false
@@ -371,7 +372,7 @@
                             "kind": "RecordType",
                             "id": 201,
                             "type": "Imf_2_5::ImageLevel",
-                            "record": 1432,
+                            "record": 1661,
                             "const": true
                         },
                         "const": false
@@ -402,7 +403,7 @@
                         "kind": "RecordType",
                         "id": 204,
                         "type": "Imf_2_5::Slice",
-                        "record": 3165,
+                        "record": 3652,
                         "const": false
                     },
                     "params": null
@@ -487,6 +488,7 @@
                 26
             ],
             "id": 236,
+            "abstract": false,
             "size": 512,
             "align": 64,
             "alias": "FlatHalfChannel",
@@ -505,7 +507,7 @@
                             "kind": "RecordType",
                             "id": 201,
                             "type": "Imf_2_5::ImageLevel",
-                            "record": 1432,
+                            "record": 1661,
                             "const": false
                         },
                         "const": false
@@ -582,7 +584,7 @@
                             "kind": "RecordType",
                             "id": 227,
                             "type": "half",
-                            "record": 854,
+                            "record": 1052,
                             "const": false
                         },
                         "const": false
@@ -599,7 +601,7 @@
                             "kind": "RecordType",
                             "id": 227,
                             "type": "half",
-                            "record": 854,
+                            "record": 1052,
                             "const": false
                         },
                         "const": false
@@ -631,7 +633,7 @@
                         "kind": "EnumType",
                         "id": 200,
                         "type": "Imf_2_5::PixelType",
-                        "enum": 1630,
+                        "enum": 1859,
                         "const": false
                     },
                     "params": null
@@ -832,7 +834,7 @@
                             "kind": "RecordType",
                             "id": 201,
                             "type": "Imf_2_5::ImageLevel",
-                            "record": 1432,
+                            "record": 1661,
                             "const": false
                         },
                         "const": false
@@ -867,7 +869,7 @@
                             "kind": "RecordType",
                             "id": 201,
                             "type": "Imf_2_5::ImageLevel",
-                            "record": 1432,
+                            "record": 1661,
                             "const": true
                         },
                         "const": false
@@ -898,7 +900,7 @@
                         "kind": "RecordType",
                         "id": 204,
                         "type": "Imf_2_5::Slice",
-                        "record": 3165,
+                        "record": 3652,
                         "const": false
                     },
                     "params": null
@@ -1003,7 +1005,7 @@
                             "kind": "RecordType",
                             "id": 227,
                             "type": "half",
-                            "record": 854,
+                            "record": 1052,
                             "const": false
                         },
                         "const": false
@@ -1063,7 +1065,7 @@
                             "kind": "RecordType",
                             "id": 227,
                             "type": "half",
-                            "record": 854,
+                            "record": 1052,
                             "const": true
                         },
                         "const": false
@@ -1124,7 +1126,7 @@
                             "kind": "RecordType",
                             "id": 227,
                             "type": "half",
-                            "record": 854,
+                            "record": 1052,
                             "const": false
                         },
                         "const": false
@@ -1185,7 +1187,7 @@
                             "kind": "RecordType",
                             "id": 227,
                             "type": "half",
-                            "record": 854,
+                            "record": 1052,
                             "const": true
                         },
                         "const": false
@@ -1243,7 +1245,7 @@
                             "kind": "RecordType",
                             "id": 227,
                             "type": "half",
-                            "record": 854,
+                            "record": 1052,
                             "const": false
                         },
                         "const": false
@@ -1292,7 +1294,7 @@
                             "kind": "RecordType",
                             "id": 227,
                             "type": "half",
-                            "record": 854,
+                            "record": 1052,
                             "const": true
                         },
                         "const": false
@@ -1321,6 +1323,7 @@
                 26
             ],
             "id": 261,
+            "abstract": false,
             "size": 512,
             "align": 64,
             "alias": "FlatFloatChannel",
@@ -1339,7 +1342,7 @@
                             "kind": "RecordType",
                             "id": 201,
                             "type": "Imf_2_5::ImageLevel",
-                            "record": 1432,
+                            "record": 1661,
                             "const": false
                         },
                         "const": false
@@ -1463,7 +1466,7 @@
                         "kind": "EnumType",
                         "id": 200,
                         "type": "Imf_2_5::PixelType",
-                        "enum": 1630,
+                        "enum": 1859,
                         "const": false
                     },
                     "params": null
@@ -1664,7 +1667,7 @@
                             "kind": "RecordType",
                             "id": 201,
                             "type": "Imf_2_5::ImageLevel",
-                            "record": 1432,
+                            "record": 1661,
                             "const": false
                         },
                         "const": false
@@ -1699,7 +1702,7 @@
                             "kind": "RecordType",
                             "id": 201,
                             "type": "Imf_2_5::ImageLevel",
-                            "record": 1432,
+                            "record": 1661,
                             "const": true
                         },
                         "const": false
@@ -1730,7 +1733,7 @@
                         "kind": "RecordType",
                         "id": 204,
                         "type": "Imf_2_5::Slice",
-                        "record": 3165,
+                        "record": 3652,
                         "const": false
                     },
                     "params": null
@@ -2147,6 +2150,7 @@
                 26
             ],
             "id": 289,
+            "abstract": false,
             "size": 512,
             "align": 64,
             "alias": "FlatUIntChannel",
@@ -2165,7 +2169,7 @@
                             "kind": "RecordType",
                             "id": 201,
                             "type": "Imf_2_5::ImageLevel",
-                            "record": 1432,
+                            "record": 1661,
                             "const": false
                         },
                         "const": false
@@ -2289,7 +2293,7 @@
                         "kind": "EnumType",
                         "id": 200,
                         "type": "Imf_2_5::PixelType",
-                        "enum": 1630,
+                        "enum": 1859,
                         "const": false
                     },
                     "params": null
@@ -2490,7 +2494,7 @@
                             "kind": "RecordType",
                             "id": 201,
                             "type": "Imf_2_5::ImageLevel",
-                            "record": 1432,
+                            "record": 1661,
                             "const": false
                         },
                         "const": false
@@ -2525,7 +2529,7 @@
                             "kind": "RecordType",
                             "id": 201,
                             "type": "Imf_2_5::ImageLevel",
-                            "record": 1432,
+                            "record": 1661,
                             "const": true
                         },
                         "const": false
@@ -2556,7 +2560,7 @@
                         "kind": "RecordType",
                         "id": 204,
                         "type": "Imf_2_5::Slice",
-                        "record": 3165,
+                        "record": 3652,
                         "const": false
                     },
                     "params": null

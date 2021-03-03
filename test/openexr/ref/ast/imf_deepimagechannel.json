@@ -9,7 +9,7 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 3000,
+    "id": 3315,
     "decls": [
         {
             "kind": "Namespace",
@@ -24,7 +24,8 @@
             "namespaces": [
                 26
             ],
-            "id": 3001,
+            "id": 3316,
+            "abstract": true,
             "size": 384,
             "align": 64,
             "alias": "DeepImageChannel",
@@ -43,7 +44,7 @@
                             "kind": "RecordType",
                             "id": 201,
                             "type": "Imf_2_5::ImageLevel",
-                            "record": 1432,
+                            "record": 1661,
                             "const": false
                         },
                         "const": false
@@ -135,7 +136,7 @@
                         "kind": "EnumType",
                         "id": 200,
                         "type": "Imf_2_5::PixelType",
-                        "enum": 1630,
+                        "enum": 1859,
                         "const": false
                     },
                     "params": null
@@ -164,7 +165,7 @@
                         "kind": "RecordType",
                         "id": 214,
                         "type": "Imf_2_5::Channel",
-                        "record": 2894,
+                        "record": 3209,
                         "const": false
                     },
                     "params": null
@@ -388,13 +389,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 888,
+                        "id": 1117,
                         "type": "class Imf_2_5::DeepImageLevel &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 887,
+                            "id": 1116,
                             "type": "Imf_2_5::DeepImageLevel",
-                            "record": 1443,
+                            "record": 1672,
                             "const": false
                         },
                         "const": false
@@ -423,13 +424,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 889,
+                        "id": 1118,
                         "type": "const class Imf_2_5::DeepImageLevel &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 887,
+                            "id": 1116,
                             "type": "Imf_2_5::DeepImageLevel",
-                            "record": 1443,
+                            "record": 1672,
                             "const": true
                         },
                         "const": false
@@ -458,13 +459,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 899,
+                        "id": 1128,
                         "type": "class Imf_2_5::SampleCountChannel &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 897,
+                            "id": 1126,
                             "type": "Imf_2_5::SampleCountChannel",
-                            "record": 896,
+                            "record": 1125,
                             "const": false
                         },
                         "const": false
@@ -493,13 +494,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 898,
+                        "id": 1127,
                         "type": "const class Imf_2_5::SampleCountChannel &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 897,
+                            "id": 1126,
                             "type": "Imf_2_5::SampleCountChannel",
-                            "record": 896,
+                            "record": 1125,
                             "const": true
                         },
                         "const": false
@@ -515,7 +516,8 @@
             "namespaces": [
                 26
             ],
-            "id": 3023,
+            "id": 3338,
+            "abstract": false,
             "size": 576,
             "align": 64,
             "alias": "DeepHalfChannel",
@@ -534,7 +536,7 @@
                             "kind": "RecordType",
                             "id": 201,
                             "type": "Imf_2_5::ImageLevel",
-                            "record": 1432,
+                            "record": 1661,
                             "const": false
                         },
                         "const": false
@@ -605,7 +607,7 @@
                     "name": "_sampleListPointers",
                     "type": {
                         "kind": "Pointer",
-                        "id": 3039,
+                        "id": 3354,
                         "type": "class half **",
                         "pointee": {
                             "kind": "Pointer",
@@ -615,7 +617,7 @@
                                 "kind": "RecordType",
                                 "id": 227,
                                 "type": "half",
-                                "record": 854,
+                                "record": 1052,
                                 "const": false
                             },
                             "const": false
@@ -628,7 +630,7 @@
                     "name": "_base",
                     "type": {
                         "kind": "Pointer",
-                        "id": 3039,
+                        "id": 3354,
                         "type": "class half **",
                         "pointee": {
                             "kind": "Pointer",
@@ -638,7 +640,7 @@
                                 "kind": "RecordType",
                                 "id": 227,
                                 "type": "half",
-                                "record": 854,
+                                "record": 1052,
                                 "const": false
                             },
                             "const": false
@@ -657,7 +659,7 @@
                             "kind": "RecordType",
                             "id": 227,
                             "type": "half",
-                            "record": 854,
+                            "record": 1052,
                             "const": false
                         },
                         "const": false
@@ -689,7 +691,7 @@
                         "kind": "EnumType",
                         "id": 200,
                         "type": "Imf_2_5::PixelType",
-                        "enum": 1630,
+                        "enum": 1859,
                         "const": false
                     },
                     "params": null
@@ -718,7 +720,7 @@
                         "kind": "RecordType",
                         "id": 214,
                         "type": "Imf_2_5::Channel",
-                        "record": 2894,
+                        "record": 3209,
                         "const": false
                     },
                     "params": null
@@ -950,7 +952,7 @@
                             "kind": "RecordType",
                             "id": 227,
                             "type": "half",
-                            "record": 854,
+                            "record": 1052,
                             "const": false
                         },
                         "const": false
@@ -1010,7 +1012,7 @@
                             "kind": "RecordType",
                             "id": 227,
                             "type": "half",
-                            "record": 854,
+                            "record": 1052,
                             "const": true
                         },
                         "const": false
@@ -1070,7 +1072,7 @@
                             "kind": "RecordType",
                             "id": 227,
                             "type": "half",
-                            "record": 854,
+                            "record": 1052,
                             "const": false
                         },
                         "const": false
@@ -1131,7 +1133,7 @@
                             "kind": "RecordType",
                             "id": 227,
                             "type": "half",
-                            "record": 854,
+                            "record": 1052,
                             "const": true
                         },
                         "const": false
@@ -1183,17 +1185,17 @@
                     "attributes": null,
                     "return": {
                         "kind": "Pointer",
-                        "id": 3016,
+                        "id": 3331,
                         "type": "class half *const *",
                         "pointee": {
                             "kind": "Pointer",
-                            "id": 3015,
+                            "id": 3330,
                             "type": "class half *const",
                             "pointee": {
                                 "kind": "RecordType",
                                 "id": 227,
                                 "type": "half",
-                                "record": 854,
+                                "record": 1052,
                                 "const": false
                             },
                             "const": true
@@ -1238,17 +1240,17 @@
                     ],
                     "return": {
                         "kind": "Pointer",
-                        "id": 3018,
+                        "id": 3333,
                         "type": "const class half *const *",
                         "pointee": {
                             "kind": "Pointer",
-                            "id": 3017,
+                            "id": 3332,
                             "type": "const class half *const",
                             "pointee": {
                                 "kind": "RecordType",
                                 "id": 227,
                                 "type": "half",
-                                "record": 854,
+                                "record": 1052,
                                 "const": true
                             },
                             "const": true
@@ -1278,7 +1280,8 @@
             "namespaces": [
                 26
             ],
-            "id": 3048,
+            "id": 3363,
+            "abstract": false,
             "size": 576,
             "align": 64,
             "alias": "DeepFloatChannel",
@@ -1297,7 +1300,7 @@
                             "kind": "RecordType",
                             "id": 201,
                             "type": "Imf_2_5::ImageLevel",
-                            "record": 1432,
+                            "record": 1661,
                             "const": false
                         },
                         "const": false
@@ -1368,7 +1371,7 @@
                     "name": "_sampleListPointers",
                     "type": {
                         "kind": "Pointer",
-                        "id": 3064,
+                        "id": 3379,
                         "type": "float **",
                         "pointee": {
                             "kind": "Pointer",
@@ -1390,7 +1393,7 @@
                     "name": "_base",
                     "type": {
                         "kind": "Pointer",
-                        "id": 3064,
+                        "id": 3379,
                         "type": "float **",
                         "pointee": {
                             "kind": "Pointer",
@@ -1449,7 +1452,7 @@
                         "kind": "EnumType",
                         "id": 200,
                         "type": "Imf_2_5::PixelType",
-                        "enum": 1630,
+                        "enum": 1859,
                         "const": false
                     },
                     "params": null
@@ -1478,7 +1481,7 @@
                         "kind": "RecordType",
                         "id": 214,
                         "type": "Imf_2_5::Channel",
-                        "record": 2894,
+                        "record": 3209,
                         "const": false
                     },
                     "params": null
@@ -1939,11 +1942,11 @@
                     "attributes": null,
                     "return": {
                         "kind": "Pointer",
-                        "id": 3041,
+                        "id": 3356,
                         "type": "float *const *",
                         "pointee": {
                             "kind": "Pointer",
-                            "id": 3040,
+                            "id": 3355,
                             "type": "float *const",
                             "pointee": {
                                 "kind": "BuiltinType",
@@ -1993,11 +1996,11 @@
                     ],
                     "return": {
                         "kind": "Pointer",
-                        "id": 3043,
+                        "id": 3358,
                         "type": "const float *const *",
                         "pointee": {
                             "kind": "Pointer",
-                            "id": 3042,
+                            "id": 3357,
                             "type": "const float *const",
                             "pointee": {
                                 "kind": "BuiltinType",
@@ -2032,7 +2035,8 @@
             "namespaces": [
                 26
             ],
-            "id": 3073,
+            "id": 3388,
+            "abstract": false,
             "size": 576,
             "align": 64,
             "alias": "DeepUIntChannel",
@@ -2051,7 +2055,7 @@
                             "kind": "RecordType",
                             "id": 201,
                             "type": "Imf_2_5::ImageLevel",
-                            "record": 1432,
+                            "record": 1661,
                             "const": false
                         },
                         "const": false
@@ -2122,7 +2126,7 @@
                     "name": "_sampleListPointers",
                     "type": {
                         "kind": "Pointer",
-                        "id": 3089,
+                        "id": 3404,
                         "type": "unsigned int **",
                         "pointee": {
                             "kind": "Pointer",
@@ -2144,7 +2148,7 @@
                     "name": "_base",
                     "type": {
                         "kind": "Pointer",
-                        "id": 3089,
+                        "id": 3404,
                         "type": "unsigned int **",
                         "pointee": {
                             "kind": "Pointer",
@@ -2203,7 +2207,7 @@
                         "kind": "EnumType",
                         "id": 200,
                         "type": "Imf_2_5::PixelType",
-                        "enum": 1630,
+                        "enum": 1859,
                         "const": false
                     },
                     "params": null
@@ -2232,7 +2236,7 @@
                         "kind": "RecordType",
                         "id": 214,
                         "type": "Imf_2_5::Channel",
-                        "record": 2894,
+                        "record": 3209,
                         "const": false
                     },
                     "params": null
@@ -2693,11 +2697,11 @@
                     "attributes": null,
                     "return": {
                         "kind": "Pointer",
-                        "id": 3066,
+                        "id": 3381,
                         "type": "unsigned int *const *",
                         "pointee": {
                             "kind": "Pointer",
-                            "id": 3065,
+                            "id": 3380,
                             "type": "unsigned int *const",
                             "pointee": {
                                 "kind": "BuiltinType",
@@ -2747,11 +2751,11 @@
                     ],
                     "return": {
                         "kind": "Pointer",
-                        "id": 3068,
+                        "id": 3383,
                         "type": "const unsigned int *const *",
                         "pointee": {
                             "kind": "Pointer",
-                            "id": 3067,
+                            "id": 3382,
                             "type": "const unsigned int *const",
                             "pointee": {
                                 "kind": "BuiltinType",

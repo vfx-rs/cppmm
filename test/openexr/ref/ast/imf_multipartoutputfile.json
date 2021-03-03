@@ -9,7 +9,7 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 2732,
+    "id": 2927,
     "decls": [
         {
             "kind": "Namespace",
@@ -24,7 +24,8 @@
             "namespaces": [
                 26
             ],
-            "id": 2733,
+            "id": 2928,
+            "abstract": false,
             "size": 128,
             "align": 64,
             "alias": "MultiPartOutputFile",
@@ -37,11 +38,11 @@
                     "name": "_data",
                     "type": {
                         "kind": "Pointer",
-                        "id": 2742,
+                        "id": 2937,
                         "type": "struct Imf_2_5::MultiPartOutputFile::Data *",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 2741,
+                            "id": 2936,
                             "type": "Imf_2_5::MultiPartOutputFile::Data",
                             "record": -1,
                             "const": false
@@ -100,13 +101,13 @@
                             "name": "headers",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 2731,
+                                "id": 2926,
                                 "type": "const class Imf_2_5::Header *",
                                 "pointee": {
                                     "kind": "RecordType",
                                     "id": 6,
                                     "type": "Imf_2_5::Header",
-                                    "record": 1297,
+                                    "record": 1526,
                                     "const": true
                                 },
                                 "const": false
@@ -188,7 +189,7 @@
                                     "kind": "RecordType",
                                     "id": 10,
                                     "type": "Imf_2_5::OStream",
-                                    "record": 990,
+                                    "record": 1219,
                                     "const": false
                                 },
                                 "const": false
@@ -200,13 +201,13 @@
                             "name": "headers",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 2731,
+                                "id": 2926,
                                 "type": "const class Imf_2_5::Header *",
                                 "pointee": {
                                     "kind": "RecordType",
                                     "id": 6,
                                     "type": "Imf_2_5::Header",
-                                    "record": 1297,
+                                    "record": 1526,
                                     "const": true
                                 },
                                 "const": false
@@ -304,7 +305,7 @@
                             "kind": "RecordType",
                             "id": 6,
                             "type": "Imf_2_5::Header",
-                            "record": 1297,
+                            "record": 1526,
                             "const": true
                         },
                         "const": false

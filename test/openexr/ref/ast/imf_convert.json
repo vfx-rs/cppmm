@@ -9,11 +9,11 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 961,
+    "id": 1190,
     "decls": [
         {
             "kind": "Function",
-            "id": 962,
+            "id": 1191,
             "short_name": "halfToUint",
             "qualified_name": "Imf_2_5::halfToUint",
             "in_binding": false,
@@ -33,7 +33,7 @@
                         "kind": "RecordType",
                         "id": 227,
                         "type": "half",
-                        "record": 854,
+                        "record": 1052,
                         "const": false
                     },
                     "attrs": []
@@ -42,7 +42,7 @@
         },
         {
             "kind": "Function",
-            "id": 963,
+            "id": 1192,
             "short_name": "floatToUint",
             "qualified_name": "Imf_2_5::floatToUint",
             "in_binding": false,
@@ -70,7 +70,7 @@
         },
         {
             "kind": "Function",
-            "id": 964,
+            "id": 1193,
             "short_name": "uintToHalf",
             "qualified_name": "Imf_2_5::uintToHalf",
             "in_binding": false,
@@ -80,7 +80,7 @@
                 "kind": "RecordType",
                 "id": 227,
                 "type": "half",
-                "record": 854,
+                "record": 1052,
                 "const": false
             },
             "params": [
@@ -99,7 +99,7 @@
         },
         {
             "kind": "Function",
-            "id": 965,
+            "id": 1194,
             "short_name": "floatToHalf",
             "qualified_name": "Imf_2_5::floatToHalf",
             "in_binding": false,
@@ -109,7 +109,7 @@
                 "kind": "RecordType",
                 "id": 227,
                 "type": "half",
-                "record": 854,
+                "record": 1052,
                 "const": false
             },
             "params": [

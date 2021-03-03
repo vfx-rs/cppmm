@@ -9,7 +9,7 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 1604,
+    "id": 1833,
     "decls": [
         {
             "kind": "Namespace",
@@ -24,7 +24,8 @@
             "namespaces": [
                 26
             ],
-            "id": 1605,
+            "id": 1834,
+            "abstract": false,
             "size": 64,
             "align": 64,
             "alias": "OutputPart",
@@ -37,13 +38,13 @@
                     "name": "file",
                     "type": {
                         "kind": "Pointer",
-                        "id": 1618,
+                        "id": 1847,
                         "type": "class Imf_2_5::OutputFile *",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 1617,
+                            "id": 1846,
                             "type": "Imf_2_5::OutputFile",
-                            "record": 1019,
+                            "record": 1248,
                             "const": false
                         },
                         "const": false
@@ -83,13 +84,13 @@
                             "name": "multiPartFile",
                             "type": {
                                 "kind": "Reference",
-                                "id": 1082,
+                                "id": 1311,
                                 "type": "class Imf_2_5::MultiPartOutputFile &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 1081,
+                                    "id": 1310,
                                     "type": "Imf_2_5::MultiPartOutputFile",
-                                    "record": 2733,
+                                    "record": 2928,
                                     "const": false
                                 },
                                 "const": false
@@ -171,7 +172,7 @@
                             "kind": "RecordType",
                             "id": 6,
                             "type": "Imf_2_5::Header",
-                            "record": 1297,
+                            "record": 1526,
                             "const": true
                         },
                         "const": false
@@ -216,7 +217,7 @@
                                     "kind": "RecordType",
                                     "id": 107,
                                     "type": "Imf_2_5::FrameBuffer",
-                                    "record": 3173,
+                                    "record": 3660,
                                     "const": true
                                 },
                                 "const": false
@@ -253,7 +254,7 @@
                             "kind": "RecordType",
                             "id": 107,
                             "type": "Imf_2_5::FrameBuffer",
-                            "record": 3173,
+                            "record": 3660,
                             "const": true
                         },
                         "const": false
@@ -360,13 +361,13 @@
                             "name": "in",
                             "type": {
                                 "kind": "Reference",
-                                "id": 1012,
+                                "id": 1241,
                                 "type": "class Imf_2_5::InputFile &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 1011,
+                                    "id": 1240,
                                     "type": "Imf_2_5::InputFile",
-                                    "record": 753,
+                                    "record": 950,
                                     "const": false
                                 },
                                 "const": false
@@ -407,13 +408,13 @@
                             "name": "in",
                             "type": {
                                 "kind": "Reference",
-                                "id": 1014,
+                                "id": 1243,
                                 "type": "class Imf_2_5::InputPart &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 1013,
+                                    "id": 1242,
                                     "type": "Imf_2_5::InputPart",
-                                    "record": 2808,
+                                    "record": 3123,
                                     "const": false
                                 },
                                 "const": false
@@ -460,7 +461,7 @@
                                     "kind": "RecordType",
                                     "id": 21,
                                     "type": "Imf_2_5::PreviewRgba",
-                                    "record": 1132,
+                                    "record": 1361,
                                     "const": true
                                 },
                                 "const": false

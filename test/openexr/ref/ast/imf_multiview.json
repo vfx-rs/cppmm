@@ -9,11 +9,11 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 1419,
+    "id": 1648,
     "decls": [
         {
             "kind": "Function",
-            "id": 1422,
+            "id": 1651,
             "short_name": "defaultViewName",
             "qualified_name": "Imf_2_5::defaultViewName",
             "in_binding": false,
@@ -32,11 +32,11 @@
                     "name": "multiView",
                     "type": {
                         "kind": "Reference",
-                        "id": 1421,
+                        "id": 1650,
                         "type": "const class std::vector<class std::__cxx11::basic_string<char>, class std::allocator<class std::__cxx11::basic_string<char> > > &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 1420,
+                            "id": 1649,
                             "type": "std::vector<std::__cxx11::basic_string<char>, std::allocator<std::__cxx11::basic_string<char> > >",
                             "record": -1,
                             "const": true
@@ -49,7 +49,7 @@
         },
         {
             "kind": "Function",
-            "id": 1423,
+            "id": 1652,
             "short_name": "viewFromChannelName",
             "qualified_name": "Imf_2_5::viewFromChannelName",
             "in_binding": false,
@@ -86,11 +86,11 @@
                     "name": "multiView",
                     "type": {
                         "kind": "Reference",
-                        "id": 1421,
+                        "id": 1650,
                         "type": "const class std::vector<class std::__cxx11::basic_string<char>, class std::allocator<class std::__cxx11::basic_string<char> > > &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 1420,
+                            "id": 1649,
                             "type": "std::vector<std::__cxx11::basic_string<char>, std::allocator<std::__cxx11::basic_string<char> > >",
                             "record": -1,
                             "const": true
@@ -103,7 +103,7 @@
         },
         {
             "kind": "Function",
-            "id": 1424,
+            "id": 1653,
             "short_name": "areCounterparts",
             "qualified_name": "Imf_2_5::areCounterparts",
             "in_binding": false,
@@ -157,11 +157,11 @@
                     "name": "multiView",
                     "type": {
                         "kind": "Reference",
-                        "id": 1421,
+                        "id": 1650,
                         "type": "const class std::vector<class std::__cxx11::basic_string<char>, class std::allocator<class std::__cxx11::basic_string<char> > > &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 1420,
+                            "id": 1649,
                             "type": "std::vector<std::__cxx11::basic_string<char>, std::allocator<std::__cxx11::basic_string<char> > >",
                             "record": -1,
                             "const": true
@@ -174,7 +174,7 @@
         },
         {
             "kind": "Function",
-            "id": 1425,
+            "id": 1654,
             "short_name": "channelsInView",
             "qualified_name": "Imf_2_5::channelsInView",
             "in_binding": false,
@@ -182,9 +182,9 @@
             "attributes": null,
             "return": {
                 "kind": "RecordType",
-                "id": 1284,
+                "id": 1513,
                 "type": "Imf_2_5::ChannelList",
-                "record": 2909,
+                "record": 3224,
                 "const": false
             },
             "params": [
@@ -211,13 +211,13 @@
                     "name": "channelList",
                     "type": {
                         "kind": "Reference",
-                        "id": 1286,
+                        "id": 1515,
                         "type": "const class Imf_2_5::ChannelList &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 1284,
+                            "id": 1513,
                             "type": "Imf_2_5::ChannelList",
-                            "record": 2909,
+                            "record": 3224,
                             "const": true
                         },
                         "const": false
@@ -229,11 +229,11 @@
                     "name": "multiView",
                     "type": {
                         "kind": "Reference",
-                        "id": 1421,
+                        "id": 1650,
                         "type": "const class std::vector<class std::__cxx11::basic_string<char>, class std::allocator<class std::__cxx11::basic_string<char> > > &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 1420,
+                            "id": 1649,
                             "type": "std::vector<std::__cxx11::basic_string<char>, std::allocator<std::__cxx11::basic_string<char> > >",
                             "record": -1,
                             "const": true
@@ -246,7 +246,7 @@
         },
         {
             "kind": "Function",
-            "id": 1426,
+            "id": 1655,
             "short_name": "channelsInNoView",
             "qualified_name": "Imf_2_5::channelsInNoView",
             "in_binding": false,
@@ -254,9 +254,9 @@
             "attributes": null,
             "return": {
                 "kind": "RecordType",
-                "id": 1284,
+                "id": 1513,
                 "type": "Imf_2_5::ChannelList",
-                "record": 2909,
+                "record": 3224,
                 "const": false
             },
             "params": [
@@ -265,13 +265,13 @@
                     "name": "channelList",
                     "type": {
                         "kind": "Reference",
-                        "id": 1286,
+                        "id": 1515,
                         "type": "const class Imf_2_5::ChannelList &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 1284,
+                            "id": 1513,
                             "type": "Imf_2_5::ChannelList",
-                            "record": 2909,
+                            "record": 3224,
                             "const": true
                         },
                         "const": false
@@ -283,11 +283,11 @@
                     "name": "multiView",
                     "type": {
                         "kind": "Reference",
-                        "id": 1421,
+                        "id": 1650,
                         "type": "const class std::vector<class std::__cxx11::basic_string<char>, class std::allocator<class std::__cxx11::basic_string<char> > > &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 1420,
+                            "id": 1649,
                             "type": "std::vector<std::__cxx11::basic_string<char>, std::allocator<std::__cxx11::basic_string<char> > >",
                             "record": -1,
                             "const": true
@@ -300,7 +300,7 @@
         },
         {
             "kind": "Function",
-            "id": 1427,
+            "id": 1656,
             "short_name": "channelInAllViews",
             "qualified_name": "Imf_2_5::channelInAllViews",
             "in_binding": false,
@@ -308,9 +308,9 @@
             "attributes": null,
             "return": {
                 "kind": "RecordType",
-                "id": 1284,
+                "id": 1513,
                 "type": "Imf_2_5::ChannelList",
-                "record": 2909,
+                "record": 3224,
                 "const": false
             },
             "params": [
@@ -337,13 +337,13 @@
                     "name": "channelList",
                     "type": {
                         "kind": "Reference",
-                        "id": 1286,
+                        "id": 1515,
                         "type": "const class Imf_2_5::ChannelList &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 1284,
+                            "id": 1513,
                             "type": "Imf_2_5::ChannelList",
-                            "record": 2909,
+                            "record": 3224,
                             "const": true
                         },
                         "const": false
@@ -355,11 +355,11 @@
                     "name": "multiView",
                     "type": {
                         "kind": "Reference",
-                        "id": 1421,
+                        "id": 1650,
                         "type": "const class std::vector<class std::__cxx11::basic_string<char>, class std::allocator<class std::__cxx11::basic_string<char> > > &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 1420,
+                            "id": 1649,
                             "type": "std::vector<std::__cxx11::basic_string<char>, std::allocator<std::__cxx11::basic_string<char> > >",
                             "record": -1,
                             "const": true
@@ -372,7 +372,7 @@
         },
         {
             "kind": "Function",
-            "id": 1428,
+            "id": 1657,
             "short_name": "channelInOtherView",
             "qualified_name": "Imf_2_5::channelInOtherView",
             "in_binding": false,
@@ -409,13 +409,13 @@
                     "name": "channelList",
                     "type": {
                         "kind": "Reference",
-                        "id": 1286,
+                        "id": 1515,
                         "type": "const class Imf_2_5::ChannelList &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 1284,
+                            "id": 1513,
                             "type": "Imf_2_5::ChannelList",
-                            "record": 2909,
+                            "record": 3224,
                             "const": true
                         },
                         "const": false
@@ -427,11 +427,11 @@
                     "name": "multiView",
                     "type": {
                         "kind": "Reference",
-                        "id": 1421,
+                        "id": 1650,
                         "type": "const class std::vector<class std::__cxx11::basic_string<char>, class std::allocator<class std::__cxx11::basic_string<char> > > &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 1420,
+                            "id": 1649,
                             "type": "std::vector<std::__cxx11::basic_string<char>, std::allocator<std::__cxx11::basic_string<char> > >",
                             "record": -1,
                             "const": true
@@ -462,7 +462,7 @@
         },
         {
             "kind": "Function",
-            "id": 1429,
+            "id": 1658,
             "short_name": "insertViewName",
             "qualified_name": "Imf_2_5::insertViewName",
             "in_binding": false,
@@ -499,11 +499,11 @@
                     "name": "multiView",
                     "type": {
                         "kind": "Reference",
-                        "id": 1421,
+                        "id": 1650,
                         "type": "const class std::vector<class std::__cxx11::basic_string<char>, class std::allocator<class std::__cxx11::basic_string<char> > > &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 1420,
+                            "id": 1649,
                             "type": "std::vector<std::__cxx11::basic_string<char>, std::allocator<std::__cxx11::basic_string<char> > >",
                             "record": -1,
                             "const": true
@@ -527,7 +527,7 @@
         },
         {
             "kind": "Function",
-            "id": 1430,
+            "id": 1659,
             "short_name": "removeViewName",
             "qualified_name": "Imf_2_5::removeViewName",
             "in_binding": false,
@@ -581,7 +581,7 @@
         },
         {
             "kind": "Function",
-            "id": 2985,
+            "id": 3300,
             "short_name": "defaultViewName",
             "qualified_name": "Imf_2_5::defaultViewName",
             "in_binding": false,
@@ -600,11 +600,11 @@
                     "name": "multiView",
                     "type": {
                         "kind": "Reference",
-                        "id": 1421,
+                        "id": 1650,
                         "type": "const class std::vector<class std::__cxx11::basic_string<char>, class std::allocator<class std::__cxx11::basic_string<char> > > &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 1420,
+                            "id": 1649,
                             "type": "std::vector<std::__cxx11::basic_string<char>, std::allocator<std::__cxx11::basic_string<char> > >",
                             "record": -1,
                             "const": true
@@ -617,7 +617,7 @@
         },
         {
             "kind": "Function",
-            "id": 2986,
+            "id": 3301,
             "short_name": "viewFromChannelName",
             "qualified_name": "Imf_2_5::viewFromChannelName",
             "in_binding": false,
@@ -654,11 +654,11 @@
                     "name": "multiView",
                     "type": {
                         "kind": "Reference",
-                        "id": 1421,
+                        "id": 1650,
                         "type": "const class std::vector<class std::__cxx11::basic_string<char>, class std::allocator<class std::__cxx11::basic_string<char> > > &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 1420,
+                            "id": 1649,
                             "type": "std::vector<std::__cxx11::basic_string<char>, std::allocator<std::__cxx11::basic_string<char> > >",
                             "record": -1,
                             "const": true
@@ -671,7 +671,7 @@
         },
         {
             "kind": "Function",
-            "id": 2987,
+            "id": 3302,
             "short_name": "areCounterparts",
             "qualified_name": "Imf_2_5::areCounterparts",
             "in_binding": false,
@@ -725,11 +725,11 @@
                     "name": "multiView",
                     "type": {
                         "kind": "Reference",
-                        "id": 1421,
+                        "id": 1650,
                         "type": "const class std::vector<class std::__cxx11::basic_string<char>, class std::allocator<class std::__cxx11::basic_string<char> > > &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 1420,
+                            "id": 1649,
                             "type": "std::vector<std::__cxx11::basic_string<char>, std::allocator<std::__cxx11::basic_string<char> > >",
                             "record": -1,
                             "const": true
@@ -742,7 +742,7 @@
         },
         {
             "kind": "Function",
-            "id": 2988,
+            "id": 3303,
             "short_name": "channelsInView",
             "qualified_name": "Imf_2_5::channelsInView",
             "in_binding": false,
@@ -750,9 +750,9 @@
             "attributes": null,
             "return": {
                 "kind": "RecordType",
-                "id": 1284,
+                "id": 1513,
                 "type": "Imf_2_5::ChannelList",
-                "record": 2909,
+                "record": 3224,
                 "const": false
             },
             "params": [
@@ -779,13 +779,13 @@
                     "name": "channelList",
                     "type": {
                         "kind": "Reference",
-                        "id": 1286,
+                        "id": 1515,
                         "type": "const class Imf_2_5::ChannelList &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 1284,
+                            "id": 1513,
                             "type": "Imf_2_5::ChannelList",
-                            "record": 2909,
+                            "record": 3224,
                             "const": true
                         },
                         "const": false
@@ -797,11 +797,11 @@
                     "name": "multiView",
                     "type": {
                         "kind": "Reference",
-                        "id": 1421,
+                        "id": 1650,
                         "type": "const class std::vector<class std::__cxx11::basic_string<char>, class std::allocator<class std::__cxx11::basic_string<char> > > &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 1420,
+                            "id": 1649,
                             "type": "std::vector<std::__cxx11::basic_string<char>, std::allocator<std::__cxx11::basic_string<char> > >",
                             "record": -1,
                             "const": true
@@ -814,7 +814,7 @@
         },
         {
             "kind": "Function",
-            "id": 2989,
+            "id": 3304,
             "short_name": "channelsInNoView",
             "qualified_name": "Imf_2_5::channelsInNoView",
             "in_binding": false,
@@ -822,9 +822,9 @@
             "attributes": null,
             "return": {
                 "kind": "RecordType",
-                "id": 1284,
+                "id": 1513,
                 "type": "Imf_2_5::ChannelList",
-                "record": 2909,
+                "record": 3224,
                 "const": false
             },
             "params": [
@@ -833,13 +833,13 @@
                     "name": "channelList",
                     "type": {
                         "kind": "Reference",
-                        "id": 1286,
+                        "id": 1515,
                         "type": "const class Imf_2_5::ChannelList &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 1284,
+                            "id": 1513,
                             "type": "Imf_2_5::ChannelList",
-                            "record": 2909,
+                            "record": 3224,
                             "const": true
                         },
                         "const": false
@@ -851,11 +851,11 @@
                     "name": "multiView",
                     "type": {
                         "kind": "Reference",
-                        "id": 1421,
+                        "id": 1650,
                         "type": "const class std::vector<class std::__cxx11::basic_string<char>, class std::allocator<class std::__cxx11::basic_string<char> > > &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 1420,
+                            "id": 1649,
                             "type": "std::vector<std::__cxx11::basic_string<char>, std::allocator<std::__cxx11::basic_string<char> > >",
                             "record": -1,
                             "const": true
@@ -868,7 +868,7 @@
         },
         {
             "kind": "Function",
-            "id": 2990,
+            "id": 3305,
             "short_name": "channelInAllViews",
             "qualified_name": "Imf_2_5::channelInAllViews",
             "in_binding": false,
@@ -876,9 +876,9 @@
             "attributes": null,
             "return": {
                 "kind": "RecordType",
-                "id": 1284,
+                "id": 1513,
                 "type": "Imf_2_5::ChannelList",
-                "record": 2909,
+                "record": 3224,
                 "const": false
             },
             "params": [
@@ -905,13 +905,13 @@
                     "name": "channelList",
                     "type": {
                         "kind": "Reference",
-                        "id": 1286,
+                        "id": 1515,
                         "type": "const class Imf_2_5::ChannelList &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 1284,
+                            "id": 1513,
                             "type": "Imf_2_5::ChannelList",
-                            "record": 2909,
+                            "record": 3224,
                             "const": true
                         },
                         "const": false
@@ -923,11 +923,11 @@
                     "name": "multiView",
                     "type": {
                         "kind": "Reference",
-                        "id": 1421,
+                        "id": 1650,
                         "type": "const class std::vector<class std::__cxx11::basic_string<char>, class std::allocator<class std::__cxx11::basic_string<char> > > &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 1420,
+                            "id": 1649,
                             "type": "std::vector<std::__cxx11::basic_string<char>, std::allocator<std::__cxx11::basic_string<char> > >",
                             "record": -1,
                             "const": true
@@ -940,7 +940,7 @@
         },
         {
             "kind": "Function",
-            "id": 2991,
+            "id": 3306,
             "short_name": "channelInOtherView",
             "qualified_name": "Imf_2_5::channelInOtherView",
             "in_binding": false,
@@ -977,13 +977,13 @@
                     "name": "channelList",
                     "type": {
                         "kind": "Reference",
-                        "id": 1286,
+                        "id": 1515,
                         "type": "const class Imf_2_5::ChannelList &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 1284,
+                            "id": 1513,
                             "type": "Imf_2_5::ChannelList",
-                            "record": 2909,
+                            "record": 3224,
                             "const": true
                         },
                         "const": false
@@ -995,11 +995,11 @@
                     "name": "multiView",
                     "type": {
                         "kind": "Reference",
-                        "id": 1421,
+                        "id": 1650,
                         "type": "const class std::vector<class std::__cxx11::basic_string<char>, class std::allocator<class std::__cxx11::basic_string<char> > > &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 1420,
+                            "id": 1649,
                             "type": "std::vector<std::__cxx11::basic_string<char>, std::allocator<std::__cxx11::basic_string<char> > >",
                             "record": -1,
                             "const": true
@@ -1030,7 +1030,7 @@
         },
         {
             "kind": "Function",
-            "id": 2992,
+            "id": 3307,
             "short_name": "insertViewName",
             "qualified_name": "Imf_2_5::insertViewName",
             "in_binding": false,
@@ -1067,11 +1067,11 @@
                     "name": "multiView",
                     "type": {
                         "kind": "Reference",
-                        "id": 1421,
+                        "id": 1650,
                         "type": "const class std::vector<class std::__cxx11::basic_string<char>, class std::allocator<class std::__cxx11::basic_string<char> > > &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 1420,
+                            "id": 1649,
                             "type": "std::vector<std::__cxx11::basic_string<char>, std::allocator<std::__cxx11::basic_string<char> > >",
                             "record": -1,
                             "const": true
@@ -1095,7 +1095,7 @@
         },
         {
             "kind": "Function",
-            "id": 2993,
+            "id": 3308,
             "short_name": "removeViewName",
             "qualified_name": "Imf_2_5::removeViewName",
             "in_binding": false,

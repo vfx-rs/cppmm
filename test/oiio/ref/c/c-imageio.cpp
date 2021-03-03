@@ -7,7 +7,7 @@
 #include <c-imageio_private.h>
 
 
-void OpenImageIO_v2_2_ROI_default(
+void OpenImageIO_v2_2_ROI_ROI(
     OpenImageIO_v2_2_ROI * self)
 {
     new (self) OpenImageIO_v2_2::ROI();
@@ -62,7 +62,7 @@ void OpenImageIO_v2_2_ImageSpec_ImageSpec(
     new (self) OpenImageIO_v2_2::ImageSpec(to_cpp_ref(&(format)));
 }
 
-void OpenImageIO_v2_2_ImageSpec_new_with_dimensions(
+void OpenImageIO_v2_2_ImageSpec_ImageSpec(
     OpenImageIO_v2_2_ImageSpec * self
     , int xres
     , int yres
@@ -91,7 +91,7 @@ unsigned long OpenImageIO_v2_2_ImageSpec_channel_bytes(
     return (to_cpp(self)) -> channel_bytes();
 }
 
-unsigned long OpenImageIO_v2_2_ImageSpec_channel_bytes_for(
+unsigned long OpenImageIO_v2_2_ImageSpec_channel_bytes(
     OpenImageIO_v2_2_ImageSpec const * self
     , int chan
     , _Bool native)
@@ -119,14 +119,28 @@ void OpenImageIO_v2_2_ImageSpec_auto_stride(
     (to_cpp(self)) -> auto_stride(to_cpp_ref(xstride), to_cpp_ref(ystride), to_cpp_ref(zstride), channelsize, nchannels, width, height);
 }
 
-void OpenImageIO_v2_2_ImageSpec_copy(
+void OpenImageIO_v2_2_ImageSpec_ImageSpec(
     OpenImageIO_v2_2_ImageSpec * self
     , OpenImageIO_v2_2_ImageSpec const * other)
 {
     new (self) OpenImageIO_v2_2::ImageSpec(to_cpp_ref(other));
 }
 
-OpenImageIO_v2_2_ImageSpec * OpenImageIO_v2_2_ImageSpec_assign(
+void OpenImageIO_v2_2_ImageSpec_ImageSpec(
+    OpenImageIO_v2_2_ImageSpec * self
+    , OpenImageIO_v2_2_ImageSpec * other)
+{
+    new (self) OpenImageIO_v2_2::ImageSpec(to_cpp_ref(other));
+}
+
+OpenImageIO_v2_2_ImageSpec * OpenImageIO_v2_2_ImageSpec_operator=(
+    OpenImageIO_v2_2_ImageSpec * self
+    , OpenImageIO_v2_2_ImageSpec * other)
+{
+    return to_c((to_cpp(self)) -> operator=(to_cpp_ref(other)));
+}
+
+OpenImageIO_v2_2_ImageSpec * OpenImageIO_v2_2_ImageSpec_operator=(
     OpenImageIO_v2_2_ImageSpec * self
     , OpenImageIO_v2_2_ImageSpec const * other)
 {

@@ -9,7 +9,7 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 1588,
+    "id": 1817,
     "decls": [
         {
             "kind": "Namespace",
@@ -24,7 +24,8 @@
             "namespaces": [
                 26
             ],
-            "id": 1589,
+            "id": 1818,
+            "abstract": false,
             "size": 704,
             "align": 64,
             "alias": "B44Compressor",
@@ -43,7 +44,7 @@
                             "kind": "RecordType",
                             "id": 6,
                             "type": "Imf_2_5::Header",
-                            "record": 1297,
+                            "record": 1526,
                             "const": true
                         },
                         "const": false
@@ -95,11 +96,11 @@
                     "name": "_tmpBuffer",
                     "type": {
                         "kind": "Pointer",
-                        "id": 774,
+                        "id": 971,
                         "type": "unsigned short *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 772,
+                            "id": 969,
                             "type": "unsigned short",
                             "const": false
                         },
@@ -137,13 +138,13 @@
                     "name": "_channels",
                     "type": {
                         "kind": "Reference",
-                        "id": 1286,
+                        "id": 1515,
                         "type": "const class Imf_2_5::ChannelList &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 1284,
+                            "id": 1513,
                             "type": "Imf_2_5::ChannelList",
-                            "record": 2909,
+                            "record": 3224,
                             "const": true
                         },
                         "const": false
@@ -154,11 +155,11 @@
                     "name": "_channelData",
                     "type": {
                         "kind": "Pointer",
-                        "id": 1603,
+                        "id": 1832,
                         "type": "struct Imf_2_5::B44Compressor::ChannelData *",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 1602,
+                            "id": 1831,
                             "type": "Imf_2_5::B44Compressor::ChannelData",
                             "record": -1,
                             "const": false
@@ -408,7 +409,7 @@
                                 "kind": "RecordType",
                                 "id": 12,
                                 "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                                "record": 2761,
+                                "record": 2973,
                                 "const": false
                             },
                             "attrs": []
@@ -591,7 +592,7 @@
                                 "kind": "RecordType",
                                 "id": 12,
                                 "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                                "record": 2761,
+                                "record": 2973,
                                 "const": false
                             },
                             "attrs": []
@@ -659,7 +660,7 @@
                                     "kind": "RecordType",
                                     "id": 6,
                                     "type": "Imf_2_5::Header",
-                                    "record": 1297,
+                                    "record": 1526,
                                     "const": true
                                 },
                                 "const": false

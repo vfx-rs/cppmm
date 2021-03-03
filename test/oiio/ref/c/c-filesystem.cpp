@@ -5,7 +5,13 @@
 #include <c-filesystem_private.h>
 
 
-void OpenImageIO_v2_2_Filesystem_IOProxy_delete(
+void OpenImageIO_v2_2_Filesystem_IOProxy_IOProxy(
+    OpenImageIO_v2_2_Filesystem_IOProxy * self)
+{
+    new (self) OpenImageIO_v2_2::Filesystem::IOProxy();
+}
+
+void OpenImageIO_v2_2_Filesystem_IOProxy_~IOProxy(
     OpenImageIO_v2_2_Filesystem_IOProxy * self)
 {
     (to_cpp(self)) -> ~IOProxy();
@@ -157,7 +163,7 @@ _Bool OpenImageIO_v2_2_Filesystem_IOMemReader_seek(
     return (to_cpp(self)) -> seek(offset, origin);
 }
 
-void OpenImageIO_v2_2_Filesystem_IOMemReader_new(
+void OpenImageIO_v2_2_Filesystem_IOMemReader_IOMemReader(
     OpenImageIO_v2_2_Filesystem_IOMemReader * self
     , void * buf
     , unsigned long size)
@@ -165,7 +171,7 @@ void OpenImageIO_v2_2_Filesystem_IOMemReader_new(
     new (self) OpenImageIO_v2_2::Filesystem::IOMemReader(to_cpp(buf), size);
 }
 
-void OpenImageIO_v2_2_Filesystem_IOMemReader_delete(
+void OpenImageIO_v2_2_Filesystem_IOMemReader_~IOMemReader(
     OpenImageIO_v2_2_Filesystem_IOMemReader * self)
 {
     (to_cpp(self)) -> ~IOMemReader();

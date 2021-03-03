@@ -9,7 +9,7 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 1391,
+    "id": 1620,
     "decls": [
         {
             "kind": "Namespace",
@@ -24,7 +24,8 @@
             "namespaces": [
                 26
             ],
-            "id": 1392,
+            "id": 1621,
+            "abstract": false,
             "size": 256,
             "align": 32,
             "alias": "Chromaticities",
@@ -39,7 +40,7 @@
                         "kind": "RecordType",
                         "id": 15,
                         "type": "Imath_2_5::Vec2<float>",
-                        "record": 3101,
+                        "record": 3502,
                         "const": false
                     }
                 },
@@ -50,7 +51,7 @@
                         "kind": "RecordType",
                         "id": 15,
                         "type": "Imath_2_5::Vec2<float>",
-                        "record": 3101,
+                        "record": 3502,
                         "const": false
                     }
                 },
@@ -61,7 +62,7 @@
                         "kind": "RecordType",
                         "id": 15,
                         "type": "Imath_2_5::Vec2<float>",
-                        "record": 3101,
+                        "record": 3502,
                         "const": false
                     }
                 },
@@ -72,7 +73,7 @@
                         "kind": "RecordType",
                         "id": 15,
                         "type": "Imath_2_5::Vec2<float>",
-                        "record": 3101,
+                        "record": 3502,
                         "const": false
                     }
                 }

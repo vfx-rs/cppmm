@@ -9,7 +9,7 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 1518,
+    "id": 1747,
     "decls": [
         {
             "kind": "Namespace",
@@ -24,7 +24,8 @@
             "namespaces": [
                 26
             ],
-            "id": 1519,
+            "id": 1748,
+            "abstract": false,
             "size": 2048,
             "align": 8,
             "alias": "Name",
@@ -37,7 +38,7 @@
                     "name": "_text",
                     "type": {
                         "kind": "ConstantArrayType",
-                        "id": 1525,
+                        "id": 1754,
                         "type": "char [256]",
                         "size": 256,
                         "element_type": {
@@ -149,13 +150,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 1517,
+                        "id": 1746,
                         "type": "class Imf_2_5::Name &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 1516,
+                            "id": 1745,
                             "type": "Imf_2_5::Name",
-                            "record": 1519,
+                            "record": 1748,
                             "const": false
                         },
                         "const": false
@@ -192,7 +193,7 @@
                 "type": "int",
                 "const": true
             },
-            "id": 1526,
+            "id": 1755,
             "attributes": null
         },
         {
@@ -205,7 +206,7 @@
                 "type": "int",
                 "const": true
             },
-            "id": 1527,
+            "id": 1756,
             "attributes": null
         }
     ]

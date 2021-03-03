@@ -9,7 +9,7 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 733,
+    "id": 930,
     "decls": [
         {
             "kind": "Namespace",
@@ -24,7 +24,8 @@
             "namespaces": [
                 26
             ],
-            "id": 734,
+            "id": 931,
+            "abstract": false,
             "size": 64,
             "align": 64,
             "alias": "HalfLut",
@@ -37,7 +38,7 @@
                     "name": "_lut",
                     "type": {
                         "kind": "RecordType",
-                        "id": 741,
+                        "id": 938,
                         "type": "halfFunction<half>",
                         "record": -1,
                         "const": false
@@ -83,7 +84,7 @@
                                     "kind": "RecordType",
                                     "id": 227,
                                     "type": "half",
-                                    "record": 854,
+                                    "record": 1052,
                                     "const": false
                                 },
                                 "const": false
@@ -146,13 +147,13 @@
                             "name": "data",
                             "type": {
                                 "kind": "Reference",
-                                "id": 332,
+                                "id": 333,
                                 "type": "const struct Imf_2_5::Slice &",
                                 "pointee": {
                                     "kind": "RecordType",
                                     "id": 204,
                                     "type": "Imf_2_5::Slice",
-                                    "record": 3165,
+                                    "record": 3652,
                                     "const": true
                                 },
                                 "const": false
@@ -170,7 +171,7 @@
                                     "kind": "RecordType",
                                     "id": 12,
                                     "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                                    "record": 2761,
+                                    "record": 2973,
                                     "const": true
                                 },
                                 "const": false
@@ -188,7 +189,8 @@
             "namespaces": [
                 26
             ],
-            "id": 742,
+            "id": 939,
+            "abstract": false,
             "size": 128,
             "align": 64,
             "alias": "RgbaLut",
@@ -201,7 +203,7 @@
                     "name": "_lut",
                     "type": {
                         "kind": "RecordType",
-                        "id": 741,
+                        "id": 938,
                         "type": "halfFunction<half>",
                         "record": -1,
                         "const": false
@@ -214,7 +216,7 @@
                         "kind": "EnumType",
                         "id": 8,
                         "type": "Imf_2_5::RgbaChannels",
-                        "enum": 1261,
+                        "enum": 1490,
                         "const": false
                     }
                 }
@@ -258,7 +260,7 @@
                                     "kind": "RecordType",
                                     "id": 18,
                                     "type": "Imf_2_5::Rgba",
-                                    "record": 2797,
+                                    "record": 3112,
                                     "const": false
                                 },
                                 "const": false
@@ -327,7 +329,7 @@
                                     "kind": "RecordType",
                                     "id": 18,
                                     "type": "Imf_2_5::Rgba",
-                                    "record": 2797,
+                                    "record": 3112,
                                     "const": false
                                 },
                                 "const": false
@@ -367,7 +369,7 @@
                                     "kind": "RecordType",
                                     "id": 12,
                                     "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                                    "record": 2761,
+                                    "record": 2973,
                                     "const": true
                                 },
                                 "const": false

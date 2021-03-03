@@ -9,7 +9,7 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 1431,
+    "id": 1660,
     "decls": [
         {
             "kind": "Namespace",
@@ -24,7 +24,8 @@
             "namespaces": [
                 26
             ],
-            "id": 1432,
+            "id": 1661,
+            "abstract": true,
             "size": 320,
             "align": 64,
             "alias": "ImageLevel",
@@ -43,7 +44,7 @@
                             "kind": "RecordType",
                             "id": 407,
                             "type": "Imf_2_5::Image",
-                            "record": 1490,
+                            "record": 1719,
                             "const": false
                         },
                         "const": false
@@ -76,7 +77,7 @@
                         "kind": "RecordType",
                         "id": 12,
                         "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                        "record": 2761,
+                        "record": 2973,
                         "const": false
                     }
                 }
@@ -110,7 +111,7 @@
                             "kind": "RecordType",
                             "id": 407,
                             "type": "Imf_2_5::Image",
-                            "record": 1490,
+                            "record": 1719,
                             "const": false
                         },
                         "const": false
@@ -147,7 +148,7 @@
                             "kind": "RecordType",
                             "id": 407,
                             "type": "Imf_2_5::Image",
-                            "record": 1490,
+                            "record": 1719,
                             "const": true
                         },
                         "const": false
