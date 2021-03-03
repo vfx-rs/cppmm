@@ -43,15 +43,24 @@ namespace fs = ghc::filesystem;
 
 class GenBindingCallback
     : public clang::ast_matchers::MatchFinder::MatchCallback {
+public:
     virtual void
     run(const clang::ast_matchers::MatchFinder::MatchResult& result);
 };
 
+std::string CURRENT_FILENAME;
 void GenBindingCallback::run(const MatchFinder::MatchResult& result) {
-    if (const CXXRecordDecl* rec_decl =
+    if (const CXXRecordDecl* crd =
             result.Nodes.getNodeAs<CXXRecordDecl>("recordDecl")) {
         // handle_cxx_record_decl(rec_decl);
-        SPDLOG_WARN("Got {}", rec_decl->getQualifiedNameAsString());
+        ASTContext& ctx = crd->getASTContext();
+        SourceManager& sm = ctx.getSourceManager();
+        const auto& loc = crd->getLocation();
+        std::string filename = sm.getFilename(loc).str();
+
+        if (filename == CURRENT_FILENAME) {
+            SPDLOG_TRACE("Got CRD {}", crd->getQualifiedNameAsString());
+        }
 
     } else if (const TypeAliasDecl* tdecl =
                    result.Nodes.getNodeAs<TypeAliasDecl>("typeAliasDecl")) {
@@ -79,14 +88,17 @@ void GenBindingCallback::run(const MatchFinder::MatchResult& result) {
         const auto& loc = ctd->getLocation();
         std::string filename = sm.getFilename(loc).str();
 
-        SPDLOG_WARN("Got CTD {} in {}", ctd->getQualifiedNameAsString(),
-                    filename);
+        if (filename == CURRENT_FILENAME) {
+            SPDLOG_TRACE("Got CTD {} in {}", ctd->getQualifiedNameAsString(),
+                         filename);
+        }
     }
 }
 
 class GenBindingConsumer : public clang::ASTConsumer {
     clang::ast_matchers::MatchFinder _match_finder;
     GenBindingCallback _handler;
+    std::string filename;
 
 public:
     explicit GenBindingConsumer(clang::ASTContext* context);
@@ -94,7 +106,11 @@ public:
 };
 
 class GenBindingAction : public clang::ASTFrontendAction {
+    std::string filename;
+
 public:
+    GenBindingAction() {}
+
     virtual std::unique_ptr<clang::ASTConsumer>
     CreateASTConsumer(clang::CompilerInstance& compiler,
                       llvm::StringRef in_file) {
@@ -105,7 +121,6 @@ public:
 
 GenBindingConsumer::GenBindingConsumer(ASTContext* context) {
     // match all record declrations in the cppmm_bind namespace
-    SPDLOG_WARN("HELLOO");
     DeclarationMatcher record_decl_matcher =
         cxxRecordDecl(hasAncestor(namespaceDecl(hasName("Imath_2_5"))),
                       unless(isImplicit()))
@@ -153,7 +168,6 @@ GenBindingConsumer::GenBindingConsumer(ASTContext* context) {
 void GenBindingConsumer::HandleTranslationUnit(ASTContext& context) {
     _match_finder.matchAST(context);
 
-    SPDLOG_WARN("--- finished matching");
     /*
     for (const auto& fn : binding_functions) {
         SPDLOG_DEBUG("    {}", fn.first);
@@ -198,32 +212,7 @@ void GenBindingConsumer::HandleTranslationUnit(ASTContext& context) {
     _library_finder.matchAST(context);
     */
 }
-std::vector<std::string> parse_file_includes(const std::string& filename) {
-    std::ifstream file(filename);
-    std::string line;
-    std::vector<std::string> result;
-    // TODO: we probably want to do this with a preprocessor callback, but
-    // for now do the dumb way
-    while (std::getline(file, line)) {
-        if (line.find("#include") == 0) {
-            result.push_back(line);
-        }
-    }
-
-    return result;
-}
-
-std::vector<std::string> parse_project_includes(int argc, const char** argv) {
-    std::vector<std::string> result;
-    for (int i = 0; i < argc; ++i) {
-        std::string a(argv[i]);
-        if (a.find("-I") == 0) {
-            result.push_back(a.substr(2, std::string::npos));
-        }
-    }
-    return result;
-}
-
+//
 // list of includes for each input source file
 // this global is read in process_bindings.cpp
 std::unordered_map<std::string, std::vector<std::string>> source_includes;
@@ -299,7 +288,7 @@ int main(int argc_, const char** argv_) {
     argv[i++] = "-isystem";
     argv[i++] = respath1.c_str();
 
-    project_includes = parse_project_includes(argc, argv);
+    // project_includes = parse_project_includes(argc, argv);
 
     CommonOptionsParser OptionsParser(argc, argv, CppmmCategory);
 
@@ -326,7 +315,9 @@ int main(int argc_, const char** argv_) {
     spdlog::set_pattern("%20s:%4# %^[%5l]%$ %v");
 
     ArrayRef<std::string> src_path = OptionsParser.getSourcePathList();
-    std::vector<std::string> dir_paths;
+    std::vector<std::string> header_paths;
+    std::vector<std::string> vtu;
+    std::vector<std::string> vtu_paths;
     if (src_path.size() == 1 && fs::is_directory(src_path[0])) {
         // we've been supplied a single directory to start from, find all the
         // cpp files under it to use as binding files
@@ -334,68 +325,52 @@ int main(int argc_, const char** argv_) {
         // /bind
         // /config.toml
         for (const auto& entry : fs::directory_iterator(src_path[0])) {
-            if (entry.path().extension() == ".cpp") {
-                dir_paths.push_back(
-                    ps::os::path::abspath(entry.path().string(), cwd));
-                SPDLOG_DEBUG("Found binding file {}", entry.path().string());
+            if (entry.path().extension() == ".hpp" ||
+                entry.path().extension() == ".h" ||
+                entry.path().extension() == ".hxx") {
+                auto header_path =
+                    ps::os::path::abspath(entry.path().string(), cwd);
+                header_paths.push_back(header_path);
+                SPDLOG_DEBUG("Found header file {}", header_path);
+
+                vtu.push_back(fmt::format("#include \"{}\"", header_path));
+                vtu_paths.push_back(fmt::format(
+                    "/tmp/{}.cpp", fs::path(header_path).stem().string()));
             }
         }
     } else {
-        // otherwise we'll assume we've been given a list of source files to
-        // work with (old behaviour)
-        // TODO: can we reliably keep this working?
+        // otherwise we'll assume we've been given a list of header files to
         for (const auto& s : src_path) {
-            dir_paths.push_back(ps::os::path::abspath(s, cwd));
+            auto header_path = ps::os::path::abspath(s, cwd);
+            header_paths.push_back(header_path);
+            SPDLOG_DEBUG("Found header file {}", header_path);
+
+            vtu.push_back(fmt::format("#include \"{}\"", header_path));
+            vtu_paths.push_back(fmt::format(
+                "/tmp/{}.cpp", fs::path(header_path).stem().string()));
         }
     }
     auto& compdb = OptionsParser.getCompilations();
 
-    for (const auto& f : compdb.getAllFiles()) {
-        SPDLOG_WARN("f {}", f);
+    for (int i = 0; i < vtu.size(); ++i) {
+        SPDLOG_INFO("Processing {}", header_paths[i]);
+        CURRENT_FILENAME = header_paths[i];
+        ClangTool Tool(compdb, ArrayRef<std::string>(vtu_paths[i]));
+        Tool.mapVirtualFile(vtu_paths[i], vtu[i]);
+        std::string output_dir = cwd;
+        if (opt_output_directory != "") {
+            output_dir = opt_output_directory;
+        }
+
+        auto process_binding_action =
+            newFrontendActionFactory<GenBindingAction>();
+        int result = Tool.run(process_binding_action.get());
+
+        if (!fs::exists(output_dir) && !fs::create_directories(output_dir)) {
+            SPDLOG_ERROR("Could not create output directory '{}'", output_dir);
+            return -2;
+        }
     }
 
-    ClangTool Tool(compdb, ArrayRef<std::string>(dir_paths));
-
-    Tool.mapVirtualFile("/usr/local/include/cppmm_bind.hpp", R"#(
-#define CPPMM_IGNORE __attribute__((annotate("cppmm|ignore")))
-#define CPPMM_RENAME(x) __attribute__((annotate("cppmm|rename|" #x)))
-#define CPPMM_OPAQUEPTR __attribute__((annotate("cppmm|opaqueptr")))
-#define CPPMM_OPAQUEBYTES __attribute__((annotate("cppmm|opaquebytes")))
-#define CPPMM_VALUETYPE __attribute__((annotate("cppmm|valuetype")))
-
-#define CPPMM_THROWS(EX, VAR) __attribute__((annotate("cppmm|throws|" #EX "|" #VAR)))
-)#");
-
-    std::string output_dir = cwd;
-    if (opt_output_directory != "") {
-        output_dir = opt_output_directory;
-    }
-
-    // for (const auto& i : opt_includes) {
-    //     project_includes.push_back(i);
-    // }
-
-    // std::vector<std::string> project_libraries;
-    // for (const auto& l : opt_libraries) {
-    //     project_libraries.push_back(l);
-    // }
-
-    // get direct includes from the binding files to re-insert into the
-    // generated bindings
-    // for (const auto& src : dir_paths) {
-    //     const auto src_path = ps::os::path::join(cwd, src);
-    //     source_includes[src_path] = parse_file_includes(src_path);
-    // }
-
-    auto process_binding_action = newFrontendActionFactory<GenBindingAction>();
-    int result = Tool.run(process_binding_action.get());
-
-    if (!fs::exists(output_dir) && !fs::create_directories(output_dir)) {
-        SPDLOG_ERROR("Could not create output directory '{}'", output_dir);
-        return -2;
-    }
-
-    // cppmm::write_tus(output_dir);
-
-    return result;
+    // return result;
 }
