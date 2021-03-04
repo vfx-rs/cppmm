@@ -27,9 +27,11 @@ class TypeRegistry
     // The node entries are sparse, so store them in a map for the moment.
     using Mapping = std::unordered_map<NodeId, Records>;
     using Namespaces = std::unordered_map<NodeId, std::string>;
+    using SymbolCounts = std::unordered_map<std::string, size_t>;
 
     Mapping m_mapping;
     Namespaces m_namespaces;
+    SymbolCounts m_symbol_counts;
 
 public:
     void add(NodeId id, NodePtr cpp, NodePtr c)
@@ -80,6 +82,25 @@ public:
         else
         {
             return entry->second.m_c;
+        }
+    }
+
+    std::string make_symbol_unique(const std::string & symbol)
+    {
+        auto item = m_symbol_counts.find(symbol);
+        if(item == m_symbol_counts.end())
+        {
+            // First time
+            m_symbol_counts.insert(std::make_pair(symbol, 0));
+            return symbol;
+        }
+        else
+        {
+            // Other times
+            std::string result = symbol;
+            result += "_";
+            result += std::to_string(++item->second);
+            return result;
         }
     }
 };
@@ -790,10 +811,12 @@ void opaquebytes_method(TypeRegistry & type_registry,
 
     auto short_name = find_method_short_name(cpp_method);
 
-    // Add the new function to the translation unit
+    // Build the new method name
     std::string method_name = c_record.name;
     method_name += "_";
     method_name += compute_c_name(short_name);
+    method_name = type_registry.make_symbol_unique(method_name);
+
     auto c_function = NodeFunction::n(
                         method_name, PLACEHOLDER_ID,
                         cpp_method.attrs, "", std::move(c_return),
