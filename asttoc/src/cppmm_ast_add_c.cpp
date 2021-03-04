@@ -757,7 +757,7 @@ void opaquebytes_method(TypeRegistry & type_registry,
     // Skip ignored methods
     if(!should_wrap(cpp_record, cpp_method))
     {
-        std::cerr << "ignoring method decl: " << cpp_method.name << std::endl;
+        //std::cerr << "ignoring method decl: " << cpp_method.name << std::endl;
         return;
     }
 
@@ -768,7 +768,8 @@ void opaquebytes_method(TypeRegistry & type_registry,
     {
         if(!parameter(c_tu, type_registry, c_params, p))
         {
-            std::cerr << "Skipping: " << cpp_method.name << std::endl;
+            std::cerr << "Skipping: " << cpp_method.name
+                      << "\n  unrecognised parameter type." << std::endl;
             return;
         }
     }
@@ -777,7 +778,8 @@ void opaquebytes_method(TypeRegistry & type_registry,
     auto c_return = convert_type(c_tu, type_registry, cpp_method.return_type);
     if(!c_return)
     {
-        std::cerr << "Skipping: " << cpp_method.name << std::endl;
+        std::cerr << "Skipping: " << cpp_method.name
+                  << "\n  unrecognised return type."<< std::endl;
         return;
     }
 

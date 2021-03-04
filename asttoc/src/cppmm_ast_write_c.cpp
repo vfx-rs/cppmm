@@ -531,8 +531,14 @@ void write_header(const TranslationUnit & tu)
 
     out.print("#pragma once\n");
 
+
     // Write all the includes needed in the header file
     write_header_includes(out, tu);
+
+    // Extern "C"
+    //out.print("extern \"C\" {{\n"); // TODO LT: Bring this online when we can
+                                      // automatically avoid symbol collisions
+                                      // in the c headers
 
     // Write out all the forward declarations
     for(const auto & node : tu.forward_decls)
@@ -561,6 +567,9 @@ void write_header(const TranslationUnit & tu)
             write_function(out, node, Access::Public, Place::Header);
         }
     }
+
+    // Extern "C"
+    //out.print("}}\n");
 }
 
 //------------------------------------------------------------------------------
