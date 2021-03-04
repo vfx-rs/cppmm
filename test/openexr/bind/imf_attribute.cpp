@@ -90,9 +90,6 @@ public:
     static void unRegisterAttributeType();
 } CPPMM_OPAQUEPTR;
 
-template class TypedAttribute<unsigned int>;
-using UIntAttribute = Imf::TypedAttribute<unsigned int>;
-
 template class TypedAttribute<int>;
 using IntAttribute = Imf::TypedAttribute<int>;
 
@@ -196,7 +193,6 @@ using vector_float = std::vector<float>;
 } // namespace cppmm_bind
 
 template class Imf::TypedAttribute<int>;
-template class Imf::TypedAttribute<unsigned int>;
 template class Imf::TypedAttribute<float>;
 template class Imf::TypedAttribute<double>;
 template class Imf::TypedAttribute<Imath::Box2i>;
