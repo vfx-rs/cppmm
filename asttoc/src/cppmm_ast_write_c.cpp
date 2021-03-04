@@ -536,7 +536,7 @@ void write_header(const TranslationUnit & tu)
     write_header_includes(out, tu);
 
     // Extern "C"
-    out.print("extern \"C\" {{\n");
+    out.print("#ifdef __cplusplus\nextern \"C\" {{\n#endif\n");
 
     // Write out all the forward declarations
     for(const auto & node : tu.forward_decls)
@@ -567,7 +567,7 @@ void write_header(const TranslationUnit & tu)
     }
 
     // Extern "C"
-    out.print("}}\n");
+    out.print("#ifdef __cplusplus\n}}\n#endif\n");
 }
 
 //------------------------------------------------------------------------------
