@@ -536,9 +536,7 @@ void write_header(const TranslationUnit & tu)
     write_header_includes(out, tu);
 
     // Extern "C"
-    //out.print("extern \"C\" {{\n"); // TODO LT: Bring this online when we can
-                                      // automatically avoid symbol collisions
-                                      // in the c headers
+    out.print("extern \"C\" {{\n");
 
     // Write out all the forward declarations
     for(const auto & node : tu.forward_decls)
@@ -569,7 +567,7 @@ void write_header(const TranslationUnit & tu)
     }
 
     // Extern "C"
-    //out.print("}}\n");
+    out.print("}}\n");
 }
 
 //------------------------------------------------------------------------------
