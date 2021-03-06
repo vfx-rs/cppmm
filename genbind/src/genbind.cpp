@@ -41,6 +41,728 @@ using namespace clang::ast_matchers;
 namespace ps = pystring;
 namespace fs = ghc::filesystem;
 
+#include <nlohmann/json.hpp>
+using json = nlohmann::ordered_json;
+
+/// Enumerates the kinds of nodes in the output AST
+enum class NodeKind : uint32_t {
+    Node = 0,
+    TranslationUnit,
+    Namespace,
+    BuiltinType,
+    PointerType,
+    RecordType,
+    EnumType,
+    FunctionProtoType,
+    Parm,
+    Function,
+    Method,
+    Record,
+    Enum,
+    ConstantArrayType,
+    Var,
+};
+
+std::ostream& operator<<(std::ostream& os, NodeKind k) {
+    switch (k) {
+    case NodeKind::Node:
+        os << "Node";
+        break;
+    case NodeKind::TranslationUnit:
+        os << "TranslationUnit";
+        break;
+    case NodeKind::Namespace:
+        os << "Namespace";
+        break;
+    case NodeKind::BuiltinType:
+        os << "BuiltinType";
+        break;
+    case NodeKind::PointerType:
+        os << "PointerType";
+        break;
+    case NodeKind::RecordType:
+        os << "RecordType";
+        break;
+    case NodeKind::EnumType:
+        os << "EnumType";
+        break;
+    case NodeKind::FunctionProtoType:
+        os << "FunctionProtoType";
+        break;
+    case NodeKind::Parm:
+        os << "Parm";
+        break;
+    case NodeKind::Function:
+        os << "Function";
+        break;
+    case NodeKind::Method:
+        os << "Method";
+        break;
+    case NodeKind::Record:
+        os << "Record";
+        break;
+    case NodeKind::Enum:
+        os << "Enum";
+        break;
+    case NodeKind::ConstantArrayType:
+        os << "ConstantArrayType";
+        break;
+    case NodeKind::Var:
+        os << "Var";
+        break;
+    }
+    return os;
+}
+
+/// Enumerates the different kinds of pointers and references
+enum class PointerKind : uint32_t {
+    Pointer,
+    Reference,
+    RValueReference,
+};
+
+/// Enumerates the different kinds of records.
+/// OpaquePtr = opaque pointer to a C++ library type
+/// OpaqueBytes = opaque bag of bytes containing a C++ library type
+/// ValueType = C++ library type that is C-compatible (POD only)
+enum class RecordKind : uint32_t { OpaquePtr = 0, OpaqueBytes, ValueType };
+
+/// Typedef for representing a node in the AST. Signed int because we're
+/// outputting to json
+using NodeId = int32_t;
+
+/// Abstract base struct for a node in the AST
+struct Node {
+    std::string qualified_name;
+    NodeId id;
+    NodeId context; //< parent context (e.g. record, namespce, TU)
+    NodeKind node_kind;
+
+    Node(std::string qualified_name, NodeId id, NodeId context,
+         NodeKind node_kind)
+        : qualified_name(qualified_name), id(id), context(context),
+          node_kind(node_kind) {}
+
+    virtual ~Node() {}
+
+    virtual void write_json_attrs(json& o) const {
+        if (id >= 0) {
+            o["id"] = id;
+        } else {
+            o["id"] = nullptr;
+        }
+    }
+
+    virtual void write_json(json& o) const = 0;
+};
+
+using NodePtr = std::unique_ptr<Node>;
+
+/// Flat storage for nodes in the AST
+std::vector<NodePtr> NODES;
+/// Map for name-lookup of nodes (keys should match Node::qualified_name)
+std::unordered_map<std::string, NodeId> NODE_MAP;
+/// Root of the AST - will contain NodeTranslationUnits, which will themselves
+/// contain the rest of the tree
+std::vector<NodeId> ROOT;
+
+/// Represents one translation unit (TU), i.e. one binding source file.
+/// NodeTranslationUnit::qualified_name contains the filename
+struct NodeTranslationUnit : public Node {
+    /// Other nodes bound in this TU
+    std::vector<NodeId> children;
+    /// Include statements from the binding file
+    std::vector<std::string> source_includes;
+    /// Include paths specified on the cppmm command line
+    std::vector<std::string> project_includes;
+
+    virtual void write_json(json& o) const override {
+        o["kind"] = "TranslationUnit";
+        o["filename"] = qualified_name;
+        o["source_includes"] = source_includes;
+        o["include_paths"] = project_includes;
+        write_json_attrs(o);
+
+        o["decls"] = {};
+        for (NodeId id : children) {
+            const Node* node = NODES.at(id).get();
+            auto child = json::object();
+            node->write_json(child);
+            o["decls"].emplace_back(std::move(child));
+        }
+    }
+
+    NodeTranslationUnit(std::string qualified_name, NodeId id, NodeId context,
+                        std::vector<std::string> source_includes,
+                        std::vector<std::string> project_includes)
+        : Node(qualified_name, id, context, NodeKind::TranslationUnit),
+          source_includes(source_includes), project_includes(project_includes) {
+    }
+};
+
+/// Namespace node. Currently not used
+struct NodeNamespace : public Node {
+    std::string short_name;
+
+    NodeNamespace(std::string qualified_name, NodeId id, NodeId context,
+                  std::string short_name)
+        : Node(std::move(qualified_name), id, context, NodeKind::Namespace),
+          short_name(std::move(short_name)) {}
+
+    virtual void write_json_attrs(json& o) const override {
+        Node::write_json_attrs(o);
+        o["short_name"] = short_name;
+    }
+
+    virtual void write_json(json& o) const override {
+        o["kind"] = "Namespace";
+        o["name"] = qualified_name;
+        write_json_attrs(o);
+    }
+};
+
+/// Base struct represent a node that stores a type.
+/// Types are references to the actual record and enum declarations that
+/// describe those objects' structure. They are stored in the graph so that
+/// types and the objects they reference can be processed out-of-order and then
+/// the references fixed up later.
+struct NodeType : public Node {
+    std::string type_name;
+    NodeType(std::string qualified_name, NodeId id, NodeId context,
+             NodeKind node_kind, std::string type_name)
+        : Node(qualified_name, id, context, node_kind), type_name(type_name) {}
+
+    virtual void write_json_attrs(json& o) const override {
+        Node::write_json_attrs(o);
+        o["type"] = type_name;
+    }
+};
+
+/// A builtin, e.g. int, bool, char etc.
+struct NodeBuiltinType : public NodeType {
+    NodeBuiltinType(std::string qualified_name, NodeId id, NodeId context,
+                    std::string type_name)
+        : NodeType(qualified_name, id, context, NodeKind::BuiltinType,
+                   type_name) {}
+
+    virtual void write_json(json& o) const override {
+        o["kind"] = "BuiltinType";
+        write_json_attrs(o);
+    }
+};
+
+/// QType is the equivalent of clang's QualType. Currently just defines the
+/// constness of the wrapped type node. These are stored on the AST nodes
+/// anywhere a type is needed.
+struct QType {
+    /// Type we're constifying
+    NodeId ty;
+    bool is_const;
+
+    void write_json(json& o) const {
+        if (ty >= 0) {
+            NODES.at(ty)->write_json(o);
+        } else {
+            o["type"] = "UNKNOWN";
+        }
+        o["const"] = is_const;
+    }
+
+    bool operator==(const QType& rhs) const {
+        return ty == rhs.ty && is_const == rhs.is_const;
+    }
+
+    bool operator!=(const QType& rhs) const { return !(*this == rhs); }
+};
+
+std::ostream& operator<<(std::ostream& os, const QType& q) {
+    if (q.is_const) {
+        os << "const ";
+    }
+    os << ((NodeType*)NODES.at(q.ty).get())->type_name;
+    return os;
+}
+
+/// A pointer or reference type. The pointee is stored in pointee_type
+struct NodePointerType : public NodeType {
+    /// Type we're pointing to
+    QType pointee_type;
+    /// Is this a pointer, reference or r-value reference?
+    PointerKind pointer_kind;
+    NodePointerType(std::string qualified_name, NodeId id, NodeId context,
+                    std::string type_name, PointerKind pointer_kind,
+                    QType pointee_type)
+        : NodeType(qualified_name, id, context, NodeKind::PointerType,
+                   type_name),
+          pointer_kind(pointer_kind), pointee_type(pointee_type) {}
+
+    virtual void write_json(json& o) const override {
+        if (pointer_kind == PointerKind::Pointer) {
+            o["kind"] = "Pointer";
+        } else if (pointer_kind == PointerKind::RValueReference) {
+            o["kind"] = "RValueReference";
+        } else {
+            o["kind"] = "Reference";
+        }
+        write_json_attrs(o);
+
+        o["pointee"] = {};
+        pointee_type.write_json(o["pointee"]);
+    }
+};
+
+/// A C-style array, e.g. float[3]
+struct NodeConstantArrayType : public NodeType {
+    QType element_type;
+    uint64_t size;
+
+    NodeConstantArrayType(std::string qualified_name, NodeId id, NodeId context,
+                          std::string type_name, QType element_type,
+                          uint64_t size)
+        : NodeType(std::move(qualified_name), id, context,
+                   NodeKind::ConstantArrayType, std::move(type_name)),
+          element_type(element_type), size(size) {}
+
+    virtual void write_json(json& o) const override {
+        o["kind"] = "ConstantArrayType";
+        write_json_attrs(o);
+
+        o["size"] = size;
+        o["element_type"] = {};
+        element_type.write_json(o["element_type"]);
+    }
+};
+
+/// A reference to a record (i.e. a class or struct)
+struct NodeRecordType : public NodeType {
+    /// The record declaration node, i.e. the actual type declaration. If the
+    /// record referred to hasn't been processed yet, then this will be -1 until
+    /// such a time as the record is processed
+    NodeId record;
+    NodeRecordType(std::string qualified_name, NodeId id, NodeId context,
+                   std::string type_name, NodeId record)
+        : NodeType(qualified_name, id, context, NodeKind::RecordType,
+                   type_name),
+          record(record) {}
+
+    virtual void write_json_attrs(json& o) const override {
+        NodeType::write_json_attrs(o);
+        o["record"] = record;
+    }
+
+    virtual void write_json(json& o) const override {
+        o["kind"] = "RecordType";
+        write_json_attrs(o);
+    }
+};
+
+/// An enum type reference
+struct NodeEnumType : public NodeType {
+    /// The enum declaration node, i.e. the actual type declaration. If the
+    /// enum referred to hasn't been processed yet, then this will be -1 until
+    /// such a time as the enum is processed
+    NodeId enm;
+    NodeEnumType(std::string qualified_name, NodeId id, NodeId context,
+                 std::string type_name, NodeId enm)
+        : NodeType(qualified_name, id, context, NodeKind::EnumType, type_name),
+          enm(enm) {}
+
+    virtual void write_json_attrs(json& o) const override {
+        NodeType::write_json_attrs(o);
+        o["enum"] = enm;
+    }
+
+    virtual void write_json(json& o) const override {
+        o["kind"] = "EnumType";
+        write_json_attrs(o);
+    }
+};
+
+/// A function prototype (a pointer to which can be passed as callbacks etc).
+/// This sits in an awkward spot because there isn't a corresponding decl so all
+/// the structure is packed onto the type node here
+struct NodeFunctionProtoType : public NodeType {
+    /// Return type of the function
+    QType return_type;
+    /// Function parameters
+    std::vector<QType> params;
+    NodeFunctionProtoType(std::string qualified_name, NodeId id, NodeId context,
+                          std::string type_name, QType return_type,
+                          std::vector<QType> params)
+        : NodeType(qualified_name, id, context, NodeKind::FunctionProtoType,
+                   type_name),
+          return_type(std::move(return_type)), params(std::move(params)) {}
+
+    virtual void write_json_attrs(json& o) const override {
+        NodeType::write_json_attrs(o);
+    }
+
+    virtual void write_json(json& o) const override {
+        o["kind"] = "FunctionProtoType";
+
+        write_json_attrs(o);
+
+        o["return"] = {};
+        return_type.write_json(o["return"]);
+
+        o["params"] = {};
+        for (const auto& param : params) {
+            auto p = json::object();
+            p["type"] = json::object();
+            param.write_json(p["type"]);
+            o["params"].emplace_back(p);
+        }
+    }
+};
+
+/// Param is essentially just a (name, type) pair forming a function parameter.
+struct Param {
+    /// parameter name
+    std::string name;
+    /// parameter type
+    QType qty;
+    /// index of the parameter in the function's parameter list
+    int index;
+    /// Any annnotation attributes on the parameter
+    std::vector<std::string> attrs;
+};
+
+std::ostream& operator<<(std::ostream& os, const Param& p) {
+    return os << p.name << ": " << p.qty;
+}
+
+/// Base struct representing a node that has annotation attributes attached
+struct NodeAttributeHolder : public Node {
+    /// The annotation attributes
+    std::vector<std::string> attrs;
+
+    NodeAttributeHolder(std::string qualified_name, NodeId id, NodeId context,
+                        NodeKind node_kind, std::vector<std::string> attrs)
+        : Node(qualified_name, id, context, node_kind), attrs(attrs) {}
+
+    virtual void write_json(json& o) const override = 0;
+
+    // FIXME: worst naming ever
+    virtual void write_attrs_json(json& o) const {
+        o["attributes"] = {};
+        for (const auto& a : attrs) {
+            o["attributes"].emplace_back(a);
+        }
+    }
+};
+
+struct NodeVar : public NodeAttributeHolder {
+    std::string short_name;
+    QType qtype;
+
+    NodeVar(std::string qualified_name, NodeId id, NodeId context,
+            std::vector<std::string> attrs, std::string short_name, QType qtype)
+        : NodeAttributeHolder(std::move(qualified_name), id, context,
+                              NodeKind::Var, std::move(attrs)),
+          qtype(qtype), short_name(std::move(short_name)) {}
+
+    virtual void write_json_attrs(json& o) const override {
+        NodeAttributeHolder::write_json_attrs(o);
+    }
+
+    virtual void write_json(json& o) const override {
+        o["kind"] = "Var";
+        o["qualified_name"] = qualified_name;
+        o["short_name"] = short_name;
+        o["type"] = {};
+        qtype.write_json(o["type"]);
+        write_json_attrs(o);
+        write_attrs_json(o);
+    }
+};
+
+/// A function node
+struct NodeFunction : public NodeAttributeHolder {
+    /// What you think of as the function name without any qualifications
+    std::string short_name;
+    /// The function's return type
+    QType return_type;
+    /// The function's parameters
+    std::vector<Param> params;
+    /// Is this function declared in the binding? NOT USED
+    bool in_binding = false;
+    /// Is this function declared in the library? NOT USED
+    bool in_library = false;
+
+    NodeFunction(std::string qualified_name, NodeId id, NodeId context,
+                 std::vector<std::string> attrs, std::string short_name,
+                 QType return_type, std::vector<Param> params)
+        : NodeAttributeHolder(qualified_name, id, context, NodeKind::Function,
+                              attrs),
+          short_name(short_name), return_type(return_type), params(params) {}
+
+    virtual void write_json_attrs(json& o) const override {
+        NodeAttributeHolder::write_json_attrs(o);
+        o["short_name"] = short_name;
+        o["qualified_name"] = qualified_name;
+        o["in_binding"] = in_binding;
+        o["in_library"] = in_library;
+    }
+
+    virtual void write_parameters_json(json& o) const {
+        o["return"] = {};
+        return_type.write_json(o["return"]);
+
+        o["params"] = {};
+        for (const auto& param : params) {
+            auto p = json::object();
+            p["index"] = param.index;
+            p["name"] = param.name;
+            p["type"] = json::object();
+            p["attrs"] = param.attrs;
+            param.qty.write_json(p["type"]);
+            o["params"].emplace_back(p);
+        }
+    }
+
+    virtual void write_json(json& o) const override {
+        o["kind"] = "Function";
+        write_json_attrs(o);
+        write_attrs_json(o);
+        write_parameters_json(o);
+    }
+};
+
+std::ostream& operator<<(std::ostream& os, const NodeFunction& f) {
+    os << f.qualified_name << "(";
+    for (const Param& p : f.params) {
+        os << p << ", ";
+    }
+    os << ") -> " << f.return_type;
+    return os;
+}
+
+/// A method on a class or struct.
+struct NodeMethod : public NodeFunction {
+    bool is_static = false;
+    /// Is the method user-provided (i.e. !default)
+    bool is_user_provided = false;
+    bool is_const = false;
+    bool is_virtual = false;
+    bool is_overloaded_operator = false;
+    bool is_copy_assignment_operator = false;
+    bool is_move_assignment_operator = false;
+    bool is_constructor = false;
+    bool is_default_constructor = false;
+    bool is_copy_constructor = false;
+    bool is_move_constructor = false;
+    /// Is the method a conversion decl, e.g. "operator bool()"
+    bool is_conversion_decl = false;
+    bool is_destructor = false;
+    /// Is this method the result of a FunctionTemplateDecl specialization
+    /// We use this to differentiate `foo(int)` from `foo<T>(T)` with `T=int`.
+    bool is_specialization = false;
+
+    NodeMethod(std::string qualified_name, NodeId id, NodeId context,
+               std::vector<std::string> attrs, std::string short_name,
+               QType return_type, std::vector<Param> params, bool is_static)
+        : NodeFunction(qualified_name, id, context, attrs, short_name,
+                       return_type, params),
+          is_static(is_static) {
+        node_kind = NodeKind::Method;
+    }
+
+    virtual void write_json_attrs(json& o) const override {
+        NodeFunction::write_json_attrs(o);
+        o["static"] = is_static;
+        o["user_provided"] = is_user_provided;
+        o["const"] = is_const;
+        o["virtual"] = is_virtual;
+        o["overloaded_operator"] = is_overloaded_operator;
+        o["copy_assignment_operator"] = is_copy_assignment_operator;
+        o["move_assignment_operator"] = is_move_assignment_operator;
+        o["constructor"] = is_constructor;
+        o["copy_constructor"] = is_copy_constructor;
+        o["move_constructor"] = is_move_constructor;
+        o["conversion_decl"] = is_conversion_decl;
+        o["destructor"] = is_destructor;
+    }
+
+    virtual void write_json(json& o) const override {
+        o["kind"] = "Method";
+        write_json_attrs(o);
+        write_attrs_json(o);
+        write_parameters_json(o);
+    }
+};
+
+std::ostream& operator<<(std::ostream& os, const NodeMethod& f) {
+    if (f.is_static) {
+        os << "static ";
+    }
+    if (f.is_virtual) {
+        os << "virtual ";
+    }
+    os << f.qualified_name << "(";
+    for (const Param& p : f.params) {
+        os << p << ", ";
+    }
+    os << ") -> " << f.return_type;
+    if (f.is_const) {
+        os << " const";
+    }
+    os << "[[";
+    if (f.is_user_provided) {
+        os << "user_provided, ";
+    }
+    if (f.is_overloaded_operator) {
+        os << "overloaded_operator, ";
+    }
+    if (f.is_copy_assignment_operator) {
+        os << "copy_assignment_operator, ";
+    }
+    if (f.is_move_assignment_operator) {
+        os << "move_assignment_operator, ";
+    }
+    if (f.is_constructor) {
+        os << "constructor, ";
+    }
+    if (f.is_copy_constructor) {
+        os << "copy_constructor, ";
+    }
+    if (f.is_move_constructor) {
+        os << "move_constructor, ";
+    }
+    if (f.is_conversion_decl) {
+        os << "conversion_decl, ";
+    }
+    if (f.is_destructor) {
+        os << "destructor, ";
+    }
+    os << "]]";
+    return os;
+}
+
+/// A field of a class or struct as a (name, type) pair
+struct Field {
+    std::string name;
+    QType qtype;
+};
+
+/// A record is a class or struct declaration containing fields and methods
+struct NodeRecord : public NodeAttributeHolder {
+    std::vector<Field> fields;
+    std::vector<NodeId> methods;
+    /// The 'leaf' of the qualified name
+    std::string short_name;
+    /// The full path of namespaces leading to this record
+    std::vector<NodeId> namespaces;
+    /// Alias for the record, set by e.g.:
+    /// using V3f = Imath::Vec3<float>;
+    std::string alias;
+    /// The kind of the record, i.e. how we want it to be represented in C.
+    /// See the RecordKind enum for more info
+    RecordKind record_kind;
+    /// Does the class have any pure virtual functions?
+    bool is_abstract;
+
+    /// Size of the record, in bits
+    uint32_t size;
+    /// Alignment of the record, in bits
+    uint32_t align;
+
+    NodeRecord(std::string qualified_name, NodeId id, NodeId context,
+               std::vector<std::string> attrs, std::string short_name,
+               std::vector<NodeId> namespaces, RecordKind record_kind,
+               bool is_abstract, uint32_t size, uint32_t align)
+        : NodeAttributeHolder(qualified_name, id, context, NodeKind::Record,
+                              attrs),
+          short_name(std::move(short_name)), namespaces(std::move(namespaces)),
+          record_kind(record_kind), is_abstract(is_abstract), size(size),
+          align(align) {}
+
+    virtual void write_json_attrs(json& o) const override {
+        NodeAttributeHolder::write_json_attrs(o);
+        o["abstract"] = is_abstract;
+        o["size"] = size;
+        o["align"] = align;
+        if (!alias.empty()) {
+            o["alias"] = alias;
+        } else {
+            o["alias"] = short_name;
+        }
+    }
+
+    virtual void write_json(json& o) const override {
+        o["kind"] = "Record";
+        o["name"] = qualified_name;
+        o["short_name"] = short_name;
+        o["namespaces"] = namespaces;
+        write_json_attrs(o);
+        write_attrs_json(o);
+
+        o["fields"] = {};
+        for (const auto& field : fields) {
+            auto f = json::object();
+            f["kind"] = "Field";
+            f["name"] = field.name;
+            f["type"] = json::object();
+            field.qtype.write_json(f["type"]);
+            o["fields"].emplace_back(f);
+        }
+
+        o["methods"] = {};
+        for (const auto& method_id : methods) {
+            auto m = json::object();
+            NODES.at(method_id)->write_json(m);
+            o["methods"].emplace_back(m);
+        }
+    }
+};
+
+/// An enum declaration, just a list of (name, value) pairs of the variants
+struct NodeEnum : public NodeAttributeHolder {
+    /// C++ allows variant values larger than an int, while C only allows ints.
+    /// Without knowing what the values are, it's impossible to say what type
+    /// we'll need to store the values here. Most likely an int would be fine,
+    /// but we can't rely on people not using crazy sentinel values, so we
+    /// store it as a string and kick the can down the road to the generator
+    std::vector<std::pair<std::string, std::string>> variants;
+    /// Name of the enum without any qualifiers
+    std::string short_name;
+    /// Full namespace path
+    std::vector<NodeId> namespaces;
+    /// Size of the enum in bits
+    uint32_t size;
+    /// Alignment of the enum in bits
+    uint32_t align;
+
+    NodeEnum(std::string qualified_name, NodeId id, NodeId context,
+             std::vector<std::string> attrs, std::string short_name,
+             std::vector<NodeId> namespaces,
+             std::vector<std::pair<std::string, std::string>> variants,
+             uint32_t size, uint32_t align)
+        : NodeAttributeHolder(qualified_name, id, context, NodeKind::Enum,
+                              attrs),
+          short_name(std::move(short_name)), namespaces(std::move(namespaces)),
+          variants(variants), size(size), align(align) {}
+
+    virtual void write_json_attrs(json& o) const override {
+        NodeAttributeHolder::write_json_attrs(o);
+        o["size"] = size;
+        o["align"] = align;
+    }
+
+    virtual void write_json(json& o) const override {
+        o["kind"] = "Enum";
+        o["name"] = qualified_name;
+        o["short_name"] = short_name;
+        o["namespaces"] = namespaces;
+        write_json_attrs(o);
+        write_attrs_json(o);
+
+        o["variants"] = json::object();
+        for (const auto& var : variants) {
+            o["variants"][var.first] = var.second;
+        }
+    }
+};
+
 class GenBindingCallback
     : public clang::ast_matchers::MatchFinder::MatchCallback {
 public:
