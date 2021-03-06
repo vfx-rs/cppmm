@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(cppmm)
+project(cppmm LANGUAGES CXX)
 
 include(GNUInstallDirs)
 
