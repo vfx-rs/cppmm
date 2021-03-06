@@ -9,8 +9,10 @@ find_package(Clang REQUIRED CONFIG)
 
 # Use the same C++ standard as LLVM does
 set(CMAKE_CXX_STANDARD 14 CACHE STRING "")
-
+# Generate compile-commands.json for use by editors/IDEs.
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+# Simplify the installation messages.
+set(CMAKE_INSTALL_MESSAGE LAZY)
 
 # Installation directory for cppmm data files (share/cppmm).
 set(CMAKE_INSTALL_PACKAGE_DATADIR "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}"
