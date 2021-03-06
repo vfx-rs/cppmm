@@ -12,5 +12,4 @@ target_include_directories(astgen PRIVATE ${LLVM_INCLUDE_DIRS})
 file(COPY resources DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 # Install the headers alongside the binary
 install(DIRECTORY resources DESTINATION ${CMAKE_INSTALL_PREFIX})
-
-
+install(TARGETS astgen DESTINATION ${CMAKE_INSTALL_BINDIR})

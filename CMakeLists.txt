@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.5)
 project(cppmm)
 
+include(GNUInstallDirs)
+
 set(LLVM_ROOT $ENV{LLVM_ROOT})
 set(CMAKE_PREFIX_PATH "${LLVM_ROOT}/lib/cmake/clang")
 find_package(Clang REQUIRED CONFIG)
