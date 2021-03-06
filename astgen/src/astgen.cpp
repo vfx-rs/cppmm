@@ -21,6 +21,10 @@
 #include <spdlog/sinks/stdout_color_sinks.h>
 #include <spdlog/spdlog.h>
 
+#ifndef CPPMM_PACKAGE_RESOURCES_DIR
+#error "CPPMM_PACKAGE_RESOURCES_DIR is undefined and must be provided"
+#endif
+
 using namespace clang::tooling;
 using namespace llvm;
 using namespace clang;
@@ -123,7 +127,8 @@ int main(int argc_, const char** argv_) {
         return -1;
     }
 
-    std::string respath1 = (exe_path.parent_path() / "resources").string();
+    std::string respath1 =
+        (exe_path.parent_path() / CPPMM_PACKAGE_RESOURCES_DIR).string();
     if (!has_ddash) {
         argv[i++] = "--";
         argc++;

@@ -12,6 +12,14 @@ set(CMAKE_CXX_STANDARD 14 CACHE STRING "")
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+# Installation directory for cppmm data files (share/cppmm).
+set(CMAKE_INSTALL_PACKAGE_DATADIR "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}"
+    CACHE STRING "cpmm data directory" FORCE)
+# Installation directory for cppmm resources (share/cppmm/resources)
+set(CPPMM_PACKAGE_RESOURCES_DIR "${CMAKE_INSTALL_PACKAGE_DATADIR}/resources"
+    CACHE STRING "cpmm resources directory" FORCE)
+
+
 # LLVM is normally built without RTTI. Be consistent with that.
 if(NOT LLVM_ENABLE_RTTI)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-rtti")
