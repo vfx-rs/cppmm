@@ -58,7 +58,8 @@ std::string convert_param(const NodeTypePtr & field,
 std::string convert_builtin_param(const NodeTypePtr & t,
                                   const std::string & name)
 {
-    return fmt::format("{} {}", t->type_name, name);
+    const char * const_ = t->const_ ? " const " : " ";
+    return fmt::format("{}{}{}", t->type_name, const_, name);
 }
 
 //------------------------------------------------------------------------------
@@ -477,24 +478,16 @@ void write_header_includes(fmt::ostream & out, const TranslationUnit & tu)
 //------------------------------------------------------------------------------
 void write_source_includes(fmt::ostream & out, const TranslationUnit & tu)
 {
-    if(!tu.header_filename.empty())
+    if(!tu.private_header_filename.empty())
     {
-        out.print("{}\n\n", tu.header_filename);
+        out.print("{}\n", tu.private_header_filename);
     }
+
+    out.print("\n");
 
     for(const auto & i : tu.source_includes)
     {
         out.print("{}\n", i);
-    }
-
-    for(const auto & i : tu.source_private_includes)
-    {
-        out.print("{}\n", i);
-    }
-
-    if(!tu.private_header_filename.empty())
-    {
-        out.print("{}\n", tu.private_header_filename);
     }
 
     out.print("\n");
@@ -504,7 +497,21 @@ void write_source_includes(fmt::ostream & out, const TranslationUnit & tu)
 void write_private_header(const TranslationUnit & tu)
 {
     auto out =
-        fmt::output_file(compute_c_header_path(tu.filename, "_private.h"));
+        fmt::output_file(compute_c_header_path(tu.filename, "private_.h"));
+
+    out.print("#pragma once\n");
+
+    if(!tu.header_filename.empty())
+    {
+        out.print("{}\n\n", tu.header_filename);
+    }
+
+    out.print("\n");
+
+    for(const auto & i : tu.private_includes)
+    {
+        out.print("{}\n", i);
+    }
 
     // Then all the private functions
     for(const auto & node : tu.decls)
@@ -522,8 +529,14 @@ void write_header(const TranslationUnit & tu)
 {
     auto out = fmt::output_file(compute_c_header_path(tu.filename, ".h"));
 
+    out.print("#pragma once\n");
+
+
     // Write all the includes needed in the header file
     write_header_includes(out, tu);
+
+    // Extern "C"
+    out.print("#ifdef __cplusplus\nextern \"C\" {{\n#endif\n");
 
     // Write out all the forward declarations
     for(const auto & node : tu.forward_decls)
@@ -552,6 +565,9 @@ void write_header(const TranslationUnit & tu)
             write_function(out, node, Access::Public, Place::Header);
         }
     }
+
+    // Extern "C"
+    out.print("#ifdef __cplusplus\n}}\n#endif\n");
 }
 
 //------------------------------------------------------------------------------

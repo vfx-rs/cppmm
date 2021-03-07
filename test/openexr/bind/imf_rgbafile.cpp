@@ -61,7 +61,7 @@ struct RgbaOutputFile {
     Imf::RgbaChannels channels() const;
 
     IMF_EXPORT
-    void updatePreviewImage(const Imf::PreviewRgba[]);
+    void updatePreviewImage(const Imf::PreviewRgba preview[]);
 
     IMF_EXPORT
     void setYCRounding(unsigned int roundY, unsigned int roundC);

@@ -18,6 +18,9 @@ struct Slice {
           bool yTileCoords = false);
 
     IMF_EXPORT
+    Slice(const Imf::Slice & rhs);
+
+    IMF_EXPORT
     static Imf::Slice Make(Imf::PixelType type, const void* ptr,
                            const IMATH_NAMESPACE::V2i& origin, int64_t w,
                            int64_t h, size_t xStride = 0, size_t yStride = 0,
@@ -90,6 +93,8 @@ struct FrameBuffer {
         Iterator();
         IMF_EXPORT
         Iterator(const Imf::FrameBuffer::SliceMap::iterator& i) CPPMM_IGNORE;
+        IMF_EXPORT
+        Iterator(const Imf::FrameBuffer::Iterator& rhs);
 
         IMF_EXPORT
         Iterator& operator++();
@@ -110,6 +115,8 @@ struct FrameBuffer {
         IMF_EXPORT
         ConstIterator(const Imf::FrameBuffer::SliceMap::iterator& i)
             CPPMM_IGNORE;
+        IMF_EXPORT
+        ConstIterator(const Imf::FrameBuffer::ConstIterator& rhs);
 
         IMF_EXPORT
         ConstIterator& operator++();

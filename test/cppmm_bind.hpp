@@ -5,4 +5,6 @@
 #define CPPMM_MANUAL(x) __attribute__((annotate("cppmm:manual:" #x)))
 
 #define CPPMM_OPAQUEPTR __attribute__((annotate("cppmm:opaqueptr")))
+#define CPPMM_OPAQUEBYTES __attribute__((annotate("cppmm:opaquebytes")))
 #define CPPMM_VALUETYPE __attribute__((annotate("cppmm:valuetype")))
+#define CPPMM_THROWS(EX, VAR) __attribute__((annotate("cppmm|throws|" #EX "|" #VAR)))

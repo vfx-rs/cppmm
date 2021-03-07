@@ -16,6 +16,9 @@ public:
     Channel(Imf::PixelType type, int xSampling, int ySampling, bool pLinear);
 
     IMF_EXPORT
+    Channel(const Imf::Channel & rhs);
+
+    IMF_EXPORT
     bool operator==(const Imf::Channel& other) const;
 } CPPMM_VALUETYPE;
 
@@ -109,6 +112,8 @@ public:
         Iterator();
         IMF_EXPORT
         Iterator(const Imf::ChannelList::ChannelMap::iterator& i) CPPMM_IGNORE;
+        IMF_EXPORT
+        Iterator(const Imf::ChannelList::Iterator& rhs);
 
         IMF_EXPORT
         Iterator& operator++();
@@ -131,6 +136,8 @@ public:
         IMF_EXPORT
         ConstIterator(const Imf::ChannelList::ChannelMap::const_iterator& i)
             CPPMM_IGNORE;
+        IMF_EXPORT
+        ConstIterator(const Imf::ChannelList::ConstIterator& rhs);
 
         IMF_EXPORT
         ConstIterator& operator++();
