@@ -507,17 +507,21 @@ struct NodeFunction : public NodeAttributeHolder {
     QType return_type;
     /// The function's parameters
     std::vector<Param> params;
-    /// Is this function declared in the binding? NOT USED
+    /// The full path of namespaces leading to this function
+    std::vector<NodeId> namespaces;
+    /// Is this function declared in the binding?
     bool in_binding = false;
-    /// Is this function declared in the library? NOT USED
+    /// Is this function declared in the library?
     bool in_library = false;
 
     NodeFunction(std::string qualified_name, NodeId id, NodeId context,
                  std::vector<std::string> attrs, std::string short_name,
-                 QType return_type, std::vector<Param> params)
+                 QType return_type, std::vector<Param> params,
+                 std::vector<NodeId> namespaces)
         : NodeAttributeHolder(qualified_name, id, context, NodeKind::Function,
                               attrs),
-          short_name(short_name), return_type(return_type), params(params) {}
+          short_name(std::move(short_name)), return_type(return_type),
+          params(std::move(params)), namespaces(std::move(namespaces)) {}
 
     virtual void write_json_attrs(json& o) const override {
         NodeAttributeHolder::write_json_attrs(o);
@@ -547,6 +551,7 @@ struct NodeFunction : public NodeAttributeHolder {
         o["kind"] = "Function";
         write_json_attrs(o);
         write_attrs_json(o);
+        o["namespaces"] = namespaces;
         write_parameters_json(o);
     }
 };
@@ -585,7 +590,7 @@ struct NodeMethod : public NodeFunction {
                std::vector<std::string> attrs, std::string short_name,
                QType return_type, std::vector<Param> params, bool is_static)
         : NodeFunction(qualified_name, id, context, attrs, short_name,
-                       return_type, params),
+                       return_type, params, {}),
           is_static(is_static) {
         node_kind = NodeKind::Method;
     }
@@ -1706,10 +1711,14 @@ void handle_binding_function(const FunctionDecl* fd) {
     process_function_parameters(fd, return_qtype, params);
     // NodeId id = NODES.size();
 
+    const std::vector<NodeId> namespaces =
+        get_namespaces(fd->getParent(), node_tu);
+
     auto it = binding_functions.find(function_qual_name);
     auto node_function =
         NodeFunction(function_qual_name, 0, node_tu->id, std::move(attrs),
-                     function_short_name, return_qtype, std::move(params));
+                     function_short_name, return_qtype, std::move(params),
+                     std::move(namespaces));
 
     SPDLOG_DEBUG("Adding binding function {}", node_function);
 
@@ -1788,9 +1797,17 @@ void handle_function(const FunctionDecl* fd) {
     QType return_qtype;
     std::vector<Param> params;
     process_function_parameters(fd, return_qtype, params);
+
+    ASTContext& ctx = fd->getASTContext();
+    SourceManager& sm = ctx.getSourceManager();
+    const auto& loc = fd->getLocation();
+    std::string filename = sm.getFilename(loc).str();
+    auto* node_tu = get_translation_unit(filename);
+    const std::vector<NodeId> namespaces =
+        get_namespaces(fd->getParent(), node_tu);
     auto node_function =
         NodeFunction(function_qual_name, 0, 0, {}, function_short_name,
-                     return_qtype, std::move(params));
+                     return_qtype, std::move(params), std::move(namespaces));
 
     // find a match in the overloads
     for (const auto& binding_fn : it->second) {
