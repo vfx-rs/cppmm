@@ -4,10 +4,10 @@ C-plus-plus-minus-minus
 
 ## Current status
 
- [x] AST generation
- [ ] C library output
- [ ] Rust-sys output
- [ ] Binding file generation
+- [x] AST generation
+- [ ] C library output
+- [ ] Rust-sys output
+- [ ] Binding file generation
 
 ## Introduction
 
