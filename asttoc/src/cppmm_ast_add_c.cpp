@@ -13,6 +13,8 @@
 namespace cppmm {
 namespace transform {
 
+static const char * THIS_ = "this_";
+
 //------------------------------------------------------------------------------
 // TypeRegistry
 //------------------------------------------------------------------------------
@@ -414,7 +416,7 @@ Param self_param(const NodeRecord & c_record, bool const_)
                                       std::move(record), false // TODO LT: Maybe references should be const pointers
                                       );
 
-    return Param("self", std::move(pointer), 0);
+    return Param(THIS_, std::move(pointer), 0);
 }
 
 //------------------------------------------------------------------------------
@@ -422,7 +424,7 @@ NodeExprPtr this_reference(const NodeRecord & cpp_record, bool const_)
 {
     return NodeFunctionCallExpr::n("to_cpp",
                                         std::vector<NodeExprPtr>({
-        NodeVarRefExpr::n("self")
+        NodeVarRefExpr::n(THIS_)
     }));
 }
 
@@ -674,7 +676,7 @@ NodeExprPtr opaquebytes_constructor_body(TypeRegistry & type_registry,
     return NodeBlockExpr::n(
                     std::vector<NodeExprPtr>({
                         NodePlacementNewExpr::n(
-                            NodeVarRefExpr::n("self"),
+                            NodeVarRefExpr::n(THIS_),
                             NodeFunctionCallExpr::n(cpp_record.name, args)
     )}));
 }
