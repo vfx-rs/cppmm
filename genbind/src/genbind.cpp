@@ -33,6 +33,8 @@
 #include <spdlog/sinks/stdout_color_sinks.h>
 #include <spdlog/spdlog.h>
 
+#include <cassert>
+
 using namespace clang::tooling;
 using namespace llvm;
 using namespace clang;
@@ -136,12 +138,11 @@ struct Node {
     std::string qualified_name;
     NodeId id;
     NodeId context; //< parent context (e.g. record, namespce, TU)
-    NodeKind node_kind;
 
-    Node(std::string qualified_name, NodeId id, NodeId context,
-         NodeKind node_kind)
-        : qualified_name(qualified_name), id(id), context(context),
-          node_kind(node_kind) {}
+    virtual NodeKind node_kind() const = 0;
+
+    Node(std::string qualified_name, NodeId id, NodeId context)
+        : qualified_name(qualified_name), id(id), context(context) {}
 
     virtual ~Node() {}
 
@@ -154,9 +155,22 @@ struct Node {
     }
 
     virtual void write_json(json& o) const = 0;
+
+    virtual void write(std::ostream& os, int depth) const = 0;
 };
 
 using NodePtr = std::unique_ptr<Node>;
+
+struct indent {
+    int i;
+};
+
+std::ostream& operator<<(std::ostream& os, const indent& id) {
+    for (int i = 0; i < id.i; ++i) {
+        os << "    ";
+    }
+    return os;
+}
 
 /// Flat storage for nodes in the AST
 std::vector<NodePtr> NODES;
@@ -170,11 +184,14 @@ std::vector<NodeId> ROOT;
 /// NodeTranslationUnit::qualified_name contains the filename
 struct NodeTranslationUnit : public Node {
     /// Other nodes bound in this TU
-    std::vector<NodeId> children;
+    std::set<NodeId> children;
     /// Include statements from the binding file
     std::vector<std::string> source_includes;
     /// Include paths specified on the cppmm command line
     std::vector<std::string> project_includes;
+
+    static NodeKind _kind;
+    virtual NodeKind node_kind() const override { return _kind; }
 
     virtual void write_json(json& o) const override {
         o["kind"] = "TranslationUnit";
@@ -192,22 +209,33 @@ struct NodeTranslationUnit : public Node {
         }
     }
 
+    virtual void write(std::ostream& os, int depth) const override {
+        for (const NodeId child : children) {
+            auto* node = NODES[child].get();
+            node->write(os, depth);
+            os << "\n\n";
+        }
+    }
+
     NodeTranslationUnit(std::string qualified_name, NodeId id, NodeId context,
                         std::vector<std::string> source_includes,
                         std::vector<std::string> project_includes)
-        : Node(qualified_name, id, context, NodeKind::TranslationUnit),
-          source_includes(source_includes), project_includes(project_includes) {
-    }
+        : Node(qualified_name, id, context), source_includes(source_includes),
+          project_includes(project_includes) {}
 };
 
 /// Namespace node. Currently not used
 struct NodeNamespace : public Node {
     std::string short_name;
+    std::set<NodeId> children;
+
+    static NodeKind _kind;
+    virtual NodeKind node_kind() const override { return _kind; }
 
     NodeNamespace(std::string qualified_name, NodeId id, NodeId context,
-                  std::string short_name)
-        : Node(std::move(qualified_name), id, context, NodeKind::Namespace),
-          short_name(std::move(short_name)) {}
+                  std::string short_name, std::set<NodeId> children)
+        : Node(std::move(qualified_name), id, context),
+          short_name(std::move(short_name)), children(std::move(children)) {}
 
     virtual void write_json_attrs(json& o) const override {
         Node::write_json_attrs(o);
@@ -219,6 +247,16 @@ struct NodeNamespace : public Node {
         o["name"] = qualified_name;
         write_json_attrs(o);
     }
+
+    virtual void write(std::ostream& os, int depth) const override {
+        os << indent{depth} << "namespace " << short_name << " {\n";
+        for (const NodeId child : children) {
+            auto* node = NODES[child].get();
+            node->write(os, depth);
+            os << "\n\n";
+        }
+        os << indent{depth} << "} // namespace " << short_name;
+    }
 };
 
 /// Base struct represent a node that stores a type.
@@ -228,22 +266,30 @@ struct NodeNamespace : public Node {
 /// the references fixed up later.
 struct NodeType : public Node {
     std::string type_name;
+
     NodeType(std::string qualified_name, NodeId id, NodeId context,
-             NodeKind node_kind, std::string type_name)
-        : Node(qualified_name, id, context, node_kind), type_name(type_name) {}
+             std::string type_name)
+        : Node(qualified_name, id, context), type_name(type_name) {}
 
     virtual void write_json_attrs(json& o) const override {
         Node::write_json_attrs(o);
         o["type"] = type_name;
     }
+
+    virtual void write(std::ostream& os, int depth) const override {
+        os << indent{depth} << type_name;
+    }
 };
 
 /// A builtin, e.g. int, bool, char etc.
 struct NodeBuiltinType : public NodeType {
+
+    static NodeKind _kind;
+    virtual NodeKind node_kind() const override { return _kind; }
+
     NodeBuiltinType(std::string qualified_name, NodeId id, NodeId context,
                     std::string type_name)
-        : NodeType(qualified_name, id, context, NodeKind::BuiltinType,
-                   type_name) {}
+        : NodeType(qualified_name, id, context, type_name) {}
 
     virtual void write_json(json& o) const override {
         o["kind"] = "BuiltinType";
@@ -268,6 +314,18 @@ struct QType {
         o["const"] = is_const;
     }
 
+    void write(std::ostream& os, int depth) const {
+        os << indent{depth};
+        if (is_const) {
+            os << "const ";
+        }
+        if (ty >= 0) {
+            NODES.at(ty)->write(os, 0);
+        } else {
+            os << "UNKNOWN";
+        }
+    }
+
     bool operator==(const QType& rhs) const {
         return ty == rhs.ty && is_const == rhs.is_const;
     }
@@ -289,11 +347,14 @@ struct NodePointerType : public NodeType {
     QType pointee_type;
     /// Is this a pointer, reference or r-value reference?
     PointerKind pointer_kind;
+
+    static NodeKind _kind;
+    virtual NodeKind node_kind() const override { return _kind; }
+
     NodePointerType(std::string qualified_name, NodeId id, NodeId context,
                     std::string type_name, PointerKind pointer_kind,
                     QType pointee_type)
-        : NodeType(qualified_name, id, context, NodeKind::PointerType,
-                   type_name),
+        : NodeType(qualified_name, id, context, type_name),
           pointer_kind(pointer_kind), pointee_type(pointee_type) {}
 
     virtual void write_json(json& o) const override {
@@ -309,6 +370,11 @@ struct NodePointerType : public NodeType {
         o["pointee"] = {};
         pointee_type.write_json(o["pointee"]);
     }
+
+    virtual void write(std::ostream& os, int depth) const override {
+        os << indent{depth};
+        pointee_type.write(os, 0);
+    }
 };
 
 /// A C-style array, e.g. float[3]
@@ -316,11 +382,14 @@ struct NodeConstantArrayType : public NodeType {
     QType element_type;
     uint64_t size;
 
+    static NodeKind _kind;
+    virtual NodeKind node_kind() const override { return _kind; }
+
     NodeConstantArrayType(std::string qualified_name, NodeId id, NodeId context,
                           std::string type_name, QType element_type,
                           uint64_t size)
         : NodeType(std::move(qualified_name), id, context,
-                   NodeKind::ConstantArrayType, std::move(type_name)),
+                   std::move(type_name)),
           element_type(element_type), size(size) {}
 
     virtual void write_json(json& o) const override {
@@ -331,6 +400,12 @@ struct NodeConstantArrayType : public NodeType {
         o["element_type"] = {};
         element_type.write_json(o["element_type"]);
     }
+
+    virtual void write(std::ostream& os, int depth) const override {
+        os << indent{depth};
+        element_type.write(os, 0);
+        os << "[" << size << "]";
+    }
 };
 
 /// A reference to a record (i.e. a class or struct)
@@ -339,11 +414,13 @@ struct NodeRecordType : public NodeType {
     /// record referred to hasn't been processed yet, then this will be -1 until
     /// such a time as the record is processed
     NodeId record;
+
+    static NodeKind _kind;
+    virtual NodeKind node_kind() const override { return _kind; }
+
     NodeRecordType(std::string qualified_name, NodeId id, NodeId context,
                    std::string type_name, NodeId record)
-        : NodeType(qualified_name, id, context, NodeKind::RecordType,
-                   type_name),
-          record(record) {}
+        : NodeType(qualified_name, id, context, type_name), record(record) {}
 
     virtual void write_json_attrs(json& o) const override {
         NodeType::write_json_attrs(o);
@@ -354,6 +431,10 @@ struct NodeRecordType : public NodeType {
         o["kind"] = "RecordType";
         write_json_attrs(o);
     }
+
+    virtual void write(std::ostream& os, int depth) const override {
+        os << indent{depth} << type_name;
+    }
 };
 
 /// An enum type reference
@@ -362,10 +443,13 @@ struct NodeEnumType : public NodeType {
     /// enum referred to hasn't been processed yet, then this will be -1 until
     /// such a time as the enum is processed
     NodeId enm;
+
+    static NodeKind _kind;
+    virtual NodeKind node_kind() const override { return _kind; }
+
     NodeEnumType(std::string qualified_name, NodeId id, NodeId context,
                  std::string type_name, NodeId enm)
-        : NodeType(qualified_name, id, context, NodeKind::EnumType, type_name),
-          enm(enm) {}
+        : NodeType(qualified_name, id, context, type_name), enm(enm) {}
 
     virtual void write_json_attrs(json& o) const override {
         NodeType::write_json_attrs(o);
@@ -375,6 +459,10 @@ struct NodeEnumType : public NodeType {
     virtual void write_json(json& o) const override {
         o["kind"] = "EnumType";
         write_json_attrs(o);
+    }
+
+    virtual void write(std::ostream& os, int depth) const override {
+        os << indent{depth} << type_name;
     }
 };
 
@@ -386,11 +474,14 @@ struct NodeFunctionProtoType : public NodeType {
     QType return_type;
     /// Function parameters
     std::vector<QType> params;
+
+    static NodeKind _kind;
+    virtual NodeKind node_kind() const override { return _kind; }
+
     NodeFunctionProtoType(std::string qualified_name, NodeId id, NodeId context,
                           std::string type_name, QType return_type,
                           std::vector<QType> params)
-        : NodeType(qualified_name, id, context, NodeKind::FunctionProtoType,
-                   type_name),
+        : NodeType(qualified_name, id, context, type_name),
           return_type(std::move(return_type)), params(std::move(params)) {}
 
     virtual void write_json_attrs(json& o) const override {
@@ -413,6 +504,10 @@ struct NodeFunctionProtoType : public NodeType {
             o["params"].emplace_back(p);
         }
     }
+
+    virtual void write(std::ostream& os, int depth) const override {
+        os << indent{depth} << type_name;
+    }
 };
 
 /// Param is essentially just a (name, type) pair forming a function parameter.
@@ -425,6 +520,12 @@ struct Param {
     int index;
     /// Any annnotation attributes on the parameter
     std::vector<std::string> attrs;
+
+    void write(std::ostream& os, int depth) const {
+        os << indent{depth};
+        qty.write(os, 0);
+        os << " " << name;
+    }
 };
 
 std::ostream& operator<<(std::ostream& os, const Param& p) {
@@ -437,8 +538,8 @@ struct NodeAttributeHolder : public Node {
     std::vector<std::string> attrs;
 
     NodeAttributeHolder(std::string qualified_name, NodeId id, NodeId context,
-                        NodeKind node_kind, std::vector<std::string> attrs)
-        : Node(qualified_name, id, context, node_kind), attrs(attrs) {}
+                        std::vector<std::string> attrs)
+        : Node(qualified_name, id, context), attrs(attrs) {}
 
     virtual void write_json(json& o) const override = 0;
 
@@ -455,10 +556,13 @@ struct NodeVar : public NodeAttributeHolder {
     std::string short_name;
     QType qtype;
 
+    static NodeKind _kind;
+    virtual NodeKind node_kind() const override { return _kind; }
+
     NodeVar(std::string qualified_name, NodeId id, NodeId context,
             std::vector<std::string> attrs, std::string short_name, QType qtype)
         : NodeAttributeHolder(std::move(qualified_name), id, context,
-                              NodeKind::Var, std::move(attrs)),
+                              std::move(attrs)),
           qtype(qtype), short_name(std::move(short_name)) {}
 
     virtual void write_json_attrs(json& o) const override {
@@ -474,6 +578,12 @@ struct NodeVar : public NodeAttributeHolder {
         write_json_attrs(o);
         write_attrs_json(o);
     }
+
+    virtual void write(std::ostream& os, int depth) const override {
+        os << indent{depth};
+        qtype.write(os, 0);
+        os << " " << short_name;
+    }
 };
 
 /// A function node
@@ -488,12 +598,13 @@ struct NodeFunction : public NodeAttributeHolder {
     bool in_binding = false;
     /// Is this function declared in the library? NOT USED
     bool in_library = false;
+    static NodeKind _kind;
+    virtual NodeKind node_kind() const override { return _kind; }
 
     NodeFunction(std::string qualified_name, NodeId id, NodeId context,
                  std::vector<std::string> attrs, std::string short_name,
                  QType return_type, std::vector<Param> params)
-        : NodeAttributeHolder(qualified_name, id, context, NodeKind::Function,
-                              attrs),
+        : NodeAttributeHolder(qualified_name, id, context, attrs),
           short_name(short_name), return_type(return_type), params(params) {}
 
     virtual void write_json_attrs(json& o) const override {
@@ -526,6 +637,10 @@ struct NodeFunction : public NodeAttributeHolder {
         write_attrs_json(o);
         write_parameters_json(o);
     }
+
+    virtual void write(std::ostream& os, int depth) const override {
+        os << indent{depth} << qualified_name;
+    }
 };
 
 std::ostream& operator<<(std::ostream& os, const NodeFunction& f) {
@@ -557,15 +672,15 @@ struct NodeMethod : public NodeFunction {
     /// Is this method the result of a FunctionTemplateDecl specialization
     /// We use this to differentiate `foo(int)` from `foo<T>(T)` with `T=int`.
     bool is_specialization = false;
+    static NodeKind _kind;
+    virtual NodeKind node_kind() const override { return _kind; }
 
     NodeMethod(std::string qualified_name, NodeId id, NodeId context,
                std::vector<std::string> attrs, std::string short_name,
                QType return_type, std::vector<Param> params, bool is_static)
         : NodeFunction(qualified_name, id, context, attrs, short_name,
                        return_type, params),
-          is_static(is_static) {
-        node_kind = NodeKind::Method;
-    }
+          is_static(is_static) {}
 
     virtual void write_json_attrs(json& o) const override {
         NodeFunction::write_json_attrs(o);
@@ -588,6 +703,10 @@ struct NodeMethod : public NodeFunction {
         write_json_attrs(o);
         write_attrs_json(o);
         write_parameters_json(o);
+    }
+
+    virtual void write(std::ostream& os, int depth) const override {
+        os << indent{depth} << qualified_name;
     }
 };
 
@@ -655,32 +774,25 @@ struct NodeRecord : public NodeAttributeHolder {
     /// Alias for the record, set by e.g.:
     /// using V3f = Imath::Vec3<float>;
     std::string alias;
-    /// The kind of the record, i.e. how we want it to be represented in C.
-    /// See the RecordKind enum for more info
-    RecordKind record_kind;
     /// Does the class have any pure virtual functions?
     bool is_abstract;
+    /// Any template parameters. If this is empty, this is not a template class
+    std::vector<std::string> template_parameters;
+    std::set<std::string> children;
 
-    /// Size of the record, in bits
-    uint32_t size;
-    /// Alignment of the record, in bits
-    uint32_t align;
+    static NodeKind _kind;
+    virtual NodeKind node_kind() const override { return _kind; }
 
     NodeRecord(std::string qualified_name, NodeId id, NodeId context,
                std::vector<std::string> attrs, std::string short_name,
-               std::vector<NodeId> namespaces, RecordKind record_kind,
-               bool is_abstract, uint32_t size, uint32_t align)
-        : NodeAttributeHolder(qualified_name, id, context, NodeKind::Record,
-                              attrs),
+               std::vector<NodeId> namespaces,
+               std::vector<std::string> template_parameters)
+        : NodeAttributeHolder(qualified_name, id, context, attrs),
           short_name(std::move(short_name)), namespaces(std::move(namespaces)),
-          record_kind(record_kind), is_abstract(is_abstract), size(size),
-          align(align) {}
+          template_parameters(std::move(template_parameters)) {}
 
     virtual void write_json_attrs(json& o) const override {
         NodeAttributeHolder::write_json_attrs(o);
-        o["abstract"] = is_abstract;
-        o["size"] = size;
-        o["align"] = align;
         if (!alias.empty()) {
             o["alias"] = alias;
         } else {
@@ -713,6 +825,17 @@ struct NodeRecord : public NodeAttributeHolder {
             o["methods"].emplace_back(m);
         }
     }
+
+    virtual void write(std::ostream& os, int depth) const override {
+        if (template_parameters.size() > 0) {
+            os << indent{depth} << "template <class ";
+            os << ps::join(", class ", template_parameters);
+            os << ">\n";
+        }
+        os << indent{depth} << "struct " << short_name << " {\n";
+
+        os << indent{depth} << "}; // struct " << short_name;
+    }
 };
 
 /// An enum declaration, just a list of (name, value) pairs of the variants
@@ -732,13 +855,15 @@ struct NodeEnum : public NodeAttributeHolder {
     /// Alignment of the enum in bits
     uint32_t align;
 
+    static NodeKind _kind;
+    virtual NodeKind node_kind() const override { return _kind; }
+
     NodeEnum(std::string qualified_name, NodeId id, NodeId context,
              std::vector<std::string> attrs, std::string short_name,
              std::vector<NodeId> namespaces,
              std::vector<std::pair<std::string, std::string>> variants,
              uint32_t size, uint32_t align)
-        : NodeAttributeHolder(qualified_name, id, context, NodeKind::Enum,
-                              attrs),
+        : NodeAttributeHolder(qualified_name, id, context, attrs),
           short_name(std::move(short_name)), namespaces(std::move(namespaces)),
           variants(variants), size(size), align(align) {}
 
@@ -761,7 +886,25 @@ struct NodeEnum : public NodeAttributeHolder {
             o["variants"][var.first] = var.second;
         }
     }
+
+    virtual void write(std::ostream& os, int depth) const override {
+        os << indent{depth} << qualified_name;
+    }
 };
+
+NodeKind NodeNamespace::_kind = NodeKind::Namespace;
+NodeKind NodeTranslationUnit::_kind = NodeKind::TranslationUnit;
+NodeKind NodeBuiltinType::_kind = NodeKind::BuiltinType;
+NodeKind NodePointerType::_kind = NodeKind::PointerType;
+NodeKind NodeRecordType::_kind = NodeKind::RecordType;
+NodeKind NodeEnumType::_kind = NodeKind::EnumType;
+NodeKind NodeFunctionProtoType::_kind = NodeKind::FunctionProtoType;
+NodeKind NodeFunction::_kind = NodeKind::Function;
+NodeKind NodeMethod::_kind = NodeKind::Method;
+NodeKind NodeRecord::_kind = NodeKind::Record;
+NodeKind NodeEnum::_kind = NodeKind::Enum;
+NodeKind NodeConstantArrayType::_kind = NodeKind::ConstantArrayType;
+NodeKind NodeVar::_kind = NodeKind::Var;
 
 class GenBindingCallback
     : public clang::ast_matchers::MatchFinder::MatchCallback {
@@ -770,18 +913,258 @@ public:
     run(const clang::ast_matchers::MatchFinder::MatchResult& result);
 };
 
+template <typename T> T* node_cast(Node* n) {
+    assert(n->node_kind() == T::_kind && "incorrect node cast");
+    if (n->node_kind() == T::_kind) {
+        return reinterpret_cast<T*>(n);
+    } else {
+        return nullptr;
+    }
+}
+
+template <typename T> const T* node_cast(const Node* n) {
+    assert(n->node_kind() == T::_kind && "incorrect node cast");
+    if (n->node_kind() == T::_kind) {
+        return reinterpret_cast<T*>(n);
+    } else {
+        return nullptr;
+    }
+}
+
+/// Strip the type kinds off the front of a type name in the given string
+std::string strip_name_kinds(std::string s) {
+    s = pystring::replace(s, "class ", "");
+    s = pystring::replace(s, "struct ", "");
+    s = pystring::replace(s, "enum ", "");
+    s = pystring::replace(s, "union ", "");
+    return s;
+}
+
+/// Get a nice, qualified name for the given record
+std::string get_record_name(const CXXRecordDecl* crd) {
+    // we have to do this dance to get the template parameters in the name,
+    // otherwise they're omitted
+    return strip_name_kinds(
+        crd->getTypeForDecl()->getCanonicalTypeInternal().getAsString());
+}
+
+/// Find the node corresponding to the given TU filename, creating one if
+/// none exists
+NodeTranslationUnit* get_translation_unit(const std::string& filename) {
+    auto it = NODE_MAP.find(filename);
+    if (it != NODE_MAP.end()) {
+        const auto& node = NODES.at(it->second);
+        assert(node->node_kind() == NodeKind::TranslationUnit &&
+               "node is wrong type");
+        return (NodeTranslationUnit*)node.get();
+    }
+
+    NodeId id = NODES.size();
+    auto node = std::make_unique<NodeTranslationUnit>(
+        filename, id, 0, std::vector<std::string>{},
+        std::vector<std::string>{});
+    ROOT.push_back(id);
+    auto* node_ptr = node.get();
+    NODES.emplace_back(std::move(node));
+    NODE_MAP[filename] = id;
+    return node_ptr;
+}
+
+/// Get the full set of namespaces (including parent records) that lead to
+/// a given decl. The decl passed here is expected to be the *parent* of the
+/// decl we care about, as in `get_namespaces(target_decl->getParent())`
+std::vector<NodeId> get_namespaces(NodeId child,
+                                   const clang::DeclContext* parent,
+                                   NodeTranslationUnit* node_tu) {
+    std::vector<NodeId> result;
+
+    NodeId id;
+    SPDLOG_TRACE("Getting namespaces for {}", child);
+    while (parent) {
+        if (parent->isNamespace()) {
+            const clang::NamespaceDecl* ns =
+                static_cast<const clang::NamespaceDecl*>(parent);
+
+            auto qualified_name = ns->getQualifiedNameAsString();
+            auto short_name = ns->getNameAsString();
+
+            SPDLOG_TRACE("Parent is namespace {}", qualified_name);
+
+            // Add the id of this namespace to our list of namespaces, creating
+            // a new NodeNamespace if it doesn't exist yet
+            auto it = NODE_MAP.find(qualified_name);
+            if (it == NODE_MAP.end()) {
+                id = NODES.size();
+                auto node = std::make_unique<NodeNamespace>(
+                    qualified_name, id, 0, short_name, std::set<NodeId>{child});
+                NODES.emplace_back(std::move(node));
+                NODE_MAP[qualified_name] = id;
+
+            } else {
+                id = it->second;
+            }
+
+            SPDLOG_TRACE("Namespace id is {}", id);
+
+            auto* node_ns = node_cast<NodeNamespace>(NODES[id].get());
+            node_ns->children.insert(child);
+            SPDLOG_TRACE("INserting {} in {}", child, id);
+            result.push_back(id);
+
+            parent = parent->getParent();
+            child = id;
+        } else if (parent->isRecord()) {
+            // Parent is a Record type. We should have created the record
+            // already by the time we get here...
+            const clang::CXXRecordDecl* crd =
+                static_cast<const clang::CXXRecordDecl*>(parent);
+
+            auto record_name = get_record_name(crd);
+            auto it = NODE_MAP.find(record_name);
+            if (it == NODE_MAP.end()) {
+                SPDLOG_CRITICAL(
+                    "Could not find record {} when processing namespaces",
+                    record_name);
+            } else {
+                id = it->second;
+                result.push_back(id);
+                auto* node_ns = node_cast<NodeNamespace>(NODES[id].get());
+                node_ns->children.insert(child);
+            }
+
+            parent = parent->getParent();
+            child = id;
+        } else {
+            break;
+        }
+    }
+
+    node_tu->children.insert(id);
+
+    std::reverse(result.begin(), result.end());
+    return result;
+}
+// Get the canonical definition from a crd
+const CXXRecordDecl* get_canonical_def_from_crd(const CXXRecordDecl* crd) {
+    if ((crd = crd->getCanonicalDecl())) {
+        return crd->getDefinition();
+    }
+    return nullptr;
+}
+
+// Get the templtaed canonical definition decl
+const CXXRecordDecl* get_canonical_def_from_ctd(const ClassTemplateDecl* ctd) {
+    if ((ctd = ctd->getCanonicalDecl())) {
+        if (const auto* crd = ctd->getTemplatedDecl()) {
+            return get_canonical_def_from_crd(crd);
+        }
+    }
+
+    return nullptr;
+}
+
+std::vector<std::string> get_template_parameters(const ClassTemplateDecl* ctd) {
+    const auto* tpl = ctd->getTemplateParameters();
+    std::vector<std::string> result;
+
+    if (tpl == nullptr) {
+        SPDLOG_ERROR("Could not get template parameter list for {}",
+                     ctd->getQualifiedNameAsString());
+        return result;
+    }
+
+    for (const auto& nd : *tpl) {
+        result.push_back(nd->getNameAsString());
+    }
+
+    return result;
+}
+
+void process_crd(const CXXRecordDecl* crd,
+                 std::vector<std::string> template_parameters) {
+    ASTContext& ctx = crd->getASTContext();
+    SourceManager& sm = ctx.getSourceManager();
+    const auto& loc = crd->getLocation();
+    std::string filename = sm.getFilename(loc).str();
+
+    auto qualified_name = crd->getQualifiedNameAsString();
+    auto short_name = crd->getNameAsString();
+    SPDLOG_DEBUG("process {} at {}:{}", qualified_name, filename,
+                 sm.getExpansionLineNumber(loc));
+
+    auto* node_tu = get_translation_unit(filename);
+
+    auto it = NODE_MAP.find(qualified_name);
+    if (it == NODE_MAP.end()) {
+        SPDLOG_TRACE("Not found, adding");
+        NodeId id = NODES.size();
+        auto node_record = std::make_unique<NodeRecord>(
+            qualified_name, id, 0, std::vector<std::string>{},
+            std::move(short_name), std::vector<NodeId>{},
+            std::move(template_parameters));
+
+        NODES.emplace_back(std::move(node_record));
+        SPDLOG_TRACE("inserting {} : {}", qualified_name, id);
+        NODE_MAP[qualified_name] = id;
+
+        auto namespaces = get_namespaces(id, crd->getParent(), node_tu);
+        auto* node_rec = node_cast<NodeRecord>(NODES[id].get());
+        node_rec->namespaces = std::move(namespaces);
+    }
+}
+
+void handle_ctd(const ClassTemplateDecl* ctd) {
+    ASTContext& ctx = ctd->getASTContext();
+    SourceManager& sm = ctx.getSourceManager();
+    const auto& loc = ctd->getLocation();
+    std::string filename = sm.getFilename(loc).str();
+
+    ctd = ctd->getCanonicalDecl();
+
+    std::string qualified_name = ctd->getQualifiedNameAsString();
+
+    // SPDLOG_TRACE("Got CTD {} at {}:{}", qualified_name, filename,
+    //              sm.getExpansionLineNumber(loc));
+
+    auto template_parameters = get_template_parameters(ctd);
+    if (template_parameters.empty()) {
+        SPDLOG_WARN("Class template {} had no template parameters",
+                    qualified_name);
+    }
+
+    for (const auto& t : template_parameters) {
+        SPDLOG_DEBUG("    {}", t);
+    }
+
+    const auto* crd = get_canonical_def_from_ctd(ctd);
+    if (crd == nullptr) {
+        SPDLOG_ERROR("Could not get CRD from CTD {}", qualified_name);
+        return;
+    }
+
+    process_crd(crd, std::move(template_parameters));
+}
+
 std::string CURRENT_FILENAME;
 void GenBindingCallback::run(const MatchFinder::MatchResult& result) {
     if (const CXXRecordDecl* crd =
             result.Nodes.getNodeAs<CXXRecordDecl>("recordDecl")) {
-        // handle_cxx_record_decl(rec_decl);
         ASTContext& ctx = crd->getASTContext();
         SourceManager& sm = ctx.getSourceManager();
         const auto& loc = crd->getLocation();
         std::string filename = sm.getFilename(loc).str();
 
         if (filename == CURRENT_FILENAME) {
-            SPDLOG_TRACE("Got CRD {}", crd->getQualifiedNameAsString());
+            crd = crd->getCanonicalDecl();
+            // SPDLOG_TRACE("Got CRD {} as {}:{}",
+            // crd->getQualifiedNameAsString(),
+            //              filename, sm.getExpansionLineNumber(loc));
+
+            if (const auto* ctd = crd->getDescribedClassTemplate()) {
+                // this represents a specialization, ignore it
+                // SPDLOG_TRACE("    is a spec of {}",
+                //              ctd->getQualifiedNameAsString());
+            }
         }
 
     } else if (const TypeAliasDecl* tdecl =
@@ -805,14 +1188,13 @@ void GenBindingCallback::run(const MatchFinder::MatchResult& result) {
     } else if (const ClassTemplateDecl* ctd =
                    result.Nodes.getNodeAs<ClassTemplateDecl>(
                        "classTemplateDecl")) {
+        ctd = ctd->getCanonicalDecl();
         ASTContext& ctx = ctd->getASTContext();
         SourceManager& sm = ctx.getSourceManager();
         const auto& loc = ctd->getLocation();
         std::string filename = sm.getFilename(loc).str();
-
         if (filename == CURRENT_FILENAME) {
-            SPDLOG_TRACE("Got CTD {} in {}", ctd->getQualifiedNameAsString(),
-                         filename);
+            handle_ctd(ctd);
         }
     }
 }
@@ -1092,6 +1474,12 @@ int main(int argc_, const char** argv_) {
             SPDLOG_ERROR("Could not create output directory '{}'", output_dir);
             return -2;
         }
+    }
+
+    for (const NodeId id : ROOT) {
+        auto* node_tu = node_cast<NodeTranslationUnit>(NODES[id].get());
+        std::cout << "writing tu " << std::endl;
+        node_tu->write(std::cout, 0);
     }
 
     // return result;
