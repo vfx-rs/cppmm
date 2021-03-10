@@ -46,6 +46,7 @@ namespace fs = ghc::filesystem;
 #include <nlohmann/json.hpp>
 using json = nlohmann::ordered_json;
 
+namespace cppmm {
 /// Enumerates the kinds of nodes in the output AST
 enum class NodeKind : uint32_t {
     Node = 0,
@@ -706,7 +707,13 @@ struct NodeMethod : public NodeFunction {
     }
 
     virtual void write(std::ostream& os, int depth) const override {
-        os << indent{depth} << qualified_name;
+        os << indent{depth};
+        os << "auto " << short_name << "(";
+        for (const auto& p : params) {
+            p.write(os, 0);
+        }
+        os << ") -> ";
+        return_type.write(os, 0);
     }
 };
 
@@ -834,6 +841,11 @@ struct NodeRecord : public NodeAttributeHolder {
         }
         os << indent{depth} << "struct " << short_name << " {\n";
 
+        for (const auto mid : methods) {
+            NODES[mid]->write(os, depth + 1);
+            os << "\n";
+        }
+
         os << indent{depth} << "}; // struct " << short_name;
     }
 };
@@ -905,13 +917,6 @@ NodeKind NodeRecord::_kind = NodeKind::Record;
 NodeKind NodeEnum::_kind = NodeKind::Enum;
 NodeKind NodeConstantArrayType::_kind = NodeKind::ConstantArrayType;
 NodeKind NodeVar::_kind = NodeKind::Var;
-
-class GenBindingCallback
-    : public clang::ast_matchers::MatchFinder::MatchCallback {
-public:
-    virtual void
-    run(const clang::ast_matchers::MatchFinder::MatchResult& result);
-};
 
 template <typename T> T* node_cast(Node* n) {
     assert(n->node_kind() == T::_kind && "incorrect node cast");
@@ -1080,6 +1085,312 @@ std::vector<std::string> get_template_parameters(const ClassTemplateDecl* ctd) {
     return result;
 }
 
+QType process_qtype(const QualType& qt);
+
+/// Create a new NodeFunctionProtoType from the given FunctionProtoType and
+/// return its id.
+NodeId process_function_proto_type(const FunctionProtoType* fpt,
+                                   std::string type_name,
+                                   std::string type_node_name) {
+    auto it = NODE_MAP.find(type_node_name);
+    if (it != NODE_MAP.end()) {
+        // already have an entry for this
+        return it->second;
+    } else {
+        QType return_type = process_qtype(fpt->getReturnType());
+        std::vector<QType> params;
+        for (const QualType& pqt : fpt->param_types()) {
+            params.push_back(process_qtype(pqt));
+        }
+
+        NodeId id = NODES.size();
+        auto node_ptr = std::make_unique<NodeFunctionProtoType>(
+            type_node_name, id, 0, std::move(type_name), std::move(return_type),
+            std::move(params));
+        NODES.emplace_back(std::move(node_ptr));
+        NODE_MAP[type_node_name] = id;
+        return id;
+    }
+}
+
+/// Create a QType from the given QualType. Recursively processes the contained
+/// types.
+QType process_qtype(const QualType& qt) {
+    if (qt->isPointerType() || qt->isReferenceType()) {
+        // first, figure out what kind of pointer we have
+        auto pointer_kind = PointerKind::Pointer;
+        if (qt->isRValueReferenceType()) {
+            pointer_kind = PointerKind::RValueReference;
+        } else if (qt->isReferenceType()) {
+            pointer_kind = PointerKind::Reference;
+        }
+
+        // first check if we've got the pointer type already
+        const std::string pointer_type_name =
+            qt.getCanonicalType().getAsString();
+        const std::string pointer_type_node_name = "TYPE:" + pointer_type_name;
+
+        auto it = NODE_MAP.find(pointer_type_name);
+        NodeId id;
+        if (it == NODE_MAP.end()) {
+            // need to create the pointer type, create the pointee type first
+            QType pointee_qtype =
+                process_qtype(qt->getPointeeType().getCanonicalType());
+            // now create the pointer type
+            id = NODES.size();
+            auto node_pointer_type = std::make_unique<NodePointerType>(
+                pointer_type_node_name, id, 0, pointer_type_name, pointer_kind,
+                pointee_qtype);
+            NODES.emplace_back(std::move(node_pointer_type));
+            NODE_MAP[pointer_type_name] = id;
+        } else {
+            // already done this type
+            id = it->second;
+        }
+
+        return QType{id, qt.isConstQualified()};
+    } else if (qt->isConstantArrayType()) {
+        // e.g. float[3]
+        const std::string type_name = qt.getCanonicalType().getAsString();
+        const std::string type_node_name = "TYPE:" + type_name;
+        auto it = NODE_MAP.find(type_node_name);
+        NodeId id;
+        if (it == NODE_MAP.end()) {
+            const ConstantArrayType* cat =
+                dyn_cast<ConstantArrayType>(qt.getTypePtr());
+            QType element_type = process_qtype(cat->getElementType());
+            id = NODES.size();
+            auto node_type = std::make_unique<NodeConstantArrayType>(
+                type_node_name, id, 0, type_name, element_type,
+                cat->getSize().getLimitedValue());
+            NODES.emplace_back(std::move(node_type));
+            NODE_MAP[type_node_name] = id;
+        } else {
+            id = it->second;
+        }
+
+        return QType{id, qt.isConstQualified()};
+    } else if (qt->isTemplateTypeParmType()) {
+        const auto* ttpt = qt->getAs<TemplateTypeParmType>();
+        int depth = ttpt->getDepth();
+        int index = ttpt->getIndex();
+    } else {
+        // regular type, let's get a nice name for it by removing the
+        // class/struct/enum/union qualifier clang adds
+        std::string type_name = strip_name_kinds(
+            qt.getCanonicalType().getUnqualifiedType().getAsString());
+        // We need to store type nodes for later access, since we might process
+        // the corresponding record decl after processing this type node, and
+        // will need to look it up later to set the appropriate id.
+        // to get around the fact that the type and the record it refers to will
+        // have the same name, we just prepend "TYPE:" to the type node name
+        // here.
+        // FIXME: we might want to stores types in a completely separate data
+        // structure
+        std::string type_node_name = "TYPE:" + type_name;
+
+        // see if we've proessed this type already
+        auto it = NODE_MAP.find(type_node_name);
+        NodeId id;
+        if (it == NODE_MAP.end()) {
+            // haven't done this type yet we'll need to create a new node for it
+            id = NODES.size();
+            if (qt->isBuiltinType()) {
+                // It's just a builtin. We store its name
+                auto node_type = std::make_unique<NodeBuiltinType>(
+                    type_node_name, id, 0, type_name);
+                NODES.emplace_back(std::move(node_type));
+                NODE_MAP[type_node_name] = id;
+            } else if (qt->isRecordType()) {
+                auto crd = qt->getAsCXXRecordDecl();
+                assert(crd && "CRD from Type is null");
+                crd = crd->getCanonicalDecl();
+                assert(crd && "CRD canonical decl is null");
+
+                // See if we've already processed a record matching this type
+                // and get its id if we have. If not we'll store -1 until we
+                // come back and process the decl later.
+                const std::string record_name = crd->getQualifiedNameAsString();
+                NodeId id_rec = -1;
+                auto it_rec = NODE_MAP.find(record_name);
+                if (it_rec != NODE_MAP.end()) {
+                    id_rec = it_rec->second;
+                }
+
+                auto node_record_type = std::make_unique<NodeRecordType>(
+                    type_node_name, id, 0, type_name, id_rec);
+                NODES.emplace_back(std::move(node_record_type));
+                NODE_MAP[type_node_name] = id;
+            } else if (qt->isEnumeralType()) {
+                const auto* et = qt->getAs<EnumType>();
+                assert(et && "Could not get EnumType from Type");
+                const auto* ed = et->getDecl();
+                assert(ed && "Could not get EnumDecl from EnumType");
+                ed = ed->getCanonicalDecl();
+                assert(ed && "Could not get canonical EnumDecl from EnumType");
+
+                // see if we've already processed an enum matching this type
+                // and get its id if we have. If not we'll store -1 until we
+                // come back and process the decl later.
+                const std::string enum_qual_name =
+                    ed->getQualifiedNameAsString();
+                NodeId id_enum = -1;
+                auto it_enum = NODE_MAP.find(enum_qual_name);
+                if (it_enum != NODE_MAP.end()) {
+                    id_enum = it_enum->second;
+                }
+
+                auto node_enum_type = std::make_unique<NodeEnumType>(
+                    type_node_name, id, 0, type_name, id_enum);
+                NODES.emplace_back(std::move(node_enum_type));
+                NODE_MAP[type_node_name] = id;
+            } else if (qt->isFunctionProtoType()) {
+                const auto* fpt = qt->getAs<FunctionProtoType>();
+                assert(fpt && "Could not get FunctionProtoType from QualType");
+
+                id =
+                    process_function_proto_type(fpt, type_name, type_node_name);
+            } else {
+                SPDLOG_WARN("Unhandled type {}", type_node_name);
+                qt->dump();
+                id = NodeId(-1);
+            }
+        } else {
+            id = it->second;
+        }
+
+        return QType{id, qt.isConstQualified()};
+    }
+}
+
+void process_function_parameters(const FunctionDecl* fd, QType& return_qtype,
+                                 std::vector<Param>& params) {
+    SPDLOG_TRACE("    -> {}", fd->getReturnType().getAsString());
+    return_qtype = process_qtype(fd->getReturnType());
+
+    for (const ParmVarDecl* pvd : fd->parameters()) {
+        int index = pvd->getFunctionScopeIndex();
+        SPDLOG_TRACE("        {}: {}", pvd->getQualifiedNameAsString(),
+                     pvd->getType().getCanonicalType().getAsString());
+        QType qtype = process_qtype(pvd->getType());
+
+        params.emplace_back(Param{pvd->getNameAsString(), qtype, index, {}});
+
+        if (const auto* vtd = pvd->getDescribedVarTemplate()) {
+            SPDLOG_TRACE("            GOT VTD");
+        }
+        if (const auto* td = pvd->getDescribedTemplate()) {
+            SPDLOG_TRACE("            GOT TD");
+        }
+    }
+}
+
+/// Create a new node for the given method decl and return it
+NodePtr process_method_decl(const CXXMethodDecl* cmd,
+                            std::vector<std::string> attrs,
+                            bool is_specialization = false) {
+    const std::string method_name = cmd->getQualifiedNameAsString();
+    const std::string method_short_name = cmd->getNameAsString();
+
+    QType return_qtype;
+    std::vector<Param> params;
+    process_function_parameters(cmd, return_qtype, params);
+
+    auto node_function = std::make_unique<NodeMethod>(
+        method_name, 0, 0, std::move(attrs), method_short_name, return_qtype,
+        std::move(params), cmd->isStatic());
+
+    NodeMethod* m = (NodeMethod*)node_function.get();
+    m->is_user_provided = cmd->isUserProvided();
+    m->is_const = cmd->isConst();
+    m->is_virtual = cmd->isVirtual();
+    m->is_overloaded_operator = cmd->isOverloadedOperator();
+    m->is_copy_assignment_operator = cmd->isCopyAssignmentOperator();
+    m->is_move_assignment_operator = cmd->isMoveAssignmentOperator();
+
+    if (const auto* ccd = dyn_cast<CXXConstructorDecl>(cmd)) {
+        m->is_constructor = true;
+        m->is_copy_constructor = ccd->isCopyConstructor();
+        m->is_move_constructor = ccd->isMoveConstructor();
+    } else if (const auto* cdd = dyn_cast<CXXDestructorDecl>(cmd)) {
+        m->is_destructor = true;
+    } else if (const auto* ccd = dyn_cast<CXXConversionDecl>(cmd)) {
+        m->is_conversion_decl = true;
+    }
+
+    m->is_specialization = is_specialization;
+
+    SPDLOG_DEBUG("Processed method {}", m->qualified_name);
+
+    return node_function;
+}
+
+std::vector<NodeId> process_methods(const CXXRecordDecl* crd) {
+    std::vector<NodePtr> result;
+    SPDLOG_TRACE("process_methods({})", get_record_name(crd));
+
+    // FIXME: need to replace existing methods from the base class
+    // for overrides
+    for (const Decl* d : crd->decls()) {
+        // we want to ignore anything that's not public for obvious reasons
+        // since we're using this function for getting methods both from the
+        // library type and the binding type, this does mean we need to add a
+        // "public" specifier to the binding type, but eh...
+        if (d->getAccess() != AS_public) {
+            continue;
+        }
+
+        // A FunctionTemplateDecl represents methods that are dependent on
+        // their own template parameters (aside from the Record template
+        // parameter list).
+        if (const FunctionTemplateDecl* ftd =
+                dyn_cast<FunctionTemplateDecl>(d)) {
+            for (const FunctionDecl* fd : ftd->specializations()) {
+                std::vector<std::string> attrs{};
+                if (const auto* cmd = dyn_cast<CXXMethodDecl>(fd)) {
+                    auto node_function = process_method_decl(cmd, attrs, true);
+                    // add_method_to_list(std::move(node_function), result);
+                    result.emplace_back(std::move(node_function));
+                } else {
+                    // shouldn't get here
+                    assert(false && "method spec couldn't be converted to CMD");
+                    const std::string function_name =
+                        ftd->getQualifiedNameAsString();
+                    const std::string method_short_name = fd->getNameAsString();
+                    QType return_qtype;
+                    std::vector<Param> params;
+                    process_function_parameters(fd, return_qtype, params);
+
+                    auto node_function = std::make_unique<NodeMethod>(
+                        function_name, -1, -1, std::move(attrs),
+                        method_short_name, return_qtype, std::move(params),
+                        fd->isStatic());
+                    // add_method_to_list(std::move(node_function), result);
+                    result.emplace_back(std::move(node_function));
+                }
+            }
+        } else if (const auto* cmd = dyn_cast<CXXMethodDecl>(d)) {
+            // just a regular boring old method
+            std::vector<std::string> attrs{};
+            auto node_function = process_method_decl(cmd, attrs);
+            // add_method_to_list(std::move(node_function), result);
+            result.emplace_back(std::move(node_function));
+        }
+    }
+
+    std::vector<NodeId> method_ids;
+    method_ids.reserve(result.size());
+
+    for (auto&& m : result) {
+        NodeId id = NODES.size();
+        NODE_MAP[m->qualified_name] = id;
+        NODES.emplace_back(std::move(m));
+        method_ids.push_back(id);
+    }
+
+    return method_ids;
+}
+
 void process_crd(const CXXRecordDecl* crd,
                  std::vector<std::string> template_parameters) {
     ASTContext& ctx = crd->getASTContext();
@@ -1110,6 +1421,8 @@ void process_crd(const CXXRecordDecl* crd,
         auto namespaces = get_namespaces(id, crd->getParent(), node_tu);
         auto* node_rec = node_cast<NodeRecord>(NODES[id].get());
         node_rec->namespaces = std::move(namespaces);
+
+        node_rec->methods = process_methods(crd);
     }
 }
 
@@ -1144,6 +1457,15 @@ void handle_ctd(const ClassTemplateDecl* ctd) {
 
     process_crd(crd, std::move(template_parameters));
 }
+
+} // namespace cppmm
+
+class GenBindingCallback
+    : public clang::ast_matchers::MatchFinder::MatchCallback {
+public:
+    virtual void
+    run(const clang::ast_matchers::MatchFinder::MatchResult& result);
+};
 
 std::string CURRENT_FILENAME;
 void GenBindingCallback::run(const MatchFinder::MatchResult& result) {
@@ -1194,7 +1516,7 @@ void GenBindingCallback::run(const MatchFinder::MatchResult& result) {
         const auto& loc = ctd->getLocation();
         std::string filename = sm.getFilename(loc).str();
         if (filename == CURRENT_FILENAME) {
-            handle_ctd(ctd);
+            cppmm::handle_ctd(ctd);
         }
     }
 }
@@ -1476,6 +1798,7 @@ int main(int argc_, const char** argv_) {
         }
     }
 
+    using namespace cppmm;
     for (const NodeId id : ROOT) {
         auto* node_tu = node_cast<NodeTranslationUnit>(NODES[id].get());
         std::cout << "writing tu " << std::endl;
