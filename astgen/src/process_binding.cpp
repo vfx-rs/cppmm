@@ -1310,7 +1310,8 @@ std::vector<NodeId> get_namespaces(const clang::DeclContext* parent,
             }
 
             // add this node to the TU if it's not there already
-            if (std::find(node_tu->children.begin(), node_tu->children.end(),
+            if (node_tu &&
+                std::find(node_tu->children.begin(), node_tu->children.end(),
                           id) == node_tu->children.end()) {
                 node_tu->children.push_back(id);
             }
@@ -1782,7 +1783,7 @@ void handle_binding_var(const VarDecl* vd) {
 /// Decide if we want to store the given library FunctionDecl in the AST by
 /// matching it against a decl from the bindings. If so, create the new
 /// NodeFunction and store it in the AST
-void handle_function(const FunctionDecl* fd) {
+void handle_library_function(const FunctionDecl* fd) {
     const std::string function_qual_name = fd->getQualifiedNameAsString();
     const std::string function_short_name = fd->getNameAsString();
 
@@ -1798,13 +1799,8 @@ void handle_function(const FunctionDecl* fd) {
     std::vector<Param> params;
     process_function_parameters(fd, return_qtype, params);
 
-    ASTContext& ctx = fd->getASTContext();
-    SourceManager& sm = ctx.getSourceManager();
-    const auto& loc = fd->getLocation();
-    std::string filename = sm.getFilename(loc).str();
-    auto* node_tu = get_translation_unit(filename);
     const std::vector<NodeId> namespaces =
-        get_namespaces(fd->getParent(), node_tu);
+        get_namespaces(fd->getParent(), nullptr);
     auto node_function =
         NodeFunction(function_qual_name, 0, 0, {}, function_short_name,
                      return_qtype, std::move(params), std::move(namespaces));
@@ -1833,7 +1829,7 @@ void handle_function(const FunctionDecl* fd) {
 /// Decide if we want to store the given library EnumDecl in the AST by
 /// matching it against a decl from the bindings. If so, create the new NodeEnum
 /// and store it in the AST
-void handle_enum(const EnumDecl* ed) {
+void handle_library_enum(const EnumDecl* ed) {
     const std::string enum_qual_name = ed->getQualifiedNameAsString();
     auto it = binding_enums.find(enum_qual_name);
     if (it == binding_enums.end()) {
@@ -1850,7 +1846,7 @@ void handle_enum(const EnumDecl* ed) {
 /// Decide if we want to store the given library VarDecl in the AST by
 /// matching it against a decl from the bindings. If so, create the new NodeVar
 /// and store it in the AST
-void handle_var(const VarDecl* vd) {
+void handle_library_var(const VarDecl* vd) {
     const std::string var_qual_name = vd->getQualifiedNameAsString();
     auto it = binding_vars.find(var_qual_name);
     if (it == binding_vars.end()) {
@@ -1896,13 +1892,13 @@ void ProcessBindingCallback::run(const MatchFinder::MatchResult& result) {
 void ProcessLibraryCallback::run(const MatchFinder::MatchResult& result) {
     if (const FunctionDecl* fd =
             result.Nodes.getNodeAs<FunctionDecl>("libraryFunctionDecl")) {
-        handle_function(fd);
+        handle_library_function(fd);
     } else if (const EnumDecl* ed =
                    result.Nodes.getNodeAs<EnumDecl>("libraryEnumDecl")) {
-        handle_enum(ed);
+        handle_library_enum(ed);
     } else if (const VarDecl* vd =
                    result.Nodes.getNodeAs<VarDecl>("libraryVarDecl")) {
-        handle_var(vd);
+        handle_library_var(vd);
     }
 }
 
