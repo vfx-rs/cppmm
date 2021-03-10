@@ -513,6 +513,8 @@ struct NodeFunction : public NodeAttributeHolder {
     bool in_binding = false;
     /// Is this function declared in the library?
     bool in_library = false;
+    /// Have we already processed this library function?
+    bool processed = false;
 
     NodeFunction(std::string qualified_name, NodeId id, NodeId context,
                  std::vector<std::string> attrs, std::string short_name,
@@ -1806,8 +1808,9 @@ void handle_library_function(const FunctionDecl* fd) {
                      return_qtype, std::move(params), std::move(namespaces));
 
     // find a match in the overloads
-    for (const auto& binding_fn : it->second) {
-        if (match_function(&node_function, &binding_fn)) {
+    for (auto& binding_fn : it->second) {
+        if (!binding_fn.processed &&
+            match_function(&node_function, &binding_fn)) {
             // we have a match. copy over the attributes and store this function
             node_function.attrs = binding_fn.attrs;
             node_function.context = binding_fn.context;
@@ -1822,6 +1825,7 @@ void handle_library_function(const FunctionDecl* fd) {
             fnptr->context = node_tu->id;
             node_tu->children.push_back(id);
             NODES.emplace_back(std::move(fnptr));
+            binding_fn.processed = true;
         }
     }
 }
