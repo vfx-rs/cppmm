@@ -590,6 +590,7 @@ struct NodeFunction : public NodeAttributeHolder {
     bool inline_ = false;
 
     NodeExprPtr body;
+    std::vector<NodeId> namespaces;
 
     NodeFunction(std::string qualified_name, NodeId id,
                  std::vector<std::string> attrs, std::string short_name,

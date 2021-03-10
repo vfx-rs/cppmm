@@ -188,8 +188,6 @@ NodePtr read_function(const TranslationUnit::Ptr & tu, const nln::json & json) {
 
     auto qualified_name = json[QUALIFIED_NAME].get<std::string>();
 
-    //std::cerr << qualified_name << std::endl;
-
     auto short_name = json[SHORT_NAME].get<std::string>();
     auto id = json[ID].get<Id>();
     auto return_type = read_type(json[RETURN]);
@@ -199,10 +197,20 @@ NodePtr read_function(const TranslationUnit::Ptr & tu, const nln::json & json) {
         params.push_back(read_param(i));
     }
 
-    return NodeFunction::n(
+    // Namespaces
+    std::vector<NodeId> namespaces;
+    for(const auto & ns : json[NAMESPACES])
+    {
+        namespaces.push_back(ns);
+    }
+
+    auto result = NodeFunction::n(
                       qualified_name, id, _attrs, short_name,
                       std::move(return_type),
                       std::move(params));
+    result->namespaces = namespaces;
+
+    return result;
 }
 
 //------------------------------------------------------------------------------
