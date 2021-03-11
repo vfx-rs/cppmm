@@ -1198,10 +1198,6 @@ void opaquebytes_to_c_copy__trivial(TranslationUnit & c_tu,
                                     const NodeRecord & cpp_record,
                                     const NodeRecord & c_record)
 {
-#if 0
-    const auto & copy_constructor =\
-        *static_cast<const NodeFunction*>(copy_constructor_ptr.get());
-
     auto rhs =
         NodePointerType::n(
             PointerKind::Reference,
@@ -1210,6 +1206,9 @@ void opaquebytes_to_c_copy__trivial(TranslationUnit & c_tu,
     );
 
     auto c_return = NodeRecordType::n("", 0, c_record.name, c_record.id, false);
+
+    // Add the include needed for memcpy
+    c_tu.private_includes.insert("#include <cstring>");
 
     // Function body
     auto c_function_body =
@@ -1220,24 +1219,21 @@ void opaquebytes_to_c_copy__trivial(TranslationUnit & c_tu,
                 "result"
             ),
 
-            // copy_constructor(&result, reinterpret_cast<const CTYPE *>(rhs))
+            // memcpy(&result, reinterpret_cast<const CTYPE *>(rhs))
             NodeFunctionCallExpr::n(
-                copy_constructor.name,
+                "memcpy",
                 std::vector<NodeExprPtr>({
                     NodeRefExpr::n(
                         NodeVarRefExpr::n("result")
                     ),
-                    NodeCastExpr::n(
-                        NodeRefExpr::n(
-                            NodeVarRefExpr::n("rhs")
-                        ),
-                        NodePointerType::n(
-                            PointerKind::Pointer,
-                            NodeRecordType::n("", 0, c_record.name, c_record.id,
-                                              true),
-                            false
-                        ),
-                        "reinterpret"
+                    NodeRefExpr::n(
+                        NodeVarRefExpr::n("rhs")
+                    ),
+                    NodeFunctionCallExpr::n(
+                        "sizeof",
+                        std::vector<NodeExprPtr>({
+                            NodeVarRefExpr::n("result")
+                        })
                     )
                 })
             ),
@@ -1261,7 +1257,6 @@ void opaquebytes_to_c_copy__trivial(TranslationUnit & c_tu,
     c_function->inline_ = true;
 
     c_tu.decls.push_back(std::move(c_function));
-#endif
 }
 
 //------------------------------------------------------------------------------
