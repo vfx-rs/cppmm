@@ -937,9 +937,13 @@ void enum_entry(NodeId & new_id,
     const auto & cpp_enum =\
         *static_cast<NodeEnum*>(cpp_node.get());
 
+    auto c_enum_name =
+        compute_qualified_name(type_registry, cpp_enum.namespaces,
+                               cpp_enum.short_name);
     auto c_enum =
-        NodeEnum::n(c_tu, cpp_enum.name, new_id++, cpp_enum.attrs,
-                    cpp_enum.variants, cpp_enum.size, cpp_enum.align);
+        NodeEnum::n(c_tu, c_enum_name, cpp_enum.short_name, new_id++,
+                    cpp_enum.attrs, cpp_enum.variants, cpp_enum.size,
+                    cpp_enum.align, cpp_enum.namespaces);
 
     // Most simple record implementation is the opaque bytes.
     // Least safe and most restrictive in use, but easiest to implement.

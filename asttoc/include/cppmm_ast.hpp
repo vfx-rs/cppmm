@@ -700,14 +700,20 @@ struct NodeEnum : public NodeAttributeHolder {
     uint32_t size;
     uint32_t align;
     TranslationUnit::WPtr tu;
+    std::string short_name;
+
+    std::vector<NodeId> namespaces;
 
     NodeEnum(const TranslationUnit::Ptr & tu,
-             std::string qualified_name, NodeId id,
+             std::string qualified_name, std::string short_name, NodeId id,
              std::vector<std::string> attrs,
              std::vector<std::pair<std::string, std::string>> variants,
-             uint32_t size, uint32_t align)
+             uint32_t size, uint32_t align,
+             const std::vector<NodeId> & namespaces)
         : NodeAttributeHolder(qualified_name, id, NodeKind::Enum, attrs),
-          variants(variants), size(size), align(align) {
+          variants(variants), size(size), align(align), namespaces(namespaces),
+          short_name(short_name)
+    {
     }
 
     using This = NodeEnum;

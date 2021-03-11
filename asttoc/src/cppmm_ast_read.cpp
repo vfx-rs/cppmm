@@ -331,6 +331,13 @@ NodePtr read_enum(const TranslationUnit::Ptr & tu, const nln::json & json) {
     auto size = json[SIZE].get<uint64_t>();
     auto align = json[ALIGN].get<uint64_t>();
     auto name = json[NAME].get<std::string>();
+    auto short_name = json[SHORT_NAME].get<std::string>();
+
+    std::vector<NodeId> namespaces;
+    for(const auto & ns : json[NAMESPACES])
+    {
+        namespaces.push_back(ns);
+    }
 
     // Pull out the variants
     std::vector<std::pair<std::string, std::string>> variants;
@@ -345,7 +352,8 @@ NodePtr read_enum(const TranslationUnit::Ptr & tu, const nln::json & json) {
 
     // Instantiate the translation unit
     auto result =
-        NodeEnum::n(tu, name, id, _attrs, variants, size, align);
+        NodeEnum::n(tu, name, short_name, id, _attrs, variants, size, align,
+                    namespaces);
 
     // Return the result
     return result;
