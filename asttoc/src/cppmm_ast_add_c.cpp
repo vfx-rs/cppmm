@@ -1193,12 +1193,82 @@ void opaquebytes_from_cpp(TranslationUnit & c_tu,
     c_tu.decls.push_back(std::move(c_function));
 }
 */
+//------------------------------------------------------------------------------
+void opaquebytes_to_c_copy__trivial(TranslationUnit & c_tu,
+                                    const NodeRecord & cpp_record,
+                                    const NodeRecord & c_record)
+{
+#if 0
+    const auto & copy_constructor =\
+        *static_cast<const NodeFunction*>(copy_constructor_ptr.get());
+
+    auto rhs =
+        NodePointerType::n(
+            PointerKind::Reference,
+            NodeRecordType::n("", 0, cpp_record.name, cpp_record.id, true),
+            false
+    );
+
+    auto c_return = NodeRecordType::n("", 0, c_record.name, c_record.id, false);
+
+    // Function body
+    auto c_function_body =
+        NodeBlockExpr::n(std::vector<NodeExprPtr>({
+            // TO result;
+            NodeVarDeclExpr::n(
+                NodeTypePtr(c_return),
+                "result"
+            ),
+
+            // copy_constructor(&result, reinterpret_cast<const CTYPE *>(rhs))
+            NodeFunctionCallExpr::n(
+                copy_constructor.name,
+                std::vector<NodeExprPtr>({
+                    NodeRefExpr::n(
+                        NodeVarRefExpr::n("result")
+                    ),
+                    NodeCastExpr::n(
+                        NodeRefExpr::n(
+                            NodeVarRefExpr::n("rhs")
+                        ),
+                        NodePointerType::n(
+                            PointerKind::Pointer,
+                            NodeRecordType::n("", 0, c_record.name, c_record.id,
+                                              true),
+                            false
+                        ),
+                        "reinterpret"
+                    )
+                })
+            ),
+
+            // Return
+            NodeReturnExpr::n(
+                NodeVarRefExpr::n("result")
+            )
+        }));
+
+    // Add the new function to the translation unit
+    std::vector<std::string> attrs;
+    std::vector<Param> params = {Param("rhs", rhs, 0)};
+    auto c_function = NodeFunction::n(
+                        "to_c_copy", PLACEHOLDER_ID,
+                        attrs, "", std::move(c_return),
+                        std::move(params));
+
+    c_function->body = c_function_body;
+    c_function->private_ = true;
+    c_function->inline_ = true;
+
+    c_tu.decls.push_back(std::move(c_function));
+#endif
+}
 
 //------------------------------------------------------------------------------
-void opaquebytes_to_c_copy(TranslationUnit & c_tu,
-                               const NodeRecord & cpp_record,
-                               const NodeRecord & c_record,
-                               const NodePtr & copy_constructor_ptr)
+void opaquebytes_to_c_copy__constructor(TranslationUnit & c_tu,
+                                        const NodeRecord & cpp_record,
+                                        const NodeRecord & c_record,
+                                        const NodePtr & copy_constructor_ptr)
 {
     const auto & copy_constructor =\
         *static_cast<const NodeFunction*>(copy_constructor_ptr.get());
@@ -1276,16 +1346,23 @@ void opaquebytes_conversions(TranslationUnit & c_tu,
     opaquebytes_to_cpp(c_tu, cpp_record, c_record, true, PointerKind::Pointer);
     opaquebytes_to_cpp(c_tu, cpp_record, c_record, false, PointerKind::Pointer);
 
-    // We need the copy constructor in order to be able to return records
-    // by value
+    // Conversions for going from c to cpp
     opaquebytes_to_c(c_tu, cpp_record, c_record, true, PointerKind::Reference);
     opaquebytes_to_c(c_tu, cpp_record, c_record, true, PointerKind::Pointer);
     opaquebytes_to_c(c_tu, cpp_record, c_record, false, PointerKind::Reference);
     opaquebytes_to_c(c_tu, cpp_record, c_record, false, PointerKind::Pointer);
 
+    // Copy conversions.
+    // Use copy constructor if its available, or fallback to bitwise copy
+    // if it's possible.
     if(copy_constructor)
     {
-        opaquebytes_to_c_copy(c_tu, cpp_record, c_record, copy_constructor);
+        opaquebytes_to_c_copy__constructor(c_tu, cpp_record, c_record,
+                                           copy_constructor);
+    }
+    else if(cpp_record.trivially_copyable)
+    {
+        opaquebytes_to_c_copy__trivial(c_tu, cpp_record, c_record);
     }
 }
 
