@@ -929,6 +929,32 @@ void record_entry(NodeId & record_id,
 }
 
 //------------------------------------------------------------------------------
+void enum_entry(NodeId & new_id,
+                TypeRegistry & type_registry,
+                TranslationUnit::Ptr & c_tu,
+                const NodePtr & cpp_node)
+{
+    const auto & cpp_enum =\
+        *static_cast<NodeEnum*>(cpp_node.get());
+
+    auto c_enum =
+        NodeEnum::n(c_tu, cpp_enum.name, new_id++, cpp_enum.attrs,
+                    cpp_enum.variants, cpp_enum.size, cpp_enum.align);
+
+    // Most simple record implementation is the opaque bytes.
+    // Least safe and most restrictive in use, but easiest to implement.
+    // So doing that first. Later will switch depending on the cppm attributes.
+
+    // Record
+    //opaquebytes_record(c_record);
+
+    // Conversions
+    //enum_conversions(c_tu, cpp_record, c_record, copy_constructor);
+
+    c_tu->decls.push_back(std::move(c_enum));
+}
+
+//------------------------------------------------------------------------------
 void function_detail(TypeRegistry & type_registry,
                     TranslationUnit & c_tu,
                     const NodePtr & cpp_node)
@@ -1420,7 +1446,7 @@ std::string header_file_include(std::string header_filename)
 
 //------------------------------------------------------------------------------
 void translation_unit_entries(
-    NodeId & new_record_id,
+    NodeId & new_id,
     TypeRegistry & type_registry,
     const std::string & output_directory, Root & root,
     const size_t cpp_tu_index)
@@ -1465,13 +1491,26 @@ void translation_unit_entries(
         }
     }
 
+    // cpp enums -> c enums
+    for (const auto & node : cpp_tu->decls)
+    {
+        switch (node->kind)
+        {
+        case NodeKind::Enum:
+            generate::enum_entry(new_id, type_registry, c_tu, node);
+            break;
+        default:
+            break;
+        }
+    }
+
     // cpp records -> c records
     for (const auto & node : cpp_tu->decls)
     {
         switch (node->kind)
         {
         case NodeKind::Record:
-            generate::record_entry(new_record_id, type_registry, c_tu, node);
+            generate::record_entry(new_id, type_registry, c_tu, node);
             break;
         default:
             break;
