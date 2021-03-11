@@ -690,6 +690,8 @@ struct NodeRecord : public NodeAttributeHolder {
     RecordKind record_kind;
     /// Does the class have any pure virtual functions?
     bool is_abstract;
+    /// Is a bitwise copy safe?
+    bool is_trivially_copyable;
 
     /// Size of the record, in bits
     uint32_t size;
@@ -699,16 +701,19 @@ struct NodeRecord : public NodeAttributeHolder {
     NodeRecord(std::string qualified_name, NodeId id, NodeId context,
                std::vector<std::string> attrs, std::string short_name,
                std::vector<NodeId> namespaces, RecordKind record_kind,
-               bool is_abstract, uint32_t size, uint32_t align)
+               bool is_abstract, bool is_trivially_copyable, uint32_t size,
+               uint32_t align)
         : NodeAttributeHolder(qualified_name, id, context, NodeKind::Record,
                               attrs),
           short_name(std::move(short_name)), namespaces(std::move(namespaces)),
-          record_kind(record_kind), is_abstract(is_abstract), size(size),
+          record_kind(record_kind), is_abstract(is_abstract),
+          is_trivially_copyable(is_trivially_copyable), size(size),
           align(align) {}
 
     virtual void write_json_attrs(json& o) const override {
         NodeAttributeHolder::write_json_attrs(o);
         o["abstract"] = is_abstract;
+        o["trivially_copyable"] = is_trivially_copyable;
         o["size"] = size;
         o["align"] = align;
         if (!alias.empty()) {
@@ -1513,7 +1518,7 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
     auto node_record = std::make_unique<NodeRecord>(
         record_name, new_id, node_tu->id, std::move(attrs),
         std::move(short_name), std::move(namespaces), RecordKind::OpaquePtr,
-        crd->isAbstract(), size, align);
+        crd->isAbstract(), crd->isTriviallyCopyable(), size, align);
     auto* node_record_ptr = node_record.get();
     NODES.emplace_back(std::move(node_record));
     NODE_MAP[record_name] = new_id;
