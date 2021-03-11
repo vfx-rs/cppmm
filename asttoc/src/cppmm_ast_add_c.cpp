@@ -13,6 +13,8 @@
 namespace cppmm {
 namespace transform {
 
+static const char * THIS_ = "this_";
+
 //------------------------------------------------------------------------------
 // TypeRegistry
 //------------------------------------------------------------------------------
@@ -27,9 +29,11 @@ class TypeRegistry
     // The node entries are sparse, so store them in a map for the moment.
     using Mapping = std::unordered_map<NodeId, Records>;
     using Namespaces = std::unordered_map<NodeId, std::string>;
+    using SymbolCounts = std::unordered_map<std::string, size_t>;
 
     Mapping m_mapping;
     Namespaces m_namespaces;
+    SymbolCounts m_symbol_counts;
 
 public:
     void add(NodeId id, NodePtr cpp, NodePtr c)
@@ -82,6 +86,25 @@ public:
             return entry->second.m_c;
         }
     }
+
+    std::string make_symbol_unique(const std::string & symbol)
+    {
+        auto item = m_symbol_counts.find(symbol);
+        if(item == m_symbol_counts.end())
+        {
+            // First time
+            m_symbol_counts.insert(std::make_pair(symbol, 0));
+            return symbol;
+        }
+        else
+        {
+            // Other times
+            std::string result = symbol;
+            result += "_";
+            result += std::to_string(++item->second);
+            return result;
+        }
+    }
 };
 
 //------------------------------------------------------------------------------
@@ -103,17 +126,93 @@ std::tuple<std::string, std::string, std::string>
 
     const auto abs_root = pystring::os::path::join(outdir, root);
     
-    return {root + ".h",
-            abs_root + ".cpp",
-            root + "_private.h",
+    return {root + "_.h",
+            abs_root + "_.cpp",
+            root + "_private_.h",
     };
+}
+
+//------------------------------------------------------------------------------
+std::string remap_special_methods(const std::string & name)
+{
+    if(name.empty())
+    {
+        return "";
+    }
+
+    // Destructor
+    if(name[0] == '~')
+    {
+        return std::string("dtor");
+    }
+
+    // Operators
+    if(name == "operator=")
+    {
+        return std::string("_assign");
+    }
+    if(name == "operator==")
+    {
+        return std::string("_eq");
+    }
+    if(name == "operator!=")
+    {
+        return std::string("_ne");
+    }
+    if(name == "operator++")
+    {
+        return std::string("_op_inc");
+    }
+    if(name == "operator--")
+    {
+        return std::string("_op_dec");
+    }
+    if(name == "operator+")
+    {
+        return std::string("_op_add");
+    }
+    if(name == "operator-")
+    {
+        return std::string("_op_sub");
+    }
+    if(name == "operator/")
+    {
+        return std::string("_op_div");
+    }
+    if(name == "operator*")
+    {
+        return std::string("_op_mul");
+    }
+    if(name == "operator[]")
+    {
+        return std::string("_index");
+    }
+    if(name == "operator+=")
+    {
+        return std::string("_op_iadd");
+    }
+    if(name == "operator-=")
+    {
+        return std::string("_op_isub");
+    }
+    if(name == "operator/=")
+    {
+        return std::string("_op_idiv");
+    }
+    if(name == "operator*=")
+    {
+        return std::string("_op_imul");
+    }
+
+    // Just use the input name
+    return name;
 }
 
 //------------------------------------------------------------------------------
 std::string compute_c_name(const std::string & name)
 {
     std::string result;
-    for( auto const & c : name )
+    for( auto const & c : remap_special_methods(name) )
     {
         switch (c)
         {
@@ -160,6 +259,10 @@ NodeTypePtr convert_builtin_type(TranslationUnit & c_tu,
                                  const NodeTypePtr & t, bool _in_refererence)
 {
     // TODO LT: Do mapping of c++ builtins to c builtins
+    if(t->type_name == "_Bool")
+    {
+        c_tu.header_includes.insert("#include <stdbool.h>");
+    }
 
     // For now just copy everything one to one.
     return NodeBuiltinType::n(t->name, 0, t->type_name, t->const_);
@@ -178,13 +281,12 @@ void add_declaration(TranslationUnit & c_tu, const NodePtr & node_ptr,
             if(in_reference) // Forward declaration
             {
                 c_tu.forward_decls.insert(node_ptr);
-                c_tu.source_includes.insert(r_tu->header_filename);
             }
             else // Header file
             {
                 c_tu.header_includes.insert(r_tu->header_filename);
             }
-            c_tu.source_private_includes.insert(r_tu->private_header_filename);
+            c_tu.source_includes.insert(r_tu->private_header_filename);
         }
     }
 }
@@ -247,10 +349,12 @@ NodeTypePtr convert_type(TranslationUnit & c_tu,
             return convert_record_type(c_tu, type_registry, t, in_reference);
         case NodeKind::PointerType:
             return convert_pointer_type(c_tu, type_registry, t, in_reference);
+
+        // Unsupported for the moment
+        case NodeKind::ArrayType:
         case NodeKind::EnumType:
-            return NodeTypePtr(); // TODO LT: Enum translation
         case NodeKind::FunctionProtoType:
-            return NodeTypePtr(); // TODO LT: Function proto type translation
+            return NodeTypePtr();
         default:
             break;
     }
@@ -312,7 +416,7 @@ Param self_param(const NodeRecord & c_record, bool const_)
                                       std::move(record), false // TODO LT: Maybe references should be const pointers
                                       );
 
-    return Param("self", std::move(pointer), 0);
+    return Param(THIS_, std::move(pointer), 0);
 }
 
 //------------------------------------------------------------------------------
@@ -320,13 +424,25 @@ NodeExprPtr this_reference(const NodeRecord & cpp_record, bool const_)
 {
     return NodeFunctionCallExpr::n("to_cpp",
                                         std::vector<NodeExprPtr>({
-        NodeVarRefExpr::n("self")
+        NodeVarRefExpr::n(THIS_)
     }));
 }
 
 //------------------------------------------------------------------------------
-bool should_wrap(const NodeMethod & cpp_method)
+bool should_wrap(const NodeRecord & cpp_record, const NodeMethod & cpp_method)
 {
+    // Skip static methods for now
+    if(cpp_method.is_static) // TODO LT: Bring in support for static methods
+    {
+        return false;
+    }
+
+    // Check this is not a constructor for an abstract type
+    if(cpp_method.is_constructor && cpp_record.abstract)
+    {
+        return false;
+    }
+
     // Check its not ignored
     for(const auto & a : cpp_method.attrs)
     {
@@ -359,12 +475,50 @@ NodeExprPtr convert_record_to(const NodeTypePtr & t, const NodeExprPtr & name)
 }
 
 //------------------------------------------------------------------------------
+bool leaf_type_is_builtin(const NodePointerType* p)
+{
+    switch(p->pointee_type->kind)
+    {
+        case NodeKind::BuiltinType:
+            return true;
+        case NodeKind::PointerType:
+        {
+            return leaf_type_is_builtin(
+                static_cast<const NodePointerType*>(p->pointee_type.get())
+            );
+        }
+        default:
+            return false;
+    }
+}
+
+//------------------------------------------------------------------------------
 NodeExprPtr convert_pointer_to(const NodeTypePtr & t, const NodeExprPtr & name)
 {
     // TODO LT: Assuming opaquebytes at the moment, opaqueptr will have a
     // different implementation.
     //
     auto p = static_cast<const NodePointerType*>(t.get());
+
+    // If we're using a pointer to a builtin type
+    //
+    if(leaf_type_is_builtin(p))
+    {
+        switch (p->pointer_kind)
+        {
+            case PointerKind::Pointer:
+                {
+                    return name;
+                }
+            case PointerKind::RValueReference: // TODO LT: Add support for rvalue reference
+            case PointerKind::Reference:
+                {
+                    return NodeDerefExpr::n(NodeExprPtr(name));
+                }
+            default:
+                break;
+        }
+    }
 
     switch (p->pointer_kind)
     {
@@ -434,6 +588,26 @@ NodeExprPtr convert_pointer_from(
 {
     auto from = static_cast<const NodePointerType*>(from_ptr.get());
 
+    // If we're returning a pointer to a builtin type, then just return the
+    // reference to the pointer. No need to convert it.
+    //
+    // TODO LT: Take into account pointers to pointers to builtin types
+    if(from->pointee_type->kind == NodeKind::BuiltinType)
+    {
+        switch (from->pointer_kind)
+        {
+            case PointerKind::Pointer:
+                return name;
+            case PointerKind::RValueReference: // TODO LT: Add support for rvalue reference
+            case PointerKind::Reference:
+                {
+                    return NodeRefExpr::n(NodeExprPtr(name));
+                }
+            default:
+                break;
+        }
+    }
+
     switch (from->pointer_kind)
     {
         case PointerKind::RValueReference: // TODO LT: Add support for rvalue reference
@@ -494,11 +668,15 @@ NodeExprPtr opaquebytes_constructor_body(TypeRegistry & type_registry,
         argument(args, p);
     }
 
+    // All constructors use placement new, so we need to make sure new is
+    // included
+    c_tu.source_includes.insert("#include <new>");
+
     // Create the method call expression
     return NodeBlockExpr::n(
                     std::vector<NodeExprPtr>({
                         NodePlacementNewExpr::n(
-                            NodeVarRefExpr::n("self"),
+                            NodeVarRefExpr::n(THIS_),
                             NodeFunctionCallExpr::n(cpp_record.name, args)
     )}));
 }
@@ -521,10 +699,17 @@ NodeExprPtr opaquebytes_method_body(TypeRegistry & type_registry,
         argument(args, p);
     }
 
+    // Obtain the method name 
+    auto cpp_method_name = cpp_method.short_name;
+    if(cpp_method.is_destructor)
+    {
+        cpp_method_name = cpp_method.name;
+    }
+
     // Create the method call expression
     auto method_call =
         NodeMethodCallExpr::n(std::move(this_),
-                              cpp_method.short_name,
+                              cpp_method_name,
                               args
     );
 
@@ -593,9 +778,9 @@ void opaquebytes_method(TypeRegistry & type_registry,
                         NodePtr & copy_constructor)
 {
     // Skip ignored methods
-    if(!should_wrap(cpp_method))
+    if(!should_wrap(cpp_record, cpp_method))
     {
-        std::cerr << "ignoring method decl: " << cpp_method.name << std::endl;
+        //std::cerr << "ignoring method decl: " << cpp_method.name << std::endl;
         return;
     }
 
@@ -606,7 +791,8 @@ void opaquebytes_method(TypeRegistry & type_registry,
     {
         if(!parameter(c_tu, type_registry, c_params, p))
         {
-            std::cerr << "Skipping: " << cpp_method.name << std::endl;
+            std::cerr << "Skipping: " << cpp_method.name
+                      << "\n  unrecognised parameter type." << std::endl;
             return;
         }
     }
@@ -615,7 +801,8 @@ void opaquebytes_method(TypeRegistry & type_registry,
     auto c_return = convert_type(c_tu, type_registry, cpp_method.return_type);
     if(!c_return)
     {
-        std::cerr << "Skipping: " << cpp_method.name << std::endl;
+        std::cerr << "Skipping: " << cpp_method.name
+                  << "\n  unrecognised return type."<< std::endl;
         return;
     }
 
@@ -626,10 +813,12 @@ void opaquebytes_method(TypeRegistry & type_registry,
 
     auto short_name = find_method_short_name(cpp_method);
 
-    // Add the new function to the translation unit
+    // Build the new method name
     std::string method_name = c_record.name;
     method_name += "_";
     method_name += compute_c_name(short_name);
+    method_name = type_registry.make_symbol_unique(method_name);
+
     auto c_function = NodeFunction::n(
                         method_name, PLACEHOLDER_ID,
                         cpp_method.attrs, "", std::move(c_return),
@@ -678,10 +867,12 @@ void record_entry(NodeId & record_id,
                    c_tu,
                    c_record_name, record_id++, cpp_record.attrs,
                    cpp_record.size, cpp_record.align, cpp_record.alias,
-                   cpp_record.namespaces);
+                   cpp_record.namespaces,
+                   false);
 
     // Add the cpp and c record to the registry
     type_registry.add(cpp_node->id, cpp_node, c_record);
+    type_registry.add_namespace(cpp_record.id, cpp_record.alias);
 
     // Finally add the record to the translation unit
     c_tu->decls.push_back(std::move(c_record));
@@ -1074,10 +1265,11 @@ void translation_unit_entries(
         header_file_include(std::get<PrivateHeader>(filepaths));
     c_tu->include_paths = cpp_tu->include_paths;
 
-    // source includes -> source includes
+    // source includes -> private includes, this is so we have the types
+    // we for other translation units
     for (auto & i : cpp_tu->source_includes)
     {
-        c_tu->source_includes.insert(i);
+        c_tu->private_includes.insert(i);
     }
 
     // cpp namespaces

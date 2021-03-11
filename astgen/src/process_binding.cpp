@@ -507,17 +507,23 @@ struct NodeFunction : public NodeAttributeHolder {
     QType return_type;
     /// The function's parameters
     std::vector<Param> params;
-    /// Is this function declared in the binding? NOT USED
+    /// The full path of namespaces leading to this function
+    std::vector<NodeId> namespaces;
+    /// Is this function declared in the binding?
     bool in_binding = false;
-    /// Is this function declared in the library? NOT USED
+    /// Is this function declared in the library?
     bool in_library = false;
+    /// Have we already processed this library function?
+    bool processed = false;
 
     NodeFunction(std::string qualified_name, NodeId id, NodeId context,
                  std::vector<std::string> attrs, std::string short_name,
-                 QType return_type, std::vector<Param> params)
+                 QType return_type, std::vector<Param> params,
+                 std::vector<NodeId> namespaces)
         : NodeAttributeHolder(qualified_name, id, context, NodeKind::Function,
                               attrs),
-          short_name(short_name), return_type(return_type), params(params) {}
+          short_name(std::move(short_name)), return_type(return_type),
+          params(std::move(params)), namespaces(std::move(namespaces)) {}
 
     virtual void write_json_attrs(json& o) const override {
         NodeAttributeHolder::write_json_attrs(o);
@@ -547,6 +553,7 @@ struct NodeFunction : public NodeAttributeHolder {
         o["kind"] = "Function";
         write_json_attrs(o);
         write_attrs_json(o);
+        o["namespaces"] = namespaces;
         write_parameters_json(o);
     }
 };
@@ -585,7 +592,7 @@ struct NodeMethod : public NodeFunction {
                std::vector<std::string> attrs, std::string short_name,
                QType return_type, std::vector<Param> params, bool is_static)
         : NodeFunction(qualified_name, id, context, attrs, short_name,
-                       return_type, params),
+                       return_type, params, {}),
           is_static(is_static) {
         node_kind = NodeKind::Method;
     }
@@ -683,6 +690,8 @@ struct NodeRecord : public NodeAttributeHolder {
     RecordKind record_kind;
     /// Does the class have any pure virtual functions?
     bool is_abstract;
+    /// Is a bitwise copy safe?
+    bool is_trivially_copyable;
 
     /// Size of the record, in bits
     uint32_t size;
@@ -692,16 +701,19 @@ struct NodeRecord : public NodeAttributeHolder {
     NodeRecord(std::string qualified_name, NodeId id, NodeId context,
                std::vector<std::string> attrs, std::string short_name,
                std::vector<NodeId> namespaces, RecordKind record_kind,
-               bool is_abstract, uint32_t size, uint32_t align)
+               bool is_abstract, bool is_trivially_copyable, uint32_t size,
+               uint32_t align)
         : NodeAttributeHolder(qualified_name, id, context, NodeKind::Record,
                               attrs),
           short_name(std::move(short_name)), namespaces(std::move(namespaces)),
-          record_kind(record_kind), is_abstract(is_abstract), size(size),
+          record_kind(record_kind), is_abstract(is_abstract),
+          is_trivially_copyable(is_trivially_copyable), size(size),
           align(align) {}
 
     virtual void write_json_attrs(json& o) const override {
         NodeAttributeHolder::write_json_attrs(o);
         o["abstract"] = is_abstract;
+        o["trivially_copyable"] = is_trivially_copyable;
         o["size"] = size;
         o["align"] = align;
         if (!alias.empty()) {
@@ -1305,7 +1317,8 @@ std::vector<NodeId> get_namespaces(const clang::DeclContext* parent,
             }
 
             // add this node to the TU if it's not there already
-            if (std::find(node_tu->children.begin(), node_tu->children.end(),
+            if (node_tu &&
+                std::find(node_tu->children.begin(), node_tu->children.end(),
                           id) == node_tu->children.end()) {
                 node_tu->children.push_back(id);
             }
@@ -1505,7 +1518,7 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
     auto node_record = std::make_unique<NodeRecord>(
         record_name, new_id, node_tu->id, std::move(attrs),
         std::move(short_name), std::move(namespaces), RecordKind::OpaquePtr,
-        crd->isAbstract(), size, align);
+        crd->isAbstract(), crd->isTriviallyCopyable(), size, align);
     auto* node_record_ptr = node_record.get();
     NODES.emplace_back(std::move(node_record));
     NODE_MAP[record_name] = new_id;
@@ -1706,10 +1719,14 @@ void handle_binding_function(const FunctionDecl* fd) {
     process_function_parameters(fd, return_qtype, params);
     // NodeId id = NODES.size();
 
+    const std::vector<NodeId> namespaces =
+        get_namespaces(fd->getParent(), node_tu);
+
     auto it = binding_functions.find(function_qual_name);
     auto node_function =
         NodeFunction(function_qual_name, 0, node_tu->id, std::move(attrs),
-                     function_short_name, return_qtype, std::move(params));
+                     function_short_name, return_qtype, std::move(params),
+                     std::move(namespaces));
 
     SPDLOG_DEBUG("Adding binding function {}", node_function);
 
@@ -1773,7 +1790,7 @@ void handle_binding_var(const VarDecl* vd) {
 /// Decide if we want to store the given library FunctionDecl in the AST by
 /// matching it against a decl from the bindings. If so, create the new
 /// NodeFunction and store it in the AST
-void handle_function(const FunctionDecl* fd) {
+void handle_library_function(const FunctionDecl* fd) {
     const std::string function_qual_name = fd->getQualifiedNameAsString();
     const std::string function_short_name = fd->getNameAsString();
 
@@ -1788,13 +1805,17 @@ void handle_function(const FunctionDecl* fd) {
     QType return_qtype;
     std::vector<Param> params;
     process_function_parameters(fd, return_qtype, params);
+
+    const std::vector<NodeId> namespaces =
+        get_namespaces(fd->getParent(), nullptr);
     auto node_function =
         NodeFunction(function_qual_name, 0, 0, {}, function_short_name,
-                     return_qtype, std::move(params));
+                     return_qtype, std::move(params), std::move(namespaces));
 
     // find a match in the overloads
-    for (const auto& binding_fn : it->second) {
-        if (match_function(&node_function, &binding_fn)) {
+    for (auto& binding_fn : it->second) {
+        if (!binding_fn.processed &&
+            match_function(&node_function, &binding_fn)) {
             // we have a match. copy over the attributes and store this function
             node_function.attrs = binding_fn.attrs;
             node_function.context = binding_fn.context;
@@ -1809,6 +1830,7 @@ void handle_function(const FunctionDecl* fd) {
             fnptr->context = node_tu->id;
             node_tu->children.push_back(id);
             NODES.emplace_back(std::move(fnptr));
+            binding_fn.processed = true;
         }
     }
 }
@@ -1816,7 +1838,7 @@ void handle_function(const FunctionDecl* fd) {
 /// Decide if we want to store the given library EnumDecl in the AST by
 /// matching it against a decl from the bindings. If so, create the new NodeEnum
 /// and store it in the AST
-void handle_enum(const EnumDecl* ed) {
+void handle_library_enum(const EnumDecl* ed) {
     const std::string enum_qual_name = ed->getQualifiedNameAsString();
     auto it = binding_enums.find(enum_qual_name);
     if (it == binding_enums.end()) {
@@ -1833,7 +1855,7 @@ void handle_enum(const EnumDecl* ed) {
 /// Decide if we want to store the given library VarDecl in the AST by
 /// matching it against a decl from the bindings. If so, create the new NodeVar
 /// and store it in the AST
-void handle_var(const VarDecl* vd) {
+void handle_library_var(const VarDecl* vd) {
     const std::string var_qual_name = vd->getQualifiedNameAsString();
     auto it = binding_vars.find(var_qual_name);
     if (it == binding_vars.end()) {
@@ -1879,13 +1901,13 @@ void ProcessBindingCallback::run(const MatchFinder::MatchResult& result) {
 void ProcessLibraryCallback::run(const MatchFinder::MatchResult& result) {
     if (const FunctionDecl* fd =
             result.Nodes.getNodeAs<FunctionDecl>("libraryFunctionDecl")) {
-        handle_function(fd);
+        handle_library_function(fd);
     } else if (const EnumDecl* ed =
                    result.Nodes.getNodeAs<EnumDecl>("libraryEnumDecl")) {
-        handle_enum(ed);
+        handle_library_enum(ed);
     } else if (const VarDecl* vd =
                    result.Nodes.getNodeAs<VarDecl>("libraryVarDecl")) {
-        handle_var(vd);
+        handle_library_var(vd);
     }
 }
 

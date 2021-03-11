@@ -14,6 +14,8 @@ struct DeepSlice {
     DeepSlice(Imf::PixelType type, char* base, size_t xStride, size_t yStride,
               size_t sampleStride, int xSampling, int ySampling,
               double fillValue, bool xTileCoords, bool yTileCoords);
+
+    DeepSlice(const Imf::DeepSlice & rhs);
 } CPPMM_VALUETYPE;
 
 struct DeepFrameBuffer {
@@ -84,6 +86,8 @@ struct DeepFrameBuffer {
         IMF_EXPORT
         Iterator(const Imf::DeepFrameBuffer::SliceMap::iterator& i)
             CPPMM_IGNORE;
+        IMF_EXPORT
+        Iterator(const Imf::DeepFrameBuffer::Iterator& rhs);
 
         IMF_EXPORT
         Iterator& operator++();
@@ -104,6 +108,8 @@ struct DeepFrameBuffer {
         IMF_EXPORT
         ConstIterator(const Imf::DeepFrameBuffer::SliceMap::iterator& i)
             CPPMM_IGNORE;
+        IMF_EXPORT
+        ConstIterator(const Imf::DeepFrameBuffer::ConstIterator& rhs);
 
         IMF_EXPORT
         ConstIterator& operator++();

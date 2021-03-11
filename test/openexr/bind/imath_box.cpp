@@ -18,6 +18,7 @@ public:
     Box();
     Box(const V& point);
     Box(const V& minV, const V& maxV);
+    Box(const ::Imath::Box<V>& rhs);
 
     bool operator==(const Box<V>& src) const;
     bool operator!=(const Box<V>& src) const;

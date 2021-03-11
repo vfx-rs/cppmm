@@ -116,7 +116,7 @@ struct TiledRgbaOutputFile {
                     int l = 0) CPPMM_IGNORE;
 
     IMF_EXPORT
-    void updatePreviewImage(const Imf::PreviewRgba[]);
+    void updatePreviewImage(const Imf::PreviewRgba newPixels[]);
 
     IMF_EXPORT
     void breakTile(int dx, int dy, int lx, int ly, int offset, int length,

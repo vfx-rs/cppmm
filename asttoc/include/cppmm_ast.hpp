@@ -27,6 +27,7 @@ enum class NodeKind : uint32_t {
     RecordType,
     EnumType,
     FunctionProtoType,
+    UnknownType,
     Parm,
     Function,
     AssignExpr,
@@ -86,7 +87,7 @@ struct TranslationUnit {
     std::string header_filename;
     std::string private_header_filename;
     std::set<std::string> source_includes;
-    std::set<std::string> source_private_includes;
+    std::set<std::string> private_includes;
     std::set<std::string> header_includes;
 
     std::vector<std::string> include_paths;
@@ -258,8 +259,7 @@ struct NodeEnumType : public NodeType {
 //------------------------------------------------------------------------------
 // NodeArrayType
 //------------------------------------------------------------------------------
-// TODO LT: I added this one
-struct NodeArrayType : public NodeType {
+struct NodeArrayType : public NodeType { // TODO LT: Rename to ConstantArray
     uint64_t size;
     NodeTypePtr element_type;
 
@@ -271,6 +271,23 @@ struct NodeArrayType : public NodeType {
 
     // A static method for creating this as a shared pointer
     using This = NodeArrayType;
+    template<typename ... Args>
+    static std::shared_ptr<This> n(Args&& ... args)
+    {
+        return std::make_shared<This>(std::forward<Args>(args)...);
+    }
+};
+
+//------------------------------------------------------------------------------
+// NodeUnknownType
+//------------------------------------------------------------------------------
+struct NodeUnknownType : public NodeType { // TODO LT: Rename to ConstantArray
+    NodeUnknownType(bool const_)
+        : NodeType("", 0, NodeKind::UnknownType, "", const_)
+    {}
+
+    // A static method for creating this as a shared pointer
+    using This = NodeUnknownType;
     template<typename ... Args>
     static std::shared_ptr<This> n(Args&& ... args)
     {
@@ -596,6 +613,7 @@ struct NodeFunction : public NodeAttributeHolder {
 //------------------------------------------------------------------------------
 struct NodeMethod : public NodeFunction {
     bool is_static;
+    bool is_destructor;
     bool is_constructor;
     bool is_copy_constructor;
     bool is_const;
@@ -604,12 +622,14 @@ struct NodeMethod : public NodeFunction {
                std::vector<std::string> attrs, std::string short_name,
                NodeTypePtr && return_type, std::vector<Param> && params,
                bool is_static, bool is_constructor, 
-               bool is_copy_constructor, bool is_const)
+               bool is_copy_constructor, bool is_destructor,
+               bool is_const)
         : NodeFunction(qualified_name, id, attrs, short_name,
                        std::move(return_type), std::move(params))
           , is_static(is_static)
           , is_constructor(is_constructor)
           , is_copy_constructor(is_copy_constructor)
+          , is_destructor(is_destructor)
           , is_const(is_const)
     {
         kind = NodeKind::Method;
@@ -647,14 +667,16 @@ struct NodeRecord : public NodeAttributeHolder {
     std::string alias;
     std::vector<NodeId> namespaces;
 
+    bool abstract;
+
     NodeRecord(const TranslationUnit::Ptr & tu,
                std::string qualified_name, NodeId id,
                std::vector<std::string> attrs,
                uint32_t size, uint32_t align, const std::string & alias,
-               const std::vector<NodeId> & namespaces)
+               const std::vector<NodeId> & namespaces, bool abstract)
         : NodeAttributeHolder(qualified_name, id, NodeKind::Record, attrs),
           tu(tu), size(size), align(align), force_alignment(false), alias(alias)
-          , namespaces(namespaces)
+          , namespaces(namespaces), abstract(abstract)
     {}
 
     // A static method for creating this as a shared pointer
