@@ -161,6 +161,20 @@ void write_record_forward_decl(fmt::ostream & out, const NodePtr & node)
 }
 
 //------------------------------------------------------------------------------
+void write_enum(fmt::ostream & out, const NodePtr & node)
+{
+    const NodeEnum & enum_ = *static_cast<const NodeEnum*>(node.get());
+
+    out.print("enum {}{{\n", enum_.name);
+    for(const auto & v : enum_.variants)
+    {
+        out.print("    {} = {},\n", v.first, v.second);
+    }
+    out.print("}};\n");
+}
+
+
+//------------------------------------------------------------------------------
 void write_params(fmt::ostream & out, const NodeFunction & function)
 {
     if(!function.params.empty())
@@ -547,7 +561,20 @@ void write_header(const TranslationUnit & tu)
         }
     }
 
-    // Write out all the records first
+    out.print("\n");
+
+    // Write out all the enums
+    for(const auto & node : tu.decls)
+    {
+        if (node->kind == NodeKind::Enum)
+        {
+            write_enum(out, node);
+        }
+    }
+
+    out.print("\n");
+
+    // Write out all the records
     for(const auto & node : tu.decls)
     {
         if (node->kind == NodeKind::Record)
@@ -555,6 +582,8 @@ void write_header(const TranslationUnit & tu)
             write_record(out, node);
         }
     }
+
+    out.print("\n");
 
     // Then all the public functions
     for(const auto & node : tu.decls)
