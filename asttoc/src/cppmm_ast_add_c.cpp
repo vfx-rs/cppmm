@@ -929,6 +929,38 @@ void record_entry(NodeId & record_id,
 }
 
 //------------------------------------------------------------------------------
+void enum_conversions(TranslationUnit & c_tu, const NodeEnum & cpp_enum,
+                      const NodeEnum & c_enum)
+{
+#if 0
+    // Conversions for going from cpp to c
+    opaquebytes_to_cpp(c_tu, cpp_record, c_record, true, PointerKind::Reference);
+    opaquebytes_to_cpp(c_tu, cpp_record, c_record, false, PointerKind::Reference);
+    opaquebytes_to_cpp(c_tu, cpp_record, c_record, true, PointerKind::Pointer);
+    opaquebytes_to_cpp(c_tu, cpp_record, c_record, false, PointerKind::Pointer);
+
+    // Conversions for going from c to cpp
+    opaquebytes_to_c(c_tu, cpp_record, c_record, true, PointerKind::Reference);
+    opaquebytes_to_c(c_tu, cpp_record, c_record, true, PointerKind::Pointer);
+    opaquebytes_to_c(c_tu, cpp_record, c_record, false, PointerKind::Reference);
+    opaquebytes_to_c(c_tu, cpp_record, c_record, false, PointerKind::Pointer);
+
+    // Copy conversions.
+    // Use copy constructor if its available, or fallback to bitwise copy
+    // if it's possible.
+    if(copy_constructor)
+    {
+        opaquebytes_to_c_copy__constructor(c_tu, cpp_record, c_record,
+                                           copy_constructor);
+    }
+    else if(cpp_record.trivially_copyable)
+    {
+        opaquebytes_to_c_copy__trivial(c_tu, cpp_record, c_record);
+    }
+#endif
+}
+
+//------------------------------------------------------------------------------
 void enum_entry(NodeId & new_id,
                 TypeRegistry & type_registry,
                 TranslationUnit::Ptr & c_tu,
@@ -945,15 +977,8 @@ void enum_entry(NodeId & new_id,
                     cpp_enum.attrs, cpp_enum.variants, cpp_enum.size,
                     cpp_enum.align, cpp_enum.namespaces);
 
-    // Most simple record implementation is the opaque bytes.
-    // Least safe and most restrictive in use, but easiest to implement.
-    // So doing that first. Later will switch depending on the cppm attributes.
-
-    // Record
-    //opaquebytes_record(c_record);
-
-    // Conversions
-    //enum_conversions(c_tu, cpp_record, c_record, copy_constructor);
+    // Add the conversion functions for to_c and to_cpp.
+    enum_conversions(*c_tu, cpp_enum, *c_enum);
 
     c_tu->decls.push_back(std::move(c_enum));
 }
@@ -1249,7 +1274,7 @@ void opaquebytes_to_c_copy__trivial(TranslationUnit & c_tu,
                 "result"
             ),
 
-            // memcpy(&result, reinterpret_cast<const CTYPE *>(rhs))
+            // memcpy(&result, &rhs, sizeof(result))
             NodeFunctionCallExpr::n(
                 "memcpy",
                 std::vector<NodeExprPtr>({
