@@ -51,6 +51,7 @@ namespace {
     const char * RECORD_C = "Record";
     const char * RECORD_L = "record";
     const char * TYPE = "type";
+    const char * TRIVIALLY_COPYABLE = "trivially_copyable";
     const char * POINTEE = "pointee";
     const char * RETURN = "return";
     const char * SOURCE_INCLUDES = "source_includes";
@@ -278,7 +279,15 @@ NodePtr read_record(const TranslationUnit::Ptr & tu, const nln::json & json) {
     {
         abstract = abstract_a->get<bool>();
     }
- 
+
+    // Find if trivially_copyable
+    auto trivially_copyable = false;
+    auto trivially_copyable_a = json.find(TRIVIALLY_COPYABLE);
+    if( trivially_copyable_a != json.end() )
+    {
+        trivially_copyable = trivially_copyable_a->get<bool>();
+    }
+
     // Override the name with an alias if one is provided 
     auto alias = json.find(ALIAS);
     if( alias != json.end() )
@@ -296,7 +305,7 @@ NodePtr read_record(const TranslationUnit::Ptr & tu, const nln::json & json) {
     // Instantiate the translation unit
     auto result =\
         NodeRecord::n(tu, qual_name, id, _attrs, size, align, name, namespaces,
-                      abstract);
+                      abstract, trivially_copyable);
 
     // Pull out the methods
     for (const auto & i : json[METHODS] ){
