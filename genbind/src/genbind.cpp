@@ -64,6 +64,7 @@ enum class NodeKind : uint32_t {
     Enum,
     ConstantArrayType,
     Var,
+    TemplateTypeParmType,
 };
 
 std::ostream& operator<<(std::ostream& os, NodeKind k) {
@@ -147,20 +148,28 @@ struct Node {
 
     virtual ~Node() {}
 
-    virtual void write_json_attrs(json& o) const {
-        if (id >= 0) {
-            o["id"] = id;
-        } else {
-            o["id"] = nullptr;
-        }
-    }
-
-    virtual void write_json(json& o) const = 0;
-
     virtual void write(std::ostream& os, int depth) const = 0;
 };
 
 using NodePtr = std::unique_ptr<Node>;
+
+template <typename T> T* node_cast(Node* n) {
+    assert(n->node_kind() == T::_kind && "incorrect node cast");
+    if (n->node_kind() == T::_kind) {
+        return reinterpret_cast<T*>(n);
+    } else {
+        return nullptr;
+    }
+}
+
+template <typename T> const T* node_cast(const Node* n) {
+    assert(n->node_kind() == T::_kind && "incorrect node cast");
+    if (n->node_kind() == T::_kind) {
+        return reinterpret_cast<T*>(n);
+    } else {
+        return nullptr;
+    }
+}
 
 struct indent {
     int i;
@@ -194,28 +203,16 @@ struct NodeTranslationUnit : public Node {
     static NodeKind _kind;
     virtual NodeKind node_kind() const override { return _kind; }
 
-    virtual void write_json(json& o) const override {
-        o["kind"] = "TranslationUnit";
-        o["filename"] = qualified_name;
-        o["source_includes"] = source_includes;
-        o["include_paths"] = project_includes;
-        write_json_attrs(o);
-
-        o["decls"] = {};
-        for (NodeId id : children) {
-            const Node* node = NODES.at(id).get();
-            auto child = json::object();
-            node->write_json(child);
-            o["decls"].emplace_back(std::move(child));
-        }
-    }
-
     virtual void write(std::ostream& os, int depth) const override {
+        os << "#include <" << source_includes[0] << ">\n";
+        os << "#include <cppmm_bind.hpp>\n";
+        os << "namespace cppmm_bind {\n\n";
         for (const NodeId child : children) {
             auto* node = NODES[child].get();
             node->write(os, depth);
             os << "\n\n";
         }
+        os << "} // namespace cppmm_bind\n";
     }
 
     NodeTranslationUnit(std::string qualified_name, NodeId id, NodeId context,
@@ -237,17 +234,6 @@ struct NodeNamespace : public Node {
                   std::string short_name, std::set<NodeId> children)
         : Node(std::move(qualified_name), id, context),
           short_name(std::move(short_name)), children(std::move(children)) {}
-
-    virtual void write_json_attrs(json& o) const override {
-        Node::write_json_attrs(o);
-        o["short_name"] = short_name;
-    }
-
-    virtual void write_json(json& o) const override {
-        o["kind"] = "Namespace";
-        o["name"] = qualified_name;
-        write_json_attrs(o);
-    }
 
     virtual void write(std::ostream& os, int depth) const override {
         os << indent{depth} << "namespace " << short_name << " {\n";
@@ -272,10 +258,23 @@ struct NodeType : public Node {
              std::string type_name)
         : Node(qualified_name, id, context), type_name(type_name) {}
 
-    virtual void write_json_attrs(json& o) const override {
-        Node::write_json_attrs(o);
-        o["type"] = type_name;
+    virtual void write(std::ostream& os, int depth) const override {
+        os << indent{depth};
+        if (type_name == "_Bool") {
+            os << "bool";
+        } else {
+            os << type_name;
+        }
     }
+};
+
+struct NodeTemplateTypeParmType : public NodeType {
+    NodeTemplateTypeParmType(std::string qualified_name, NodeId id,
+                             NodeId context, std::string type_name)
+        : NodeType(qualified_name, id, context, type_name) {}
+
+    static NodeKind _kind;
+    virtual NodeKind node_kind() const override { return _kind; }
 
     virtual void write(std::ostream& os, int depth) const override {
         os << indent{depth} << type_name;
@@ -291,11 +290,6 @@ struct NodeBuiltinType : public NodeType {
     NodeBuiltinType(std::string qualified_name, NodeId id, NodeId context,
                     std::string type_name)
         : NodeType(qualified_name, id, context, type_name) {}
-
-    virtual void write_json(json& o) const override {
-        o["kind"] = "BuiltinType";
-        write_json_attrs(o);
-    }
 };
 
 /// QType is the equivalent of clang's QualType. Currently just defines the
@@ -305,15 +299,6 @@ struct QType {
     /// Type we're constifying
     NodeId ty;
     bool is_const;
-
-    void write_json(json& o) const {
-        if (ty >= 0) {
-            NODES.at(ty)->write_json(o);
-        } else {
-            o["type"] = "UNKNOWN";
-        }
-        o["const"] = is_const;
-    }
 
     void write(std::ostream& os, int depth) const {
         os << indent{depth};
@@ -358,23 +343,16 @@ struct NodePointerType : public NodeType {
         : NodeType(qualified_name, id, context, type_name),
           pointer_kind(pointer_kind), pointee_type(pointee_type) {}
 
-    virtual void write_json(json& o) const override {
-        if (pointer_kind == PointerKind::Pointer) {
-            o["kind"] = "Pointer";
-        } else if (pointer_kind == PointerKind::RValueReference) {
-            o["kind"] = "RValueReference";
-        } else {
-            o["kind"] = "Reference";
-        }
-        write_json_attrs(o);
-
-        o["pointee"] = {};
-        pointee_type.write_json(o["pointee"]);
-    }
-
     virtual void write(std::ostream& os, int depth) const override {
         os << indent{depth};
         pointee_type.write(os, 0);
+        if (pointer_kind == PointerKind::Pointer) {
+            os << "*";
+        } else if (pointer_kind == PointerKind::Reference) {
+            os << "&";
+        } else if (pointer_kind == PointerKind::RValueReference) {
+            os << "&&";
+        }
     }
 };
 
@@ -393,48 +371,10 @@ struct NodeConstantArrayType : public NodeType {
                    std::move(type_name)),
           element_type(element_type), size(size) {}
 
-    virtual void write_json(json& o) const override {
-        o["kind"] = "ConstantArrayType";
-        write_json_attrs(o);
-
-        o["size"] = size;
-        o["element_type"] = {};
-        element_type.write_json(o["element_type"]);
-    }
-
     virtual void write(std::ostream& os, int depth) const override {
         os << indent{depth};
         element_type.write(os, 0);
         os << "[" << size << "]";
-    }
-};
-
-/// A reference to a record (i.e. a class or struct)
-struct NodeRecordType : public NodeType {
-    /// The record declaration node, i.e. the actual type declaration. If the
-    /// record referred to hasn't been processed yet, then this will be -1 until
-    /// such a time as the record is processed
-    NodeId record;
-
-    static NodeKind _kind;
-    virtual NodeKind node_kind() const override { return _kind; }
-
-    NodeRecordType(std::string qualified_name, NodeId id, NodeId context,
-                   std::string type_name, NodeId record)
-        : NodeType(qualified_name, id, context, type_name), record(record) {}
-
-    virtual void write_json_attrs(json& o) const override {
-        NodeType::write_json_attrs(o);
-        o["record"] = record;
-    }
-
-    virtual void write_json(json& o) const override {
-        o["kind"] = "RecordType";
-        write_json_attrs(o);
-    }
-
-    virtual void write(std::ostream& os, int depth) const override {
-        os << indent{depth} << type_name;
     }
 };
 
@@ -451,16 +391,6 @@ struct NodeEnumType : public NodeType {
     NodeEnumType(std::string qualified_name, NodeId id, NodeId context,
                  std::string type_name, NodeId enm)
         : NodeType(qualified_name, id, context, type_name), enm(enm) {}
-
-    virtual void write_json_attrs(json& o) const override {
-        NodeType::write_json_attrs(o);
-        o["enum"] = enm;
-    }
-
-    virtual void write_json(json& o) const override {
-        o["kind"] = "EnumType";
-        write_json_attrs(o);
-    }
 
     virtual void write(std::ostream& os, int depth) const override {
         os << indent{depth} << type_name;
@@ -484,27 +414,6 @@ struct NodeFunctionProtoType : public NodeType {
                           std::vector<QType> params)
         : NodeType(qualified_name, id, context, type_name),
           return_type(std::move(return_type)), params(std::move(params)) {}
-
-    virtual void write_json_attrs(json& o) const override {
-        NodeType::write_json_attrs(o);
-    }
-
-    virtual void write_json(json& o) const override {
-        o["kind"] = "FunctionProtoType";
-
-        write_json_attrs(o);
-
-        o["return"] = {};
-        return_type.write_json(o["return"]);
-
-        o["params"] = {};
-        for (const auto& param : params) {
-            auto p = json::object();
-            p["type"] = json::object();
-            param.write_json(p["type"]);
-            o["params"].emplace_back(p);
-        }
-    }
 
     virtual void write(std::ostream& os, int depth) const override {
         os << indent{depth} << type_name;
@@ -541,16 +450,6 @@ struct NodeAttributeHolder : public Node {
     NodeAttributeHolder(std::string qualified_name, NodeId id, NodeId context,
                         std::vector<std::string> attrs)
         : Node(qualified_name, id, context), attrs(attrs) {}
-
-    virtual void write_json(json& o) const override = 0;
-
-    // FIXME: worst naming ever
-    virtual void write_attrs_json(json& o) const {
-        o["attributes"] = {};
-        for (const auto& a : attrs) {
-            o["attributes"].emplace_back(a);
-        }
-    }
 };
 
 struct NodeVar : public NodeAttributeHolder {
@@ -565,20 +464,6 @@ struct NodeVar : public NodeAttributeHolder {
         : NodeAttributeHolder(std::move(qualified_name), id, context,
                               std::move(attrs)),
           qtype(qtype), short_name(std::move(short_name)) {}
-
-    virtual void write_json_attrs(json& o) const override {
-        NodeAttributeHolder::write_json_attrs(o);
-    }
-
-    virtual void write_json(json& o) const override {
-        o["kind"] = "Var";
-        o["qualified_name"] = qualified_name;
-        o["short_name"] = short_name;
-        o["type"] = {};
-        qtype.write_json(o["type"]);
-        write_json_attrs(o);
-        write_attrs_json(o);
-    }
 
     virtual void write(std::ostream& os, int depth) const override {
         os << indent{depth};
@@ -607,37 +492,6 @@ struct NodeFunction : public NodeAttributeHolder {
                  QType return_type, std::vector<Param> params)
         : NodeAttributeHolder(qualified_name, id, context, attrs),
           short_name(short_name), return_type(return_type), params(params) {}
-
-    virtual void write_json_attrs(json& o) const override {
-        NodeAttributeHolder::write_json_attrs(o);
-        o["short_name"] = short_name;
-        o["qualified_name"] = qualified_name;
-        o["in_binding"] = in_binding;
-        o["in_library"] = in_library;
-    }
-
-    virtual void write_parameters_json(json& o) const {
-        o["return"] = {};
-        return_type.write_json(o["return"]);
-
-        o["params"] = {};
-        for (const auto& param : params) {
-            auto p = json::object();
-            p["index"] = param.index;
-            p["name"] = param.name;
-            p["type"] = json::object();
-            p["attrs"] = param.attrs;
-            param.qty.write_json(p["type"]);
-            o["params"].emplace_back(p);
-        }
-    }
-
-    virtual void write_json(json& o) const override {
-        o["kind"] = "Function";
-        write_json_attrs(o);
-        write_attrs_json(o);
-        write_parameters_json(o);
-    }
 
     virtual void write(std::ostream& os, int depth) const override {
         os << indent{depth} << qualified_name;
@@ -683,37 +537,32 @@ struct NodeMethod : public NodeFunction {
                        return_type, params),
           is_static(is_static) {}
 
-    virtual void write_json_attrs(json& o) const override {
-        NodeFunction::write_json_attrs(o);
-        o["static"] = is_static;
-        o["user_provided"] = is_user_provided;
-        o["const"] = is_const;
-        o["virtual"] = is_virtual;
-        o["overloaded_operator"] = is_overloaded_operator;
-        o["copy_assignment_operator"] = is_copy_assignment_operator;
-        o["move_assignment_operator"] = is_move_assignment_operator;
-        o["constructor"] = is_constructor;
-        o["copy_constructor"] = is_copy_constructor;
-        o["move_constructor"] = is_move_constructor;
-        o["conversion_decl"] = is_conversion_decl;
-        o["destructor"] = is_destructor;
-    }
-
-    virtual void write_json(json& o) const override {
-        o["kind"] = "Method";
-        write_json_attrs(o);
-        write_attrs_json(o);
-        write_parameters_json(o);
-    }
-
     virtual void write(std::ostream& os, int depth) const override {
         os << indent{depth};
-        os << "auto " << short_name << "(";
+        if (is_static) {
+            os << "static ";
+        }
+        if (!is_constructor && !is_destructor) {
+            os << "auto ";
+        }
+        os << short_name << "(";
+        bool first = true;
         for (const auto& p : params) {
+            if (!first) {
+                os << ", ";
+            }
+            first = false;
             p.write(os, 0);
         }
-        os << ") -> ";
-        return_type.write(os, 0);
+        os << ")";
+        if (is_const) {
+            os << " const";
+        }
+        if (!is_constructor && !is_destructor) {
+            os << " -> ";
+            return_type.write(os, 0);
+        }
+        os << ";";
     }
 };
 
@@ -798,41 +647,6 @@ struct NodeRecord : public NodeAttributeHolder {
           short_name(std::move(short_name)), namespaces(std::move(namespaces)),
           template_parameters(std::move(template_parameters)) {}
 
-    virtual void write_json_attrs(json& o) const override {
-        NodeAttributeHolder::write_json_attrs(o);
-        if (!alias.empty()) {
-            o["alias"] = alias;
-        } else {
-            o["alias"] = short_name;
-        }
-    }
-
-    virtual void write_json(json& o) const override {
-        o["kind"] = "Record";
-        o["name"] = qualified_name;
-        o["short_name"] = short_name;
-        o["namespaces"] = namespaces;
-        write_json_attrs(o);
-        write_attrs_json(o);
-
-        o["fields"] = {};
-        for (const auto& field : fields) {
-            auto f = json::object();
-            f["kind"] = "Field";
-            f["name"] = field.name;
-            f["type"] = json::object();
-            field.qtype.write_json(f["type"]);
-            o["fields"].emplace_back(f);
-        }
-
-        o["methods"] = {};
-        for (const auto& method_id : methods) {
-            auto m = json::object();
-            NODES.at(method_id)->write_json(m);
-            o["methods"].emplace_back(m);
-        }
-    }
-
     virtual void write(std::ostream& os, int depth) const override {
         if (template_parameters.size() > 0) {
             os << indent{depth} << "template <class ";
@@ -847,6 +661,33 @@ struct NodeRecord : public NodeAttributeHolder {
         }
 
         os << indent{depth} << "}; // struct " << short_name;
+    }
+};
+
+/// A reference to a record (i.e. a class or struct)
+struct NodeRecordType : public NodeType {
+    /// The record declaration node, i.e. the actual type declaration. If the
+    /// record referred to hasn't been processed yet, then this will be -1 until
+    /// such a time as the record is processed
+    NodeId record;
+
+    static NodeKind _kind;
+    virtual NodeKind node_kind() const override { return _kind; }
+
+    NodeRecordType(std::string qualified_name, NodeId id, NodeId context,
+                   std::string type_name, NodeId record)
+        : NodeType(qualified_name, id, context, type_name), record(record) {}
+
+    virtual void write(std::ostream& os, int depth) const override {
+        os << indent{depth};
+        if (record != -1) {
+            auto node_rec = node_cast<NodeRecord>(NODES.at(record).get());
+            for (auto id : node_rec->namespaces) {
+                auto node_ns = node_cast<NodeNamespace>(NODES.at(id).get());
+                os << node_ns->short_name << "::";
+            }
+        }
+        os << type_name;
     }
 };
 
@@ -879,26 +720,6 @@ struct NodeEnum : public NodeAttributeHolder {
           short_name(std::move(short_name)), namespaces(std::move(namespaces)),
           variants(variants), size(size), align(align) {}
 
-    virtual void write_json_attrs(json& o) const override {
-        NodeAttributeHolder::write_json_attrs(o);
-        o["size"] = size;
-        o["align"] = align;
-    }
-
-    virtual void write_json(json& o) const override {
-        o["kind"] = "Enum";
-        o["name"] = qualified_name;
-        o["short_name"] = short_name;
-        o["namespaces"] = namespaces;
-        write_json_attrs(o);
-        write_attrs_json(o);
-
-        o["variants"] = json::object();
-        for (const auto& var : variants) {
-            o["variants"][var.first] = var.second;
-        }
-    }
-
     virtual void write(std::ostream& os, int depth) const override {
         os << indent{depth} << qualified_name;
     }
@@ -917,24 +738,7 @@ NodeKind NodeRecord::_kind = NodeKind::Record;
 NodeKind NodeEnum::_kind = NodeKind::Enum;
 NodeKind NodeConstantArrayType::_kind = NodeKind::ConstantArrayType;
 NodeKind NodeVar::_kind = NodeKind::Var;
-
-template <typename T> T* node_cast(Node* n) {
-    assert(n->node_kind() == T::_kind && "incorrect node cast");
-    if (n->node_kind() == T::_kind) {
-        return reinterpret_cast<T*>(n);
-    } else {
-        return nullptr;
-    }
-}
-
-template <typename T> const T* node_cast(const Node* n) {
-    assert(n->node_kind() == T::_kind && "incorrect node cast");
-    if (n->node_kind() == T::_kind) {
-        return reinterpret_cast<T*>(n);
-    } else {
-        return nullptr;
-    }
-}
+NodeKind NodeTemplateTypeParmType::_kind = NodeKind::TemplateTypeParmType;
 
 /// Strip the type kinds off the front of a type name in the given string
 std::string strip_name_kinds(std::string s) {
@@ -1085,7 +889,9 @@ std::vector<std::string> get_template_parameters(const ClassTemplateDecl* ctd) {
     return result;
 }
 
-QType process_qtype(const QualType& qt);
+QType process_qtype(
+    const QualType& qt,
+    const std::vector<std::vector<std::string>>& template_parameters);
 
 /// Create a new NodeFunctionProtoType from the given FunctionProtoType and
 /// return its id.
@@ -1097,10 +903,12 @@ NodeId process_function_proto_type(const FunctionProtoType* fpt,
         // already have an entry for this
         return it->second;
     } else {
-        QType return_type = process_qtype(fpt->getReturnType());
+        std::vector<std::vector<std::string>> template_parameters;
+        QType return_type =
+            process_qtype(fpt->getReturnType(), template_parameters);
         std::vector<QType> params;
         for (const QualType& pqt : fpt->param_types()) {
-            params.push_back(process_qtype(pqt));
+            params.push_back(process_qtype(pqt, template_parameters));
         }
 
         NodeId id = NODES.size();
@@ -1115,7 +923,9 @@ NodeId process_function_proto_type(const FunctionProtoType* fpt,
 
 /// Create a QType from the given QualType. Recursively processes the contained
 /// types.
-QType process_qtype(const QualType& qt) {
+QType process_qtype(
+    const QualType& qt,
+    const std::vector<std::vector<std::string>>& template_parameters) {
     if (qt->isPointerType() || qt->isReferenceType()) {
         // first, figure out what kind of pointer we have
         auto pointer_kind = PointerKind::Pointer;
@@ -1134,8 +944,8 @@ QType process_qtype(const QualType& qt) {
         NodeId id;
         if (it == NODE_MAP.end()) {
             // need to create the pointer type, create the pointee type first
-            QType pointee_qtype =
-                process_qtype(qt->getPointeeType().getCanonicalType());
+            QType pointee_qtype = process_qtype(
+                qt->getPointeeType().getCanonicalType(), template_parameters);
             // now create the pointer type
             id = NODES.size();
             auto node_pointer_type = std::make_unique<NodePointerType>(
@@ -1158,7 +968,8 @@ QType process_qtype(const QualType& qt) {
         if (it == NODE_MAP.end()) {
             const ConstantArrayType* cat =
                 dyn_cast<ConstantArrayType>(qt.getTypePtr());
-            QType element_type = process_qtype(cat->getElementType());
+            QType element_type =
+                process_qtype(cat->getElementType(), template_parameters);
             id = NODES.size();
             auto node_type = std::make_unique<NodeConstantArrayType>(
                 type_node_name, id, 0, type_name, element_type,
@@ -1174,11 +985,34 @@ QType process_qtype(const QualType& qt) {
         const auto* ttpt = qt->getAs<TemplateTypeParmType>();
         int depth = ttpt->getDepth();
         int index = ttpt->getIndex();
+        assert(template_parameters.size() > depth &&
+               "template parameters is not deep enough");
+        assert(template_parameters[depth].size() > index &&
+               "template parameters is not long enough");
+        const std::string type_name = template_parameters[depth][index];
+        const std::string type_node_name = "TYPE:" + type_name;
+
+        auto it = NODE_MAP.find(type_node_name);
+        NodeId id;
+        if (it == NODE_MAP.end()) {
+            id = NODES.size();
+            auto tp =
+                std::vector<std::vector<std::string>>{template_parameters};
+            auto node_type = std::make_unique<NodeTemplateTypeParmType>(
+                type_node_name, id, 0, type_name);
+            NODES.emplace_back(std::move(node_type));
+            NODE_MAP[type_node_name] = id;
+        } else {
+            id = it->second;
+        }
+
+        return QType{id, qt.isConstQualified()};
     } else {
         // regular type, let's get a nice name for it by removing the
         // class/struct/enum/union qualifier clang adds
         std::string type_name = strip_name_kinds(
             qt.getCanonicalType().getUnqualifiedType().getAsString());
+
         // We need to store type nodes for later access, since we might process
         // the corresponding record decl after processing this type node, and
         // will need to look it up later to set the appropriate id.
@@ -1250,6 +1084,28 @@ QType process_qtype(const QualType& qt) {
 
                 id =
                     process_function_proto_type(fpt, type_name, type_node_name);
+            } else if (qt->isDependentType()) {
+                const auto* crd = qt->getAsCXXRecordDecl();
+                if (crd) {
+                    // See if we've already processed a record matching this
+                    // type and get its id if we have. If not we'll store -1
+                    // until we come back and process the decl later.
+                    const std::string record_name =
+                        crd->getQualifiedNameAsString();
+                    NodeId id_rec = -1;
+                    auto it_rec = NODE_MAP.find(record_name);
+                    if (it_rec != NODE_MAP.end()) {
+                        id_rec = it_rec->second;
+                    }
+
+                    auto node_record_type = std::make_unique<NodeRecordType>(
+                        type_node_name, id, 0, type_name, id_rec);
+                    NODES.emplace_back(std::move(node_record_type));
+                    NODE_MAP[type_node_name] = id;
+                } else {
+                    SPDLOG_TRACE("IS DEPENDENT TYPE");
+                    id = NodeId(-1);
+                }
             } else {
                 SPDLOG_WARN("Unhandled type {}", type_node_name);
                 qt->dump();
@@ -1263,16 +1119,17 @@ QType process_qtype(const QualType& qt) {
     }
 }
 
-void process_function_parameters(const FunctionDecl* fd, QType& return_qtype,
-                                 std::vector<Param>& params) {
+void process_function_parameters(
+    const FunctionDecl* fd, QType& return_qtype, std::vector<Param>& params,
+    const std::vector<std::vector<std::string>>& template_parameters) {
     SPDLOG_TRACE("    -> {}", fd->getReturnType().getAsString());
-    return_qtype = process_qtype(fd->getReturnType());
+    return_qtype = process_qtype(fd->getReturnType(), template_parameters);
 
     for (const ParmVarDecl* pvd : fd->parameters()) {
         int index = pvd->getFunctionScopeIndex();
         SPDLOG_TRACE("        {}: {}", pvd->getQualifiedNameAsString(),
                      pvd->getType().getCanonicalType().getAsString());
-        QType qtype = process_qtype(pvd->getType());
+        QType qtype = process_qtype(pvd->getType(), template_parameters);
 
         params.emplace_back(Param{pvd->getNameAsString(), qtype, index, {}});
 
@@ -1286,15 +1143,16 @@ void process_function_parameters(const FunctionDecl* fd, QType& return_qtype,
 }
 
 /// Create a new node for the given method decl and return it
-NodePtr process_method_decl(const CXXMethodDecl* cmd,
-                            std::vector<std::string> attrs,
-                            bool is_specialization = false) {
+NodePtr process_method_decl(
+    const CXXMethodDecl* cmd, std::vector<std::string> attrs,
+    const std::vector<std::vector<std::string>>& template_parameters,
+    bool is_specialization = false) {
     const std::string method_name = cmd->getQualifiedNameAsString();
     const std::string method_short_name = cmd->getNameAsString();
 
     QType return_qtype;
     std::vector<Param> params;
-    process_function_parameters(cmd, return_qtype, params);
+    process_function_parameters(cmd, return_qtype, params, template_parameters);
 
     auto node_function = std::make_unique<NodeMethod>(
         method_name, 0, 0, std::move(attrs), method_short_name, return_qtype,
@@ -1325,7 +1183,9 @@ NodePtr process_method_decl(const CXXMethodDecl* cmd,
     return node_function;
 }
 
-std::vector<NodeId> process_methods(const CXXRecordDecl* crd) {
+std::vector<NodeId>
+process_methods(const CXXRecordDecl* crd,
+                std::vector<std::vector<std::string>> template_parameters) {
     std::vector<NodePtr> result;
     SPDLOG_TRACE("process_methods({})", get_record_name(crd));
 
@@ -1348,7 +1208,8 @@ std::vector<NodeId> process_methods(const CXXRecordDecl* crd) {
             for (const FunctionDecl* fd : ftd->specializations()) {
                 std::vector<std::string> attrs{};
                 if (const auto* cmd = dyn_cast<CXXMethodDecl>(fd)) {
-                    auto node_function = process_method_decl(cmd, attrs, true);
+                    auto node_function = process_method_decl(
+                        cmd, attrs, template_parameters, true);
                     // add_method_to_list(std::move(node_function), result);
                     result.emplace_back(std::move(node_function));
                 } else {
@@ -1359,7 +1220,8 @@ std::vector<NodeId> process_methods(const CXXRecordDecl* crd) {
                     const std::string method_short_name = fd->getNameAsString();
                     QType return_qtype;
                     std::vector<Param> params;
-                    process_function_parameters(fd, return_qtype, params);
+                    process_function_parameters(fd, return_qtype, params,
+                                                template_parameters);
 
                     auto node_function = std::make_unique<NodeMethod>(
                         function_name, -1, -1, std::move(attrs),
@@ -1372,7 +1234,8 @@ std::vector<NodeId> process_methods(const CXXRecordDecl* crd) {
         } else if (const auto* cmd = dyn_cast<CXXMethodDecl>(d)) {
             // just a regular boring old method
             std::vector<std::string> attrs{};
-            auto node_function = process_method_decl(cmd, attrs);
+            auto node_function =
+                process_method_decl(cmd, attrs, template_parameters);
             // add_method_to_list(std::move(node_function), result);
             result.emplace_back(std::move(node_function));
         }
@@ -1404,6 +1267,7 @@ void process_crd(const CXXRecordDecl* crd,
                  sm.getExpansionLineNumber(loc));
 
     auto* node_tu = get_translation_unit(filename);
+    node_tu->source_includes.push_back(filename);
 
     auto it = NODE_MAP.find(qualified_name);
     if (it == NODE_MAP.end()) {
@@ -1411,8 +1275,7 @@ void process_crd(const CXXRecordDecl* crd,
         NodeId id = NODES.size();
         auto node_record = std::make_unique<NodeRecord>(
             qualified_name, id, 0, std::vector<std::string>{},
-            std::move(short_name), std::vector<NodeId>{},
-            std::move(template_parameters));
+            std::move(short_name), std::vector<NodeId>{}, template_parameters);
 
         NODES.emplace_back(std::move(node_record));
         SPDLOG_TRACE("inserting {} : {}", qualified_name, id);
@@ -1422,7 +1285,16 @@ void process_crd(const CXXRecordDecl* crd,
         auto* node_rec = node_cast<NodeRecord>(NODES[id].get());
         node_rec->namespaces = std::move(namespaces);
 
-        node_rec->methods = process_methods(crd);
+        node_rec->methods = process_methods(
+            crd, std::vector<std::vector<std::string>>{template_parameters});
+
+        // fix up any record type references
+        auto it_record_type = NODE_MAP.find("TYPE:" + qualified_name);
+        if (it_record_type != NODE_MAP.end()) {
+            auto* node_record_type =
+                (NodeRecordType*)NODES.at(it_record_type->second).get();
+            node_record_type->record = id;
+        }
     }
 }
 
@@ -1638,6 +1510,39 @@ void GenBindingConsumer::HandleTranslationUnit(ASTContext& context) {
     _library_finder.matchAST(context);
     */
 }
+
+std::vector<std::string> parse_project_includes(int argc, const char** argv) {
+    std::vector<std::string> result;
+    for (int i = 0; i < argc; ++i) {
+        std::string a(argv[i]);
+        if (a.find("-I") == 0) {
+            result.push_back(a.substr(2, std::string::npos));
+        }
+    }
+    return result;
+}
+
+// https://gist.github.com/rodamber/2558e25d4d8f6b9f2ffdf7bd49471340
+// FIXME: Handle multiple uppers by inserting an underscore before the last
+// upper. So IMFVersion becomes imf_version not imfversion
+std::string to_snake_case(std::string camel_case) {
+    std::string str(1, tolower(camel_case[0]));
+
+    // First place underscores between contiguous lower and upper case letters.
+    // For example, `_LowerCamelCase` becomes `_Lower_Camel_Case`.
+    for (auto it = camel_case.begin() + 1; it != camel_case.end(); ++it) {
+        if (isupper(*it) && *(it - 1) != '_' && islower(*(it - 1))) {
+            str += "_";
+        }
+        str += *it;
+    }
+
+    // Then convert it to lower case.
+    std::transform(str.begin(), str.end(), str.begin(), ::tolower);
+
+    return str;
+}
+
 //
 // list of includes for each input source file
 // this global is read in process_bindings.cpp
@@ -1714,7 +1619,7 @@ int main(int argc_, const char** argv_) {
     argv[i++] = "-isystem";
     argv[i++] = respath1.c_str();
 
-    // project_includes = parse_project_includes(argc, argv);
+    project_includes = parse_project_includes(argc, argv);
 
     CommonOptionsParser OptionsParser(argc, argv, CppmmCategory);
 
@@ -1741,68 +1646,84 @@ int main(int argc_, const char** argv_) {
     spdlog::set_pattern("%20s:%4# %^[%5l]%$ %v");
 
     ArrayRef<std::string> src_path = OptionsParser.getSourcePathList();
+
+    if (src_path.size() != 1) {
+        SPDLOG_CRITICAL("Expected 1 header file to parse, got {}",
+                        src_path.size());
+        return 1;
+    }
+
+    if (!fs::is_regular_file(src_path[0])) {
+        SPDLOG_CRITICAL("Header path \"{}\" is not a regular file",
+                        src_path[0]);
+        return 1;
+    }
+
     std::vector<std::string> header_paths;
     std::vector<std::string> vtu;
     std::vector<std::string> vtu_paths;
-    if (src_path.size() == 1 && fs::is_directory(src_path[0])) {
-        // we've been supplied a single directory to start from, find all the
-        // cpp files under it to use as binding files
-        // TODO: figure out a better directory structure, e.g.
-        // /bind
-        // /config.toml
-        for (const auto& entry : fs::directory_iterator(src_path[0])) {
-            if (entry.path().extension() == ".hpp" ||
-                entry.path().extension() == ".h" ||
-                entry.path().extension() == ".hxx") {
-                auto header_path =
-                    ps::os::path::abspath(entry.path().string(), cwd);
-                header_paths.push_back(header_path);
-                SPDLOG_DEBUG("Found header file {}", header_path);
 
-                vtu.push_back(fmt::format("#include \"{}\"", header_path));
-                vtu_paths.push_back(fmt::format(
-                    "/tmp/{}.cpp", fs::path(header_path).stem().string()));
-            }
-        }
-    } else {
-        // otherwise we'll assume we've been given a list of header files to
-        for (const auto& s : src_path) {
-            auto header_path = ps::os::path::abspath(s, cwd);
-            header_paths.push_back(header_path);
-            SPDLOG_DEBUG("Found header file {}", header_path);
+    auto header_path = ps::os::path::abspath(src_path[0], cwd);
+    header_paths.push_back(header_path);
+    SPDLOG_DEBUG("Found header file {}", header_path);
+    vtu.push_back(fmt::format("#include \"{}\"", header_path));
+    vtu_paths.push_back(
+        fmt::format("/tmp/{}.cpp", fs::path(header_path).stem().string()));
 
-            vtu.push_back(fmt::format("#include \"{}\"", header_path));
-            vtu_paths.push_back(fmt::format(
-                "/tmp/{}.cpp", fs::path(header_path).stem().string()));
-        }
-    }
     auto& compdb = OptionsParser.getCompilations();
+
+    std::string output_dir = cwd;
+    if (opt_output_directory != "") {
+        output_dir = opt_output_directory;
+    }
+
+    if (!fs::exists(output_dir) && !fs::create_directories(output_dir)) {
+        SPDLOG_ERROR("Could not create output directory '{}'", output_dir);
+        return -2;
+    }
 
     for (int i = 0; i < vtu.size(); ++i) {
         SPDLOG_INFO("Processing {}", header_paths[i]);
         CURRENT_FILENAME = header_paths[i];
         ClangTool Tool(compdb, ArrayRef<std::string>(vtu_paths[i]));
         Tool.mapVirtualFile(vtu_paths[i], vtu[i]);
-        std::string output_dir = cwd;
-        if (opt_output_directory != "") {
-            output_dir = opt_output_directory;
-        }
 
         auto process_binding_action =
             newFrontendActionFactory<GenBindingAction>();
         int result = Tool.run(process_binding_action.get());
-
-        if (!fs::exists(output_dir) && !fs::create_directories(output_dir)) {
-            SPDLOG_ERROR("Could not create output directory '{}'", output_dir);
-            return -2;
-        }
     }
 
     using namespace cppmm;
+    SPDLOG_DEBUG("output path is {}", output_dir);
     for (const NodeId id : ROOT) {
         auto* node_tu = node_cast<NodeTranslationUnit>(NODES[id].get());
-        std::cout << "writing tu " << std::endl;
-        node_tu->write(std::cout, 0);
+        std::cout << "/// File:  " << node_tu->qualified_name << "\n\n";
+        std::string relative_header = node_tu->qualified_name;
+        // generate relative header path by matching against provided include
+        // paths and stripping any match from the front.
+        node_tu->source_includes.push_back(relative_header);
+        for (const auto& p : project_includes) {
+            if (ps::find(node_tu->qualified_name, p) == 0) {
+                // we have a match
+                relative_header =
+                    ps::lstrip(ps::replace(relative_header, p, ""), "/");
+                node_tu->source_includes[0] = relative_header;
+                break;
+            }
+        }
+
+        // generate output filename by snake_casing the header filename
+        auto filename = to_snake_case(fs::path(node_tu->qualified_name)
+                                          .filename()
+                                          .replace_extension(".cpp")
+                                          .string());
+        auto output_path = output_dir / fs::path(filename);
+        std::ofstream of;
+        of.open(output_path);
+        // write output file
+        SPDLOG_INFO("Writing {}", output_path.string());
+        node_tu->write(of, 0);
+        of.close();
     }
 
     // return result;
