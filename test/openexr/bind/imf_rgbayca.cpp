@@ -23,9 +23,9 @@ IMF_EXPORT
 void decimateChromaHoriz(int n, const Imf::Rgba ycaIn[/*n+N-1*/],
                          Imf::Rgba ycaOut[/*n*/]);
 
-IMF_EXPORT
-void decimateChromaVert(int n, const Imf::Rgba* const ycaIn[N],
-                        Imf::Rgba ycaOut[/*n*/]);
+//IMF_EXPORT
+//void decimateChromaVert(int n, const Imf::Rgba* const ycaIn[N],
+//                        Imf::Rgba ycaOut[/*n*/]);
 
 IMF_EXPORT
 void roundYCA(int n, unsigned int roundY, unsigned int roundC,
@@ -35,17 +35,17 @@ IMF_EXPORT
 void reconstructChromaHoriz(int n, const Imf::Rgba ycaIn[/*n+N-1*/],
                             Imf::Rgba ycaOut[/*n*/]);
 
-IMF_EXPORT
-void reconstructChromaVert(int n, const Imf::Rgba* const ycaIn[N],
-                           Imf::Rgba ycaOut[/*n*/]);
+//IMF_EXPORT
+//void reconstructChromaVert(int n, const Imf::Rgba* const ycaIn[N],
+//                           Imf::Rgba ycaOut[/*n*/]);
 
 IMF_EXPORT
 void YCAtoRGBA(const IMATH_NAMESPACE::V3f& yw, int n,
                const Imf::Rgba ycaIn[/*n*/], Imf::Rgba rgbaOut[/*n*/]);
 
-IMF_EXPORT
-void fixSaturation(const IMATH_NAMESPACE::V3f& yw, int n,
-                   const Imf::Rgba* const rgbaIn[3], Imf::Rgba rgbaOut[/*n*/]);
+//IMF_EXPORT
+//void fixSaturation(const IMATH_NAMESPACE::V3f& yw, int n,
+//                   const Imf::Rgba* const rgbaIn[3], Imf::Rgba rgbaOut[/*n*/]);
 } // namespace RgbaYca
 
 } // namespace OPENEXR_IMF_INTERNAL_NAMESPACE
