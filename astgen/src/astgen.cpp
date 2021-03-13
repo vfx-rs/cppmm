@@ -44,12 +44,14 @@ std::vector<std::string> parse_file_includes(const std::string& filename) {
     return result;
 }
 
-std::vector<std::string> parse_project_includes(int argc, const char** argv) {
+std::vector<std::string> parse_project_includes(int argc, const char** argv,
+                                                const std::string& cwd) {
     std::vector<std::string> result;
     for (int i = 0; i < argc; ++i) {
         std::string a(argv[i]);
         if (a.find("-I") == 0) {
-            result.push_back(a.substr(2, std::string::npos));
+            result.push_back(
+                ps::os::path::abspath(a.substr(2, std::string::npos), cwd));
         }
     }
     return result;
@@ -135,7 +137,7 @@ int main(int argc_, const char** argv_) {
     const char** argv = argv_;
 #endif
 
-    project_includes = parse_project_includes(argc, argv);
+    project_includes = parse_project_includes(argc, argv, cwd);
 
     CommonOptionsParser OptionsParser(argc, argv, CppmmCategory);
 
