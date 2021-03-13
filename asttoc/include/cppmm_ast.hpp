@@ -44,6 +44,7 @@ enum class NodeKind : uint32_t {
     Enum,
     Method,
     Record,
+    Typedef,
     Sentinal, // A sentinal entry to keep track of how many there are
 };
 
@@ -717,6 +718,28 @@ struct NodeEnum : public NodeAttributeHolder {
     }
 
     using This = NodeEnum;
+    template<typename ... Args>
+    static std::shared_ptr<This> n(Args&& ... args)
+    {
+        return std::make_shared<This>(std::forward<Args>(args)...);
+    }
+};
+
+//------------------------------------------------------------------------------
+// NodeTypedef
+//------------------------------------------------------------------------------
+struct NodeTypedef : public NodeAttributeHolder {
+    NodeTypePtr m_type;
+
+    NodeTypedef(const TranslationUnit::Ptr & tu, std::string qualified_name,
+                const NodeTypePtr & type)
+        : NodeAttributeHolder(qualified_name, 0, NodeKind::Typedef,
+                              std::vector<std::string>())
+        , m_type(type)
+    {
+    }
+
+    using This = NodeTypedef;
     template<typename ... Args>
     static std::shared_ptr<This> n(Args&& ... args)
     {
