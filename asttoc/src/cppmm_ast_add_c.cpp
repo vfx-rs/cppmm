@@ -961,6 +961,28 @@ void enum_conversions(TranslationUnit & c_tu, const NodeEnum & cpp_enum,
 }
 
 //------------------------------------------------------------------------------
+const char * enum_infer_underlying_type(const size_t enum_size) // TODO LT: In the future, pull this directly out of the ast file
+{
+    switch(enum_size)
+    {
+        case 8:
+            return "char";
+        case 16:
+            return "short";
+        case 32:
+            return "unsigned int";
+        case 64:
+            return "long unsigned int";
+        default:
+            break;
+    }
+
+    cassert(false, "Enum size doesn't match an underlying int type");
+
+    return "long unsigned int";
+}
+
+//------------------------------------------------------------------------------
 void enum_entry(NodeId & new_id,
                 TypeRegistry & type_registry,
                 TranslationUnit::Ptr & c_tu,
@@ -969,18 +991,29 @@ void enum_entry(NodeId & new_id,
     const auto & cpp_enum =\
         *static_cast<NodeEnum*>(cpp_node.get());
 
-    auto c_enum_name =
+    auto c_typedef_name =
         compute_qualified_name(type_registry, cpp_enum.namespaces,
                                cpp_enum.short_name);
+
+    // Create the new enum
+    auto c_enum_name = c_typedef_name + "_e";
     auto c_enum =
         NodeEnum::n(c_tu, c_enum_name, cpp_enum.short_name, new_id++,
                     cpp_enum.attrs, cpp_enum.variants, cpp_enum.size,
                     cpp_enum.align, cpp_enum.namespaces);
 
+    // Build the typedef
+    auto underlying_type_name =
+        std::string(enum_infer_underlying_type(cpp_enum.size));
+    auto c_typedef = NodeTypedef::n(c_typedef_name,
+                        NodeBuiltinType::n(underlying_type_name, 0,
+                                           underlying_type_name, false));
+
     // Add the conversion functions for to_c and to_cpp.
     enum_conversions(*c_tu, cpp_enum, *c_enum);
 
     c_tu->decls.push_back(std::move(c_enum));
+    c_tu->decls.push_back(std::move(c_typedef));
 }
 
 //------------------------------------------------------------------------------
