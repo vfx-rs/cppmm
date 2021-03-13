@@ -51,6 +51,7 @@ namespace {
     const char * RECORD_C = "Record";
     const char * RECORD_L = "record";
     const char * TYPE = "type";
+    const char * TRIVIALLY_COPYABLE = "trivially_copyable";
     const char * POINTEE = "pointee";
     const char * RETURN = "return";
     const char * SOURCE_INCLUDES = "source_includes";
@@ -188,8 +189,6 @@ NodePtr read_function(const TranslationUnit::Ptr & tu, const nln::json & json) {
 
     auto qualified_name = json[QUALIFIED_NAME].get<std::string>();
 
-    //std::cerr << qualified_name << std::endl;
-
     auto short_name = json[SHORT_NAME].get<std::string>();
     auto id = json[ID].get<Id>();
     auto return_type = read_type(json[RETURN]);
@@ -199,10 +198,20 @@ NodePtr read_function(const TranslationUnit::Ptr & tu, const nln::json & json) {
         params.push_back(read_param(i));
     }
 
-    return NodeFunction::n(
+    // Namespaces
+    std::vector<NodeId> namespaces;
+    for(const auto & ns : json[NAMESPACES])
+    {
+        namespaces.push_back(ns);
+    }
+
+    auto result = NodeFunction::n(
                       qualified_name, id, _attrs, short_name,
                       std::move(return_type),
                       std::move(params));
+    result->namespaces = namespaces;
+
+    return result;
 }
 
 //------------------------------------------------------------------------------
@@ -270,7 +279,15 @@ NodePtr read_record(const TranslationUnit::Ptr & tu, const nln::json & json) {
     {
         abstract = abstract_a->get<bool>();
     }
- 
+
+    // Find if trivially_copyable
+    auto trivially_copyable = false;
+    auto trivially_copyable_a = json.find(TRIVIALLY_COPYABLE);
+    if( trivially_copyable_a != json.end() )
+    {
+        trivially_copyable = trivially_copyable_a->get<bool>();
+    }
+
     // Override the name with an alias if one is provided 
     auto alias = json.find(ALIAS);
     if( alias != json.end() )
@@ -288,7 +305,7 @@ NodePtr read_record(const TranslationUnit::Ptr & tu, const nln::json & json) {
     // Instantiate the translation unit
     auto result =\
         NodeRecord::n(tu, qual_name, id, _attrs, size, align, name, namespaces,
-                      abstract);
+                      abstract, trivially_copyable);
 
     // Pull out the methods
     for (const auto & i : json[METHODS] ){
