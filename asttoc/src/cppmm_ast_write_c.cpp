@@ -173,6 +173,14 @@ void write_enum(fmt::ostream & out, const NodePtr & node)
     out.print("}};\n");
 }
 
+//------------------------------------------------------------------------------
+void write_typedef(fmt::ostream & out, const NodePtr & node)
+{
+    const NodeTypedef & typedef_ = *static_cast<const NodeTypedef*>(node.get());
+
+    out.print("typedef {};\n", convert_param(typedef_.type, typedef_.name));
+}
+
 
 //------------------------------------------------------------------------------
 void write_params(fmt::ostream & out, const NodeFunction & function)
@@ -563,12 +571,19 @@ void write_header(const TranslationUnit & tu)
 
     out.print("\n");
 
-    // Write out all the enums
+    // Write out all the enums and typedefs
     for(const auto & node : tu.decls)
     {
-        if (node->kind == NodeKind::Enum)
+        switch(node->kind)
         {
-            write_enum(out, node);
+            case NodeKind::Enum:
+                write_enum(out, node);
+                break;
+            case NodeKind::Typedef:
+                write_typedef(out, node);
+                break;
+            default:
+                break;
         }
     }
 

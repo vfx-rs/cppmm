@@ -729,12 +729,12 @@ struct NodeEnum : public NodeAttributeHolder {
 // NodeTypedef
 //------------------------------------------------------------------------------
 struct NodeTypedef : public NodeAttributeHolder {
-    NodeTypePtr m_type;
+    NodeTypePtr type;
 
     NodeTypedef(std::string qualified_name, const NodeTypePtr & type)
         : NodeAttributeHolder(qualified_name, 0, NodeKind::Typedef,
                               std::vector<std::string>())
-        , m_type(type)
+        , type(type)
     {
     }
 
