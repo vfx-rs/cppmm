@@ -1084,23 +1084,25 @@ void namespace_entry(TypeRegistry & type_registry, const NodePtr & cpp_node)
 }
 
 //------------------------------------------------------------------------------
-void opaquebytes_to_cpp(TranslationUnit & c_tu,
-                        const NodeRecord & cpp_record,
-                        const NodeRecord & c_record,
-                        bool const_,
-                        PointerKind pointer_kind)
+void cast_to_cpp(TranslationUnit & c_tu,
+                 const std::string & cpp_record_name,
+                 NodeId cpp_record_id,
+                 const std::string & c_record_name,
+                 NodeId c_record_id,
+                 bool const_,
+                 PointerKind pointer_kind)
 {
     auto rhs =
         NodePointerType::n(
             PointerKind::Pointer,
-            NodeRecordType::n("", 0, c_record.name, c_record.id, const_),
+            NodeRecordType::n("", 0, c_record_name, c_record_id, const_),
             false
     );
 
     auto cpp_return =
         NodePointerType::n(
             pointer_kind,
-                NodeRecordType::n("", 0, cpp_record.name, cpp_record.id,
+                NodeRecordType::n("", 0, cpp_record_name, cpp_record_id,
                                   const_),
     false);
 
@@ -1109,8 +1111,8 @@ void opaquebytes_to_cpp(TranslationUnit & c_tu,
         NodeCastExpr::n(
             NodeVarRefExpr::n("rhs"),
             NodePointerType::n(PointerKind::Pointer,
-                               NodeRecordType::n("", 0, cpp_record.name,
-                                                 cpp_record.id, const_),
+                               NodeRecordType::n("", 0, cpp_record_name,
+                                                 cpp_record_id, const_),
                                false
                               ),
             "reinterpret"
@@ -1423,11 +1425,16 @@ void opaquebytes_conversions(TranslationUnit & c_tu,
                              const NodeRecord & c_record,
                              const NodePtr & copy_constructor)
 {
+    const auto & c_n = c_record.name;
+    const auto & c_id = c_record.id;
+    const auto & cpp_n = cpp_record.name;
+    const auto & cpp_id = cpp_record.id;
+
     // Conversions for going from cpp to c
-    opaquebytes_to_cpp(c_tu, cpp_record, c_record, true, PointerKind::Reference);
-    opaquebytes_to_cpp(c_tu, cpp_record, c_record, false, PointerKind::Reference);
-    opaquebytes_to_cpp(c_tu, cpp_record, c_record, true, PointerKind::Pointer);
-    opaquebytes_to_cpp(c_tu, cpp_record, c_record, false, PointerKind::Pointer);
+    cast_to_cpp(c_tu, cpp_n, cpp_id, c_n, c_id, true, PointerKind::Reference);
+    cast_to_cpp(c_tu, cpp_n, cpp_id, c_n, c_id, false, PointerKind::Reference);
+    cast_to_cpp(c_tu, cpp_n, cpp_id, c_n, c_id, true, PointerKind::Pointer);
+    cast_to_cpp(c_tu, cpp_n, cpp_id, c_n, c_id, false, PointerKind::Pointer);
 
     // Conversions for going from c to cpp
     opaquebytes_to_c(c_tu, cpp_record, c_record, true, PointerKind::Reference);
