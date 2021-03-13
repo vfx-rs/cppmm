@@ -929,9 +929,85 @@ void record_entry(NodeId & record_id,
 }
 
 //------------------------------------------------------------------------------
-void enum_conversions(TranslationUnit & c_tu, const NodeEnum & cpp_enum,
-                      const NodeEnum & c_enum)
+void cast_to_cpp(TranslationUnit & c_tu,
+                 const std::string & cpp_record_name,
+                 NodeId cpp_record_id,
+                 const std::string & c_record_name,
+                 NodeId c_record_id,
+                 bool const_,
+                 PointerKind pointer_kind)
 {
+    auto rhs =
+        NodePointerType::n(
+            PointerKind::Pointer,
+            NodeRecordType::n("", 0, c_record_name, c_record_id, const_),
+            false
+    );
+
+    auto cpp_return =
+        NodePointerType::n(
+            pointer_kind,
+                NodeRecordType::n("", 0, cpp_record_name, cpp_record_id,
+                                  const_),
+    false);
+
+    // Cast type
+    NodeExprPtr cast_expr =
+        NodeCastExpr::n(
+            NodeVarRefExpr::n("rhs"),
+            NodePointerType::n(PointerKind::Pointer,
+                               NodeRecordType::n("", 0, cpp_record_name,
+                                                 cpp_record_id, const_),
+                               false
+                              ),
+            "reinterpret"
+        );
+
+    if(pointer_kind == PointerKind::Reference)
+    {
+        cast_expr = NodeDerefExpr::n(std::move(cast_expr));
+    }
+
+    // Function body
+    auto c_function_body =
+        NodeBlockExpr::n(std::vector<NodeExprPtr>({
+            NodeReturnExpr::n(std::move(cast_expr)),
+        }));
+
+    // Add the new function to the translation unit
+    std::vector<std::string> attrs;
+    std::vector<Param> params = {Param("rhs", rhs, 0)};
+    std::string function_name = "to_cpp";
+    if(pointer_kind == PointerKind::Reference)
+    {
+        function_name += "_ref";
+    }
+    auto c_function = NodeFunction::n(
+                        function_name, PLACEHOLDER_ID,
+                        attrs, "", std::move(cpp_return),
+                        std::move(params));
+
+    c_function->body = c_function_body;
+    c_function->private_ = true;
+    c_function->inline_ = true;
+
+    c_tu.decls.push_back(std::move(c_function));
+}
+
+//------------------------------------------------------------------------------
+void enum_conversions(TranslationUnit & c_tu, const NodeEnum & cpp_enum,
+                      const NodeTypedef & c_enum)
+{
+    const auto & c_n = c_enum.name;
+    const auto & c_id = c_enum.id;
+    const auto & cpp_n = cpp_enum.name;
+    const auto & cpp_id = cpp_enum.id;
+
+    // Conversions for going from cpp to c
+    cast_to_cpp(c_tu, cpp_n, cpp_id, c_n, c_id, true, PointerKind::Reference);
+    cast_to_cpp(c_tu, cpp_n, cpp_id, c_n, c_id, false, PointerKind::Reference);
+    cast_to_cpp(c_tu, cpp_n, cpp_id, c_n, c_id, true, PointerKind::Pointer);
+    cast_to_cpp(c_tu, cpp_n, cpp_id, c_n, c_id, false, PointerKind::Pointer);
 #if 0
     // Conversions for going from cpp to c
     opaquebytes_to_cpp(c_tu, cpp_record, c_record, true, PointerKind::Reference);
@@ -1010,7 +1086,7 @@ void enum_entry(NodeId & new_id,
                                            underlying_type_name, false));
 
     // Add the conversion functions for to_c and to_cpp.
-    enum_conversions(*c_tu, cpp_enum, *c_enum);
+    enum_conversions(*c_tu, cpp_enum, *c_typedef);
 
     c_tu->decls.push_back(std::move(c_enum));
     c_tu->decls.push_back(std::move(c_typedef));
@@ -1081,72 +1157,6 @@ void namespace_entry(TypeRegistry & type_registry, const NodePtr & cpp_node)
         *static_cast<const NodeNamespace*>(cpp_node.get());
 
     type_registry.add_namespace(cpp_namespace.id, cpp_namespace.short_name);
-}
-
-//------------------------------------------------------------------------------
-void cast_to_cpp(TranslationUnit & c_tu,
-                 const std::string & cpp_record_name,
-                 NodeId cpp_record_id,
-                 const std::string & c_record_name,
-                 NodeId c_record_id,
-                 bool const_,
-                 PointerKind pointer_kind)
-{
-    auto rhs =
-        NodePointerType::n(
-            PointerKind::Pointer,
-            NodeRecordType::n("", 0, c_record_name, c_record_id, const_),
-            false
-    );
-
-    auto cpp_return =
-        NodePointerType::n(
-            pointer_kind,
-                NodeRecordType::n("", 0, cpp_record_name, cpp_record_id,
-                                  const_),
-    false);
-
-    // Cast type
-    NodeExprPtr cast_expr =
-        NodeCastExpr::n(
-            NodeVarRefExpr::n("rhs"),
-            NodePointerType::n(PointerKind::Pointer,
-                               NodeRecordType::n("", 0, cpp_record_name,
-                                                 cpp_record_id, const_),
-                               false
-                              ),
-            "reinterpret"
-        );
-
-    if(pointer_kind == PointerKind::Reference)
-    {
-        cast_expr = NodeDerefExpr::n(std::move(cast_expr));
-    }
-
-    // Function body
-    auto c_function_body =
-        NodeBlockExpr::n(std::vector<NodeExprPtr>({
-            NodeReturnExpr::n(std::move(cast_expr)),
-        }));
-
-    // Add the new function to the translation unit
-    std::vector<std::string> attrs;
-    std::vector<Param> params = {Param("rhs", rhs, 0)};
-    std::string function_name = "to_cpp";
-    if(pointer_kind == PointerKind::Reference)
-    {
-        function_name += "_ref";
-    }
-    auto c_function = NodeFunction::n(
-                        function_name, PLACEHOLDER_ID,
-                        attrs, "", std::move(cpp_return),
-                        std::move(params));
-
-    c_function->body = c_function_body;
-    c_function->private_ = true;
-    c_function->inline_ = true;
-
-    c_tu.decls.push_back(std::move(c_function));
 }
 
 //------------------------------------------------------------------------------
