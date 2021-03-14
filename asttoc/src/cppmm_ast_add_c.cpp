@@ -935,7 +935,8 @@ void cast_to_cpp(TranslationUnit & c_tu,
                  const std::string & c_record_name,
                  NodeId c_record_id,
                  bool const_,
-                 PointerKind pointer_kind)
+                 PointerKind pointer_kind,
+                 const std::string & prefix=std::string())
 {
     auto rhs =
         NodePointerType::n(
@@ -977,7 +978,7 @@ void cast_to_cpp(TranslationUnit & c_tu,
     // Add the new function to the translation unit
     std::vector<std::string> attrs;
     std::vector<Param> params = {Param("rhs", rhs, 0)};
-    std::string function_name = "to_cpp";
+    std::string function_name = prefix + "to_cpp";
     if(pointer_kind == PointerKind::Reference)
     {
         function_name += "_ref";
@@ -1001,7 +1002,8 @@ void cast_to_c(TranslationUnit & c_tu,
                const std::string & c_record_name,
                NodeId c_record_id,
                bool const_,
-               PointerKind pointer_kind)
+               PointerKind pointer_kind,
+               const std::string & prefix=std::string())
 {
     auto rhs =
         NodePointerType::n(
@@ -1041,11 +1043,15 @@ void cast_to_c(TranslationUnit & c_tu,
             NodeReturnExpr::n(std::move(cast_expr)),
         }));
 
+    // Function name
+    auto function_name = prefix;
+    function_name += "to_c";
+
     // Add the new function to the translation unit
     std::vector<std::string> attrs;
     std::vector<Param> params = {Param("rhs", rhs, 0)};
     auto c_function = NodeFunction::n(
-                        "to_c", PLACEHOLDER_ID,
+                        function_name, PLACEHOLDER_ID,
                         attrs, "", std::move(c_return),
                         std::move(params));
 
@@ -1066,17 +1072,21 @@ void enum_conversions(TranslationUnit & c_tu, const NodeEnum & cpp_enum,
     const auto & cpp_n = cpp_enum.name;
     const auto & cpp_id = cpp_enum.id;
 
+    // Function prefix
+    auto p = c_n;
+    p += "_";
+
     // Conversions for going from c to cpp
-    cast_to_cpp(c_tu, cpp_n, cpp_id, c_n, c_id, true, PointerKind::Reference);
-    cast_to_cpp(c_tu, cpp_n, cpp_id, c_n, c_id, false, PointerKind::Reference);
-    cast_to_cpp(c_tu, cpp_n, cpp_id, c_n, c_id, true, PointerKind::Pointer);
-    cast_to_cpp(c_tu, cpp_n, cpp_id, c_n, c_id, false, PointerKind::Pointer);
+    cast_to_cpp(c_tu, cpp_n, cpp_id, c_n, c_id, true, PointerKind::Reference,p);
+    cast_to_cpp(c_tu, cpp_n, cpp_id, c_n, c_id, false, PointerKind::Reference,p);
+    cast_to_cpp(c_tu, cpp_n, cpp_id, c_n, c_id, true, PointerKind::Pointer,p);
+    cast_to_cpp(c_tu, cpp_n, cpp_id, c_n, c_id, false, PointerKind::Pointer,p);
 
     // Conversions for going from cpp to c
-    cast_to_c(c_tu, cpp_n, cpp_id, c_n, c_id, true, PointerKind::Reference);
-    cast_to_c(c_tu, cpp_n, cpp_id, c_n, c_id, true, PointerKind::Pointer);
-    cast_to_c(c_tu, cpp_n, cpp_id, c_n, c_id, false, PointerKind::Reference);
-    cast_to_c(c_tu, cpp_n, cpp_id, c_n, c_id, false, PointerKind::Pointer);
+    cast_to_c(c_tu, cpp_n, cpp_id, c_n, c_id, true, PointerKind::Reference,p);
+    cast_to_c(c_tu, cpp_n, cpp_id, c_n, c_id, true, PointerKind::Pointer,p);
+    cast_to_c(c_tu, cpp_n, cpp_id, c_n, c_id, false, PointerKind::Reference,p);
+    cast_to_c(c_tu, cpp_n, cpp_id, c_n, c_id, false, PointerKind::Pointer,p);
 #if 0
     // Copy conversions.
     // Use copy constructor if its available, or fallback to bitwise copy
