@@ -1067,7 +1067,8 @@ void opaquebytes_to_c_copy__trivial(TranslationUnit & c_tu,
                                     const std::string & cpp_record_name,
                                     NodeId cpp_record_id,
                                     const std::string & c_record_name,
-                                    NodeId c_record_id)
+                                    NodeId c_record_id,
+                                    const std::string & prefix = std::string())
 {
     auto rhs =
         NodePointerType::n(
@@ -1115,11 +1116,15 @@ void opaquebytes_to_c_copy__trivial(TranslationUnit & c_tu,
             )
         }));
 
+    // Function name
+    auto function_name = prefix;
+    function_name += "to_c_copy";
+
     // Add the new function to the translation unit
     std::vector<std::string> attrs;
     std::vector<Param> params = {Param("rhs", rhs, 0)};
     auto c_function = NodeFunction::n(
-                        "to_c_copy", PLACEHOLDER_ID,
+                        function_name, PLACEHOLDER_ID,
                         attrs, "", std::move(c_return),
                         std::move(params));
 
@@ -1156,7 +1161,7 @@ void enum_conversions(TranslationUnit & c_tu, const NodeEnum & cpp_enum,
     cast_to_c(c_tu, cpp_n, cpp_id, c_n, c_id, false, PointerKind::Pointer,p);
 
     // Enum conversion is always bitwise copy
-    opaquebytes_to_c_copy__trivial(c_tu, cpp_n, cpp_id, c_n, c_id);
+    opaquebytes_to_c_copy__trivial(c_tu, cpp_n, cpp_id, c_n, c_id, p);
 }
 
 //------------------------------------------------------------------------------
