@@ -1062,6 +1062,73 @@ void cast_to_c(TranslationUnit & c_tu,
     c_tu.decls.push_back(std::move(c_function));
 }
 
+//------------------------------------------------------------------------------
+void opaquebytes_to_c_copy__trivial(TranslationUnit & c_tu,
+                                    const std::string & cpp_record_name,
+                                    NodeId cpp_record_id,
+                                    const std::string & c_record_name,
+                                    NodeId c_record_id)
+{
+    auto rhs =
+        NodePointerType::n(
+            PointerKind::Reference,
+            NodeRecordType::n("", 0, cpp_record_name, cpp_record_id, true),
+            false
+    );
+
+    auto c_return = NodeRecordType::n("", 0, c_record_name, c_record_id, false);
+
+    // Add the include needed for memcpy
+    c_tu.private_includes.insert("#include <cstring>");
+
+    // Function body
+    auto c_function_body =
+        NodeBlockExpr::n(std::vector<NodeExprPtr>({
+            // TO result;
+            NodeVarDeclExpr::n(
+                NodeTypePtr(c_return),
+                "result"
+            ),
+
+            // memcpy(&result, &rhs, sizeof(result))
+            NodeFunctionCallExpr::n(
+                "memcpy",
+                std::vector<NodeExprPtr>({
+                    NodeRefExpr::n(
+                        NodeVarRefExpr::n("result")
+                    ),
+                    NodeRefExpr::n(
+                        NodeVarRefExpr::n("rhs")
+                    ),
+                    NodeFunctionCallExpr::n(
+                        "sizeof",
+                        std::vector<NodeExprPtr>({
+                            NodeVarRefExpr::n("result")
+                        })
+                    )
+                })
+            ),
+
+            // Return
+            NodeReturnExpr::n(
+                NodeVarRefExpr::n("result")
+            )
+        }));
+
+    // Add the new function to the translation unit
+    std::vector<std::string> attrs;
+    std::vector<Param> params = {Param("rhs", rhs, 0)};
+    auto c_function = NodeFunction::n(
+                        "to_c_copy", PLACEHOLDER_ID,
+                        attrs, "", std::move(c_return),
+                        std::move(params));
+
+    c_function->body = c_function_body;
+    c_function->private_ = true;
+    c_function->inline_ = true;
+
+    c_tu.decls.push_back(std::move(c_function));
+}
 
 //------------------------------------------------------------------------------
 void enum_conversions(TranslationUnit & c_tu, const NodeEnum & cpp_enum,
@@ -1087,20 +1154,9 @@ void enum_conversions(TranslationUnit & c_tu, const NodeEnum & cpp_enum,
     cast_to_c(c_tu, cpp_n, cpp_id, c_n, c_id, true, PointerKind::Pointer,p);
     cast_to_c(c_tu, cpp_n, cpp_id, c_n, c_id, false, PointerKind::Reference,p);
     cast_to_c(c_tu, cpp_n, cpp_id, c_n, c_id, false, PointerKind::Pointer,p);
-#if 0
-    // Copy conversions.
-    // Use copy constructor if its available, or fallback to bitwise copy
-    // if it's possible.
-    if(copy_constructor)
-    {
-        opaquebytes_to_c_copy__constructor(c_tu, cpp_record, c_record,
-                                           copy_constructor);
-    }
-    else if(cpp_record.trivially_copyable)
-    {
-        opaquebytes_to_c_copy__trivial(c_tu, cpp_record, c_record);
-    }
-#endif
+
+    // Enum conversion is always bitwise copy
+    opaquebytes_to_c_copy__trivial(c_tu, cpp_n, cpp_id, c_n, c_id);
 }
 
 //------------------------------------------------------------------------------
@@ -1300,71 +1356,6 @@ void opaquebytes_from_cpp(TranslationUnit & c_tu,
     c_tu.decls.push_back(std::move(c_function));
 }
 */
-//------------------------------------------------------------------------------
-void opaquebytes_to_c_copy__trivial(TranslationUnit & c_tu,
-                                    const NodeRecord & cpp_record,
-                                    const NodeRecord & c_record)
-{
-    auto rhs =
-        NodePointerType::n(
-            PointerKind::Reference,
-            NodeRecordType::n("", 0, cpp_record.name, cpp_record.id, true),
-            false
-    );
-
-    auto c_return = NodeRecordType::n("", 0, c_record.name, c_record.id, false);
-
-    // Add the include needed for memcpy
-    c_tu.private_includes.insert("#include <cstring>");
-
-    // Function body
-    auto c_function_body =
-        NodeBlockExpr::n(std::vector<NodeExprPtr>({
-            // TO result;
-            NodeVarDeclExpr::n(
-                NodeTypePtr(c_return),
-                "result"
-            ),
-
-            // memcpy(&result, &rhs, sizeof(result))
-            NodeFunctionCallExpr::n(
-                "memcpy",
-                std::vector<NodeExprPtr>({
-                    NodeRefExpr::n(
-                        NodeVarRefExpr::n("result")
-                    ),
-                    NodeRefExpr::n(
-                        NodeVarRefExpr::n("rhs")
-                    ),
-                    NodeFunctionCallExpr::n(
-                        "sizeof",
-                        std::vector<NodeExprPtr>({
-                            NodeVarRefExpr::n("result")
-                        })
-                    )
-                })
-            ),
-
-            // Return
-            NodeReturnExpr::n(
-                NodeVarRefExpr::n("result")
-            )
-        }));
-
-    // Add the new function to the translation unit
-    std::vector<std::string> attrs;
-    std::vector<Param> params = {Param("rhs", rhs, 0)};
-    auto c_function = NodeFunction::n(
-                        "to_c_copy", PLACEHOLDER_ID,
-                        attrs, "", std::move(c_return),
-                        std::move(params));
-
-    c_function->body = c_function_body;
-    c_function->private_ = true;
-    c_function->inline_ = true;
-
-    c_tu.decls.push_back(std::move(c_function));
-}
 
 //------------------------------------------------------------------------------
 void opaquebytes_to_c_copy__constructor(TranslationUnit & c_tu,
@@ -1469,7 +1460,8 @@ void opaquebytes_conversions(TranslationUnit & c_tu,
     }
     else if(cpp_record.trivially_copyable)
     {
-        opaquebytes_to_c_copy__trivial(c_tu, cpp_record, c_record);
+        opaquebytes_to_c_copy__trivial(c_tu, cpp_record.name, cpp_record.id,
+                                             c_record.name, c_record.id);
     }
 }
 
