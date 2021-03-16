@@ -587,8 +587,7 @@ NodeExprPtr convert_record_from(
 }
 
 //------------------------------------------------------------------------------
-NodeExprPtr convert_pointer_from(
-                                 const NodeTypePtr & from_ptr,
+NodeExprPtr convert_pointer_from(const NodeTypePtr & from_ptr,
                                  const NodeTypePtr & to_ptr,
                                  const NodeExprPtr & name)
 {
@@ -1137,7 +1136,7 @@ void opaquebytes_to_c_copy__trivial(TranslationUnit & c_tu,
 
 //------------------------------------------------------------------------------
 void enum_conversions(TranslationUnit & c_tu, const NodeEnum & cpp_enum,
-                      const NodeTypedef & c_enum)
+                      const NodeRecord & c_enum)
 {
     const auto & c_n = c_enum.name;
     const auto & c_id = c_enum.id;
@@ -1199,25 +1198,40 @@ void enum_entry(NodeId & new_id,
         compute_qualified_name(type_registry, cpp_enum.namespaces,
                                cpp_enum.short_name);
 
-    // Create the new enum
+    // Create the new enum for the options
     auto c_enum_name = c_typedef_name + "_e";
     auto c_enum =
         NodeEnum::n(c_tu, c_enum_name, cpp_enum.short_name, new_id++,
                     cpp_enum.attrs, cpp_enum.variants, cpp_enum.size,
                     cpp_enum.align, cpp_enum.namespaces);
 
-    // Build the typedef
+    // Build the typedef for the actual data
     auto underlying_type_name =
         std::string(enum_infer_underlying_type(cpp_enum.size));
     auto c_typedef = NodeTypedef::n(c_typedef_name,
                         NodeBuiltinType::n(underlying_type_name, 0,
                                            underlying_type_name, false));
 
+    // Build a record for converting from c to cpp, this gives us a way to
+    // overrload the to_cpp method.
+    auto c_record_name = c_typedef_name + "_wrap";
+    auto c_record = NodeRecord::n(
+                   c_tu,
+                   c_record_name, new_id++, cpp_enum.attrs,
+                   cpp_enum.size, cpp_enum.align, cpp_enum.short_name,
+                   cpp_enum.namespaces,
+                   false, true);
+    c_record->private_ = true;
+    c_record->fields.push_back(
+        Field{ "value", NodeBuiltinType::n(underlying_type_name, 0,
+                                           underlying_type_name, false)});
+
     // Add the conversion functions for to_c and to_cpp.
-    enum_conversions(*c_tu, cpp_enum, *c_typedef);
+    enum_conversions(*c_tu, cpp_enum, *c_record);
 
     c_tu->decls.push_back(std::move(c_enum));
     c_tu->decls.push_back(std::move(c_typedef));
+    c_tu->decls.push_back(std::move(c_record));
 }
 
 //------------------------------------------------------------------------------
