@@ -66,11 +66,13 @@ struct Node {
     std::string name;
     NodeId id;
     NodeKind kind;
+    bool private_;
 
     Node(std::string name, NodeId id, NodeKind kind)
         : name(name)
         , id(id)
-        , kind(kind) {}
+        , kind(kind)
+        , private_(false) {}
 
     virtual ~Node(){}
 };
@@ -587,7 +589,6 @@ struct NodeFunction : public NodeAttributeHolder {
     std::vector<Param> params;
     bool in_binding = false;
     bool in_library = false;
-    bool private_ = false;
     bool inline_ = false;
 
     NodeExprPtr body;

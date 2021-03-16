@@ -535,6 +535,20 @@ void write_private_header(const TranslationUnit & tu)
         out.print("{}\n", i);
     }
 
+    // Write out all the records
+    for(const auto & node : tu.decls)
+    {
+        if (node->kind == NodeKind::Record)
+        {
+            if(node->private_)
+            {
+                write_record(out, node);
+            }
+        }
+    }
+
+    out.print("\n");
+
     // Then all the private functions
     for(const auto & node : tu.decls)
     {
@@ -594,7 +608,10 @@ void write_header(const TranslationUnit & tu)
     {
         if (node->kind == NodeKind::Record)
         {
-            write_record(out, node);
+            if(!node->private_)
+            {
+                write_record(out, node);
+            }
         }
     }
 

@@ -1214,7 +1214,7 @@ void enum_entry(NodeId & new_id,
 
     // Build a record for converting from c to cpp, this gives us a way to
     // overrload the to_cpp method.
-    auto c_record_name = c_typedef_name + "_wrap";
+    auto c_record_name = c_typedef_name + "_enum";
     auto c_record = NodeRecord::n(
                    c_tu,
                    c_record_name, new_id++, cpp_enum.attrs,
