@@ -1136,27 +1136,29 @@ void opaquebytes_to_c_copy__trivial(TranslationUnit & c_tu,
 
 //------------------------------------------------------------------------------
 void enum_conversions(TranslationUnit & c_tu, const NodeEnum & cpp_enum,
-                      const NodeRecord & c_enum)
+                      const NodeTypedef & c_enum_t, const NodeRecord & c_enum_s)
 {
-    const auto & c_n = c_enum.name;
-    const auto & c_id = c_enum.id;
+    const auto & ct_n = c_enum_t.name;
+    const auto & ct_id = c_enum_t.id;
+    const auto & cs_n = c_enum_s.name;
+    const auto & cs_id = c_enum_s.id;
     const auto & cpp_n = cpp_enum.name;
     const auto & cpp_id = cpp_enum.id;
 
     // Conversions for going from c to cpp
-    cast_to_cpp(c_tu, cpp_n, cpp_id, c_n, c_id, true, PointerKind::Reference);
-    cast_to_cpp(c_tu, cpp_n, cpp_id, c_n, c_id, false, PointerKind::Reference);
-    cast_to_cpp(c_tu, cpp_n, cpp_id, c_n, c_id, true, PointerKind::Pointer);
-    cast_to_cpp(c_tu, cpp_n, cpp_id, c_n, c_id, false, PointerKind::Pointer);
+    cast_to_cpp(c_tu, cpp_n, cpp_id, cs_n, cs_id, true, PointerKind::Reference);
+    cast_to_cpp(c_tu, cpp_n, cpp_id, cs_n, cs_id, false, PointerKind::Reference);
+    cast_to_cpp(c_tu, cpp_n, cpp_id, cs_n, cs_id, true, PointerKind::Pointer);
+    cast_to_cpp(c_tu, cpp_n, cpp_id, cs_n, cs_id, false, PointerKind::Pointer);
 
     // Conversions for going from cpp to c
-    cast_to_c(c_tu, cpp_n, cpp_id, c_n, c_id, true, PointerKind::Reference);
-    cast_to_c(c_tu, cpp_n, cpp_id, c_n, c_id, true, PointerKind::Pointer);
-    cast_to_c(c_tu, cpp_n, cpp_id, c_n, c_id, false, PointerKind::Reference);
-    cast_to_c(c_tu, cpp_n, cpp_id, c_n, c_id, false, PointerKind::Pointer);
+    cast_to_c(c_tu, cpp_n, cpp_id, ct_n, ct_id, true, PointerKind::Reference);
+    cast_to_c(c_tu, cpp_n, cpp_id, ct_n, ct_id, true, PointerKind::Pointer);
+    cast_to_c(c_tu, cpp_n, cpp_id, ct_n, ct_id, false, PointerKind::Reference);
+    cast_to_c(c_tu, cpp_n, cpp_id, ct_n, ct_id, false, PointerKind::Pointer);
 
     // Enum conversion is always bitwise copy
-    opaquebytes_to_c_copy__trivial(c_tu, cpp_n, cpp_id, c_n, c_id);
+    opaquebytes_to_c_copy__trivial(c_tu, cpp_n, cpp_id, ct_n, ct_id);
 }
 
 //------------------------------------------------------------------------------
@@ -1223,7 +1225,7 @@ void enum_entry(NodeId & new_id,
                                            underlying_type_name, false)});
 
     // Add the conversion functions for to_c and to_cpp.
-    enum_conversions(*c_tu, cpp_enum, *c_record);
+    enum_conversions(*c_tu, cpp_enum, *c_typedef, *c_record);
 
     c_tu->decls.push_back(std::move(c_enum));
     c_tu->decls.push_back(std::move(c_typedef));
