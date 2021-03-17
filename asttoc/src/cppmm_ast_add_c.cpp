@@ -39,7 +39,7 @@ public:
     void add(NodeId id, NodePtr cpp, NodePtr c)
     {
         // TODO LT: Assert for double entries
-        // TODO LT: Assert for RecordKind in cpp and c
+        // TODO LT: Assert for RecordKind/EnumKind in cpp and c
         m_mapping.insert(std::make_pair( id, Records{ std::move(cpp),
                                                       std::move(c)
                                               }
@@ -73,7 +73,7 @@ public:
         return static_cast<NodeRecord&>(*node);
     }
 
-    NodePtr find_c(NodeId id) const
+    NodePtr find_enum_c(NodeId id) const
     {
         auto entry = m_mapping.find(id);
 
@@ -83,6 +83,22 @@ public:
         }
         else
         {
+            cassert(entry->second.m_cpp->kind == NodeKind::Typedef, "Incorrect return type for find_enum_c");
+            return entry->second.m_c;
+        }
+    }
+
+    NodePtr find_record_c(NodeId id) const
+    {
+        auto entry = m_mapping.find(id);
+
+        if (entry == m_mapping.end())
+        {
+            return NodePtr(); // TODO LT: Turn this into optional
+        }
+        else
+        {
+            cassert(entry->second.m_cpp->kind == NodeKind::Record, "Incorrect return type for find_record_c");
             return entry->second.m_c;
         }
     }
@@ -270,7 +286,7 @@ NodeTypePtr convert_builtin_type(TranslationUnit & c_tu,
 
 
 //------------------------------------------------------------------------------
-void add_declaration(TranslationUnit & c_tu, const NodePtr & node_ptr,
+void add_record_declaration(TranslationUnit & c_tu, const NodePtr & node_ptr,
                      bool in_reference)
 {
     const auto & record = *static_cast<const NodeRecord*>(node_ptr.get());
@@ -292,13 +308,28 @@ void add_declaration(TranslationUnit & c_tu, const NodePtr & node_ptr,
 }
 
 //------------------------------------------------------------------------------
+void add_enum_declaration(TranslationUnit & c_tu, const NodePtr & node_ptr,
+                          bool in_reference)
+{
+    const auto & enum_ = *static_cast<const NodeTypedef*>(node_ptr.get());
+    if(auto e_tu = enum_.tu.lock())
+    {
+        if(e_tu.get() != &c_tu)
+        {
+            c_tu.header_includes.insert(e_tu->header_filename);
+            c_tu.source_includes.insert(e_tu->private_header_filename);
+        }
+    }
+}
+
+//------------------------------------------------------------------------------
 NodeTypePtr convert_record_type(TranslationUnit & c_tu,
                                 TypeRegistry & type_registry,
                                 const NodeTypePtr & t, bool in_reference)
 {
     const auto & cpp_record_type = *static_cast<const NodeRecordType*>(t.get());
 
-    const auto & node_ptr = type_registry.find_c(cpp_record_type.record);
+    const auto & node_ptr = type_registry.find_record_c(cpp_record_type.record);
     if (!node_ptr)
     {
         std::cerr << "Found unsupported type: " << t->type_name << std::endl;
@@ -307,11 +338,34 @@ NodeTypePtr convert_record_type(TranslationUnit & c_tu,
 
     // Add the header file or forward declaration needed for this type
     // to be available.
-    add_declaration(c_tu, node_ptr, in_reference);
+    add_record_declaration(c_tu, node_ptr, in_reference);
 
     const auto & record = *static_cast<const NodeRecord*>(node_ptr.get());
 
     return NodeRecordType::n(t->name, 0, record.name, record.id, t->const_);
+}
+
+//------------------------------------------------------------------------------
+NodeTypePtr convert_enum_type(TranslationUnit & c_tu,
+                              TypeRegistry & type_registry,
+                              const NodeTypePtr & t, bool in_reference)
+{
+    const auto & cpp_enum_type = *static_cast<const NodeEnumType*>(t.get());
+
+    const auto & node_ptr = type_registry.find_enum_c(cpp_enum_type.enm);
+    if (!node_ptr)
+    {
+        std::cerr << "Found unsupported type: " << t->type_name << std::endl;
+        return NodeTypePtr();
+    }
+
+    // Add the header file or forward declaration needed for this type
+    // to be available.
+    add_enum_declaration(c_tu, node_ptr, in_reference);
+
+    const auto & enum_ = *static_cast<const NodeTypedef*>(node_ptr.get());
+
+    return enum_.type;
 }
 
 //------------------------------------------------------------------------------
@@ -349,10 +403,11 @@ NodeTypePtr convert_type(TranslationUnit & c_tu,
             return convert_record_type(c_tu, type_registry, t, in_reference);
         case NodeKind::PointerType:
             return convert_pointer_type(c_tu, type_registry, t, in_reference);
+        case NodeKind::EnumType:
+            return convert_enum_type(c_tu, type_registry, t, in_reference);
 
         // Unsupported for the moment
         case NodeKind::ArrayType:
-        case NodeKind::EnumType:
         case NodeKind::FunctionProtoType:
             return NodeTypePtr();
         default:
@@ -1208,7 +1263,7 @@ void enum_entry(NodeId & new_id,
     // Build the typedef for the actual data
     auto underlying_type_name =
         std::string(enum_infer_underlying_type(cpp_enum.size));
-    auto c_typedef = NodeTypedef::n(c_typedef_name,
+    auto c_typedef = NodeTypedef::n(c_tu, c_typedef_name,
                         NodeBuiltinType::n(underlying_type_name, 0,
                                            underlying_type_name, false));
 
@@ -1228,6 +1283,8 @@ void enum_entry(NodeId & new_id,
 
     // Add the conversion functions for to_c and to_cpp.
     enum_conversions(*c_tu, cpp_enum, *c_typedef);
+
+    type_registry.add(cpp_node->id, cpp_node, c_typedef);
 
     c_tu->decls.push_back(std::move(c_enum));
     c_tu->decls.push_back(std::move(c_typedef));

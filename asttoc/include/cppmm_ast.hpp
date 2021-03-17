@@ -713,6 +713,7 @@ struct NodeEnum : public NodeAttributeHolder {
              uint32_t size, uint32_t align,
              const std::vector<NodeId> & namespaces)
         : NodeAttributeHolder(qualified_name, id, NodeKind::Enum, attrs),
+          tu(tu),
           variants(variants), size(size), align(align), namespaces(namespaces),
           short_name(short_name)
     {
@@ -731,10 +732,13 @@ struct NodeEnum : public NodeAttributeHolder {
 //------------------------------------------------------------------------------
 struct NodeTypedef : public NodeAttributeHolder {
     NodeTypePtr type;
+    TranslationUnit::WPtr tu;
 
-    NodeTypedef(std::string qualified_name, const NodeTypePtr & type)
+    NodeTypedef(const TranslationUnit::Ptr & tu,
+        std::string qualified_name, const NodeTypePtr & type)
         : NodeAttributeHolder(qualified_name, 0, NodeKind::Typedef,
                               std::vector<std::string>())
+        , tu(tu)
         , type(type)
     {
     }
