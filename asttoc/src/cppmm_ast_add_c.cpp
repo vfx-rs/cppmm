@@ -235,6 +235,10 @@ std::string remap_special_methods(const std::string & name)
     {
         return std::string("_op_ixor");
     }
+    if(name == "operator()")
+    {
+        return std::string("_op_call");
+    }
 
     // Just use the input name
     return name;
