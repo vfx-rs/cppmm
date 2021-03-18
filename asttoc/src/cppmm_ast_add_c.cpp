@@ -1344,20 +1344,6 @@ void enum_entry(NodeId & new_id,
                         NodeBuiltinType::n(underlying_type_name, 0,
                                            underlying_type_name, false));
 
-    // Build a record for converting from c to cpp, this gives us a way to
-    // overrload the to_cpp method.
-    auto c_record_name = c_typedef_name + "_enum";
-    auto c_record = NodeRecord::n(
-                   c_tu,
-                   c_record_name, new_id++, cpp_enum.attrs,
-                   cpp_enum.size, cpp_enum.align, cpp_enum.short_name,
-                   cpp_enum.namespaces,
-                   false, true);
-    c_record->private_ = true;
-    c_record->fields.push_back(
-        Field{ "value", NodeBuiltinType::n(underlying_type_name, 0,
-                                           underlying_type_name, false)});
-
     // Add the conversion functions for to_c and to_cpp.
     enum_conversions(*c_tu, cpp_enum, *c_typedef);
 
@@ -1365,7 +1351,6 @@ void enum_entry(NodeId & new_id,
 
     c_tu->decls.push_back(std::move(c_enum));
     c_tu->decls.push_back(std::move(c_typedef));
-    c_tu->decls.push_back(std::move(c_record));
 }
 
 //------------------------------------------------------------------------------
