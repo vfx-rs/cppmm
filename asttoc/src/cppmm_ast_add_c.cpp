@@ -1705,9 +1705,14 @@ void translation_unit_entries(
 
     // source includes -> private includes, this is so we have the types
     // we for other translation units
+    auto cppmm_bind_h = std::string("cppmm_bind.hpp");
     for (auto & i : cpp_tu->source_includes)
     {
-        c_tu->private_includes.insert(i);
+        auto use_include = pystring::find(i, cppmm_bind_h) == -1;
+        if(use_include)
+        {
+            c_tu->private_includes.insert(i);
+        }
     }
 
     // cpp namespaces
