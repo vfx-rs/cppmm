@@ -20,7 +20,7 @@ public:
     T* operator[](int i) CPPMM_RENAME(row);
     const T* operator[](int i) const CPPMM_RENAME(row_const);
 
-    Matrix33(Imath::Uninitialized) CPPMM_RENAME(uninitialized);
+    Matrix33(Imath::Uninitialized _unused) CPPMM_RENAME(uninitialized);
 
     Matrix33() CPPMM_RENAME(identity);
     // 1 0 0
@@ -157,7 +157,7 @@ public:
     // Constructors
     //-------------
 
-    Matrix44(Imath::Uninitialized) CPPMM_RENAME(uninitialized);
+    Matrix44(Imath::Uninitialized _unused) CPPMM_RENAME(uninitialized);
 
     Matrix44() CPPMM_RENAME(identity);
     // 1 0 0 0
