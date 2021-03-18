@@ -199,6 +199,14 @@ std::string remap_special_methods(const std::string & name)
     {
         return std::string("_op_mul");
     }
+    if(name == "operator^")
+    {
+        return std::string("_op_xor");
+    }
+    if(name == "operator%")
+    {
+        return std::string("_op_mod");
+    }
     if(name == "operator[]")
     {
         return std::string("_index");
@@ -218,6 +226,14 @@ std::string remap_special_methods(const std::string & name)
     if(name == "operator*=")
     {
         return std::string("_op_imul");
+    }
+    if(name == "operator%=")
+    {
+        return std::string("_op_imod");
+    }
+    if(name == "operator^=")
+    {
+        return std::string("_op_ixor");
     }
 
     // Just use the input name
