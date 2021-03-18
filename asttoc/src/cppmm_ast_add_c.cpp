@@ -1321,11 +1321,20 @@ void enum_entry(NodeId & new_id,
         compute_qualified_name(type_registry, cpp_enum.namespaces,
                                cpp_enum.short_name);
 
+    // Create the new enum variants with their namespaced names
+    std::vector<std::pair<std::string, std::string>> variants;
+    for(const auto & i : cpp_enum.variants)
+    {
+        variants.push_back(
+            std::make_pair(c_typedef_name + std::string("_") + i.first,
+                           i.second));
+    }
+
     // Create the new enum for the options
     auto c_enum_name = c_typedef_name + "_e";
     auto c_enum =
         NodeEnum::n(c_tu, c_enum_name, cpp_enum.short_name, new_id++,
-                    cpp_enum.attrs, cpp_enum.variants, cpp_enum.size,
+                    cpp_enum.attrs, variants, cpp_enum.size,
                     cpp_enum.align, cpp_enum.namespaces);
 
     // Build the typedef for the actual data
