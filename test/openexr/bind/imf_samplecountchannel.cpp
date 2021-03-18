@@ -70,8 +70,6 @@ struct SampleCountChannel {
 
 } CPPMM_VALUETYPE;
 
-enum RgbaChannels {};
-
 } // namespace OPENEXR_IMF_INTERNAL_NAMESPACE
 
 } // namespace cppmm_bind
