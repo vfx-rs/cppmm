@@ -10,6 +10,7 @@ pushd build
 #    -I/Volumes/src/cppmm/test/                   \
 #    -I/Volumes/src/packages/include \
 #    -I/Volumes/src/packages/include/OpenEXR \
+#    -I/usr/local/include \
 #    -isysroot/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk \
 #    -isystem /Volumes/src/clang+llvm-11.0.0-x86_64-apple-darwin/include/c++/v1
 ##
