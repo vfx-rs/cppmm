@@ -128,7 +128,7 @@ namespace generate
 {
 
 const NodeId PLACEHOLDER_ID = 0;
-const char * IGNORE = "cppmm:ignore";
+const char * IGNORE = "cppmm|ignore";
 
 //------------------------------------------------------------------------------
 std::tuple<std::string, std::string, std::string>
@@ -947,7 +947,7 @@ NodeExprPtr method_body(TypeRegistry & type_registry,
 //------------------------------------------------------------------------------
 std::string find_function_short_name(const NodeFunction & cpp_function)
 {
-    auto prefix = std::string("cppmm:rename:");
+    auto prefix = std::string("cppmm|rename|");
     for(auto & a: cpp_function.attrs)
     {
         if(pystring::startswith(a, prefix))
