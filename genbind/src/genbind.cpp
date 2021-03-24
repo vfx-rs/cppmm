@@ -114,6 +114,9 @@ std::ostream& operator<<(std::ostream& os, NodeKind k) {
     case NodeKind::Var:
         os << "Var";
         break;
+    case NodeKind::TemplateTypeParmType:
+        os << "TemplateTypeParmType";
+        break;
     }
     return os;
 }
@@ -190,6 +193,10 @@ std::unordered_map<std::string, NodeId> NODE_MAP;
 /// contain the rest of the tree
 std::vector<NodeId> ROOT;
 
+std::string TARGET_NAMESPACE;
+std::string TARGET_NAMESPACE_INTERNAL;
+std::string TARGET_NAMESPACE_PUBLIC;
+
 /// Represents one translation unit (TU), i.e. one binding source file.
 /// NodeTranslationUnit::qualified_name contains the filename
 struct NodeTranslationUnit : public Node {
@@ -236,13 +243,19 @@ struct NodeNamespace : public Node {
           short_name(std::move(short_name)), children(std::move(children)) {}
 
     virtual void write(std::ostream& os, int depth) const override {
-        os << indent{depth} << "namespace " << short_name << " {\n";
+        auto name = short_name;
+        if (short_name == TARGET_NAMESPACE &&
+            !TARGET_NAMESPACE_INTERNAL.empty()) {
+            name = TARGET_NAMESPACE_INTERNAL;
+        }
+
+        os << indent{depth} << "namespace " << name << " {\n";
         for (const NodeId child : children) {
             auto* node = NODES[child].get();
             node->write(os, depth);
             os << "\n\n";
         }
-        os << indent{depth} << "} // namespace " << short_name;
+        os << indent{depth} << "} // namespace " << name;
     }
 };
 
@@ -484,14 +497,17 @@ struct NodeFunction : public NodeAttributeHolder {
     bool in_binding = false;
     /// Is this function declared in the library? NOT USED
     bool in_library = false;
+    std::vector<std::string> template_parameters;
     static NodeKind _kind;
     virtual NodeKind node_kind() const override { return _kind; }
 
     NodeFunction(std::string qualified_name, NodeId id, NodeId context,
                  std::vector<std::string> attrs, std::string short_name,
-                 QType return_type, std::vector<Param> params)
+                 QType return_type, std::vector<Param> params,
+                 std::vector<std::string> template_parameters)
         : NodeAttributeHolder(qualified_name, id, context, attrs),
-          short_name(short_name), return_type(return_type), params(params) {}
+          short_name(short_name), return_type(return_type), params(params),
+          template_parameters(std::move(template_parameters)) {}
 
     virtual void write(std::ostream& os, int depth) const override {
         os << indent{depth} << qualified_name;
@@ -532,12 +548,27 @@ struct NodeMethod : public NodeFunction {
 
     NodeMethod(std::string qualified_name, NodeId id, NodeId context,
                std::vector<std::string> attrs, std::string short_name,
-               QType return_type, std::vector<Param> params, bool is_static)
+               QType return_type, std::vector<Param> params, bool is_static,
+               std::vector<std::string> template_parameters)
         : NodeFunction(qualified_name, id, context, attrs, short_name,
-                       return_type, params),
+                       return_type, params, std::move(template_parameters)),
           is_static(is_static) {}
 
     virtual void write(std::ostream& os, int depth) const override {
+        if (template_parameters.size() != 0) {
+            os << indent{depth};
+            bool first = true;
+            os << "template <";
+            for (const auto& t : template_parameters) {
+                if (!first) {
+                    os << ", ";
+                }
+                first = false;
+                os << "typename " << t;
+            }
+            os << ">\n";
+        }
+
         os << indent{depth};
         if (is_static) {
             os << "static ";
@@ -684,8 +715,9 @@ struct NodeRecordType : public NodeType {
             auto node_rec = node_cast<NodeRecord>(NODES.at(record).get());
             for (auto id : node_rec->namespaces) {
                 auto node_ns = node_cast<NodeNamespace>(NODES.at(id).get());
-                os << node_ns->short_name << "::";
+                os << "::" << node_ns->short_name;
             }
+            os << "::";
         }
         os << type_name;
     }
@@ -853,6 +885,7 @@ std::vector<NodeId> get_namespaces(NodeId child,
     std::reverse(result.begin(), result.end());
     return result;
 }
+
 // Get the canonical definition from a crd
 const CXXRecordDecl* get_canonical_def_from_crd(const CXXRecordDecl* crd) {
     if ((crd = crd->getCanonicalDecl())) {
@@ -872,7 +905,7 @@ const CXXRecordDecl* get_canonical_def_from_ctd(const ClassTemplateDecl* ctd) {
     return nullptr;
 }
 
-std::vector<std::string> get_template_parameters(const ClassTemplateDecl* ctd) {
+std::vector<std::string> get_template_parameters(const TemplateDecl* ctd) {
     const auto* tpl = ctd->getTemplateParameters();
     std::vector<std::string> result;
 
@@ -1156,7 +1189,7 @@ NodePtr process_method_decl(
 
     auto node_function = std::make_unique<NodeMethod>(
         method_name, 0, 0, std::move(attrs), method_short_name, return_qtype,
-        std::move(params), cmd->isStatic());
+        std::move(params), cmd->isStatic(), std::vector<std::string>{});
 
     NodeMethod* m = (NodeMethod*)node_function.get();
     m->is_user_provided = cmd->isUserProvided();
@@ -1192,6 +1225,9 @@ process_methods(const CXXRecordDecl* crd,
     // FIXME: need to replace existing methods from the base class
     // for overrides
     for (const Decl* d : crd->decls()) {
+        if (const NamedDecl* nd = dyn_cast<NamedDecl>(d)) {
+            SPDLOG_TRACE(nd->getQualifiedNameAsString());
+        }
         // we want to ignore anything that's not public for obvious reasons
         // since we're using this function for getting methods both from the
         // library type and the binding type, this does mean we need to add a
@@ -1205,32 +1241,25 @@ process_methods(const CXXRecordDecl* crd,
         // parameter list).
         if (const FunctionTemplateDecl* ftd =
                 dyn_cast<FunctionTemplateDecl>(d)) {
-            for (const FunctionDecl* fd : ftd->specializations()) {
-                std::vector<std::string> attrs{};
-                if (const auto* cmd = dyn_cast<CXXMethodDecl>(fd)) {
-                    auto node_function = process_method_decl(
-                        cmd, attrs, template_parameters, true);
-                    // add_method_to_list(std::move(node_function), result);
-                    result.emplace_back(std::move(node_function));
-                } else {
-                    // shouldn't get here
-                    assert(false && "method spec couldn't be converted to CMD");
-                    const std::string function_name =
-                        ftd->getQualifiedNameAsString();
-                    const std::string method_short_name = fd->getNameAsString();
-                    QType return_qtype;
-                    std::vector<Param> params;
-                    process_function_parameters(fd, return_qtype, params,
-                                                template_parameters);
+            SPDLOG_WARN("GOT FTD {}", ftd->getNameAsString());
+            auto template_parameters_stack = template_parameters;
+            auto f_template_parameters = get_template_parameters(ftd);
+            template_parameters_stack.push_back(f_template_parameters);
 
-                    auto node_function = std::make_unique<NodeMethod>(
-                        function_name, -1, -1, std::move(attrs),
-                        method_short_name, return_qtype, std::move(params),
-                        fd->isStatic());
-                    // add_method_to_list(std::move(node_function), result);
-                    result.emplace_back(std::move(node_function));
-                }
-            }
+            const std::string function_name = ftd->getQualifiedNameAsString();
+            const std::string method_short_name = ftd->getNameAsString();
+            QType return_qtype;
+            std::vector<Param> params;
+            const auto* fd = ftd->getTemplatedDecl();
+            process_function_parameters(fd, return_qtype, params,
+                                        template_parameters_stack);
+
+            std::vector<std::string> attrs{};
+            auto node_function = std::make_unique<NodeMethod>(
+                function_name, -1, -1, std::move(attrs), method_short_name,
+                return_qtype, std::move(params), fd->isStatic(),
+                f_template_parameters);
+            result.emplace_back(std::move(node_function));
         } else if (const auto* cmd = dyn_cast<CXXMethodDecl>(d)) {
             // just a regular boring old method
             std::vector<std::string> attrs{};
@@ -1271,14 +1300,13 @@ void process_crd(const CXXRecordDecl* crd,
 
     auto it = NODE_MAP.find(qualified_name);
     if (it == NODE_MAP.end()) {
-        SPDLOG_TRACE("Not found, adding");
         NodeId id = NODES.size();
         auto node_record = std::make_unique<NodeRecord>(
             qualified_name, id, 0, std::vector<std::string>{},
             std::move(short_name), std::vector<NodeId>{}, template_parameters);
 
         NODES.emplace_back(std::move(node_record));
-        SPDLOG_TRACE("inserting {} : {}", qualified_name, id);
+        SPDLOG_TRACE("Inserting NodeRecord {} with id {}", qualified_name, id);
         NODE_MAP[qualified_name] = id;
 
         auto namespaces = get_namespaces(id, crd->getParent(), node_tu);
@@ -1307,9 +1335,6 @@ void handle_ctd(const ClassTemplateDecl* ctd) {
     ctd = ctd->getCanonicalDecl();
 
     std::string qualified_name = ctd->getQualifiedNameAsString();
-
-    // SPDLOG_TRACE("Got CTD {} at {}:{}", qualified_name, filename,
-    //              sm.getExpansionLineNumber(loc));
 
     auto template_parameters = get_template_parameters(ctd);
     if (template_parameters.empty()) {
@@ -1349,7 +1374,9 @@ void GenBindingCallback::run(const MatchFinder::MatchResult& result) {
         std::string filename = sm.getFilename(loc).str();
 
         if (filename == CURRENT_FILENAME) {
-            crd = crd->getCanonicalDecl();
+            crd = cppmm::get_canonical_def_from_crd(crd);
+            SPDLOG_DEBUG("Got CRD {}", crd->getQualifiedNameAsString());
+            cppmm::process_crd(crd, {});
             // SPDLOG_TRACE("Got CRD {} as {}:{}",
             // crd->getQualifiedNameAsString(),
             //              filename, sm.getExpansionLineNumber(loc));
@@ -1418,18 +1445,32 @@ public:
 };
 
 GenBindingConsumer::GenBindingConsumer(ASTContext* context) {
-    // match all record declrations in the cppmm_bind namespace
-    DeclarationMatcher record_decl_matcher =
-        cxxRecordDecl(hasAncestor(namespaceDecl(hasName("Imath_2_5"))),
-                      unless(isImplicit()))
-            .bind("recordDecl");
-    _match_finder.addMatcher(record_decl_matcher, &_handler);
 
-    DeclarationMatcher ctd_matcher =
-        classTemplateDecl(hasAncestor(namespaceDecl(hasName("Imath_2_5"))),
-                          unless(isImplicit()))
-            .bind("classTemplateDecl");
-    _match_finder.addMatcher(ctd_matcher, &_handler);
+    if (!cppmm::TARGET_NAMESPACE.empty()) {
+        DeclarationMatcher record_decl_matcher =
+            cxxRecordDecl(
+                hasAncestor(namespaceDecl(hasName(cppmm::TARGET_NAMESPACE))),
+                unless(isImplicit()))
+                .bind("recordDecl");
+        _match_finder.addMatcher(record_decl_matcher, &_handler);
+
+        DeclarationMatcher ctd_matcher =
+            classTemplateDecl(
+                hasAncestor(namespaceDecl(hasName(cppmm::TARGET_NAMESPACE))),
+                unless(isImplicit()))
+                .bind("classTemplateDecl");
+        _match_finder.addMatcher(ctd_matcher, &_handler);
+
+    } else {
+
+        DeclarationMatcher record_decl_matcher =
+            cxxRecordDecl(unless(isImplicit())).bind("recordDecl");
+        _match_finder.addMatcher(record_decl_matcher, &_handler);
+
+        DeclarationMatcher ctd_matcher =
+            classTemplateDecl(unless(isImplicit())).bind("classTemplateDecl");
+        _match_finder.addMatcher(ctd_matcher, &_handler);
+    }
 
     // // match all typedef declrations in the cppmm_bind namespace
     // DeclarationMatcher typedef_decl_matcher =
@@ -1570,6 +1611,7 @@ static cl::opt<std::string> opt_output_directory(
     "o",
     cl::desc(
         "Directory under which output project directories will be written"));
+
 static cl::list<std::string>
     opt_rename_namespace("n", cl::desc("Rename namespace <to>=<from>"));
 static cl::opt<std::string> opt_rust_sys_directory(
@@ -1580,6 +1622,18 @@ static cl::list<std::string>
     opt_includes("i", cl::desc("Extra includes for the project"));
 static cl::list<std::string>
     opt_libraries("l", cl::desc("Libraries to link against"));
+
+static cl::opt<std::string>
+    opt_namespace("namespace",
+                  cl::desc("Target namespace containing stuff to bind"));
+
+static cl::opt<std::string> opt_namespace_internal(
+    "namespace-internal",
+    cl::desc("Target library's internal macro for the namespace"));
+
+static cl::opt<std::string> opt_namespace_public(
+    "namespace-public",
+    cl::desc("Target library's public macro for the namespace"));
 
 int main(int argc_, const char** argv_) {
     // set up logging
@@ -1692,6 +1746,10 @@ int main(int argc_, const char** argv_) {
             newFrontendActionFactory<GenBindingAction>();
         int result = Tool.run(process_binding_action.get());
     }
+
+    cppmm::TARGET_NAMESPACE = opt_namespace;
+    cppmm::TARGET_NAMESPACE_INTERNAL = opt_namespace_internal;
+    cppmm::TARGET_NAMESPACE_PUBLIC = opt_namespace_public;
 
     using namespace cppmm;
     SPDLOG_DEBUG("output path is {}", output_dir);
