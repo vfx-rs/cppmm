@@ -212,7 +212,7 @@ struct NodeTranslationUnit : public Node {
 
     virtual void write(std::ostream& os, int depth) const override {
         os << "#include <" << source_includes[0] << ">\n";
-        os << "#include <cppmm_bind.hpp>\n";
+        os << "#include <cppmm_bind.hpp>\n\n";
         os << "namespace cppmm_bind {\n\n";
         for (const NodeId child : children) {
             auto* node = NODES[child].get();
@@ -244,12 +244,21 @@ struct NodeNamespace : public Node {
 
     virtual void write(std::ostream& os, int depth) const override {
         auto name = short_name;
+        bool write_inner_namespace = false;
         if (short_name == TARGET_NAMESPACE &&
             !TARGET_NAMESPACE_INTERNAL.empty()) {
             name = TARGET_NAMESPACE_INTERNAL;
+
+            if (!TARGET_NAMESPACE_PUBLIC.empty()) {
+                write_inner_namespace = true;
+            }
         }
 
-        os << indent{depth} << "namespace " << name << " {\n";
+        os << indent{depth} << "namespace " << name << " {\n\n";
+        if (write_inner_namespace) {
+            os << indent{depth} << "namespace " << TARGET_NAMESPACE_PUBLIC
+               << " = ::" << TARGET_NAMESPACE_INTERNAL << ";\n\n";
+        }
         for (const NodeId child : children) {
             auto* node = NODES[child].get();
             node->write(os, depth);
@@ -650,6 +659,9 @@ struct Field {
     QType qtype;
 };
 
+struct NodeRecord;
+void write_namespaces(std::ostream& os, const NodeRecord* node_rec);
+
 /// A record is a class or struct declaration containing fields and methods
 struct NodeRecord : public NodeAttributeHolder {
     std::vector<Field> fields;
@@ -662,10 +674,12 @@ struct NodeRecord : public NodeAttributeHolder {
     /// using V3f = Imath::Vec3<float>;
     std::string alias;
     /// Does the class have any pure virtual functions?
-    bool is_abstract;
+    bool is_abstract = false;
+    /// Does this class have any public constructors?
+    bool has_public_ctor = true;
     /// Any template parameters. If this is empty, this is not a template class
     std::vector<std::string> template_parameters;
-    std::set<std::string> children;
+    std::set<NodeId> children;
 
     static NodeKind _kind;
     virtual NodeKind node_kind() const override { return _kind; }
@@ -686,14 +700,57 @@ struct NodeRecord : public NodeAttributeHolder {
         }
         os << indent{depth} << "struct " << short_name << " {\n";
 
+        os << indent{depth + 1} << "using BoundType = ";
+        write_namespaces(os, this);
+        os << short_name << ";\n\n";
+
         for (const auto mid : methods) {
             NODES[mid]->write(os, depth + 1);
             os << "\n";
         }
 
-        os << indent{depth} << "}; // struct " << short_name;
+        for (const auto& child : children) {
+            os << "\n";
+            NODES[child]->write(os, depth + 1);
+            os << "\n";
+        }
+
+        os << indent{depth} << "}";
+
+        // if the record is abstract, or has no public constructors then
+        // it has to be opaqueptr. Otherwise we'll assume opaquebytes
+        if (is_abstract || !has_public_ctor) {
+            os << " CPPMM_OPAQUEPTR";
+        } else {
+            os << " CPPMM_OPAQUEBYTES";
+        }
+
+        os << "; // struct " << short_name;
     }
 };
+
+void write_namespaces(std::ostream& os, const NodeRecord* node_rec) {
+    for (auto id : node_rec->namespaces) {
+        auto kind = NODES.at(id)->node_kind();
+        if (kind == NodeKind::Namespace) {
+            auto node_ns = node_cast<NodeNamespace>(NODES.at(id).get());
+            if (node_ns->short_name == TARGET_NAMESPACE &&
+                !TARGET_NAMESPACE_PUBLIC.empty()) {
+                os << TARGET_NAMESPACE_PUBLIC << "::";
+            } else {
+                os << node_ns->short_name << "::";
+            }
+        } else if (kind == NodeKind::Record) {
+            auto node_par = node_cast<NodeRecord>(NODES.at(id).get());
+            os << node_par->short_name << "::";
+        } else {
+            SPDLOG_CRITICAL("Unexpected NodeKind {} on node {} while "
+                            "traversing parents of NodeRecord {}",
+                            NODES[id]->node_kind(), NODES[id]->qualified_name,
+                            node_rec->qualified_name);
+        }
+    }
+}
 
 /// A reference to a record (i.e. a class or struct)
 struct NodeRecordType : public NodeType {
@@ -701,25 +758,43 @@ struct NodeRecordType : public NodeType {
     /// record referred to hasn't been processed yet, then this will be -1 until
     /// such a time as the record is processed
     NodeId record;
+    std::vector<std::string> template_parameters;
 
     static NodeKind _kind;
     virtual NodeKind node_kind() const override { return _kind; }
 
     NodeRecordType(std::string qualified_name, NodeId id, NodeId context,
-                   std::string type_name, NodeId record)
-        : NodeType(qualified_name, id, context, type_name), record(record) {}
+                   std::string type_name, NodeId record,
+                   std::vector<std::string> template_parameters)
+        : NodeType(qualified_name, id, context, type_name), record(record),
+          template_parameters(std::move(template_parameters)) {}
 
     virtual void write(std::ostream& os, int depth) const override {
+
+        auto output_type_name = type_name;
+        // do a little cleanup of common types here to make the output
+        // more readable
+        if (type_name == "std::__cxx11::basic_string<char>") {
+            output_type_name = "std::string";
+        }
+
         os << indent{depth};
         if (record != -1) {
             auto node_rec = node_cast<NodeRecord>(NODES.at(record).get());
-            for (auto id : node_rec->namespaces) {
-                auto node_ns = node_cast<NodeNamespace>(NODES.at(id).get());
-                os << "::" << node_ns->short_name;
+            write_namespaces(os, node_rec);
+            os << node_rec->short_name;
+        } else {
+            if (type_name.find(TARGET_NAMESPACE) == 0 &&
+                !TARGET_NAMESPACE_PUBLIC.empty()) {
+                os << ps::replace(output_type_name, TARGET_NAMESPACE,
+                                  TARGET_NAMESPACE_PUBLIC);
+            } else {
+                os << output_type_name;
             }
-            os << "::";
         }
-        os << type_name;
+        if (!template_parameters.empty()) {
+            os << "<" << ps::join(", ", template_parameters) << ">";
+        }
     }
 };
 
@@ -869,8 +944,8 @@ std::vector<NodeId> get_namespaces(NodeId child,
             } else {
                 id = it->second;
                 result.push_back(id);
-                auto* node_ns = node_cast<NodeNamespace>(NODES[id].get());
-                node_ns->children.insert(child);
+                auto* node_rec = node_cast<NodeRecord>(NODES[id].get());
+                node_rec->children.insert(child);
             }
 
             parent = parent->getParent();
@@ -1085,7 +1160,8 @@ QType process_qtype(
                 }
 
                 auto node_record_type = std::make_unique<NodeRecordType>(
-                    type_node_name, id, 0, type_name, id_rec);
+                    type_node_name, id, 0, type_name, id_rec,
+                    std::vector<std::string>{});
                 NODES.emplace_back(std::move(node_record_type));
                 NODE_MAP[type_node_name] = id;
             } else if (qt->isEnumeralType()) {
@@ -1132,20 +1208,63 @@ QType process_qtype(
                     }
 
                     auto node_record_type = std::make_unique<NodeRecordType>(
-                        type_node_name, id, 0, type_name, id_rec);
+                        type_node_name, id, 0, type_name, id_rec,
+                        std::vector<std::string>{});
                     NODES.emplace_back(std::move(node_record_type));
                     NODE_MAP[type_node_name] = id;
                 } else {
-                    SPDLOG_TRACE("IS DEPENDENT TYPE");
-                    id = NodeId(-1);
+                    const auto* tst =
+                        dyn_cast<TemplateSpecializationType>(qt.getTypePtr());
+                    const auto* td = tst->getTemplateName().getAsTemplateDecl();
+                    if (td) {
+                        const auto* ctd = dyn_cast<ClassTemplateDecl>(td);
+                        if (ctd) {
+                            std::string record_name =
+                                ctd->getQualifiedNameAsString();
+                            SPDLOG_TRACE("GOT CTD {}", record_name);
+
+                            // remove any template guff from the type name
+                            // since we'll reconstruct it
+                            type_name =
+                                type_name.substr(0, type_name.find("<"));
+
+                            NodeId id_rec = -1;
+                            auto it_rec = NODE_MAP.find(record_name);
+                            if (it_rec != NODE_MAP.end()) {
+                                id_rec = it_rec->second;
+                            }
+
+                            auto template_parameters =
+                                get_template_parameters(ctd);
+                            if (template_parameters.empty()) {
+                                SPDLOG_WARN("Class template {} had no template "
+                                            "parameters",
+                                            record_name);
+                            }
+
+                            auto node_record_type =
+                                std::make_unique<NodeRecordType>(
+                                    type_node_name, id, 0, type_name, id_rec,
+                                    template_parameters);
+                            NODES.emplace_back(std::move(node_record_type));
+                            NODE_MAP[type_node_name] = id;
+                        }
+                    } else {
+                        SPDLOG_CRITICAL("UNHANDLED DEPENDENT TYPE");
+                        qt->dump();
+                        id = NodeId(-1);
+                    }
                 }
             } else {
-                SPDLOG_WARN("Unhandled type {}", type_node_name);
+                SPDLOG_CRITICAL("Unhandled type {}", type_node_name);
                 qt->dump();
                 id = NodeId(-1);
             }
         } else {
             id = it->second;
+            if (id == -1) {
+                SPDLOG_CRITICAL("-1 id in map");
+            }
         }
 
         return QType{id, qt.isConstQualified()};
@@ -1216,11 +1335,23 @@ NodePtr process_method_decl(
     return node_function;
 }
 
-std::vector<NodeId>
-process_methods(const CXXRecordDecl* crd,
-                std::vector<std::vector<std::string>> template_parameters) {
-    std::vector<NodePtr> result;
+void process_methods(const CXXRecordDecl* crd,
+                     std::vector<std::vector<std::string>> template_parameters,
+                     bool is_base, std::vector<NodePtr>& result,
+                     bool& has_public_ctor) {
     SPDLOG_TRACE("process_methods({})", get_record_name(crd));
+
+    // get all the public base classes of this record, and process those methods
+    SPDLOG_TRACE("class has {} bases", crd->getNumBases());
+    for (const auto base : crd->bases()) {
+        if (const CXXRecordDecl* base_crd =
+                base.getType()->getAsCXXRecordDecl()) {
+            SPDLOG_TRACE("found base {}", get_record_name(crd));
+            bool _dummy;
+            process_methods(base_crd, template_parameters, true, result,
+                            _dummy);
+        }
+    }
 
     // FIXME: need to replace existing methods from the base class
     // for overrides
@@ -1241,7 +1372,7 @@ process_methods(const CXXRecordDecl* crd,
         // parameter list).
         if (const FunctionTemplateDecl* ftd =
                 dyn_cast<FunctionTemplateDecl>(d)) {
-            SPDLOG_WARN("GOT FTD {}", ftd->getNameAsString());
+            SPDLOG_TRACE("GOT FTD {}", ftd->getNameAsString());
             auto template_parameters_stack = template_parameters;
             auto f_template_parameters = get_template_parameters(ftd);
             template_parameters_stack.push_back(f_template_parameters);
@@ -1259,9 +1390,26 @@ process_methods(const CXXRecordDecl* crd,
                 function_name, -1, -1, std::move(attrs), method_short_name,
                 return_qtype, std::move(params), fd->isStatic(),
                 f_template_parameters);
+            const auto* cmd = dyn_cast<CXXMethodDecl>(fd);
+            if (!cmd) {
+                SPDLOG_ERROR("Failed to cast FTD to CMD");
+            } else {
+                node_function->is_const = cmd->isConst();
+            }
             result.emplace_back(std::move(node_function));
         } else if (const auto* cmd = dyn_cast<CXXMethodDecl>(d)) {
             // just a regular boring old method
+            // Skip ctor/dtor for base classes
+            if ((dyn_cast<CXXConstructorDecl>(cmd) != 0 ||
+                 dyn_cast<CXXDestructorDecl>(cmd) != 0) ||
+                cmd->isCopyAssignmentOperator() ||
+                cmd->isMoveAssignmentOperator()) {
+
+                if (is_base)
+                    continue;
+                has_public_ctor = true;
+            }
+
             std::vector<std::string> attrs{};
             auto node_function =
                 process_method_decl(cmd, attrs, template_parameters);
@@ -1269,18 +1417,6 @@ process_methods(const CXXRecordDecl* crd,
             result.emplace_back(std::move(node_function));
         }
     }
-
-    std::vector<NodeId> method_ids;
-    method_ids.reserve(result.size());
-
-    for (auto&& m : result) {
-        NodeId id = NODES.size();
-        NODE_MAP[m->qualified_name] = id;
-        NODES.emplace_back(std::move(m));
-        method_ids.push_back(id);
-    }
-
-    return method_ids;
 }
 
 void process_crd(const CXXRecordDecl* crd,
@@ -1313,8 +1449,21 @@ void process_crd(const CXXRecordDecl* crd,
         auto* node_rec = node_cast<NodeRecord>(NODES[id].get());
         node_rec->namespaces = std::move(namespaces);
 
-        node_rec->methods = process_methods(
-            crd, std::vector<std::vector<std::string>>{template_parameters});
+        node_rec->is_abstract = crd->isAbstract();
+
+        std::vector<NodePtr> method_ptrs;
+        process_methods(
+            crd, std::vector<std::vector<std::string>>{template_parameters},
+            false, method_ptrs, node_rec->has_public_ctor);
+
+        node_rec->methods.reserve(method_ptrs.size());
+
+        for (auto&& m : method_ptrs) {
+            NodeId id = NODES.size();
+            NODE_MAP[m->qualified_name] = id;
+            NODES.emplace_back(std::move(m));
+            node_rec->methods.push_back(id);
+        }
 
         // fix up any record type references
         auto it_record_type = NODE_MAP.find("TYPE:" + qualified_name);
@@ -1374,18 +1523,19 @@ void GenBindingCallback::run(const MatchFinder::MatchResult& result) {
         std::string filename = sm.getFilename(loc).str();
 
         if (filename == CURRENT_FILENAME) {
+            auto qname = crd->getQualifiedNameAsString();
             crd = cppmm::get_canonical_def_from_crd(crd);
-            SPDLOG_DEBUG("Got CRD {}", crd->getQualifiedNameAsString());
-            cppmm::process_crd(crd, {});
-            // SPDLOG_TRACE("Got CRD {} as {}:{}",
-            // crd->getQualifiedNameAsString(),
-            //              filename, sm.getExpansionLineNumber(loc));
-
-            if (const auto* ctd = crd->getDescribedClassTemplate()) {
-                // this represents a specialization, ignore it
-                // SPDLOG_TRACE("    is a spec of {}",
-                //              ctd->getQualifiedNameAsString());
+            if (crd != nullptr) {
+                SPDLOG_DEBUG("Got CRD {}", qname);
+                cppmm::process_crd(crd, {});
+            } else {
+                SPDLOG_WARN("Could not get canonical def for {}", qname);
             }
+
+            // if (const auto* ctd = crd->getDescribedClassTemplate()) {
+            //     SPDLOG_TRACE("    is a spec of {}",
+            //                  ctd->getQualifiedNameAsString());
+            // }
         }
 
     } else if (const TypeAliasDecl* tdecl =
@@ -1782,6 +1932,16 @@ int main(int argc_, const char** argv_) {
         SPDLOG_INFO("Writing {}", output_path.string());
         node_tu->write(of, 0);
         of.close();
+    }
+
+    for (const auto& n : NODES) {
+        if (n->node_kind() == NodeKind::Record) {
+            const auto* node_rec = node_cast<NodeRecord>(n.get());
+            SPDLOG_DEBUG("NodeRecord {}", node_rec->qualified_name);
+        } else if (n->node_kind() == NodeKind::RecordType) {
+            const auto* node_rec = node_cast<NodeRecordType>(n.get());
+            SPDLOG_DEBUG("NodeRecordType {}", node_rec->qualified_name);
+        }
     }
 
     // return result;
