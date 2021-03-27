@@ -229,7 +229,7 @@ struct NodeTranslationUnit : public Node {
           project_includes(project_includes) {}
 };
 
-/// Namespace node. Currently not used
+/// Namespace node. Stores a set of its children
 struct NodeNamespace : public Node {
     std::string short_name;
     std::set<NodeId> children;
@@ -828,7 +828,11 @@ struct NodeEnum : public NodeAttributeHolder {
           variants(variants), size(size), align(align) {}
 
     virtual void write(std::ostream& os, int depth) const override {
-        os << indent{depth} << qualified_name;
+        os << indent{depth} << "enum " << short_name << " {\n";
+        for (const auto& p : variants) {
+            os << indent{depth + 1} << p.first << " = " << p.second << ",\n";
+        }
+        os << indent{depth} << "};";
     }
 };
 
@@ -924,7 +928,7 @@ std::vector<NodeId> get_namespaces(NodeId child,
 
             auto* node_ns = node_cast<NodeNamespace>(NODES[id].get());
             node_ns->children.insert(child);
-            SPDLOG_TRACE("INserting {} in {}", child, id);
+            SPDLOG_TRACE("Inserting {} in {}", child, id);
             result.push_back(id);
 
             parent = parent->getParent();
@@ -1504,6 +1508,77 @@ void handle_ctd(const ClassTemplateDecl* ctd) {
     process_crd(crd, std::move(template_parameters));
 }
 
+/// Get the size and alignment for the given decl. Returns true if the info
+/// could be ascertained, false otherwise.
+bool get_abi_info(const TypeDecl* td, ASTContext& ctx, uint32_t& size,
+                  uint32_t& align) {
+    if (td) {
+        const clang::Type* ty = td->getTypeForDecl();
+        if (!ty->isIncompleteType()) {
+            const clang::TypeInfo& ti = ctx.getTypeInfo(ty);
+            size = ti.Width;
+            align = ti.Align;
+            return true;
+        } else {
+            SPDLOG_TRACE("    is incomplete type");
+        }
+    } else {
+        SPDLOG_TRACE("    is not a TypeDecl");
+    }
+
+    return false;
+}
+
+/// Create a NodeEnum for the given EnumDecl contained in the given file and
+/// store it in the AST.
+void process_enum_decl(const EnumDecl* ed, std::string filename) {
+    ed = ed->getCanonicalDecl();
+    assert(ed && "canonical decl is null");
+    const std::string enum_name = ed->getQualifiedNameAsString();
+    const std::string enum_short_name = ed->getNameAsString();
+
+    if (NODE_MAP.find(enum_name) != NODE_MAP.end()) {
+        // already done this one
+        return;
+    }
+
+    // Get the translation unit node we're going to add this Enum to
+    auto* node_tu = get_translation_unit(filename);
+    ASTContext& ctx = ed->getASTContext();
+    uint32_t size, align;
+    if (!get_abi_info(dyn_cast<TypeDecl>(ed), ctx, size, align)) {
+        SPDLOG_CRITICAL("Could not get ABI info for {}", enum_name);
+    }
+
+    std::vector<std::pair<std::string, std::string>> variants;
+    for (const auto& ecd : ed->enumerators()) {
+        SPDLOG_DEBUG("        {}", ecd->getNameAsString());
+        variants.push_back(std::make_pair(ecd->getNameAsString(),
+                                          ecd->getInitVal().toString(10)));
+    }
+
+    NodeId new_id = NODES.size();
+    auto node_enum = std::make_unique<NodeEnum>(
+        enum_name, new_id, 0, std::vector<std::string>{},
+        std::move(enum_short_name), std::vector<NodeId>{}, variants, size,
+        align);
+    auto* node_enum_ptr = node_enum.get();
+    NODES.emplace_back(std::move(node_enum));
+    NODE_MAP[enum_name] = new_id;
+
+    const std::vector<NodeId> namespaces =
+        get_namespaces(new_id, ed->getParent(), node_tu);
+    node_enum_ptr->namespaces = namespaces;
+
+    // Find any EnumType nodes that need the new id
+    auto it_enum_type = NODE_MAP.find("TYPE:" + enum_name);
+    if (it_enum_type != NODE_MAP.end()) {
+        auto* node_enum_type =
+            (NodeEnumType*)NODES.at(it_enum_type->second).get();
+        node_enum_type->enm = new_id;
+    }
+}
+
 } // namespace cppmm
 
 class GenBindingCallback
@@ -1550,9 +1625,19 @@ void GenBindingCallback::run(const MatchFinder::MatchResult& result) {
     } else if (const FunctionDecl* function =
                    result.Nodes.getNodeAs<FunctionDecl>("functionDecl")) {
         // handle_binding_function(function);
-    } else if (const EnumDecl* enum_decl =
+    } else if (const EnumDecl* ed =
                    result.Nodes.getNodeAs<EnumDecl>("enumDecl")) {
-        // handle_binding_enum(enum_decl);
+        ASTContext& ctx = ed->getASTContext();
+        SourceManager& sm = ctx.getSourceManager();
+        const auto& loc = ed->getLocation();
+        std::string filename = sm.getFilename(loc).str();
+
+        if (filename == CURRENT_FILENAME) {
+            auto qname = ed->getQualifiedNameAsString();
+            SPDLOG_DEBUG("Got enum {}", qname);
+            cppmm::process_enum_decl(ed, filename);
+        }
+
     } else if (const VarDecl* var_decl =
                    result.Nodes.getNodeAs<VarDecl>("varDecl")) {
         // handle_binding_var(var_decl);
@@ -1611,6 +1696,13 @@ GenBindingConsumer::GenBindingConsumer(ASTContext* context) {
                 .bind("classTemplateDecl");
         _match_finder.addMatcher(ctd_matcher, &_handler);
 
+        DeclarationMatcher enum_decl_matcher =
+            enumDecl(
+                hasAncestor(namespaceDecl(hasName(cppmm::TARGET_NAMESPACE))),
+                unless(isImplicit()))
+                .bind("enumDecl");
+        _match_finder.addMatcher(enum_decl_matcher, &_handler);
+
     } else {
 
         DeclarationMatcher record_decl_matcher =
@@ -1620,6 +1712,10 @@ GenBindingConsumer::GenBindingConsumer(ASTContext* context) {
         DeclarationMatcher ctd_matcher =
             classTemplateDecl(unless(isImplicit())).bind("classTemplateDecl");
         _match_finder.addMatcher(ctd_matcher, &_handler);
+
+        DeclarationMatcher enum_decl_matcher =
+            enumDecl(unless(isImplicit())).bind("enumDecl");
+        _match_finder.addMatcher(enum_decl_matcher, &_handler);
     }
 
     // // match all typedef declrations in the cppmm_bind namespace
@@ -1636,13 +1732,6 @@ GenBindingConsumer::GenBindingConsumer(ASTContext* context) {
     //                  unless(hasAncestor(recordDecl())))
     //         .bind("functionDecl");
     // _match_finder.addMatcher(function_decl_matcher, &_handler);
-
-    // // match all enum declrations in the cppmm_bind namespace
-    // DeclarationMatcher enum_decl_matcher =
-    //     enumDecl(hasAncestor(namespaceDecl(hasName("cppmm_bind"))),
-    //              unless(isImplicit()))
-    //         .bind("enumDecl");
-    // _match_finder.addMatcher(enum_decl_matcher, &_handler);
 
     // // match all variable declrations in the cppmm_bind namespace
     // DeclarationMatcher var_decl_matcher =
