@@ -197,6 +197,8 @@ std::string TARGET_NAMESPACE;
 std::string TARGET_NAMESPACE_INTERNAL;
 std::string TARGET_NAMESPACE_PUBLIC;
 
+std::string CURRENT_FILENAME;
+
 /// Represents one translation unit (TU), i.e. one binding source file.
 /// NodeTranslationUnit::qualified_name contains the filename
 struct NodeTranslationUnit : public Node {
@@ -519,7 +521,32 @@ struct NodeFunction : public NodeAttributeHolder {
           template_parameters(std::move(template_parameters)) {}
 
     virtual void write(std::ostream& os, int depth) const override {
-        os << indent{depth} << qualified_name;
+        if (template_parameters.size() != 0) {
+            os << indent{depth};
+            bool first = true;
+            os << "template <";
+            for (const auto& t : template_parameters) {
+                if (!first) {
+                    os << ", ";
+                }
+                first = false;
+                os << "typename " << t;
+            }
+            os << ">\n";
+        }
+
+        os << indent{depth} << "auto " << short_name << "(";
+        bool first = true;
+        for (const auto& p : params) {
+            if (!first) {
+                os << ", ";
+            }
+            first = false;
+            p.write(os, 0);
+        }
+        os << ") -> ";
+        return_type.write(os, 0);
+        os << ";";
     }
 };
 
@@ -1579,6 +1606,32 @@ void process_enum_decl(const EnumDecl* ed, std::string filename) {
     }
 }
 
+void process_fd(const FunctionDecl* fd) {
+    ASTContext& ctx = fd->getASTContext();
+    SourceManager& sm = ctx.getSourceManager();
+    const auto& loc = fd->getLocation();
+    std::string filename = sm.getFilename(loc).str();
+
+    if (filename == CURRENT_FILENAME) {
+        auto qname = fd->getQualifiedNameAsString();
+        auto short_name = fd->getNameAsString();
+        auto* node_tu = get_translation_unit(filename);
+
+        cppmm::QType return_qtype;
+        std::vector<cppmm::Param> params;
+        cppmm::process_function_parameters(fd, return_qtype, params, {});
+
+        NodeId id = NODES.size();
+        auto node_fn = std::make_unique<NodeFunction>(
+            qname, id, 0, std::vector<std::string>{}, short_name, return_qtype,
+            std::move(params), std::vector<std::string>{});
+        auto* node_fn_ptr = node_fn.get();
+        NODES.emplace_back(std::move(node_fn));
+        NODE_MAP[qname] = id;
+        auto namespaces = get_namespaces(id, fd->getParent(), node_tu);
+    }
+}
+
 } // namespace cppmm
 
 class GenBindingCallback
@@ -1588,7 +1641,6 @@ public:
     run(const clang::ast_matchers::MatchFinder::MatchResult& result);
 };
 
-std::string CURRENT_FILENAME;
 void GenBindingCallback::run(const MatchFinder::MatchResult& result) {
     if (const CXXRecordDecl* crd =
             result.Nodes.getNodeAs<CXXRecordDecl>("recordDecl")) {
@@ -1597,7 +1649,7 @@ void GenBindingCallback::run(const MatchFinder::MatchResult& result) {
         const auto& loc = crd->getLocation();
         std::string filename = sm.getFilename(loc).str();
 
-        if (filename == CURRENT_FILENAME) {
+        if (filename == cppmm::CURRENT_FILENAME) {
             auto qname = crd->getQualifiedNameAsString();
             crd = cppmm::get_canonical_def_from_crd(crd);
             if (crd != nullptr) {
@@ -1606,11 +1658,6 @@ void GenBindingCallback::run(const MatchFinder::MatchResult& result) {
             } else {
                 SPDLOG_WARN("Could not get canonical def for {}", qname);
             }
-
-            // if (const auto* ctd = crd->getDescribedClassTemplate()) {
-            //     SPDLOG_TRACE("    is a spec of {}",
-            //                  ctd->getQualifiedNameAsString());
-            // }
         }
 
     } else if (const TypeAliasDecl* tdecl =
@@ -1622,9 +1669,9 @@ void GenBindingCallback::run(const MatchFinder::MatchResult& result) {
                         tdecl->getNameAsString());
             // handle_typealias_decl(tdecl, crd);
         }
-    } else if (const FunctionDecl* function =
+    } else if (const FunctionDecl* fd =
                    result.Nodes.getNodeAs<FunctionDecl>("functionDecl")) {
-        // handle_binding_function(function);
+        cppmm::process_fd(fd);
     } else if (const EnumDecl* ed =
                    result.Nodes.getNodeAs<EnumDecl>("enumDecl")) {
         ASTContext& ctx = ed->getASTContext();
@@ -1632,7 +1679,7 @@ void GenBindingCallback::run(const MatchFinder::MatchResult& result) {
         const auto& loc = ed->getLocation();
         std::string filename = sm.getFilename(loc).str();
 
-        if (filename == CURRENT_FILENAME) {
+        if (filename == cppmm::CURRENT_FILENAME) {
             auto qname = ed->getQualifiedNameAsString();
             SPDLOG_DEBUG("Got enum {}", qname);
             cppmm::process_enum_decl(ed, filename);
@@ -1649,7 +1696,7 @@ void GenBindingCallback::run(const MatchFinder::MatchResult& result) {
         SourceManager& sm = ctx.getSourceManager();
         const auto& loc = ctd->getLocation();
         std::string filename = sm.getFilename(loc).str();
-        if (filename == CURRENT_FILENAME) {
+        if (filename == cppmm::CURRENT_FILENAME) {
             cppmm::handle_ctd(ctd);
         }
     }
@@ -1703,6 +1750,13 @@ GenBindingConsumer::GenBindingConsumer(ASTContext* context) {
                 .bind("enumDecl");
         _match_finder.addMatcher(enum_decl_matcher, &_handler);
 
+        DeclarationMatcher function_decl_matcher =
+            functionDecl(
+                hasAncestor(namespaceDecl(hasName(cppmm::TARGET_NAMESPACE))),
+                unless(hasAncestor(recordDecl())))
+                .bind("functionDecl");
+        _match_finder.addMatcher(function_decl_matcher, &_handler);
+
     } else {
 
         DeclarationMatcher record_decl_matcher =
@@ -1716,6 +1770,11 @@ GenBindingConsumer::GenBindingConsumer(ASTContext* context) {
         DeclarationMatcher enum_decl_matcher =
             enumDecl(unless(isImplicit())).bind("enumDecl");
         _match_finder.addMatcher(enum_decl_matcher, &_handler);
+
+        DeclarationMatcher function_decl_matcher =
+            functionDecl(unless(hasAncestor(recordDecl())))
+                .bind("functionDecl");
+        _match_finder.addMatcher(function_decl_matcher, &_handler);
     }
 
     // // match all typedef declrations in the cppmm_bind namespace
@@ -1977,7 +2036,7 @@ int main(int argc_, const char** argv_) {
 
     for (int i = 0; i < vtu.size(); ++i) {
         SPDLOG_INFO("Processing {}", header_paths[i]);
-        CURRENT_FILENAME = header_paths[i];
+        cppmm::CURRENT_FILENAME = header_paths[i];
         ClangTool Tool(compdb, ArrayRef<std::string>(vtu_paths[i]));
         Tool.mapVirtualFile(vtu_paths[i], vtu[i]);
 
