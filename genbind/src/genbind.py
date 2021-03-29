@@ -3,7 +3,7 @@
 """genbind.
 
 Usage:
-    genbind.py <header-path>... [--namespace <ns>] [--namespace-internal <nsi>] [--namespace-public <nsp>] [-v <verbosity>] [--clang-arg <arg>...] [--output-path <path>]
+    genbind.py <header-path>... [--namespace <ns>] [--namespace-internal <nsi>] [--namespace-public <nsp>] [-v <verbosity>] [--clang-arg <arg>...] [--output-path <path>] [--format]
 
 Options:
     -v <level>, --verbosity <level>       Verbosity level of output. 0=Errors, 1=Warnings, 2=Info, 3=Debug, 4=Trace
@@ -12,6 +12,7 @@ Options:
     -p <nsp>, --namespace-public <nsp>    The target library's public #define for the namespace (e.g. Imf)
     -a <arg>..., --clang-arg <arg>...     Arguments to pass to Clang, e.g. the include path to the library. Can be repeated
     -o <path>, --output-path <path>       Directory under which to write the output binding files. Will be created if it does not exist
+    -f, --format                          Run clang-format on the output binding file
 """
 
 import os
@@ -63,5 +64,5 @@ if __name__ == '__main__':
 
     for header in headers:
         cmd = [binary, header] + options
-        # print(' '.join(cmd))
         subprocess.run(cmd)
+

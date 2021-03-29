@@ -729,7 +729,11 @@ struct NodeRecord : public NodeAttributeHolder {
 
         os << indent{depth + 1} << "using BoundType = ";
         write_namespaces(os, this);
-        os << short_name << ";\n\n";
+        os << short_name;
+        if (template_parameters.size() > 0) {
+            os << "<" << ps::join(", ", template_parameters) << ">";
+        }
+        os << ";\n\n";
 
         for (const auto mid : methods) {
             NODES[mid]->write(os, depth + 1);
@@ -969,9 +973,9 @@ std::vector<NodeId> get_namespaces(NodeId child,
             auto record_name = get_record_name(crd);
             auto it = NODE_MAP.find(record_name);
             if (it == NODE_MAP.end()) {
-                SPDLOG_CRITICAL(
-                    "Could not find record {} when processing namespaces",
-                    record_name);
+                SPDLOG_CRITICAL("Could not find record {} when processing "
+                                "namespaces for {}",
+                                record_name, NODES[child]->qualified_name);
             } else {
                 id = it->second;
                 result.push_back(id);
@@ -1225,6 +1229,7 @@ QType process_qtype(
                 id =
                     process_function_proto_type(fpt, type_name, type_node_name);
             } else if (qt->isDependentType()) {
+                qt->dump();
                 const auto* crd = qt->getAsCXXRecordDecl();
                 if (crd) {
                     // See if we've already processed a record matching this
@@ -1238,9 +1243,24 @@ QType process_qtype(
                         id_rec = it_rec->second;
                     }
 
+                    std::vector<std::string> t_parms;
+                    // InjectedClassNameType represents the situation where
+                    // the class name can be referred to without the template
+                    // parameters inside the class delcaration
+                    if (const auto* icnt =
+                            dyn_cast<InjectedClassNameType>(qt.getTypePtr())) {
+                        const auto* td =
+                            icnt->getTemplateName().getAsTemplateDecl();
+                        if (td) {
+                            const auto* ctd = dyn_cast<ClassTemplateDecl>(td);
+                            if (ctd) {
+                                t_parms = get_template_parameters(ctd);
+                            }
+                        }
+                    }
+
                     auto node_record_type = std::make_unique<NodeRecordType>(
-                        type_node_name, id, 0, type_name, id_rec,
-                        std::vector<std::string>{});
+                        type_node_name, id, 0, type_name, id_rec, t_parms);
                     NODES.emplace_back(std::move(node_record_type));
                     NODE_MAP[type_node_name] = id;
                 } else {
@@ -1503,7 +1523,13 @@ void process_crd(const CXXRecordDecl* crd,
                 (NodeRecordType*)NODES.at(it_record_type->second).get();
             node_record_type->record = id;
         }
+    } else {
+        SPDLOG_DEBUG("{} at {}:{} already in node map", qualified_name,
+                     filename, sm.getExpansionLineNumber(loc));
     }
+
+    SPDLOG_DEBUG("Finished procesing {} at {}:{}", qualified_name, filename,
+                 sm.getExpansionLineNumber(loc));
 }
 
 void handle_ctd(const ClassTemplateDecl* ctd) {
@@ -1611,6 +1637,11 @@ void process_fd(const FunctionDecl* fd) {
     SourceManager& sm = ctx.getSourceManager();
     const auto& loc = fd->getLocation();
     std::string filename = sm.getFilename(loc).str();
+
+    // method's should be excluded by the matcher, but they don't seem to be
+    if (dyn_cast<CXXMethodDecl>(fd)) {
+        return;
+    }
 
     if (filename == CURRENT_FILENAME) {
         auto qname = fd->getQualifiedNameAsString();
@@ -1753,7 +1784,8 @@ GenBindingConsumer::GenBindingConsumer(ASTContext* context) {
         DeclarationMatcher function_decl_matcher =
             functionDecl(
                 hasAncestor(namespaceDecl(hasName(cppmm::TARGET_NAMESPACE))),
-                unless(hasAncestor(recordDecl())))
+                unless(anyOf(hasAncestor(recordDecl()),
+                             hasAncestor(classTemplateDecl()))))
                 .bind("functionDecl");
         _match_finder.addMatcher(function_decl_matcher, &_handler);
 
