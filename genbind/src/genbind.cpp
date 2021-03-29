@@ -351,6 +351,9 @@ std::ostream& operator<<(std::ostream& os, const QType& q) {
     return os;
 }
 
+struct NodeRecord;
+void write_namespaces(std::ostream& os, const std::vector<NodeId>& namespaces);
+
 /// A pointer or reference type. The pointee is stored in pointee_type
 struct NodePointerType : public NodeType {
     /// Type we're pointing to
@@ -399,25 +402,6 @@ struct NodeConstantArrayType : public NodeType {
         os << indent{depth};
         element_type.write(os, 0);
         os << "[" << size << "]";
-    }
-};
-
-/// An enum type reference
-struct NodeEnumType : public NodeType {
-    /// The enum declaration node, i.e. the actual type declaration. If the
-    /// enum referred to hasn't been processed yet, then this will be -1 until
-    /// such a time as the enum is processed
-    NodeId enm;
-
-    static NodeKind _kind;
-    virtual NodeKind node_kind() const override { return _kind; }
-
-    NodeEnumType(std::string qualified_name, NodeId id, NodeId context,
-                 std::string type_name, NodeId enm)
-        : NodeType(qualified_name, id, context, type_name), enm(enm) {}
-
-    virtual void write(std::ostream& os, int depth) const override {
-        os << indent{depth} << type_name;
     }
 };
 
@@ -686,9 +670,6 @@ struct Field {
     QType qtype;
 };
 
-struct NodeRecord;
-void write_namespaces(std::ostream& os, const NodeRecord* node_rec);
-
 /// A record is a class or struct declaration containing fields and methods
 struct NodeRecord : public NodeAttributeHolder {
     std::vector<Field> fields;
@@ -728,7 +709,7 @@ struct NodeRecord : public NodeAttributeHolder {
         os << indent{depth} << "struct " << short_name << " {\n";
 
         os << indent{depth + 1} << "using BoundType = ";
-        write_namespaces(os, this);
+        write_namespaces(os, namespaces);
         os << short_name;
         if (template_parameters.size() > 0) {
             os << "<" << ps::join(", ", template_parameters) << ">";
@@ -760,8 +741,8 @@ struct NodeRecord : public NodeAttributeHolder {
     }
 };
 
-void write_namespaces(std::ostream& os, const NodeRecord* node_rec) {
-    for (auto id : node_rec->namespaces) {
+void write_namespaces(std::ostream& os, const std::vector<NodeId>& namespaces) {
+    for (auto id : namespaces) {
         auto kind = NODES.at(id)->node_kind();
         if (kind == NodeKind::Namespace) {
             auto node_ns = node_cast<NodeNamespace>(NODES.at(id).get());
@@ -776,9 +757,8 @@ void write_namespaces(std::ostream& os, const NodeRecord* node_rec) {
             os << node_par->short_name << "::";
         } else {
             SPDLOG_CRITICAL("Unexpected NodeKind {} on node {} while "
-                            "traversing parents of NodeRecord {}",
-                            NODES[id]->node_kind(), NODES[id]->qualified_name,
-                            node_rec->qualified_name);
+                            "traversing parents",
+                            NODES[id]->node_kind(), NODES[id]->qualified_name);
         }
     }
 }
@@ -812,7 +792,7 @@ struct NodeRecordType : public NodeType {
         os << indent{depth};
         if (record != -1) {
             auto node_rec = node_cast<NodeRecord>(NODES.at(record).get());
-            write_namespaces(os, node_rec);
+            write_namespaces(os, node_rec->namespaces);
             os << node_rec->short_name;
         } else {
             if (type_name.find(TARGET_NAMESPACE) == 0 &&
@@ -864,6 +844,38 @@ struct NodeEnum : public NodeAttributeHolder {
             os << indent{depth + 1} << p.first << " = " << p.second << ",\n";
         }
         os << indent{depth} << "};";
+    }
+};
+
+/// An enum type reference
+struct NodeEnumType : public NodeType {
+    /// The enum declaration node, i.e. the actual type declaration. If the
+    /// enum referred to hasn't been processed yet, then this will be -1 until
+    /// such a time as the enum is processed
+    NodeId enm;
+
+    static NodeKind _kind;
+    virtual NodeKind node_kind() const override { return _kind; }
+
+    NodeEnumType(std::string qualified_name, NodeId id, NodeId context,
+                 std::string type_name, NodeId enm)
+        : NodeType(qualified_name, id, context, type_name), enm(enm) {}
+
+    virtual void write(std::ostream& os, int depth) const override {
+        os << indent{depth};
+        if (enm != -1) {
+            auto node_enum = node_cast<NodeEnum>(NODES.at(enm).get());
+            write_namespaces(os, node_enum->namespaces);
+            os << node_enum->short_name;
+        } else {
+            if (type_name.find(TARGET_NAMESPACE) == 0 &&
+                !TARGET_NAMESPACE_PUBLIC.empty()) {
+                os << ps::replace(type_name, TARGET_NAMESPACE,
+                                  TARGET_NAMESPACE_PUBLIC);
+            } else {
+                os << type_name;
+            }
+        }
     }
 };
 
@@ -1817,13 +1829,6 @@ GenBindingConsumer::GenBindingConsumer(ASTContext* context) {
     //         .bind("typeAliasDecl");
     // _match_finder.addMatcher(typedef_decl_matcher, &_handler);
 
-    // // match all function declarations
-    // DeclarationMatcher function_decl_matcher =
-    //     functionDecl(hasAncestor(namespaceDecl(hasName("cppmm_bind"))),
-    //                  unless(hasAncestor(recordDecl())))
-    //         .bind("functionDecl");
-    // _match_finder.addMatcher(function_decl_matcher, &_handler);
-
     // // match all variable declrations in the cppmm_bind namespace
     // DeclarationMatcher var_decl_matcher =
     //     varDecl(hasAncestor(namespaceDecl(hasName("cppmm_bind"))),
@@ -1836,50 +1841,6 @@ GenBindingConsumer::GenBindingConsumer(ASTContext* context) {
 /// and enums we're interested in from the bindings (stored in the first pass)
 void GenBindingConsumer::HandleTranslationUnit(ASTContext& context) {
     _match_finder.matchAST(context);
-
-    /*
-    for (const auto& fn : binding_functions) {
-        SPDLOG_DEBUG("    {}", fn.first);
-    }
-
-    // add a matcher for each function we found in the binding
-    for (const auto& kv : binding_functions) {
-        for (const auto& fn : kv.second) {
-            SPDLOG_DEBUG("Adding matcher for function {}", fn.short_name);
-            DeclarationMatcher function_decl_matcher =
-                functionDecl(
-                    hasName(fn.short_name),
-                    unless(hasAncestor(namespaceDecl(hasName("cppmm_bind")))),
-                    unless(hasAncestor(recordDecl())))
-                    .bind("libraryFunctionDecl");
-            _library_finder.addMatcher(function_decl_matcher,
-                                       &_library_handler);
-        }
-    }
-
-    // and a matcher for each enum
-    for (const auto& kv : binding_enums) {
-        SPDLOG_DEBUG("Adding matcher for enum {}", kv.first);
-        DeclarationMatcher enum_decl_matcher =
-            enumDecl(hasName(kv.second.short_name),
-                     unless(hasAncestor(namespaceDecl(hasName("cppmm_bind")))),
-                     unless(hasAncestor(recordDecl())))
-                .bind("libraryEnumDecl");
-        _library_finder.addMatcher(enum_decl_matcher, &_library_handler);
-    }
-
-    // and a matcher for each var
-    for (const auto& kv : binding_vars) {
-        SPDLOG_DEBUG("Adding matcher for var {}", kv.first);
-        DeclarationMatcher var_decl_matcher =
-            varDecl(hasName(kv.second.short_name),
-                    unless(hasAncestor(namespaceDecl(hasName("cppmm_bind")))))
-                .bind("libraryVarDecl");
-        _library_finder.addMatcher(var_decl_matcher, &_library_handler);
-    }
-
-    _library_finder.matchAST(context);
-    */
 }
 
 std::vector<std::string> parse_project_includes(int argc, const char** argv) {
