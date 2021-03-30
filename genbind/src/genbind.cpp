@@ -1082,11 +1082,16 @@ std::vector<NodeId> get_namespaces(NodeId child,
 
             parent = parent->getParent();
             child = id;
+        } else if (parent->isTranslationUnit()) {
+            break;
         } else {
+            SPDLOG_CRITICAL("Unhandled parent kind {}",
+                            parent->getDeclKindName());
             break;
         }
     }
 
+    assert(id >= 0 && id < NODES.size() && "out of range id");
     node_tu->children.insert(id);
 
     std::reverse(result.begin(), result.end());
@@ -1586,6 +1591,21 @@ void process_methods(const CXXRecordDecl* crd,
     }
 }
 
+bool is_in_valid_context(const DeclContext* parent) {
+    while (parent) {
+        if (parent->isTranslationUnit()) {
+            return true;
+        }
+        if (parent->isNamespace() || parent->isRecord()) {
+            parent = parent->getParent();
+        } else {
+            return false;
+        }
+    }
+
+    return false;
+}
+
 void process_crd(const CXXRecordDecl* crd,
                  std::vector<std::string> template_parameters) {
     ASTContext& ctx = crd->getASTContext();
@@ -1597,6 +1617,11 @@ void process_crd(const CXXRecordDecl* crd,
     auto short_name = crd->getNameAsString();
     SPDLOG_DEBUG("process {} at {}:{}", qualified_name, filename,
                  sm.getExpansionLineNumber(loc));
+
+    if (!is_in_valid_context(crd->getParent())) {
+        SPDLOG_DEBUG("{} is not in a valid context. skipping", qualified_name);
+        return;
+    }
 
     auto* node_tu = get_translation_unit(filename);
     node_tu->source_includes.push_back(filename);
@@ -1757,7 +1782,7 @@ void process_fd(const FunctionDecl* fd) {
     const auto& loc = fd->getLocation();
     std::string filename = sm.getFilename(loc).str();
 
-    // method's should be excluded by the matcher, but they don't seem to be
+    // methods should be excluded by the matcher, but they don't seem to be
     if (dyn_cast<CXXMethodDecl>(fd)) {
         return;
     }
@@ -1767,14 +1792,20 @@ void process_fd(const FunctionDecl* fd) {
         auto short_name = fd->getNameAsString();
         auto* node_tu = get_translation_unit(filename);
 
+        std::vector<std::string> template_parameters;
+        if (const auto* ftd = fd->getDescribedFunctionTemplate()) {
+            template_parameters = get_template_parameters(ftd);
+        }
+
         cppmm::QType return_qtype;
         std::vector<cppmm::Param> params;
-        cppmm::process_function_parameters(fd, return_qtype, params, {});
+        cppmm::process_function_parameters(fd, return_qtype, params,
+                                           {template_parameters});
 
         NodeId id = NODES.size();
         auto node_fn = std::make_unique<NodeFunction>(
             qname, id, 0, std::vector<std::string>{}, short_name, return_qtype,
-            std::move(params), std::vector<std::string>{});
+            std::move(params), template_parameters);
         auto* node_fn_ptr = node_fn.get();
         NODES.emplace_back(std::move(node_fn));
         NODE_MAP[qname] = id;
@@ -1929,7 +1960,8 @@ GenBindingConsumer::GenBindingConsumer(ASTContext* context) {
         _match_finder.addMatcher(enum_decl_matcher, &_handler);
 
         DeclarationMatcher function_decl_matcher =
-            functionDecl(unless(hasAncestor(recordDecl())))
+            functionDecl(unless(anyOf(hasAncestor(recordDecl()),
+                                      hasAncestor(classTemplateDecl()))))
                 .bind("functionDecl");
         _match_finder.addMatcher(function_decl_matcher, &_handler);
     }
