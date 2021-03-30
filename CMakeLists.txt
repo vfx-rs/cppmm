@@ -20,6 +20,7 @@ add_subdirectory(json)
 
 add_subdirectory(astgen)
 add_subdirectory(asttoc)
+add_subdirectory(genbind)
 
 enable_testing()
 
