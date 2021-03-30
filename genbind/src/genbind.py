@@ -55,9 +55,9 @@ if __name__ == '__main__':
         options += ['-v', args['--verbosity']]
     if '--namespace' in args:
         options += ['-namespace', args['--namespace']]
-    if '--namespace-internal' in args:
+    if '--namespace-internal' in args and args['--namespace-internal']:
         options += ['-namespace-internal', args['--namespace-internal']]
-    if '--namespace-public' in args:
+    if '--namespace-public' in args and args['--namespace-public']:
         options += ['-namespace-public', args['--namespace-public']]
     if '--output-path' in args:
         options += ['-o', args['--output-path']]
@@ -71,6 +71,7 @@ if __name__ == '__main__':
         cmd = [binary, header] + options
         if verbosity > 2:
             print('')
+            print(cmd)
             print(' '.join(cmd))
         try:
             subprocess.run(cmd, check=True)
