@@ -1026,7 +1026,7 @@ std::vector<NodeId> get_namespaces(NodeId child,
                                    NodeTranslationUnit* node_tu) {
     std::vector<NodeId> result;
 
-    NodeId id;
+    NodeId id = child;
     SPDLOG_TRACE("Getting namespaces for {}", child);
     while (parent) {
         if (parent->isNamespace()) {
@@ -1084,10 +1084,12 @@ std::vector<NodeId> get_namespaces(NodeId child,
             child = id;
         } else if (parent->isTranslationUnit()) {
             break;
+        } else if (parent->isExternCContext()) {
+            parent = parent->getParent();
         } else {
             SPDLOG_CRITICAL("Unhandled parent kind {}",
                             parent->getDeclKindName());
-            break;
+            exit(17);
         }
     }
 
@@ -1596,7 +1598,8 @@ bool is_in_valid_context(const DeclContext* parent) {
         if (parent->isTranslationUnit()) {
             return true;
         }
-        if (parent->isNamespace() || parent->isRecord()) {
+        if (parent->isNamespace() || parent->isRecord() ||
+            parent->isExternCContext()) {
             parent = parent->getParent();
         } else {
             return false;
