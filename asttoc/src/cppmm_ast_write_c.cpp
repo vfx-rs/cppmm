@@ -161,6 +161,28 @@ void write_record_forward_decl(fmt::ostream & out, const NodePtr & node)
 }
 
 //------------------------------------------------------------------------------
+void write_enum(fmt::ostream & out, const NodePtr & node)
+{
+    const NodeEnum & enum_ = *static_cast<const NodeEnum*>(node.get());
+
+    out.print("enum {}{{\n", enum_.name);
+    for(const auto & v : enum_.variants)
+    {
+        out.print("    {} = {},\n", v.first, v.second);
+    }
+    out.print("}};\n");
+}
+
+//------------------------------------------------------------------------------
+void write_typedef(fmt::ostream & out, const NodePtr & node)
+{
+    const NodeTypedef & typedef_ = *static_cast<const NodeTypedef*>(node.get());
+
+    out.print("typedef {};\n", convert_param(typedef_.type, typedef_.name));
+}
+
+
+//------------------------------------------------------------------------------
 void write_params(fmt::ostream & out, const NodeFunction & function)
 {
     if(!function.params.empty())
@@ -513,6 +535,20 @@ void write_private_header(const TranslationUnit & tu)
         out.print("{}\n", i);
     }
 
+    // Write out all the records
+    for(const auto & node : tu.decls)
+    {
+        if (node->kind == NodeKind::Record)
+        {
+            if(node->private_)
+            {
+                write_record(out, node);
+            }
+        }
+    }
+
+    out.print("\n");
+
     // Then all the private functions
     for(const auto & node : tu.decls)
     {
@@ -547,14 +583,39 @@ void write_header(const TranslationUnit & tu)
         }
     }
 
-    // Write out all the records first
+    out.print("\n");
+
+    // Write out all the enums and typedefs
+    for(const auto & node : tu.decls)
+    {
+        switch(node->kind)
+        {
+            case NodeKind::Enum:
+                write_enum(out, node);
+                break;
+            case NodeKind::Typedef:
+                write_typedef(out, node);
+                break;
+            default:
+                break;
+        }
+    }
+
+    out.print("\n");
+
+    // Write out all the records
     for(const auto & node : tu.decls)
     {
         if (node->kind == NodeKind::Record)
         {
-            write_record(out, node);
+            if(!node->private_)
+            {
+                write_record(out, node);
+            }
         }
     }
+
+    out.print("\n");
 
     // Then all the public functions
     for(const auto & node : tu.decls)

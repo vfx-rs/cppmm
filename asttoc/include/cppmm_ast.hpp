@@ -27,6 +27,7 @@ enum class NodeKind : uint32_t {
     RecordType,
     EnumType,
     FunctionProtoType,
+    TypedefType,
     UnknownType,
     Parm,
     Function,
@@ -44,6 +45,7 @@ enum class NodeKind : uint32_t {
     Enum,
     Method,
     Record,
+    Typedef,
     Sentinal, // A sentinal entry to keep track of how many there are
 };
 
@@ -65,11 +67,13 @@ struct Node {
     std::string name;
     NodeId id;
     NodeKind kind;
+    bool private_;
 
     Node(std::string name, NodeId id, NodeKind kind)
         : name(name)
         , id(id)
-        , kind(kind) {}
+        , kind(kind)
+        , private_(false) {}
 
     virtual ~Node(){}
 };
@@ -249,6 +253,25 @@ struct NodeEnumType : public NodeType {
 
     // A static method for creating this as a shared pointer
     using This = NodeEnumType;
+    template<typename ... Args>
+    static std::shared_ptr<This> n(Args&& ... args)
+    {
+        return std::make_shared<This>(std::forward<Args>(args)...);
+    }
+};
+
+//------------------------------------------------------------------------------
+// NodeTypedefType
+//------------------------------------------------------------------------------
+struct NodeTypedefType : public NodeType {
+    NodeId typedef_;
+    NodeTypedefType(std::string qualified_name, NodeId id,
+                 std::string type_name, NodeId typedef_, bool const_) // TODO LT: Hook up const later
+        : NodeType(qualified_name, id, NodeKind::TypedefType, type_name, const_),
+          typedef_(typedef_) {}
+
+    // A static method for creating this as a shared pointer
+    using This = NodeTypedefType;
     template<typename ... Args>
     static std::shared_ptr<This> n(Args&& ... args)
     {
@@ -586,7 +609,6 @@ struct NodeFunction : public NodeAttributeHolder {
     std::vector<Param> params;
     bool in_binding = false;
     bool in_library = false;
-    bool private_ = false;
     bool inline_ = false;
 
     NodeExprPtr body;
@@ -700,17 +722,48 @@ struct NodeEnum : public NodeAttributeHolder {
     uint32_t size;
     uint32_t align;
     TranslationUnit::WPtr tu;
+    std::string short_name;
+
+    std::vector<NodeId> namespaces;
 
     NodeEnum(const TranslationUnit::Ptr & tu,
-             std::string qualified_name, NodeId id,
+             std::string qualified_name, std::string short_name, NodeId id,
              std::vector<std::string> attrs,
              std::vector<std::pair<std::string, std::string>> variants,
-             uint32_t size, uint32_t align)
+             uint32_t size, uint32_t align,
+             const std::vector<NodeId> & namespaces)
         : NodeAttributeHolder(qualified_name, id, NodeKind::Enum, attrs),
-          variants(variants), size(size), align(align) {
+          tu(tu),
+          variants(variants), size(size), align(align), namespaces(namespaces),
+          short_name(short_name)
+    {
     }
 
     using This = NodeEnum;
+    template<typename ... Args>
+    static std::shared_ptr<This> n(Args&& ... args)
+    {
+        return std::make_shared<This>(std::forward<Args>(args)...);
+    }
+};
+
+//------------------------------------------------------------------------------
+// NodeTypedef
+//------------------------------------------------------------------------------
+struct NodeTypedef : public NodeAttributeHolder {
+    NodeTypePtr type;
+    TranslationUnit::WPtr tu;
+
+    NodeTypedef(const TranslationUnit::Ptr & tu,
+        std::string qualified_name, const NodeTypePtr & type)
+        : NodeAttributeHolder(qualified_name, 0, NodeKind::Typedef,
+                              std::vector<std::string>())
+        , tu(tu)
+        , type(type)
+    {
+    }
+
+    using This = NodeTypedef;
     template<typename ... Args>
     static std::shared_ptr<This> n(Args&& ... args)
     {
