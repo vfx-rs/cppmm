@@ -1521,7 +1521,10 @@ void process_methods(const CXXRecordDecl* crd,
         if (const FunctionTemplateDecl* ftd =
                 dyn_cast<FunctionTemplateDecl>(d)) {
             SPDLOG_TRACE("GOT FTD {}", ftd->getNameAsString());
-            auto template_parameters_stack = template_parameters;
+            std::vector<std::vector<std::string>> template_parameters_stack;
+            if (!template_parameters.empty()) {
+                template_parameters_stack = template_parameters;
+            }
             auto f_template_parameters = get_template_parameters(ftd);
             template_parameters_stack.push_back(f_template_parameters);
 
@@ -1616,9 +1619,12 @@ void process_crd(const CXXRecordDecl* crd,
         node_rec->is_abstract = crd->isAbstract();
 
         std::vector<NodePtr> method_ptrs;
-        process_methods(
-            crd, std::vector<std::vector<std::string>>{template_parameters},
-            false, method_ptrs, node_rec->has_public_ctor);
+        std::vector<std::vector<std::string>> template_parameters_stack;
+        if (!template_parameters.empty()) {
+            template_parameters_stack.push_back(template_parameters);
+        }
+        process_methods(crd, template_parameters_stack, false, method_ptrs,
+                        node_rec->has_public_ctor);
 
         node_rec->methods.reserve(method_ptrs.size());
 

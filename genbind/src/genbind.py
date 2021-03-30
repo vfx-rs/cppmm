@@ -20,6 +20,7 @@ from docopt import docopt
 import glob
 import pathlib
 import subprocess
+from subprocess import CalledProcessError
 
 def find_header_paths(input_paths: list):
     # print('finding headers in ', input_paths)
@@ -71,10 +72,16 @@ if __name__ == '__main__':
         if verbosity > 2:
             print('')
             print(' '.join(cmd))
-        subprocess.run(cmd)
+        try:
+            subprocess.run(cmd, check=True)
+        except CalledProcessError as e:
+            print(f'ERROR: Failed to process {header}')
 
     if '--format' in args:
         for cpp_file in glob.iglob(os.path.join(output_path, '*.cpp')):
             cmd = ['clang-format', '-i', os.path.abspath(cpp_file)]
-            subprocess.run(cmd)
+        try:
+            subprocess.run(cmd, check=True)
+        except CalledProcessError as e:
+            print(f'ERROR: Failed to format {cpp_file}')
 
