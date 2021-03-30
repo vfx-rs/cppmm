@@ -446,6 +446,20 @@ struct Param {
     }
 };
 
+bool operator==(const Param& a, const Param& b) {
+    if (a.name != b.name) {
+        return false;
+    }
+
+    if (a.qty != b.qty) {
+        return false;
+    }
+
+    return true;
+}
+
+bool operator!=(const Param& a, const Param& b) { return !(a == b); }
+
 std::ostream& operator<<(std::ostream& os, const Param& p) {
     return os << p.name << ": " << p.qty;
 }
@@ -616,6 +630,36 @@ struct NodeMethod : public NodeFunction {
         os << ";";
     }
 };
+
+bool operator==(const NodeMethod& a, const NodeMethod& b) {
+    if (a.short_name != b.short_name) {
+        return false;
+    }
+
+    if (a.is_static != b.is_static) {
+        return false;
+    }
+
+    if (a.is_const != b.is_const) {
+        return false;
+    }
+
+    if (a.return_type != b.return_type) {
+        return false;
+    }
+
+    if (a.params.size() != b.params.size()) {
+        return false;
+    }
+
+    for (int i = 0; i < a.params.size(); ++i) {
+        if (a.params[i] != b.params[i]) {
+            return false;
+        }
+    }
+
+    return true;
+}
 
 std::ostream& operator<<(std::ostream& os, const NodeMethod& f) {
     if (f.is_static) {
@@ -1470,14 +1514,30 @@ void process_methods(const CXXRecordDecl* crd,
 
                 if (is_base)
                     continue;
+
                 has_public_ctor = true;
             }
 
             std::vector<std::string> attrs{};
             auto node_function =
                 process_method_decl(cmd, attrs, template_parameters);
-            // add_method_to_list(std::move(node_function), result);
-            result.emplace_back(std::move(node_function));
+
+            // if this method is on any of the bases, then we'll already
+            // have declared it, so don't need to redeclare
+            bool found = false;
+            for (const auto& m : result) {
+                const NodeMethod& a = *node_cast<NodeMethod>(m.get());
+                const NodeMethod& b =
+                    *node_cast<NodeMethod>(node_function.get());
+                if (a == b) {
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found) {
+                result.emplace_back(std::move(node_function));
+            }
         }
     }
 }
@@ -1697,7 +1757,16 @@ void GenBindingCallback::run(const MatchFinder::MatchResult& result) {
             crd = cppmm::get_canonical_def_from_crd(crd);
             if (crd != nullptr) {
                 SPDLOG_DEBUG("Got CRD {}", qname);
-                cppmm::process_crd(crd, {});
+                std::vector<std::string> template_parameters;
+                if (const auto* ctd = crd->getDescribedClassTemplate()) {
+                    template_parameters = cppmm::get_template_parameters(ctd);
+                    if (template_parameters.empty()) {
+                        SPDLOG_WARN(
+                            "Class template {} had no template parameters",
+                            qname);
+                    }
+                }
+                cppmm::process_crd(crd, template_parameters);
             } else {
                 SPDLOG_WARN("Could not get canonical def for {}", qname);
             }
