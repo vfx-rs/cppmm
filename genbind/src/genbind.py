@@ -22,7 +22,7 @@ import pathlib
 import subprocess
 
 def find_header_paths(input_paths: list):
-    print('finding headers in ', input_paths)
+    # print('finding headers in ', input_paths)
     result = []
     for p in input_paths:
         if os.path.isfile(p):
@@ -39,7 +39,7 @@ def find_header_paths(input_paths: list):
 
 if __name__ == '__main__':
     args = docopt(__doc__)
-    print(args)
+    # print(args)
 
     script_dir = pathlib.Path(__file__).parent.absolute()
     binary = os.path.join(script_dir, 'genbind')
@@ -47,7 +47,10 @@ if __name__ == '__main__':
     headers = find_header_paths(args['<header-path>'])
 
     options = []
+    verbosity = 1
+    output_path = os.getcwd()
     if '--verbosity' in args:
+        verbosity = int(args['--verbosity'])
         options += ['-v', args['--verbosity']]
     if '--namespace' in args:
         options += ['-namespace', args['--namespace']]
@@ -57,6 +60,7 @@ if __name__ == '__main__':
         options += ['-namespace-public', args['--namespace-public']]
     if '--output-path' in args:
         options += ['-o', args['--output-path']]
+        output_path = os.path.abspath(args['--output-path'])
     if '--clang-arg' in args:
         options.append('--')
         for a in args['--clang-arg']:
@@ -64,5 +68,13 @@ if __name__ == '__main__':
 
     for header in headers:
         cmd = [binary, header] + options
+        if verbosity > 2:
+            print('')
+            print(' '.join(cmd))
         subprocess.run(cmd)
+
+    if '--format' in args:
+        for cpp_file in glob.iglob(os.path.join(output_path, '*.cpp')):
+            cmd = ['clang-format', '-i', os.path.abspath(cpp_file)]
+            subprocess.run(cmd)
 

@@ -199,6 +199,9 @@ std::string TARGET_NAMESPACE_PUBLIC;
 
 std::string CURRENT_FILENAME;
 
+class NodeRecord;
+std::vector<const NodeRecord*> TEMPLATE_RECORDS;
+
 /// Represents one translation unit (TU), i.e. one binding source file.
 /// NodeTranslationUnit::qualified_name contains the filename
 struct NodeTranslationUnit : public Node {
@@ -212,17 +215,7 @@ struct NodeTranslationUnit : public Node {
     static NodeKind _kind;
     virtual NodeKind node_kind() const override { return _kind; }
 
-    virtual void write(std::ostream& os, int depth) const override {
-        os << "#include <" << source_includes[0] << ">\n";
-        os << "#include <cppmm_bind.hpp>\n\n";
-        os << "namespace cppmm_bind {\n\n";
-        for (const NodeId child : children) {
-            auto* node = NODES[child].get();
-            node->write(os, depth);
-            os << "\n\n";
-        }
-        os << "} // namespace cppmm_bind\n";
-    }
+    virtual void write(std::ostream& os, int depth) const override;
 
     NodeTranslationUnit(std::string qualified_name, NodeId id, NodeId context,
                         std::vector<std::string> source_includes,
@@ -781,9 +774,57 @@ struct NodeRecord : public NodeAttributeHolder {
             os << " CPPMM_OPAQUEBYTES";
         }
 
-        os << "; // struct " << short_name;
+        os << "; // struct " << short_name << "\n";
+
+        // finally, if we're a template record, write commented example
+        // explicit instantiation code for the user to fill in
+        if (!template_parameters.empty()) {
+            os << "\n";
+            std::vector<std::string> dummy_parms;
+            for (const auto& t : template_parameters) {
+                dummy_parms.push_back("int");
+            }
+
+            os << indent{depth}
+               << "// TODO: fill in explicit instantiations, e.g.:\n";
+            os << indent{depth} << "// template class " << short_name;
+            os << "<" << ps::join(", ", dummy_parms) << ">;\n";
+            os << "// using " << short_name << "Int = ";
+            write_namespaces(os, namespaces);
+            os << short_name << "<" << ps::join(", ", dummy_parms) << ">;\n";
+
+            TEMPLATE_RECORDS.push_back(this);
+        }
     }
 };
+
+void NodeTranslationUnit::write(std::ostream& os, int depth) const {
+    os << "#include <" << source_includes[0] << ">\n";
+    os << "#include <cppmm_bind.hpp>\n\n";
+    os << "namespace cppmm_bind {\n\n";
+    for (const NodeId child : children) {
+        auto* node = NODES[child].get();
+        node->write(os, depth);
+        os << "\n\n";
+    }
+    os << "} // namespace cppmm_bind\n";
+
+    if (!TEMPLATE_RECORDS.empty()) {
+        os << "\n";
+        os << "// TODO: fill in explicit instantiations\n";
+        for (const auto* rec : TEMPLATE_RECORDS) {
+            std::vector<std::string> dummy_parms;
+            for (const auto& t : rec->template_parameters) {
+                dummy_parms.push_back("int");
+            }
+
+            os << "// template class ";
+            write_namespaces(os, rec->namespaces);
+            os << rec->short_name << "<" << ps::join(", ", dummy_parms)
+               << ">;\n";
+        }
+    }
+}
 
 void write_namespaces(std::ostream& os, const std::vector<NodeId>& namespaces) {
     for (auto id : namespaces) {
@@ -1747,15 +1788,15 @@ public:
 void GenBindingCallback::run(const MatchFinder::MatchResult& result) {
     if (const CXXRecordDecl* crd =
             result.Nodes.getNodeAs<CXXRecordDecl>("recordDecl")) {
-        ASTContext& ctx = crd->getASTContext();
-        SourceManager& sm = ctx.getSourceManager();
-        const auto& loc = crd->getLocation();
-        std::string filename = sm.getFilename(loc).str();
 
-        if (filename == cppmm::CURRENT_FILENAME) {
-            auto qname = crd->getQualifiedNameAsString();
-            crd = cppmm::get_canonical_def_from_crd(crd);
-            if (crd != nullptr) {
+        auto qname = crd->getQualifiedNameAsString();
+        crd = cppmm::get_canonical_def_from_crd(crd);
+        if (crd != nullptr) {
+            ASTContext& ctx = crd->getASTContext();
+            SourceManager& sm = ctx.getSourceManager();
+            const auto& loc = crd->getLocation();
+            std::string filename = sm.getFilename(loc).str();
+            if (filename == cppmm::CURRENT_FILENAME) {
                 SPDLOG_DEBUG("Got CRD {}", qname);
                 std::vector<std::string> template_parameters;
                 if (const auto* ctd = crd->getDescribedClassTemplate()) {
@@ -1767,11 +1808,8 @@ void GenBindingCallback::run(const MatchFinder::MatchResult& result) {
                     }
                 }
                 cppmm::process_crd(crd, template_parameters);
-            } else {
-                SPDLOG_WARN("Could not get canonical def for {}", qname);
             }
         }
-
     } else if (const TypeAliasDecl* tdecl =
                    result.Nodes.getNodeAs<TypeAliasDecl>("typeAliasDecl")) {
         if (const auto* crd =
@@ -2113,35 +2151,38 @@ int main(int argc_, const char** argv_) {
 
     using namespace cppmm;
     SPDLOG_DEBUG("output path is {}", output_dir);
-    for (const NodeId id : ROOT) {
-        auto* node_tu = node_cast<NodeTranslationUnit>(NODES[id].get());
-        std::cout << "/// File:  " << node_tu->qualified_name << "\n\n";
-        std::string relative_header = node_tu->qualified_name;
-        // generate relative header path by matching against provided include
-        // paths and stripping any match from the front.
-        node_tu->source_includes.push_back(relative_header);
-        for (const auto& p : project_includes) {
-            if (ps::find(node_tu->qualified_name, p) == 0) {
-                // we have a match
-                relative_header =
-                    ps::lstrip(ps::replace(relative_header, p, ""), "/");
-                node_tu->source_includes[0] = relative_header;
-                break;
+    if (ROOT.empty()) {
+        SPDLOG_WARN("Header {} generated no bindings", header_path);
+    } else {
+        for (const NodeId id : ROOT) {
+            auto* node_tu = node_cast<NodeTranslationUnit>(NODES[id].get());
+            std::string relative_header = node_tu->qualified_name;
+            // generate relative header path by matching against provided
+            // include paths and stripping any match from the front.
+            node_tu->source_includes.push_back(relative_header);
+            for (const auto& p : project_includes) {
+                if (ps::find(node_tu->qualified_name, p) == 0) {
+                    // we have a match
+                    relative_header =
+                        ps::lstrip(ps::replace(relative_header, p, ""), "/");
+                    node_tu->source_includes[0] = relative_header;
+                    break;
+                }
             }
-        }
 
-        // generate output filename by snake_casing the header filename
-        auto filename = to_snake_case(fs::path(node_tu->qualified_name)
-                                          .filename()
-                                          .replace_extension(".cpp")
-                                          .string());
-        auto output_path = output_dir / fs::path(filename);
-        std::ofstream of;
-        of.open(output_path);
-        // write output file
-        SPDLOG_INFO("Writing {}", output_path.string());
-        node_tu->write(of, 0);
-        of.close();
+            // generate output filename by snake_casing the header filename
+            auto filename = to_snake_case(fs::path(node_tu->qualified_name)
+                                              .filename()
+                                              .replace_extension(".cpp")
+                                              .string());
+            auto output_path = output_dir / fs::path(filename);
+            std::ofstream of;
+            of.open(output_path);
+            // write output file
+            SPDLOG_INFO("Writing {}", output_path.string());
+            node_tu->write(of, 0);
+            of.close();
+        }
     }
 
     for (const auto& n : NODES) {
