@@ -1367,9 +1367,9 @@ QType process_qtype(
                         type_node_name, id, 0, type_name, id_rec, t_parms);
                     NODES.emplace_back(std::move(node_record_type));
                     NODE_MAP[type_node_name] = id;
-                } else {
-                    const auto* tst =
-                        dyn_cast<TemplateSpecializationType>(qt.getTypePtr());
+                } else if (const auto* tst =
+                               dyn_cast<TemplateSpecializationType>(
+                                   qt.getTypePtr())) {
                     const auto* td = tst->getTemplateName().getAsTemplateDecl();
                     if (td) {
                         const auto* ctd = dyn_cast<ClassTemplateDecl>(td);
@@ -1409,6 +1409,10 @@ QType process_qtype(
                         qt->dump();
                         id = NodeId(-1);
                     }
+                } else {
+                    SPDLOG_CRITICAL("Unhandled type {}", type_name);
+                    qt->dump();
+                    id = NodeId(-1);
                 }
             } else {
                 SPDLOG_CRITICAL("Unhandled type {}", type_node_name);
