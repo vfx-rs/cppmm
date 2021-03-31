@@ -12,16 +12,18 @@
 #include <iostream>
 #include <set>
 
-#define cassert(C, M) if(!(C)) { std::cerr << M << std::endl; abort(); }
+#define cassert(C, M)                                                          \
+    if (!(C)) {                                                                \
+        std::cerr << M << std::endl;                                           \
+        abort();                                                               \
+    }
 
 #include "filesystem.hpp"
 
 namespace fs = ghc::filesystem;
 
-namespace cppmm
-{
-namespace write
-{
+namespace cppmm {
+namespace write {
 
 #if 0
 //------------------------------------------------------------------------------
@@ -73,35 +75,30 @@ target_link_libraries(asttoc fmt LLVMSupport)
 */
 
 //------------------------------------------------------------------------------
-static void indent(fmt::ostream & out, const size_t depth)
-{
-    for(size_t i=0; i!= depth; ++i)
-    {
+static void indent(fmt::ostream& out, const size_t depth) {
+    for (size_t i = 0; i != depth; ++i) {
         out.print("    ");
     }
 }
 
-const std::string compute_out_include_path(const std::string & filename)
-{
+const std::string compute_out_include_path(const std::string& filename) {
     return fs::path(filename).parent_path();
 }
 
-const std::string compute_cmakefile_path(const std::string & filename)
-{
+const std::string compute_cmakefile_path(const std::string& filename) {
     return fs::path(filename).parent_path() / "CMakeLists.txt";
 }
 
 //------------------------------------------------------------------------------
-void cmake(const Root & root, size_t starting_point, const Libs & libs,
-           const LibDirs & lib_dirs)
-{
+void cmake(const Root& root, size_t starting_point, const Libs& libs,
+           const LibDirs& lib_dirs) {
     cassert(starting_point < root.tus.size(), "starting point is out of range");
     auto cmakefile_path =
         compute_cmakefile_path(root.tus[starting_point]->filename);
 
     auto project_name = "mm_binding";
 
-    //std::cerr << cmakefile_path << std::endl;
+    // std::cerr << cmakefile_path << std::endl;
 
     auto out = fmt::output_file(cmakefile_path);
 
@@ -110,14 +107,13 @@ void cmake(const Root & root, size_t starting_point, const Libs & libs,
     out.print("project({})\n", project_name);
     out.print("set(CMAKE_CXX_STANDARD 14 CACHE STRING \"\")\n");
 
-    // Library    
+    // Library
     std::set<std::string> include_paths;
 
     out.print("add_library({} SHARED\n", project_name);
     const auto size = root.tus.size();
-    for(size_t i=starting_point; i < size; ++i)
-    {
-        const auto & tu = root.tus[i];
+    for (size_t i = starting_point; i < size; ++i) {
+        const auto& tu = root.tus[i];
 
         // For now we assume the output source code is in the same
         // folder as the CMakeLists.txt file
@@ -125,8 +121,7 @@ void cmake(const Root & root, size_t starting_point, const Libs & libs,
         out.print("{}\n", fs::path(tu->filename).filename().c_str());
 
         // Add all the include paths
-        for(auto & i: tu->include_paths)
-        {
+        for (auto& i : tu->include_paths) {
             include_paths.insert(i);
         }
     }
@@ -136,27 +131,24 @@ void cmake(const Root & root, size_t starting_point, const Libs & libs,
     include_paths.insert(compute_out_include_path("./"));
 
     // Include directories
-    for(auto & include_path: include_paths)
-    {
+    for (auto& include_path : include_paths) {
         out.print("target_include_directories({} PRIVATE {})\n", project_name,
-                   include_path);
+                  include_path);
     }
 
     // Add the libraries
-    for(auto & lib: libs)
-    {
+    for (auto& lib : libs) {
         auto lib_var = std::string("LIB_") + pystring::upper(lib);
 
         out.print("find_library ( {} NAMES {} PATHS", lib_var, lib);
-        for(auto & lib_dir: lib_dirs)
-        {
+        for (auto& lib_dir : lib_dirs) {
             out.print(" {}", lib_dir);
         }
         out.print(")\n");
         out.print("target_link_libraries ({} ${{{}}})\n", project_name,
-                                                          lib_var);
+                  lib_var);
     }
 }
 
 } // namespace write
-} // namesapce cppmm
+} // namespace cppmm

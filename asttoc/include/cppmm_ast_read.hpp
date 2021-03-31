@@ -6,10 +6,8 @@
 
 #include <string>
 
-namespace cppmm
-{
-namespace read
-{
-Root json(const std::string & input);
+namespace cppmm {
+namespace read {
+Root json(const std::string& input);
 } // namespace read
-} // namesapce cppmm
+} // namespace cppmm
