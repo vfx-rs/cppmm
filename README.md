@@ -22,6 +22,12 @@ There is a series of tutorials introducing the concepts of writing binding files
 | Feature | Status |
 | ------- | ------ |
 | Builtins | <ul><li> - [x] Works </ul></li> |
+| POD structs | <ul><li> - [x] Works </ul></li> |
+| Opaque structs | <ul><li> - [x] Works </ul></li> |
+| Opaque pointers | <ul><li> - [x] Works </ul></li> |
+| Templated structs | <ul><li> - [x] Works </ul></li> |
+| Templated functions/methods | <ul><li> - [x] Works </ul></li> |
+| Variadiac templates | <ul><li> - [ ] Unsupported </ul></li> |
 
 
 ## Why not bindgen/cxx/autocxx?
