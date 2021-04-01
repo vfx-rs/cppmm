@@ -17,6 +17,13 @@ C-plus-plus-minus-minus
 
 There is a series of tutorials introducing the concepts of writing binding files and using the tools here (Note: work in progress): https://github.com/vfx-rs/cppmm/wiki
 
+## Supported C++ features
+
+| Feature | Status |
+| ------- | ------ |
+| Builtins | [x] |
+
+
 ## Why not bindgen/cxx/autocxx?
 
 Several reasons:
