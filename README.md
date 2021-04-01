@@ -21,7 +21,7 @@ There is a series of tutorials introducing the concepts of writing binding files
 
 | Feature | Status |
 | ------- | ------ |
-| Builtins | -[x] |
+| Builtins | <ul><li> - [x] Works </ul></li> |
 
 
 ## Why not bindgen/cxx/autocxx?
