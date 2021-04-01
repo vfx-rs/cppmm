@@ -7,7 +7,7 @@ C-plus-plus-minus-minus
 - [x] AST generation
 - [ ] C library output
 - [ ] Rust-sys output
-- [ ] Binding file generation
+- [x] Binding file generation
 
 ## Introduction
 
@@ -17,8 +17,14 @@ C-plus-plus-minus-minus
 
 Several reasons:
 1. While excellent, all these libraries have limitations in the C++ they can bind that make them unsuitable for our target libraries.
-2. We want to be able to control the output to generate  good C and Rust APIs: to choose which template instantiations and which overloads we want to bind, and what to name them.
+2. We want to be able to control the output to generate good C and Rust APIs: to choose which template instantiations and which overloads we want to bind, and what to name them.
 3. The target libraries tend to move very quickly with a lot of API churn. It would be nice if our binding tool could help us keep up to date by tracking changes in the target libraries.
+
+We are specifically *not* trying to create a completely automatic binding mechanism from C++ to C and Rust. Trying to specify all the necessary information in your `build.rs` is unwieldy. 
+
+Moreover, we need to support many different versions of the C++ API concurrently, and the binding description should be a separate build artefact maintained (and version-controlled) independently of the Rust project. 
+
+Although we are specifically targeting Rust here, it is our goal that the generated C API should be pleasant enough to use from pure C, and of course it is suitable for binding to other languages using their own FFI mechanisms.
 
 ## How does it work?
 
