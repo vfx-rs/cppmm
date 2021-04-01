@@ -11,10 +11,10 @@ namespace Mymath = ::MYMATH_INTERNAL_NAMESPACE;
 struct Vec3 {
     using BoundType = Mymath::Vec3;
 
-    Vec3();
-    Vec3(float x, float y, float z);
-    Vec3(float v);
-    Vec3(const Mymath::Vec3& v);
+    Vec3() CPPMM_RENAME(default);
+    Vec3(float x, float y, float z) CPPMM_RENAME(new);
+    Vec3(float v) CPPMM_RENAME(from_scalar);
+    Vec3(const Mymath::Vec3& v) CPPMM_RENAME(copy);
 
     float length() const;
 };
