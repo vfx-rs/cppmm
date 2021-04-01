@@ -5,12 +5,10 @@
 
 #include <cstddef>
 
-namespace cppmm
-{
+namespace cppmm {
 class Root;
 
-namespace write
-{
-void c(const Root & root, size_t starting_point);
-} // namespace read
-} // namesapce cppmm
+namespace write {
+void c(const Root& root, size_t starting_point);
+} // namespace write
+} // namespace cppmm

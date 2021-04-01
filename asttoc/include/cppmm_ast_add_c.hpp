@@ -8,7 +8,7 @@
 namespace cppmm {
 namespace transform {
 
-void add_c(const std::string & output_directory, Root & root);
+void add_c(const std::string& output_directory, Root& root);
 
 } // namespace transform
 } // namespace cppmm
