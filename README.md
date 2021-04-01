@@ -27,6 +27,10 @@ There is a series of tutorials introducing the concepts of writing binding files
 | Opaque pointers | <ul><li> - [x] Works </ul></li> |
 | Templated structs | <ul><li> - [x] Works </ul></li> |
 | Templated functions/methods | <ul><li> - [x] Works </ul></li> |
+| STL containers | <ul><li> - [ ] In progress </ul></li> |
+| STL smart pointers | <ul><li> - [ ] In progress </ul></li> |
+| Custom smart pointers | <ul><li> - [ ] In progress </ul></li> |
+| `std::string` | <ul><li> - [ ] In progress </ul></li> |
 | Variadiac templates | <ul><li> - [ ] Unsupported </ul></li> |
 
 
