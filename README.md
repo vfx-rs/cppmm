@@ -17,22 +17,6 @@ C-plus-plus-minus-minus
 
 There is a series of tutorials introducing the concepts of writing binding files and using the tools here (Note: work in progress): https://github.com/vfx-rs/cppmm/wiki
 
-## Supported C++ features
-
-| Feature | Status |
-| ------- | ------ |
-| Builtins | <ul><li> - [x] Works </ul></li> |
-| POD structs | <ul><li> - [x] Works </ul></li> |
-| Opaque structs | <ul><li> - [x] Works </ul></li> |
-| Opaque pointers | <ul><li> - [x] Works </ul></li> |
-| Templated structs | <ul><li> - [x] Works </ul></li> |
-| Templated functions/methods | <ul><li> - [x] Works </ul></li> |
-| STL containers | <ul><li> - [ ] In progress </ul></li> |
-| STL smart pointers | <ul><li> - [ ] In progress </ul></li> |
-| Custom smart pointers | <ul><li> - [ ] In progress </ul></li> |
-| `std::string` | <ul><li> - [ ] In progress </ul></li> |
-| Variadiac templates | <ul><li> - [ ] Unsupported </ul></li> |
-
 
 ## Why not bindgen/cxx/autocxx?
 
@@ -46,6 +30,19 @@ We are specifically *not* trying to create a completely automatic binding mechan
 Moreover, we need to support many different versions of the C++ API concurrently, and the binding description should be a separate build artefact maintained (and version-controlled) independently of the Rust project. 
 
 Although we are specifically targeting Rust here, it is our goal that the generated C API should be pleasant enough to use from pure C, and of course it is suitable for binding to other languages using their own FFI mechanisms.
+
+## Supported C++ features
+
+| Feature | Status |
+| ------- | ------ |
+| Builtins | <ul><li> - [x] Works </ul></li> |
+| POD structs | <ul><li> - [x] Works </ul></li> |
+| Opaque structs | <ul><li> - [x] Works </ul></li> |
+| Opaque pointers | <ul><li> - [x] Works </ul></li> |
+| Templated structs | <ul><li> - [x] Works </ul></li> |
+| Templated functions/methods | <ul><li> - [x] Works </ul></li> |
+| STL containers | <ul><li> - [ ] In progress </ul></li> |
+| Variadiac templates | <ul><li> - [ ] Unsupported </ul></li> |
 
 ## How does it work?
 
