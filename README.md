@@ -13,7 +13,11 @@ C-plus-plus-minus-minus
 
 `cppmm` is a binding generator for creating C and Rust interfaces to C++ libraries. It is targeting a very small subset of libraries--just those in consideration by the `vfx-rs` project--and is not expected to work for anything else and will have assumptions about the C++ it will accept based on the types and idioms found in those libraries baked into it.
 
-### Why not bindgen/cxx/autocxx?
+## Documentation
+
+There is a series of tutorials introducing the concepts of writing binding files and using the tools here (Note: work in progress): https://github.com/vfx-rs/cppmm/wiki
+
+## Why not bindgen/cxx/autocxx?
 
 Several reasons:
 1. While excellent, all these libraries have limitations in the C++ they can bind that make them unsuitable for our target libraries.
@@ -144,6 +148,3 @@ USD: 20.05
 
 Then just run `make test` from the build directory.
 
-## Tutorials
-
-There is a series of tutorials introducing the concepts of writing binding files and using the tools here (Note: work in progress): https://github.com/vfx-rs/cppmm/wiki
