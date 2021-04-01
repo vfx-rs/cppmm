@@ -42,6 +42,7 @@ Although we are specifically targeting Rust here, it is our goal that the genera
 | Templated structs | <ul><li> - [x] Works </ul></li> |
 | Templated functions/methods | <ul><li> - [x] Works </ul></li> |
 | STL containers | <ul><li> - [ ] In progress </ul></li> |
+| "Subclassing" C++ types in Rust | <ul><li> - [ ] Planned </ul></li> |
 | Variadiac templates | <ul><li> - [ ] Unsupported </ul></li> |
 
 ## How does it work?
