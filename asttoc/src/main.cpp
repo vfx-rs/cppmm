@@ -24,26 +24,24 @@ static cl::opt<std::string> opt_out_dir(
     "o", cl::desc("Directory under which output C binding project will be "
                   "written. Defaults to current directory if not specified."));
 
-static cl::list<std::string> opt_lib(
-    "l", cl::desc("Library that bindings link to."), cl::ZeroOrMore);
+static cl::list<std::string>
+    opt_lib("l", cl::desc("Library that bindings link to."), cl::ZeroOrMore);
 
-static cl::list<std::string> opt_lib_dir(
-    "L", cl::desc("Directories you can find libraries in."), cl::ZeroOrMore);
+static cl::list<std::string>
+    opt_lib_dir("L", cl::desc("Directories you can find libraries in."),
+                cl::ZeroOrMore);
 
-template<typename T>
-std::vector<std::string> to_vector(const T & t)
-{
+template <typename T> std::vector<std::string> to_vector(const T& t) {
     std::vector<std::string> result;
-    for(auto & i : t)
-    {
+    for (auto& i : t) {
         result.push_back(i);
     }
 
     return result;
 }
 
-void generate(const char* input, const char* output, const cppmm::Libs & libs,
-              const cppmm::LibDirs & lib_dirs) {
+void generate(const char* input, const char* output, const cppmm::Libs& libs,
+              const cppmm::LibDirs& lib_dirs) {
     const std::string input_directory = input;
     const std::string output_directory = output;
 
