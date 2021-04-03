@@ -197,6 +197,8 @@ int main(int argc_, const char** argv_) {
 #define CPPMM_VALUETYPE __attribute__((annotate("cppmm|valuetype")))
 
 #define CPPMM_THROWS(EX, VAR) __attribute__((annotate("cppmm|throws|" #EX "|" #VAR)))
+
+#define CPPMM_ENUM_STRIP(x) __attribute__((annotate("cppmm|enum_strip|" #x)))
 )#");
 
     std::string output_dir = cwd;
