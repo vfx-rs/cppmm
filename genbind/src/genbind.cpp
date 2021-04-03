@@ -620,6 +620,9 @@ struct NodeMethod : public NodeFunction {
             os << " -> ";
             return_type.write(os, 0);
         }
+        if (is_move_assignment_operator || is_move_constructor) {
+            os << " CPPMM_IGNORE";
+        }
         os << ";";
     }
 };
