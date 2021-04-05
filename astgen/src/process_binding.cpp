@@ -188,6 +188,8 @@ std::unordered_map<std::string, NodeId> NODE_MAP;
 /// Root of the AST - will contain NodeTranslationUnits, which will themselves
 /// contain the rest of the tree
 std::vector<NodeId> ROOT;
+/// Namespace aliases
+std::unordered_map<std::string, std::string> NAMESPACE_ALIASES;
 
 /// Represents one translation unit (TU), i.e. one binding source file.
 /// NodeTranslationUnit::qualified_name contains the filename
@@ -226,15 +228,17 @@ struct NodeTranslationUnit : public Node {
 /// Namespace node. Currently not used
 struct NodeNamespace : public Node {
     std::string short_name;
+    std::string alias;
 
     NodeNamespace(std::string qualified_name, NodeId id, NodeId context,
-                  std::string short_name)
+                  std::string short_name, std::string alias)
         : Node(std::move(qualified_name), id, context, NodeKind::Namespace),
-          short_name(std::move(short_name)) {}
+          short_name(std::move(short_name)), alias(std::move(alias)) {}
 
     virtual void write_json_attrs(json& o) const override {
         Node::write_json_attrs(o);
         o["short_name"] = short_name;
+        o["alias"] = alias;
     }
 
     virtual void write_json(json& o) const override {
@@ -1301,14 +1305,21 @@ std::vector<NodeId> get_namespaces(const clang::DeclContext* parent,
                 break;
             }
 
+            // see if there's an alias for this namespace already
+            auto alias = short_name;
+            auto it_alias = NAMESPACE_ALIASES.find(short_name);
+            if (it_alias != NAMESPACE_ALIASES.end()) {
+                alias = it_alias->second;
+            }
+
             // Add the id of this namespace to our list of namespaces, creating
             // a new NodeNamespace if it doesn't exist yet
             auto it = NODE_MAP.find(qualified_name);
             NodeId id;
             if (it == NODE_MAP.end()) {
                 id = NODES.size();
-                auto node = std::make_unique<NodeNamespace>(qualified_name, id,
-                                                            0, short_name);
+                auto node = std::make_unique<NodeNamespace>(
+                    qualified_name, id, 0, short_name, alias);
                 NODES.emplace_back(std::move(node));
                 NODE_MAP[qualified_name] = id;
 
@@ -1893,6 +1904,22 @@ void ProcessBindingCallback::run(const MatchFinder::MatchResult& result) {
     } else if (const VarDecl* var_decl =
                    result.Nodes.getNodeAs<VarDecl>("varDecl")) {
         handle_binding_var(var_decl);
+    } else if (const auto* nad = result.Nodes.getNodeAs<NamespaceAliasDecl>(
+                   "namespaceAliasDecl")) {
+        const auto alias = nad->getNameAsString();
+        const auto short_name = nad->getNamespace()->getNameAsString();
+        NAMESPACE_ALIASES[short_name] = alias;
+        // iterate over all namespaces we've created so far and add the alias to
+        // them
+        for (auto& node : NODES) {
+            if (node->node_kind == NodeKind::Namespace) {
+                auto* node_ns = static_cast<NodeNamespace*>(node.get());
+                SPDLOG_WARN("namespace {}", node_ns->short_name);
+                if (node_ns->short_name == short_name) {
+                    node_ns->alias = alias;
+                }
+            }
+        }
     }
 }
 
@@ -1946,6 +1973,13 @@ ProcessBindingConsumer::ProcessBindingConsumer(ASTContext* context) {
                 unless(anyOf(isImplicit(), parmVarDecl())))
             .bind("varDecl");
     _match_finder.addMatcher(var_decl_matcher, &_handler);
+
+    // match all namespace alias declrations in the cppmm_bind namespace
+    DeclarationMatcher namespace_alias_decl_matcher =
+        namespaceAliasDecl(hasAncestor(namespaceDecl(hasName("cppmm_bind"))),
+                           unless(anyOf(isImplicit(), parmVarDecl())))
+            .bind("namespaceAliasDecl");
+    _match_finder.addMatcher(namespace_alias_decl_matcher, &_handler);
 }
 
 /// Run the binding AST matcher, then run secondary matchers to find functions
