@@ -123,9 +123,12 @@ struct TranslationUnit {
 //------------------------------------------------------------------------------
 struct NodeNamespace : public Node {
     std::string short_name;
+    std::string alias;
 
-    NodeNamespace(std::string name, NodeId id, std::string short_name)
-        : Node(name, id, NodeKind::Namespace), short_name(short_name) {}
+    NodeNamespace(std::string name, NodeId id, std::string short_name,
+                  std::string alias)
+        : Node(name, id, NodeKind::Namespace), short_name(short_name),
+          alias(alias) {}
 
     // A static method for creating this as a shared pointer
     using This = NodeNamespace;
@@ -525,6 +528,7 @@ struct NodePlacementNewExpr
 //------------------------------------------------------------------------------
 struct NodeFunction : public NodeAttributeHolder {
     std::string short_name;
+    std::string nice_name;
     NodeTypePtr return_type;
     std::vector<Param> params;
     bool in_binding = false;
@@ -536,10 +540,11 @@ struct NodeFunction : public NodeAttributeHolder {
 
     NodeFunction(std::string qualified_name, NodeId id,
                  std::vector<std::string> attrs, std::string short_name,
-                 NodeTypePtr&& return_type, std::vector<Param>&& params)
+                 NodeTypePtr&& return_type, std::vector<Param>&& params,
+                 std::string nice_name)
         : NodeAttributeHolder(qualified_name, id, NodeKind::Function, attrs),
           short_name(short_name), return_type(std::move(return_type)),
-          params(std::move(params)) {}
+          params(std::move(params)), nice_name(std::move(nice_name)) {}
 
     // A static method for creating this as a shared pointer
     using This = NodeFunction;
@@ -564,7 +569,8 @@ struct NodeMethod : public NodeFunction {
                bool is_static, bool is_constructor, bool is_copy_constructor,
                bool is_destructor, bool is_const)
         : NodeFunction(qualified_name, id, attrs, short_name,
-                       std::move(return_type), std::move(params)),
+                       std::move(return_type), std::move(params),
+                       qualified_name),
           is_static(is_static), is_constructor(is_constructor),
           is_copy_constructor(is_copy_constructor),
           is_destructor(is_destructor), is_const(is_const) {
@@ -603,6 +609,8 @@ struct NodeRecord : public NodeAttributeHolder {
 
     bool abstract;
     bool trivially_copyable;
+
+    std::string nice_name;
 
     NodeRecord(const TranslationUnit::Ptr& tu, std::string qualified_name,
                NodeId id, std::vector<std::string> attrs, uint32_t size,

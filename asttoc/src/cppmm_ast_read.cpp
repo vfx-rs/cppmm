@@ -182,7 +182,8 @@ NodePtr read_function(const TranslationUnit::Ptr& tu, const nln::json& json) {
     }
 
     auto result = NodeFunction::n(qualified_name, id, _attrs, short_name,
-                                  std::move(return_type), std::move(params));
+                                  std::move(return_type), std::move(params),
+                                  qualified_name);
     result->namespaces = namespaces;
 
     return result;
@@ -349,8 +350,9 @@ NodePtr read_namespace(const TranslationUnit::Ptr& tu, const nln::json& json) {
     Id id = json[ID].get<Id>();
     auto name = json[NAME].get<std::string>();
     auto short_name = json[SHORT_NAME].get<std::string>();
+    auto alias = json[ALIAS].get<std::string>();
 
-    auto result = NodeNamespace::n(name, id, short_name);
+    auto result = NodeNamespace::n(name, id, short_name, alias);
 
     // Return the result
     return result;

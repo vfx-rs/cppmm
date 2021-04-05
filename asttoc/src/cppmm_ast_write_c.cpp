@@ -128,6 +128,7 @@ void write_record(fmt::ostream& out, const NodePtr& node) {
               align_in_bytes, // TODO LT: Only force alignment if 'align'
                               // attribute is on it.
               record.name);
+    out.print("typedef {} {};\n\n", record.name, record.nice_name);
 }
 
 //------------------------------------------------------------------------------
@@ -182,6 +183,19 @@ void write_function_dcl(fmt::ostream& out, const NodePtr& node, Access access) {
         out.print("{}(", convert_param(function.return_type, function.name));
         write_params(out, function);
         out.print(");\n");
+    }
+}
+
+//------------------------------------------------------------------------------
+void write_function_define(fmt::ostream& out, const NodePtr& node,
+                           Access access) {
+    const NodeFunction& function =
+        *static_cast<const NodeFunction*>(node.get());
+
+    const bool private_ = (access == Access::Private);
+    if (private_ == function.private_) {
+        out.print("\n");
+        out.print("#define {} {}\n\n", function.nice_name, function.name);
     }
 }
 
@@ -395,6 +409,7 @@ void write_function(fmt::ostream& out, const NodePtr& node, Access access,
         switch (place) {
         case Place::Header:
             write_function_bdy(out, node, access);
+            write_function_define(out, node, access);
             return;
         default:
             return;
@@ -403,6 +418,7 @@ void write_function(fmt::ostream& out, const NodePtr& node, Access access,
         switch (place) {
         case Place::Header:
             write_function_dcl(out, node, access);
+            write_function_define(out, node, access);
             return;
         case Place::Source:
             write_function_bdy(out, node, access);
