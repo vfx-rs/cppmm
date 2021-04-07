@@ -4,6 +4,8 @@
 #include "clang/AST/Decl.h"
 #include "clang/AST/DeclCXX.h"
 #include "clang/AST/DeclTemplate.h"
+#include "clang/AST/GlobalDecl.h"
+#include "clang/AST/Mangle.h"
 #include "clang/AST/Type.h"
 #include "clang/ASTMatchers/ASTMatchers.h"
 #include "clang/Basic/LLVM.h"
@@ -34,6 +36,8 @@ namespace ps = pystring;
 extern std::unordered_map<std::string, std::vector<std::string>>
     source_includes;
 extern std::vector<std::string> project_includes;
+
+bool WARN_UNMATCHED = false;
 
 namespace cppmm {
 
@@ -870,6 +874,14 @@ NodeTranslationUnit* get_translation_unit(const std::string& filename) {
     return node_ptr;
 }
 
+/// Get a nice, qualified name for the given record
+std::string get_record_name(const CXXRecordDecl* crd) {
+    // we have to do this dance to get the template parameters in the name,
+    // otherwise they're omitted
+    return strip_name_kinds(
+        crd->getTypeForDecl()->getCanonicalTypeInternal().getAsString());
+}
+
 QType process_qtype(const QualType& qt);
 
 /// Create a new NodeFunctionProtoType from the given FunctionProtoType and
@@ -969,6 +981,15 @@ QType process_qtype(const QualType& qt) {
         // FIXME: we might want to stores types in a completely separate data
         // structure
         std::string type_node_name = "TYPE:" + type_name;
+        if (qt->isRecordType()) {
+            auto crd = qt->getAsCXXRecordDecl();
+            auto mng_ctx = crd->getASTContext().createMangleContext();
+            std::string s;
+            llvm::raw_string_ostream os(s);
+            mng_ctx->mangleCXXName(crd, os);
+            std::string mangled_name = os.str();
+            type_node_name = "TYPE:" + mangled_name;
+        }
 
         // see if we've proessed this type already
         auto it = NODE_MAP.find(type_node_name);
@@ -993,7 +1014,12 @@ QType process_qtype(const QualType& qt) {
                 // come back and process the decl later.
                 const std::string record_name = crd->getQualifiedNameAsString();
                 NodeId id_rec = -1;
-                auto it_rec = NODE_MAP.find(record_name);
+                auto mng_ctx = crd->getASTContext().createMangleContext();
+                std::string s;
+                llvm::raw_string_ostream os(s);
+                mng_ctx->mangleCXXName(crd, os);
+                std::string mangled_name = os.str();
+                auto it_rec = NODE_MAP.find(mangled_name);
                 if (it_rec != NODE_MAP.end()) {
                     id_rec = it_rec->second;
                 }
@@ -1068,14 +1094,6 @@ void process_function_parameters(const FunctionDecl* fd, QType& return_qtype,
     }
 }
 
-/// Get a nice, qualified name for the given record
-std::string get_record_name(const CXXRecordDecl* crd) {
-    // we have to do this dance to get the template parameters in the name,
-    // otherwise they're omitted
-    return strip_name_kinds(
-        crd->getTypeForDecl()->getCanonicalTypeInternal().getAsString());
-}
-
 /// Create a new node for the given method decl and return it
 NodePtr process_method_decl(const CXXMethodDecl* cmd,
                             std::vector<std::string> attrs,
@@ -1111,7 +1129,7 @@ NodePtr process_method_decl(const CXXMethodDecl* cmd,
 
     m->is_specialization = is_specialization;
 
-    SPDLOG_DEBUG("Processed method {}", *m);
+    SPDLOG_TRACE("Processed method {}", *m);
 
     return node_function;
 }
@@ -1332,11 +1350,16 @@ std::vector<NodeId> get_namespaces(const clang::DeclContext* parent,
                 static_cast<const clang::CXXRecordDecl*>(parent);
 
             auto record_name = get_record_name(crd);
-            auto it = NODE_MAP.find(record_name);
+            auto mng_ctx = crd->getASTContext().createMangleContext();
+            std::string s;
+            llvm::raw_string_ostream os(s);
+            mng_ctx->mangleCXXName(crd, os);
+            std::string mangled_name = os.str();
+            auto it = NODE_MAP.find(mangled_name);
             if (it == NODE_MAP.end()) {
                 SPDLOG_CRITICAL(
-                    "Could not find record {} when processing namespaces",
-                    record_name);
+                    "Could not find record {} ({}) when processing namespaces",
+                    record_name, mangled_name);
             } else {
                 result.push_back(it->second);
             }
@@ -1513,6 +1536,13 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
         SPDLOG_CRITICAL("Could not get ABI info for {}", record_name);
     }
 
+    // Get the mangled version of the record name
+    auto mng_ctx = crd->getASTContext().createMangleContext();
+    std::string s;
+    llvm::raw_string_ostream os(s);
+    mng_ctx->mangleCXXName(crd, os);
+    std::string mangled_name = os.str();
+
     // Add the new Record node
     NodeId new_id = NODES.size();
     auto node_record = std::make_unique<NodeRecord>(
@@ -1521,7 +1551,7 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
         crd->isAbstract(), crd->isTriviallyCopyable(), size, align);
     auto* node_record_ptr = node_record.get();
     NODES.emplace_back(std::move(node_record));
-    NODE_MAP[record_name] = new_id;
+    NODE_MAP[mangled_name] = new_id;
 
     // add this record to the TU
     node_tu->children.push_back(new_id);
@@ -1547,24 +1577,27 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
         node_record_ptr->methods.push_back(id);
     }
 
-    for (const auto& n : methods) {
-        const auto* m = (NodeMethod*)n.get();
-        if (m && !m->in_binding) {
-            SPDLOG_WARN("Method {} is present in the library but not declared "
-                        "in the binding",
-                        *m);
+    if (WARN_UNMATCHED) {
+        for (const auto& n : methods) {
+            const auto* m = (NodeMethod*)n.get();
+            if (m && !m->in_binding) {
+                SPDLOG_WARN(
+                    "Method {} is present in the library but not declared "
+                    "in the binding",
+                    *m);
+            }
+        }
+
+        for (const auto& n : binding_methods) {
+            const auto* m = (NodeMethod*)n.get();
+            if (m && m->is_user_provided && !m->in_library) {
+                SPDLOG_WARN(
+                    "Method {} is declared in the binding but not present "
+                    "in the library",
+                    *m);
+            }
         }
     }
-
-    for (const auto& n : binding_methods) {
-        const auto* m = (NodeMethod*)n.get();
-        if (m && m->is_user_provided && !m->in_library) {
-            SPDLOG_WARN("Method {} is declared in the binding but not present "
-                        "in the library",
-                        *m);
-        }
-    }
-
     // process remaining children
     // first process (recursively) the fields from this decl and all bases
     process_fields(crd, node_record_ptr);
@@ -1587,7 +1620,7 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
     // Finally...
     // if there's an existing RecordType node referring to this Record, then
     // set its record id to our new id
-    auto it_record_type = NODE_MAP.find("TYPE:" + record_name);
+    auto it_record_type = NODE_MAP.find("TYPE:" + mangled_name);
     if (it_record_type != NODE_MAP.end()) {
         auto* node_record_type =
             (NodeRecordType*)NODES.at(it_record_type->second).get();
@@ -1614,6 +1647,8 @@ void handle_cxx_record_decl(const CXXRecordDecl* crd) {
     ASTContext& ctx = crd->getASTContext();
     SourceManager& sm = ctx.getSourceManager();
     const auto& loc = crd->getLocation();
+
+    const auto mng_ctx = ctx.createMangleContext();
 
     crd = dyn_cast<CXXRecordDecl>(crd->getCanonicalDecl());
     if (crd == nullptr) {
@@ -1665,11 +1700,15 @@ void handle_cxx_record_decl(const CXXRecordDecl* crd) {
             SPDLOG_DEBUG("TAD {}", tad->getNameAsString());
             const auto* bound_nd = tad->getUnderlyingDecl();
             if (tad->getNameAsString() == "BoundType") {
-                SPDLOG_TRACE(
-                    "Found BoundType {}",
-                    tad->getUnderlyingDecl()->getQualifiedNameAsString());
-
                 bound_rd = tad->getUnderlyingType()->getAsCXXRecordDecl();
+                std::string s;
+                llvm::raw_string_ostream os(s);
+                mng_ctx->mangleCXXName(bound_rd, os);
+                SPDLOG_DEBUG(
+                    "Found BoundType {}\n    - {}\n    - {}",
+                    get_record_name(bound_rd),
+                    bound_rd->getCanonicalDecl()->getQualifiedNameAsString(),
+                    os.str());
             }
         } else if (const auto* ed = dyn_cast<EnumDecl>(decl)) {
             // this gets `using Enum = Library::Class::Enum`

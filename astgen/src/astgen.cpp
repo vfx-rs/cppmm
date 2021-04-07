@@ -74,6 +74,7 @@ static cl::extrahelp CommonHelp(CommonOptionsParser::HelpMessage);
 // A help message for this specific tool can be added afterwards.
 static cl::extrahelp MoreHelp("\nMore help text...\n");
 
+extern bool WARN_UNMATCHED;
 static cl::opt<bool> opt_warn_unbound("u", cl::desc("Warn on unbound methods"));
 
 static cl::opt<int> opt_verbosity(
@@ -200,6 +201,8 @@ int main(int argc_, const char** argv_) {
 
 #define CPPMM_ENUM_STRIP(x) __attribute__((annotate("cppmm|enum_strip|" #x)))
 )#");
+
+    WARN_UNMATCHED = opt_warn_unbound;
 
     std::string output_dir = cwd;
     if (opt_output_directory != "") {
