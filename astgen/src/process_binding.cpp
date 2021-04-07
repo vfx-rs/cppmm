@@ -1350,11 +1350,16 @@ std::vector<NodeId> get_namespaces(const clang::DeclContext* parent,
                 static_cast<const clang::CXXRecordDecl*>(parent);
 
             auto record_name = get_record_name(crd);
-            auto it = NODE_MAP.find(record_name);
+            auto mng_ctx = crd->getASTContext().createMangleContext();
+            std::string s;
+            llvm::raw_string_ostream os(s);
+            mng_ctx->mangleCXXName(crd, os);
+            std::string mangled_name = os.str();
+            auto it = NODE_MAP.find(mangled_name);
             if (it == NODE_MAP.end()) {
                 SPDLOG_CRITICAL(
-                    "Could not find record {} when processing namespaces",
-                    record_name);
+                    "Could not find record {} ({}) when processing namespaces",
+                    record_name, mangled_name);
             } else {
                 result.push_back(it->second);
             }
