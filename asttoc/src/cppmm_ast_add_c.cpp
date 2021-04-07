@@ -140,9 +140,9 @@ compute_c_filepath(const std::string& outdir, const std::string& cpp_filepath) {
     const auto abs_root = pystring::os::path::join(outdir, root);
 
     return {
-        root + "_.h",
-        abs_root + "_.cpp",
-        root + "_private_.h",
+        root + ".h",
+        abs_root + ".cpp",
+        root + "_private.h",
     };
 }
 
