@@ -137,6 +137,9 @@ void write_record(fmt::ostream& out, const NodePtr& node) {
 void write_record_forward_decl(fmt::ostream& out, const NodePtr& node) {
     const NodeRecord& record = *static_cast<const NodeRecord*>(node.get());
     out.print("typedef struct {0}_s {0};\n", record.name);
+    if (record.name != record.nice_name) {
+        out.print("typedef {} {};\n", record.name, record.nice_name);
+    }
 }
 
 //------------------------------------------------------------------------------
