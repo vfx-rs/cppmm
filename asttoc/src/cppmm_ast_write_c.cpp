@@ -128,7 +128,9 @@ void write_record(fmt::ostream& out, const NodePtr& node) {
               align_in_bytes, // TODO LT: Only force alignment if 'align'
                               // attribute is on it.
               record.name);
-    out.print("typedef {} {};\n\n", record.name, record.nice_name);
+    if (record.name != record.nice_name) {
+        out.print("typedef {} {};\n\n", record.name, record.nice_name);
+    }
 }
 
 //------------------------------------------------------------------------------
@@ -193,7 +195,7 @@ void write_function_define(fmt::ostream& out, const NodePtr& node,
         *static_cast<const NodeFunction*>(node.get());
 
     const bool private_ = (access == Access::Private);
-    if (private_ == function.private_) {
+    if (private_ == function.private_ && function.nice_name != "") {
         out.print("\n");
         out.print("#define {} {}\n\n", function.nice_name, function.name);
     }

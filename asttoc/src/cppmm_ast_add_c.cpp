@@ -861,16 +861,25 @@ void opaquebytes_method(TypeRegistry& type_registry, TranslationUnit& c_tu,
 
     auto short_name = find_function_short_name(cpp_method);
 
-    // Build the new method name
-    std::string method_name = c_record.name;
+    // Build the new method name. Strip the "_t" from the of of the
+    // struct name
+    std::string method_name = pystring::slice(c_record.name, 0, -2);
     method_name += "_";
     method_name += compute_c_name(short_name);
-    method_name = type_registry.make_symbol_unique(method_name);
 
-    std::string method_nice_name = c_record.nice_name;
+    std::string method_nice_name = pystring::slice(c_record.nice_name, 0, -2);
     method_nice_name += "_";
     method_nice_name += compute_c_name(short_name);
-    method_nice_name = type_registry.make_symbol_unique(method_nice_name);
+    // only uniquify if the nice name is different. We will use the
+    // fact that they're the same to say we don't need the nice define
+    if (method_name != method_nice_name) {
+        method_nice_name = type_registry.make_symbol_unique(method_nice_name);
+    } else {
+        method_nice_name = "";
+    }
+
+    // uniquify this after we've checked for equivalence
+    method_name = type_registry.make_symbol_unique(method_name);
 
     auto c_function = NodeFunction::n(method_name, PLACEHOLDER_ID,
                                       cpp_method.attrs, "", std::move(c_return),
@@ -904,9 +913,11 @@ void record_entry(NodeId& record_id, TypeRegistry& type_registry,
                   TranslationUnit::Ptr& c_tu, const NodePtr& cpp_node) {
     const auto& cpp_record = *static_cast<const NodeRecord*>(cpp_node.get());
 
-    const auto c_record_name = compute_c_name(cpp_record.name);
-    const auto nice_name = compute_qualified_nice_name(
-        type_registry, cpp_record.namespaces, cpp_record.alias);
+    const auto c_record_name = compute_c_name(cpp_record.name) + "_t";
+    const auto nice_name =
+        compute_qualified_nice_name(type_registry, cpp_record.namespaces,
+                                    cpp_record.alias) +
+        "_t";
 
     // Create the c record
     auto c_record = NodeRecord::n(
