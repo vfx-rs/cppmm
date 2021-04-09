@@ -1492,6 +1492,11 @@ void process_fields(const CXXRecordDecl* crd, NodeRecord* node_record_ptr) {
 std::unordered_map<std::string, std::string> pending_aliases;
 
 void handle_typealias_decl(const TypeAliasDecl* tad, const CXXRecordDecl* crd) {
+    auto mng_ctx = crd->getASTContext().createMangleContext();
+    std::string s;
+    llvm::raw_string_ostream os(s);
+    mng_ctx->mangleCXXName(crd, os);
+    std::string mangled_name = os.str();
     auto record_qualified_name = get_record_name(crd);
     auto alias_name = tad->getNameAsString();
     if (alias_name == "BoundType") {
@@ -1504,11 +1509,11 @@ void handle_typealias_decl(const TypeAliasDecl* tad, const CXXRecordDecl* crd) {
     // First of all, make sure we have already processed the Record that this
     // alias refers to. I *think* this should always have happened, but not sure
     // yet
-    auto it = NODE_MAP.find(record_qualified_name);
+    auto it = NODE_MAP.find(mangled_name);
     if (it == NODE_MAP.end()) {
         SPDLOG_DEBUG("Storing alias {} for {}", alias_name,
                      record_qualified_name);
-        pending_aliases[record_qualified_name] = alias_name;
+        pending_aliases[mangled_name] = alias_name;
     } else {
         NodeId id_rec = it->second;
         NodeRecord* node_rec = (NodeRecord*)NODES[id_rec].get();
@@ -1639,7 +1644,7 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
     }
 
     // and if we have a pending alias rename for this record, set it
-    auto alias_it = pending_aliases.find(record_name);
+    auto alias_it = pending_aliases.find(mangled_name);
     if (alias_it != pending_aliases.end()) {
         SPDLOG_DEBUG("Found alias {} for {}", alias_it->second, record_name);
         node_record_ptr->alias = alias_it->second;
@@ -1953,7 +1958,6 @@ void ProcessBindingCallback::run(const MatchFinder::MatchResult& result) {
         for (auto& node : NODES) {
             if (node->node_kind == NodeKind::Namespace) {
                 auto* node_ns = static_cast<NodeNamespace*>(node.get());
-                SPDLOG_WARN("namespace {}", node_ns->short_name);
                 if (node_ns->short_name == short_name) {
                     node_ns->alias = alias;
                 }
