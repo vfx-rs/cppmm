@@ -861,29 +861,23 @@ void opaquebytes_method(TypeRegistry& type_registry, TranslationUnit& c_tu,
 
     auto short_name = find_function_short_name(cpp_method);
 
-    // Build the new method name. Strip the "_t" from the of of the
-    // struct name
-    std::string method_name = pystring::slice(c_record.name, 0, -2);
-    method_name += "_";
-    method_name += compute_c_name(short_name);
+    // Build the new method name. We need to generate unique function names
+    // that share a common suffix but with different prefixes
+    // The full prefix we get by stripping the "_t" from the struct name
+    std::string function_prefix = pystring::slice(c_record.name, 0, -2);
+    std::string function_suffix = compute_c_name(short_name);
+    std::string function_name = function_prefix + "_" + function_suffix;
+    function_name = type_registry.make_symbol_unique(function_name);
 
-    std::string method_nice_name = pystring::slice(c_record.nice_name, 0, -2);
-    method_nice_name += "_";
-    method_nice_name += compute_c_name(short_name);
-    // only uniquify if the nice name is different. We will use the
-    // fact that they're the same to say we don't need the nice define
-    if (method_name != method_nice_name) {
-        method_nice_name = type_registry.make_symbol_unique(method_nice_name);
-    } else {
-        method_nice_name = "";
-    }
+    // now strip the uniquified suffix from the function name and stick on the
+    // nice prefix
+    function_suffix = function_name.substr(function_prefix.size() + 1);
+    std::string function_nice_name =
+        pystring::slice(c_record.nice_name, 0, -2) + "_" + function_suffix;
 
-    // uniquify this after we've checked for equivalence
-    method_name = type_registry.make_symbol_unique(method_name);
-
-    auto c_function = NodeFunction::n(method_name, PLACEHOLDER_ID,
+    auto c_function = NodeFunction::n(function_name, PLACEHOLDER_ID,
                                       cpp_method.attrs, "", std::move(c_return),
-                                      std::move(c_params), method_nice_name);
+                                      std::move(c_params), function_nice_name);
 
     c_function->body = c_function_body;
     c_tu.decls.push_back(NodePtr(c_function));
@@ -1224,6 +1218,7 @@ void function_detail(TypeRegistry& type_registry, TranslationUnit& c_tu,
 
     // Build the new method name
     function_name = type_registry.make_symbol_unique(function_name);
+    function_nice_name = type_registry.make_symbol_unique(function_nice_name);
 
     auto c_function = NodeFunction::n(
         function_name, PLACEHOLDER_ID, cpp_function.attrs, "",
