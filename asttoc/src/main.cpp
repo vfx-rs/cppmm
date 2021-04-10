@@ -64,9 +64,6 @@ int main(int argc, char** argv) {
         argc, argv,
         " Generates a C binding project from input JSON AST output by astgen");
 
-    std::cerr << opt_lib.size() << std::endl;
-    std::cerr << opt_lib_dir.size() << std::endl;
-
     // Grab the output directory from the options, defaulting to $CWD if not
     // specified.
     fs::path out_dir = fs::current_path();
