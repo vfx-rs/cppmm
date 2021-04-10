@@ -160,9 +160,18 @@ Param read_param(const nln::json& json) {
 }
 
 //------------------------------------------------------------------------------
+std::vector<std::string> read_attrs(const nln::json& json) {
+    auto attrs = std::vector<std::string>();
+    for (const auto& i : json[ATTRIBUTES]) {
+        attrs.push_back(i.get<std::string>());
+    }
+    return attrs;
+}
+
+//------------------------------------------------------------------------------
 NodePtr read_function(const TranslationUnit::Ptr& tu, const nln::json& json) {
     // ignore for the moment
-    std::vector<std::string> _attrs;
+    auto attrs = read_attrs(json);
 
     auto qualified_name = json[QUALIFIED_NAME].get<std::string>();
 
@@ -181,21 +190,12 @@ NodePtr read_function(const TranslationUnit::Ptr& tu, const nln::json& json) {
         namespaces.push_back(ns);
     }
 
-    auto result = NodeFunction::n(qualified_name, id, _attrs, short_name,
+    auto result = NodeFunction::n(qualified_name, id, attrs, short_name,
                                   std::move(return_type), std::move(params),
                                   qualified_name);
     result->namespaces = namespaces;
 
     return result;
-}
-
-//------------------------------------------------------------------------------
-std::vector<std::string> read_attrs(const nln::json& json) {
-    auto attrs = std::vector<std::string>();
-    for (const auto& i : json[ATTRIBUTES]) {
-        attrs.push_back(i.get<std::string>());
-    }
-    return attrs;
 }
 
 //------------------------------------------------------------------------------
