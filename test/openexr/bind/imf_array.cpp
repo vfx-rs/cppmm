@@ -28,6 +28,9 @@ public:
 template class Array<float>;
 using ArrayFloat = Imf::Array<float>;
 
+template class Array<char>;
+using ArrayChar = Imf::Array<char>;
+
 template <class T> class Array2D {
 public:
     using BoundType = Imf::Array2D<T>;
@@ -53,4 +56,5 @@ using Array2DFloat = Imf::Array2D<float>;
 } // namespace cppmm_bind
 
 template class Imf::Array<float>;
+template class Imf::Array<char>;
 template class Imf::Array2D<float>;
