@@ -969,9 +969,9 @@ void cast_to_cpp(TranslationUnit& c_tu, const std::string& cpp_record_name,
     if (pointer_kind == PointerKind::Reference) {
         function_name += "_ref";
     }
-    auto c_function = NodeFunction::n(function_name, PLACEHOLDER_ID, attrs, "",
-                                      std::move(cpp_return), std::move(params),
-                                      function_name);
+    auto c_function =
+        NodeFunction::n(function_name, PLACEHOLDER_ID, attrs, "",
+                        std::move(cpp_return), std::move(params), "");
 
     c_function->body = c_function_body;
     c_function->private_ = true;
@@ -1022,7 +1022,7 @@ void cast_to_c(TranslationUnit& c_tu, const std::string& cpp_record_name,
     std::vector<Param> params = {Param("rhs", rhs, 0)};
     auto c_function =
         NodeFunction::n(function_name, PLACEHOLDER_ID, attrs, "",
-                        std::move(c_return), std::move(params), function_name);
+                        std::move(c_return), std::move(params), "");
 
     c_function->body = c_function_body;
     c_function->private_ = true;
@@ -1074,7 +1074,7 @@ void opaquebytes_to_c_copy__trivial(TranslationUnit& c_tu,
     std::vector<Param> params = {Param("rhs", rhs, 0)};
     auto c_function =
         NodeFunction::n(function_name, PLACEHOLDER_ID, attrs, "",
-                        std::move(c_return), std::move(params), function_name);
+                        std::move(c_return), std::move(params), "");
 
     c_function->body = c_function_body;
     c_function->private_ = true;
@@ -1354,7 +1354,7 @@ void opaquebytes_to_c_copy__constructor(TranslationUnit& c_tu,
     std::vector<Param> params = {Param("rhs", rhs, 0)};
     auto c_function =
         NodeFunction::n("to_c_copy", PLACEHOLDER_ID, attrs, "",
-                        std::move(c_return), std::move(params), "to_c_copy");
+                        std::move(c_return), std::move(params), "");
 
     c_function->body = c_function_body;
     c_function->private_ = true;
