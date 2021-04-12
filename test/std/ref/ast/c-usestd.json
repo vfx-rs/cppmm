@@ -7,25 +7,25 @@
     "include_paths": [
         "/home/anders/code/cppmm/test/std/include"
     ],
-    "id": 28,
+    "id": 48,
     "decls": [
         {
             "kind": "Namespace",
             "name": "cppmm_bind::usestd",
-            "id": 29,
+            "id": 49,
             "short_name": "usestd",
             "alias": "usestd"
         },
         {
             "kind": "Function",
-            "id": 32,
+            "id": 52,
             "short_name": "takes_string",
             "qualified_name": "usestd::takes_string",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
             "namespaces": [
-                31
+                51
             ],
             "return": {
                 "kind": "BuiltinType",
@@ -39,13 +39,13 @@
                     "name": "s",
                     "type": {
                         "kind": "Reference",
-                        "id": 10,
+                        "id": 12,
                         "type": "const class std::__cxx11::basic_string<char> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 7,
+                            "id": 6,
                             "type": "std::__cxx11::basic_string<char>",
-                            "record": -1,
+                            "record": 11,
                             "const": true
                         },
                         "const": false
@@ -56,14 +56,14 @@
         },
         {
             "kind": "Function",
-            "id": 33,
+            "id": 53,
             "short_name": "takes_vector_string",
             "qualified_name": "usestd::takes_vector_string",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
             "namespaces": [
-                31
+                51
             ],
             "return": {
                 "kind": "BuiltinType",
@@ -77,13 +77,13 @@
                     "name": "v",
                     "type": {
                         "kind": "Reference",
-                        "id": 30,
+                        "id": 50,
                         "type": "const class std::vector<class std::__cxx11::basic_string<char>, class std::allocator<class std::__cxx11::basic_string<char> > > &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 11,
+                            "id": 34,
                             "type": "std::vector<std::string>",
-                            "record": 3,
+                            "record": 29,
                             "const": true
                         },
                         "const": false
