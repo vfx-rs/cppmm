@@ -27,7 +27,16 @@ struct RgbaOutputFile {
                    Imf::RgbaChannels rgbaChannels, float pixelAspectRatio,
                    const IMATH_NAMESPACE::V2f screenWindowCenter,
                    float screenWindowWidth, Imf::LineOrder lineOrder,
-                   Imf::Compression compression, int numThreads);
+                   Imf::Compression compression, int numThreads)
+        CPPMM_RENAME(with_windows);
+
+    IMF_EXPORT
+    RgbaOutputFile(const char name[], int width, int height,
+                   Imf::RgbaChannels rgbaChannels, float pixelAspectRatio,
+                   const IMATH_NAMESPACE::V2f screenWindowCenter,
+                   float screenWindowWidth, Imf::LineOrder lineOrder,
+                   Imf::Compression compression, int numThreads)
+        CPPMM_RENAME(with_dimensions);
 
     IMF_EXPORT
     virtual ~RgbaOutputFile();
