@@ -69,6 +69,124 @@ std::string strip_name_kinds(std::string s) {
     return s;
 }
 
+/// Get a nice, qualified name for the given record
+std::string get_record_name(const CXXRecordDecl* crd) {
+    // we have to do this dance to get the template parameters in the name,
+    // otherwise they're omitted
+    return strip_name_kinds(crd->getCanonicalDecl()
+                                ->getTypeForDecl()
+                                ->getCanonicalTypeInternal()
+                                .getAsString());
+}
+
+/*
+std::string mangle_decl(const NamedDecl* nd) {
+    // auto mng_ctx = nd->getASTContext().createMangleContext();
+    // std::string s;
+    // llvm::raw_string_ostream os(s);
+    // mng_ctx->mangleCXXName(nd, os);
+    // return os.str();
+    return fmt::format("{}", (void*)nd->getCanonicalDecl());
+}
+*/
+
+std::string get_namespace_path(const DeclContext* dc) {
+    std::string result;
+    auto* parent = dc->getParent();
+    while (parent) {
+        if (parent->isNamespace()) {
+            const clang::NamespaceDecl* ns =
+                static_cast<const clang::NamespaceDecl*>(parent);
+            result = ns->getNameAsString() + "::" + result;
+        } else if (parent->isRecord()) {
+            const clang::CXXRecordDecl* crd =
+                static_cast<const clang::CXXRecordDecl*>(parent);
+            result = crd->getNameAsString() + "::" + result;
+        }
+
+        parent = parent->getParent();
+    }
+    return result;
+}
+
+std::string mangle_decl(const CXXRecordDecl* crd);
+
+std::string mangle_type(const QualType& qt) {
+    std::string const_ = "";
+    if (qt.isConstQualified()) {
+        const_ = "const ";
+    }
+
+    if (qt->isPointerType() || qt->isReferenceType()) {
+        std::string pointee = mangle_type(qt->getPointeeType());
+        std::string ptr = "*";
+        if (qt->isReferenceType()) {
+            ptr = "&";
+        } else if (qt->isRValueReferenceType()) {
+            ptr = "&&";
+        }
+        return fmt::format("{}{}{}", const_, pointee, ptr);
+    } else if (qt->isConstantArrayType()) {
+        const ConstantArrayType* cat =
+            dyn_cast<ConstantArrayType>(qt.getTypePtr());
+        std::string element = mangle_type(cat->getElementType());
+        return fmt::format("{}{}[{}]", const_, element,
+                           cat->getSize().getLimitedValue());
+    } else if (qt->isRecordType()) {
+        auto crd = qt->getAsCXXRecordDecl();
+        return fmt::format("{}{}", const_, mangle_decl(crd));
+    } else if (qt->isBuiltinType()) {
+        return fmt::format("{}{}", const_,
+                           qt.getUnqualifiedType().getAsString());
+    } else {
+        const auto type_name = qt.getUnqualifiedType().getAsString();
+        SPDLOG_WARN("Unhandled type in mangling {}", type_name);
+        return fmt::format("{}{}", const_, type_name);
+    }
+}
+
+std::vector<std::string>
+mangle_template_args(const TemplateArgumentList& args) {
+    std::vector<std::string> result;
+    for (int i = 0; i < args.size(); ++i) {
+        const auto& arg = args[i];
+        if (arg.getKind() == TemplateArgument::ArgKind::Null) {
+            result.push_back("Null");
+        } else if (arg.getKind() == TemplateArgument::ArgKind::Type) {
+            result.push_back(mangle_type(arg.getAsType()));
+        } else if (arg.getKind() == TemplateArgument::ArgKind::Declaration) {
+            result.push_back("Declaration");
+        } else if (arg.getKind() == TemplateArgument::ArgKind::NullPtr) {
+            result.push_back("NullPtr");
+        } else if (arg.getKind() == TemplateArgument::ArgKind::Integral) {
+            result.push_back("Integral");
+        } else if (arg.getKind() == TemplateArgument::ArgKind::Template) {
+            result.push_back("Template");
+        } else if (arg.getKind() ==
+                   TemplateArgument::ArgKind::TemplateExpansion) {
+            result.push_back("TemplateExpansion");
+        } else if (arg.getKind() == TemplateArgument::ArgKind::Expression) {
+            result.push_back("Expression");
+        } else {
+            result.push_back("Pack");
+        }
+    }
+
+    return result;
+}
+
+std::string mangle_decl(const CXXRecordDecl* crd) {
+    std::string namespace_path = get_namespace_path(crd);
+
+    if (const auto* ctd = dyn_cast<ClassTemplateSpecializationDecl>(crd)) {
+        auto args = mangle_template_args(ctd->getTemplateArgs());
+        return fmt::format("{}::{}<{}>", namespace_path, ctd->getNameAsString(),
+                           ps::join(", ", args));
+    } else {
+        return fmt::format("{}::{}", namespace_path, crd->getNameAsString());
+    }
+}
+
 } // namespace
 
 /// Enumerates the kinds of nodes in the output AST
@@ -878,14 +996,6 @@ NodeTranslationUnit* get_translation_unit(const std::string& filename) {
     return node_ptr;
 }
 
-/// Get a nice, qualified name for the given record
-std::string get_record_name(const CXXRecordDecl* crd) {
-    // we have to do this dance to get the template parameters in the name,
-    // otherwise they're omitted
-    return strip_name_kinds(
-        crd->getTypeForDecl()->getCanonicalTypeInternal().getAsString());
-}
-
 QType process_qtype(const QualType& qt);
 
 /// Create a new NodeFunctionProtoType from the given FunctionProtoType and
@@ -987,11 +1097,12 @@ QType process_qtype(const QualType& qt) {
         std::string type_node_name = "TYPE:" + type_name;
         if (qt->isRecordType()) {
             auto crd = qt->getAsCXXRecordDecl();
-            auto mng_ctx = crd->getASTContext().createMangleContext();
-            std::string s;
-            llvm::raw_string_ostream os(s);
-            mng_ctx->mangleCXXName(crd, os);
-            std::string mangled_name = os.str();
+            // auto mng_ctx = crd->getASTContext().createMangleContext();
+            // std::string s;
+            // llvm::raw_string_ostream os(s);
+            // mng_ctx->mangleCXXName(crd, os);
+            // std::string mangled_name = os.str();
+            std::string mangled_name = mangle_decl(crd);
             type_node_name = "TYPE:" + mangled_name;
         }
 
@@ -1018,14 +1129,20 @@ QType process_qtype(const QualType& qt) {
                 // come back and process the decl later.
                 const std::string record_name = crd->getQualifiedNameAsString();
                 NodeId id_rec = -1;
-                auto mng_ctx = crd->getASTContext().createMangleContext();
-                std::string s;
-                llvm::raw_string_ostream os(s);
-                mng_ctx->mangleCXXName(crd, os);
-                std::string mangled_name = os.str();
+                // auto mng_ctx = crd->getASTContext().createMangleContext();
+                // std::string s;
+                // llvm::raw_string_ostream os(s);
+                // mng_ctx->mangleCXXName(crd, os);
+                // std::string mangled_name = os.str();
+                std::string mangled_name = mangle_decl(crd);
                 auto it_rec = NODE_MAP.find(mangled_name);
                 if (it_rec != NODE_MAP.end()) {
+                    SPDLOG_DEBUG("Found record {} from {}",
+                                 crd->getQualifiedNameAsString(), mangled_name);
                     id_rec = it_rec->second;
+                } else {
+                    // SPDLOG_DEBUG("Couldn't find a record for {} ({})",
+                    //              record_name, mangled_name);
                 }
 
                 auto node_record_type = std::make_unique<NodeRecordType>(
@@ -1361,11 +1478,12 @@ std::vector<NodeId> get_namespaces(const clang::DeclContext* parent,
                 static_cast<const clang::CXXRecordDecl*>(parent);
 
             auto record_name = get_record_name(crd);
-            auto mng_ctx = crd->getASTContext().createMangleContext();
-            std::string s;
-            llvm::raw_string_ostream os(s);
-            mng_ctx->mangleCXXName(crd, os);
-            std::string mangled_name = os.str();
+            // auto mng_ctx = crd->getASTContext().createMangleContext();
+            // std::string s;
+            // llvm::raw_string_ostream os(s);
+            // mng_ctx->mangleCXXName(crd, os);
+            // std::string mangled_name = os.str();
+            std::string mangled_name = mangle_decl(crd);
             auto it = NODE_MAP.find(mangled_name);
             if (it == NODE_MAP.end()) {
                 SPDLOG_CRITICAL(
@@ -1492,11 +1610,12 @@ void process_fields(const CXXRecordDecl* crd, NodeRecord* node_record_ptr) {
 std::unordered_map<std::string, std::string> pending_aliases;
 
 void handle_typealias_decl(const TypeAliasDecl* tad, const CXXRecordDecl* crd) {
-    auto mng_ctx = crd->getASTContext().createMangleContext();
-    std::string s;
-    llvm::raw_string_ostream os(s);
-    mng_ctx->mangleCXXName(crd, os);
-    std::string mangled_name = os.str();
+    // auto mng_ctx = crd->getASTContext().createMangleContext();
+    // std::string s;
+    // llvm::raw_string_ostream os(s);
+    // mng_ctx->mangleCXXName(crd, os);
+    // std::string mangled_name = os.str();
+    std::string mangled_name = mangle_decl(crd);
     auto record_qualified_name = get_record_name(crd);
     auto alias_name = tad->getNameAsString();
     if (alias_name == "BoundType") {
@@ -1553,11 +1672,14 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
     }
 
     // Get the mangled version of the record name
-    auto mng_ctx = crd->getASTContext().createMangleContext();
-    std::string s;
-    llvm::raw_string_ostream os(s);
-    mng_ctx->mangleCXXName(crd, os);
-    std::string mangled_name = os.str();
+    // auto mng_ctx = crd->getASTContext().createMangleContext();
+    // std::string s;
+    // llvm::raw_string_ostream os(s);
+    // mng_ctx->mangleCXXName(crd, os);
+    // std::string mangled_name = os.str();
+    std::string mangled_name = mangle_decl(crd);
+    SPDLOG_DEBUG("Record {} mangles to {}", crd->getQualifiedNameAsString(),
+                 mangled_name);
 
     // Add the new Record node
     NodeId new_id = NODES.size();
@@ -1717,14 +1839,16 @@ void handle_cxx_record_decl(const CXXRecordDecl* crd) {
             const auto* bound_nd = tad->getUnderlyingDecl();
             if (tad->getNameAsString() == "BoundType") {
                 bound_rd = tad->getUnderlyingType()->getAsCXXRecordDecl();
-                std::string s;
-                llvm::raw_string_ostream os(s);
-                mng_ctx->mangleCXXName(bound_rd, os);
+                // std::string s;
+                // llvm::raw_string_ostream os(s);
+                // mng_ctx->mangleCXXName(bound_rd, os);
+                // auto mangled_name = os.str();
+                std::string mangled_name = mangle_decl(bound_rd);
                 SPDLOG_DEBUG(
                     "Found BoundType {}\n    - {}\n    - {}",
                     get_record_name(bound_rd),
                     bound_rd->getCanonicalDecl()->getQualifiedNameAsString(),
-                    os.str());
+                    mangled_name);
             }
         } else if (const auto* ed = dyn_cast<EnumDecl>(decl)) {
             // this gets `using Enum = Library::Class::Enum`
@@ -1934,9 +2058,6 @@ void ProcessBindingCallback::run(const MatchFinder::MatchResult& result) {
                    result.Nodes.getNodeAs<TypeAliasDecl>("typeAliasDecl")) {
         if (const auto* crd =
                 tdecl->getUnderlyingType()->getAsCXXRecordDecl()) {
-            SPDLOG_INFO("GOT CXXRECORDTTYPE {} from TAD {}",
-                        crd->getQualifiedNameAsString(),
-                        tdecl->getNameAsString());
             handle_typealias_decl(tdecl, crd);
         }
     } else if (const FunctionDecl* function =
