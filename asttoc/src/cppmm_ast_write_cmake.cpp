@@ -90,15 +90,11 @@ const std::string compute_cmakefile_path(const std::string& filename) {
 }
 
 //------------------------------------------------------------------------------
-void cmake(const Root& root, size_t starting_point, const Libs& libs,
-           const LibDirs& lib_dirs) {
+void cmake(const char* project_name, const Root& root, size_t starting_point,
+           const Libs& libs, const LibDirs& lib_dirs) {
     cassert(starting_point < root.tus.size(), "starting point is out of range");
     auto cmakefile_path =
         compute_cmakefile_path(root.tus[starting_point]->filename);
-
-    auto project_name = "mm_binding";
-
-    // std::cerr << cmakefile_path << std::endl;
 
     auto out = fmt::output_file(cmakefile_path);
 
@@ -148,6 +144,10 @@ void cmake(const Root& root, size_t starting_point, const Libs& libs,
         out.print("target_link_libraries ({} ${{{}}})\n", project_name,
                   lib_var);
     }
+
+    // add install command for rust cmake
+    out.print("install(TARGETS {} DESTINATION ${{CMAKE_INSTALL_PREFIX}})",
+              project_name);
 }
 
 } // namespace write

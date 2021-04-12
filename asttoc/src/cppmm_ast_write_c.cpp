@@ -146,7 +146,7 @@ void write_record_forward_decl(fmt::ostream& out, const NodePtr& node) {
 void write_enum(fmt::ostream& out, const NodePtr& node) {
     const NodeEnum& enum_ = *static_cast<const NodeEnum*>(node.get());
 
-    out.print("enum {}{{\n", enum_.name);
+    out.print("enum {} {{\n", enum_.name);
     for (const auto& v : enum_.variants) {
         out.print("    {} = {},\n", v.first, v.second);
     }
@@ -576,7 +576,7 @@ void write_translation_unit(const TranslationUnit& tu) {
 }
 
 //------------------------------------------------------------------------------
-void c(const Root& root, size_t starting_point) {
+void c(const char* project_name, const Root& root, size_t starting_point) {
     cassert(starting_point < root.tus.size(), "starting point is out of range");
 
     const auto size = root.tus.size();

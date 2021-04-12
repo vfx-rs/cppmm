@@ -637,18 +637,21 @@ struct NodeEnum : public NodeAttributeHolder {
     uint32_t size;
     uint32_t align;
     TranslationUnit::WPtr tu;
+    std::string nice_name;
     std::string short_name;
 
     std::vector<NodeId> namespaces;
 
     NodeEnum(const TranslationUnit::Ptr& tu, std::string qualified_name,
-             std::string short_name, NodeId id, std::vector<std::string> attrs,
+             std::string nice_name, std::string short_name, NodeId id,
+             std::vector<std::string> attrs,
              std::vector<std::pair<std::string, std::string>> variants,
              uint32_t size, uint32_t align,
              const std::vector<NodeId>& namespaces)
         : NodeAttributeHolder(qualified_name, id, NodeKind::Enum, attrs),
           tu(tu), variants(variants), size(size), align(align),
-          namespaces(namespaces), short_name(short_name) {}
+          namespaces(namespaces), nice_name(nice_name), short_name(short_name) {
+    }
 
     using This = NodeEnum;
     template <typename... Args> static std::shared_ptr<This> n(Args&&... args) {

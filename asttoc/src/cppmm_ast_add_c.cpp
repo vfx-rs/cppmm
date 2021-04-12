@@ -1154,9 +1154,10 @@ void enum_entry(NodeId& new_id, TypeRegistry& type_registry,
     }
 
     // Create the new enum for the options
-    auto c_enum = NodeEnum::n(c_tu, c_enum_name, cpp_enum.short_name, new_id++,
-                              cpp_enum.attrs, variants, cpp_enum.size,
-                              cpp_enum.align, cpp_enum.namespaces);
+    auto c_enum =
+        NodeEnum::n(c_tu, c_enum_name, c_typedef_name, cpp_enum.short_name,
+                    new_id++, cpp_enum.attrs, variants, cpp_enum.size,
+                    cpp_enum.align, cpp_enum.namespaces);
 
     // Build the typedef for the actual data
     auto underlying_type_name =

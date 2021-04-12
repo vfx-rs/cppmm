@@ -317,8 +317,8 @@ NodePtr read_enum(const TranslationUnit::Ptr& tu, const nln::json& json) {
     }
 
     // Instantiate the translation unit
-    auto result = NodeEnum::n(tu, name, short_name, id, _attrs, variants, size,
-                              align, namespaces);
+    auto result = NodeEnum::n(tu, name, name, short_name, id, _attrs, variants,
+                              size, align, namespaces);
 
     // Return the result
     return result;

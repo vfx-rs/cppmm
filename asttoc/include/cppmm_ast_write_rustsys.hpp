@@ -9,11 +9,11 @@
 
 namespace cppmm {
 class Root;
-using Libs = std::vector<std::string>;
-using LibDirs = std::vector<std::string>;
 
-namespace write {
-void cmake(const char* project_name, const Root& root, size_t starting_point,
-           const Libs& libs, const LibDirs& lib_dirs);
-} // namespace write
+namespace rust_sys {
+void write(const char* out_dir, const char* project_name, const char* c_dir,
+           const Root& root, size_t starting_point,
+           const std::vector<std::string>& libs,
+           const std::vector<std::string>& lib_dirs);
+} // namespace rust_sys
 } // namespace cppmm
