@@ -9,12 +9,12 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 1660,
+    "id": 1668,
     "decls": [
         {
             "kind": "Namespace",
             "name": "Imf_2_5",
-            "id": 26,
+            "id": 27,
             "short_name": "Imf_2_5"
         },
         {
@@ -22,9 +22,9 @@
             "name": "Imf_2_5::ImageLevel",
             "short_name": "ImageLevel",
             "namespaces": [
-                26
+                27
             ],
-            "id": 1661,
+            "id": 1669,
             "abstract": true,
             "size": 320,
             "align": 64,
@@ -38,13 +38,13 @@
                     "name": "_image",
                     "type": {
                         "kind": "Reference",
-                        "id": 408,
+                        "id": 412,
                         "type": "class Imf_2_5::Image &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 407,
+                            "id": 411,
                             "type": "Imf_2_5::Image",
-                            "record": 1719,
+                            "record": 1729,
                             "const": false
                         },
                         "const": false
@@ -55,7 +55,7 @@
                     "name": "_xLevelNumber",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     }
@@ -65,7 +65,7 @@
                     "name": "_yLevelNumber",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     }
@@ -75,9 +75,9 @@
                     "name": "_dataWindow",
                     "type": {
                         "kind": "RecordType",
-                        "id": 12,
+                        "id": 13,
                         "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                        "record": 2973,
+                        "record": 2964,
                         "const": false
                     }
                 }
@@ -105,13 +105,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 408,
+                        "id": 412,
                         "type": "class Imf_2_5::Image &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 407,
+                            "id": 411,
                             "type": "Imf_2_5::Image",
-                            "record": 1719,
+                            "record": 1729,
                             "const": false
                         },
                         "const": false
@@ -142,13 +142,13 @@
                     ],
                     "return": {
                         "kind": "Reference",
-                        "id": 409,
+                        "id": 413,
                         "type": "const class Imf_2_5::Image &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 407,
+                            "id": 411,
                             "type": "Imf_2_5::Image",
-                            "record": 1719,
+                            "record": 1729,
                             "const": true
                         },
                         "const": false

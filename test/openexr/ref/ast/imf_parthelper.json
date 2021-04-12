@@ -14,7 +14,7 @@
         {
             "kind": "Namespace",
             "name": "Imf_2_5",
-            "id": 26,
+            "id": 27,
             "short_name": "Imf_2_5"
         },
         {
@@ -22,7 +22,7 @@
             "name": "Imf_2_5::MultiViewChannelName",
             "short_name": "MultiViewChannelName",
             "namespaces": [
-                26
+                27
             ],
             "id": 3272,
             "abstract": false,
@@ -38,7 +38,7 @@
                     "name": "name",
                     "type": {
                         "kind": "RecordType",
-                        "id": 4,
+                        "id": 5,
                         "type": "std::__cxx11::basic_string<char>",
                         "record": -1,
                         "const": false
@@ -49,7 +49,7 @@
                     "name": "view",
                     "type": {
                         "kind": "RecordType",
-                        "id": 4,
+                        "id": 5,
                         "type": "std::__cxx11::basic_string<char>",
                         "record": -1,
                         "const": false
@@ -60,7 +60,7 @@
                     "name": "part_number",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     }
@@ -70,7 +70,7 @@
                     "name": "internal_name",
                     "type": {
                         "kind": "RecordType",
-                        "id": 4,
+                        "id": 5,
                         "type": "std::__cxx11::basic_string<char>",
                         "record": -1,
                         "const": false
@@ -100,7 +100,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "RecordType",
-                        "id": 4,
+                        "id": 5,
                         "type": "std::__cxx11::basic_string<char>",
                         "record": -1,
                         "const": false
@@ -129,7 +129,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "RecordType",
-                        "id": 4,
+                        "id": 5,
                         "type": "std::__cxx11::basic_string<char>",
                         "record": -1,
                         "const": false

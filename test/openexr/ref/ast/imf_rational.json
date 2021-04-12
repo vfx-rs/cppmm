@@ -9,12 +9,12 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 3704,
+    "id": 3723,
     "decls": [
         {
             "kind": "Namespace",
             "name": "Imf_2_5",
-            "id": 26,
+            "id": 27,
             "short_name": "Imf_2_5"
         },
         {
@@ -22,9 +22,9 @@
             "name": "Imf_2_5::Rational",
             "short_name": "Rational",
             "namespaces": [
-                26
+                27
             ],
-            "id": 3705,
+            "id": 3724,
             "abstract": false,
             "size": 64,
             "align": 32,
@@ -38,7 +38,7 @@
                     "name": "n",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     }
@@ -48,7 +48,7 @@
                     "name": "d",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 280,
+                        "id": 281,
                         "type": "unsigned int",
                         "const": false
                     }
@@ -79,7 +79,7 @@
                     ],
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -107,7 +107,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -117,7 +117,7 @@
                             "name": "n",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -128,7 +128,7 @@
                             "name": "d",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -160,7 +160,7 @@
                     ],
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -170,7 +170,7 @@
                             "name": "x",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 326,
+                                "id": 327,
                                 "type": "double",
                                 "const": false
                             },
@@ -202,7 +202,7 @@
                     ],
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 326,
+                        "id": 327,
                         "type": "double",
                         "const": false
                     },

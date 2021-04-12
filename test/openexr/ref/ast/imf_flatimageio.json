@@ -9,437 +9,30 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 1025,
+    "id": 1031,
     "decls": [
         {
-            "kind": "Function",
-            "id": 1026,
-            "short_name": "saveFlatImage",
-            "qualified_name": "Imf_2_5::saveFlatImage",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": [
-                "cppmm|rename|saveFlatImage_with_header"
-            ],
-            "return": {
-                "kind": "BuiltinType",
-                "id": 3,
-                "type": "void",
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "fileName",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 5,
-                        "type": "const class std::__cxx11::basic_string<char> &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 4,
-                            "type": "std::__cxx11::basic_string<char>",
-                            "record": -1,
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 1,
-                    "name": "hdr",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 7,
-                        "type": "const class Imf_2_5::Header &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 6,
-                            "type": "Imf_2_5::Header",
-                            "record": 1526,
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 2,
-                    "name": "img",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 412,
-                        "type": "const class Imf_2_5::FlatImage &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 410,
-                            "type": "Imf_2_5::FlatImage",
-                            "record": 2010,
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 3,
-                    "name": "dws",
-                    "type": {
-                        "kind": "EnumType",
-                        "id": 548,
-                        "type": "Imf_2_5::DataWindowSource",
-                        "enum": 3117,
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
-        },
-        {
-            "kind": "Function",
-            "id": 1027,
-            "short_name": "saveFlatImage",
-            "qualified_name": "Imf_2_5::saveFlatImage",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": [
-                "cppmm|rename|saveFlatImage_with_header"
-            ],
-            "return": {
-                "kind": "BuiltinType",
-                "id": 3,
-                "type": "void",
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "fileName",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 5,
-                        "type": "const class std::__cxx11::basic_string<char> &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 4,
-                            "type": "std::__cxx11::basic_string<char>",
-                            "record": -1,
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 1,
-                    "name": "hdr",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 7,
-                        "type": "const class Imf_2_5::Header &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 6,
-                            "type": "Imf_2_5::Header",
-                            "record": 1526,
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 2,
-                    "name": "img",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 412,
-                        "type": "const class Imf_2_5::FlatImage &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 410,
-                            "type": "Imf_2_5::FlatImage",
-                            "record": 2010,
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 3,
-                    "name": "dws",
-                    "type": {
-                        "kind": "EnumType",
-                        "id": 548,
-                        "type": "Imf_2_5::DataWindowSource",
-                        "enum": 3117,
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
-        },
-        {
-            "kind": "Function",
-            "id": 1028,
-            "short_name": "saveFlatImage",
-            "qualified_name": "Imf_2_5::saveFlatImage",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": null,
-            "return": {
-                "kind": "BuiltinType",
-                "id": 3,
-                "type": "void",
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "fileName",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 5,
-                        "type": "const class std::__cxx11::basic_string<char> &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 4,
-                            "type": "std::__cxx11::basic_string<char>",
-                            "record": -1,
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 1,
-                    "name": "img",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 412,
-                        "type": "const class Imf_2_5::FlatImage &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 410,
-                            "type": "Imf_2_5::FlatImage",
-                            "record": 2010,
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
-        },
-        {
-            "kind": "Function",
-            "id": 1029,
-            "short_name": "saveFlatImage",
-            "qualified_name": "Imf_2_5::saveFlatImage",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": null,
-            "return": {
-                "kind": "BuiltinType",
-                "id": 3,
-                "type": "void",
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "fileName",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 5,
-                        "type": "const class std::__cxx11::basic_string<char> &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 4,
-                            "type": "std::__cxx11::basic_string<char>",
-                            "record": -1,
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 1,
-                    "name": "img",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 412,
-                        "type": "const class Imf_2_5::FlatImage &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 410,
-                            "type": "Imf_2_5::FlatImage",
-                            "record": 2010,
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
-        },
-        {
-            "kind": "Function",
-            "id": 1030,
-            "short_name": "loadFlatImage",
-            "qualified_name": "Imf_2_5::loadFlatImage",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": null,
-            "return": {
-                "kind": "BuiltinType",
-                "id": 3,
-                "type": "void",
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "fileName",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 5,
-                        "type": "const class std::__cxx11::basic_string<char> &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 4,
-                            "type": "std::__cxx11::basic_string<char>",
-                            "record": -1,
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 1,
-                    "name": "hdr",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 549,
-                        "type": "class Imf_2_5::Header &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 6,
-                            "type": "Imf_2_5::Header",
-                            "record": 1526,
-                            "const": false
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 2,
-                    "name": "img",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 411,
-                        "type": "class Imf_2_5::FlatImage &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 410,
-                            "type": "Imf_2_5::FlatImage",
-                            "record": 2010,
-                            "const": false
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
-        },
-        {
-            "kind": "Function",
-            "id": 1031,
-            "short_name": "loadFlatImage",
-            "qualified_name": "Imf_2_5::loadFlatImage",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": null,
-            "return": {
-                "kind": "BuiltinType",
-                "id": 3,
-                "type": "void",
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "fileName",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 5,
-                        "type": "const class std::__cxx11::basic_string<char> &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 4,
-                            "type": "std::__cxx11::basic_string<char>",
-                            "record": -1,
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 1,
-                    "name": "hdr",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 549,
-                        "type": "class Imf_2_5::Header &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 6,
-                            "type": "Imf_2_5::Header",
-                            "record": 1526,
-                            "const": false
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 2,
-                    "name": "img",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 411,
-                        "type": "class Imf_2_5::FlatImage &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 410,
-                            "type": "Imf_2_5::FlatImage",
-                            "record": 2010,
-                            "const": false
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
+            "kind": "Namespace",
+            "name": "cppmm_bind::Imf_2_5",
+            "id": 3,
+            "short_name": "Imf_2_5"
         },
         {
             "kind": "Function",
             "id": 1032,
-            "short_name": "loadFlatImage",
-            "qualified_name": "Imf_2_5::loadFlatImage",
+            "short_name": "saveFlatImage",
+            "qualified_name": "Imf_2_5::saveFlatImage",
             "in_binding": false,
             "in_library": false,
-            "attributes": null,
+            "attributes": [
+                "cppmm|rename|saveFlatImage_with_header"
+            ],
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 3,
+                "id": 4,
                 "type": "void",
                 "const": false
             },
@@ -449,11 +42,11 @@
                     "name": "fileName",
                     "type": {
                         "kind": "Reference",
-                        "id": 5,
+                        "id": 6,
                         "type": "const class std::__cxx11::basic_string<char> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 4,
+                            "id": 5,
                             "type": "std::__cxx11::basic_string<char>",
                             "record": -1,
                             "const": true
@@ -464,18 +57,48 @@
                 },
                 {
                     "index": 1,
+                    "name": "hdr",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 8,
+                        "type": "const class Imf_2_5::Header &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 7,
+                            "type": "Imf_2_5::Header",
+                            "record": 1532,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 2,
                     "name": "img",
                     "type": {
                         "kind": "Reference",
-                        "id": 411,
-                        "type": "class Imf_2_5::FlatImage &",
+                        "id": 416,
+                        "type": "const class Imf_2_5::FlatImage &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 410,
+                            "id": 414,
                             "type": "Imf_2_5::FlatImage",
-                            "record": 2010,
-                            "const": false
+                            "record": 2026,
+                            "const": true
                         },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 3,
+                    "name": "dws",
+                    "type": {
+                        "kind": "EnumType",
+                        "id": 554,
+                        "type": "Imf_2_5::DataWindowSource",
+                        "enum": 3114,
                         "const": false
                     },
                     "attrs": []
@@ -485,14 +108,19 @@
         {
             "kind": "Function",
             "id": 1033,
-            "short_name": "loadFlatImage",
-            "qualified_name": "Imf_2_5::loadFlatImage",
+            "short_name": "saveFlatImage",
+            "qualified_name": "Imf_2_5::saveFlatImage",
             "in_binding": false,
             "in_library": false,
-            "attributes": null,
+            "attributes": [
+                "cppmm|rename|saveFlatImage_with_header"
+            ],
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 3,
+                "id": 4,
                 "type": "void",
                 "const": false
             },
@@ -502,11 +130,11 @@
                     "name": "fileName",
                     "type": {
                         "kind": "Reference",
-                        "id": 5,
+                        "id": 6,
                         "type": "const class std::__cxx11::basic_string<char> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 4,
+                            "id": 5,
                             "type": "std::__cxx11::basic_string<char>",
                             "record": -1,
                             "const": true
@@ -517,18 +145,48 @@
                 },
                 {
                     "index": 1,
+                    "name": "hdr",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 8,
+                        "type": "const class Imf_2_5::Header &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 7,
+                            "type": "Imf_2_5::Header",
+                            "record": 1532,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 2,
                     "name": "img",
                     "type": {
                         "kind": "Reference",
-                        "id": 411,
-                        "type": "class Imf_2_5::FlatImage &",
+                        "id": 416,
+                        "type": "const class Imf_2_5::FlatImage &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 410,
+                            "id": 414,
                             "type": "Imf_2_5::FlatImage",
-                            "record": 2010,
-                            "const": false
+                            "record": 2026,
+                            "const": true
                         },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 3,
+                    "name": "dws",
+                    "type": {
+                        "kind": "EnumType",
+                        "id": 554,
+                        "type": "Imf_2_5::DataWindowSource",
+                        "enum": 3114,
                         "const": false
                     },
                     "attrs": []
@@ -538,16 +196,17 @@
         {
             "kind": "Function",
             "id": 1034,
-            "short_name": "saveFlatScanLineImage",
-            "qualified_name": "Imf_2_5::saveFlatScanLineImage",
+            "short_name": "saveFlatImage",
+            "qualified_name": "Imf_2_5::saveFlatImage",
             "in_binding": false,
             "in_library": false,
-            "attributes": [
-                "cppmm|rename|saveFlatScanLineImage_with_header"
+            "attributes": null,
+            "namespaces": [
+                27
             ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 3,
+                "id": 4,
                 "type": "void",
                 "const": false
             },
@@ -557,11 +216,11 @@
                     "name": "fileName",
                     "type": {
                         "kind": "Reference",
-                        "id": 5,
+                        "id": 6,
                         "type": "const class std::__cxx11::basic_string<char> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 4,
+                            "id": 5,
                             "type": "std::__cxx11::basic_string<char>",
                             "record": -1,
                             "const": true
@@ -572,48 +231,18 @@
                 },
                 {
                     "index": 1,
-                    "name": "hdr",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 7,
-                        "type": "const class Imf_2_5::Header &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 6,
-                            "type": "Imf_2_5::Header",
-                            "record": 1526,
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 2,
                     "name": "img",
                     "type": {
                         "kind": "Reference",
-                        "id": 412,
+                        "id": 416,
                         "type": "const class Imf_2_5::FlatImage &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 410,
+                            "id": 414,
                             "type": "Imf_2_5::FlatImage",
-                            "record": 2010,
+                            "record": 2026,
                             "const": true
                         },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 3,
-                    "name": "dws",
-                    "type": {
-                        "kind": "EnumType",
-                        "id": 548,
-                        "type": "Imf_2_5::DataWindowSource",
-                        "enum": 3117,
                         "const": false
                     },
                     "attrs": []
@@ -623,16 +252,17 @@
         {
             "kind": "Function",
             "id": 1035,
-            "short_name": "saveFlatScanLineImage",
-            "qualified_name": "Imf_2_5::saveFlatScanLineImage",
+            "short_name": "saveFlatImage",
+            "qualified_name": "Imf_2_5::saveFlatImage",
             "in_binding": false,
             "in_library": false,
-            "attributes": [
-                "cppmm|rename|saveFlatScanLineImage_with_header"
+            "attributes": null,
+            "namespaces": [
+                27
             ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 3,
+                "id": 4,
                 "type": "void",
                 "const": false
             },
@@ -642,11 +272,67 @@
                     "name": "fileName",
                     "type": {
                         "kind": "Reference",
-                        "id": 5,
+                        "id": 6,
                         "type": "const class std::__cxx11::basic_string<char> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 4,
+                            "id": 5,
+                            "type": "std::__cxx11::basic_string<char>",
+                            "record": -1,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "img",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 416,
+                        "type": "const class Imf_2_5::FlatImage &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 414,
+                            "type": "Imf_2_5::FlatImage",
+                            "record": 2026,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 1036,
+            "short_name": "loadFlatImage",
+            "qualified_name": "Imf_2_5::loadFlatImage",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 4,
+                "type": "void",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fileName",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 6,
+                        "type": "const class std::__cxx11::basic_string<char> &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 5,
                             "type": "std::__cxx11::basic_string<char>",
                             "record": -1,
                             "const": true
@@ -660,14 +346,14 @@
                     "name": "hdr",
                     "type": {
                         "kind": "Reference",
-                        "id": 7,
-                        "type": "const class Imf_2_5::Header &",
+                        "id": 555,
+                        "type": "class Imf_2_5::Header &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 6,
+                            "id": 7,
                             "type": "Imf_2_5::Header",
-                            "record": 1526,
-                            "const": true
+                            "record": 1532,
+                            "const": false
                         },
                         "const": false
                     },
@@ -678,79 +364,14 @@
                     "name": "img",
                     "type": {
                         "kind": "Reference",
-                        "id": 412,
-                        "type": "const class Imf_2_5::FlatImage &",
+                        "id": 415,
+                        "type": "class Imf_2_5::FlatImage &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 410,
+                            "id": 414,
                             "type": "Imf_2_5::FlatImage",
-                            "record": 2010,
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 3,
-                    "name": "dws",
-                    "type": {
-                        "kind": "EnumType",
-                        "id": 548,
-                        "type": "Imf_2_5::DataWindowSource",
-                        "enum": 3117,
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
-        },
-        {
-            "kind": "Function",
-            "id": 1036,
-            "short_name": "saveFlatScanLineImage",
-            "qualified_name": "Imf_2_5::saveFlatScanLineImage",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": null,
-            "return": {
-                "kind": "BuiltinType",
-                "id": 3,
-                "type": "void",
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "fileName",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 5,
-                        "type": "const class std::__cxx11::basic_string<char> &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 4,
-                            "type": "std::__cxx11::basic_string<char>",
-                            "record": -1,
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 1,
-                    "name": "img",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 412,
-                        "type": "const class Imf_2_5::FlatImage &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 410,
-                            "type": "Imf_2_5::FlatImage",
-                            "record": 2010,
-                            "const": true
+                            "record": 2026,
+                            "const": false
                         },
                         "const": false
                     },
@@ -761,69 +382,17 @@
         {
             "kind": "Function",
             "id": 1037,
-            "short_name": "saveFlatScanLineImage",
-            "qualified_name": "Imf_2_5::saveFlatScanLineImage",
+            "short_name": "loadFlatImage",
+            "qualified_name": "Imf_2_5::loadFlatImage",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
-            "return": {
-                "kind": "BuiltinType",
-                "id": 3,
-                "type": "void",
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "fileName",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 5,
-                        "type": "const class std::__cxx11::basic_string<char> &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 4,
-                            "type": "std::__cxx11::basic_string<char>",
-                            "record": -1,
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 1,
-                    "name": "img",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 412,
-                        "type": "const class Imf_2_5::FlatImage &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 410,
-                            "type": "Imf_2_5::FlatImage",
-                            "record": 2010,
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
-        },
-        {
-            "kind": "Function",
-            "id": 1038,
-            "short_name": "loadFlatScanLineImage",
-            "qualified_name": "Imf_2_5::loadFlatScanLineImage",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": [
-                "cppmm|rename|loadFlatScanLineImage_with_header"
+            "namespaces": [
+                27
             ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 3,
+                "id": 4,
                 "type": "void",
                 "const": false
             },
@@ -833,11 +402,11 @@
                     "name": "fileName",
                     "type": {
                         "kind": "Reference",
-                        "id": 5,
+                        "id": 6,
                         "type": "const class std::__cxx11::basic_string<char> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 4,
+                            "id": 5,
                             "type": "std::__cxx11::basic_string<char>",
                             "record": -1,
                             "const": true
@@ -851,13 +420,13 @@
                     "name": "hdr",
                     "type": {
                         "kind": "Reference",
-                        "id": 549,
+                        "id": 555,
                         "type": "class Imf_2_5::Header &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 6,
+                            "id": 7,
                             "type": "Imf_2_5::Header",
-                            "record": 1526,
+                            "record": 1532,
                             "const": false
                         },
                         "const": false
@@ -869,13 +438,69 @@
                     "name": "img",
                     "type": {
                         "kind": "Reference",
-                        "id": 411,
+                        "id": 415,
                         "type": "class Imf_2_5::FlatImage &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 410,
+                            "id": 414,
                             "type": "Imf_2_5::FlatImage",
-                            "record": 2010,
+                            "record": 2026,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 1038,
+            "short_name": "loadFlatImage",
+            "qualified_name": "Imf_2_5::loadFlatImage",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 4,
+                "type": "void",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fileName",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 6,
+                        "type": "const class std::__cxx11::basic_string<char> &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 5,
+                            "type": "std::__cxx11::basic_string<char>",
+                            "record": -1,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "img",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 415,
+                        "type": "class Imf_2_5::FlatImage &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 414,
+                            "type": "Imf_2_5::FlatImage",
+                            "record": 2026,
                             "const": false
                         },
                         "const": false
@@ -887,16 +512,17 @@
         {
             "kind": "Function",
             "id": 1039,
-            "short_name": "loadFlatScanLineImage",
-            "qualified_name": "Imf_2_5::loadFlatScanLineImage",
+            "short_name": "loadFlatImage",
+            "qualified_name": "Imf_2_5::loadFlatImage",
             "in_binding": false,
             "in_library": false,
-            "attributes": [
-                "cppmm|rename|loadFlatScanLineImage_with_header"
+            "attributes": null,
+            "namespaces": [
+                27
             ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 3,
+                "id": 4,
                 "type": "void",
                 "const": false
             },
@@ -906,11 +532,11 @@
                     "name": "fileName",
                     "type": {
                         "kind": "Reference",
-                        "id": 5,
+                        "id": 6,
                         "type": "const class std::__cxx11::basic_string<char> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 4,
+                            "id": 5,
                             "type": "std::__cxx11::basic_string<char>",
                             "record": -1,
                             "const": true
@@ -921,34 +547,16 @@
                 },
                 {
                     "index": 1,
-                    "name": "hdr",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 549,
-                        "type": "class Imf_2_5::Header &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 6,
-                            "type": "Imf_2_5::Header",
-                            "record": 1526,
-                            "const": false
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 2,
                     "name": "img",
                     "type": {
                         "kind": "Reference",
-                        "id": 411,
+                        "id": 415,
                         "type": "class Imf_2_5::FlatImage &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 410,
+                            "id": 414,
                             "type": "Imf_2_5::FlatImage",
-                            "record": 2010,
+                            "record": 2026,
                             "const": false
                         },
                         "const": false
@@ -960,14 +568,19 @@
         {
             "kind": "Function",
             "id": 1040,
-            "short_name": "loadFlatScanLineImage",
-            "qualified_name": "Imf_2_5::loadFlatScanLineImage",
+            "short_name": "saveFlatScanLineImage",
+            "qualified_name": "Imf_2_5::saveFlatScanLineImage",
             "in_binding": false,
             "in_library": false,
-            "attributes": null,
+            "attributes": [
+                "cppmm|rename|saveFlatScanLineImage_with_header"
+            ],
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 3,
+                "id": 4,
                 "type": "void",
                 "const": false
             },
@@ -977,11 +590,11 @@
                     "name": "fileName",
                     "type": {
                         "kind": "Reference",
-                        "id": 5,
+                        "id": 6,
                         "type": "const class std::__cxx11::basic_string<char> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 4,
+                            "id": 5,
                             "type": "std::__cxx11::basic_string<char>",
                             "record": -1,
                             "const": true
@@ -992,18 +605,48 @@
                 },
                 {
                     "index": 1,
+                    "name": "hdr",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 8,
+                        "type": "const class Imf_2_5::Header &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 7,
+                            "type": "Imf_2_5::Header",
+                            "record": 1532,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 2,
                     "name": "img",
                     "type": {
                         "kind": "Reference",
-                        "id": 411,
-                        "type": "class Imf_2_5::FlatImage &",
+                        "id": 416,
+                        "type": "const class Imf_2_5::FlatImage &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 410,
+                            "id": 414,
                             "type": "Imf_2_5::FlatImage",
-                            "record": 2010,
-                            "const": false
+                            "record": 2026,
+                            "const": true
                         },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 3,
+                    "name": "dws",
+                    "type": {
+                        "kind": "EnumType",
+                        "id": 554,
+                        "type": "Imf_2_5::DataWindowSource",
+                        "enum": 3114,
                         "const": false
                     },
                     "attrs": []
@@ -1013,14 +656,19 @@
         {
             "kind": "Function",
             "id": 1041,
-            "short_name": "loadFlatScanLineImage",
-            "qualified_name": "Imf_2_5::loadFlatScanLineImage",
+            "short_name": "saveFlatScanLineImage",
+            "qualified_name": "Imf_2_5::saveFlatScanLineImage",
             "in_binding": false,
             "in_library": false,
-            "attributes": null,
+            "attributes": [
+                "cppmm|rename|saveFlatScanLineImage_with_header"
+            ],
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 3,
+                "id": 4,
                 "type": "void",
                 "const": false
             },
@@ -1030,11 +678,11 @@
                     "name": "fileName",
                     "type": {
                         "kind": "Reference",
-                        "id": 5,
+                        "id": 6,
                         "type": "const class std::__cxx11::basic_string<char> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 4,
+                            "id": 5,
                             "type": "std::__cxx11::basic_string<char>",
                             "record": -1,
                             "const": true
@@ -1045,18 +693,48 @@
                 },
                 {
                     "index": 1,
+                    "name": "hdr",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 8,
+                        "type": "const class Imf_2_5::Header &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 7,
+                            "type": "Imf_2_5::Header",
+                            "record": 1532,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 2,
                     "name": "img",
                     "type": {
                         "kind": "Reference",
-                        "id": 411,
-                        "type": "class Imf_2_5::FlatImage &",
+                        "id": 416,
+                        "type": "const class Imf_2_5::FlatImage &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 410,
+                            "id": 414,
                             "type": "Imf_2_5::FlatImage",
-                            "record": 2010,
-                            "const": false
+                            "record": 2026,
+                            "const": true
                         },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 3,
+                    "name": "dws",
+                    "type": {
+                        "kind": "EnumType",
+                        "id": 554,
+                        "type": "Imf_2_5::DataWindowSource",
+                        "enum": 3114,
                         "const": false
                     },
                     "attrs": []
@@ -1066,16 +744,17 @@
         {
             "kind": "Function",
             "id": 1042,
-            "short_name": "saveFlatTiledImage",
-            "qualified_name": "Imf_2_5::saveFlatTiledImage",
+            "short_name": "saveFlatScanLineImage",
+            "qualified_name": "Imf_2_5::saveFlatScanLineImage",
             "in_binding": false,
             "in_library": false,
-            "attributes": [
-                "cppmm|rename|saveFlatTiledImage_with_header"
+            "attributes": null,
+            "namespaces": [
+                27
             ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 3,
+                "id": 4,
                 "type": "void",
                 "const": false
             },
@@ -1085,11 +764,11 @@
                     "name": "fileName",
                     "type": {
                         "kind": "Reference",
-                        "id": 5,
+                        "id": 6,
                         "type": "const class std::__cxx11::basic_string<char> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 4,
+                            "id": 5,
                             "type": "std::__cxx11::basic_string<char>",
                             "record": -1,
                             "const": true
@@ -1100,48 +779,18 @@
                 },
                 {
                     "index": 1,
-                    "name": "hdr",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 7,
-                        "type": "const class Imf_2_5::Header &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 6,
-                            "type": "Imf_2_5::Header",
-                            "record": 1526,
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 2,
                     "name": "img",
                     "type": {
                         "kind": "Reference",
-                        "id": 412,
+                        "id": 416,
                         "type": "const class Imf_2_5::FlatImage &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 410,
+                            "id": 414,
                             "type": "Imf_2_5::FlatImage",
-                            "record": 2010,
+                            "record": 2026,
                             "const": true
                         },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 3,
-                    "name": "dws",
-                    "type": {
-                        "kind": "EnumType",
-                        "id": 548,
-                        "type": "Imf_2_5::DataWindowSource",
-                        "enum": 3117,
                         "const": false
                     },
                     "attrs": []
@@ -1151,16 +800,17 @@
         {
             "kind": "Function",
             "id": 1043,
-            "short_name": "saveFlatTiledImage",
-            "qualified_name": "Imf_2_5::saveFlatTiledImage",
+            "short_name": "saveFlatScanLineImage",
+            "qualified_name": "Imf_2_5::saveFlatScanLineImage",
             "in_binding": false,
             "in_library": false,
-            "attributes": [
-                "cppmm|rename|saveFlatTiledImage_with_header"
+            "attributes": null,
+            "namespaces": [
+                27
             ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 3,
+                "id": 4,
                 "type": "void",
                 "const": false
             },
@@ -1170,11 +820,69 @@
                     "name": "fileName",
                     "type": {
                         "kind": "Reference",
-                        "id": 5,
+                        "id": 6,
                         "type": "const class std::__cxx11::basic_string<char> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 4,
+                            "id": 5,
+                            "type": "std::__cxx11::basic_string<char>",
+                            "record": -1,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "img",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 416,
+                        "type": "const class Imf_2_5::FlatImage &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 414,
+                            "type": "Imf_2_5::FlatImage",
+                            "record": 2026,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 1044,
+            "short_name": "loadFlatScanLineImage",
+            "qualified_name": "Imf_2_5::loadFlatScanLineImage",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|rename|loadFlatScanLineImage_with_header"
+            ],
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 4,
+                "type": "void",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fileName",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 6,
+                        "type": "const class std::__cxx11::basic_string<char> &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 5,
                             "type": "std::__cxx11::basic_string<char>",
                             "record": -1,
                             "const": true
@@ -1188,14 +896,14 @@
                     "name": "hdr",
                     "type": {
                         "kind": "Reference",
-                        "id": 7,
-                        "type": "const class Imf_2_5::Header &",
+                        "id": 555,
+                        "type": "class Imf_2_5::Header &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 6,
+                            "id": 7,
                             "type": "Imf_2_5::Header",
-                            "record": 1526,
-                            "const": true
+                            "record": 1532,
+                            "const": false
                         },
                         "const": false
                     },
@@ -1206,79 +914,14 @@
                     "name": "img",
                     "type": {
                         "kind": "Reference",
-                        "id": 412,
-                        "type": "const class Imf_2_5::FlatImage &",
+                        "id": 415,
+                        "type": "class Imf_2_5::FlatImage &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 410,
+                            "id": 414,
                             "type": "Imf_2_5::FlatImage",
-                            "record": 2010,
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 3,
-                    "name": "dws",
-                    "type": {
-                        "kind": "EnumType",
-                        "id": 548,
-                        "type": "Imf_2_5::DataWindowSource",
-                        "enum": 3117,
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
-        },
-        {
-            "kind": "Function",
-            "id": 1044,
-            "short_name": "saveFlatTiledImage",
-            "qualified_name": "Imf_2_5::saveFlatTiledImage",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": null,
-            "return": {
-                "kind": "BuiltinType",
-                "id": 3,
-                "type": "void",
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "fileName",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 5,
-                        "type": "const class std::__cxx11::basic_string<char> &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 4,
-                            "type": "std::__cxx11::basic_string<char>",
-                            "record": -1,
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 1,
-                    "name": "img",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 412,
-                        "type": "const class Imf_2_5::FlatImage &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 410,
-                            "type": "Imf_2_5::FlatImage",
-                            "record": 2010,
-                            "const": true
+                            "record": 2026,
+                            "const": false
                         },
                         "const": false
                     },
@@ -1289,69 +932,19 @@
         {
             "kind": "Function",
             "id": 1045,
-            "short_name": "saveFlatTiledImage",
-            "qualified_name": "Imf_2_5::saveFlatTiledImage",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": null,
-            "return": {
-                "kind": "BuiltinType",
-                "id": 3,
-                "type": "void",
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "fileName",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 5,
-                        "type": "const class std::__cxx11::basic_string<char> &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 4,
-                            "type": "std::__cxx11::basic_string<char>",
-                            "record": -1,
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 1,
-                    "name": "img",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 412,
-                        "type": "const class Imf_2_5::FlatImage &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 410,
-                            "type": "Imf_2_5::FlatImage",
-                            "record": 2010,
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
-        },
-        {
-            "kind": "Function",
-            "id": 1046,
-            "short_name": "loadFlatTiledImage",
-            "qualified_name": "Imf_2_5::loadFlatTiledImage",
+            "short_name": "loadFlatScanLineImage",
+            "qualified_name": "Imf_2_5::loadFlatScanLineImage",
             "in_binding": false,
             "in_library": false,
             "attributes": [
-                "cppmm|rename|loadFlatTiledImage_with_header"
+                "cppmm|rename|loadFlatScanLineImage_with_header"
+            ],
+            "namespaces": [
+                27
             ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 3,
+                "id": 4,
                 "type": "void",
                 "const": false
             },
@@ -1361,11 +954,11 @@
                     "name": "fileName",
                     "type": {
                         "kind": "Reference",
-                        "id": 5,
+                        "id": 6,
                         "type": "const class std::__cxx11::basic_string<char> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 4,
+                            "id": 5,
                             "type": "std::__cxx11::basic_string<char>",
                             "record": -1,
                             "const": true
@@ -1379,13 +972,13 @@
                     "name": "hdr",
                     "type": {
                         "kind": "Reference",
-                        "id": 549,
+                        "id": 555,
                         "type": "class Imf_2_5::Header &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 6,
+                            "id": 7,
                             "type": "Imf_2_5::Header",
-                            "record": 1526,
+                            "record": 1532,
                             "const": false
                         },
                         "const": false
@@ -1397,13 +990,69 @@
                     "name": "img",
                     "type": {
                         "kind": "Reference",
-                        "id": 411,
+                        "id": 415,
                         "type": "class Imf_2_5::FlatImage &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 410,
+                            "id": 414,
                             "type": "Imf_2_5::FlatImage",
-                            "record": 2010,
+                            "record": 2026,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 1046,
+            "short_name": "loadFlatScanLineImage",
+            "qualified_name": "Imf_2_5::loadFlatScanLineImage",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 4,
+                "type": "void",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fileName",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 6,
+                        "type": "const class std::__cxx11::basic_string<char> &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 5,
+                            "type": "std::__cxx11::basic_string<char>",
+                            "record": -1,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "img",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 415,
+                        "type": "class Imf_2_5::FlatImage &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 414,
+                            "type": "Imf_2_5::FlatImage",
+                            "record": 2026,
                             "const": false
                         },
                         "const": false
@@ -1415,16 +1064,17 @@
         {
             "kind": "Function",
             "id": 1047,
-            "short_name": "loadFlatTiledImage",
-            "qualified_name": "Imf_2_5::loadFlatTiledImage",
+            "short_name": "loadFlatScanLineImage",
+            "qualified_name": "Imf_2_5::loadFlatScanLineImage",
             "in_binding": false,
             "in_library": false,
-            "attributes": [
-                "cppmm|rename|loadFlatTiledImage_with_header"
+            "attributes": null,
+            "namespaces": [
+                27
             ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 3,
+                "id": 4,
                 "type": "void",
                 "const": false
             },
@@ -1434,11 +1084,69 @@
                     "name": "fileName",
                     "type": {
                         "kind": "Reference",
-                        "id": 5,
+                        "id": 6,
                         "type": "const class std::__cxx11::basic_string<char> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 4,
+                            "id": 5,
+                            "type": "std::__cxx11::basic_string<char>",
+                            "record": -1,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "img",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 415,
+                        "type": "class Imf_2_5::FlatImage &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 414,
+                            "type": "Imf_2_5::FlatImage",
+                            "record": 2026,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 1048,
+            "short_name": "saveFlatTiledImage",
+            "qualified_name": "Imf_2_5::saveFlatTiledImage",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|rename|saveFlatTiledImage_with_header"
+            ],
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 4,
+                "type": "void",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fileName",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 6,
+                        "type": "const class std::__cxx11::basic_string<char> &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 5,
                             "type": "std::__cxx11::basic_string<char>",
                             "record": -1,
                             "const": true
@@ -1452,13 +1160,301 @@
                     "name": "hdr",
                     "type": {
                         "kind": "Reference",
-                        "id": 549,
+                        "id": 8,
+                        "type": "const class Imf_2_5::Header &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 7,
+                            "type": "Imf_2_5::Header",
+                            "record": 1532,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 2,
+                    "name": "img",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 416,
+                        "type": "const class Imf_2_5::FlatImage &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 414,
+                            "type": "Imf_2_5::FlatImage",
+                            "record": 2026,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 3,
+                    "name": "dws",
+                    "type": {
+                        "kind": "EnumType",
+                        "id": 554,
+                        "type": "Imf_2_5::DataWindowSource",
+                        "enum": 3114,
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 1049,
+            "short_name": "saveFlatTiledImage",
+            "qualified_name": "Imf_2_5::saveFlatTiledImage",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|rename|saveFlatTiledImage_with_header"
+            ],
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 4,
+                "type": "void",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fileName",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 6,
+                        "type": "const class std::__cxx11::basic_string<char> &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 5,
+                            "type": "std::__cxx11::basic_string<char>",
+                            "record": -1,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "hdr",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 8,
+                        "type": "const class Imf_2_5::Header &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 7,
+                            "type": "Imf_2_5::Header",
+                            "record": 1532,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 2,
+                    "name": "img",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 416,
+                        "type": "const class Imf_2_5::FlatImage &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 414,
+                            "type": "Imf_2_5::FlatImage",
+                            "record": 2026,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 3,
+                    "name": "dws",
+                    "type": {
+                        "kind": "EnumType",
+                        "id": 554,
+                        "type": "Imf_2_5::DataWindowSource",
+                        "enum": 3114,
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 1050,
+            "short_name": "saveFlatTiledImage",
+            "qualified_name": "Imf_2_5::saveFlatTiledImage",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 4,
+                "type": "void",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fileName",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 6,
+                        "type": "const class std::__cxx11::basic_string<char> &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 5,
+                            "type": "std::__cxx11::basic_string<char>",
+                            "record": -1,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "img",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 416,
+                        "type": "const class Imf_2_5::FlatImage &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 414,
+                            "type": "Imf_2_5::FlatImage",
+                            "record": 2026,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 1051,
+            "short_name": "saveFlatTiledImage",
+            "qualified_name": "Imf_2_5::saveFlatTiledImage",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 4,
+                "type": "void",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fileName",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 6,
+                        "type": "const class std::__cxx11::basic_string<char> &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 5,
+                            "type": "std::__cxx11::basic_string<char>",
+                            "record": -1,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "img",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 416,
+                        "type": "const class Imf_2_5::FlatImage &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 414,
+                            "type": "Imf_2_5::FlatImage",
+                            "record": 2026,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 1052,
+            "short_name": "loadFlatTiledImage",
+            "qualified_name": "Imf_2_5::loadFlatTiledImage",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|rename|loadFlatTiledImage_with_header"
+            ],
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 4,
+                "type": "void",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fileName",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 6,
+                        "type": "const class std::__cxx11::basic_string<char> &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 5,
+                            "type": "std::__cxx11::basic_string<char>",
+                            "record": -1,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "hdr",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 555,
                         "type": "class Imf_2_5::Header &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 6,
+                            "id": 7,
                             "type": "Imf_2_5::Header",
-                            "record": 1526,
+                            "record": 1532,
                             "const": false
                         },
                         "const": false
@@ -1470,13 +1466,13 @@
                     "name": "img",
                     "type": {
                         "kind": "Reference",
-                        "id": 411,
+                        "id": 415,
                         "type": "class Imf_2_5::FlatImage &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 410,
+                            "id": 414,
                             "type": "Imf_2_5::FlatImage",
-                            "record": 2010,
+                            "record": 2026,
                             "const": false
                         },
                         "const": false
@@ -1487,15 +1483,20 @@
         },
         {
             "kind": "Function",
-            "id": 1048,
+            "id": 1053,
             "short_name": "loadFlatTiledImage",
             "qualified_name": "Imf_2_5::loadFlatTiledImage",
             "in_binding": false,
             "in_library": false,
-            "attributes": null,
+            "attributes": [
+                "cppmm|rename|loadFlatTiledImage_with_header"
+            ],
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 3,
+                "id": 4,
                 "type": "void",
                 "const": false
             },
@@ -1505,11 +1506,85 @@
                     "name": "fileName",
                     "type": {
                         "kind": "Reference",
-                        "id": 5,
+                        "id": 6,
                         "type": "const class std::__cxx11::basic_string<char> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 4,
+                            "id": 5,
+                            "type": "std::__cxx11::basic_string<char>",
+                            "record": -1,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "hdr",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 555,
+                        "type": "class Imf_2_5::Header &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 7,
+                            "type": "Imf_2_5::Header",
+                            "record": 1532,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 2,
+                    "name": "img",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 415,
+                        "type": "class Imf_2_5::FlatImage &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 414,
+                            "type": "Imf_2_5::FlatImage",
+                            "record": 2026,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 1054,
+            "short_name": "loadFlatTiledImage",
+            "qualified_name": "Imf_2_5::loadFlatTiledImage",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 4,
+                "type": "void",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fileName",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 6,
+                        "type": "const class std::__cxx11::basic_string<char> &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 5,
                             "type": "std::__cxx11::basic_string<char>",
                             "record": -1,
                             "const": true
@@ -1523,13 +1598,13 @@
                     "name": "img",
                     "type": {
                         "kind": "Reference",
-                        "id": 411,
+                        "id": 415,
                         "type": "class Imf_2_5::FlatImage &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 410,
+                            "id": 414,
                             "type": "Imf_2_5::FlatImage",
-                            "record": 2010,
+                            "record": 2026,
                             "const": false
                         },
                         "const": false
@@ -1540,15 +1615,18 @@
         },
         {
             "kind": "Function",
-            "id": 1049,
+            "id": 1055,
             "short_name": "loadFlatTiledImage",
             "qualified_name": "Imf_2_5::loadFlatTiledImage",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 3,
+                "id": 4,
                 "type": "void",
                 "const": false
             },
@@ -1558,11 +1636,11 @@
                     "name": "fileName",
                     "type": {
                         "kind": "Reference",
-                        "id": 5,
+                        "id": 6,
                         "type": "const class std::__cxx11::basic_string<char> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 4,
+                            "id": 5,
                             "type": "std::__cxx11::basic_string<char>",
                             "record": -1,
                             "const": true
@@ -1576,13 +1654,13 @@
                     "name": "img",
                     "type": {
                         "kind": "Reference",
-                        "id": 411,
+                        "id": 415,
                         "type": "class Imf_2_5::FlatImage &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 410,
+                            "id": 414,
                             "type": "Imf_2_5::FlatImage",
-                            "record": 2010,
+                            "record": 2026,
                             "const": false
                         },
                         "const": false

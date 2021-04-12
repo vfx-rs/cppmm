@@ -9,12 +9,12 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 1624,
+    "id": 1632,
     "decls": [
         {
             "kind": "Namespace",
             "name": "Imf_2_5",
-            "id": 26,
+            "id": 27,
             "short_name": "Imf_2_5"
         },
         {
@@ -22,9 +22,9 @@
             "name": "Imf_2_5::DeepScanLineOutputPart",
             "short_name": "DeepScanLineOutputPart",
             "namespaces": [
-                26
+                27
             ],
-            "id": 1625,
+            "id": 1633,
             "abstract": false,
             "size": 64,
             "align": 64,
@@ -38,13 +38,13 @@
                     "name": "file",
                     "type": {
                         "kind": "Pointer",
-                        "id": 1637,
+                        "id": 1645,
                         "type": "class Imf_2_5::DeepScanLineOutputFile *",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 1636,
+                            "id": 1644,
                             "type": "Imf_2_5::DeepScanLineOutputFile",
-                            "record": 991,
+                            "record": 997,
                             "const": false
                         },
                         "const": false
@@ -74,7 +74,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -84,13 +84,13 @@
                             "name": "multiPartFile",
                             "type": {
                                 "kind": "Reference",
-                                "id": 1311,
+                                "id": 1317,
                                 "type": "class Imf_2_5::MultiPartOutputFile &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 1310,
+                                    "id": 1316,
                                     "type": "Imf_2_5::MultiPartOutputFile",
-                                    "record": 2928,
+                                    "record": 2917,
                                     "const": false
                                 },
                                 "const": false
@@ -102,7 +102,7 @@
                             "name": "partNumber",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -132,11 +132,11 @@
                     "attributes": null,
                     "return": {
                         "kind": "Pointer",
-                        "id": 52,
+                        "id": 53,
                         "type": "const char *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 51,
+                            "id": 52,
                             "type": "char",
                             "const": true
                         },
@@ -166,13 +166,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 7,
+                        "id": 8,
                         "type": "const class Imf_2_5::Header &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 6,
+                            "id": 7,
                             "type": "Imf_2_5::Header",
-                            "record": 1526,
+                            "record": 1532,
                             "const": true
                         },
                         "const": false
@@ -201,7 +201,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -211,13 +211,13 @@
                             "name": "frameBuffer",
                             "type": {
                                 "kind": "Reference",
-                                "id": 147,
+                                "id": 148,
                                 "type": "const class Imf_2_5::DeepFrameBuffer &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 146,
+                                    "id": 147,
                                     "type": "Imf_2_5::DeepFrameBuffer",
-                                    "record": 344,
+                                    "record": 346,
                                     "const": true
                                 },
                                 "const": false
@@ -248,13 +248,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 147,
+                        "id": 148,
                         "type": "const class Imf_2_5::DeepFrameBuffer &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 146,
+                            "id": 147,
                             "type": "Imf_2_5::DeepFrameBuffer",
-                            "record": 344,
+                            "record": 346,
                             "const": true
                         },
                         "const": false
@@ -283,7 +283,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -293,7 +293,7 @@
                             "name": "numScanLines",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -323,7 +323,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -351,7 +351,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -361,13 +361,13 @@
                             "name": "in",
                             "type": {
                                 "kind": "Reference",
-                                "id": 178,
+                                "id": 179,
                                 "type": "class Imf_2_5::DeepScanLineInputFile &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 105,
+                                    "id": 106,
                                     "type": "Imf_2_5::DeepScanLineInputFile",
-                                    "record": 173,
+                                    "record": 174,
                                     "const": false
                                 },
                                 "const": false
@@ -400,7 +400,7 @@
                     ],
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -410,13 +410,13 @@
                             "name": "in",
                             "type": {
                                 "kind": "Reference",
-                                "id": 986,
+                                "id": 992,
                                 "type": "class Imf_2_5::DeepScanLineInputPart &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 103,
+                                    "id": 104,
                                     "type": "Imf_2_5::DeepScanLineInputPart",
-                                    "record": 151,
+                                    "record": 152,
                                     "const": false
                                 },
                                 "const": false
@@ -447,7 +447,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -457,13 +457,13 @@
                             "name": "newPixels",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 22,
+                                "id": 23,
                                 "type": "const struct Imf_2_5::PreviewRgba *",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 21,
+                                    "id": 22,
                                     "type": "Imf_2_5::PreviewRgba",
-                                    "record": 1361,
+                                    "record": 1367,
                                     "const": true
                                 },
                                 "const": false

@@ -9,12 +9,12 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 928,
+    "id": 934,
     "decls": [
         {
             "kind": "Namespace",
             "name": "Imf_2_5",
-            "id": 26,
+            "id": 27,
             "short_name": "Imf_2_5"
         },
         {
@@ -22,9 +22,9 @@
             "name": "Imf_2_5::LineOrder",
             "short_name": "LineOrder",
             "namespaces": [
-                26
+                27
             ],
-            "id": 929,
+            "id": 935,
             "size": 32,
             "align": 32,
             "attributes": null,

@@ -9,441 +9,30 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 545,
+    "id": 551,
     "decls": [
         {
-            "kind": "Function",
-            "id": 551,
-            "short_name": "saveDeepImage",
-            "qualified_name": "Imf_2_5::saveDeepImage",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": [
-                "cppmm|rename|saveDeepImage_with_header"
-            ],
-            "return": {
-                "kind": "BuiltinType",
-                "id": 3,
-                "type": "void",
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "fileName",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 5,
-                        "type": "const class std::__cxx11::basic_string<char> &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 4,
-                            "type": "std::__cxx11::basic_string<char>",
-                            "record": -1,
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 1,
-                    "name": "hdr",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 7,
-                        "type": "const class Imf_2_5::Header &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 6,
-                            "type": "Imf_2_5::Header",
-                            "record": 1526,
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 2,
-                    "name": "img",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 547,
-                        "type": "const class Imf_2_5::DeepImage &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 546,
-                            "type": "Imf_2_5::DeepImage",
-                            "record": 1281,
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 3,
-                    "name": "dws",
-                    "type": {
-                        "kind": "EnumType",
-                        "id": 548,
-                        "type": "Imf_2_5::DataWindowSource",
-                        "enum": 3117,
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
-        },
-        {
-            "kind": "Function",
-            "id": 552,
-            "short_name": "saveDeepImage",
-            "qualified_name": "Imf_2_5::saveDeepImage",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": [
-                "cppmm|rename|saveDeepImage_with_header"
-            ],
-            "return": {
-                "kind": "BuiltinType",
-                "id": 3,
-                "type": "void",
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "fileName",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 5,
-                        "type": "const class std::__cxx11::basic_string<char> &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 4,
-                            "type": "std::__cxx11::basic_string<char>",
-                            "record": -1,
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 1,
-                    "name": "hdr",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 7,
-                        "type": "const class Imf_2_5::Header &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 6,
-                            "type": "Imf_2_5::Header",
-                            "record": 1526,
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 2,
-                    "name": "img",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 547,
-                        "type": "const class Imf_2_5::DeepImage &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 546,
-                            "type": "Imf_2_5::DeepImage",
-                            "record": 1281,
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 3,
-                    "name": "dws",
-                    "type": {
-                        "kind": "EnumType",
-                        "id": 548,
-                        "type": "Imf_2_5::DataWindowSource",
-                        "enum": 3117,
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
-        },
-        {
-            "kind": "Function",
-            "id": 553,
-            "short_name": "saveDeepImage",
-            "qualified_name": "Imf_2_5::saveDeepImage",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": null,
-            "return": {
-                "kind": "BuiltinType",
-                "id": 3,
-                "type": "void",
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "fileName",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 5,
-                        "type": "const class std::__cxx11::basic_string<char> &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 4,
-                            "type": "std::__cxx11::basic_string<char>",
-                            "record": -1,
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 1,
-                    "name": "img",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 547,
-                        "type": "const class Imf_2_5::DeepImage &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 546,
-                            "type": "Imf_2_5::DeepImage",
-                            "record": 1281,
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
-        },
-        {
-            "kind": "Function",
-            "id": 554,
-            "short_name": "saveDeepImage",
-            "qualified_name": "Imf_2_5::saveDeepImage",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": null,
-            "return": {
-                "kind": "BuiltinType",
-                "id": 3,
-                "type": "void",
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "fileName",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 5,
-                        "type": "const class std::__cxx11::basic_string<char> &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 4,
-                            "type": "std::__cxx11::basic_string<char>",
-                            "record": -1,
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 1,
-                    "name": "img",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 547,
-                        "type": "const class Imf_2_5::DeepImage &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 546,
-                            "type": "Imf_2_5::DeepImage",
-                            "record": 1281,
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
-        },
-        {
-            "kind": "Function",
-            "id": 555,
-            "short_name": "loadDeepImage",
-            "qualified_name": "Imf_2_5::loadDeepImage",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": [
-                "cppmm|rename|loadDeepImage_with_header"
-            ],
-            "return": {
-                "kind": "BuiltinType",
-                "id": 3,
-                "type": "void",
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "fileName",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 5,
-                        "type": "const class std::__cxx11::basic_string<char> &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 4,
-                            "type": "std::__cxx11::basic_string<char>",
-                            "record": -1,
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 1,
-                    "name": "hdr",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 549,
-                        "type": "class Imf_2_5::Header &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 6,
-                            "type": "Imf_2_5::Header",
-                            "record": 1526,
-                            "const": false
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 2,
-                    "name": "img",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 550,
-                        "type": "class Imf_2_5::DeepImage &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 546,
-                            "type": "Imf_2_5::DeepImage",
-                            "record": 1281,
-                            "const": false
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
-        },
-        {
-            "kind": "Function",
-            "id": 556,
-            "short_name": "loadDeepImage",
-            "qualified_name": "Imf_2_5::loadDeepImage",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": [
-                "cppmm|rename|loadDeepImage_with_header"
-            ],
-            "return": {
-                "kind": "BuiltinType",
-                "id": 3,
-                "type": "void",
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "fileName",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 5,
-                        "type": "const class std::__cxx11::basic_string<char> &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 4,
-                            "type": "std::__cxx11::basic_string<char>",
-                            "record": -1,
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 1,
-                    "name": "hdr",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 549,
-                        "type": "class Imf_2_5::Header &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 6,
-                            "type": "Imf_2_5::Header",
-                            "record": 1526,
-                            "const": false
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 2,
-                    "name": "img",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 550,
-                        "type": "class Imf_2_5::DeepImage &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 546,
-                            "type": "Imf_2_5::DeepImage",
-                            "record": 1281,
-                            "const": false
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
+            "kind": "Namespace",
+            "name": "cppmm_bind::Imf_2_5",
+            "id": 3,
+            "short_name": "Imf_2_5"
         },
         {
             "kind": "Function",
             "id": 557,
-            "short_name": "loadDeepImage",
-            "qualified_name": "Imf_2_5::loadDeepImage",
+            "short_name": "saveDeepImage",
+            "qualified_name": "Imf_2_5::saveDeepImage",
             "in_binding": false,
             "in_library": false,
-            "attributes": null,
+            "attributes": [
+                "cppmm|rename|saveDeepImage_with_header"
+            ],
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 3,
+                "id": 4,
                 "type": "void",
                 "const": false
             },
@@ -453,11 +42,11 @@
                     "name": "fileName",
                     "type": {
                         "kind": "Reference",
-                        "id": 5,
+                        "id": 6,
                         "type": "const class std::__cxx11::basic_string<char> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 4,
+                            "id": 5,
                             "type": "std::__cxx11::basic_string<char>",
                             "record": -1,
                             "const": true
@@ -468,18 +57,48 @@
                 },
                 {
                     "index": 1,
+                    "name": "hdr",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 8,
+                        "type": "const class Imf_2_5::Header &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 7,
+                            "type": "Imf_2_5::Header",
+                            "record": 1532,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 2,
                     "name": "img",
                     "type": {
                         "kind": "Reference",
-                        "id": 550,
-                        "type": "class Imf_2_5::DeepImage &",
+                        "id": 553,
+                        "type": "const class Imf_2_5::DeepImage &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 546,
+                            "id": 552,
                             "type": "Imf_2_5::DeepImage",
-                            "record": 1281,
-                            "const": false
+                            "record": 1287,
+                            "const": true
                         },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 3,
+                    "name": "dws",
+                    "type": {
+                        "kind": "EnumType",
+                        "id": 554,
+                        "type": "Imf_2_5::DataWindowSource",
+                        "enum": 3114,
                         "const": false
                     },
                     "attrs": []
@@ -489,14 +108,19 @@
         {
             "kind": "Function",
             "id": 558,
-            "short_name": "loadDeepImage",
-            "qualified_name": "Imf_2_5::loadDeepImage",
+            "short_name": "saveDeepImage",
+            "qualified_name": "Imf_2_5::saveDeepImage",
             "in_binding": false,
             "in_library": false,
-            "attributes": null,
+            "attributes": [
+                "cppmm|rename|saveDeepImage_with_header"
+            ],
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 3,
+                "id": 4,
                 "type": "void",
                 "const": false
             },
@@ -506,11 +130,11 @@
                     "name": "fileName",
                     "type": {
                         "kind": "Reference",
-                        "id": 5,
+                        "id": 6,
                         "type": "const class std::__cxx11::basic_string<char> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 4,
+                            "id": 5,
                             "type": "std::__cxx11::basic_string<char>",
                             "record": -1,
                             "const": true
@@ -521,18 +145,48 @@
                 },
                 {
                     "index": 1,
+                    "name": "hdr",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 8,
+                        "type": "const class Imf_2_5::Header &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 7,
+                            "type": "Imf_2_5::Header",
+                            "record": 1532,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 2,
                     "name": "img",
                     "type": {
                         "kind": "Reference",
-                        "id": 550,
-                        "type": "class Imf_2_5::DeepImage &",
+                        "id": 553,
+                        "type": "const class Imf_2_5::DeepImage &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 546,
+                            "id": 552,
                             "type": "Imf_2_5::DeepImage",
-                            "record": 1281,
-                            "const": false
+                            "record": 1287,
+                            "const": true
                         },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 3,
+                    "name": "dws",
+                    "type": {
+                        "kind": "EnumType",
+                        "id": 554,
+                        "type": "Imf_2_5::DataWindowSource",
+                        "enum": 3114,
                         "const": false
                     },
                     "attrs": []
@@ -542,16 +196,17 @@
         {
             "kind": "Function",
             "id": 559,
-            "short_name": "saveDeepScanLineImage",
-            "qualified_name": "Imf_2_5::saveDeepScanLineImage",
+            "short_name": "saveDeepImage",
+            "qualified_name": "Imf_2_5::saveDeepImage",
             "in_binding": false,
             "in_library": false,
-            "attributes": [
-                "cppmm|rename|saveDeepScanLineImage_with_header"
+            "attributes": null,
+            "namespaces": [
+                27
             ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 3,
+                "id": 4,
                 "type": "void",
                 "const": false
             },
@@ -561,11 +216,11 @@
                     "name": "fileName",
                     "type": {
                         "kind": "Reference",
-                        "id": 5,
+                        "id": 6,
                         "type": "const class std::__cxx11::basic_string<char> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 4,
+                            "id": 5,
                             "type": "std::__cxx11::basic_string<char>",
                             "record": -1,
                             "const": true
@@ -576,48 +231,18 @@
                 },
                 {
                     "index": 1,
-                    "name": "hdr",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 7,
-                        "type": "const class Imf_2_5::Header &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 6,
-                            "type": "Imf_2_5::Header",
-                            "record": 1526,
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 2,
                     "name": "img",
                     "type": {
                         "kind": "Reference",
-                        "id": 547,
+                        "id": 553,
                         "type": "const class Imf_2_5::DeepImage &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 546,
+                            "id": 552,
                             "type": "Imf_2_5::DeepImage",
-                            "record": 1281,
+                            "record": 1287,
                             "const": true
                         },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 3,
-                    "name": "dws",
-                    "type": {
-                        "kind": "EnumType",
-                        "id": 548,
-                        "type": "Imf_2_5::DataWindowSource",
-                        "enum": 3117,
                         "const": false
                     },
                     "attrs": []
@@ -627,16 +252,17 @@
         {
             "kind": "Function",
             "id": 560,
-            "short_name": "saveDeepScanLineImage",
-            "qualified_name": "Imf_2_5::saveDeepScanLineImage",
+            "short_name": "saveDeepImage",
+            "qualified_name": "Imf_2_5::saveDeepImage",
             "in_binding": false,
             "in_library": false,
-            "attributes": [
-                "cppmm|rename|saveDeepScanLineImage_with_header"
+            "attributes": null,
+            "namespaces": [
+                27
             ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 3,
+                "id": 4,
                 "type": "void",
                 "const": false
             },
@@ -646,11 +272,69 @@
                     "name": "fileName",
                     "type": {
                         "kind": "Reference",
-                        "id": 5,
+                        "id": 6,
                         "type": "const class std::__cxx11::basic_string<char> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 4,
+                            "id": 5,
+                            "type": "std::__cxx11::basic_string<char>",
+                            "record": -1,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "img",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 553,
+                        "type": "const class Imf_2_5::DeepImage &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 552,
+                            "type": "Imf_2_5::DeepImage",
+                            "record": 1287,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 561,
+            "short_name": "loadDeepImage",
+            "qualified_name": "Imf_2_5::loadDeepImage",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|rename|loadDeepImage_with_header"
+            ],
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 4,
+                "type": "void",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fileName",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 6,
+                        "type": "const class std::__cxx11::basic_string<char> &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 5,
                             "type": "std::__cxx11::basic_string<char>",
                             "record": -1,
                             "const": true
@@ -664,14 +348,14 @@
                     "name": "hdr",
                     "type": {
                         "kind": "Reference",
-                        "id": 7,
-                        "type": "const class Imf_2_5::Header &",
+                        "id": 555,
+                        "type": "class Imf_2_5::Header &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 6,
+                            "id": 7,
                             "type": "Imf_2_5::Header",
-                            "record": 1526,
-                            "const": true
+                            "record": 1532,
+                            "const": false
                         },
                         "const": false
                     },
@@ -682,79 +366,14 @@
                     "name": "img",
                     "type": {
                         "kind": "Reference",
-                        "id": 547,
-                        "type": "const class Imf_2_5::DeepImage &",
+                        "id": 556,
+                        "type": "class Imf_2_5::DeepImage &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 546,
+                            "id": 552,
                             "type": "Imf_2_5::DeepImage",
-                            "record": 1281,
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 3,
-                    "name": "dws",
-                    "type": {
-                        "kind": "EnumType",
-                        "id": 548,
-                        "type": "Imf_2_5::DataWindowSource",
-                        "enum": 3117,
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
-        },
-        {
-            "kind": "Function",
-            "id": 561,
-            "short_name": "saveDeepScanLineImage",
-            "qualified_name": "Imf_2_5::saveDeepScanLineImage",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": null,
-            "return": {
-                "kind": "BuiltinType",
-                "id": 3,
-                "type": "void",
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "fileName",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 5,
-                        "type": "const class std::__cxx11::basic_string<char> &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 4,
-                            "type": "std::__cxx11::basic_string<char>",
-                            "record": -1,
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 1,
-                    "name": "img",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 547,
-                        "type": "const class Imf_2_5::DeepImage &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 546,
-                            "type": "Imf_2_5::DeepImage",
-                            "record": 1281,
-                            "const": true
+                            "record": 1287,
+                            "const": false
                         },
                         "const": false
                     },
@@ -765,69 +384,19 @@
         {
             "kind": "Function",
             "id": 562,
-            "short_name": "saveDeepScanLineImage",
-            "qualified_name": "Imf_2_5::saveDeepScanLineImage",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": null,
-            "return": {
-                "kind": "BuiltinType",
-                "id": 3,
-                "type": "void",
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "fileName",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 5,
-                        "type": "const class std::__cxx11::basic_string<char> &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 4,
-                            "type": "std::__cxx11::basic_string<char>",
-                            "record": -1,
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 1,
-                    "name": "img",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 547,
-                        "type": "const class Imf_2_5::DeepImage &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 546,
-                            "type": "Imf_2_5::DeepImage",
-                            "record": 1281,
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
-        },
-        {
-            "kind": "Function",
-            "id": 563,
-            "short_name": "loadDeepScanLineImage",
-            "qualified_name": "Imf_2_5::loadDeepScanLineImage",
+            "short_name": "loadDeepImage",
+            "qualified_name": "Imf_2_5::loadDeepImage",
             "in_binding": false,
             "in_library": false,
             "attributes": [
-                "cppmm|rename|loadDeepScanLineImage_with_header"
+                "cppmm|rename|loadDeepImage_with_header"
+            ],
+            "namespaces": [
+                27
             ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 3,
+                "id": 4,
                 "type": "void",
                 "const": false
             },
@@ -837,11 +406,11 @@
                     "name": "fileName",
                     "type": {
                         "kind": "Reference",
-                        "id": 5,
+                        "id": 6,
                         "type": "const class std::__cxx11::basic_string<char> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 4,
+                            "id": 5,
                             "type": "std::__cxx11::basic_string<char>",
                             "record": -1,
                             "const": true
@@ -855,13 +424,13 @@
                     "name": "hdr",
                     "type": {
                         "kind": "Reference",
-                        "id": 549,
+                        "id": 555,
                         "type": "class Imf_2_5::Header &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 6,
+                            "id": 7,
                             "type": "Imf_2_5::Header",
-                            "record": 1526,
+                            "record": 1532,
                             "const": false
                         },
                         "const": false
@@ -873,13 +442,69 @@
                     "name": "img",
                     "type": {
                         "kind": "Reference",
-                        "id": 550,
+                        "id": 556,
                         "type": "class Imf_2_5::DeepImage &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 546,
+                            "id": 552,
                             "type": "Imf_2_5::DeepImage",
-                            "record": 1281,
+                            "record": 1287,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 563,
+            "short_name": "loadDeepImage",
+            "qualified_name": "Imf_2_5::loadDeepImage",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 4,
+                "type": "void",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fileName",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 6,
+                        "type": "const class std::__cxx11::basic_string<char> &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 5,
+                            "type": "std::__cxx11::basic_string<char>",
+                            "record": -1,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "img",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 556,
+                        "type": "class Imf_2_5::DeepImage &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 552,
+                            "type": "Imf_2_5::DeepImage",
+                            "record": 1287,
                             "const": false
                         },
                         "const": false
@@ -891,16 +516,17 @@
         {
             "kind": "Function",
             "id": 564,
-            "short_name": "loadDeepScanLineImage",
-            "qualified_name": "Imf_2_5::loadDeepScanLineImage",
+            "short_name": "loadDeepImage",
+            "qualified_name": "Imf_2_5::loadDeepImage",
             "in_binding": false,
             "in_library": false,
-            "attributes": [
-                "cppmm|rename|loadDeepScanLineImage_with_header"
+            "attributes": null,
+            "namespaces": [
+                27
             ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 3,
+                "id": 4,
                 "type": "void",
                 "const": false
             },
@@ -910,11 +536,11 @@
                     "name": "fileName",
                     "type": {
                         "kind": "Reference",
-                        "id": 5,
+                        "id": 6,
                         "type": "const class std::__cxx11::basic_string<char> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 4,
+                            "id": 5,
                             "type": "std::__cxx11::basic_string<char>",
                             "record": -1,
                             "const": true
@@ -925,34 +551,16 @@
                 },
                 {
                     "index": 1,
-                    "name": "hdr",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 549,
-                        "type": "class Imf_2_5::Header &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 6,
-                            "type": "Imf_2_5::Header",
-                            "record": 1526,
-                            "const": false
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 2,
                     "name": "img",
                     "type": {
                         "kind": "Reference",
-                        "id": 550,
+                        "id": 556,
                         "type": "class Imf_2_5::DeepImage &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 546,
+                            "id": 552,
                             "type": "Imf_2_5::DeepImage",
-                            "record": 1281,
+                            "record": 1287,
                             "const": false
                         },
                         "const": false
@@ -964,14 +572,19 @@
         {
             "kind": "Function",
             "id": 565,
-            "short_name": "loadDeepScanLineImage",
-            "qualified_name": "Imf_2_5::loadDeepScanLineImage",
+            "short_name": "saveDeepScanLineImage",
+            "qualified_name": "Imf_2_5::saveDeepScanLineImage",
             "in_binding": false,
             "in_library": false,
-            "attributes": null,
+            "attributes": [
+                "cppmm|rename|saveDeepScanLineImage_with_header"
+            ],
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 3,
+                "id": 4,
                 "type": "void",
                 "const": false
             },
@@ -981,11 +594,11 @@
                     "name": "fileName",
                     "type": {
                         "kind": "Reference",
-                        "id": 5,
+                        "id": 6,
                         "type": "const class std::__cxx11::basic_string<char> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 4,
+                            "id": 5,
                             "type": "std::__cxx11::basic_string<char>",
                             "record": -1,
                             "const": true
@@ -996,18 +609,48 @@
                 },
                 {
                     "index": 1,
+                    "name": "hdr",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 8,
+                        "type": "const class Imf_2_5::Header &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 7,
+                            "type": "Imf_2_5::Header",
+                            "record": 1532,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 2,
                     "name": "img",
                     "type": {
                         "kind": "Reference",
-                        "id": 550,
-                        "type": "class Imf_2_5::DeepImage &",
+                        "id": 553,
+                        "type": "const class Imf_2_5::DeepImage &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 546,
+                            "id": 552,
                             "type": "Imf_2_5::DeepImage",
-                            "record": 1281,
-                            "const": false
+                            "record": 1287,
+                            "const": true
                         },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 3,
+                    "name": "dws",
+                    "type": {
+                        "kind": "EnumType",
+                        "id": 554,
+                        "type": "Imf_2_5::DataWindowSource",
+                        "enum": 3114,
                         "const": false
                     },
                     "attrs": []
@@ -1017,14 +660,19 @@
         {
             "kind": "Function",
             "id": 566,
-            "short_name": "loadDeepScanLineImage",
-            "qualified_name": "Imf_2_5::loadDeepScanLineImage",
+            "short_name": "saveDeepScanLineImage",
+            "qualified_name": "Imf_2_5::saveDeepScanLineImage",
             "in_binding": false,
             "in_library": false,
-            "attributes": null,
+            "attributes": [
+                "cppmm|rename|saveDeepScanLineImage_with_header"
+            ],
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 3,
+                "id": 4,
                 "type": "void",
                 "const": false
             },
@@ -1034,11 +682,11 @@
                     "name": "fileName",
                     "type": {
                         "kind": "Reference",
-                        "id": 5,
+                        "id": 6,
                         "type": "const class std::__cxx11::basic_string<char> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 4,
+                            "id": 5,
                             "type": "std::__cxx11::basic_string<char>",
                             "record": -1,
                             "const": true
@@ -1049,18 +697,48 @@
                 },
                 {
                     "index": 1,
+                    "name": "hdr",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 8,
+                        "type": "const class Imf_2_5::Header &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 7,
+                            "type": "Imf_2_5::Header",
+                            "record": 1532,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 2,
                     "name": "img",
                     "type": {
                         "kind": "Reference",
-                        "id": 550,
-                        "type": "class Imf_2_5::DeepImage &",
+                        "id": 553,
+                        "type": "const class Imf_2_5::DeepImage &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 546,
+                            "id": 552,
                             "type": "Imf_2_5::DeepImage",
-                            "record": 1281,
-                            "const": false
+                            "record": 1287,
+                            "const": true
                         },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 3,
+                    "name": "dws",
+                    "type": {
+                        "kind": "EnumType",
+                        "id": 554,
+                        "type": "Imf_2_5::DataWindowSource",
+                        "enum": 3114,
                         "const": false
                     },
                     "attrs": []
@@ -1070,16 +748,17 @@
         {
             "kind": "Function",
             "id": 567,
-            "short_name": "saveDeepTiledImage",
-            "qualified_name": "Imf_2_5::saveDeepTiledImage",
+            "short_name": "saveDeepScanLineImage",
+            "qualified_name": "Imf_2_5::saveDeepScanLineImage",
             "in_binding": false,
             "in_library": false,
-            "attributes": [
-                "cppmm|rename|saveDeepTiledImage_with_header"
+            "attributes": null,
+            "namespaces": [
+                27
             ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 3,
+                "id": 4,
                 "type": "void",
                 "const": false
             },
@@ -1089,11 +768,11 @@
                     "name": "fileName",
                     "type": {
                         "kind": "Reference",
-                        "id": 5,
+                        "id": 6,
                         "type": "const class std::__cxx11::basic_string<char> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 4,
+                            "id": 5,
                             "type": "std::__cxx11::basic_string<char>",
                             "record": -1,
                             "const": true
@@ -1104,48 +783,18 @@
                 },
                 {
                     "index": 1,
-                    "name": "hdr",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 7,
-                        "type": "const class Imf_2_5::Header &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 6,
-                            "type": "Imf_2_5::Header",
-                            "record": 1526,
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 2,
                     "name": "img",
                     "type": {
                         "kind": "Reference",
-                        "id": 547,
+                        "id": 553,
                         "type": "const class Imf_2_5::DeepImage &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 546,
+                            "id": 552,
                             "type": "Imf_2_5::DeepImage",
-                            "record": 1281,
+                            "record": 1287,
                             "const": true
                         },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 3,
-                    "name": "dws",
-                    "type": {
-                        "kind": "EnumType",
-                        "id": 548,
-                        "type": "Imf_2_5::DataWindowSource",
-                        "enum": 3117,
                         "const": false
                     },
                     "attrs": []
@@ -1155,16 +804,17 @@
         {
             "kind": "Function",
             "id": 568,
-            "short_name": "saveDeepTiledImage",
-            "qualified_name": "Imf_2_5::saveDeepTiledImage",
+            "short_name": "saveDeepScanLineImage",
+            "qualified_name": "Imf_2_5::saveDeepScanLineImage",
             "in_binding": false,
             "in_library": false,
-            "attributes": [
-                "cppmm|rename|saveDeepTiledImage_with_header"
+            "attributes": null,
+            "namespaces": [
+                27
             ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 3,
+                "id": 4,
                 "type": "void",
                 "const": false
             },
@@ -1174,11 +824,69 @@
                     "name": "fileName",
                     "type": {
                         "kind": "Reference",
-                        "id": 5,
+                        "id": 6,
                         "type": "const class std::__cxx11::basic_string<char> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 4,
+                            "id": 5,
+                            "type": "std::__cxx11::basic_string<char>",
+                            "record": -1,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "img",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 553,
+                        "type": "const class Imf_2_5::DeepImage &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 552,
+                            "type": "Imf_2_5::DeepImage",
+                            "record": 1287,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 569,
+            "short_name": "loadDeepScanLineImage",
+            "qualified_name": "Imf_2_5::loadDeepScanLineImage",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|rename|loadDeepScanLineImage_with_header"
+            ],
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 4,
+                "type": "void",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fileName",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 6,
+                        "type": "const class std::__cxx11::basic_string<char> &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 5,
                             "type": "std::__cxx11::basic_string<char>",
                             "record": -1,
                             "const": true
@@ -1192,14 +900,14 @@
                     "name": "hdr",
                     "type": {
                         "kind": "Reference",
-                        "id": 7,
-                        "type": "const class Imf_2_5::Header &",
+                        "id": 555,
+                        "type": "class Imf_2_5::Header &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 6,
+                            "id": 7,
                             "type": "Imf_2_5::Header",
-                            "record": 1526,
-                            "const": true
+                            "record": 1532,
+                            "const": false
                         },
                         "const": false
                     },
@@ -1210,79 +918,14 @@
                     "name": "img",
                     "type": {
                         "kind": "Reference",
-                        "id": 547,
-                        "type": "const class Imf_2_5::DeepImage &",
+                        "id": 556,
+                        "type": "class Imf_2_5::DeepImage &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 546,
+                            "id": 552,
                             "type": "Imf_2_5::DeepImage",
-                            "record": 1281,
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 3,
-                    "name": "dws",
-                    "type": {
-                        "kind": "EnumType",
-                        "id": 548,
-                        "type": "Imf_2_5::DataWindowSource",
-                        "enum": 3117,
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
-        },
-        {
-            "kind": "Function",
-            "id": 569,
-            "short_name": "saveDeepTiledImage",
-            "qualified_name": "Imf_2_5::saveDeepTiledImage",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": null,
-            "return": {
-                "kind": "BuiltinType",
-                "id": 3,
-                "type": "void",
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "fileName",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 5,
-                        "type": "const class std::__cxx11::basic_string<char> &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 4,
-                            "type": "std::__cxx11::basic_string<char>",
-                            "record": -1,
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 1,
-                    "name": "img",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 547,
-                        "type": "const class Imf_2_5::DeepImage &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 546,
-                            "type": "Imf_2_5::DeepImage",
-                            "record": 1281,
-                            "const": true
+                            "record": 1287,
+                            "const": false
                         },
                         "const": false
                     },
@@ -1293,69 +936,19 @@
         {
             "kind": "Function",
             "id": 570,
-            "short_name": "saveDeepTiledImage",
-            "qualified_name": "Imf_2_5::saveDeepTiledImage",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": null,
-            "return": {
-                "kind": "BuiltinType",
-                "id": 3,
-                "type": "void",
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "fileName",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 5,
-                        "type": "const class std::__cxx11::basic_string<char> &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 4,
-                            "type": "std::__cxx11::basic_string<char>",
-                            "record": -1,
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 1,
-                    "name": "img",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 547,
-                        "type": "const class Imf_2_5::DeepImage &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 546,
-                            "type": "Imf_2_5::DeepImage",
-                            "record": 1281,
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
-        },
-        {
-            "kind": "Function",
-            "id": 571,
-            "short_name": "loadDeepTiledImage",
-            "qualified_name": "Imf_2_5::loadDeepTiledImage",
+            "short_name": "loadDeepScanLineImage",
+            "qualified_name": "Imf_2_5::loadDeepScanLineImage",
             "in_binding": false,
             "in_library": false,
             "attributes": [
-                "cppmm|rename|loadDeepTiledImage_with_header"
+                "cppmm|rename|loadDeepScanLineImage_with_header"
+            ],
+            "namespaces": [
+                27
             ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 3,
+                "id": 4,
                 "type": "void",
                 "const": false
             },
@@ -1365,11 +958,11 @@
                     "name": "fileName",
                     "type": {
                         "kind": "Reference",
-                        "id": 5,
+                        "id": 6,
                         "type": "const class std::__cxx11::basic_string<char> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 4,
+                            "id": 5,
                             "type": "std::__cxx11::basic_string<char>",
                             "record": -1,
                             "const": true
@@ -1383,13 +976,13 @@
                     "name": "hdr",
                     "type": {
                         "kind": "Reference",
-                        "id": 549,
+                        "id": 555,
                         "type": "class Imf_2_5::Header &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 6,
+                            "id": 7,
                             "type": "Imf_2_5::Header",
-                            "record": 1526,
+                            "record": 1532,
                             "const": false
                         },
                         "const": false
@@ -1401,13 +994,69 @@
                     "name": "img",
                     "type": {
                         "kind": "Reference",
-                        "id": 550,
+                        "id": 556,
                         "type": "class Imf_2_5::DeepImage &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 546,
+                            "id": 552,
                             "type": "Imf_2_5::DeepImage",
-                            "record": 1281,
+                            "record": 1287,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 571,
+            "short_name": "loadDeepScanLineImage",
+            "qualified_name": "Imf_2_5::loadDeepScanLineImage",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 4,
+                "type": "void",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fileName",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 6,
+                        "type": "const class std::__cxx11::basic_string<char> &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 5,
+                            "type": "std::__cxx11::basic_string<char>",
+                            "record": -1,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "img",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 556,
+                        "type": "class Imf_2_5::DeepImage &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 552,
+                            "type": "Imf_2_5::DeepImage",
+                            "record": 1287,
                             "const": false
                         },
                         "const": false
@@ -1419,16 +1068,17 @@
         {
             "kind": "Function",
             "id": 572,
-            "short_name": "loadDeepTiledImage",
-            "qualified_name": "Imf_2_5::loadDeepTiledImage",
+            "short_name": "loadDeepScanLineImage",
+            "qualified_name": "Imf_2_5::loadDeepScanLineImage",
             "in_binding": false,
             "in_library": false,
-            "attributes": [
-                "cppmm|rename|loadDeepTiledImage_with_header"
+            "attributes": null,
+            "namespaces": [
+                27
             ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 3,
+                "id": 4,
                 "type": "void",
                 "const": false
             },
@@ -1438,11 +1088,69 @@
                     "name": "fileName",
                     "type": {
                         "kind": "Reference",
-                        "id": 5,
+                        "id": 6,
                         "type": "const class std::__cxx11::basic_string<char> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 4,
+                            "id": 5,
+                            "type": "std::__cxx11::basic_string<char>",
+                            "record": -1,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "img",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 556,
+                        "type": "class Imf_2_5::DeepImage &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 552,
+                            "type": "Imf_2_5::DeepImage",
+                            "record": 1287,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 573,
+            "short_name": "saveDeepTiledImage",
+            "qualified_name": "Imf_2_5::saveDeepTiledImage",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|rename|saveDeepTiledImage_with_header"
+            ],
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 4,
+                "type": "void",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fileName",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 6,
+                        "type": "const class std::__cxx11::basic_string<char> &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 5,
                             "type": "std::__cxx11::basic_string<char>",
                             "record": -1,
                             "const": true
@@ -1456,13 +1164,301 @@
                     "name": "hdr",
                     "type": {
                         "kind": "Reference",
-                        "id": 549,
+                        "id": 8,
+                        "type": "const class Imf_2_5::Header &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 7,
+                            "type": "Imf_2_5::Header",
+                            "record": 1532,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 2,
+                    "name": "img",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 553,
+                        "type": "const class Imf_2_5::DeepImage &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 552,
+                            "type": "Imf_2_5::DeepImage",
+                            "record": 1287,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 3,
+                    "name": "dws",
+                    "type": {
+                        "kind": "EnumType",
+                        "id": 554,
+                        "type": "Imf_2_5::DataWindowSource",
+                        "enum": 3114,
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 574,
+            "short_name": "saveDeepTiledImage",
+            "qualified_name": "Imf_2_5::saveDeepTiledImage",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|rename|saveDeepTiledImage_with_header"
+            ],
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 4,
+                "type": "void",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fileName",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 6,
+                        "type": "const class std::__cxx11::basic_string<char> &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 5,
+                            "type": "std::__cxx11::basic_string<char>",
+                            "record": -1,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "hdr",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 8,
+                        "type": "const class Imf_2_5::Header &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 7,
+                            "type": "Imf_2_5::Header",
+                            "record": 1532,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 2,
+                    "name": "img",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 553,
+                        "type": "const class Imf_2_5::DeepImage &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 552,
+                            "type": "Imf_2_5::DeepImage",
+                            "record": 1287,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 3,
+                    "name": "dws",
+                    "type": {
+                        "kind": "EnumType",
+                        "id": 554,
+                        "type": "Imf_2_5::DataWindowSource",
+                        "enum": 3114,
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 575,
+            "short_name": "saveDeepTiledImage",
+            "qualified_name": "Imf_2_5::saveDeepTiledImage",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 4,
+                "type": "void",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fileName",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 6,
+                        "type": "const class std::__cxx11::basic_string<char> &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 5,
+                            "type": "std::__cxx11::basic_string<char>",
+                            "record": -1,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "img",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 553,
+                        "type": "const class Imf_2_5::DeepImage &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 552,
+                            "type": "Imf_2_5::DeepImage",
+                            "record": 1287,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 576,
+            "short_name": "saveDeepTiledImage",
+            "qualified_name": "Imf_2_5::saveDeepTiledImage",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 4,
+                "type": "void",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fileName",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 6,
+                        "type": "const class std::__cxx11::basic_string<char> &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 5,
+                            "type": "std::__cxx11::basic_string<char>",
+                            "record": -1,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "img",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 553,
+                        "type": "const class Imf_2_5::DeepImage &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 552,
+                            "type": "Imf_2_5::DeepImage",
+                            "record": 1287,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 577,
+            "short_name": "loadDeepTiledImage",
+            "qualified_name": "Imf_2_5::loadDeepTiledImage",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|rename|loadDeepTiledImage_with_header"
+            ],
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 4,
+                "type": "void",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fileName",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 6,
+                        "type": "const class std::__cxx11::basic_string<char> &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 5,
+                            "type": "std::__cxx11::basic_string<char>",
+                            "record": -1,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "hdr",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 555,
                         "type": "class Imf_2_5::Header &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 6,
+                            "id": 7,
                             "type": "Imf_2_5::Header",
-                            "record": 1526,
+                            "record": 1532,
                             "const": false
                         },
                         "const": false
@@ -1474,13 +1470,13 @@
                     "name": "img",
                     "type": {
                         "kind": "Reference",
-                        "id": 550,
+                        "id": 556,
                         "type": "class Imf_2_5::DeepImage &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 546,
+                            "id": 552,
                             "type": "Imf_2_5::DeepImage",
-                            "record": 1281,
+                            "record": 1287,
                             "const": false
                         },
                         "const": false
@@ -1491,15 +1487,20 @@
         },
         {
             "kind": "Function",
-            "id": 573,
+            "id": 578,
             "short_name": "loadDeepTiledImage",
             "qualified_name": "Imf_2_5::loadDeepTiledImage",
             "in_binding": false,
             "in_library": false,
-            "attributes": null,
+            "attributes": [
+                "cppmm|rename|loadDeepTiledImage_with_header"
+            ],
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 3,
+                "id": 4,
                 "type": "void",
                 "const": false
             },
@@ -1509,11 +1510,85 @@
                     "name": "fileName",
                     "type": {
                         "kind": "Reference",
-                        "id": 5,
+                        "id": 6,
                         "type": "const class std::__cxx11::basic_string<char> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 4,
+                            "id": 5,
+                            "type": "std::__cxx11::basic_string<char>",
+                            "record": -1,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "hdr",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 555,
+                        "type": "class Imf_2_5::Header &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 7,
+                            "type": "Imf_2_5::Header",
+                            "record": 1532,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 2,
+                    "name": "img",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 556,
+                        "type": "class Imf_2_5::DeepImage &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 552,
+                            "type": "Imf_2_5::DeepImage",
+                            "record": 1287,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 579,
+            "short_name": "loadDeepTiledImage",
+            "qualified_name": "Imf_2_5::loadDeepTiledImage",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 4,
+                "type": "void",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fileName",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 6,
+                        "type": "const class std::__cxx11::basic_string<char> &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 5,
                             "type": "std::__cxx11::basic_string<char>",
                             "record": -1,
                             "const": true
@@ -1527,13 +1602,13 @@
                     "name": "img",
                     "type": {
                         "kind": "Reference",
-                        "id": 550,
+                        "id": 556,
                         "type": "class Imf_2_5::DeepImage &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 546,
+                            "id": 552,
                             "type": "Imf_2_5::DeepImage",
-                            "record": 1281,
+                            "record": 1287,
                             "const": false
                         },
                         "const": false
@@ -1544,15 +1619,18 @@
         },
         {
             "kind": "Function",
-            "id": 574,
+            "id": 580,
             "short_name": "loadDeepTiledImage",
             "qualified_name": "Imf_2_5::loadDeepTiledImage",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 3,
+                "id": 4,
                 "type": "void",
                 "const": false
             },
@@ -1562,11 +1640,11 @@
                     "name": "fileName",
                     "type": {
                         "kind": "Reference",
-                        "id": 5,
+                        "id": 6,
                         "type": "const class std::__cxx11::basic_string<char> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 4,
+                            "id": 5,
                             "type": "std::__cxx11::basic_string<char>",
                             "record": -1,
                             "const": true
@@ -1580,13 +1658,13 @@
                     "name": "img",
                     "type": {
                         "kind": "Reference",
-                        "id": 550,
+                        "id": 556,
                         "type": "class Imf_2_5::DeepImage &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 546,
+                            "id": 552,
                             "type": "Imf_2_5::DeepImage",
-                            "record": 1281,
+                            "record": 1287,
                             "const": false
                         },
                         "const": false

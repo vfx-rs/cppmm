@@ -9,12 +9,12 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 1380,
+    "id": 1386,
     "decls": [
         {
             "kind": "Namespace",
             "name": "Imf_2_5",
-            "id": 26,
+            "id": 27,
             "short_name": "Imf_2_5"
         },
         {
@@ -22,9 +22,9 @@
             "name": "Imf_2_5::Array<float>",
             "short_name": "Array",
             "namespaces": [
-                26
+                27
             ],
-            "id": 1381,
+            "id": 1387,
             "abstract": false,
             "size": 128,
             "align": 64,
@@ -38,7 +38,7 @@
                     "name": "_size",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 102,
+                        "id": 103,
                         "type": "long",
                         "const": false
                     }
@@ -48,11 +48,11 @@
                     "name": "_data",
                     "type": {
                         "kind": "Pointer",
-                        "id": 128,
+                        "id": 129,
                         "type": "float *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 14,
+                            "id": 15,
                             "type": "float",
                             "const": false
                         },
@@ -85,7 +85,7 @@
                     ],
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -115,7 +115,7 @@
                     ],
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -125,7 +125,7 @@
                             "name": "size",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 102,
+                                "id": 103,
                                 "type": "long",
                                 "const": false
                             },
@@ -157,7 +157,7 @@
                     ],
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -187,11 +187,11 @@
                     ],
                     "return": {
                         "kind": "Pointer",
-                        "id": 128,
+                        "id": 129,
                         "type": "float *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 14,
+                            "id": 15,
                             "type": "float",
                             "const": false
                         },
@@ -223,11 +223,11 @@
                     ],
                     "return": {
                         "kind": "Pointer",
-                        "id": 129,
+                        "id": 130,
                         "type": "const float *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 14,
+                            "id": 15,
                             "type": "float",
                             "const": true
                         },
@@ -257,7 +257,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -267,7 +267,7 @@
                             "name": "size",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 102,
+                                "id": 103,
                                 "type": "long",
                                 "const": false
                             },
@@ -297,7 +297,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -307,7 +307,7 @@
                             "name": "size",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 102,
+                                "id": 103,
                                 "type": "long",
                                 "const": false
                             },
@@ -337,7 +337,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 102,
+                        "id": 103,
                         "type": "long",
                         "const": false
                     },
@@ -350,9 +350,9 @@
             "name": "Imf_2_5::Array2D<float>",
             "short_name": "Array2D",
             "namespaces": [
-                26
+                27
             ],
-            "id": 1390,
+            "id": 1396,
             "abstract": false,
             "size": 192,
             "align": 64,
@@ -366,7 +366,7 @@
                     "name": "_sizeX",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 102,
+                        "id": 103,
                         "type": "long",
                         "const": false
                     }
@@ -376,7 +376,7 @@
                     "name": "_sizeY",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 102,
+                        "id": 103,
                         "type": "long",
                         "const": false
                     }
@@ -386,11 +386,11 @@
                     "name": "_data",
                     "type": {
                         "kind": "Pointer",
-                        "id": 128,
+                        "id": 129,
                         "type": "float *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 14,
+                            "id": 15,
                             "type": "float",
                             "const": false
                         },
@@ -423,7 +423,7 @@
                     ],
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -453,7 +453,7 @@
                     ],
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -463,7 +463,7 @@
                             "name": "sizeX",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 102,
+                                "id": 103,
                                 "type": "long",
                                 "const": false
                             },
@@ -474,7 +474,7 @@
                             "name": "sizeY",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 102,
+                                "id": 103,
                                 "type": "long",
                                 "const": false
                             },
@@ -506,7 +506,7 @@
                     ],
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -536,11 +536,11 @@
                     ],
                     "return": {
                         "kind": "Pointer",
-                        "id": 128,
+                        "id": 129,
                         "type": "float *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 14,
+                            "id": 15,
                             "type": "float",
                             "const": false
                         },
@@ -552,7 +552,7 @@
                             "name": "x",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 102,
+                                "id": 103,
                                 "type": "long",
                                 "const": false
                             },
@@ -584,11 +584,11 @@
                     ],
                     "return": {
                         "kind": "Pointer",
-                        "id": 129,
+                        "id": 130,
                         "type": "const float *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 14,
+                            "id": 15,
                             "type": "float",
                             "const": true
                         },
@@ -600,7 +600,7 @@
                             "name": "x",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 102,
+                                "id": 103,
                                 "type": "long",
                                 "const": false
                             },
@@ -630,7 +630,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -640,7 +640,7 @@
                             "name": "sizeX",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 102,
+                                "id": 103,
                                 "type": "long",
                                 "const": false
                             },
@@ -651,7 +651,7 @@
                             "name": "sizeY",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 102,
+                                "id": 103,
                                 "type": "long",
                                 "const": false
                             },
@@ -681,7 +681,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -691,7 +691,7 @@
                             "name": "sizeX",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 102,
+                                "id": 103,
                                 "type": "long",
                                 "const": false
                             },
@@ -702,7 +702,7 @@
                             "name": "sizeY",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 102,
+                                "id": 103,
                                 "type": "long",
                                 "const": false
                             },
@@ -732,7 +732,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 102,
+                        "id": 103,
                         "type": "long",
                         "const": false
                     },
@@ -760,7 +760,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 102,
+                        "id": 103,
                         "type": "long",
                         "const": false
                     },

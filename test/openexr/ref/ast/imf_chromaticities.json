@@ -9,12 +9,12 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 1620,
+    "id": 1628,
     "decls": [
         {
             "kind": "Namespace",
             "name": "Imf_2_5",
-            "id": 26,
+            "id": 27,
             "short_name": "Imf_2_5"
         },
         {
@@ -22,9 +22,9 @@
             "name": "Imf_2_5::Chromaticities",
             "short_name": "Chromaticities",
             "namespaces": [
-                26
+                27
             ],
-            "id": 1621,
+            "id": 1629,
             "abstract": false,
             "size": 256,
             "align": 32,
@@ -38,7 +38,7 @@
                     "name": "red",
                     "type": {
                         "kind": "RecordType",
-                        "id": 15,
+                        "id": 16,
                         "type": "Imath_2_5::Vec2<float>",
                         "record": 3502,
                         "const": false
@@ -49,7 +49,7 @@
                     "name": "green",
                     "type": {
                         "kind": "RecordType",
-                        "id": 15,
+                        "id": 16,
                         "type": "Imath_2_5::Vec2<float>",
                         "record": 3502,
                         "const": false
@@ -60,7 +60,7 @@
                     "name": "blue",
                     "type": {
                         "kind": "RecordType",
-                        "id": 15,
+                        "id": 16,
                         "type": "Imath_2_5::Vec2<float>",
                         "record": 3502,
                         "const": false
@@ -71,7 +71,7 @@
                     "name": "white",
                     "type": {
                         "kind": "RecordType",
-                        "id": 15,
+                        "id": 16,
                         "type": "Imath_2_5::Vec2<float>",
                         "record": 3502,
                         "const": false

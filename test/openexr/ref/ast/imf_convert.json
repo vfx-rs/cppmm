@@ -9,19 +9,28 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 1190,
+    "id": 1196,
     "decls": [
         {
+            "kind": "Namespace",
+            "name": "cppmm_bind::Imf_2_5",
+            "id": 3,
+            "short_name": "Imf_2_5"
+        },
+        {
             "kind": "Function",
-            "id": 1191,
+            "id": 1197,
             "short_name": "halfToUint",
             "qualified_name": "Imf_2_5::halfToUint",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 280,
+                "id": 281,
                 "type": "unsigned int",
                 "const": false
             },
@@ -31,9 +40,9 @@
                     "name": "h",
                     "type": {
                         "kind": "RecordType",
-                        "id": 227,
+                        "id": 228,
                         "type": "half",
-                        "record": 1052,
+                        "record": 1058,
                         "const": false
                     },
                     "attrs": []
@@ -42,15 +51,18 @@
         },
         {
             "kind": "Function",
-            "id": 1192,
+            "id": 1198,
             "short_name": "floatToUint",
             "qualified_name": "Imf_2_5::floatToUint",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 280,
+                "id": 281,
                 "type": "unsigned int",
                 "const": false
             },
@@ -60,7 +72,7 @@
                     "name": "f",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 14,
+                        "id": 15,
                         "type": "float",
                         "const": false
                     },
@@ -70,17 +82,20 @@
         },
         {
             "kind": "Function",
-            "id": 1193,
+            "id": 1199,
             "short_name": "uintToHalf",
             "qualified_name": "Imf_2_5::uintToHalf",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "RecordType",
-                "id": 227,
+                "id": 228,
                 "type": "half",
-                "record": 1052,
+                "record": 1058,
                 "const": false
             },
             "params": [
@@ -89,7 +104,7 @@
                     "name": "ui",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 280,
+                        "id": 281,
                         "type": "unsigned int",
                         "const": false
                     },
@@ -99,17 +114,20 @@
         },
         {
             "kind": "Function",
-            "id": 1194,
+            "id": 1200,
             "short_name": "floatToHalf",
             "qualified_name": "Imf_2_5::floatToHalf",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "RecordType",
-                "id": 227,
+                "id": 228,
                 "type": "half",
-                "record": 1052,
+                "record": 1058,
                 "const": false
             },
             "params": [
@@ -118,7 +136,7 @@
                     "name": "f",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 14,
+                        "id": 15,
                         "type": "float",
                         "const": false
                     },

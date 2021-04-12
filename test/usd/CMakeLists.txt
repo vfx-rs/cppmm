@@ -8,6 +8,7 @@ add_test(NAME ${testname}
             $<TARGET_FILE:asttoc> 
             ${CMAKE_CURRENT_SOURCE_DIR}/bind 
             ${CMAKE_BINARY_DIR}/test/${testname}/output
+            ${testname}
             ${CMAKE_CURRENT_SOURCE_DIR}/ref
             -I$ENV{OPENEXR_ROOT}/include
             -I$ENV{USD_ROOT}/include

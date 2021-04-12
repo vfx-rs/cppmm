@@ -9,12 +9,12 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 1718,
+    "id": 1728,
     "decls": [
         {
             "kind": "Namespace",
             "name": "Imf_2_5",
-            "id": 26,
+            "id": 27,
             "short_name": "Imf_2_5"
         },
         {
@@ -22,9 +22,9 @@
             "name": "Imf_2_5::Image",
             "short_name": "Image",
             "namespaces": [
-                26
+                27
             ],
-            "id": 1719,
+            "id": 1729,
             "abstract": true,
             "size": 832,
             "align": 64,
@@ -38,9 +38,9 @@
                     "name": "_dataWindow",
                     "type": {
                         "kind": "RecordType",
-                        "id": 12,
+                        "id": 13,
                         "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                        "record": 2973,
+                        "record": 2964,
                         "const": false
                     }
                 },
@@ -49,9 +49,9 @@
                     "name": "_levelMode",
                     "type": {
                         "kind": "EnumType",
-                        "id": 861,
+                        "id": 867,
                         "type": "Imf_2_5::LevelMode",
-                        "enum": 1812,
+                        "enum": 1822,
                         "const": false
                     }
                 },
@@ -60,9 +60,9 @@
                     "name": "_levelRoundingMode",
                     "type": {
                         "kind": "EnumType",
-                        "id": 862,
+                        "id": 868,
                         "type": "Imf_2_5::LevelRoundingMode",
-                        "enum": 1813,
+                        "enum": 1823,
                         "const": false
                     }
                 },
@@ -71,7 +71,7 @@
                     "name": "_channels",
                     "type": {
                         "kind": "RecordType",
-                        "id": 1308,
+                        "id": 1314,
                         "type": "std::map<std::__cxx11::basic_string<char>, Imf_2_5::Image::ChannelInfo, std::less<std::__cxx11::basic_string<char> >, std::allocator<std::pair<const std::__cxx11::basic_string<char>, Imf_2_5::Image::ChannelInfo> > >",
                         "record": -1,
                         "const": false
@@ -82,7 +82,7 @@
                     "name": "_levels",
                     "type": {
                         "kind": "RecordType",
-                        "id": 1309,
+                        "id": 1315,
                         "type": "Imf_2_5::Array2D<Imf_2_5::ImageLevel *>",
                         "record": -1,
                         "const": false
@@ -112,7 +112,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -140,7 +140,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -168,9 +168,9 @@
                     "attributes": null,
                     "return": {
                         "kind": "EnumType",
-                        "id": 861,
+                        "id": 867,
                         "type": "Imf_2_5::LevelMode",
-                        "enum": 1812,
+                        "enum": 1822,
                         "const": false
                     },
                     "params": null
@@ -197,9 +197,9 @@
                     "attributes": null,
                     "return": {
                         "kind": "EnumType",
-                        "id": 862,
+                        "id": 868,
                         "type": "Imf_2_5::LevelRoundingMode",
-                        "enum": 1813,
+                        "enum": 1823,
                         "const": false
                     },
                     "params": null
@@ -228,7 +228,7 @@
                     ],
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -256,7 +256,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -284,7 +284,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -312,13 +312,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 13,
+                        "id": 14,
                         "type": "const class Imath_2_5::Box<class Imath_2_5::Vec2<int> > &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 12,
+                            "id": 13,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2973,
+                            "record": 2964,
                             "const": true
                         },
                         "const": false
@@ -349,13 +349,13 @@
                     ],
                     "return": {
                         "kind": "Reference",
-                        "id": 13,
+                        "id": 14,
                         "type": "const class Imath_2_5::Box<class Imath_2_5::Vec2<int> > &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 12,
+                            "id": 13,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2973,
+                            "record": 2964,
                             "const": true
                         },
                         "const": false
@@ -366,7 +366,7 @@
                             "name": "l",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -396,13 +396,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 13,
+                        "id": 14,
                         "type": "const class Imath_2_5::Box<class Imath_2_5::Vec2<int> > &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 12,
+                            "id": 13,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2973,
+                            "record": 2964,
                             "const": true
                         },
                         "const": false
@@ -413,7 +413,7 @@
                             "name": "lx",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -424,7 +424,7 @@
                             "name": "ly",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -454,7 +454,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -464,7 +464,7 @@
                             "name": "lx",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -494,7 +494,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -504,7 +504,7 @@
                             "name": "ly",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -534,7 +534,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -544,13 +544,13 @@
                             "name": "dataWindow",
                             "type": {
                                 "kind": "Reference",
-                                "id": 13,
+                                "id": 14,
                                 "type": "const class Imath_2_5::Box<class Imath_2_5::Vec2<int> > &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 12,
+                                    "id": 13,
                                     "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                                    "record": 2973,
+                                    "record": 2964,
                                     "const": true
                                 },
                                 "const": false
@@ -581,7 +581,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -591,13 +591,13 @@
                             "name": "dataWindow",
                             "type": {
                                 "kind": "Reference",
-                                "id": 13,
+                                "id": 14,
                                 "type": "const class Imath_2_5::Box<class Imath_2_5::Vec2<int> > &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 12,
+                                    "id": 13,
                                     "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                                    "record": 2973,
+                                    "record": 2964,
                                     "const": true
                                 },
                                 "const": false
@@ -609,9 +609,9 @@
                             "name": "levelMode",
                             "type": {
                                 "kind": "EnumType",
-                                "id": 861,
+                                "id": 867,
                                 "type": "Imf_2_5::LevelMode",
-                                "enum": 1812,
+                                "enum": 1822,
                                 "const": false
                             },
                             "attrs": []
@@ -621,9 +621,9 @@
                             "name": "levelRoundingMode",
                             "type": {
                                 "kind": "EnumType",
-                                "id": 862,
+                                "id": 868,
                                 "type": "Imf_2_5::LevelRoundingMode",
-                                "enum": 1813,
+                                "enum": 1823,
                                 "const": false
                             },
                             "attrs": []
@@ -654,7 +654,7 @@
                     ],
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -664,7 +664,7 @@
                             "name": "dx",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -675,7 +675,7 @@
                             "name": "dy",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -705,7 +705,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -715,11 +715,11 @@
                             "name": "name",
                             "type": {
                                 "kind": "Reference",
-                                "id": 5,
+                                "id": 6,
                                 "type": "const class std::__cxx11::basic_string<char> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 4,
+                                    "id": 5,
                                     "type": "std::__cxx11::basic_string<char>",
                                     "record": -1,
                                     "const": true
@@ -733,9 +733,9 @@
                             "name": "type",
                             "type": {
                                 "kind": "EnumType",
-                                "id": 200,
+                                "id": 201,
                                 "type": "Imf_2_5::PixelType",
-                                "enum": 1859,
+                                "enum": 1869,
                                 "const": false
                             },
                             "attrs": []
@@ -745,7 +745,7 @@
                             "name": "xSampling",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -756,7 +756,7 @@
                             "name": "ySampling",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -767,7 +767,7 @@
                             "name": "pLinear",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 53,
+                                "id": 54,
                                 "type": "_Bool",
                                 "const": false
                             },
@@ -797,7 +797,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -807,11 +807,11 @@
                             "name": "name",
                             "type": {
                                 "kind": "Reference",
-                                "id": 5,
+                                "id": 6,
                                 "type": "const class std::__cxx11::basic_string<char> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 4,
+                                    "id": 5,
                                     "type": "std::__cxx11::basic_string<char>",
                                     "record": -1,
                                     "const": true
@@ -825,13 +825,13 @@
                             "name": "channel",
                             "type": {
                                 "kind": "Reference",
-                                "id": 1274,
+                                "id": 1280,
                                 "type": "const struct Imf_2_5::Channel &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 214,
+                                    "id": 215,
                                     "type": "Imf_2_5::Channel",
-                                    "record": 3209,
+                                    "record": 3206,
                                     "const": true
                                 },
                                 "const": false
@@ -862,7 +862,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -872,11 +872,11 @@
                             "name": "name",
                             "type": {
                                 "kind": "Reference",
-                                "id": 5,
+                                "id": 6,
                                 "type": "const class std::__cxx11::basic_string<char> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 4,
+                                    "id": 5,
                                     "type": "std::__cxx11::basic_string<char>",
                                     "record": -1,
                                     "const": true
@@ -909,7 +909,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -940,7 +940,7 @@
                     ],
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -950,11 +950,11 @@
                             "name": "oldName",
                             "type": {
                                 "kind": "Reference",
-                                "id": 5,
+                                "id": 6,
                                 "type": "const class std::__cxx11::basic_string<char> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 4,
+                                    "id": 5,
                                     "type": "std::__cxx11::basic_string<char>",
                                     "record": -1,
                                     "const": true
@@ -968,11 +968,11 @@
                             "name": "newName",
                             "type": {
                                 "kind": "Reference",
-                                "id": 5,
+                                "id": 6,
                                 "type": "const class std::__cxx11::basic_string<char> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 4,
+                                    "id": 5,
                                     "type": "std::__cxx11::basic_string<char>",
                                     "record": -1,
                                     "const": true
@@ -1008,7 +1008,7 @@
                     ],
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -1018,11 +1018,11 @@
                             "name": "oldToNewNames",
                             "type": {
                                 "kind": "Reference",
-                                "id": 1276,
+                                "id": 1282,
                                 "type": "const class std::map<class std::__cxx11::basic_string<char>, class std::__cxx11::basic_string<char>, struct std::less<class std::__cxx11::basic_string<char> >, class std::allocator<struct std::pair<const class std::__cxx11::basic_string<char>, class std::__cxx11::basic_string<char> > > > &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 1275,
+                                    "id": 1281,
                                     "type": "std::map<std::__cxx11::basic_string<char>, std::__cxx11::basic_string<char>, std::less<std::__cxx11::basic_string<char> >, std::allocator<std::pair<const std::__cxx11::basic_string<char>, std::__cxx11::basic_string<char> > > >",
                                     "record": -1,
                                     "const": true
@@ -1057,13 +1057,13 @@
                     ],
                     "return": {
                         "kind": "Reference",
-                        "id": 202,
+                        "id": 203,
                         "type": "class Imf_2_5::ImageLevel &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 201,
+                            "id": 202,
                             "type": "Imf_2_5::ImageLevel",
-                            "record": 1661,
+                            "record": 1669,
                             "const": false
                         },
                         "const": false
@@ -1074,7 +1074,7 @@
                             "name": "l",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -1106,13 +1106,13 @@
                     ],
                     "return": {
                         "kind": "Reference",
-                        "id": 203,
+                        "id": 204,
                         "type": "const class Imf_2_5::ImageLevel &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 201,
+                            "id": 202,
                             "type": "Imf_2_5::ImageLevel",
-                            "record": 1661,
+                            "record": 1669,
                             "const": true
                         },
                         "const": false
@@ -1123,7 +1123,7 @@
                             "name": "l",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -1153,13 +1153,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 202,
+                        "id": 203,
                         "type": "class Imf_2_5::ImageLevel &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 201,
+                            "id": 202,
                             "type": "Imf_2_5::ImageLevel",
-                            "record": 1661,
+                            "record": 1669,
                             "const": false
                         },
                         "const": false
@@ -1170,7 +1170,7 @@
                             "name": "lx",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -1181,7 +1181,7 @@
                             "name": "ly",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -1213,13 +1213,13 @@
                     ],
                     "return": {
                         "kind": "Reference",
-                        "id": 203,
+                        "id": 204,
                         "type": "const class Imf_2_5::ImageLevel &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 201,
+                            "id": 202,
                             "type": "Imf_2_5::ImageLevel",
-                            "record": 1661,
+                            "record": 1669,
                             "const": true
                         },
                         "const": false
@@ -1230,7 +1230,7 @@
                             "name": "lx",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -1241,7 +1241,7 @@
                             "name": "ly",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },

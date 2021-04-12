@@ -9,14 +9,14 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 1051,
+    "id": 1057,
     "decls": [
         {
             "kind": "Record",
             "name": "half",
             "short_name": "half",
             "namespaces": [],
-            "id": 1052,
+            "id": 1058,
             "abstract": false,
             "size": 16,
             "align": 16,
@@ -30,7 +30,7 @@
                     "name": "_h",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 969,
+                        "id": 975,
                         "type": "unsigned short",
                         "const": false
                     }
@@ -59,7 +59,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -87,7 +87,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -97,7 +97,7 @@
                             "name": "f",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 14,
+                                "id": 15,
                                 "type": "float",
                                 "const": false
                             },
@@ -127,7 +127,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -155,23 +155,23 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
                     "params": [
                         {
                             "index": 0,
-                            "name": "",
+                            "name": "rhs",
                             "type": {
                                 "kind": "Reference",
-                                "id": 229,
+                                "id": 230,
                                 "type": "const class half &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 227,
+                                    "id": 228,
                                     "type": "half",
-                                    "record": 1052,
+                                    "record": 1058,
                                     "const": true
                                 },
                                 "const": false
@@ -204,7 +204,7 @@
                     ],
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -214,13 +214,13 @@
                             "name": "",
                             "type": {
                                 "kind": "RValueReference",
-                                "id": 1050,
+                                "id": 1056,
                                 "type": "class half &&",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 227,
+                                    "id": 228,
                                     "type": "half",
-                                    "record": 1052,
+                                    "record": 1058,
                                     "const": false
                                 },
                                 "const": false
@@ -251,7 +251,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 14,
+                        "id": 15,
                         "type": "float",
                         "const": false
                     },
@@ -279,9 +279,9 @@
                     "attributes": null,
                     "return": {
                         "kind": "RecordType",
-                        "id": 227,
+                        "id": 228,
                         "type": "half",
-                        "record": 1052,
+                        "record": 1058,
                         "const": false
                     },
                     "params": null
@@ -308,13 +308,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 228,
+                        "id": 229,
                         "type": "class half &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 227,
+                            "id": 228,
                             "type": "half",
-                            "record": 1052,
+                            "record": 1058,
                             "const": false
                         },
                         "const": false
@@ -325,13 +325,13 @@
                             "name": "h",
                             "type": {
                                 "kind": "Reference",
-                                "id": 229,
+                                "id": 230,
                                 "type": "const class half &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 227,
+                                    "id": 228,
                                     "type": "half",
-                                    "record": 1052,
+                                    "record": 1058,
                                     "const": true
                                 },
                                 "const": false
@@ -364,13 +364,13 @@
                     ],
                     "return": {
                         "kind": "Reference",
-                        "id": 228,
+                        "id": 229,
                         "type": "class half &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 227,
+                            "id": 228,
                             "type": "half",
-                            "record": 1052,
+                            "record": 1058,
                             "const": false
                         },
                         "const": false
@@ -381,13 +381,13 @@
                             "name": "h",
                             "type": {
                                 "kind": "RValueReference",
-                                "id": 1050,
+                                "id": 1056,
                                 "type": "class half &&",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 227,
+                                    "id": 228,
                                     "type": "half",
-                                    "record": 1052,
+                                    "record": 1058,
                                     "const": false
                                 },
                                 "const": false
@@ -418,13 +418,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 228,
+                        "id": 229,
                         "type": "class half &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 227,
+                            "id": 228,
                             "type": "half",
-                            "record": 1052,
+                            "record": 1058,
                             "const": false
                         },
                         "const": false
@@ -435,7 +435,7 @@
                             "name": "f",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 14,
+                                "id": 15,
                                 "type": "float",
                                 "const": false
                             },
@@ -465,13 +465,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 228,
+                        "id": 229,
                         "type": "class half &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 227,
+                            "id": 228,
                             "type": "half",
-                            "record": 1052,
+                            "record": 1058,
                             "const": false
                         },
                         "const": false
@@ -482,9 +482,9 @@
                             "name": "h",
                             "type": {
                                 "kind": "RecordType",
-                                "id": 227,
+                                "id": 228,
                                 "type": "half",
-                                "record": 1052,
+                                "record": 1058,
                                 "const": false
                             },
                             "attrs": []
@@ -513,13 +513,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 228,
+                        "id": 229,
                         "type": "class half &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 227,
+                            "id": 228,
                             "type": "half",
-                            "record": 1052,
+                            "record": 1058,
                             "const": false
                         },
                         "const": false
@@ -530,7 +530,7 @@
                             "name": "f",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 14,
+                                "id": 15,
                                 "type": "float",
                                 "const": false
                             },
@@ -560,13 +560,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 228,
+                        "id": 229,
                         "type": "class half &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 227,
+                            "id": 228,
                             "type": "half",
-                            "record": 1052,
+                            "record": 1058,
                             "const": false
                         },
                         "const": false
@@ -577,9 +577,9 @@
                             "name": "h",
                             "type": {
                                 "kind": "RecordType",
-                                "id": 227,
+                                "id": 228,
                                 "type": "half",
-                                "record": 1052,
+                                "record": 1058,
                                 "const": false
                             },
                             "attrs": []
@@ -608,13 +608,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 228,
+                        "id": 229,
                         "type": "class half &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 227,
+                            "id": 228,
                             "type": "half",
-                            "record": 1052,
+                            "record": 1058,
                             "const": false
                         },
                         "const": false
@@ -625,7 +625,7 @@
                             "name": "f",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 14,
+                                "id": 15,
                                 "type": "float",
                                 "const": false
                             },
@@ -655,13 +655,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 228,
+                        "id": 229,
                         "type": "class half &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 227,
+                            "id": 228,
                             "type": "half",
-                            "record": 1052,
+                            "record": 1058,
                             "const": false
                         },
                         "const": false
@@ -672,9 +672,9 @@
                             "name": "h",
                             "type": {
                                 "kind": "RecordType",
-                                "id": 227,
+                                "id": 228,
                                 "type": "half",
-                                "record": 1052,
+                                "record": 1058,
                                 "const": false
                             },
                             "attrs": []
@@ -703,13 +703,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 228,
+                        "id": 229,
                         "type": "class half &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 227,
+                            "id": 228,
                             "type": "half",
-                            "record": 1052,
+                            "record": 1058,
                             "const": false
                         },
                         "const": false
@@ -720,7 +720,7 @@
                             "name": "f",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 14,
+                                "id": 15,
                                 "type": "float",
                                 "const": false
                             },
@@ -750,13 +750,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 228,
+                        "id": 229,
                         "type": "class half &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 227,
+                            "id": 228,
                             "type": "half",
-                            "record": 1052,
+                            "record": 1058,
                             "const": false
                         },
                         "const": false
@@ -767,9 +767,9 @@
                             "name": "h",
                             "type": {
                                 "kind": "RecordType",
-                                "id": 227,
+                                "id": 228,
                                 "type": "half",
-                                "record": 1052,
+                                "record": 1058,
                                 "const": false
                             },
                             "attrs": []
@@ -798,13 +798,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 228,
+                        "id": 229,
                         "type": "class half &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 227,
+                            "id": 228,
                             "type": "half",
-                            "record": 1052,
+                            "record": 1058,
                             "const": false
                         },
                         "const": false
@@ -815,7 +815,7 @@
                             "name": "f",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 14,
+                                "id": 15,
                                 "type": "float",
                                 "const": false
                             },
@@ -845,9 +845,9 @@
                     "attributes": null,
                     "return": {
                         "kind": "RecordType",
-                        "id": 227,
+                        "id": 228,
                         "type": "half",
-                        "record": 1052,
+                        "record": 1058,
                         "const": false
                     },
                     "params": [
@@ -856,7 +856,7 @@
                             "name": "n",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 280,
+                                "id": 281,
                                 "type": "unsigned int",
                                 "const": false
                             },
@@ -886,7 +886,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 53,
+                        "id": 54,
                         "type": "_Bool",
                         "const": false
                     },
@@ -914,7 +914,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 53,
+                        "id": 54,
                         "type": "_Bool",
                         "const": false
                     },
@@ -942,7 +942,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 53,
+                        "id": 54,
                         "type": "_Bool",
                         "const": false
                     },
@@ -970,7 +970,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 53,
+                        "id": 54,
                         "type": "_Bool",
                         "const": false
                     },
@@ -998,7 +998,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 53,
+                        "id": 54,
                         "type": "_Bool",
                         "const": false
                     },
@@ -1026,7 +1026,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 53,
+                        "id": 54,
                         "type": "_Bool",
                         "const": false
                     },
@@ -1054,7 +1054,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 53,
+                        "id": 54,
                         "type": "_Bool",
                         "const": false
                     },
@@ -1082,9 +1082,9 @@
                     "attributes": null,
                     "return": {
                         "kind": "RecordType",
-                        "id": 227,
+                        "id": 228,
                         "type": "half",
-                        "record": 1052,
+                        "record": 1058,
                         "const": false
                     },
                     "params": null
@@ -1111,9 +1111,9 @@
                     "attributes": null,
                     "return": {
                         "kind": "RecordType",
-                        "id": 227,
+                        "id": 228,
                         "type": "half",
-                        "record": 1052,
+                        "record": 1058,
                         "const": false
                     },
                     "params": null
@@ -1140,9 +1140,9 @@
                     "attributes": null,
                     "return": {
                         "kind": "RecordType",
-                        "id": 227,
+                        "id": 228,
                         "type": "half",
-                        "record": 1052,
+                        "record": 1058,
                         "const": false
                     },
                     "params": null
@@ -1169,9 +1169,9 @@
                     "attributes": null,
                     "return": {
                         "kind": "RecordType",
-                        "id": 227,
+                        "id": 228,
                         "type": "half",
-                        "record": 1052,
+                        "record": 1058,
                         "const": false
                     },
                     "params": null
@@ -1198,7 +1198,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 969,
+                        "id": 975,
                         "type": "unsigned short",
                         "const": false
                     },
@@ -1226,7 +1226,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -1236,7 +1236,7 @@
                             "name": "bits",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 969,
+                                "id": 975,
                                 "type": "unsigned short",
                                 "const": false
                             },

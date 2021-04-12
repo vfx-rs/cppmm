@@ -9,93 +9,21 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 1195,
+    "id": 1201,
     "decls": [
+        {
+            "kind": "Namespace",
+            "name": "cppmm_bind::Imf_2_5",
+            "id": 3,
+            "short_name": "Imf_2_5"
+        },
         {
             "kind": "Var",
             "qualified_name": "Imf_2_5::MAGIC",
             "short_name": "MAGIC",
             "type": {
                 "kind": "BuiltinType",
-                "id": 9,
-                "type": "int",
-                "const": true
-            },
-            "id": 1196,
-            "attributes": null
-        },
-        {
-            "kind": "Var",
-            "qualified_name": "Imf_2_5::VERSION_NUMBER_FIELD",
-            "short_name": "VERSION_NUMBER_FIELD",
-            "type": {
-                "kind": "BuiltinType",
-                "id": 9,
-                "type": "int",
-                "const": true
-            },
-            "id": 1197,
-            "attributes": null
-        },
-        {
-            "kind": "Var",
-            "qualified_name": "Imf_2_5::VERSION_FLAGS_FIELD",
-            "short_name": "VERSION_FLAGS_FIELD",
-            "type": {
-                "kind": "BuiltinType",
-                "id": 9,
-                "type": "int",
-                "const": true
-            },
-            "id": 1198,
-            "attributes": null
-        },
-        {
-            "kind": "Var",
-            "qualified_name": "Imf_2_5::EXR_VERSION",
-            "short_name": "EXR_VERSION",
-            "type": {
-                "kind": "BuiltinType",
-                "id": 9,
-                "type": "int",
-                "const": true
-            },
-            "id": 1199,
-            "attributes": null
-        },
-        {
-            "kind": "Var",
-            "qualified_name": "Imf_2_5::TILED_FLAG",
-            "short_name": "TILED_FLAG",
-            "type": {
-                "kind": "BuiltinType",
-                "id": 9,
-                "type": "int",
-                "const": true
-            },
-            "id": 1200,
-            "attributes": null
-        },
-        {
-            "kind": "Var",
-            "qualified_name": "Imf_2_5::LONG_NAMES_FLAG",
-            "short_name": "LONG_NAMES_FLAG",
-            "type": {
-                "kind": "BuiltinType",
-                "id": 9,
-                "type": "int",
-                "const": true
-            },
-            "id": 1201,
-            "attributes": null
-        },
-        {
-            "kind": "Var",
-            "qualified_name": "Imf_2_5::NON_IMAGE_FLAG",
-            "short_name": "NON_IMAGE_FLAG",
-            "type": {
-                "kind": "BuiltinType",
-                "id": 9,
+                "id": 10,
                 "type": "int",
                 "const": true
             },
@@ -104,11 +32,11 @@
         },
         {
             "kind": "Var",
-            "qualified_name": "Imf_2_5::MULTI_PART_FILE_FLAG",
-            "short_name": "MULTI_PART_FILE_FLAG",
+            "qualified_name": "Imf_2_5::VERSION_NUMBER_FIELD",
+            "short_name": "VERSION_NUMBER_FIELD",
             "type": {
                 "kind": "BuiltinType",
-                "id": 9,
+                "id": 10,
                 "type": "int",
                 "const": true
             },
@@ -117,11 +45,11 @@
         },
         {
             "kind": "Var",
-            "qualified_name": "Imf_2_5::ALL_FLAGS",
-            "short_name": "ALL_FLAGS",
+            "qualified_name": "Imf_2_5::VERSION_FLAGS_FIELD",
+            "short_name": "VERSION_FLAGS_FIELD",
             "type": {
                 "kind": "BuiltinType",
-                "id": 9,
+                "id": 10,
                 "type": "int",
                 "const": true
             },
@@ -129,185 +57,98 @@
             "attributes": null
         },
         {
-            "kind": "Function",
+            "kind": "Var",
+            "qualified_name": "Imf_2_5::EXR_VERSION",
+            "short_name": "EXR_VERSION",
+            "type": {
+                "kind": "BuiltinType",
+                "id": 10,
+                "type": "int",
+                "const": true
+            },
             "id": 1205,
-            "short_name": "isTiled",
-            "qualified_name": "Imf_2_5::isTiled",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": null,
-            "return": {
-                "kind": "BuiltinType",
-                "id": 53,
-                "type": "_Bool",
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "version",
-                    "type": {
-                        "kind": "BuiltinType",
-                        "id": 9,
-                        "type": "int",
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
+            "attributes": null
         },
         {
-            "kind": "Function",
+            "kind": "Var",
+            "qualified_name": "Imf_2_5::TILED_FLAG",
+            "short_name": "TILED_FLAG",
+            "type": {
+                "kind": "BuiltinType",
+                "id": 10,
+                "type": "int",
+                "const": true
+            },
             "id": 1206,
-            "short_name": "isTiled",
-            "qualified_name": "Imf_2_5::isTiled",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": null,
-            "return": {
-                "kind": "BuiltinType",
-                "id": 53,
-                "type": "_Bool",
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "version",
-                    "type": {
-                        "kind": "BuiltinType",
-                        "id": 9,
-                        "type": "int",
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
+            "attributes": null
         },
         {
-            "kind": "Function",
+            "kind": "Var",
+            "qualified_name": "Imf_2_5::LONG_NAMES_FLAG",
+            "short_name": "LONG_NAMES_FLAG",
+            "type": {
+                "kind": "BuiltinType",
+                "id": 10,
+                "type": "int",
+                "const": true
+            },
             "id": 1207,
-            "short_name": "isMultiPart",
-            "qualified_name": "Imf_2_5::isMultiPart",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": null,
-            "return": {
-                "kind": "BuiltinType",
-                "id": 53,
-                "type": "_Bool",
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "version",
-                    "type": {
-                        "kind": "BuiltinType",
-                        "id": 9,
-                        "type": "int",
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
+            "attributes": null
         },
         {
-            "kind": "Function",
+            "kind": "Var",
+            "qualified_name": "Imf_2_5::NON_IMAGE_FLAG",
+            "short_name": "NON_IMAGE_FLAG",
+            "type": {
+                "kind": "BuiltinType",
+                "id": 10,
+                "type": "int",
+                "const": true
+            },
             "id": 1208,
-            "short_name": "isNonImage",
-            "qualified_name": "Imf_2_5::isNonImage",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": null,
-            "return": {
-                "kind": "BuiltinType",
-                "id": 53,
-                "type": "_Bool",
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "version",
-                    "type": {
-                        "kind": "BuiltinType",
-                        "id": 9,
-                        "type": "int",
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
+            "attributes": null
         },
         {
-            "kind": "Function",
+            "kind": "Var",
+            "qualified_name": "Imf_2_5::MULTI_PART_FILE_FLAG",
+            "short_name": "MULTI_PART_FILE_FLAG",
+            "type": {
+                "kind": "BuiltinType",
+                "id": 10,
+                "type": "int",
+                "const": true
+            },
             "id": 1209,
-            "short_name": "makeTiled",
-            "qualified_name": "Imf_2_5::makeTiled",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": null,
-            "return": {
-                "kind": "BuiltinType",
-                "id": 9,
-                "type": "int",
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "version",
-                    "type": {
-                        "kind": "BuiltinType",
-                        "id": 9,
-                        "type": "int",
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
+            "attributes": null
         },
         {
-            "kind": "Function",
-            "id": 1210,
-            "short_name": "makeNotTiled",
-            "qualified_name": "Imf_2_5::makeNotTiled",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": null,
-            "return": {
+            "kind": "Var",
+            "qualified_name": "Imf_2_5::ALL_FLAGS",
+            "short_name": "ALL_FLAGS",
+            "type": {
                 "kind": "BuiltinType",
-                "id": 9,
+                "id": 10,
                 "type": "int",
-                "const": false
+                "const": true
             },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "version",
-                    "type": {
-                        "kind": "BuiltinType",
-                        "id": 9,
-                        "type": "int",
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
+            "id": 1210,
+            "attributes": null
         },
         {
             "kind": "Function",
             "id": 1211,
-            "short_name": "getVersion",
-            "qualified_name": "Imf_2_5::getVersion",
+            "short_name": "isTiled",
+            "qualified_name": "Imf_2_5::isTiled",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 9,
-                "type": "int",
+                "id": 54,
+                "type": "_Bool",
                 "const": false
             },
             "params": [
@@ -316,7 +157,7 @@
                     "name": "version",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -327,15 +168,18 @@
         {
             "kind": "Function",
             "id": 1212,
-            "short_name": "getFlags",
-            "qualified_name": "Imf_2_5::getFlags",
+            "short_name": "isTiled",
+            "qualified_name": "Imf_2_5::isTiled",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 9,
-                "type": "int",
+                "id": 54,
+                "type": "_Bool",
                 "const": false
             },
             "params": [
@@ -344,7 +188,7 @@
                     "name": "version",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -355,24 +199,27 @@
         {
             "kind": "Function",
             "id": 1213,
-            "short_name": "supportsFlags",
-            "qualified_name": "Imf_2_5::supportsFlags",
+            "short_name": "isMultiPart",
+            "qualified_name": "Imf_2_5::isMultiPart",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
             "params": [
                 {
                     "index": 0,
-                    "name": "flags",
+                    "name": "version",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -383,14 +230,203 @@
         {
             "kind": "Function",
             "id": 1214,
+            "short_name": "isNonImage",
+            "qualified_name": "Imf_2_5::isNonImage",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 54,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "version",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 10,
+                        "type": "int",
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 1215,
+            "short_name": "makeTiled",
+            "qualified_name": "Imf_2_5::makeTiled",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 10,
+                "type": "int",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "version",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 10,
+                        "type": "int",
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 1216,
+            "short_name": "makeNotTiled",
+            "qualified_name": "Imf_2_5::makeNotTiled",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 10,
+                "type": "int",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "version",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 10,
+                        "type": "int",
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 1217,
+            "short_name": "getVersion",
+            "qualified_name": "Imf_2_5::getVersion",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 10,
+                "type": "int",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "version",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 10,
+                        "type": "int",
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 1218,
+            "short_name": "getFlags",
+            "qualified_name": "Imf_2_5::getFlags",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 10,
+                "type": "int",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "version",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 10,
+                        "type": "int",
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 1219,
+            "short_name": "supportsFlags",
+            "qualified_name": "Imf_2_5::supportsFlags",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 54,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "flags",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 10,
+                        "type": "int",
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 1220,
             "short_name": "isImfMagic",
             "qualified_name": "Imf_2_5::isImfMagic",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -400,11 +436,11 @@
                     "name": "bytes",
                     "type": {
                         "kind": "Pointer",
-                        "id": 52,
+                        "id": 53,
                         "type": "const char *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 51,
+                            "id": 52,
                             "type": "char",
                             "const": true
                         },
@@ -416,184 +452,19 @@
         },
         {
             "kind": "Function",
-            "id": 1264,
-            "short_name": "isTiled",
-            "qualified_name": "Imf_2_5::isTiled",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": null,
-            "return": {
-                "kind": "BuiltinType",
-                "id": 53,
-                "type": "_Bool",
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "version",
-                    "type": {
-                        "kind": "BuiltinType",
-                        "id": 9,
-                        "type": "int",
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
-        },
-        {
-            "kind": "Function",
-            "id": 1265,
-            "short_name": "isTiled",
-            "qualified_name": "Imf_2_5::isTiled",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": null,
-            "return": {
-                "kind": "BuiltinType",
-                "id": 53,
-                "type": "_Bool",
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "version",
-                    "type": {
-                        "kind": "BuiltinType",
-                        "id": 9,
-                        "type": "int",
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
-        },
-        {
-            "kind": "Function",
-            "id": 1266,
-            "short_name": "isMultiPart",
-            "qualified_name": "Imf_2_5::isMultiPart",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": null,
-            "return": {
-                "kind": "BuiltinType",
-                "id": 53,
-                "type": "_Bool",
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "version",
-                    "type": {
-                        "kind": "BuiltinType",
-                        "id": 9,
-                        "type": "int",
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
-        },
-        {
-            "kind": "Function",
-            "id": 1267,
-            "short_name": "isNonImage",
-            "qualified_name": "Imf_2_5::isNonImage",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": null,
-            "return": {
-                "kind": "BuiltinType",
-                "id": 53,
-                "type": "_Bool",
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "version",
-                    "type": {
-                        "kind": "BuiltinType",
-                        "id": 9,
-                        "type": "int",
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
-        },
-        {
-            "kind": "Function",
-            "id": 1268,
-            "short_name": "makeTiled",
-            "qualified_name": "Imf_2_5::makeTiled",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": null,
-            "return": {
-                "kind": "BuiltinType",
-                "id": 9,
-                "type": "int",
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "version",
-                    "type": {
-                        "kind": "BuiltinType",
-                        "id": 9,
-                        "type": "int",
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
-        },
-        {
-            "kind": "Function",
-            "id": 1269,
-            "short_name": "makeNotTiled",
-            "qualified_name": "Imf_2_5::makeNotTiled",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": null,
-            "return": {
-                "kind": "BuiltinType",
-                "id": 9,
-                "type": "int",
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "version",
-                    "type": {
-                        "kind": "BuiltinType",
-                        "id": 9,
-                        "type": "int",
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
-        },
-        {
-            "kind": "Function",
             "id": 1270,
-            "short_name": "getVersion",
-            "qualified_name": "Imf_2_5::getVersion",
+            "short_name": "isTiled",
+            "qualified_name": "Imf_2_5::isTiled",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 9,
-                "type": "int",
+                "id": 54,
+                "type": "_Bool",
                 "const": false
             },
             "params": [
@@ -602,7 +473,7 @@
                     "name": "version",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -613,15 +484,18 @@
         {
             "kind": "Function",
             "id": 1271,
-            "short_name": "getFlags",
-            "qualified_name": "Imf_2_5::getFlags",
+            "short_name": "isTiled",
+            "qualified_name": "Imf_2_5::isTiled",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 9,
-                "type": "int",
+                "id": 54,
+                "type": "_Bool",
                 "const": false
             },
             "params": [
@@ -630,7 +504,7 @@
                     "name": "version",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -641,24 +515,27 @@
         {
             "kind": "Function",
             "id": 1272,
-            "short_name": "supportsFlags",
-            "qualified_name": "Imf_2_5::supportsFlags",
+            "short_name": "isMultiPart",
+            "qualified_name": "Imf_2_5::isMultiPart",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
             "params": [
                 {
                     "index": 0,
-                    "name": "flags",
+                    "name": "version",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -669,14 +546,203 @@
         {
             "kind": "Function",
             "id": 1273,
+            "short_name": "isNonImage",
+            "qualified_name": "Imf_2_5::isNonImage",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 54,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "version",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 10,
+                        "type": "int",
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 1274,
+            "short_name": "makeTiled",
+            "qualified_name": "Imf_2_5::makeTiled",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 10,
+                "type": "int",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "version",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 10,
+                        "type": "int",
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 1275,
+            "short_name": "makeNotTiled",
+            "qualified_name": "Imf_2_5::makeNotTiled",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 10,
+                "type": "int",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "version",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 10,
+                        "type": "int",
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 1276,
+            "short_name": "getVersion",
+            "qualified_name": "Imf_2_5::getVersion",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 10,
+                "type": "int",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "version",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 10,
+                        "type": "int",
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 1277,
+            "short_name": "getFlags",
+            "qualified_name": "Imf_2_5::getFlags",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 10,
+                "type": "int",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "version",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 10,
+                        "type": "int",
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 1278,
+            "short_name": "supportsFlags",
+            "qualified_name": "Imf_2_5::supportsFlags",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 54,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "flags",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 10,
+                        "type": "int",
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 1279,
             "short_name": "isImfMagic",
             "qualified_name": "Imf_2_5::isImfMagic",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -686,11 +752,11 @@
                     "name": "bytes",
                     "type": {
                         "kind": "Pointer",
-                        "id": 52,
+                        "id": 53,
                         "type": "const char *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 51,
+                            "id": 52,
                             "type": "char",
                             "const": true
                         },
@@ -702,184 +768,19 @@
         },
         {
             "kind": "Function",
-            "id": 1349,
-            "short_name": "isTiled",
-            "qualified_name": "Imf_2_5::isTiled",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": null,
-            "return": {
-                "kind": "BuiltinType",
-                "id": 53,
-                "type": "_Bool",
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "version",
-                    "type": {
-                        "kind": "BuiltinType",
-                        "id": 9,
-                        "type": "int",
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
-        },
-        {
-            "kind": "Function",
-            "id": 1350,
-            "short_name": "isTiled",
-            "qualified_name": "Imf_2_5::isTiled",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": null,
-            "return": {
-                "kind": "BuiltinType",
-                "id": 53,
-                "type": "_Bool",
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "version",
-                    "type": {
-                        "kind": "BuiltinType",
-                        "id": 9,
-                        "type": "int",
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
-        },
-        {
-            "kind": "Function",
-            "id": 1351,
-            "short_name": "isMultiPart",
-            "qualified_name": "Imf_2_5::isMultiPart",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": null,
-            "return": {
-                "kind": "BuiltinType",
-                "id": 53,
-                "type": "_Bool",
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "version",
-                    "type": {
-                        "kind": "BuiltinType",
-                        "id": 9,
-                        "type": "int",
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
-        },
-        {
-            "kind": "Function",
-            "id": 1352,
-            "short_name": "isNonImage",
-            "qualified_name": "Imf_2_5::isNonImage",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": null,
-            "return": {
-                "kind": "BuiltinType",
-                "id": 53,
-                "type": "_Bool",
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "version",
-                    "type": {
-                        "kind": "BuiltinType",
-                        "id": 9,
-                        "type": "int",
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
-        },
-        {
-            "kind": "Function",
-            "id": 1353,
-            "short_name": "makeTiled",
-            "qualified_name": "Imf_2_5::makeTiled",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": null,
-            "return": {
-                "kind": "BuiltinType",
-                "id": 9,
-                "type": "int",
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "version",
-                    "type": {
-                        "kind": "BuiltinType",
-                        "id": 9,
-                        "type": "int",
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
-        },
-        {
-            "kind": "Function",
-            "id": 1354,
-            "short_name": "makeNotTiled",
-            "qualified_name": "Imf_2_5::makeNotTiled",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": null,
-            "return": {
-                "kind": "BuiltinType",
-                "id": 9,
-                "type": "int",
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "version",
-                    "type": {
-                        "kind": "BuiltinType",
-                        "id": 9,
-                        "type": "int",
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
-        },
-        {
-            "kind": "Function",
             "id": 1355,
-            "short_name": "getVersion",
-            "qualified_name": "Imf_2_5::getVersion",
+            "short_name": "isTiled",
+            "qualified_name": "Imf_2_5::isTiled",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 9,
-                "type": "int",
+                "id": 54,
+                "type": "_Bool",
                 "const": false
             },
             "params": [
@@ -888,7 +789,7 @@
                     "name": "version",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -899,15 +800,18 @@
         {
             "kind": "Function",
             "id": 1356,
-            "short_name": "getFlags",
-            "qualified_name": "Imf_2_5::getFlags",
+            "short_name": "isTiled",
+            "qualified_name": "Imf_2_5::isTiled",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 9,
-                "type": "int",
+                "id": 54,
+                "type": "_Bool",
                 "const": false
             },
             "params": [
@@ -916,7 +820,7 @@
                     "name": "version",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -927,24 +831,27 @@
         {
             "kind": "Function",
             "id": 1357,
-            "short_name": "supportsFlags",
-            "qualified_name": "Imf_2_5::supportsFlags",
+            "short_name": "isMultiPart",
+            "qualified_name": "Imf_2_5::isMultiPart",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
             "params": [
                 {
                     "index": 0,
-                    "name": "flags",
+                    "name": "version",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -955,14 +862,203 @@
         {
             "kind": "Function",
             "id": 1358,
+            "short_name": "isNonImage",
+            "qualified_name": "Imf_2_5::isNonImage",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 54,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "version",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 10,
+                        "type": "int",
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 1359,
+            "short_name": "makeTiled",
+            "qualified_name": "Imf_2_5::makeTiled",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 10,
+                "type": "int",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "version",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 10,
+                        "type": "int",
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 1360,
+            "short_name": "makeNotTiled",
+            "qualified_name": "Imf_2_5::makeNotTiled",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 10,
+                "type": "int",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "version",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 10,
+                        "type": "int",
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 1361,
+            "short_name": "getVersion",
+            "qualified_name": "Imf_2_5::getVersion",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 10,
+                "type": "int",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "version",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 10,
+                        "type": "int",
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 1362,
+            "short_name": "getFlags",
+            "qualified_name": "Imf_2_5::getFlags",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 10,
+                "type": "int",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "version",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 10,
+                        "type": "int",
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 1363,
+            "short_name": "supportsFlags",
+            "qualified_name": "Imf_2_5::supportsFlags",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 54,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "flags",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 10,
+                        "type": "int",
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 1364,
             "short_name": "isImfMagic",
             "qualified_name": "Imf_2_5::isImfMagic",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -972,11 +1068,11 @@
                     "name": "bytes",
                     "type": {
                         "kind": "Pointer",
-                        "id": 52,
+                        "id": 53,
                         "type": "const char *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 51,
+                            "id": 52,
                             "type": "char",
                             "const": true
                         },
@@ -988,249 +1084,28 @@
         },
         {
             "kind": "Function",
-            "id": 1638,
-            "short_name": "isTiled",
-            "qualified_name": "Imf_2_5::isTiled",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": null,
-            "return": {
-                "kind": "BuiltinType",
-                "id": 53,
-                "type": "_Bool",
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "version",
-                    "type": {
-                        "kind": "BuiltinType",
-                        "id": 9,
-                        "type": "int",
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
-        },
-        {
-            "kind": "Function",
-            "id": 1639,
-            "short_name": "isTiled",
-            "qualified_name": "Imf_2_5::isTiled",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": null,
-            "return": {
-                "kind": "BuiltinType",
-                "id": 53,
-                "type": "_Bool",
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "version",
-                    "type": {
-                        "kind": "BuiltinType",
-                        "id": 9,
-                        "type": "int",
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
-        },
-        {
-            "kind": "Function",
-            "id": 1640,
-            "short_name": "isMultiPart",
-            "qualified_name": "Imf_2_5::isMultiPart",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": null,
-            "return": {
-                "kind": "BuiltinType",
-                "id": 53,
-                "type": "_Bool",
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "version",
-                    "type": {
-                        "kind": "BuiltinType",
-                        "id": 9,
-                        "type": "int",
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
-        },
-        {
-            "kind": "Function",
-            "id": 1641,
-            "short_name": "isNonImage",
-            "qualified_name": "Imf_2_5::isNonImage",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": null,
-            "return": {
-                "kind": "BuiltinType",
-                "id": 53,
-                "type": "_Bool",
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "version",
-                    "type": {
-                        "kind": "BuiltinType",
-                        "id": 9,
-                        "type": "int",
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
-        },
-        {
-            "kind": "Function",
-            "id": 1642,
-            "short_name": "makeTiled",
-            "qualified_name": "Imf_2_5::makeTiled",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": null,
-            "return": {
-                "kind": "BuiltinType",
-                "id": 9,
-                "type": "int",
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "version",
-                    "type": {
-                        "kind": "BuiltinType",
-                        "id": 9,
-                        "type": "int",
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
-        },
-        {
-            "kind": "Function",
-            "id": 1643,
-            "short_name": "makeNotTiled",
-            "qualified_name": "Imf_2_5::makeNotTiled",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": null,
-            "return": {
-                "kind": "BuiltinType",
-                "id": 9,
-                "type": "int",
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "version",
-                    "type": {
-                        "kind": "BuiltinType",
-                        "id": 9,
-                        "type": "int",
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
-        },
-        {
-            "kind": "Function",
-            "id": 1644,
-            "short_name": "getVersion",
-            "qualified_name": "Imf_2_5::getVersion",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": null,
-            "return": {
-                "kind": "BuiltinType",
-                "id": 9,
-                "type": "int",
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "version",
-                    "type": {
-                        "kind": "BuiltinType",
-                        "id": 9,
-                        "type": "int",
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
-        },
-        {
-            "kind": "Function",
-            "id": 1645,
-            "short_name": "getFlags",
-            "qualified_name": "Imf_2_5::getFlags",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": null,
-            "return": {
-                "kind": "BuiltinType",
-                "id": 9,
-                "type": "int",
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "version",
-                    "type": {
-                        "kind": "BuiltinType",
-                        "id": 9,
-                        "type": "int",
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
-        },
-        {
-            "kind": "Function",
             "id": 1646,
-            "short_name": "supportsFlags",
-            "qualified_name": "Imf_2_5::supportsFlags",
+            "short_name": "isTiled",
+            "qualified_name": "Imf_2_5::isTiled",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
             "params": [
                 {
                     "index": 0,
-                    "name": "flags",
+                    "name": "version",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -1241,48 +1116,17 @@
         {
             "kind": "Function",
             "id": 1647,
-            "short_name": "isImfMagic",
-            "qualified_name": "Imf_2_5::isImfMagic",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": null,
-            "return": {
-                "kind": "BuiltinType",
-                "id": 53,
-                "type": "_Bool",
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "bytes",
-                    "type": {
-                        "kind": "Pointer",
-                        "id": 52,
-                        "type": "const char *",
-                        "pointee": {
-                            "kind": "BuiltinType",
-                            "id": 51,
-                            "type": "char",
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
-        },
-        {
-            "kind": "Function",
-            "id": 1799,
             "short_name": "isTiled",
             "qualified_name": "Imf_2_5::isTiled",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -1292,7 +1136,7 @@
                     "name": "version",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -1302,43 +1146,18 @@
         },
         {
             "kind": "Function",
-            "id": 1800,
-            "short_name": "isTiled",
-            "qualified_name": "Imf_2_5::isTiled",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": null,
-            "return": {
-                "kind": "BuiltinType",
-                "id": 53,
-                "type": "_Bool",
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "version",
-                    "type": {
-                        "kind": "BuiltinType",
-                        "id": 9,
-                        "type": "int",
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
-        },
-        {
-            "kind": "Function",
-            "id": 1801,
+            "id": 1648,
             "short_name": "isMultiPart",
             "qualified_name": "Imf_2_5::isMultiPart",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -1348,7 +1167,7 @@
                     "name": "version",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -1358,15 +1177,18 @@
         },
         {
             "kind": "Function",
-            "id": 1802,
+            "id": 1649,
             "short_name": "isNonImage",
             "qualified_name": "Imf_2_5::isNonImage",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -1376,7 +1198,7 @@
                     "name": "version",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -1386,15 +1208,18 @@
         },
         {
             "kind": "Function",
-            "id": 1803,
+            "id": 1650,
             "short_name": "makeTiled",
             "qualified_name": "Imf_2_5::makeTiled",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 9,
+                "id": 10,
                 "type": "int",
                 "const": false
             },
@@ -1404,7 +1229,7 @@
                     "name": "version",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -1414,15 +1239,18 @@
         },
         {
             "kind": "Function",
-            "id": 1804,
+            "id": 1651,
             "short_name": "makeNotTiled",
             "qualified_name": "Imf_2_5::makeNotTiled",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 9,
+                "id": 10,
                 "type": "int",
                 "const": false
             },
@@ -1432,7 +1260,7 @@
                     "name": "version",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -1442,15 +1270,18 @@
         },
         {
             "kind": "Function",
-            "id": 1805,
+            "id": 1652,
             "short_name": "getVersion",
             "qualified_name": "Imf_2_5::getVersion",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 9,
+                "id": 10,
                 "type": "int",
                 "const": false
             },
@@ -1460,7 +1291,7 @@
                     "name": "version",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -1470,15 +1301,18 @@
         },
         {
             "kind": "Function",
-            "id": 1806,
+            "id": 1653,
             "short_name": "getFlags",
             "qualified_name": "Imf_2_5::getFlags",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 9,
+                "id": 10,
                 "type": "int",
                 "const": false
             },
@@ -1488,7 +1322,7 @@
                     "name": "version",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -1498,15 +1332,18 @@
         },
         {
             "kind": "Function",
-            "id": 1807,
+            "id": 1654,
             "short_name": "supportsFlags",
             "qualified_name": "Imf_2_5::supportsFlags",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -1516,7 +1353,7 @@
                     "name": "flags",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -1526,15 +1363,18 @@
         },
         {
             "kind": "Function",
-            "id": 1808,
+            "id": 1655,
             "short_name": "isImfMagic",
             "qualified_name": "Imf_2_5::isImfMagic",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -1544,11 +1384,11 @@
                     "name": "bytes",
                     "type": {
                         "kind": "Pointer",
-                        "id": 52,
+                        "id": 53,
                         "type": "const char *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 51,
+                            "id": 52,
                             "type": "char",
                             "const": true
                         },
@@ -1560,15 +1400,18 @@
         },
         {
             "kind": "Function",
-            "id": 1848,
+            "id": 1809,
             "short_name": "isTiled",
             "qualified_name": "Imf_2_5::isTiled",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -1578,7 +1421,7 @@
                     "name": "version",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -1588,15 +1431,18 @@
         },
         {
             "kind": "Function",
-            "id": 1849,
+            "id": 1810,
             "short_name": "isTiled",
             "qualified_name": "Imf_2_5::isTiled",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -1606,7 +1452,7 @@
                     "name": "version",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -1616,15 +1462,18 @@
         },
         {
             "kind": "Function",
-            "id": 1850,
+            "id": 1811,
             "short_name": "isMultiPart",
             "qualified_name": "Imf_2_5::isMultiPart",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -1634,7 +1483,7 @@
                     "name": "version",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -1644,15 +1493,18 @@
         },
         {
             "kind": "Function",
-            "id": 1851,
+            "id": 1812,
             "short_name": "isNonImage",
             "qualified_name": "Imf_2_5::isNonImage",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -1662,7 +1514,7 @@
                     "name": "version",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -1672,15 +1524,18 @@
         },
         {
             "kind": "Function",
-            "id": 1852,
+            "id": 1813,
             "short_name": "makeTiled",
             "qualified_name": "Imf_2_5::makeTiled",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 9,
+                "id": 10,
                 "type": "int",
                 "const": false
             },
@@ -1690,7 +1545,7 @@
                     "name": "version",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -1700,15 +1555,18 @@
         },
         {
             "kind": "Function",
-            "id": 1853,
+            "id": 1814,
             "short_name": "makeNotTiled",
             "qualified_name": "Imf_2_5::makeNotTiled",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 9,
+                "id": 10,
                 "type": "int",
                 "const": false
             },
@@ -1718,7 +1576,7 @@
                     "name": "version",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -1728,15 +1586,18 @@
         },
         {
             "kind": "Function",
-            "id": 1854,
+            "id": 1815,
             "short_name": "getVersion",
             "qualified_name": "Imf_2_5::getVersion",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 9,
+                "id": 10,
                 "type": "int",
                 "const": false
             },
@@ -1746,7 +1607,7 @@
                     "name": "version",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -1756,15 +1617,18 @@
         },
         {
             "kind": "Function",
-            "id": 1855,
+            "id": 1816,
             "short_name": "getFlags",
             "qualified_name": "Imf_2_5::getFlags",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 9,
+                "id": 10,
                 "type": "int",
                 "const": false
             },
@@ -1774,7 +1638,7 @@
                     "name": "version",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -1784,15 +1648,18 @@
         },
         {
             "kind": "Function",
-            "id": 1856,
+            "id": 1817,
             "short_name": "supportsFlags",
             "qualified_name": "Imf_2_5::supportsFlags",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -1802,7 +1669,7 @@
                     "name": "flags",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -1812,15 +1679,18 @@
         },
         {
             "kind": "Function",
-            "id": 1857,
+            "id": 1818,
             "short_name": "isImfMagic",
             "qualified_name": "Imf_2_5::isImfMagic",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -1830,11 +1700,11 @@
                     "name": "bytes",
                     "type": {
                         "kind": "Pointer",
-                        "id": 52,
+                        "id": 53,
                         "type": "const char *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 51,
+                            "id": 52,
                             "type": "char",
                             "const": true
                         },
@@ -1846,15 +1716,18 @@
         },
         {
             "kind": "Function",
-            "id": 1941,
+            "id": 1858,
             "short_name": "isTiled",
             "qualified_name": "Imf_2_5::isTiled",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -1864,7 +1737,7 @@
                     "name": "version",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -1874,15 +1747,18 @@
         },
         {
             "kind": "Function",
-            "id": 1942,
+            "id": 1859,
             "short_name": "isTiled",
             "qualified_name": "Imf_2_5::isTiled",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -1892,7 +1768,7 @@
                     "name": "version",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -1902,15 +1778,18 @@
         },
         {
             "kind": "Function",
-            "id": 1943,
+            "id": 1860,
             "short_name": "isMultiPart",
             "qualified_name": "Imf_2_5::isMultiPart",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -1920,7 +1799,7 @@
                     "name": "version",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -1930,15 +1809,18 @@
         },
         {
             "kind": "Function",
-            "id": 1944,
+            "id": 1861,
             "short_name": "isNonImage",
             "qualified_name": "Imf_2_5::isNonImage",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -1948,7 +1830,7 @@
                     "name": "version",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -1958,15 +1840,18 @@
         },
         {
             "kind": "Function",
-            "id": 1945,
+            "id": 1862,
             "short_name": "makeTiled",
             "qualified_name": "Imf_2_5::makeTiled",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 9,
+                "id": 10,
                 "type": "int",
                 "const": false
             },
@@ -1976,7 +1861,7 @@
                     "name": "version",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -1986,15 +1871,18 @@
         },
         {
             "kind": "Function",
-            "id": 1946,
+            "id": 1863,
             "short_name": "makeNotTiled",
             "qualified_name": "Imf_2_5::makeNotTiled",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 9,
+                "id": 10,
                 "type": "int",
                 "const": false
             },
@@ -2004,7 +1892,7 @@
                     "name": "version",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -2014,15 +1902,18 @@
         },
         {
             "kind": "Function",
-            "id": 1947,
+            "id": 1864,
             "short_name": "getVersion",
             "qualified_name": "Imf_2_5::getVersion",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 9,
+                "id": 10,
                 "type": "int",
                 "const": false
             },
@@ -2032,7 +1923,7 @@
                     "name": "version",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -2042,15 +1933,18 @@
         },
         {
             "kind": "Function",
-            "id": 1948,
+            "id": 1865,
             "short_name": "getFlags",
             "qualified_name": "Imf_2_5::getFlags",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 9,
+                "id": 10,
                 "type": "int",
                 "const": false
             },
@@ -2060,7 +1954,7 @@
                     "name": "version",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -2070,15 +1964,18 @@
         },
         {
             "kind": "Function",
-            "id": 1949,
+            "id": 1866,
             "short_name": "supportsFlags",
             "qualified_name": "Imf_2_5::supportsFlags",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -2088,7 +1985,7 @@
                     "name": "flags",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -2098,15 +1995,18 @@
         },
         {
             "kind": "Function",
-            "id": 1950,
+            "id": 1867,
             "short_name": "isImfMagic",
             "qualified_name": "Imf_2_5::isImfMagic",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -2116,11 +2016,11 @@
                     "name": "bytes",
                     "type": {
                         "kind": "Pointer",
-                        "id": 52,
+                        "id": 53,
                         "type": "const char *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 51,
+                            "id": 52,
                             "type": "char",
                             "const": true
                         },
@@ -2132,15 +2032,18 @@
         },
         {
             "kind": "Function",
-            "id": 1996,
+            "id": 1957,
             "short_name": "isTiled",
             "qualified_name": "Imf_2_5::isTiled",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -2150,7 +2053,7 @@
                     "name": "version",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -2160,15 +2063,18 @@
         },
         {
             "kind": "Function",
-            "id": 1997,
+            "id": 1958,
             "short_name": "isTiled",
             "qualified_name": "Imf_2_5::isTiled",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -2178,7 +2084,7 @@
                     "name": "version",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -2188,15 +2094,18 @@
         },
         {
             "kind": "Function",
-            "id": 1998,
+            "id": 1959,
             "short_name": "isMultiPart",
             "qualified_name": "Imf_2_5::isMultiPart",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -2206,7 +2115,7 @@
                     "name": "version",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -2216,15 +2125,18 @@
         },
         {
             "kind": "Function",
-            "id": 1999,
+            "id": 1960,
             "short_name": "isNonImage",
             "qualified_name": "Imf_2_5::isNonImage",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -2234,7 +2146,7 @@
                     "name": "version",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -2244,15 +2156,18 @@
         },
         {
             "kind": "Function",
-            "id": 2000,
+            "id": 1961,
             "short_name": "makeTiled",
             "qualified_name": "Imf_2_5::makeTiled",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 9,
+                "id": 10,
                 "type": "int",
                 "const": false
             },
@@ -2262,7 +2177,7 @@
                     "name": "version",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -2272,15 +2187,18 @@
         },
         {
             "kind": "Function",
-            "id": 2001,
+            "id": 1962,
             "short_name": "makeNotTiled",
             "qualified_name": "Imf_2_5::makeNotTiled",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 9,
+                "id": 10,
                 "type": "int",
                 "const": false
             },
@@ -2290,7 +2208,7 @@
                     "name": "version",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -2300,15 +2218,18 @@
         },
         {
             "kind": "Function",
-            "id": 2002,
+            "id": 1963,
             "short_name": "getVersion",
             "qualified_name": "Imf_2_5::getVersion",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 9,
+                "id": 10,
                 "type": "int",
                 "const": false
             },
@@ -2318,7 +2239,7 @@
                     "name": "version",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -2328,15 +2249,18 @@
         },
         {
             "kind": "Function",
-            "id": 2003,
+            "id": 1964,
             "short_name": "getFlags",
             "qualified_name": "Imf_2_5::getFlags",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 9,
+                "id": 10,
                 "type": "int",
                 "const": false
             },
@@ -2346,7 +2270,7 @@
                     "name": "version",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -2356,15 +2280,18 @@
         },
         {
             "kind": "Function",
-            "id": 2004,
+            "id": 1965,
             "short_name": "supportsFlags",
             "qualified_name": "Imf_2_5::supportsFlags",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -2374,7 +2301,7 @@
                     "name": "flags",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -2384,15 +2311,18 @@
         },
         {
             "kind": "Function",
-            "id": 2005,
+            "id": 1966,
             "short_name": "isImfMagic",
             "qualified_name": "Imf_2_5::isImfMagic",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -2402,11 +2332,11 @@
                     "name": "bytes",
                     "type": {
                         "kind": "Pointer",
-                        "id": 52,
+                        "id": 53,
                         "type": "const char *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 51,
+                            "id": 52,
                             "type": "char",
                             "const": true
                         },
@@ -2418,15 +2348,18 @@
         },
         {
             "kind": "Function",
-            "id": 2938,
+            "id": 2012,
             "short_name": "isTiled",
             "qualified_name": "Imf_2_5::isTiled",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -2436,7 +2369,7 @@
                     "name": "version",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -2446,15 +2379,18 @@
         },
         {
             "kind": "Function",
-            "id": 2939,
+            "id": 2013,
             "short_name": "isTiled",
             "qualified_name": "Imf_2_5::isTiled",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -2464,7 +2400,7 @@
                     "name": "version",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -2474,15 +2410,18 @@
         },
         {
             "kind": "Function",
-            "id": 2940,
+            "id": 2014,
             "short_name": "isMultiPart",
             "qualified_name": "Imf_2_5::isMultiPart",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -2492,7 +2431,7 @@
                     "name": "version",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -2502,15 +2441,18 @@
         },
         {
             "kind": "Function",
-            "id": 2941,
+            "id": 2015,
             "short_name": "isNonImage",
             "qualified_name": "Imf_2_5::isNonImage",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -2520,7 +2462,7 @@
                     "name": "version",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -2530,15 +2472,18 @@
         },
         {
             "kind": "Function",
-            "id": 2942,
+            "id": 2016,
             "short_name": "makeTiled",
             "qualified_name": "Imf_2_5::makeTiled",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 9,
+                "id": 10,
                 "type": "int",
                 "const": false
             },
@@ -2548,7 +2493,7 @@
                     "name": "version",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -2558,15 +2503,18 @@
         },
         {
             "kind": "Function",
-            "id": 2943,
+            "id": 2017,
             "short_name": "makeNotTiled",
             "qualified_name": "Imf_2_5::makeNotTiled",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 9,
+                "id": 10,
                 "type": "int",
                 "const": false
             },
@@ -2576,7 +2524,7 @@
                     "name": "version",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -2586,15 +2534,18 @@
         },
         {
             "kind": "Function",
-            "id": 2944,
+            "id": 2018,
             "short_name": "getVersion",
             "qualified_name": "Imf_2_5::getVersion",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 9,
+                "id": 10,
                 "type": "int",
                 "const": false
             },
@@ -2604,7 +2555,7 @@
                     "name": "version",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -2614,15 +2565,18 @@
         },
         {
             "kind": "Function",
-            "id": 2945,
+            "id": 2019,
             "short_name": "getFlags",
             "qualified_name": "Imf_2_5::getFlags",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 9,
+                "id": 10,
                 "type": "int",
                 "const": false
             },
@@ -2632,7 +2586,7 @@
                     "name": "version",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -2642,15 +2596,18 @@
         },
         {
             "kind": "Function",
-            "id": 2946,
+            "id": 2020,
             "short_name": "supportsFlags",
             "qualified_name": "Imf_2_5::supportsFlags",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -2660,7 +2617,7 @@
                     "name": "flags",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -2670,15 +2627,18 @@
         },
         {
             "kind": "Function",
-            "id": 2947,
+            "id": 2021,
             "short_name": "isImfMagic",
             "qualified_name": "Imf_2_5::isImfMagic",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -2688,14 +2648,423 @@
                     "name": "bytes",
                     "type": {
                         "kind": "Pointer",
-                        "id": 52,
+                        "id": 53,
                         "type": "const char *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 51,
+                            "id": 52,
                             "type": "char",
                             "const": true
                         },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 2927,
+            "short_name": "isTiled",
+            "qualified_name": "Imf_2_5::isTiled",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 54,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "version",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 10,
+                        "type": "int",
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 2928,
+            "short_name": "isTiled",
+            "qualified_name": "Imf_2_5::isTiled",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 54,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "version",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 10,
+                        "type": "int",
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 2929,
+            "short_name": "isMultiPart",
+            "qualified_name": "Imf_2_5::isMultiPart",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 54,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "version",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 10,
+                        "type": "int",
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 2930,
+            "short_name": "isNonImage",
+            "qualified_name": "Imf_2_5::isNonImage",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 54,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "version",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 10,
+                        "type": "int",
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 2931,
+            "short_name": "makeTiled",
+            "qualified_name": "Imf_2_5::makeTiled",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 10,
+                "type": "int",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "version",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 10,
+                        "type": "int",
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 2932,
+            "short_name": "makeNotTiled",
+            "qualified_name": "Imf_2_5::makeNotTiled",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 10,
+                "type": "int",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "version",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 10,
+                        "type": "int",
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 2933,
+            "short_name": "getVersion",
+            "qualified_name": "Imf_2_5::getVersion",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 10,
+                "type": "int",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "version",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 10,
+                        "type": "int",
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 2934,
+            "short_name": "getFlags",
+            "qualified_name": "Imf_2_5::getFlags",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 10,
+                "type": "int",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "version",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 10,
+                        "type": "int",
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 2935,
+            "short_name": "supportsFlags",
+            "qualified_name": "Imf_2_5::supportsFlags",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 54,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "flags",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 10,
+                        "type": "int",
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 2936,
+            "short_name": "isImfMagic",
+            "qualified_name": "Imf_2_5::isImfMagic",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 54,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "bytes",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 53,
+                        "type": "const char *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 52,
+                            "type": "char",
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 3137,
+            "short_name": "isTiled",
+            "qualified_name": "Imf_2_5::isTiled",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 54,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "version",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 10,
+                        "type": "int",
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 3138,
+            "short_name": "isTiled",
+            "qualified_name": "Imf_2_5::isTiled",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 54,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "version",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 10,
+                        "type": "int",
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 3139,
+            "short_name": "isMultiPart",
+            "qualified_name": "Imf_2_5::isMultiPart",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 54,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "version",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 10,
+                        "type": "int",
                         "const": false
                     },
                     "attrs": []
@@ -2705,14 +3074,17 @@
         {
             "kind": "Function",
             "id": 3140,
-            "short_name": "isTiled",
-            "qualified_name": "Imf_2_5::isTiled",
+            "short_name": "isNonImage",
+            "qualified_name": "Imf_2_5::isNonImage",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -2722,7 +3094,7 @@
                     "name": "version",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -2733,15 +3105,18 @@
         {
             "kind": "Function",
             "id": 3141,
-            "short_name": "isTiled",
-            "qualified_name": "Imf_2_5::isTiled",
+            "short_name": "makeTiled",
+            "qualified_name": "Imf_2_5::makeTiled",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
-                "type": "_Bool",
+                "id": 10,
+                "type": "int",
                 "const": false
             },
             "params": [
@@ -2750,7 +3125,7 @@
                     "name": "version",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -2761,15 +3136,18 @@
         {
             "kind": "Function",
             "id": 3142,
-            "short_name": "isMultiPart",
-            "qualified_name": "Imf_2_5::isMultiPart",
+            "short_name": "makeNotTiled",
+            "qualified_name": "Imf_2_5::makeNotTiled",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
-                "type": "_Bool",
+                "id": 10,
+                "type": "int",
                 "const": false
             },
             "params": [
@@ -2778,7 +3156,7 @@
                     "name": "version",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -2789,15 +3167,18 @@
         {
             "kind": "Function",
             "id": 3143,
-            "short_name": "isNonImage",
-            "qualified_name": "Imf_2_5::isNonImage",
+            "short_name": "getVersion",
+            "qualified_name": "Imf_2_5::getVersion",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
-                "type": "_Bool",
+                "id": 10,
+                "type": "int",
                 "const": false
             },
             "params": [
@@ -2806,7 +3187,7 @@
                     "name": "version",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -2817,14 +3198,17 @@
         {
             "kind": "Function",
             "id": 3144,
-            "short_name": "makeTiled",
-            "qualified_name": "Imf_2_5::makeTiled",
+            "short_name": "getFlags",
+            "qualified_name": "Imf_2_5::getFlags",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 9,
+                "id": 10,
                 "type": "int",
                 "const": false
             },
@@ -2834,7 +3218,7 @@
                     "name": "version",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -2845,24 +3229,27 @@
         {
             "kind": "Function",
             "id": 3145,
-            "short_name": "makeNotTiled",
-            "qualified_name": "Imf_2_5::makeNotTiled",
+            "short_name": "supportsFlags",
+            "qualified_name": "Imf_2_5::supportsFlags",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 9,
-                "type": "int",
+                "id": 54,
+                "type": "_Bool",
                 "const": false
             },
             "params": [
                 {
                     "index": 0,
-                    "name": "version",
+                    "name": "flags",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -2873,98 +3260,17 @@
         {
             "kind": "Function",
             "id": 3146,
-            "short_name": "getVersion",
-            "qualified_name": "Imf_2_5::getVersion",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": null,
-            "return": {
-                "kind": "BuiltinType",
-                "id": 9,
-                "type": "int",
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "version",
-                    "type": {
-                        "kind": "BuiltinType",
-                        "id": 9,
-                        "type": "int",
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
-        },
-        {
-            "kind": "Function",
-            "id": 3147,
-            "short_name": "getFlags",
-            "qualified_name": "Imf_2_5::getFlags",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": null,
-            "return": {
-                "kind": "BuiltinType",
-                "id": 9,
-                "type": "int",
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "version",
-                    "type": {
-                        "kind": "BuiltinType",
-                        "id": 9,
-                        "type": "int",
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
-        },
-        {
-            "kind": "Function",
-            "id": 3148,
-            "short_name": "supportsFlags",
-            "qualified_name": "Imf_2_5::supportsFlags",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": null,
-            "return": {
-                "kind": "BuiltinType",
-                "id": 53,
-                "type": "_Bool",
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "flags",
-                    "type": {
-                        "kind": "BuiltinType",
-                        "id": 9,
-                        "type": "int",
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
-        },
-        {
-            "kind": "Function",
-            "id": 3149,
             "short_name": "isImfMagic",
             "qualified_name": "Imf_2_5::isImfMagic",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -2974,11 +3280,11 @@
                     "name": "bytes",
                     "type": {
                         "kind": "Pointer",
-                        "id": 52,
+                        "id": 53,
                         "type": "const char *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 51,
+                            "id": 52,
                             "type": "char",
                             "const": true
                         },
@@ -2990,15 +3296,18 @@
         },
         {
             "kind": "Function",
-            "id": 3641,
+            "id": 3657,
             "short_name": "isTiled",
             "qualified_name": "Imf_2_5::isTiled",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -3008,7 +3317,7 @@
                     "name": "version",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -3018,15 +3327,18 @@
         },
         {
             "kind": "Function",
-            "id": 3642,
+            "id": 3658,
             "short_name": "isTiled",
             "qualified_name": "Imf_2_5::isTiled",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -3036,7 +3348,7 @@
                     "name": "version",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -3046,15 +3358,18 @@
         },
         {
             "kind": "Function",
-            "id": 3643,
+            "id": 3659,
             "short_name": "isMultiPart",
             "qualified_name": "Imf_2_5::isMultiPart",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -3064,7 +3379,7 @@
                     "name": "version",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -3074,15 +3389,18 @@
         },
         {
             "kind": "Function",
-            "id": 3644,
+            "id": 3660,
             "short_name": "isNonImage",
             "qualified_name": "Imf_2_5::isNonImage",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -3092,7 +3410,7 @@
                     "name": "version",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -3102,15 +3420,18 @@
         },
         {
             "kind": "Function",
-            "id": 3645,
+            "id": 3661,
             "short_name": "makeTiled",
             "qualified_name": "Imf_2_5::makeTiled",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 9,
+                "id": 10,
                 "type": "int",
                 "const": false
             },
@@ -3120,7 +3441,7 @@
                     "name": "version",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -3130,15 +3451,18 @@
         },
         {
             "kind": "Function",
-            "id": 3646,
+            "id": 3662,
             "short_name": "makeNotTiled",
             "qualified_name": "Imf_2_5::makeNotTiled",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 9,
+                "id": 10,
                 "type": "int",
                 "const": false
             },
@@ -3148,7 +3472,7 @@
                     "name": "version",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -3158,15 +3482,18 @@
         },
         {
             "kind": "Function",
-            "id": 3647,
+            "id": 3663,
             "short_name": "getVersion",
             "qualified_name": "Imf_2_5::getVersion",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 9,
+                "id": 10,
                 "type": "int",
                 "const": false
             },
@@ -3176,7 +3503,7 @@
                     "name": "version",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -3186,15 +3513,18 @@
         },
         {
             "kind": "Function",
-            "id": 3648,
+            "id": 3664,
             "short_name": "getFlags",
             "qualified_name": "Imf_2_5::getFlags",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 9,
+                "id": 10,
                 "type": "int",
                 "const": false
             },
@@ -3204,7 +3534,7 @@
                     "name": "version",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -3214,15 +3544,18 @@
         },
         {
             "kind": "Function",
-            "id": 3649,
+            "id": 3665,
             "short_name": "supportsFlags",
             "qualified_name": "Imf_2_5::supportsFlags",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -3232,7 +3565,7 @@
                     "name": "flags",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -3242,15 +3575,18 @@
         },
         {
             "kind": "Function",
-            "id": 3650,
+            "id": 3666,
             "short_name": "isImfMagic",
             "qualified_name": "Imf_2_5::isImfMagic",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -3260,11 +3596,11 @@
                     "name": "bytes",
                     "type": {
                         "kind": "Pointer",
-                        "id": 52,
+                        "id": 53,
                         "type": "const char *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 51,
+                            "id": 52,
                             "type": "char",
                             "const": true
                         },

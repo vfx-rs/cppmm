@@ -9,12 +9,12 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 1360,
+    "id": 1366,
     "decls": [
         {
             "kind": "Namespace",
             "name": "Imf_2_5",
-            "id": 26,
+            "id": 27,
             "short_name": "Imf_2_5"
         },
         {
@@ -22,9 +22,9 @@
             "name": "Imf_2_5::PreviewRgba",
             "short_name": "PreviewRgba",
             "namespaces": [
-                26
+                27
             ],
-            "id": 1361,
+            "id": 1367,
             "abstract": false,
             "size": 32,
             "align": 8,
@@ -38,7 +38,7 @@
                     "name": "r",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 1359,
+                        "id": 1365,
                         "type": "unsigned char",
                         "const": false
                     }
@@ -48,7 +48,7 @@
                     "name": "g",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 1359,
+                        "id": 1365,
                         "type": "unsigned char",
                         "const": false
                     }
@@ -58,7 +58,7 @@
                     "name": "b",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 1359,
+                        "id": 1365,
                         "type": "unsigned char",
                         "const": false
                     }
@@ -68,7 +68,7 @@
                     "name": "a",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 1359,
+                        "id": 1365,
                         "type": "unsigned char",
                         "const": false
                     }
@@ -97,7 +97,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -107,7 +107,7 @@
                             "name": "r",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 1359,
+                                "id": 1365,
                                 "type": "unsigned char",
                                 "const": false
                             },
@@ -118,7 +118,7 @@
                             "name": "g",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 1359,
+                                "id": 1365,
                                 "type": "unsigned char",
                                 "const": false
                             },
@@ -129,7 +129,7 @@
                             "name": "b",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 1359,
+                                "id": 1365,
                                 "type": "unsigned char",
                                 "const": false
                             },
@@ -140,7 +140,7 @@
                             "name": "a",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 1359,
+                                "id": 1365,
                                 "type": "unsigned char",
                                 "const": false
                             },
@@ -155,9 +155,9 @@
             "name": "Imf_2_5::PreviewImage",
             "short_name": "PreviewImage",
             "namespaces": [
-                26
+                27
             ],
-            "id": 1369,
+            "id": 1375,
             "abstract": false,
             "size": 128,
             "align": 64,
@@ -171,7 +171,7 @@
                     "name": "_width",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 280,
+                        "id": 281,
                         "type": "unsigned int",
                         "const": false
                     }
@@ -181,7 +181,7 @@
                     "name": "_height",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 280,
+                        "id": 281,
                         "type": "unsigned int",
                         "const": false
                     }
@@ -191,13 +191,13 @@
                     "name": "_pixels",
                     "type": {
                         "kind": "Pointer",
-                        "id": 1366,
+                        "id": 1372,
                         "type": "struct Imf_2_5::PreviewRgba *",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 21,
+                            "id": 22,
                             "type": "Imf_2_5::PreviewRgba",
-                            "record": 1361,
+                            "record": 1367,
                             "const": false
                         },
                         "const": false
@@ -227,7 +227,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -237,7 +237,7 @@
                             "name": "width",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 280,
+                                "id": 281,
                                 "type": "unsigned int",
                                 "const": false
                             },
@@ -248,7 +248,7 @@
                             "name": "height",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 280,
+                                "id": 281,
                                 "type": "unsigned int",
                                 "const": false
                             },
@@ -259,13 +259,13 @@
                             "name": "pixels",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 22,
+                                "id": 23,
                                 "type": "const struct Imf_2_5::PreviewRgba *",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 21,
+                                    "id": 22,
                                     "type": "Imf_2_5::PreviewRgba",
-                                    "record": 1361,
+                                    "record": 1367,
                                     "const": true
                                 },
                                 "const": false
@@ -296,7 +296,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -306,13 +306,13 @@
                             "name": "other",
                             "type": {
                                 "kind": "Reference",
-                                "id": 1364,
+                                "id": 1370,
                                 "type": "const class Imf_2_5::PreviewImage &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 1363,
+                                    "id": 1369,
                                     "type": "Imf_2_5::PreviewImage",
-                                    "record": 1369,
+                                    "record": 1375,
                                     "const": true
                                 },
                                 "const": false
@@ -343,7 +343,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -371,13 +371,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 1365,
+                        "id": 1371,
                         "type": "class Imf_2_5::PreviewImage &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 1363,
+                            "id": 1369,
                             "type": "Imf_2_5::PreviewImage",
-                            "record": 1369,
+                            "record": 1375,
                             "const": false
                         },
                         "const": false
@@ -388,13 +388,13 @@
                             "name": "other",
                             "type": {
                                 "kind": "Reference",
-                                "id": 1364,
+                                "id": 1370,
                                 "type": "const class Imf_2_5::PreviewImage &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 1363,
+                                    "id": 1369,
                                     "type": "Imf_2_5::PreviewImage",
-                                    "record": 1369,
+                                    "record": 1375,
                                     "const": true
                                 },
                                 "const": false
@@ -425,7 +425,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 280,
+                        "id": 281,
                         "type": "unsigned int",
                         "const": false
                     },
@@ -453,7 +453,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 280,
+                        "id": 281,
                         "type": "unsigned int",
                         "const": false
                     },
@@ -481,13 +481,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Pointer",
-                        "id": 1366,
+                        "id": 1372,
                         "type": "struct Imf_2_5::PreviewRgba *",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 21,
+                            "id": 22,
                             "type": "Imf_2_5::PreviewRgba",
-                            "record": 1361,
+                            "record": 1367,
                             "const": false
                         },
                         "const": false
@@ -518,13 +518,13 @@
                     ],
                     "return": {
                         "kind": "Pointer",
-                        "id": 22,
+                        "id": 23,
                         "type": "const struct Imf_2_5::PreviewRgba *",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 21,
+                            "id": 22,
                             "type": "Imf_2_5::PreviewRgba",
-                            "record": 1361,
+                            "record": 1367,
                             "const": true
                         },
                         "const": false
@@ -553,13 +553,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 1367,
+                        "id": 1373,
                         "type": "struct Imf_2_5::PreviewRgba &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 21,
+                            "id": 22,
                             "type": "Imf_2_5::PreviewRgba",
-                            "record": 1361,
+                            "record": 1367,
                             "const": false
                         },
                         "const": false
@@ -570,7 +570,7 @@
                             "name": "x",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 280,
+                                "id": 281,
                                 "type": "unsigned int",
                                 "const": false
                             },
@@ -581,7 +581,7 @@
                             "name": "y",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 280,
+                                "id": 281,
                                 "type": "unsigned int",
                                 "const": false
                             },
@@ -613,13 +613,13 @@
                     ],
                     "return": {
                         "kind": "Reference",
-                        "id": 1368,
+                        "id": 1374,
                         "type": "const struct Imf_2_5::PreviewRgba &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 21,
+                            "id": 22,
                             "type": "Imf_2_5::PreviewRgba",
-                            "record": 1361,
+                            "record": 1367,
                             "const": true
                         },
                         "const": false
@@ -630,7 +630,7 @@
                             "name": "x",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 280,
+                                "id": 281,
                                 "type": "unsigned int",
                                 "const": false
                             },
@@ -641,7 +641,7 @@
                             "name": "y",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 280,
+                                "id": 281,
                                 "type": "unsigned int",
                                 "const": false
                             },

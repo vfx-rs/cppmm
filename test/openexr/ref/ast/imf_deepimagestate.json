@@ -14,7 +14,7 @@
         {
             "kind": "Namespace",
             "name": "Imf_2_5",
-            "id": 26,
+            "id": 27,
             "short_name": "Imf_2_5"
         },
         {
@@ -22,7 +22,7 @@
             "name": "Imf_2_5::DeepImageState",
             "short_name": "DeepImageState",
             "namespaces": [
-                26
+                27
             ],
             "id": 3310,
             "size": 32,

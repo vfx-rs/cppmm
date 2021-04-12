@@ -9,12 +9,12 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 172,
+    "id": 173,
     "decls": [
         {
             "kind": "Namespace",
             "name": "Imf_2_5",
-            "id": 26,
+            "id": 27,
             "short_name": "Imf_2_5"
         },
         {
@@ -22,9 +22,9 @@
             "name": "Imf_2_5::DeepScanLineInputFile",
             "short_name": "DeepScanLineInputFile",
             "namespaces": [
-                26
+                27
             ],
-            "id": 173,
+            "id": 174,
             "abstract": false,
             "size": 128,
             "align": 64,
@@ -38,11 +38,11 @@
                     "name": "_data",
                     "type": {
                         "kind": "Pointer",
-                        "id": 199,
+                        "id": 200,
                         "type": "struct Imf_2_5::DeepScanLineInputFile::Data *",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 198,
+                            "id": 199,
                             "type": "Imf_2_5::DeepScanLineInputFile::Data",
                             "record": -1,
                             "const": false
@@ -74,7 +74,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -84,11 +84,11 @@
                             "name": "fileName",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 52,
+                                "id": 53,
                                 "type": "const char *",
                                 "pointee": {
                                     "kind": "BuiltinType",
-                                    "id": 51,
+                                    "id": 52,
                                     "type": "char",
                                     "const": true
                                 },
@@ -101,7 +101,7 @@
                             "name": "numThreads",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -131,7 +131,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -141,13 +141,13 @@
                             "name": "header",
                             "type": {
                                 "kind": "Reference",
-                                "id": 7,
+                                "id": 8,
                                 "type": "const class Imf_2_5::Header &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 6,
+                                    "id": 7,
                                     "type": "Imf_2_5::Header",
-                                    "record": 1526,
+                                    "record": 1532,
                                     "const": true
                                 },
                                 "const": false
@@ -159,13 +159,13 @@
                             "name": "is",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 168,
+                                "id": 169,
                                 "type": "class Imf_2_5::IStream *",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 48,
+                                    "id": 49,
                                     "type": "Imf_2_5::IStream",
-                                    "record": 1228,
+                                    "record": 1234,
                                     "const": false
                                 },
                                 "const": false
@@ -177,7 +177,7 @@
                             "name": "version",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -188,7 +188,7 @@
                             "name": "numThreads",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -218,7 +218,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -246,11 +246,11 @@
                     "attributes": null,
                     "return": {
                         "kind": "Pointer",
-                        "id": 52,
+                        "id": 53,
                         "type": "const char *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 51,
+                            "id": 52,
                             "type": "char",
                             "const": true
                         },
@@ -280,13 +280,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 7,
+                        "id": 8,
                         "type": "const class Imf_2_5::Header &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 6,
+                            "id": 7,
                             "type": "Imf_2_5::Header",
-                            "record": 1526,
+                            "record": 1532,
                             "const": true
                         },
                         "const": false
@@ -315,7 +315,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -343,7 +343,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -353,13 +353,13 @@
                             "name": "frameBuffer",
                             "type": {
                                 "kind": "Reference",
-                                "id": 147,
+                                "id": 148,
                                 "type": "const class Imf_2_5::DeepFrameBuffer &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 146,
+                                    "id": 147,
                                     "type": "Imf_2_5::DeepFrameBuffer",
-                                    "record": 344,
+                                    "record": 346,
                                     "const": true
                                 },
                                 "const": false
@@ -390,13 +390,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 147,
+                        "id": 148,
                         "type": "const class Imf_2_5::DeepFrameBuffer &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 146,
+                            "id": 147,
                             "type": "Imf_2_5::DeepFrameBuffer",
-                            "record": 344,
+                            "record": 346,
                             "const": true
                         },
                         "const": false
@@ -425,7 +425,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 53,
+                        "id": 54,
                         "type": "_Bool",
                         "const": false
                     },
@@ -453,7 +453,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -463,7 +463,7 @@
                             "name": "scanLine1",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -474,7 +474,7 @@
                             "name": "scanLine2",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -506,7 +506,7 @@
                     ],
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -516,7 +516,7 @@
                             "name": "scanLine",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -548,7 +548,7 @@
                     ],
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -558,11 +558,11 @@
                             "name": "rawPixelData",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 52,
+                                "id": 53,
                                 "type": "const char *",
                                 "pointee": {
                                     "kind": "BuiltinType",
-                                    "id": 51,
+                                    "id": 52,
                                     "type": "char",
                                     "const": true
                                 },
@@ -575,13 +575,13 @@
                             "name": "frameBuffer",
                             "type": {
                                 "kind": "Reference",
-                                "id": 147,
+                                "id": 148,
                                 "type": "const class Imf_2_5::DeepFrameBuffer &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 146,
+                                    "id": 147,
                                     "type": "Imf_2_5::DeepFrameBuffer",
-                                    "record": 344,
+                                    "record": 346,
                                     "const": true
                                 },
                                 "const": false
@@ -593,7 +593,7 @@
                             "name": "scanLine1",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -604,7 +604,7 @@
                             "name": "scanLine2",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -634,7 +634,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -644,7 +644,7 @@
                             "name": "firstScanLine",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -655,11 +655,11 @@
                             "name": "pixelData",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 148,
+                                "id": 149,
                                 "type": "char *",
                                 "pointee": {
                                     "kind": "BuiltinType",
-                                    "id": 51,
+                                    "id": 52,
                                     "type": "char",
                                     "const": false
                                 },
@@ -672,11 +672,11 @@
                             "name": "pixelDataSize",
                             "type": {
                                 "kind": "Reference",
-                                "id": 149,
+                                "id": 150,
                                 "type": "unsigned long &",
                                 "pointee": {
                                     "kind": "BuiltinType",
-                                    "id": 20,
+                                    "id": 21,
                                     "type": "unsigned long",
                                     "const": false
                                 },
@@ -708,7 +708,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -718,7 +718,7 @@
                             "name": "y",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -748,7 +748,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -758,7 +758,7 @@
                             "name": "y",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -788,7 +788,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -798,7 +798,7 @@
                             "name": "scanline1",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -809,7 +809,7 @@
                             "name": "scanline2",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -841,7 +841,7 @@
                     ],
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -851,7 +851,7 @@
                             "name": "scanline",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -883,7 +883,7 @@
                     ],
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -893,11 +893,11 @@
                             "name": "rawdata",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 52,
+                                "id": 53,
                                 "type": "const char *",
                                 "pointee": {
                                     "kind": "BuiltinType",
-                                    "id": 51,
+                                    "id": 52,
                                     "type": "char",
                                     "const": true
                                 },
@@ -910,13 +910,13 @@
                             "name": "frameBuffer",
                             "type": {
                                 "kind": "Reference",
-                                "id": 147,
+                                "id": 148,
                                 "type": "const class Imf_2_5::DeepFrameBuffer &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 146,
+                                    "id": 147,
                                     "type": "Imf_2_5::DeepFrameBuffer",
-                                    "record": 344,
+                                    "record": 346,
                                     "const": true
                                 },
                                 "const": false
@@ -928,7 +928,7 @@
                             "name": "scanLine1",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -939,7 +939,7 @@
                             "name": "scanLine2",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },

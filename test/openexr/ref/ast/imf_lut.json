@@ -9,12 +9,12 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 930,
+    "id": 936,
     "decls": [
         {
             "kind": "Namespace",
             "name": "Imf_2_5",
-            "id": 26,
+            "id": 27,
             "short_name": "Imf_2_5"
         },
         {
@@ -22,9 +22,9 @@
             "name": "Imf_2_5::HalfLut",
             "short_name": "HalfLut",
             "namespaces": [
-                26
+                27
             ],
-            "id": 931,
+            "id": 937,
             "abstract": false,
             "size": 64,
             "align": 64,
@@ -38,7 +38,7 @@
                     "name": "_lut",
                     "type": {
                         "kind": "RecordType",
-                        "id": 938,
+                        "id": 944,
                         "type": "halfFunction<half>",
                         "record": -1,
                         "const": false
@@ -68,7 +68,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -78,13 +78,13 @@
                             "name": "data",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 230,
+                                "id": 231,
                                 "type": "class half *",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 227,
+                                    "id": 228,
                                     "type": "half",
-                                    "record": 1052,
+                                    "record": 1058,
                                     "const": false
                                 },
                                 "const": false
@@ -96,7 +96,7 @@
                             "name": "nData",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -107,7 +107,7 @@
                             "name": "stride",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -137,7 +137,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -147,13 +147,13 @@
                             "name": "data",
                             "type": {
                                 "kind": "Reference",
-                                "id": 333,
+                                "id": 336,
                                 "type": "const struct Imf_2_5::Slice &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 204,
+                                    "id": 205,
                                     "type": "Imf_2_5::Slice",
-                                    "record": 3652,
+                                    "record": 3668,
                                     "const": true
                                 },
                                 "const": false
@@ -165,13 +165,13 @@
                             "name": "dataWindow",
                             "type": {
                                 "kind": "Reference",
-                                "id": 13,
+                                "id": 14,
                                 "type": "const class Imath_2_5::Box<class Imath_2_5::Vec2<int> > &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 12,
+                                    "id": 13,
                                     "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                                    "record": 2973,
+                                    "record": 2964,
                                     "const": true
                                 },
                                 "const": false
@@ -187,9 +187,9 @@
             "name": "Imf_2_5::RgbaLut",
             "short_name": "RgbaLut",
             "namespaces": [
-                26
+                27
             ],
-            "id": 939,
+            "id": 945,
             "abstract": false,
             "size": 128,
             "align": 64,
@@ -203,7 +203,7 @@
                     "name": "_lut",
                     "type": {
                         "kind": "RecordType",
-                        "id": 938,
+                        "id": 944,
                         "type": "halfFunction<half>",
                         "record": -1,
                         "const": false
@@ -214,9 +214,9 @@
                     "name": "_chn",
                     "type": {
                         "kind": "EnumType",
-                        "id": 8,
+                        "id": 9,
                         "type": "Imf_2_5::RgbaChannels",
-                        "enum": 1490,
+                        "enum": 1496,
                         "const": false
                     }
                 }
@@ -244,7 +244,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -254,13 +254,13 @@
                             "name": "data",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 50,
+                                "id": 51,
                                 "type": "struct Imf_2_5::Rgba *",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 18,
+                                    "id": 19,
                                     "type": "Imf_2_5::Rgba",
-                                    "record": 3112,
+                                    "record": 3109,
                                     "const": false
                                 },
                                 "const": false
@@ -272,7 +272,7 @@
                             "name": "nData",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -283,7 +283,7 @@
                             "name": "stride",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -313,7 +313,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -323,13 +323,13 @@
                             "name": "base",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 50,
+                                "id": 51,
                                 "type": "struct Imf_2_5::Rgba *",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 18,
+                                    "id": 19,
                                     "type": "Imf_2_5::Rgba",
-                                    "record": 3112,
+                                    "record": 3109,
                                     "const": false
                                 },
                                 "const": false
@@ -341,7 +341,7 @@
                             "name": "xStride",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -352,7 +352,7 @@
                             "name": "yStride",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -363,13 +363,13 @@
                             "name": "dataWindow",
                             "type": {
                                 "kind": "Reference",
-                                "id": 13,
+                                "id": 14,
                                 "type": "const class Imath_2_5::Box<class Imath_2_5::Vec2<int> > &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 12,
+                                    "id": 13,
                                     "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                                    "record": 2973,
+                                    "record": 2964,
                                     "const": true
                                 },
                                 "const": false

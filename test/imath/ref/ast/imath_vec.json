@@ -15,7 +15,8 @@
             "kind": "Namespace",
             "name": "Imath_2_5",
             "id": 6,
-            "short_name": "Imath_2_5"
+            "short_name": "Imath_2_5",
+            "alias": "Imath"
         },
         {
             "kind": "Record",
@@ -26,6 +27,7 @@
             ],
             "id": 25,
             "abstract": false,
+            "trivially_copyable": false,
             "size": 96,
             "align": 32,
             "alias": "V3f",

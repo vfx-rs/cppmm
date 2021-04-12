@@ -9,12 +9,12 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 3208,
+    "id": 3205,
     "decls": [
         {
             "kind": "Namespace",
             "name": "Imf_2_5",
-            "id": 26,
+            "id": 27,
             "short_name": "Imf_2_5"
         },
         {
@@ -22,9 +22,9 @@
             "name": "Imf_2_5::Channel",
             "short_name": "Channel",
             "namespaces": [
-                26
+                27
             ],
-            "id": 3209,
+            "id": 3206,
             "abstract": false,
             "size": 128,
             "align": 32,
@@ -38,9 +38,9 @@
                     "name": "type",
                     "type": {
                         "kind": "EnumType",
-                        "id": 200,
+                        "id": 201,
                         "type": "Imf_2_5::PixelType",
-                        "enum": 1859,
+                        "enum": 1869,
                         "const": false
                     }
                 },
@@ -49,7 +49,7 @@
                     "name": "xSampling",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     }
@@ -59,7 +59,7 @@
                     "name": "ySampling",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     }
@@ -69,7 +69,7 @@
                     "name": "pLinear",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 53,
+                        "id": 54,
                         "type": "_Bool",
                         "const": false
                     }
@@ -98,7 +98,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -108,9 +108,9 @@
                             "name": "type",
                             "type": {
                                 "kind": "EnumType",
-                                "id": 200,
+                                "id": 201,
                                 "type": "Imf_2_5::PixelType",
-                                "enum": 1859,
+                                "enum": 1869,
                                 "const": false
                             },
                             "attrs": []
@@ -120,7 +120,7 @@
                             "name": "xSampling",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -131,7 +131,7 @@
                             "name": "ySampling",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -142,7 +142,7 @@
                             "name": "pLinear",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 53,
+                                "id": 54,
                                 "type": "_Bool",
                                 "const": false
                             },
@@ -172,7 +172,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 53,
+                        "id": 54,
                         "type": "_Bool",
                         "const": false
                     },
@@ -182,13 +182,60 @@
                             "name": "other",
                             "type": {
                                 "kind": "Reference",
-                                "id": 1274,
+                                "id": 1280,
                                 "type": "const struct Imf_2_5::Channel &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 214,
+                                    "id": 215,
                                     "type": "Imf_2_5::Channel",
-                                    "record": 3209,
+                                    "record": 3206,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "Channel",
+                    "qualified_name": "Imf_2_5::Channel::Channel",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": false,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": true,
+                    "copy_constructor": true,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 4,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "rhs",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 1280,
+                                "type": "const struct Imf_2_5::Channel &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 215,
+                                    "type": "Imf_2_5::Channel",
+                                    "record": 3206,
                                     "const": true
                                 },
                                 "const": false
@@ -204,9 +251,9 @@
             "name": "Imf_2_5::ChannelList",
             "short_name": "ChannelList",
             "namespaces": [
-                26
+                27
             ],
-            "id": 3224,
+            "id": 3222,
             "abstract": false,
             "size": 384,
             "align": 64,
@@ -220,7 +267,7 @@
                     "name": "_map",
                     "type": {
                         "kind": "RecordType",
-                        "id": 3249,
+                        "id": 3247,
                         "type": "std::map<Imf_2_5::Name, Imf_2_5::Channel, std::less<Imf_2_5::Name>, std::allocator<std::pair<const Imf_2_5::Name, Imf_2_5::Channel> > >",
                         "record": -1,
                         "const": false
@@ -250,7 +297,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -260,11 +307,11 @@
                             "name": "name",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 52,
+                                "id": 53,
                                 "type": "const char *",
                                 "pointee": {
                                     "kind": "BuiltinType",
-                                    "id": 51,
+                                    "id": 52,
                                     "type": "char",
                                     "const": true
                                 },
@@ -277,13 +324,13 @@
                             "name": "channel",
                             "type": {
                                 "kind": "Reference",
-                                "id": 1274,
+                                "id": 1280,
                                 "type": "const struct Imf_2_5::Channel &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 214,
+                                    "id": 215,
                                     "type": "Imf_2_5::Channel",
-                                    "record": 3209,
+                                    "record": 3206,
                                     "const": true
                                 },
                                 "const": false
@@ -316,7 +363,7 @@
                     ],
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -326,11 +373,11 @@
                             "name": "name",
                             "type": {
                                 "kind": "Reference",
-                                "id": 5,
+                                "id": 6,
                                 "type": "const class std::__cxx11::basic_string<char> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 4,
+                                    "id": 5,
                                     "type": "std::__cxx11::basic_string<char>",
                                     "record": -1,
                                     "const": true
@@ -344,13 +391,13 @@
                             "name": "channel",
                             "type": {
                                 "kind": "Reference",
-                                "id": 1274,
+                                "id": 1280,
                                 "type": "const struct Imf_2_5::Channel &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 214,
+                                    "id": 215,
                                     "type": "Imf_2_5::Channel",
-                                    "record": 3209,
+                                    "record": 3206,
                                     "const": true
                                 },
                                 "const": false
@@ -383,13 +430,13 @@
                     ],
                     "return": {
                         "kind": "Reference",
-                        "id": 3213,
+                        "id": 3211,
                         "type": "struct Imf_2_5::Channel &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 214,
+                            "id": 215,
                             "type": "Imf_2_5::Channel",
-                            "record": 3209,
+                            "record": 3206,
                             "const": false
                         },
                         "const": false
@@ -400,11 +447,11 @@
                             "name": "name",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 52,
+                                "id": 53,
                                 "type": "const char *",
                                 "pointee": {
                                     "kind": "BuiltinType",
-                                    "id": 51,
+                                    "id": 52,
                                     "type": "char",
                                     "const": true
                                 },
@@ -438,13 +485,13 @@
                     ],
                     "return": {
                         "kind": "Reference",
-                        "id": 1274,
+                        "id": 1280,
                         "type": "const struct Imf_2_5::Channel &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 214,
+                            "id": 215,
                             "type": "Imf_2_5::Channel",
-                            "record": 3209,
+                            "record": 3206,
                             "const": true
                         },
                         "const": false
@@ -455,11 +502,11 @@
                             "name": "name",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 52,
+                                "id": 53,
                                 "type": "const char *",
                                 "pointee": {
                                     "kind": "BuiltinType",
-                                    "id": 51,
+                                    "id": 52,
                                     "type": "char",
                                     "const": true
                                 },
@@ -493,13 +540,13 @@
                     ],
                     "return": {
                         "kind": "Reference",
-                        "id": 3213,
+                        "id": 3211,
                         "type": "struct Imf_2_5::Channel &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 214,
+                            "id": 215,
                             "type": "Imf_2_5::Channel",
-                            "record": 3209,
+                            "record": 3206,
                             "const": false
                         },
                         "const": false
@@ -510,11 +557,11 @@
                             "name": "name",
                             "type": {
                                 "kind": "Reference",
-                                "id": 5,
+                                "id": 6,
                                 "type": "const class std::__cxx11::basic_string<char> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 4,
+                                    "id": 5,
                                     "type": "std::__cxx11::basic_string<char>",
                                     "record": -1,
                                     "const": true
@@ -549,13 +596,13 @@
                     ],
                     "return": {
                         "kind": "Reference",
-                        "id": 1274,
+                        "id": 1280,
                         "type": "const struct Imf_2_5::Channel &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 214,
+                            "id": 215,
                             "type": "Imf_2_5::Channel",
-                            "record": 3209,
+                            "record": 3206,
                             "const": true
                         },
                         "const": false
@@ -566,11 +613,11 @@
                             "name": "name",
                             "type": {
                                 "kind": "Reference",
-                                "id": 5,
+                                "id": 6,
                                 "type": "const class std::__cxx11::basic_string<char> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 4,
+                                    "id": 5,
                                     "type": "std::__cxx11::basic_string<char>",
                                     "record": -1,
                                     "const": true
@@ -603,13 +650,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Pointer",
-                        "id": 3214,
+                        "id": 3212,
                         "type": "struct Imf_2_5::Channel *",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 214,
+                            "id": 215,
                             "type": "Imf_2_5::Channel",
-                            "record": 3209,
+                            "record": 3206,
                             "const": false
                         },
                         "const": false
@@ -620,11 +667,11 @@
                             "name": "name",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 52,
+                                "id": 53,
                                 "type": "const char *",
                                 "pointee": {
                                     "kind": "BuiltinType",
-                                    "id": 51,
+                                    "id": 52,
                                     "type": "char",
                                     "const": true
                                 },
@@ -658,13 +705,13 @@
                     ],
                     "return": {
                         "kind": "Pointer",
-                        "id": 3215,
+                        "id": 3213,
                         "type": "const struct Imf_2_5::Channel *",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 214,
+                            "id": 215,
                             "type": "Imf_2_5::Channel",
-                            "record": 3209,
+                            "record": 3206,
                             "const": true
                         },
                         "const": false
@@ -675,11 +722,11 @@
                             "name": "name",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 52,
+                                "id": 53,
                                 "type": "const char *",
                                 "pointee": {
                                     "kind": "BuiltinType",
-                                    "id": 51,
+                                    "id": 52,
                                     "type": "char",
                                     "const": true
                                 },
@@ -713,13 +760,13 @@
                     ],
                     "return": {
                         "kind": "Pointer",
-                        "id": 3214,
+                        "id": 3212,
                         "type": "struct Imf_2_5::Channel *",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 214,
+                            "id": 215,
                             "type": "Imf_2_5::Channel",
-                            "record": 3209,
+                            "record": 3206,
                             "const": false
                         },
                         "const": false
@@ -730,11 +777,11 @@
                             "name": "name",
                             "type": {
                                 "kind": "Reference",
-                                "id": 5,
+                                "id": 6,
                                 "type": "const class std::__cxx11::basic_string<char> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 4,
+                                    "id": 5,
                                     "type": "std::__cxx11::basic_string<char>",
                                     "record": -1,
                                     "const": true
@@ -769,13 +816,13 @@
                     ],
                     "return": {
                         "kind": "Pointer",
-                        "id": 3215,
+                        "id": 3213,
                         "type": "const struct Imf_2_5::Channel *",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 214,
+                            "id": 215,
                             "type": "Imf_2_5::Channel",
-                            "record": 3209,
+                            "record": 3206,
                             "const": true
                         },
                         "const": false
@@ -786,11 +833,11 @@
                             "name": "name",
                             "type": {
                                 "kind": "Reference",
-                                "id": 5,
+                                "id": 6,
                                 "type": "const class std::__cxx11::basic_string<char> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 4,
+                                    "id": 5,
                                     "type": "std::__cxx11::basic_string<char>",
                                     "record": -1,
                                     "const": true
@@ -823,9 +870,9 @@
                     "attributes": null,
                     "return": {
                         "kind": "RecordType",
-                        "id": 3216,
+                        "id": 3214,
                         "type": "Imf_2_5::ChannelList::Iterator",
-                        "record": 3254,
+                        "record": 3253,
                         "const": false
                     },
                     "params": null
@@ -854,7 +901,7 @@
                     ],
                     "return": {
                         "kind": "RecordType",
-                        "id": 3217,
+                        "id": 3215,
                         "type": "Imf_2_5::ChannelList::ConstIterator",
                         "record": 3265,
                         "const": false
@@ -883,9 +930,9 @@
                     "attributes": null,
                     "return": {
                         "kind": "RecordType",
-                        "id": 3216,
+                        "id": 3214,
                         "type": "Imf_2_5::ChannelList::Iterator",
-                        "record": 3254,
+                        "record": 3253,
                         "const": false
                     },
                     "params": null
@@ -914,7 +961,7 @@
                     ],
                     "return": {
                         "kind": "RecordType",
-                        "id": 3217,
+                        "id": 3215,
                         "type": "Imf_2_5::ChannelList::ConstIterator",
                         "record": 3265,
                         "const": false
@@ -943,9 +990,9 @@
                     "attributes": null,
                     "return": {
                         "kind": "RecordType",
-                        "id": 3216,
+                        "id": 3214,
                         "type": "Imf_2_5::ChannelList::Iterator",
-                        "record": 3254,
+                        "record": 3253,
                         "const": false
                     },
                     "params": [
@@ -954,11 +1001,11 @@
                             "name": "name",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 52,
+                                "id": 53,
                                 "type": "const char *",
                                 "pointee": {
                                     "kind": "BuiltinType",
-                                    "id": 51,
+                                    "id": 52,
                                     "type": "char",
                                     "const": true
                                 },
@@ -992,7 +1039,7 @@
                     ],
                     "return": {
                         "kind": "RecordType",
-                        "id": 3217,
+                        "id": 3215,
                         "type": "Imf_2_5::ChannelList::ConstIterator",
                         "record": 3265,
                         "const": false
@@ -1003,11 +1050,11 @@
                             "name": "name",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 52,
+                                "id": 53,
                                 "type": "const char *",
                                 "pointee": {
                                     "kind": "BuiltinType",
-                                    "id": 51,
+                                    "id": 52,
                                     "type": "char",
                                     "const": true
                                 },
@@ -1041,9 +1088,9 @@
                     ],
                     "return": {
                         "kind": "RecordType",
-                        "id": 3216,
+                        "id": 3214,
                         "type": "Imf_2_5::ChannelList::Iterator",
-                        "record": 3254,
+                        "record": 3253,
                         "const": false
                     },
                     "params": [
@@ -1052,11 +1099,11 @@
                             "name": "name",
                             "type": {
                                 "kind": "Reference",
-                                "id": 5,
+                                "id": 6,
                                 "type": "const class std::__cxx11::basic_string<char> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 4,
+                                    "id": 5,
                                     "type": "std::__cxx11::basic_string<char>",
                                     "record": -1,
                                     "const": true
@@ -1091,7 +1138,7 @@
                     ],
                     "return": {
                         "kind": "RecordType",
-                        "id": 3217,
+                        "id": 3215,
                         "type": "Imf_2_5::ChannelList::ConstIterator",
                         "record": 3265,
                         "const": false
@@ -1102,11 +1149,11 @@
                             "name": "name",
                             "type": {
                                 "kind": "Reference",
-                                "id": 5,
+                                "id": 6,
                                 "type": "const class std::__cxx11::basic_string<char> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 4,
+                                    "id": 5,
                                     "type": "std::__cxx11::basic_string<char>",
                                     "record": -1,
                                     "const": true
@@ -1139,7 +1186,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -1149,11 +1196,11 @@
                             "name": "layerNames",
                             "type": {
                                 "kind": "Reference",
-                                "id": 3219,
+                                "id": 3217,
                                 "type": "class std::set<class std::__cxx11::basic_string<char>, struct std::less<class std::__cxx11::basic_string<char> >, class std::allocator<class std::__cxx11::basic_string<char> > > &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 3218,
+                                    "id": 3216,
                                     "type": "std::set<std::__cxx11::basic_string<char>, std::less<std::__cxx11::basic_string<char> >, std::allocator<std::__cxx11::basic_string<char> > >",
                                     "record": -1,
                                     "const": false
@@ -1186,7 +1233,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -1196,11 +1243,11 @@
                             "name": "layerName",
                             "type": {
                                 "kind": "Reference",
-                                "id": 5,
+                                "id": 6,
                                 "type": "const class std::__cxx11::basic_string<char> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 4,
+                                    "id": 5,
                                     "type": "std::__cxx11::basic_string<char>",
                                     "record": -1,
                                     "const": true
@@ -1214,13 +1261,13 @@
                             "name": "first",
                             "type": {
                                 "kind": "Reference",
-                                "id": 3220,
+                                "id": 3218,
                                 "type": "class Imf_2_5::ChannelList::Iterator &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 3216,
+                                    "id": 3214,
                                     "type": "Imf_2_5::ChannelList::Iterator",
-                                    "record": 3254,
+                                    "record": 3253,
                                     "const": false
                                 },
                                 "const": false
@@ -1232,13 +1279,13 @@
                             "name": "last",
                             "type": {
                                 "kind": "Reference",
-                                "id": 3220,
+                                "id": 3218,
                                 "type": "class Imf_2_5::ChannelList::Iterator &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 3216,
+                                    "id": 3214,
                                     "type": "Imf_2_5::ChannelList::Iterator",
-                                    "record": 3254,
+                                    "record": 3253,
                                     "const": false
                                 },
                                 "const": false
@@ -1271,7 +1318,7 @@
                     ],
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -1281,11 +1328,11 @@
                             "name": "layerName",
                             "type": {
                                 "kind": "Reference",
-                                "id": 5,
+                                "id": 6,
                                 "type": "const class std::__cxx11::basic_string<char> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 4,
+                                    "id": 5,
                                     "type": "std::__cxx11::basic_string<char>",
                                     "record": -1,
                                     "const": true
@@ -1299,11 +1346,11 @@
                             "name": "first",
                             "type": {
                                 "kind": "Reference",
-                                "id": 3221,
+                                "id": 3219,
                                 "type": "class Imf_2_5::ChannelList::ConstIterator &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 3217,
+                                    "id": 3215,
                                     "type": "Imf_2_5::ChannelList::ConstIterator",
                                     "record": 3265,
                                     "const": false
@@ -1317,11 +1364,11 @@
                             "name": "last",
                             "type": {
                                 "kind": "Reference",
-                                "id": 3221,
+                                "id": 3219,
                                 "type": "class Imf_2_5::ChannelList::ConstIterator &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 3217,
+                                    "id": 3215,
                                     "type": "Imf_2_5::ChannelList::ConstIterator",
                                     "record": 3265,
                                     "const": false
@@ -1354,7 +1401,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -1364,11 +1411,11 @@
                             "name": "prefix",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 52,
+                                "id": 53,
                                 "type": "const char *",
                                 "pointee": {
                                     "kind": "BuiltinType",
-                                    "id": 51,
+                                    "id": 52,
                                     "type": "char",
                                     "const": true
                                 },
@@ -1381,13 +1428,13 @@
                             "name": "first",
                             "type": {
                                 "kind": "Reference",
-                                "id": 3220,
+                                "id": 3218,
                                 "type": "class Imf_2_5::ChannelList::Iterator &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 3216,
+                                    "id": 3214,
                                     "type": "Imf_2_5::ChannelList::Iterator",
-                                    "record": 3254,
+                                    "record": 3253,
                                     "const": false
                                 },
                                 "const": false
@@ -1399,13 +1446,13 @@
                             "name": "last",
                             "type": {
                                 "kind": "Reference",
-                                "id": 3220,
+                                "id": 3218,
                                 "type": "class Imf_2_5::ChannelList::Iterator &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 3216,
+                                    "id": 3214,
                                     "type": "Imf_2_5::ChannelList::Iterator",
-                                    "record": 3254,
+                                    "record": 3253,
                                     "const": false
                                 },
                                 "const": false
@@ -1438,7 +1485,7 @@
                     ],
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -1448,11 +1495,11 @@
                             "name": "prefix",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 52,
+                                "id": 53,
                                 "type": "const char *",
                                 "pointee": {
                                     "kind": "BuiltinType",
-                                    "id": 51,
+                                    "id": 52,
                                     "type": "char",
                                     "const": true
                                 },
@@ -1465,11 +1512,11 @@
                             "name": "first",
                             "type": {
                                 "kind": "Reference",
-                                "id": 3221,
+                                "id": 3219,
                                 "type": "class Imf_2_5::ChannelList::ConstIterator &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 3217,
+                                    "id": 3215,
                                     "type": "Imf_2_5::ChannelList::ConstIterator",
                                     "record": 3265,
                                     "const": false
@@ -1483,11 +1530,11 @@
                             "name": "last",
                             "type": {
                                 "kind": "Reference",
-                                "id": 3221,
+                                "id": 3219,
                                 "type": "class Imf_2_5::ChannelList::ConstIterator &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 3217,
+                                    "id": 3215,
                                     "type": "Imf_2_5::ChannelList::ConstIterator",
                                     "record": 3265,
                                     "const": false
@@ -1505,10 +1552,10 @@
             "name": "Imf_2_5::ChannelList::Iterator",
             "short_name": "Iterator",
             "namespaces": [
-                26,
-                3224
+                27,
+                3222
             ],
-            "id": 3254,
+            "id": 3253,
             "abstract": false,
             "size": 64,
             "align": 64,
@@ -1522,7 +1569,7 @@
                     "name": "_i",
                     "type": {
                         "kind": "RecordType",
-                        "id": 3250,
+                        "id": 3248,
                         "type": "std::_Rb_tree_iterator<std::pair<const Imf_2_5::Name, Imf_2_5::Channel> >",
                         "record": -1,
                         "const": false
@@ -1552,7 +1599,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -1582,7 +1629,7 @@
                     ],
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -1592,11 +1639,11 @@
                             "name": "i",
                             "type": {
                                 "kind": "Reference",
-                                "id": 3251,
+                                "id": 3249,
                                 "type": "const struct std::_Rb_tree_iterator<struct std::pair<const class Imf_2_5::Name, struct Imf_2_5::Channel> > &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 3250,
+                                    "id": 3248,
                                     "type": "std::_Rb_tree_iterator<std::pair<const Imf_2_5::Name, Imf_2_5::Channel> >",
                                     "record": -1,
                                     "const": true
@@ -1629,11 +1676,11 @@
                     "attributes": null,
                     "return": {
                         "kind": "Pointer",
-                        "id": 52,
+                        "id": 53,
                         "type": "const char *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 51,
+                            "id": 52,
                             "type": "char",
                             "const": true
                         },
@@ -1663,18 +1710,65 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 3213,
+                        "id": 3211,
                         "type": "struct Imf_2_5::Channel &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 214,
+                            "id": 215,
                             "type": "Imf_2_5::Channel",
-                            "record": 3209,
+                            "record": 3206,
                             "const": false
                         },
                         "const": false
                     },
                     "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "Iterator",
+                    "qualified_name": "Imf_2_5::ChannelList::Iterator::Iterator",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": false,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": true,
+                    "copy_constructor": true,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 4,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "rhs",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 3250,
+                                "type": "const class Imf_2_5::ChannelList::Iterator &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 3214,
+                                    "type": "Imf_2_5::ChannelList::Iterator",
+                                    "record": 3253,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
                 }
             ]
         },
@@ -1683,8 +1777,8 @@
             "name": "Imf_2_5::ChannelList::ConstIterator",
             "short_name": "ConstIterator",
             "namespaces": [
-                26,
-                3224
+                27,
+                3222
             ],
             "id": 3265,
             "abstract": false,
@@ -1700,7 +1794,7 @@
                     "name": "_i",
                     "type": {
                         "kind": "RecordType",
-                        "id": 3261,
+                        "id": 3260,
                         "type": "std::_Rb_tree_const_iterator<std::pair<const Imf_2_5::Name, Imf_2_5::Channel> >",
                         "record": -1,
                         "const": false
@@ -1730,7 +1824,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -1760,7 +1854,7 @@
                     ],
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -1770,11 +1864,11 @@
                             "name": "i",
                             "type": {
                                 "kind": "Reference",
-                                "id": 3262,
+                                "id": 3261,
                                 "type": "const struct std::_Rb_tree_const_iterator<struct std::pair<const class Imf_2_5::Name, struct Imf_2_5::Channel> > &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 3261,
+                                    "id": 3260,
                                     "type": "std::_Rb_tree_const_iterator<std::pair<const Imf_2_5::Name, Imf_2_5::Channel> >",
                                     "record": -1,
                                     "const": true
@@ -1807,17 +1901,64 @@
                     "attributes": null,
                     "return": {
                         "kind": "Pointer",
-                        "id": 52,
+                        "id": 53,
                         "type": "const char *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 51,
+                            "id": 52,
                             "type": "char",
                             "const": true
                         },
                         "const": false
                     },
                     "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "ConstIterator",
+                    "qualified_name": "Imf_2_5::ChannelList::ConstIterator::ConstIterator",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": false,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": true,
+                    "copy_constructor": true,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 4,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "rhs",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 3262,
+                                "type": "const class Imf_2_5::ChannelList::ConstIterator &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 3215,
+                                    "type": "Imf_2_5::ChannelList::ConstIterator",
+                                    "record": 3265,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
                 }
             ]
         }

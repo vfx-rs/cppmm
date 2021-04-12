@@ -9,12 +9,12 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 1218,
+    "id": 1224,
     "decls": [
         {
             "kind": "Namespace",
             "name": "Imf_2_5",
-            "id": 26,
+            "id": 27,
             "short_name": "Imf_2_5"
         },
         {
@@ -22,9 +22,9 @@
             "name": "Imf_2_5::OStream",
             "short_name": "OStream",
             "namespaces": [
-                26
+                27
             ],
-            "id": 1219,
+            "id": 1225,
             "abstract": true,
             "size": 320,
             "align": 64,
@@ -38,7 +38,7 @@
                     "name": "_fileName",
                     "type": {
                         "kind": "RecordType",
-                        "id": 4,
+                        "id": 5,
                         "type": "std::__cxx11::basic_string<char>",
                         "record": -1,
                         "const": false
@@ -68,7 +68,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -96,7 +96,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -106,11 +106,11 @@
                             "name": "c",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 52,
+                                "id": 53,
                                 "type": "const char *",
                                 "pointee": {
                                     "kind": "BuiltinType",
-                                    "id": 51,
+                                    "id": 52,
                                     "type": "char",
                                     "const": true
                                 },
@@ -123,7 +123,7 @@
                             "name": "n",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -153,7 +153,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 20,
+                        "id": 21,
                         "type": "unsigned long",
                         "const": false
                     },
@@ -181,7 +181,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -191,7 +191,7 @@
                             "name": "pos",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 20,
+                                "id": 21,
                                 "type": "unsigned long",
                                 "const": false
                             },
@@ -221,11 +221,11 @@
                     "attributes": null,
                     "return": {
                         "kind": "Pointer",
-                        "id": 52,
+                        "id": 53,
                         "type": "const char *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 51,
+                            "id": 52,
                             "type": "char",
                             "const": true
                         },
@@ -240,9 +240,9 @@
             "name": "Imf_2_5::IStream",
             "short_name": "IStream",
             "namespaces": [
-                26
+                27
             ],
-            "id": 1228,
+            "id": 1234,
             "abstract": true,
             "size": 320,
             "align": 64,
@@ -256,7 +256,7 @@
                     "name": "_fileName",
                     "type": {
                         "kind": "RecordType",
-                        "id": 4,
+                        "id": 5,
                         "type": "std::__cxx11::basic_string<char>",
                         "record": -1,
                         "const": false
@@ -286,7 +286,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -314,7 +314,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 53,
+                        "id": 54,
                         "type": "_Bool",
                         "const": false
                     },
@@ -342,7 +342,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 53,
+                        "id": 54,
                         "type": "_Bool",
                         "const": false
                     },
@@ -352,11 +352,11 @@
                             "name": "c",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 148,
+                                "id": 149,
                                 "type": "char *",
                                 "pointee": {
                                     "kind": "BuiltinType",
-                                    "id": 51,
+                                    "id": 52,
                                     "type": "char",
                                     "const": false
                                 },
@@ -369,7 +369,7 @@
                             "name": "n",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -399,11 +399,11 @@
                     "attributes": null,
                     "return": {
                         "kind": "Pointer",
-                        "id": 148,
+                        "id": 149,
                         "type": "char *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 51,
+                            "id": 52,
                             "type": "char",
                             "const": false
                         },
@@ -415,7 +415,7 @@
                             "name": "n",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -445,7 +445,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 20,
+                        "id": 21,
                         "type": "unsigned long",
                         "const": false
                     },
@@ -473,7 +473,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -483,7 +483,7 @@
                             "name": "pos",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 20,
+                                "id": 21,
                                 "type": "unsigned long",
                                 "const": false
                             },
@@ -513,7 +513,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -541,11 +541,11 @@
                     "attributes": null,
                     "return": {
                         "kind": "Pointer",
-                        "id": 52,
+                        "id": 53,
                         "type": "const char *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 51,
+                            "id": 52,
                             "type": "char",
                             "const": true
                         },

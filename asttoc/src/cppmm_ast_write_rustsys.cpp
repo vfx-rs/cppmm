@@ -252,7 +252,7 @@ cmake = "0.1"
 fn main() {{
     let dst = cmake::Config::new("{}").build();
     println!("cargo:rustc-link-search=native={{}}", dst.display());
-    println!("cargo:rustc-link-lib=dylib={}");
+    println!("cargo:rustc-link-lib=dylib={}-c");
 )#",
                    c_dir, project_name);
 

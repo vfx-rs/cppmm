@@ -9,12 +9,12 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 1747,
+    "id": 1757,
     "decls": [
         {
             "kind": "Namespace",
             "name": "Imf_2_5",
-            "id": 26,
+            "id": 27,
             "short_name": "Imf_2_5"
         },
         {
@@ -22,9 +22,9 @@
             "name": "Imf_2_5::Name",
             "short_name": "Name",
             "namespaces": [
-                26
+                27
             ],
-            "id": 1748,
+            "id": 1758,
             "abstract": false,
             "size": 2048,
             "align": 8,
@@ -38,12 +38,12 @@
                     "name": "_text",
                     "type": {
                         "kind": "ConstantArrayType",
-                        "id": 1754,
+                        "id": 1764,
                         "type": "char [256]",
                         "size": 256,
                         "element_type": {
                             "kind": "BuiltinType",
-                            "id": 51,
+                            "id": 52,
                             "type": "char",
                             "const": false
                         },
@@ -76,7 +76,7 @@
                     ],
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -104,7 +104,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -114,11 +114,11 @@
                             "name": "text",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 52,
+                                "id": 53,
                                 "type": "const char *",
                                 "pointee": {
                                     "kind": "BuiltinType",
-                                    "id": 51,
+                                    "id": 52,
                                     "type": "char",
                                     "const": true
                                 },
@@ -150,13 +150,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 1746,
+                        "id": 1756,
                         "type": "class Imf_2_5::Name &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 1745,
+                            "id": 1755,
                             "type": "Imf_2_5::Name",
-                            "record": 1748,
+                            "record": 1758,
                             "const": false
                         },
                         "const": false
@@ -167,11 +167,11 @@
                             "name": "text",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 52,
+                                "id": 53,
                                 "type": "const char *",
                                 "pointee": {
                                     "kind": "BuiltinType",
-                                    "id": 51,
+                                    "id": 52,
                                     "type": "char",
                                     "const": true
                                 },
@@ -189,11 +189,11 @@
             "short_name": "SIZE",
             "type": {
                 "kind": "BuiltinType",
-                "id": 9,
+                "id": 10,
                 "type": "int",
                 "const": true
             },
-            "id": 1755,
+            "id": 1765,
             "attributes": null
         },
         {
@@ -202,11 +202,11 @@
             "short_name": "MAX_LENGTH",
             "type": {
                 "kind": "BuiltinType",
-                "id": 9,
+                "id": 10,
                 "type": "int",
                 "const": true
             },
-            "id": 1756,
+            "id": 1766,
             "attributes": null
         }
     ]

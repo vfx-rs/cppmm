@@ -9,12 +9,12 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 3651,
+    "id": 3667,
     "decls": [
         {
             "kind": "Namespace",
             "name": "Imf_2_5",
-            "id": 26,
+            "id": 27,
             "short_name": "Imf_2_5"
         },
         {
@@ -22,9 +22,9 @@
             "name": "Imf_2_5::Slice",
             "short_name": "Slice",
             "namespaces": [
-                26
+                27
             ],
-            "id": 3652,
+            "id": 3668,
             "abstract": false,
             "size": 448,
             "align": 64,
@@ -38,9 +38,9 @@
                     "name": "type",
                     "type": {
                         "kind": "EnumType",
-                        "id": 200,
+                        "id": 201,
                         "type": "Imf_2_5::PixelType",
-                        "enum": 1859,
+                        "enum": 1869,
                         "const": false
                     }
                 },
@@ -49,11 +49,11 @@
                     "name": "base",
                     "type": {
                         "kind": "Pointer",
-                        "id": 148,
+                        "id": 149,
                         "type": "char *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 51,
+                            "id": 52,
                             "type": "char",
                             "const": false
                         },
@@ -65,7 +65,7 @@
                     "name": "xStride",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 20,
+                        "id": 21,
                         "type": "unsigned long",
                         "const": false
                     }
@@ -75,7 +75,7 @@
                     "name": "yStride",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 20,
+                        "id": 21,
                         "type": "unsigned long",
                         "const": false
                     }
@@ -85,7 +85,7 @@
                     "name": "xSampling",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     }
@@ -95,7 +95,7 @@
                     "name": "ySampling",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     }
@@ -105,7 +105,7 @@
                     "name": "fillValue",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 326,
+                        "id": 327,
                         "type": "double",
                         "const": false
                     }
@@ -115,7 +115,7 @@
                     "name": "xTileCoords",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 53,
+                        "id": 54,
                         "type": "_Bool",
                         "const": false
                     }
@@ -125,7 +125,7 @@
                     "name": "yTileCoords",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 53,
+                        "id": 54,
                         "type": "_Bool",
                         "const": false
                     }
@@ -154,7 +154,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -164,9 +164,9 @@
                             "name": "type",
                             "type": {
                                 "kind": "EnumType",
-                                "id": 200,
+                                "id": 201,
                                 "type": "Imf_2_5::PixelType",
-                                "enum": 1859,
+                                "enum": 1869,
                                 "const": false
                             },
                             "attrs": []
@@ -176,11 +176,11 @@
                             "name": "base",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 148,
+                                "id": 149,
                                 "type": "char *",
                                 "pointee": {
                                     "kind": "BuiltinType",
-                                    "id": 51,
+                                    "id": 52,
                                     "type": "char",
                                     "const": false
                                 },
@@ -193,7 +193,7 @@
                             "name": "xStride",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 20,
+                                "id": 21,
                                 "type": "unsigned long",
                                 "const": false
                             },
@@ -204,7 +204,7 @@
                             "name": "yStride",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 20,
+                                "id": 21,
                                 "type": "unsigned long",
                                 "const": false
                             },
@@ -215,7 +215,7 @@
                             "name": "xSampling",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -226,7 +226,7 @@
                             "name": "ySampling",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -237,7 +237,7 @@
                             "name": "fillValue",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 326,
+                                "id": 327,
                                 "type": "double",
                                 "const": false
                             },
@@ -248,7 +248,7 @@
                             "name": "xTileCoords",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 53,
+                                "id": 54,
                                 "type": "_Bool",
                                 "const": false
                             },
@@ -259,7 +259,7 @@
                             "name": "yTileCoords",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 53,
+                                "id": 54,
                                 "type": "_Bool",
                                 "const": false
                             },
@@ -291,9 +291,9 @@
                     ],
                     "return": {
                         "kind": "RecordType",
-                        "id": 204,
+                        "id": 205,
                         "type": "Imf_2_5::Slice",
-                        "record": 3652,
+                        "record": 3668,
                         "const": false
                     },
                     "params": [
@@ -302,9 +302,9 @@
                             "name": "type",
                             "type": {
                                 "kind": "EnumType",
-                                "id": 200,
+                                "id": 201,
                                 "type": "Imf_2_5::PixelType",
-                                "enum": 1859,
+                                "enum": 1869,
                                 "const": false
                             },
                             "attrs": []
@@ -314,11 +314,11 @@
                             "name": "ptr",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 329,
+                                "id": 332,
                                 "type": "const void *",
                                 "pointee": {
                                     "kind": "BuiltinType",
-                                    "id": 3,
+                                    "id": 4,
                                     "type": "void",
                                     "const": true
                                 },
@@ -331,11 +331,11 @@
                             "name": "origin",
                             "type": {
                                 "kind": "Reference",
-                                "id": 331,
+                                "id": 334,
                                 "type": "const class Imath_2_5::Vec2<int> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 330,
+                                    "id": 333,
                                     "type": "Imath_2_5::Vec2<int>",
                                     "record": 3458,
                                     "const": true
@@ -349,7 +349,7 @@
                             "name": "w",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 102,
+                                "id": 103,
                                 "type": "long",
                                 "const": false
                             },
@@ -360,7 +360,7 @@
                             "name": "h",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 102,
+                                "id": 103,
                                 "type": "long",
                                 "const": false
                             },
@@ -371,7 +371,7 @@
                             "name": "xStride",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 20,
+                                "id": 21,
                                 "type": "unsigned long",
                                 "const": false
                             },
@@ -382,7 +382,7 @@
                             "name": "yStride",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 20,
+                                "id": 21,
                                 "type": "unsigned long",
                                 "const": false
                             },
@@ -393,7 +393,7 @@
                             "name": "xSampling",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -404,7 +404,7 @@
                             "name": "ySampling",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -415,7 +415,7 @@
                             "name": "fillValue",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 326,
+                                "id": 327,
                                 "type": "double",
                                 "const": false
                             },
@@ -426,7 +426,7 @@
                             "name": "xTileCoords",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 53,
+                                "id": 54,
                                 "type": "_Bool",
                                 "const": false
                             },
@@ -437,7 +437,7 @@
                             "name": "yTileCoords",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 53,
+                                "id": 54,
                                 "type": "_Bool",
                                 "const": false
                             },
@@ -467,9 +467,9 @@
                     "attributes": null,
                     "return": {
                         "kind": "RecordType",
-                        "id": 204,
+                        "id": 205,
                         "type": "Imf_2_5::Slice",
-                        "record": 3652,
+                        "record": 3668,
                         "const": false
                     },
                     "params": [
@@ -478,9 +478,9 @@
                             "name": "type",
                             "type": {
                                 "kind": "EnumType",
-                                "id": 200,
+                                "id": 201,
                                 "type": "Imf_2_5::PixelType",
-                                "enum": 1859,
+                                "enum": 1869,
                                 "const": false
                             },
                             "attrs": []
@@ -490,11 +490,11 @@
                             "name": "ptr",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 329,
+                                "id": 332,
                                 "type": "const void *",
                                 "pointee": {
                                     "kind": "BuiltinType",
-                                    "id": 3,
+                                    "id": 4,
                                     "type": "void",
                                     "const": true
                                 },
@@ -507,13 +507,13 @@
                             "name": "dataWindow",
                             "type": {
                                 "kind": "Reference",
-                                "id": 13,
+                                "id": 14,
                                 "type": "const class Imath_2_5::Box<class Imath_2_5::Vec2<int> > &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 12,
+                                    "id": 13,
                                     "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                                    "record": 2973,
+                                    "record": 2964,
                                     "const": true
                                 },
                                 "const": false
@@ -525,7 +525,7 @@
                             "name": "xStride",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 20,
+                                "id": 21,
                                 "type": "unsigned long",
                                 "const": false
                             },
@@ -536,7 +536,7 @@
                             "name": "yStride",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 20,
+                                "id": 21,
                                 "type": "unsigned long",
                                 "const": false
                             },
@@ -547,7 +547,7 @@
                             "name": "xSampling",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -558,7 +558,7 @@
                             "name": "ySampling",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -569,7 +569,7 @@
                             "name": "fillValue",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 326,
+                                "id": 327,
                                 "type": "double",
                                 "const": false
                             },
@@ -580,7 +580,7 @@
                             "name": "xTileCoords",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 53,
+                                "id": 54,
                                 "type": "_Bool",
                                 "const": false
                             },
@@ -591,8 +591,55 @@
                             "name": "yTileCoords",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 53,
+                                "id": 54,
                                 "type": "_Bool",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "Slice",
+                    "qualified_name": "Imf_2_5::Slice::Slice",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": false,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": true,
+                    "copy_constructor": true,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 4,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "rhs",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 336,
+                                "type": "const struct Imf_2_5::Slice &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 205,
+                                    "type": "Imf_2_5::Slice",
+                                    "record": 3668,
+                                    "const": true
+                                },
                                 "const": false
                             },
                             "attrs": []
@@ -606,9 +653,9 @@
             "name": "Imf_2_5::FrameBuffer",
             "short_name": "FrameBuffer",
             "namespaces": [
-                26
+                27
             ],
-            "id": 3660,
+            "id": 3677,
             "abstract": false,
             "size": 384,
             "align": 64,
@@ -622,7 +669,7 @@
                     "name": "_map",
                     "type": {
                         "kind": "RecordType",
-                        "id": 3681,
+                        "id": 3698,
                         "type": "std::map<Imf_2_5::Name, Imf_2_5::Slice, std::less<Imf_2_5::Name>, std::allocator<std::pair<const Imf_2_5::Name, Imf_2_5::Slice> > >",
                         "record": -1,
                         "const": false
@@ -652,7 +699,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -662,11 +709,11 @@
                             "name": "name",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 52,
+                                "id": 53,
                                 "type": "const char *",
                                 "pointee": {
                                     "kind": "BuiltinType",
-                                    "id": 51,
+                                    "id": 52,
                                     "type": "char",
                                     "const": true
                                 },
@@ -679,13 +726,13 @@
                             "name": "slice",
                             "type": {
                                 "kind": "Reference",
-                                "id": 333,
+                                "id": 336,
                                 "type": "const struct Imf_2_5::Slice &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 204,
+                                    "id": 205,
                                     "type": "Imf_2_5::Slice",
-                                    "record": 3652,
+                                    "record": 3668,
                                     "const": true
                                 },
                                 "const": false
@@ -718,7 +765,7 @@
                     ],
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -728,11 +775,11 @@
                             "name": "name",
                             "type": {
                                 "kind": "Reference",
-                                "id": 5,
+                                "id": 6,
                                 "type": "const class std::__cxx11::basic_string<char> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 4,
+                                    "id": 5,
                                     "type": "std::__cxx11::basic_string<char>",
                                     "record": -1,
                                     "const": true
@@ -746,13 +793,13 @@
                             "name": "slice",
                             "type": {
                                 "kind": "Reference",
-                                "id": 333,
+                                "id": 336,
                                 "type": "const struct Imf_2_5::Slice &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 204,
+                                    "id": 205,
                                     "type": "Imf_2_5::Slice",
-                                    "record": 3652,
+                                    "record": 3668,
                                     "const": true
                                 },
                                 "const": false
@@ -783,13 +830,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 332,
+                        "id": 335,
                         "type": "struct Imf_2_5::Slice &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 204,
+                            "id": 205,
                             "type": "Imf_2_5::Slice",
-                            "record": 3652,
+                            "record": 3668,
                             "const": false
                         },
                         "const": false
@@ -800,11 +847,11 @@
                             "name": "name",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 52,
+                                "id": 53,
                                 "type": "const char *",
                                 "pointee": {
                                     "kind": "BuiltinType",
-                                    "id": 51,
+                                    "id": 52,
                                     "type": "char",
                                     "const": true
                                 },
@@ -836,13 +883,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 333,
+                        "id": 336,
                         "type": "const struct Imf_2_5::Slice &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 204,
+                            "id": 205,
                             "type": "Imf_2_5::Slice",
-                            "record": 3652,
+                            "record": 3668,
                             "const": true
                         },
                         "const": false
@@ -853,11 +900,11 @@
                             "name": "name",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 52,
+                                "id": 53,
                                 "type": "const char *",
                                 "pointee": {
                                     "kind": "BuiltinType",
-                                    "id": 51,
+                                    "id": 52,
                                     "type": "char",
                                     "const": true
                                 },
@@ -891,13 +938,13 @@
                     ],
                     "return": {
                         "kind": "Reference",
-                        "id": 332,
+                        "id": 335,
                         "type": "struct Imf_2_5::Slice &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 204,
+                            "id": 205,
                             "type": "Imf_2_5::Slice",
-                            "record": 3652,
+                            "record": 3668,
                             "const": false
                         },
                         "const": false
@@ -908,11 +955,11 @@
                             "name": "name",
                             "type": {
                                 "kind": "Reference",
-                                "id": 5,
+                                "id": 6,
                                 "type": "const class std::__cxx11::basic_string<char> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 4,
+                                    "id": 5,
                                     "type": "std::__cxx11::basic_string<char>",
                                     "record": -1,
                                     "const": true
@@ -947,13 +994,13 @@
                     ],
                     "return": {
                         "kind": "Reference",
-                        "id": 333,
+                        "id": 336,
                         "type": "const struct Imf_2_5::Slice &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 204,
+                            "id": 205,
                             "type": "Imf_2_5::Slice",
-                            "record": 3652,
+                            "record": 3668,
                             "const": true
                         },
                         "const": false
@@ -964,11 +1011,11 @@
                             "name": "name",
                             "type": {
                                 "kind": "Reference",
-                                "id": 5,
+                                "id": 6,
                                 "type": "const class std::__cxx11::basic_string<char> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 4,
+                                    "id": 5,
                                     "type": "std::__cxx11::basic_string<char>",
                                     "record": -1,
                                     "const": true
@@ -1001,13 +1048,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Pointer",
-                        "id": 3656,
+                        "id": 3673,
                         "type": "struct Imf_2_5::Slice *",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 204,
+                            "id": 205,
                             "type": "Imf_2_5::Slice",
-                            "record": 3652,
+                            "record": 3668,
                             "const": false
                         },
                         "const": false
@@ -1018,11 +1065,11 @@
                             "name": "name",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 52,
+                                "id": 53,
                                 "type": "const char *",
                                 "pointee": {
                                     "kind": "BuiltinType",
-                                    "id": 51,
+                                    "id": 52,
                                     "type": "char",
                                     "const": true
                                 },
@@ -1054,13 +1101,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Pointer",
-                        "id": 3657,
+                        "id": 3674,
                         "type": "const struct Imf_2_5::Slice *",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 204,
+                            "id": 205,
                             "type": "Imf_2_5::Slice",
-                            "record": 3652,
+                            "record": 3668,
                             "const": true
                         },
                         "const": false
@@ -1071,11 +1118,11 @@
                             "name": "name",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 52,
+                                "id": 53,
                                 "type": "const char *",
                                 "pointee": {
                                     "kind": "BuiltinType",
-                                    "id": 51,
+                                    "id": 52,
                                     "type": "char",
                                     "const": true
                                 },
@@ -1109,13 +1156,13 @@
                     ],
                     "return": {
                         "kind": "Pointer",
-                        "id": 3656,
+                        "id": 3673,
                         "type": "struct Imf_2_5::Slice *",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 204,
+                            "id": 205,
                             "type": "Imf_2_5::Slice",
-                            "record": 3652,
+                            "record": 3668,
                             "const": false
                         },
                         "const": false
@@ -1126,11 +1173,11 @@
                             "name": "name",
                             "type": {
                                 "kind": "Reference",
-                                "id": 5,
+                                "id": 6,
                                 "type": "const class std::__cxx11::basic_string<char> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 4,
+                                    "id": 5,
                                     "type": "std::__cxx11::basic_string<char>",
                                     "record": -1,
                                     "const": true
@@ -1165,13 +1212,13 @@
                     ],
                     "return": {
                         "kind": "Pointer",
-                        "id": 3657,
+                        "id": 3674,
                         "type": "const struct Imf_2_5::Slice *",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 204,
+                            "id": 205,
                             "type": "Imf_2_5::Slice",
-                            "record": 3652,
+                            "record": 3668,
                             "const": true
                         },
                         "const": false
@@ -1182,11 +1229,11 @@
                             "name": "name",
                             "type": {
                                 "kind": "Reference",
-                                "id": 5,
+                                "id": 6,
                                 "type": "const class std::__cxx11::basic_string<char> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 4,
+                                    "id": 5,
                                     "type": "std::__cxx11::basic_string<char>",
                                     "record": -1,
                                     "const": true
@@ -1219,9 +1266,9 @@
                     "attributes": null,
                     "return": {
                         "kind": "RecordType",
-                        "id": 3658,
+                        "id": 3675,
                         "type": "Imf_2_5::FrameBuffer::Iterator",
-                        "record": 3686,
+                        "record": 3704,
                         "const": false
                     },
                     "params": null
@@ -1250,9 +1297,9 @@
                     ],
                     "return": {
                         "kind": "RecordType",
-                        "id": 3659,
+                        "id": 3676,
                         "type": "Imf_2_5::FrameBuffer::ConstIterator",
-                        "record": 3696,
+                        "record": 3715,
                         "const": false
                     },
                     "params": null
@@ -1279,9 +1326,9 @@
                     "attributes": null,
                     "return": {
                         "kind": "RecordType",
-                        "id": 3658,
+                        "id": 3675,
                         "type": "Imf_2_5::FrameBuffer::Iterator",
-                        "record": 3686,
+                        "record": 3704,
                         "const": false
                     },
                     "params": null
@@ -1310,9 +1357,9 @@
                     ],
                     "return": {
                         "kind": "RecordType",
-                        "id": 3659,
+                        "id": 3676,
                         "type": "Imf_2_5::FrameBuffer::ConstIterator",
-                        "record": 3696,
+                        "record": 3715,
                         "const": false
                     },
                     "params": null
@@ -1339,9 +1386,9 @@
                     "attributes": null,
                     "return": {
                         "kind": "RecordType",
-                        "id": 3658,
+                        "id": 3675,
                         "type": "Imf_2_5::FrameBuffer::Iterator",
-                        "record": 3686,
+                        "record": 3704,
                         "const": false
                     },
                     "params": [
@@ -1350,11 +1397,11 @@
                             "name": "name",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 52,
+                                "id": 53,
                                 "type": "const char *",
                                 "pointee": {
                                     "kind": "BuiltinType",
-                                    "id": 51,
+                                    "id": 52,
                                     "type": "char",
                                     "const": true
                                 },
@@ -1386,9 +1433,9 @@
                     "attributes": null,
                     "return": {
                         "kind": "RecordType",
-                        "id": 3659,
+                        "id": 3676,
                         "type": "Imf_2_5::FrameBuffer::ConstIterator",
-                        "record": 3696,
+                        "record": 3715,
                         "const": false
                     },
                     "params": [
@@ -1397,11 +1444,11 @@
                             "name": "name",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 52,
+                                "id": 53,
                                 "type": "const char *",
                                 "pointee": {
                                     "kind": "BuiltinType",
-                                    "id": 51,
+                                    "id": 52,
                                     "type": "char",
                                     "const": true
                                 },
@@ -1435,9 +1482,9 @@
                     ],
                     "return": {
                         "kind": "RecordType",
-                        "id": 3658,
+                        "id": 3675,
                         "type": "Imf_2_5::FrameBuffer::Iterator",
-                        "record": 3686,
+                        "record": 3704,
                         "const": false
                     },
                     "params": [
@@ -1446,11 +1493,11 @@
                             "name": "name",
                             "type": {
                                 "kind": "Reference",
-                                "id": 5,
+                                "id": 6,
                                 "type": "const class std::__cxx11::basic_string<char> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 4,
+                                    "id": 5,
                                     "type": "std::__cxx11::basic_string<char>",
                                     "record": -1,
                                     "const": true
@@ -1485,9 +1532,9 @@
                     ],
                     "return": {
                         "kind": "RecordType",
-                        "id": 3659,
+                        "id": 3676,
                         "type": "Imf_2_5::FrameBuffer::ConstIterator",
-                        "record": 3696,
+                        "record": 3715,
                         "const": false
                     },
                     "params": [
@@ -1496,11 +1543,11 @@
                             "name": "name",
                             "type": {
                                 "kind": "Reference",
-                                "id": 5,
+                                "id": 6,
                                 "type": "const class std::__cxx11::basic_string<char> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 4,
+                                    "id": 5,
                                     "type": "std::__cxx11::basic_string<char>",
                                     "record": -1,
                                     "const": true
@@ -1518,10 +1565,10 @@
             "name": "Imf_2_5::FrameBuffer::Iterator",
             "short_name": "Iterator",
             "namespaces": [
-                26,
-                3660
+                27,
+                3677
             ],
-            "id": 3686,
+            "id": 3704,
             "abstract": false,
             "size": 64,
             "align": 64,
@@ -1535,7 +1582,7 @@
                     "name": "_i",
                     "type": {
                         "kind": "RecordType",
-                        "id": 3682,
+                        "id": 3699,
                         "type": "std::_Rb_tree_iterator<std::pair<const Imf_2_5::Name, Imf_2_5::Slice> >",
                         "record": -1,
                         "const": false
@@ -1565,7 +1612,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -1595,7 +1642,7 @@
                     ],
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -1605,11 +1652,11 @@
                             "name": "i",
                             "type": {
                                 "kind": "Reference",
-                                "id": 3683,
+                                "id": 3700,
                                 "type": "const struct std::_Rb_tree_iterator<struct std::pair<const class Imf_2_5::Name, struct Imf_2_5::Slice> > &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 3682,
+                                    "id": 3699,
                                     "type": "std::_Rb_tree_iterator<std::pair<const Imf_2_5::Name, Imf_2_5::Slice> >",
                                     "record": -1,
                                     "const": true
@@ -1642,11 +1689,11 @@
                     "attributes": null,
                     "return": {
                         "kind": "Pointer",
-                        "id": 52,
+                        "id": 53,
                         "type": "const char *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 51,
+                            "id": 52,
                             "type": "char",
                             "const": true
                         },
@@ -1676,18 +1723,65 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 332,
+                        "id": 335,
                         "type": "struct Imf_2_5::Slice &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 204,
+                            "id": 205,
                             "type": "Imf_2_5::Slice",
-                            "record": 3652,
+                            "record": 3668,
                             "const": false
                         },
                         "const": false
                     },
                     "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "Iterator",
+                    "qualified_name": "Imf_2_5::FrameBuffer::Iterator::Iterator",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": false,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": true,
+                    "copy_constructor": true,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 4,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "rhs",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 3701,
+                                "type": "const class Imf_2_5::FrameBuffer::Iterator &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 3675,
+                                    "type": "Imf_2_5::FrameBuffer::Iterator",
+                                    "record": 3704,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
                 }
             ]
         },
@@ -1696,10 +1790,10 @@
             "name": "Imf_2_5::FrameBuffer::ConstIterator",
             "short_name": "ConstIterator",
             "namespaces": [
-                26,
-                3660
+                27,
+                3677
             ],
-            "id": 3696,
+            "id": 3715,
             "abstract": false,
             "size": 64,
             "align": 64,
@@ -1713,7 +1807,7 @@
                     "name": "_i",
                     "type": {
                         "kind": "RecordType",
-                        "id": 3697,
+                        "id": 3716,
                         "type": "std::_Rb_tree_const_iterator<std::pair<const Imf_2_5::Name, Imf_2_5::Slice> >",
                         "record": -1,
                         "const": false
@@ -1743,7 +1837,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -1771,17 +1865,64 @@
                     "attributes": null,
                     "return": {
                         "kind": "Pointer",
-                        "id": 52,
+                        "id": 53,
                         "type": "const char *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 51,
+                            "id": 52,
                             "type": "char",
                             "const": true
                         },
                         "const": false
                     },
                     "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "ConstIterator",
+                    "qualified_name": "Imf_2_5::FrameBuffer::ConstIterator::ConstIterator",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": false,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": true,
+                    "copy_constructor": true,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 4,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "rhs",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 3712,
+                                "type": "const class Imf_2_5::FrameBuffer::ConstIterator &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 3676,
+                                    "type": "Imf_2_5::FrameBuffer::ConstIterator",
+                                    "record": 3715,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
                 }
             ]
         }

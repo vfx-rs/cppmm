@@ -9,12 +9,18 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 3116,
+    "id": 3113,
     "decls": [
         {
             "kind": "Namespace",
+            "name": "cppmm_bind::Imf_2_5",
+            "id": 3,
+            "short_name": "Imf_2_5"
+        },
+        {
+            "kind": "Namespace",
             "name": "Imf_2_5",
-            "id": 26,
+            "id": 27,
             "short_name": "Imf_2_5"
         },
         {
@@ -22,9 +28,9 @@
             "name": "Imf_2_5::DataWindowSource",
             "short_name": "DataWindowSource",
             "namespaces": [
-                26
+                27
             ],
-            "id": 3117,
+            "id": 3114,
             "size": 32,
             "align": 32,
             "attributes": null,
@@ -35,17 +41,20 @@
         },
         {
             "kind": "Function",
-            "id": 3118,
+            "id": 3115,
             "short_name": "dataWindowForFile",
             "qualified_name": "Imf_2_5::dataWindowForFile",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "RecordType",
-                "id": 12,
+                "id": 13,
                 "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                "record": 2973,
+                "record": 2964,
                 "const": false
             },
             "params": [
@@ -54,13 +63,13 @@
                     "name": "hdr",
                     "type": {
                         "kind": "Reference",
-                        "id": 7,
+                        "id": 8,
                         "type": "const class Imf_2_5::Header &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 6,
+                            "id": 7,
                             "type": "Imf_2_5::Header",
-                            "record": 1526,
+                            "record": 1532,
                             "const": true
                         },
                         "const": false
@@ -72,13 +81,13 @@
                     "name": "img",
                     "type": {
                         "kind": "Reference",
-                        "id": 409,
+                        "id": 413,
                         "type": "const class Imf_2_5::Image &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 407,
+                            "id": 411,
                             "type": "Imf_2_5::Image",
-                            "record": 1719,
+                            "record": 1729,
                             "const": true
                         },
                         "const": false
@@ -90,9 +99,9 @@
                     "name": "dws",
                     "type": {
                         "kind": "EnumType",
-                        "id": 548,
+                        "id": 554,
                         "type": "Imf_2_5::DataWindowSource",
-                        "enum": 3117,
+                        "enum": 3114,
                         "const": false
                     },
                     "attrs": []

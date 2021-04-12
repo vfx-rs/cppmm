@@ -9,19 +9,28 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 3119,
+    "id": 3116,
     "decls": [
         {
+            "kind": "Namespace",
+            "name": "cppmm_bind::Imf_2_5",
+            "id": 3,
+            "short_name": "Imf_2_5"
+        },
+        {
             "kind": "Function",
-            "id": 3120,
+            "id": 3117,
             "short_name": "globalThreadCount",
             "qualified_name": "Imf_2_5::globalThreadCount",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 9,
+                "id": 10,
                 "type": "int",
                 "const": false
             },
@@ -29,15 +38,18 @@
         },
         {
             "kind": "Function",
-            "id": 3121,
+            "id": 3118,
             "short_name": "setGlobalThreadCount",
             "qualified_name": "Imf_2_5::setGlobalThreadCount",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 3,
+                "id": 4,
                 "type": "void",
                 "const": false
             },
@@ -47,7 +59,7 @@
                     "name": "count",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -57,15 +69,18 @@
         },
         {
             "kind": "Function",
-            "id": 3138,
+            "id": 3135,
             "short_name": "globalThreadCount",
             "qualified_name": "Imf_2_5::globalThreadCount",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 9,
+                "id": 10,
                 "type": "int",
                 "const": false
             },
@@ -73,15 +88,18 @@
         },
         {
             "kind": "Function",
-            "id": 3139,
+            "id": 3136,
             "short_name": "setGlobalThreadCount",
             "qualified_name": "Imf_2_5::setGlobalThreadCount",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 3,
+                "id": 4,
                 "type": "void",
                 "const": false
             },
@@ -91,7 +109,7 @@
                     "name": "count",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -101,15 +119,18 @@
         },
         {
             "kind": "Function",
-            "id": 3205,
+            "id": 3202,
             "short_name": "globalThreadCount",
             "qualified_name": "Imf_2_5::globalThreadCount",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 9,
+                "id": 10,
                 "type": "int",
                 "const": false
             },
@@ -117,15 +138,18 @@
         },
         {
             "kind": "Function",
-            "id": 3206,
+            "id": 3203,
             "short_name": "setGlobalThreadCount",
             "qualified_name": "Imf_2_5::setGlobalThreadCount",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 3,
+                "id": 4,
                 "type": "void",
                 "const": false
             },
@@ -135,7 +159,7 @@
                     "name": "count",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -151,9 +175,12 @@
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 9,
+                "id": 10,
                 "type": "int",
                 "const": false
             },
@@ -167,9 +194,12 @@
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 3,
+                "id": 4,
                 "type": "void",
                 "const": false
             },
@@ -179,7 +209,7 @@
                     "name": "count",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -189,15 +219,18 @@
         },
         {
             "kind": "Function",
-            "id": 3639,
+            "id": 3655,
             "short_name": "globalThreadCount",
             "qualified_name": "Imf_2_5::globalThreadCount",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 9,
+                "id": 10,
                 "type": "int",
                 "const": false
             },
@@ -205,15 +238,18 @@
         },
         {
             "kind": "Function",
-            "id": 3640,
+            "id": 3656,
             "short_name": "setGlobalThreadCount",
             "qualified_name": "Imf_2_5::setGlobalThreadCount",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 3,
+                "id": 4,
                 "type": "void",
                 "const": false
             },
@@ -223,7 +259,7 @@
                     "name": "count",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },

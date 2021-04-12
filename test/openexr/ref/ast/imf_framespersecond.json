@@ -9,89 +9,30 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 390,
+    "id": 394,
     "decls": [
         {
+            "kind": "Namespace",
+            "name": "cppmm_bind::Imf_2_5",
+            "id": 3,
+            "short_name": "Imf_2_5"
+        },
+        {
             "kind": "Function",
-            "id": 393,
+            "id": 397,
             "short_name": "fps_23_976",
             "qualified_name": "Imf_2_5::fps_23_976",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "RecordType",
-                "id": 391,
+                "id": 395,
                 "type": "Imf_2_5::Rational",
-                "record": 3705,
-                "const": false
-            },
-            "params": null
-        },
-        {
-            "kind": "Function",
-            "id": 394,
-            "short_name": "fps_24",
-            "qualified_name": "Imf_2_5::fps_24",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": null,
-            "return": {
-                "kind": "RecordType",
-                "id": 391,
-                "type": "Imf_2_5::Rational",
-                "record": 3705,
-                "const": false
-            },
-            "params": null
-        },
-        {
-            "kind": "Function",
-            "id": 395,
-            "short_name": "fps_25",
-            "qualified_name": "Imf_2_5::fps_25",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": null,
-            "return": {
-                "kind": "RecordType",
-                "id": 391,
-                "type": "Imf_2_5::Rational",
-                "record": 3705,
-                "const": false
-            },
-            "params": null
-        },
-        {
-            "kind": "Function",
-            "id": 396,
-            "short_name": "fps_29_97",
-            "qualified_name": "Imf_2_5::fps_29_97",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": null,
-            "return": {
-                "kind": "RecordType",
-                "id": 391,
-                "type": "Imf_2_5::Rational",
-                "record": 3705,
-                "const": false
-            },
-            "params": null
-        },
-        {
-            "kind": "Function",
-            "id": 397,
-            "short_name": "fps_30",
-            "qualified_name": "Imf_2_5::fps_30",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": null,
-            "return": {
-                "kind": "RecordType",
-                "id": 391,
-                "type": "Imf_2_5::Rational",
-                "record": 3705,
+                "record": 3724,
                 "const": false
             },
             "params": null
@@ -99,16 +40,19 @@
         {
             "kind": "Function",
             "id": 398,
-            "short_name": "fps_47_952",
-            "qualified_name": "Imf_2_5::fps_47_952",
+            "short_name": "fps_24",
+            "qualified_name": "Imf_2_5::fps_24",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "RecordType",
-                "id": 391,
+                "id": 395,
                 "type": "Imf_2_5::Rational",
-                "record": 3705,
+                "record": 3724,
                 "const": false
             },
             "params": null
@@ -116,16 +60,19 @@
         {
             "kind": "Function",
             "id": 399,
-            "short_name": "fps_48",
-            "qualified_name": "Imf_2_5::fps_48",
+            "short_name": "fps_25",
+            "qualified_name": "Imf_2_5::fps_25",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "RecordType",
-                "id": 391,
+                "id": 395,
                 "type": "Imf_2_5::Rational",
-                "record": 3705,
+                "record": 3724,
                 "const": false
             },
             "params": null
@@ -133,16 +80,19 @@
         {
             "kind": "Function",
             "id": 400,
-            "short_name": "fps_50",
-            "qualified_name": "Imf_2_5::fps_50",
+            "short_name": "fps_29_97",
+            "qualified_name": "Imf_2_5::fps_29_97",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "RecordType",
-                "id": 391,
+                "id": 395,
                 "type": "Imf_2_5::Rational",
-                "record": 3705,
+                "record": 3724,
                 "const": false
             },
             "params": null
@@ -150,16 +100,19 @@
         {
             "kind": "Function",
             "id": 401,
-            "short_name": "fps_59_94",
-            "qualified_name": "Imf_2_5::fps_59_94",
+            "short_name": "fps_30",
+            "qualified_name": "Imf_2_5::fps_30",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "RecordType",
-                "id": 391,
+                "id": 395,
                 "type": "Imf_2_5::Rational",
-                "record": 3705,
+                "record": 3724,
                 "const": false
             },
             "params": null
@@ -167,16 +120,19 @@
         {
             "kind": "Function",
             "id": 402,
-            "short_name": "fps_60",
-            "qualified_name": "Imf_2_5::fps_60",
+            "short_name": "fps_47_952",
+            "qualified_name": "Imf_2_5::fps_47_952",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "RecordType",
-                "id": 391,
+                "id": 395,
                 "type": "Imf_2_5::Rational",
-                "record": 3705,
+                "record": 3724,
                 "const": false
             },
             "params": null
@@ -184,252 +140,245 @@
         {
             "kind": "Function",
             "id": 403,
-            "short_name": "guessExactFps",
-            "qualified_name": "Imf_2_5::guessExactFps",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": [
-                "cppmm|rename|guessExactFps_f64"
-            ],
-            "return": {
-                "kind": "RecordType",
-                "id": 391,
-                "type": "Imf_2_5::Rational",
-                "record": 3705,
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "fps",
-                    "type": {
-                        "kind": "BuiltinType",
-                        "id": 326,
-                        "type": "double",
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
-        },
-        {
-            "kind": "Function",
-            "id": 404,
-            "short_name": "guessExactFps",
-            "qualified_name": "Imf_2_5::guessExactFps",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": [
-                "cppmm|rename|guessExactFps_f64"
-            ],
-            "return": {
-                "kind": "RecordType",
-                "id": 391,
-                "type": "Imf_2_5::Rational",
-                "record": 3705,
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "fps",
-                    "type": {
-                        "kind": "BuiltinType",
-                        "id": 326,
-                        "type": "double",
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
-        },
-        {
-            "kind": "Function",
-            "id": 405,
-            "short_name": "guessExactFps",
-            "qualified_name": "Imf_2_5::guessExactFps",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": null,
-            "return": {
-                "kind": "RecordType",
-                "id": 391,
-                "type": "Imf_2_5::Rational",
-                "record": 3705,
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "fps",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 392,
-                        "type": "const class Imf_2_5::Rational &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 391,
-                            "type": "Imf_2_5::Rational",
-                            "record": 3705,
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
-        },
-        {
-            "kind": "Function",
-            "id": 406,
-            "short_name": "guessExactFps",
-            "qualified_name": "Imf_2_5::guessExactFps",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": null,
-            "return": {
-                "kind": "RecordType",
-                "id": 391,
-                "type": "Imf_2_5::Rational",
-                "record": 3705,
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "fps",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 392,
-                        "type": "const class Imf_2_5::Rational &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 391,
-                            "type": "Imf_2_5::Rational",
-                            "record": 3705,
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
-        },
-        {
-            "kind": "Function",
-            "id": 972,
-            "short_name": "fps_23_976",
-            "qualified_name": "Imf_2_5::fps_23_976",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": null,
-            "return": {
-                "kind": "RecordType",
-                "id": 391,
-                "type": "Imf_2_5::Rational",
-                "record": 3705,
-                "const": false
-            },
-            "params": null
-        },
-        {
-            "kind": "Function",
-            "id": 973,
-            "short_name": "fps_24",
-            "qualified_name": "Imf_2_5::fps_24",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": null,
-            "return": {
-                "kind": "RecordType",
-                "id": 391,
-                "type": "Imf_2_5::Rational",
-                "record": 3705,
-                "const": false
-            },
-            "params": null
-        },
-        {
-            "kind": "Function",
-            "id": 974,
-            "short_name": "fps_25",
-            "qualified_name": "Imf_2_5::fps_25",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": null,
-            "return": {
-                "kind": "RecordType",
-                "id": 391,
-                "type": "Imf_2_5::Rational",
-                "record": 3705,
-                "const": false
-            },
-            "params": null
-        },
-        {
-            "kind": "Function",
-            "id": 975,
-            "short_name": "fps_29_97",
-            "qualified_name": "Imf_2_5::fps_29_97",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": null,
-            "return": {
-                "kind": "RecordType",
-                "id": 391,
-                "type": "Imf_2_5::Rational",
-                "record": 3705,
-                "const": false
-            },
-            "params": null
-        },
-        {
-            "kind": "Function",
-            "id": 976,
-            "short_name": "fps_30",
-            "qualified_name": "Imf_2_5::fps_30",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": null,
-            "return": {
-                "kind": "RecordType",
-                "id": 391,
-                "type": "Imf_2_5::Rational",
-                "record": 3705,
-                "const": false
-            },
-            "params": null
-        },
-        {
-            "kind": "Function",
-            "id": 977,
-            "short_name": "fps_47_952",
-            "qualified_name": "Imf_2_5::fps_47_952",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": null,
-            "return": {
-                "kind": "RecordType",
-                "id": 391,
-                "type": "Imf_2_5::Rational",
-                "record": 3705,
-                "const": false
-            },
-            "params": null
-        },
-        {
-            "kind": "Function",
-            "id": 978,
             "short_name": "fps_48",
             "qualified_name": "Imf_2_5::fps_48",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "RecordType",
-                "id": 391,
+                "id": 395,
                 "type": "Imf_2_5::Rational",
-                "record": 3705,
+                "record": 3724,
+                "const": false
+            },
+            "params": null
+        },
+        {
+            "kind": "Function",
+            "id": 404,
+            "short_name": "fps_50",
+            "qualified_name": "Imf_2_5::fps_50",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "RecordType",
+                "id": 395,
+                "type": "Imf_2_5::Rational",
+                "record": 3724,
+                "const": false
+            },
+            "params": null
+        },
+        {
+            "kind": "Function",
+            "id": 405,
+            "short_name": "fps_59_94",
+            "qualified_name": "Imf_2_5::fps_59_94",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "RecordType",
+                "id": 395,
+                "type": "Imf_2_5::Rational",
+                "record": 3724,
+                "const": false
+            },
+            "params": null
+        },
+        {
+            "kind": "Function",
+            "id": 406,
+            "short_name": "fps_60",
+            "qualified_name": "Imf_2_5::fps_60",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "RecordType",
+                "id": 395,
+                "type": "Imf_2_5::Rational",
+                "record": 3724,
+                "const": false
+            },
+            "params": null
+        },
+        {
+            "kind": "Function",
+            "id": 407,
+            "short_name": "guessExactFps",
+            "qualified_name": "Imf_2_5::guessExactFps",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|rename|guessExactFps_f64"
+            ],
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "RecordType",
+                "id": 395,
+                "type": "Imf_2_5::Rational",
+                "record": 3724,
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fps",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 327,
+                        "type": "double",
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 408,
+            "short_name": "guessExactFps",
+            "qualified_name": "Imf_2_5::guessExactFps",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|rename|guessExactFps_f64"
+            ],
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "RecordType",
+                "id": 395,
+                "type": "Imf_2_5::Rational",
+                "record": 3724,
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fps",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 327,
+                        "type": "double",
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 409,
+            "short_name": "guessExactFps",
+            "qualified_name": "Imf_2_5::guessExactFps",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "RecordType",
+                "id": 395,
+                "type": "Imf_2_5::Rational",
+                "record": 3724,
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fps",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 396,
+                        "type": "const class Imf_2_5::Rational &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 395,
+                            "type": "Imf_2_5::Rational",
+                            "record": 3724,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 410,
+            "short_name": "guessExactFps",
+            "qualified_name": "Imf_2_5::guessExactFps",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "RecordType",
+                "id": 395,
+                "type": "Imf_2_5::Rational",
+                "record": 3724,
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fps",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 396,
+                        "type": "const class Imf_2_5::Rational &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 395,
+                            "type": "Imf_2_5::Rational",
+                            "record": 3724,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 978,
+            "short_name": "fps_23_976",
+            "qualified_name": "Imf_2_5::fps_23_976",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "RecordType",
+                "id": 395,
+                "type": "Imf_2_5::Rational",
+                "record": 3724,
                 "const": false
             },
             "params": null
@@ -437,16 +386,19 @@
         {
             "kind": "Function",
             "id": 979,
-            "short_name": "fps_50",
-            "qualified_name": "Imf_2_5::fps_50",
+            "short_name": "fps_24",
+            "qualified_name": "Imf_2_5::fps_24",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "RecordType",
-                "id": 391,
+                "id": 395,
                 "type": "Imf_2_5::Rational",
-                "record": 3705,
+                "record": 3724,
                 "const": false
             },
             "params": null
@@ -454,16 +406,19 @@
         {
             "kind": "Function",
             "id": 980,
-            "short_name": "fps_59_94",
-            "qualified_name": "Imf_2_5::fps_59_94",
+            "short_name": "fps_25",
+            "qualified_name": "Imf_2_5::fps_25",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "RecordType",
-                "id": 391,
+                "id": 395,
                 "type": "Imf_2_5::Rational",
-                "record": 3705,
+                "record": 3724,
                 "const": false
             },
             "params": null
@@ -471,16 +426,19 @@
         {
             "kind": "Function",
             "id": 981,
-            "short_name": "fps_60",
-            "qualified_name": "Imf_2_5::fps_60",
+            "short_name": "fps_29_97",
+            "qualified_name": "Imf_2_5::fps_29_97",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "RecordType",
-                "id": 391,
+                "id": 395,
                 "type": "Imf_2_5::Rational",
-                "record": 3705,
+                "record": 3724,
                 "const": false
             },
             "params": null
@@ -488,37 +446,126 @@
         {
             "kind": "Function",
             "id": 982,
-            "short_name": "guessExactFps",
-            "qualified_name": "Imf_2_5::guessExactFps",
+            "short_name": "fps_30",
+            "qualified_name": "Imf_2_5::fps_30",
             "in_binding": false,
             "in_library": false,
-            "attributes": [
-                "cppmm|rename|guessExactFps_f64"
+            "attributes": null,
+            "namespaces": [
+                27
             ],
             "return": {
                 "kind": "RecordType",
-                "id": 391,
+                "id": 395,
                 "type": "Imf_2_5::Rational",
-                "record": 3705,
+                "record": 3724,
                 "const": false
             },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "fps",
-                    "type": {
-                        "kind": "BuiltinType",
-                        "id": 326,
-                        "type": "double",
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
+            "params": null
         },
         {
             "kind": "Function",
             "id": 983,
+            "short_name": "fps_47_952",
+            "qualified_name": "Imf_2_5::fps_47_952",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "RecordType",
+                "id": 395,
+                "type": "Imf_2_5::Rational",
+                "record": 3724,
+                "const": false
+            },
+            "params": null
+        },
+        {
+            "kind": "Function",
+            "id": 984,
+            "short_name": "fps_48",
+            "qualified_name": "Imf_2_5::fps_48",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "RecordType",
+                "id": 395,
+                "type": "Imf_2_5::Rational",
+                "record": 3724,
+                "const": false
+            },
+            "params": null
+        },
+        {
+            "kind": "Function",
+            "id": 985,
+            "short_name": "fps_50",
+            "qualified_name": "Imf_2_5::fps_50",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "RecordType",
+                "id": 395,
+                "type": "Imf_2_5::Rational",
+                "record": 3724,
+                "const": false
+            },
+            "params": null
+        },
+        {
+            "kind": "Function",
+            "id": 986,
+            "short_name": "fps_59_94",
+            "qualified_name": "Imf_2_5::fps_59_94",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "RecordType",
+                "id": 395,
+                "type": "Imf_2_5::Rational",
+                "record": 3724,
+                "const": false
+            },
+            "params": null
+        },
+        {
+            "kind": "Function",
+            "id": 987,
+            "short_name": "fps_60",
+            "qualified_name": "Imf_2_5::fps_60",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "RecordType",
+                "id": 395,
+                "type": "Imf_2_5::Rational",
+                "record": 3724,
+                "const": false
+            },
+            "params": null
+        },
+        {
+            "kind": "Function",
+            "id": 988,
             "short_name": "guessExactFps",
             "qualified_name": "Imf_2_5::guessExactFps",
             "in_binding": false,
@@ -526,11 +573,14 @@
             "attributes": [
                 "cppmm|rename|guessExactFps_f64"
             ],
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "RecordType",
-                "id": 391,
+                "id": 395,
                 "type": "Imf_2_5::Rational",
-                "record": 3705,
+                "record": 3724,
                 "const": false
             },
             "params": [
@@ -539,7 +589,7 @@
                     "name": "fps",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 326,
+                        "id": 327,
                         "type": "double",
                         "const": false
                     },
@@ -549,17 +599,54 @@
         },
         {
             "kind": "Function",
-            "id": 984,
+            "id": 989,
+            "short_name": "guessExactFps",
+            "qualified_name": "Imf_2_5::guessExactFps",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|rename|guessExactFps_f64"
+            ],
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "RecordType",
+                "id": 395,
+                "type": "Imf_2_5::Rational",
+                "record": 3724,
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fps",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 327,
+                        "type": "double",
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 990,
             "short_name": "guessExactFps",
             "qualified_name": "Imf_2_5::guessExactFps",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "RecordType",
-                "id": 391,
+                "id": 395,
                 "type": "Imf_2_5::Rational",
-                "record": 3705,
+                "record": 3724,
                 "const": false
             },
             "params": [
@@ -568,13 +655,13 @@
                     "name": "fps",
                     "type": {
                         "kind": "Reference",
-                        "id": 392,
+                        "id": 396,
                         "type": "const class Imf_2_5::Rational &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 391,
+                            "id": 395,
                             "type": "Imf_2_5::Rational",
-                            "record": 3705,
+                            "record": 3724,
                             "const": true
                         },
                         "const": false
@@ -585,17 +672,20 @@
         },
         {
             "kind": "Function",
-            "id": 985,
+            "id": 991,
             "short_name": "guessExactFps",
             "qualified_name": "Imf_2_5::guessExactFps",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "RecordType",
-                "id": 391,
+                "id": 395,
                 "type": "Imf_2_5::Rational",
-                "record": 3705,
+                "record": 3724,
                 "const": false
             },
             "params": [
@@ -604,13 +694,13 @@
                     "name": "fps",
                     "type": {
                         "kind": "Reference",
-                        "id": 392,
+                        "id": 396,
                         "type": "const class Imf_2_5::Rational &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 391,
+                            "id": 395,
                             "type": "Imf_2_5::Rational",
-                            "record": 3705,
+                            "record": 3724,
                             "const": true
                         },
                         "const": false

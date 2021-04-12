@@ -9,12 +9,12 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 1809,
+    "id": 1819,
     "decls": [
         {
             "kind": "Namespace",
             "name": "Imf_2_5",
-            "id": 26,
+            "id": 27,
             "short_name": "Imf_2_5"
         },
         {
@@ -22,9 +22,9 @@
             "name": "Imf_2_5::TileDescription",
             "short_name": "TileDescription",
             "namespaces": [
-                26
+                27
             ],
-            "id": 1810,
+            "id": 1820,
             "abstract": false,
             "size": 128,
             "align": 32,
@@ -38,7 +38,7 @@
                     "name": "xSize",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 280,
+                        "id": 281,
                         "type": "unsigned int",
                         "const": false
                     }
@@ -48,7 +48,7 @@
                     "name": "ySize",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 280,
+                        "id": 281,
                         "type": "unsigned int",
                         "const": false
                     }
@@ -58,9 +58,9 @@
                     "name": "mode",
                     "type": {
                         "kind": "EnumType",
-                        "id": 861,
+                        "id": 867,
                         "type": "Imf_2_5::LevelMode",
-                        "enum": 1812,
+                        "enum": 1822,
                         "const": false
                     }
                 },
@@ -69,9 +69,9 @@
                     "name": "roundingMode",
                     "type": {
                         "kind": "EnumType",
-                        "id": 862,
+                        "id": 868,
                         "type": "Imf_2_5::LevelRoundingMode",
-                        "enum": 1813,
+                        "enum": 1823,
                         "const": false
                     }
                 }
@@ -99,7 +99,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -109,7 +109,7 @@
                             "name": "xs",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 280,
+                                "id": 281,
                                 "type": "unsigned int",
                                 "const": false
                             },
@@ -120,7 +120,7 @@
                             "name": "ys",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 280,
+                                "id": 281,
                                 "type": "unsigned int",
                                 "const": false
                             },
@@ -131,9 +131,9 @@
                             "name": "m",
                             "type": {
                                 "kind": "EnumType",
-                                "id": 861,
+                                "id": 867,
                                 "type": "Imf_2_5::LevelMode",
-                                "enum": 1812,
+                                "enum": 1822,
                                 "const": false
                             },
                             "attrs": []
@@ -143,9 +143,9 @@
                             "name": "r",
                             "type": {
                                 "kind": "EnumType",
-                                "id": 862,
+                                "id": 868,
                                 "type": "Imf_2_5::LevelRoundingMode",
-                                "enum": 1813,
+                                "enum": 1823,
                                 "const": false
                             },
                             "attrs": []
@@ -159,9 +159,9 @@
             "name": "Imf_2_5::LevelMode",
             "short_name": "LevelMode",
             "namespaces": [
-                26
+                27
             ],
-            "id": 1812,
+            "id": 1822,
             "size": 32,
             "align": 32,
             "attributes": null,
@@ -177,9 +177,9 @@
             "name": "Imf_2_5::LevelRoundingMode",
             "short_name": "LevelRoundingMode",
             "namespaces": [
-                26
+                27
             ],
-            "id": 1813,
+            "id": 1823,
             "size": 32,
             "align": 32,
             "attributes": null,

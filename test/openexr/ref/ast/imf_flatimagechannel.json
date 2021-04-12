@@ -9,12 +9,12 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 212,
+    "id": 213,
     "decls": [
         {
             "kind": "Namespace",
             "name": "Imf_2_5",
-            "id": 26,
+            "id": 27,
             "short_name": "Imf_2_5"
         },
         {
@@ -22,9 +22,9 @@
             "name": "Imf_2_5::FlatImageChannel",
             "short_name": "FlatImageChannel",
             "namespaces": [
-                26
+                27
             ],
-            "id": 213,
+            "id": 214,
             "abstract": true,
             "size": 384,
             "align": 64,
@@ -38,13 +38,13 @@
                     "name": "_level",
                     "type": {
                         "kind": "Reference",
-                        "id": 202,
+                        "id": 203,
                         "type": "class Imf_2_5::ImageLevel &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 201,
+                            "id": 202,
                             "type": "Imf_2_5::ImageLevel",
-                            "record": 1661,
+                            "record": 1669,
                             "const": false
                         },
                         "const": false
@@ -55,7 +55,7 @@
                     "name": "_xSampling",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     }
@@ -65,7 +65,7 @@
                     "name": "_ySampling",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     }
@@ -75,7 +75,7 @@
                     "name": "_pLinear",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 53,
+                        "id": 54,
                         "type": "_Bool",
                         "const": false
                     }
@@ -85,7 +85,7 @@
                     "name": "_pixelsPerRow",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     }
@@ -95,7 +95,7 @@
                     "name": "_pixelsPerColumn",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     }
@@ -105,7 +105,7 @@
                     "name": "_numPixels",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 20,
+                        "id": 21,
                         "type": "unsigned long",
                         "const": false
                     }
@@ -134,9 +134,9 @@
                     "attributes": null,
                     "return": {
                         "kind": "EnumType",
-                        "id": 200,
+                        "id": 201,
                         "type": "Imf_2_5::PixelType",
-                        "enum": 1859,
+                        "enum": 1869,
                         "const": false
                     },
                     "params": null
@@ -163,7 +163,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -191,7 +191,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -219,7 +219,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 53,
+                        "id": 54,
                         "type": "_Bool",
                         "const": false
                     },
@@ -247,7 +247,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -275,7 +275,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -303,7 +303,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 20,
+                        "id": 21,
                         "type": "unsigned long",
                         "const": false
                     },
@@ -331,13 +331,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 202,
+                        "id": 203,
                         "type": "class Imf_2_5::ImageLevel &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 201,
+                            "id": 202,
                             "type": "Imf_2_5::ImageLevel",
-                            "record": 1661,
+                            "record": 1669,
                             "const": false
                         },
                         "const": false
@@ -366,13 +366,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 203,
+                        "id": 204,
                         "type": "const class Imf_2_5::ImageLevel &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 201,
+                            "id": 202,
                             "type": "Imf_2_5::ImageLevel",
-                            "record": 1661,
+                            "record": 1669,
                             "const": true
                         },
                         "const": false
@@ -401,9 +401,9 @@
                     "attributes": null,
                     "return": {
                         "kind": "RecordType",
-                        "id": 204,
+                        "id": 205,
                         "type": "Imf_2_5::Slice",
-                        "record": 3652,
+                        "record": 3668,
                         "const": false
                     },
                     "params": null
@@ -430,13 +430,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 206,
+                        "id": 207,
                         "type": "class Imf_2_5::FlatImageLevel &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 205,
+                            "id": 206,
                             "type": "Imf_2_5::FlatImageLevel",
-                            "record": 421,
+                            "record": 425,
                             "const": false
                         },
                         "const": false
@@ -465,13 +465,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 207,
+                        "id": 208,
                         "type": "const class Imf_2_5::FlatImageLevel &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 205,
+                            "id": 206,
                             "type": "Imf_2_5::FlatImageLevel",
-                            "record": 421,
+                            "record": 425,
                             "const": true
                         },
                         "const": false
@@ -485,9 +485,9 @@
             "name": "Imf_2_5::TypedFlatImageChannel<half>",
             "short_name": "TypedFlatImageChannel",
             "namespaces": [
-                26
+                27
             ],
-            "id": 236,
+            "id": 237,
             "abstract": false,
             "size": 512,
             "align": 64,
@@ -501,13 +501,13 @@
                     "name": "_level",
                     "type": {
                         "kind": "Reference",
-                        "id": 202,
+                        "id": 203,
                         "type": "class Imf_2_5::ImageLevel &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 201,
+                            "id": 202,
                             "type": "Imf_2_5::ImageLevel",
-                            "record": 1661,
+                            "record": 1669,
                             "const": false
                         },
                         "const": false
@@ -518,7 +518,7 @@
                     "name": "_xSampling",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     }
@@ -528,7 +528,7 @@
                     "name": "_ySampling",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     }
@@ -538,7 +538,7 @@
                     "name": "_pLinear",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 53,
+                        "id": 54,
                         "type": "_Bool",
                         "const": false
                     }
@@ -548,7 +548,7 @@
                     "name": "_pixelsPerRow",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     }
@@ -558,7 +558,7 @@
                     "name": "_pixelsPerColumn",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     }
@@ -568,7 +568,7 @@
                     "name": "_numPixels",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 20,
+                        "id": 21,
                         "type": "unsigned long",
                         "const": false
                     }
@@ -578,13 +578,13 @@
                     "name": "_pixels",
                     "type": {
                         "kind": "Pointer",
-                        "id": 230,
+                        "id": 231,
                         "type": "class half *",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 227,
+                            "id": 228,
                             "type": "half",
-                            "record": 1052,
+                            "record": 1058,
                             "const": false
                         },
                         "const": false
@@ -595,13 +595,13 @@
                     "name": "_base",
                     "type": {
                         "kind": "Pointer",
-                        "id": 230,
+                        "id": 231,
                         "type": "class half *",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 227,
+                            "id": 228,
                             "type": "half",
-                            "record": 1052,
+                            "record": 1058,
                             "const": false
                         },
                         "const": false
@@ -631,9 +631,9 @@
                     "attributes": null,
                     "return": {
                         "kind": "EnumType",
-                        "id": 200,
+                        "id": 201,
                         "type": "Imf_2_5::PixelType",
-                        "enum": 1859,
+                        "enum": 1869,
                         "const": false
                     },
                     "params": null
@@ -660,7 +660,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -688,7 +688,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -716,7 +716,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 53,
+                        "id": 54,
                         "type": "_Bool",
                         "const": false
                     },
@@ -744,7 +744,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -772,7 +772,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -800,7 +800,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 20,
+                        "id": 21,
                         "type": "unsigned long",
                         "const": false
                     },
@@ -828,13 +828,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 202,
+                        "id": 203,
                         "type": "class Imf_2_5::ImageLevel &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 201,
+                            "id": 202,
                             "type": "Imf_2_5::ImageLevel",
-                            "record": 1661,
+                            "record": 1669,
                             "const": false
                         },
                         "const": false
@@ -863,13 +863,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 203,
+                        "id": 204,
                         "type": "const class Imf_2_5::ImageLevel &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 201,
+                            "id": 202,
                             "type": "Imf_2_5::ImageLevel",
-                            "record": 1661,
+                            "record": 1669,
                             "const": true
                         },
                         "const": false
@@ -898,9 +898,9 @@
                     "attributes": null,
                     "return": {
                         "kind": "RecordType",
-                        "id": 204,
+                        "id": 205,
                         "type": "Imf_2_5::Slice",
-                        "record": 3652,
+                        "record": 3668,
                         "const": false
                     },
                     "params": null
@@ -927,13 +927,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 206,
+                        "id": 207,
                         "type": "class Imf_2_5::FlatImageLevel &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 205,
+                            "id": 206,
                             "type": "Imf_2_5::FlatImageLevel",
-                            "record": 421,
+                            "record": 425,
                             "const": false
                         },
                         "const": false
@@ -962,13 +962,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 207,
+                        "id": 208,
                         "type": "const class Imf_2_5::FlatImageLevel &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 205,
+                            "id": 206,
                             "type": "Imf_2_5::FlatImageLevel",
-                            "record": 421,
+                            "record": 425,
                             "const": true
                         },
                         "const": false
@@ -999,13 +999,13 @@
                     ],
                     "return": {
                         "kind": "Reference",
-                        "id": 228,
+                        "id": 229,
                         "type": "class half &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 227,
+                            "id": 228,
                             "type": "half",
-                            "record": 1052,
+                            "record": 1058,
                             "const": false
                         },
                         "const": false
@@ -1016,7 +1016,7 @@
                             "name": "x",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -1027,7 +1027,7 @@
                             "name": "y",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -1059,13 +1059,13 @@
                     ],
                     "return": {
                         "kind": "Reference",
-                        "id": 229,
+                        "id": 230,
                         "type": "const class half &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 227,
+                            "id": 228,
                             "type": "half",
-                            "record": 1052,
+                            "record": 1058,
                             "const": true
                         },
                         "const": false
@@ -1076,7 +1076,7 @@
                             "name": "x",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -1087,7 +1087,7 @@
                             "name": "y",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -1120,13 +1120,13 @@
                     ],
                     "return": {
                         "kind": "Reference",
-                        "id": 228,
+                        "id": 229,
                         "type": "class half &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 227,
+                            "id": 228,
                             "type": "half",
-                            "record": 1052,
+                            "record": 1058,
                             "const": false
                         },
                         "const": false
@@ -1137,7 +1137,7 @@
                             "name": "x",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -1148,7 +1148,7 @@
                             "name": "y",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -1181,13 +1181,13 @@
                     ],
                     "return": {
                         "kind": "Reference",
-                        "id": 229,
+                        "id": 230,
                         "type": "const class half &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 227,
+                            "id": 228,
                             "type": "half",
-                            "record": 1052,
+                            "record": 1058,
                             "const": true
                         },
                         "const": false
@@ -1198,7 +1198,7 @@
                             "name": "x",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -1209,7 +1209,7 @@
                             "name": "y",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -1239,13 +1239,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Pointer",
-                        "id": 230,
+                        "id": 231,
                         "type": "class half *",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 227,
+                            "id": 228,
                             "type": "half",
-                            "record": 1052,
+                            "record": 1058,
                             "const": false
                         },
                         "const": false
@@ -1256,7 +1256,7 @@
                             "name": "r",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -1288,13 +1288,13 @@
                     ],
                     "return": {
                         "kind": "Pointer",
-                        "id": 231,
+                        "id": 232,
                         "type": "const class half *",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 227,
+                            "id": 228,
                             "type": "half",
-                            "record": 1052,
+                            "record": 1058,
                             "const": true
                         },
                         "const": false
@@ -1305,7 +1305,7 @@
                             "name": "r",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -1320,9 +1320,9 @@
             "name": "Imf_2_5::TypedFlatImageChannel<float>",
             "short_name": "TypedFlatImageChannel",
             "namespaces": [
-                26
+                27
             ],
-            "id": 261,
+            "id": 262,
             "abstract": false,
             "size": 512,
             "align": 64,
@@ -1336,13 +1336,13 @@
                     "name": "_level",
                     "type": {
                         "kind": "Reference",
-                        "id": 202,
+                        "id": 203,
                         "type": "class Imf_2_5::ImageLevel &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 201,
+                            "id": 202,
                             "type": "Imf_2_5::ImageLevel",
-                            "record": 1661,
+                            "record": 1669,
                             "const": false
                         },
                         "const": false
@@ -1353,7 +1353,7 @@
                     "name": "_xSampling",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     }
@@ -1363,7 +1363,7 @@
                     "name": "_ySampling",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     }
@@ -1373,7 +1373,7 @@
                     "name": "_pLinear",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 53,
+                        "id": 54,
                         "type": "_Bool",
                         "const": false
                     }
@@ -1383,7 +1383,7 @@
                     "name": "_pixelsPerRow",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     }
@@ -1393,7 +1393,7 @@
                     "name": "_pixelsPerColumn",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     }
@@ -1403,7 +1403,7 @@
                     "name": "_numPixels",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 20,
+                        "id": 21,
                         "type": "unsigned long",
                         "const": false
                     }
@@ -1413,11 +1413,11 @@
                     "name": "_pixels",
                     "type": {
                         "kind": "Pointer",
-                        "id": 128,
+                        "id": 129,
                         "type": "float *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 14,
+                            "id": 15,
                             "type": "float",
                             "const": false
                         },
@@ -1429,11 +1429,11 @@
                     "name": "_base",
                     "type": {
                         "kind": "Pointer",
-                        "id": 128,
+                        "id": 129,
                         "type": "float *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 14,
+                            "id": 15,
                             "type": "float",
                             "const": false
                         },
@@ -1464,9 +1464,9 @@
                     "attributes": null,
                     "return": {
                         "kind": "EnumType",
-                        "id": 200,
+                        "id": 201,
                         "type": "Imf_2_5::PixelType",
-                        "enum": 1859,
+                        "enum": 1869,
                         "const": false
                     },
                     "params": null
@@ -1493,7 +1493,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -1521,7 +1521,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -1549,7 +1549,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 53,
+                        "id": 54,
                         "type": "_Bool",
                         "const": false
                     },
@@ -1577,7 +1577,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -1605,7 +1605,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -1633,7 +1633,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 20,
+                        "id": 21,
                         "type": "unsigned long",
                         "const": false
                     },
@@ -1661,13 +1661,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 202,
+                        "id": 203,
                         "type": "class Imf_2_5::ImageLevel &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 201,
+                            "id": 202,
                             "type": "Imf_2_5::ImageLevel",
-                            "record": 1661,
+                            "record": 1669,
                             "const": false
                         },
                         "const": false
@@ -1696,13 +1696,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 203,
+                        "id": 204,
                         "type": "const class Imf_2_5::ImageLevel &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 201,
+                            "id": 202,
                             "type": "Imf_2_5::ImageLevel",
-                            "record": 1661,
+                            "record": 1669,
                             "const": true
                         },
                         "const": false
@@ -1731,9 +1731,9 @@
                     "attributes": null,
                     "return": {
                         "kind": "RecordType",
-                        "id": 204,
+                        "id": 205,
                         "type": "Imf_2_5::Slice",
-                        "record": 3652,
+                        "record": 3668,
                         "const": false
                     },
                     "params": null
@@ -1760,13 +1760,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 206,
+                        "id": 207,
                         "type": "class Imf_2_5::FlatImageLevel &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 205,
+                            "id": 206,
                             "type": "Imf_2_5::FlatImageLevel",
-                            "record": 421,
+                            "record": 425,
                             "const": false
                         },
                         "const": false
@@ -1795,13 +1795,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 207,
+                        "id": 208,
                         "type": "const class Imf_2_5::FlatImageLevel &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 205,
+                            "id": 206,
                             "type": "Imf_2_5::FlatImageLevel",
-                            "record": 421,
+                            "record": 425,
                             "const": true
                         },
                         "const": false
@@ -1832,11 +1832,11 @@
                     ],
                     "return": {
                         "kind": "Reference",
-                        "id": 255,
+                        "id": 256,
                         "type": "float &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 14,
+                            "id": 15,
                             "type": "float",
                             "const": false
                         },
@@ -1848,7 +1848,7 @@
                             "name": "x",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -1859,7 +1859,7 @@
                             "name": "y",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -1891,11 +1891,11 @@
                     ],
                     "return": {
                         "kind": "Reference",
-                        "id": 256,
+                        "id": 257,
                         "type": "const float &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 14,
+                            "id": 15,
                             "type": "float",
                             "const": true
                         },
@@ -1907,7 +1907,7 @@
                             "name": "x",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -1918,7 +1918,7 @@
                             "name": "y",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -1951,11 +1951,11 @@
                     ],
                     "return": {
                         "kind": "Reference",
-                        "id": 255,
+                        "id": 256,
                         "type": "float &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 14,
+                            "id": 15,
                             "type": "float",
                             "const": false
                         },
@@ -1967,7 +1967,7 @@
                             "name": "x",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -1978,7 +1978,7 @@
                             "name": "y",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -2011,11 +2011,11 @@
                     ],
                     "return": {
                         "kind": "Reference",
-                        "id": 256,
+                        "id": 257,
                         "type": "const float &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 14,
+                            "id": 15,
                             "type": "float",
                             "const": true
                         },
@@ -2027,7 +2027,7 @@
                             "name": "x",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -2038,7 +2038,7 @@
                             "name": "y",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -2068,11 +2068,11 @@
                     "attributes": null,
                     "return": {
                         "kind": "Pointer",
-                        "id": 128,
+                        "id": 129,
                         "type": "float *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 14,
+                            "id": 15,
                             "type": "float",
                             "const": false
                         },
@@ -2084,7 +2084,7 @@
                             "name": "r",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -2116,11 +2116,11 @@
                     ],
                     "return": {
                         "kind": "Pointer",
-                        "id": 129,
+                        "id": 130,
                         "type": "const float *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 14,
+                            "id": 15,
                             "type": "float",
                             "const": true
                         },
@@ -2132,7 +2132,7 @@
                             "name": "r",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -2147,9 +2147,9 @@
             "name": "Imf_2_5::TypedFlatImageChannel<unsigned int>",
             "short_name": "TypedFlatImageChannel",
             "namespaces": [
-                26
+                27
             ],
-            "id": 289,
+            "id": 290,
             "abstract": false,
             "size": 512,
             "align": 64,
@@ -2163,13 +2163,13 @@
                     "name": "_level",
                     "type": {
                         "kind": "Reference",
-                        "id": 202,
+                        "id": 203,
                         "type": "class Imf_2_5::ImageLevel &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 201,
+                            "id": 202,
                             "type": "Imf_2_5::ImageLevel",
-                            "record": 1661,
+                            "record": 1669,
                             "const": false
                         },
                         "const": false
@@ -2180,7 +2180,7 @@
                     "name": "_xSampling",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     }
@@ -2190,7 +2190,7 @@
                     "name": "_ySampling",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     }
@@ -2200,7 +2200,7 @@
                     "name": "_pLinear",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 53,
+                        "id": 54,
                         "type": "_Bool",
                         "const": false
                     }
@@ -2210,7 +2210,7 @@
                     "name": "_pixelsPerRow",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     }
@@ -2220,7 +2220,7 @@
                     "name": "_pixelsPerColumn",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     }
@@ -2230,7 +2230,7 @@
                     "name": "_numPixels",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 20,
+                        "id": 21,
                         "type": "unsigned long",
                         "const": false
                     }
@@ -2240,11 +2240,11 @@
                     "name": "_pixels",
                     "type": {
                         "kind": "Pointer",
-                        "id": 283,
+                        "id": 284,
                         "type": "unsigned int *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 280,
+                            "id": 281,
                             "type": "unsigned int",
                             "const": false
                         },
@@ -2256,11 +2256,11 @@
                     "name": "_base",
                     "type": {
                         "kind": "Pointer",
-                        "id": 283,
+                        "id": 284,
                         "type": "unsigned int *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 280,
+                            "id": 281,
                             "type": "unsigned int",
                             "const": false
                         },
@@ -2291,9 +2291,9 @@
                     "attributes": null,
                     "return": {
                         "kind": "EnumType",
-                        "id": 200,
+                        "id": 201,
                         "type": "Imf_2_5::PixelType",
-                        "enum": 1859,
+                        "enum": 1869,
                         "const": false
                     },
                     "params": null
@@ -2320,7 +2320,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -2348,7 +2348,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -2376,7 +2376,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 53,
+                        "id": 54,
                         "type": "_Bool",
                         "const": false
                     },
@@ -2404,7 +2404,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -2432,7 +2432,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -2460,7 +2460,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 20,
+                        "id": 21,
                         "type": "unsigned long",
                         "const": false
                     },
@@ -2488,13 +2488,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 202,
+                        "id": 203,
                         "type": "class Imf_2_5::ImageLevel &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 201,
+                            "id": 202,
                             "type": "Imf_2_5::ImageLevel",
-                            "record": 1661,
+                            "record": 1669,
                             "const": false
                         },
                         "const": false
@@ -2523,13 +2523,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 203,
+                        "id": 204,
                         "type": "const class Imf_2_5::ImageLevel &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 201,
+                            "id": 202,
                             "type": "Imf_2_5::ImageLevel",
-                            "record": 1661,
+                            "record": 1669,
                             "const": true
                         },
                         "const": false
@@ -2558,9 +2558,9 @@
                     "attributes": null,
                     "return": {
                         "kind": "RecordType",
-                        "id": 204,
+                        "id": 205,
                         "type": "Imf_2_5::Slice",
-                        "record": 3652,
+                        "record": 3668,
                         "const": false
                     },
                     "params": null
@@ -2587,13 +2587,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 206,
+                        "id": 207,
                         "type": "class Imf_2_5::FlatImageLevel &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 205,
+                            "id": 206,
                             "type": "Imf_2_5::FlatImageLevel",
-                            "record": 421,
+                            "record": 425,
                             "const": false
                         },
                         "const": false
@@ -2622,13 +2622,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 207,
+                        "id": 208,
                         "type": "const class Imf_2_5::FlatImageLevel &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 205,
+                            "id": 206,
                             "type": "Imf_2_5::FlatImageLevel",
-                            "record": 421,
+                            "record": 425,
                             "const": true
                         },
                         "const": false
@@ -2659,11 +2659,11 @@
                     ],
                     "return": {
                         "kind": "Reference",
-                        "id": 281,
+                        "id": 282,
                         "type": "unsigned int &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 280,
+                            "id": 281,
                             "type": "unsigned int",
                             "const": false
                         },
@@ -2675,7 +2675,7 @@
                             "name": "x",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -2686,7 +2686,7 @@
                             "name": "y",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -2718,11 +2718,11 @@
                     ],
                     "return": {
                         "kind": "Reference",
-                        "id": 282,
+                        "id": 283,
                         "type": "const unsigned int &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 280,
+                            "id": 281,
                             "type": "unsigned int",
                             "const": true
                         },
@@ -2734,7 +2734,7 @@
                             "name": "x",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -2745,7 +2745,7 @@
                             "name": "y",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -2778,11 +2778,11 @@
                     ],
                     "return": {
                         "kind": "Reference",
-                        "id": 281,
+                        "id": 282,
                         "type": "unsigned int &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 280,
+                            "id": 281,
                             "type": "unsigned int",
                             "const": false
                         },
@@ -2794,7 +2794,7 @@
                             "name": "x",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -2805,7 +2805,7 @@
                             "name": "y",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -2838,11 +2838,11 @@
                     ],
                     "return": {
                         "kind": "Reference",
-                        "id": 282,
+                        "id": 283,
                         "type": "const unsigned int &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 280,
+                            "id": 281,
                             "type": "unsigned int",
                             "const": true
                         },
@@ -2854,7 +2854,7 @@
                             "name": "x",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -2865,7 +2865,7 @@
                             "name": "y",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -2895,11 +2895,11 @@
                     "attributes": null,
                     "return": {
                         "kind": "Pointer",
-                        "id": 283,
+                        "id": 284,
                         "type": "unsigned int *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 280,
+                            "id": 281,
                             "type": "unsigned int",
                             "const": false
                         },
@@ -2911,7 +2911,7 @@
                             "name": "r",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -2943,11 +2943,11 @@
                     ],
                     "return": {
                         "kind": "Pointer",
-                        "id": 284,
+                        "id": 285,
                         "type": "const unsigned int *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 280,
+                            "id": 281,
                             "type": "unsigned int",
                             "const": true
                         },
@@ -2959,7 +2959,7 @@
                             "name": "r",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },

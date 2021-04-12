@@ -7,7 +7,7 @@
     ],
     "include_paths": [
         "/home/anders/packages/openexr/2.5.5/include",
-        "/home/anders/packages/usd/20.05//include",
+        "/home/anders/packages/usd/20.05/include",
         "/home/anders/packages/boost/1.70.0/include"
     ],
     "id": 8,
@@ -16,7 +16,8 @@
             "kind": "Namespace",
             "name": "pxrInternal_v0_20__pxrReserved__",
             "id": 9,
-            "short_name": "pxrInternal_v0_20__pxrReserved__"
+            "short_name": "pxrInternal_v0_20__pxrReserved__",
+            "alias": "pxr"
         },
         {
             "kind": "Record",
@@ -27,6 +28,7 @@
             ],
             "id": 10,
             "abstract": false,
+            "trivially_copyable": false,
             "size": 64,
             "align": 64,
             "alias": "TfToken",

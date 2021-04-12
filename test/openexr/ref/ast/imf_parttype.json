@@ -9,19 +9,28 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 460,
+    "id": 466,
     "decls": [
         {
+            "kind": "Namespace",
+            "name": "cppmm_bind::Imf_2_5",
+            "id": 3,
+            "short_name": "Imf_2_5"
+        },
+        {
             "kind": "Function",
-            "id": 461,
+            "id": 467,
             "short_name": "isImage",
             "qualified_name": "Imf_2_5::isImage",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -31,11 +40,11 @@
                     "name": "name",
                     "type": {
                         "kind": "Reference",
-                        "id": 5,
+                        "id": 6,
                         "type": "const class std::__cxx11::basic_string<char> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 4,
+                            "id": 5,
                             "type": "std::__cxx11::basic_string<char>",
                             "record": -1,
                             "const": true
@@ -48,15 +57,18 @@
         },
         {
             "kind": "Function",
-            "id": 462,
+            "id": 468,
             "short_name": "isTiled",
             "qualified_name": "Imf_2_5::isTiled",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -66,11 +78,11 @@
                     "name": "name",
                     "type": {
                         "kind": "Reference",
-                        "id": 5,
+                        "id": 6,
                         "type": "const class std::__cxx11::basic_string<char> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 4,
+                            "id": 5,
                             "type": "std::__cxx11::basic_string<char>",
                             "record": -1,
                             "const": true
@@ -83,15 +95,18 @@
         },
         {
             "kind": "Function",
-            "id": 463,
+            "id": 469,
             "short_name": "isDeepData",
             "qualified_name": "Imf_2_5::isDeepData",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -101,11 +116,11 @@
                     "name": "name",
                     "type": {
                         "kind": "Reference",
-                        "id": 5,
+                        "id": 6,
                         "type": "const class std::__cxx11::basic_string<char> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 4,
+                            "id": 5,
                             "type": "std::__cxx11::basic_string<char>",
                             "record": -1,
                             "const": true
@@ -118,15 +133,18 @@
         },
         {
             "kind": "Function",
-            "id": 464,
+            "id": 470,
             "short_name": "isSupportedType",
             "qualified_name": "Imf_2_5::isSupportedType",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -136,11 +154,11 @@
                     "name": "name",
                     "type": {
                         "kind": "Reference",
-                        "id": 5,
+                        "id": 6,
                         "type": "const class std::__cxx11::basic_string<char> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 4,
+                            "id": 5,
                             "type": "std::__cxx11::basic_string<char>",
                             "record": -1,
                             "const": true

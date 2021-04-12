@@ -7,9 +7,10 @@ astgen_exe = sys.argv[1]
 asttoc_exe = sys.argv[2]
 binding_dir = sys.argv[3]
 output_dir = sys.argv[4]
-ref_dir = sys.argv[5]
-if len(sys.argv) >= 6:
-    astgen_args = sys.argv[6:]
+project_name = sys.argv[5]
+ref_dir = sys.argv[6]
+if len(sys.argv) >= 7:
+    astgen_args = sys.argv[7:]
 else:
     astgen_args = []
 
@@ -18,7 +19,6 @@ shutil.rmtree(output_dir, ignore_errors=True)
 os.makedirs(output_dir)
 
 output_ast_dir = os.path.join(output_dir, 'ast')
-output_c_dir = os.path.join(output_dir, 'c')
 
 # Generate AST
 args = [astgen_exe, binding_dir, '-o', output_ast_dir, '--'] + astgen_args
@@ -34,7 +34,7 @@ if result.returncode != 0:
 
 
 # Generate C
-args = [asttoc_exe, output_ast_dir, '-o', output_c_dir]
+args = [asttoc_exe, output_ast_dir, '-o', output_dir, '-p', project_name]
 print('Running ' + ' '.join(args))
 
 result = subprocess.Popen(args, stderr=subprocess.STDOUT, stdout=subprocess.PIPE) 

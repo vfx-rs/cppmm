@@ -9,12 +9,12 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 1671,
+    "id": 1679,
     "decls": [
         {
             "kind": "Namespace",
             "name": "Imf_2_5",
-            "id": 26,
+            "id": 27,
             "short_name": "Imf_2_5"
         },
         {
@@ -22,9 +22,9 @@
             "name": "Imf_2_5::DeepImageLevel",
             "short_name": "DeepImageLevel",
             "namespaces": [
-                26
+                27
             ],
-            "id": 1672,
+            "id": 1680,
             "abstract": false,
             "size": 1536,
             "align": 64,
@@ -38,13 +38,13 @@
                     "name": "_image",
                     "type": {
                         "kind": "Reference",
-                        "id": 408,
+                        "id": 412,
                         "type": "class Imf_2_5::Image &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 407,
+                            "id": 411,
                             "type": "Imf_2_5::Image",
-                            "record": 1719,
+                            "record": 1729,
                             "const": false
                         },
                         "const": false
@@ -55,7 +55,7 @@
                     "name": "_xLevelNumber",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     }
@@ -65,7 +65,7 @@
                     "name": "_yLevelNumber",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     }
@@ -75,9 +75,9 @@
                     "name": "_dataWindow",
                     "type": {
                         "kind": "RecordType",
-                        "id": 12,
+                        "id": 13,
                         "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                        "record": 2973,
+                        "record": 2964,
                         "const": false
                     }
                 },
@@ -86,7 +86,7 @@
                     "name": "_channels",
                     "type": {
                         "kind": "RecordType",
-                        "id": 1690,
+                        "id": 1698,
                         "type": "std::map<std::__cxx11::basic_string<char>, Imf_2_5::DeepImageChannel *, std::less<std::__cxx11::basic_string<char> >, std::allocator<std::pair<const std::__cxx11::basic_string<char>, Imf_2_5::DeepImageChannel *> > >",
                         "record": -1,
                         "const": false
@@ -97,9 +97,9 @@
                     "name": "_sampleCounts",
                     "type": {
                         "kind": "RecordType",
-                        "id": 1126,
+                        "id": 1132,
                         "type": "Imf_2_5::SampleCountChannel",
-                        "record": 1125,
+                        "record": 1131,
                         "const": false
                     }
                 }
@@ -127,13 +127,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 408,
+                        "id": 412,
                         "type": "class Imf_2_5::Image &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 407,
+                            "id": 411,
                             "type": "Imf_2_5::Image",
-                            "record": 1719,
+                            "record": 1729,
                             "const": false
                         },
                         "const": false
@@ -164,13 +164,13 @@
                     ],
                     "return": {
                         "kind": "Reference",
-                        "id": 409,
+                        "id": 413,
                         "type": "const class Imf_2_5::Image &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 407,
+                            "id": 411,
                             "type": "Imf_2_5::Image",
-                            "record": 1719,
+                            "record": 1729,
                             "const": true
                         },
                         "const": false
@@ -199,7 +199,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -227,7 +227,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -255,13 +255,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 13,
+                        "id": 14,
                         "type": "const class Imath_2_5::Box<class Imath_2_5::Vec2<int> > &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 12,
+                            "id": 13,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2973,
+                            "record": 2964,
                             "const": true
                         },
                         "const": false
@@ -290,13 +290,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 550,
+                        "id": 556,
                         "type": "class Imf_2_5::DeepImage &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 546,
+                            "id": 552,
                             "type": "Imf_2_5::DeepImage",
-                            "record": 1281,
+                            "record": 1287,
                             "const": false
                         },
                         "const": false
@@ -327,13 +327,13 @@
                     ],
                     "return": {
                         "kind": "Reference",
-                        "id": 547,
+                        "id": 553,
                         "type": "const class Imf_2_5::DeepImage &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 546,
+                            "id": 552,
                             "type": "Imf_2_5::DeepImage",
-                            "record": 1281,
+                            "record": 1287,
                             "const": true
                         },
                         "const": false
@@ -362,11 +362,11 @@
                     "attributes": null,
                     "return": {
                         "kind": "Pointer",
-                        "id": 1665,
+                        "id": 1673,
                         "type": "class Imf_2_5::DeepImageChannel *",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 1664,
+                            "id": 1672,
                             "type": "Imf_2_5::DeepImageChannel",
                             "record": 3316,
                             "const": false
@@ -379,11 +379,11 @@
                             "name": "name",
                             "type": {
                                 "kind": "Reference",
-                                "id": 5,
+                                "id": 6,
                                 "type": "const class std::__cxx11::basic_string<char> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 4,
+                                    "id": 5,
                                     "type": "std::__cxx11::basic_string<char>",
                                     "record": -1,
                                     "const": true
@@ -418,11 +418,11 @@
                     ],
                     "return": {
                         "kind": "Pointer",
-                        "id": 1666,
+                        "id": 1674,
                         "type": "const class Imf_2_5::DeepImageChannel *",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 1664,
+                            "id": 1672,
                             "type": "Imf_2_5::DeepImageChannel",
                             "record": 3316,
                             "const": true
@@ -435,11 +435,11 @@
                             "name": "name",
                             "type": {
                                 "kind": "Reference",
-                                "id": 5,
+                                "id": 6,
                                 "type": "const class std::__cxx11::basic_string<char> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 4,
+                                    "id": 5,
                                     "type": "std::__cxx11::basic_string<char>",
                                     "record": -1,
                                     "const": true
@@ -474,11 +474,11 @@
                     ],
                     "return": {
                         "kind": "Reference",
-                        "id": 1667,
+                        "id": 1675,
                         "type": "class Imf_2_5::DeepImageChannel &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 1664,
+                            "id": 1672,
                             "type": "Imf_2_5::DeepImageChannel",
                             "record": 3316,
                             "const": false
@@ -491,11 +491,11 @@
                             "name": "name",
                             "type": {
                                 "kind": "Reference",
-                                "id": 5,
+                                "id": 6,
                                 "type": "const class std::__cxx11::basic_string<char> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 4,
+                                    "id": 5,
                                     "type": "std::__cxx11::basic_string<char>",
                                     "record": -1,
                                     "const": true
@@ -531,11 +531,11 @@
                     ],
                     "return": {
                         "kind": "Reference",
-                        "id": 1668,
+                        "id": 1676,
                         "type": "const class Imf_2_5::DeepImageChannel &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 1664,
+                            "id": 1672,
                             "type": "Imf_2_5::DeepImageChannel",
                             "record": 3316,
                             "const": true
@@ -548,11 +548,11 @@
                             "name": "name",
                             "type": {
                                 "kind": "Reference",
-                                "id": 5,
+                                "id": 6,
                                 "type": "const class std::__cxx11::basic_string<char> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 4,
+                                    "id": 5,
                                     "type": "std::__cxx11::basic_string<char>",
                                     "record": -1,
                                     "const": true
@@ -585,9 +585,9 @@
                     "attributes": null,
                     "return": {
                         "kind": "RecordType",
-                        "id": 1669,
+                        "id": 1677,
                         "type": "Imf_2_5::DeepImageLevel::Iterator",
-                        "record": 1694,
+                        "record": 1703,
                         "const": false
                     },
                     "params": null
@@ -616,9 +616,9 @@
                     ],
                     "return": {
                         "kind": "RecordType",
-                        "id": 1670,
+                        "id": 1678,
                         "type": "Imf_2_5::DeepImageLevel::ConstIterator",
-                        "record": 1706,
+                        "record": 1716,
                         "const": false
                     },
                     "params": null
@@ -645,9 +645,9 @@
                     "attributes": null,
                     "return": {
                         "kind": "RecordType",
-                        "id": 1669,
+                        "id": 1677,
                         "type": "Imf_2_5::DeepImageLevel::Iterator",
-                        "record": 1694,
+                        "record": 1703,
                         "const": false
                     },
                     "params": null
@@ -676,9 +676,9 @@
                     ],
                     "return": {
                         "kind": "RecordType",
-                        "id": 1670,
+                        "id": 1678,
                         "type": "Imf_2_5::DeepImageLevel::ConstIterator",
-                        "record": 1706,
+                        "record": 1716,
                         "const": false
                     },
                     "params": null
@@ -705,13 +705,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 1128,
+                        "id": 1134,
                         "type": "class Imf_2_5::SampleCountChannel &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 1126,
+                            "id": 1132,
                             "type": "Imf_2_5::SampleCountChannel",
-                            "record": 1125,
+                            "record": 1131,
                             "const": false
                         },
                         "const": false
@@ -742,13 +742,13 @@
                     ],
                     "return": {
                         "kind": "Reference",
-                        "id": 1127,
+                        "id": 1133,
                         "type": "const class Imf_2_5::SampleCountChannel &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 1126,
+                            "id": 1132,
                             "type": "Imf_2_5::SampleCountChannel",
-                            "record": 1125,
+                            "record": 1131,
                             "const": true
                         },
                         "const": false
@@ -762,10 +762,10 @@
             "name": "Imf_2_5::DeepImageLevel::Iterator",
             "short_name": "Iterator",
             "namespaces": [
-                26,
-                1672
+                27,
+                1680
             ],
-            "id": 1694,
+            "id": 1703,
             "abstract": false,
             "size": 64,
             "align": 64,
@@ -779,7 +779,7 @@
                     "name": "_i",
                     "type": {
                         "kind": "RecordType",
-                        "id": 1691,
+                        "id": 1699,
                         "type": "std::_Rb_tree_iterator<std::pair<const std::__cxx11::basic_string<char>, Imf_2_5::DeepImageChannel *> >",
                         "record": -1,
                         "const": false
@@ -809,7 +809,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -839,7 +839,7 @@
                     ],
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -849,11 +849,11 @@
                             "name": "i",
                             "type": {
                                 "kind": "Reference",
-                                "id": 1692,
+                                "id": 1700,
                                 "type": "const struct std::_Rb_tree_iterator<struct std::pair<const class std::__cxx11::basic_string<char>, class Imf_2_5::DeepImageChannel *> > &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 1691,
+                                    "id": 1699,
                                     "type": "std::_Rb_tree_iterator<std::pair<const std::__cxx11::basic_string<char>, Imf_2_5::DeepImageChannel *> >",
                                     "record": -1,
                                     "const": true
@@ -888,13 +888,13 @@
                     ],
                     "return": {
                         "kind": "Reference",
-                        "id": 1693,
+                        "id": 1702,
                         "type": "class Imf_2_5::DeepImageLevel::Iterator &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 1669,
+                            "id": 1677,
                             "type": "Imf_2_5::DeepImageLevel::Iterator",
-                            "record": 1694,
+                            "record": 1703,
                             "const": false
                         },
                         "const": false
@@ -925,9 +925,9 @@
                     ],
                     "return": {
                         "kind": "RecordType",
-                        "id": 1669,
+                        "id": 1677,
                         "type": "Imf_2_5::DeepImageLevel::Iterator",
-                        "record": 1694,
+                        "record": 1703,
                         "const": false
                     },
                     "params": [
@@ -936,7 +936,7 @@
                             "name": "",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -966,11 +966,11 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 5,
+                        "id": 6,
                         "type": "const class std::__cxx11::basic_string<char> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 4,
+                            "id": 5,
                             "type": "std::__cxx11::basic_string<char>",
                             "record": -1,
                             "const": true
@@ -1001,11 +1001,11 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 1667,
+                        "id": 1675,
                         "type": "class Imf_2_5::DeepImageChannel &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 1664,
+                            "id": 1672,
                             "type": "Imf_2_5::DeepImageChannel",
                             "record": 3316,
                             "const": false
@@ -1013,6 +1013,53 @@
                         "const": false
                     },
                     "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "Iterator",
+                    "qualified_name": "Imf_2_5::DeepImageLevel::Iterator::Iterator",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": false,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": true,
+                    "copy_constructor": true,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 4,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "rhs",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 1701,
+                                "type": "const class Imf_2_5::DeepImageLevel::Iterator &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 1677,
+                                    "type": "Imf_2_5::DeepImageLevel::Iterator",
+                                    "record": 1703,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
                 }
             ]
         },
@@ -1021,10 +1068,10 @@
             "name": "Imf_2_5::DeepImageLevel::ConstIterator",
             "short_name": "ConstIterator",
             "namespaces": [
-                26,
-                1672
+                27,
+                1680
             ],
-            "id": 1706,
+            "id": 1716,
             "abstract": false,
             "size": 64,
             "align": 64,
@@ -1038,7 +1085,7 @@
                     "name": "_i",
                     "type": {
                         "kind": "RecordType",
-                        "id": 1703,
+                        "id": 1712,
                         "type": "std::_Rb_tree_const_iterator<std::pair<const std::__cxx11::basic_string<char>, Imf_2_5::DeepImageChannel *> >",
                         "record": -1,
                         "const": false
@@ -1068,7 +1115,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -1098,7 +1145,7 @@
                     ],
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -1108,11 +1155,11 @@
                             "name": "i",
                             "type": {
                                 "kind": "Reference",
-                                "id": 1704,
+                                "id": 1713,
                                 "type": "const struct std::_Rb_tree_const_iterator<struct std::pair<const class std::__cxx11::basic_string<char>, class Imf_2_5::DeepImageChannel *> > &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 1703,
+                                    "id": 1712,
                                     "type": "std::_Rb_tree_const_iterator<std::pair<const std::__cxx11::basic_string<char>, Imf_2_5::DeepImageChannel *> >",
                                     "record": -1,
                                     "const": true
@@ -1147,13 +1194,13 @@
                     ],
                     "return": {
                         "kind": "Reference",
-                        "id": 1705,
+                        "id": 1715,
                         "type": "class Imf_2_5::DeepImageLevel::ConstIterator &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 1670,
+                            "id": 1678,
                             "type": "Imf_2_5::DeepImageLevel::ConstIterator",
-                            "record": 1706,
+                            "record": 1716,
                             "const": false
                         },
                         "const": false
@@ -1184,9 +1231,9 @@
                     ],
                     "return": {
                         "kind": "RecordType",
-                        "id": 1670,
+                        "id": 1678,
                         "type": "Imf_2_5::DeepImageLevel::ConstIterator",
-                        "record": 1706,
+                        "record": 1716,
                         "const": false
                     },
                     "params": [
@@ -1195,7 +1242,7 @@
                             "name": "",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -1225,11 +1272,11 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 5,
+                        "id": 6,
                         "type": "const class std::__cxx11::basic_string<char> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 4,
+                            "id": 5,
                             "type": "std::__cxx11::basic_string<char>",
                             "record": -1,
                             "const": true
@@ -1260,11 +1307,11 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 1668,
+                        "id": 1676,
                         "type": "const class Imf_2_5::DeepImageChannel &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 1664,
+                            "id": 1672,
                             "type": "Imf_2_5::DeepImageChannel",
                             "record": 3316,
                             "const": true
@@ -1272,6 +1319,53 @@
                         "const": false
                     },
                     "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "ConstIterator",
+                    "qualified_name": "Imf_2_5::DeepImageLevel::ConstIterator::ConstIterator",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": false,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": true,
+                    "copy_constructor": true,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 4,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "rhs",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 1714,
+                                "type": "const class Imf_2_5::DeepImageLevel::ConstIterator &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 1678,
+                                    "type": "Imf_2_5::DeepImageLevel::ConstIterator",
+                                    "record": 1716,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
                 }
             ]
         }

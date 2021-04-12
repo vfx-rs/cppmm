@@ -9,12 +9,12 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 949,
+    "id": 955,
     "decls": [
         {
             "kind": "Namespace",
             "name": "Imf_2_5",
-            "id": 26,
+            "id": 27,
             "short_name": "Imf_2_5"
         },
         {
@@ -22,9 +22,9 @@
             "name": "Imf_2_5::InputFile",
             "short_name": "InputFile",
             "namespaces": [
-                26
+                27
             ],
-            "id": 950,
+            "id": 956,
             "abstract": false,
             "size": 128,
             "align": 64,
@@ -38,11 +38,11 @@
                     "name": "_data",
                     "type": {
                         "kind": "Pointer",
-                        "id": 967,
+                        "id": 973,
                         "type": "struct Imf_2_5::InputFile::Data *",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 966,
+                            "id": 972,
                             "type": "Imf_2_5::InputFile::Data",
                             "record": -1,
                             "const": false
@@ -74,7 +74,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -84,11 +84,11 @@
                             "name": "fileName",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 52,
+                                "id": 53,
                                 "type": "const char *",
                                 "pointee": {
                                     "kind": "BuiltinType",
-                                    "id": 51,
+                                    "id": 52,
                                     "type": "char",
                                     "const": true
                                 },
@@ -101,7 +101,7 @@
                             "name": "numThreads",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -133,7 +133,7 @@
                     ],
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -143,13 +143,13 @@
                             "name": "is",
                             "type": {
                                 "kind": "Reference",
-                                "id": 49,
+                                "id": 50,
                                 "type": "class Imf_2_5::IStream &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 48,
+                                    "id": 49,
                                     "type": "Imf_2_5::IStream",
-                                    "record": 1228,
+                                    "record": 1234,
                                     "const": false
                                 },
                                 "const": false
@@ -161,7 +161,7 @@
                             "name": "numThreads",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -191,7 +191,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -219,11 +219,11 @@
                     "attributes": null,
                     "return": {
                         "kind": "Pointer",
-                        "id": 52,
+                        "id": 53,
                         "type": "const char *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 51,
+                            "id": 52,
                             "type": "char",
                             "const": true
                         },
@@ -253,13 +253,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 7,
+                        "id": 8,
                         "type": "const class Imf_2_5::Header &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 6,
+                            "id": 7,
                             "type": "Imf_2_5::Header",
-                            "record": 1526,
+                            "record": 1532,
                             "const": true
                         },
                         "const": false
@@ -288,7 +288,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -316,7 +316,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -326,13 +326,13 @@
                             "name": "frameBuffer",
                             "type": {
                                 "kind": "Reference",
-                                "id": 108,
+                                "id": 109,
                                 "type": "const class Imf_2_5::FrameBuffer &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 107,
+                                    "id": 108,
                                     "type": "Imf_2_5::FrameBuffer",
-                                    "record": 3660,
+                                    "record": 3677,
                                     "const": true
                                 },
                                 "const": false
@@ -363,13 +363,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 108,
+                        "id": 109,
                         "type": "const class Imf_2_5::FrameBuffer &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 107,
+                            "id": 108,
                             "type": "Imf_2_5::FrameBuffer",
-                            "record": 3660,
+                            "record": 3677,
                             "const": true
                         },
                         "const": false
@@ -398,7 +398,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 53,
+                        "id": 54,
                         "type": "_Bool",
                         "const": false
                     },
@@ -426,7 +426,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 53,
+                        "id": 54,
                         "type": "_Bool",
                         "const": false
                     },
@@ -454,7 +454,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -464,7 +464,7 @@
                             "name": "scanLine1",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -475,7 +475,7 @@
                             "name": "scanLine2",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -507,7 +507,7 @@
                     ],
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -517,7 +517,7 @@
                             "name": "scanLine",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -547,7 +547,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -557,7 +557,7 @@
                             "name": "firstScanLine",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -568,15 +568,15 @@
                             "name": "pixelData",
                             "type": {
                                 "kind": "Reference",
-                                "id": 309,
+                                "id": 310,
                                 "type": "const char *&",
                                 "pointee": {
                                     "kind": "Pointer",
-                                    "id": 52,
+                                    "id": 53,
                                     "type": "const char *",
                                     "pointee": {
                                         "kind": "BuiltinType",
-                                        "id": 51,
+                                        "id": 52,
                                         "type": "char",
                                         "const": true
                                     },
@@ -591,11 +591,11 @@
                             "name": "pixelDataSize",
                             "type": {
                                 "kind": "Reference",
-                                "id": 863,
+                                "id": 869,
                                 "type": "int &",
                                 "pointee": {
                                     "kind": "BuiltinType",
-                                    "id": 9,
+                                    "id": 10,
                                     "type": "int",
                                     "const": false
                                 },
@@ -627,7 +627,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -637,7 +637,7 @@
                             "name": "scanLine",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -648,11 +648,11 @@
                             "name": "pixelData",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 148,
+                                "id": 149,
                                 "type": "char *",
                                 "pointee": {
                                     "kind": "BuiltinType",
-                                    "id": 51,
+                                    "id": 52,
                                     "type": "char",
                                     "const": false
                                 },
@@ -665,11 +665,11 @@
                             "name": "pixelDataSize",
                             "type": {
                                 "kind": "Reference",
-                                "id": 863,
+                                "id": 869,
                                 "type": "int &",
                                 "pointee": {
                                     "kind": "BuiltinType",
-                                    "id": 9,
+                                    "id": 10,
                                     "type": "int",
                                     "const": false
                                 },
@@ -701,7 +701,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -711,11 +711,11 @@
                             "name": "dx",
                             "type": {
                                 "kind": "Reference",
-                                "id": 863,
+                                "id": 869,
                                 "type": "int &",
                                 "pointee": {
                                     "kind": "BuiltinType",
-                                    "id": 9,
+                                    "id": 10,
                                     "type": "int",
                                     "const": false
                                 },
@@ -728,11 +728,11 @@
                             "name": "dy",
                             "type": {
                                 "kind": "Reference",
-                                "id": 863,
+                                "id": 869,
                                 "type": "int &",
                                 "pointee": {
                                     "kind": "BuiltinType",
-                                    "id": 9,
+                                    "id": 10,
                                     "type": "int",
                                     "const": false
                                 },
@@ -745,11 +745,11 @@
                             "name": "lx",
                             "type": {
                                 "kind": "Reference",
-                                "id": 863,
+                                "id": 869,
                                 "type": "int &",
                                 "pointee": {
                                     "kind": "BuiltinType",
-                                    "id": 9,
+                                    "id": 10,
                                     "type": "int",
                                     "const": false
                                 },
@@ -762,11 +762,11 @@
                             "name": "ly",
                             "type": {
                                 "kind": "Reference",
-                                "id": 863,
+                                "id": 869,
                                 "type": "int &",
                                 "pointee": {
                                     "kind": "BuiltinType",
-                                    "id": 9,
+                                    "id": 10,
                                     "type": "int",
                                     "const": false
                                 },
@@ -779,15 +779,15 @@
                             "name": "pixelData",
                             "type": {
                                 "kind": "Reference",
-                                "id": 309,
+                                "id": 310,
                                 "type": "const char *&",
                                 "pointee": {
                                     "kind": "Pointer",
-                                    "id": 52,
+                                    "id": 53,
                                     "type": "const char *",
                                     "pointee": {
                                         "kind": "BuiltinType",
-                                        "id": 51,
+                                        "id": 52,
                                         "type": "char",
                                         "const": true
                                     },
@@ -802,11 +802,11 @@
                             "name": "pixelDataSize",
                             "type": {
                                 "kind": "Reference",
-                                "id": 863,
+                                "id": 869,
                                 "type": "int &",
                                 "pointee": {
                                     "kind": "BuiltinType",
-                                    "id": 9,
+                                    "id": 10,
                                     "type": "int",
                                     "const": false
                                 },

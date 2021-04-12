@@ -15,7 +15,8 @@
             "kind": "Namespace",
             "name": "OpenImageIO_v2_2",
             "id": 1,
-            "short_name": "OpenImageIO_v2_2"
+            "short_name": "OpenImageIO_v2_2",
+            "alias": "OIIO"
         },
         {
             "kind": "Record",
@@ -26,6 +27,7 @@
             ],
             "id": 2,
             "abstract": false,
+            "trivially_copyable": false,
             "size": 64,
             "align": 32,
             "alias": "TypeDesc",

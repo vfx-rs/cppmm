@@ -9,12 +9,12 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 2952,
+    "id": 2943,
     "decls": [
         {
             "kind": "Namespace",
             "name": "Imath_2_5",
-            "id": 632,
+            "id": 638,
             "short_name": "Imath_2_5"
         },
         {
@@ -22,9 +22,9 @@
             "name": "Imath_2_5::Box<Imath_2_5::Vec2<short> >",
             "short_name": "Box",
             "namespaces": [
-                632
+                638
             ],
-            "id": 2953,
+            "id": 2944,
             "abstract": false,
             "size": 64,
             "align": 16,
@@ -38,7 +38,7 @@
                     "name": "min",
                     "type": {
                         "kind": "RecordType",
-                        "id": 2948,
+                        "id": 2937,
                         "type": "Imath_2_5::Vec2<short>",
                         "record": 3413,
                         "const": false
@@ -49,7 +49,7 @@
                     "name": "max",
                     "type": {
                         "kind": "RecordType",
-                        "id": 2948,
+                        "id": 2937,
                         "type": "Imath_2_5::Vec2<short>",
                         "record": 3413,
                         "const": false
@@ -79,7 +79,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -107,7 +107,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -117,11 +117,11 @@
                             "name": "point",
                             "type": {
                                 "kind": "Reference",
-                                "id": 2949,
+                                "id": 2938,
                                 "type": "const class Imath_2_5::Vec2<short> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 2948,
+                                    "id": 2937,
                                     "type": "Imath_2_5::Vec2<short>",
                                     "record": 3413,
                                     "const": true
@@ -154,7 +154,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -164,11 +164,11 @@
                             "name": "minV",
                             "type": {
                                 "kind": "Reference",
-                                "id": 2949,
+                                "id": 2938,
                                 "type": "const class Imath_2_5::Vec2<short> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 2948,
+                                    "id": 2937,
                                     "type": "Imath_2_5::Vec2<short>",
                                     "record": 3413,
                                     "const": true
@@ -182,11 +182,11 @@
                             "name": "maxV",
                             "type": {
                                 "kind": "Reference",
-                                "id": 2949,
+                                "id": 2938,
                                 "type": "const class Imath_2_5::Vec2<short> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 2948,
+                                    "id": 2937,
                                     "type": "Imath_2_5::Vec2<short>",
                                     "record": 3413,
                                     "const": true
@@ -219,7 +219,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -247,7 +247,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -257,11 +257,11 @@
                             "name": "point",
                             "type": {
                                 "kind": "Reference",
-                                "id": 2949,
+                                "id": 2938,
                                 "type": "const class Imath_2_5::Vec2<short> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 2948,
+                                    "id": 2937,
                                     "type": "Imath_2_5::Vec2<short>",
                                     "record": 3413,
                                     "const": true
@@ -294,7 +294,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -322,7 +322,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "RecordType",
-                        "id": 2948,
+                        "id": 2937,
                         "type": "Imath_2_5::Vec2<short>",
                         "record": 3413,
                         "const": false
@@ -351,7 +351,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "RecordType",
-                        "id": 2948,
+                        "id": 2937,
                         "type": "Imath_2_5::Vec2<short>",
                         "record": 3413,
                         "const": false
@@ -380,7 +380,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 53,
+                        "id": 54,
                         "type": "_Bool",
                         "const": false
                     },
@@ -390,11 +390,11 @@
                             "name": "point",
                             "type": {
                                 "kind": "Reference",
-                                "id": 2949,
+                                "id": 2938,
                                 "type": "const class Imath_2_5::Vec2<short> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 2948,
+                                    "id": 2937,
                                     "type": "Imath_2_5::Vec2<short>",
                                     "record": 3413,
                                     "const": true
@@ -427,7 +427,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 280,
+                        "id": 281,
                         "type": "unsigned int",
                         "const": false
                     },
@@ -455,7 +455,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 53,
+                        "id": 54,
                         "type": "_Bool",
                         "const": false
                     },
@@ -483,7 +483,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 53,
+                        "id": 54,
                         "type": "_Bool",
                         "const": false
                     },
@@ -511,11 +511,58 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 53,
+                        "id": 54,
                         "type": "_Bool",
                         "const": false
                     },
                     "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "Box",
+                    "qualified_name": "Imath_2_5::Box<Imath_2_5::Vec2<short> >::Box",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": false,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": true,
+                    "copy_constructor": true,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 4,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "rhs",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 2940,
+                                "type": "const class Imath_2_5::Box<Imath_2_5::Vec2<short> > &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 2939,
+                                    "type": "Imath_2_5::Box<Imath_2_5::Vec2<short> >",
+                                    "record": 2944,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
                 }
             ]
         },
@@ -524,9 +571,9 @@
             "name": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
             "short_name": "Box",
             "namespaces": [
-                632
+                638
             ],
-            "id": 2973,
+            "id": 2964,
             "abstract": false,
             "size": 128,
             "align": 32,
@@ -540,7 +587,7 @@
                     "name": "min",
                     "type": {
                         "kind": "RecordType",
-                        "id": 330,
+                        "id": 333,
                         "type": "Imath_2_5::Vec2<int>",
                         "record": 3458,
                         "const": false
@@ -551,7 +598,7 @@
                     "name": "max",
                     "type": {
                         "kind": "RecordType",
-                        "id": 330,
+                        "id": 333,
                         "type": "Imath_2_5::Vec2<int>",
                         "record": 3458,
                         "const": false
@@ -581,7 +628,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -609,7 +656,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -619,11 +666,11 @@
                             "name": "point",
                             "type": {
                                 "kind": "Reference",
-                                "id": 331,
+                                "id": 334,
                                 "type": "const class Imath_2_5::Vec2<int> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 330,
+                                    "id": 333,
                                     "type": "Imath_2_5::Vec2<int>",
                                     "record": 3458,
                                     "const": true
@@ -656,7 +703,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -666,11 +713,11 @@
                             "name": "minV",
                             "type": {
                                 "kind": "Reference",
-                                "id": 331,
+                                "id": 334,
                                 "type": "const class Imath_2_5::Vec2<int> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 330,
+                                    "id": 333,
                                     "type": "Imath_2_5::Vec2<int>",
                                     "record": 3458,
                                     "const": true
@@ -684,11 +731,11 @@
                             "name": "maxV",
                             "type": {
                                 "kind": "Reference",
-                                "id": 331,
+                                "id": 334,
                                 "type": "const class Imath_2_5::Vec2<int> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 330,
+                                    "id": 333,
                                     "type": "Imath_2_5::Vec2<int>",
                                     "record": 3458,
                                     "const": true
@@ -721,7 +768,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -749,7 +796,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -759,11 +806,11 @@
                             "name": "point",
                             "type": {
                                 "kind": "Reference",
-                                "id": 331,
+                                "id": 334,
                                 "type": "const class Imath_2_5::Vec2<int> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 330,
+                                    "id": 333,
                                     "type": "Imath_2_5::Vec2<int>",
                                     "record": 3458,
                                     "const": true
@@ -796,7 +843,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -824,7 +871,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "RecordType",
-                        "id": 330,
+                        "id": 333,
                         "type": "Imath_2_5::Vec2<int>",
                         "record": 3458,
                         "const": false
@@ -853,7 +900,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "RecordType",
-                        "id": 330,
+                        "id": 333,
                         "type": "Imath_2_5::Vec2<int>",
                         "record": 3458,
                         "const": false
@@ -882,7 +929,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 53,
+                        "id": 54,
                         "type": "_Bool",
                         "const": false
                     },
@@ -892,11 +939,11 @@
                             "name": "point",
                             "type": {
                                 "kind": "Reference",
-                                "id": 331,
+                                "id": 334,
                                 "type": "const class Imath_2_5::Vec2<int> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 330,
+                                    "id": 333,
                                     "type": "Imath_2_5::Vec2<int>",
                                     "record": 3458,
                                     "const": true
@@ -929,7 +976,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 280,
+                        "id": 281,
                         "type": "unsigned int",
                         "const": false
                     },
@@ -957,7 +1004,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 53,
+                        "id": 54,
                         "type": "_Bool",
                         "const": false
                     },
@@ -985,7 +1032,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 53,
+                        "id": 54,
                         "type": "_Bool",
                         "const": false
                     },
@@ -1013,11 +1060,58 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 53,
+                        "id": 54,
                         "type": "_Bool",
                         "const": false
                     },
                     "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "Box",
+                    "qualified_name": "Imath_2_5::Box<Imath_2_5::Vec2<int> >::Box",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": false,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": true,
+                    "copy_constructor": true,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 4,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "rhs",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 2961,
+                                "type": "const class Imath_2_5::Box<Imath_2_5::Vec2<int> > &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 13,
+                                    "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
+                                    "record": 2964,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
                 }
             ]
         },
@@ -1026,9 +1120,9 @@
             "name": "Imath_2_5::Box<Imath_2_5::Vec2<float> >",
             "short_name": "Box",
             "namespaces": [
-                632
+                638
             ],
-            "id": 2992,
+            "id": 2984,
             "abstract": false,
             "size": 128,
             "align": 32,
@@ -1042,7 +1136,7 @@
                     "name": "min",
                     "type": {
                         "kind": "RecordType",
-                        "id": 15,
+                        "id": 16,
                         "type": "Imath_2_5::Vec2<float>",
                         "record": 3502,
                         "const": false
@@ -1053,7 +1147,7 @@
                     "name": "max",
                     "type": {
                         "kind": "RecordType",
-                        "id": 15,
+                        "id": 16,
                         "type": "Imath_2_5::Vec2<float>",
                         "record": 3502,
                         "const": false
@@ -1083,7 +1177,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -1111,7 +1205,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -1121,11 +1215,11 @@
                             "name": "point",
                             "type": {
                                 "kind": "Reference",
-                                "id": 1505,
+                                "id": 1511,
                                 "type": "const class Imath_2_5::Vec2<float> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 15,
+                                    "id": 16,
                                     "type": "Imath_2_5::Vec2<float>",
                                     "record": 3502,
                                     "const": true
@@ -1158,7 +1252,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -1168,11 +1262,11 @@
                             "name": "minV",
                             "type": {
                                 "kind": "Reference",
-                                "id": 1505,
+                                "id": 1511,
                                 "type": "const class Imath_2_5::Vec2<float> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 15,
+                                    "id": 16,
                                     "type": "Imath_2_5::Vec2<float>",
                                     "record": 3502,
                                     "const": true
@@ -1186,11 +1280,11 @@
                             "name": "maxV",
                             "type": {
                                 "kind": "Reference",
-                                "id": 1505,
+                                "id": 1511,
                                 "type": "const class Imath_2_5::Vec2<float> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 15,
+                                    "id": 16,
                                     "type": "Imath_2_5::Vec2<float>",
                                     "record": 3502,
                                     "const": true
@@ -1223,7 +1317,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -1251,7 +1345,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -1261,11 +1355,11 @@
                             "name": "point",
                             "type": {
                                 "kind": "Reference",
-                                "id": 1505,
+                                "id": 1511,
                                 "type": "const class Imath_2_5::Vec2<float> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 15,
+                                    "id": 16,
                                     "type": "Imath_2_5::Vec2<float>",
                                     "record": 3502,
                                     "const": true
@@ -1298,7 +1392,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -1326,7 +1420,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "RecordType",
-                        "id": 15,
+                        "id": 16,
                         "type": "Imath_2_5::Vec2<float>",
                         "record": 3502,
                         "const": false
@@ -1355,7 +1449,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "RecordType",
-                        "id": 15,
+                        "id": 16,
                         "type": "Imath_2_5::Vec2<float>",
                         "record": 3502,
                         "const": false
@@ -1384,7 +1478,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 53,
+                        "id": 54,
                         "type": "_Bool",
                         "const": false
                     },
@@ -1394,11 +1488,11 @@
                             "name": "point",
                             "type": {
                                 "kind": "Reference",
-                                "id": 1505,
+                                "id": 1511,
                                 "type": "const class Imath_2_5::Vec2<float> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 15,
+                                    "id": 16,
                                     "type": "Imath_2_5::Vec2<float>",
                                     "record": 3502,
                                     "const": true
@@ -1431,7 +1525,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 280,
+                        "id": 281,
                         "type": "unsigned int",
                         "const": false
                     },
@@ -1459,7 +1553,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 53,
+                        "id": 54,
                         "type": "_Bool",
                         "const": false
                     },
@@ -1487,7 +1581,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 53,
+                        "id": 54,
                         "type": "_Bool",
                         "const": false
                     },
@@ -1515,11 +1609,58 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 53,
+                        "id": 54,
                         "type": "_Bool",
                         "const": false
                     },
                     "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "Box",
+                    "qualified_name": "Imath_2_5::Box<Imath_2_5::Vec2<float> >::Box",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": false,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": true,
+                    "copy_constructor": true,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 4,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "rhs",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 2981,
+                                "type": "const class Imath_2_5::Box<Imath_2_5::Vec2<float> > &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 2181,
+                                    "type": "Imath_2_5::Box<Imath_2_5::Vec2<float> >",
+                                    "record": 2984,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
                 }
             ]
         },
@@ -1528,9 +1669,9 @@
             "name": "Imath_2_5::Box<Imath_2_5::Vec2<double> >",
             "short_name": "Box",
             "namespaces": [
-                632
+                638
             ],
-            "id": 3011,
+            "id": 3005,
             "abstract": false,
             "size": 256,
             "align": 64,
@@ -1544,7 +1685,7 @@
                     "name": "min",
                     "type": {
                         "kind": "RecordType",
-                        "id": 690,
+                        "id": 696,
                         "type": "Imath_2_5::Vec2<double>",
                         "record": 3546,
                         "const": false
@@ -1555,7 +1696,7 @@
                     "name": "max",
                     "type": {
                         "kind": "RecordType",
-                        "id": 690,
+                        "id": 696,
                         "type": "Imath_2_5::Vec2<double>",
                         "record": 3546,
                         "const": false
@@ -1585,7 +1726,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -1613,7 +1754,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -1623,11 +1764,11 @@
                             "name": "point",
                             "type": {
                                 "kind": "Reference",
-                                "id": 2776,
+                                "id": 2765,
                                 "type": "const class Imath_2_5::Vec2<double> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 690,
+                                    "id": 696,
                                     "type": "Imath_2_5::Vec2<double>",
                                     "record": 3546,
                                     "const": true
@@ -1660,7 +1801,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -1670,11 +1811,11 @@
                             "name": "minV",
                             "type": {
                                 "kind": "Reference",
-                                "id": 2776,
+                                "id": 2765,
                                 "type": "const class Imath_2_5::Vec2<double> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 690,
+                                    "id": 696,
                                     "type": "Imath_2_5::Vec2<double>",
                                     "record": 3546,
                                     "const": true
@@ -1688,11 +1829,11 @@
                             "name": "maxV",
                             "type": {
                                 "kind": "Reference",
-                                "id": 2776,
+                                "id": 2765,
                                 "type": "const class Imath_2_5::Vec2<double> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 690,
+                                    "id": 696,
                                     "type": "Imath_2_5::Vec2<double>",
                                     "record": 3546,
                                     "const": true
@@ -1725,7 +1866,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -1753,7 +1894,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -1763,11 +1904,11 @@
                             "name": "point",
                             "type": {
                                 "kind": "Reference",
-                                "id": 2776,
+                                "id": 2765,
                                 "type": "const class Imath_2_5::Vec2<double> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 690,
+                                    "id": 696,
                                     "type": "Imath_2_5::Vec2<double>",
                                     "record": 3546,
                                     "const": true
@@ -1800,7 +1941,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -1828,7 +1969,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "RecordType",
-                        "id": 690,
+                        "id": 696,
                         "type": "Imath_2_5::Vec2<double>",
                         "record": 3546,
                         "const": false
@@ -1857,7 +1998,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "RecordType",
-                        "id": 690,
+                        "id": 696,
                         "type": "Imath_2_5::Vec2<double>",
                         "record": 3546,
                         "const": false
@@ -1886,7 +2027,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 53,
+                        "id": 54,
                         "type": "_Bool",
                         "const": false
                     },
@@ -1896,11 +2037,11 @@
                             "name": "point",
                             "type": {
                                 "kind": "Reference",
-                                "id": 2776,
+                                "id": 2765,
                                 "type": "const class Imath_2_5::Vec2<double> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 690,
+                                    "id": 696,
                                     "type": "Imath_2_5::Vec2<double>",
                                     "record": 3546,
                                     "const": true
@@ -1933,7 +2074,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 280,
+                        "id": 281,
                         "type": "unsigned int",
                         "const": false
                     },
@@ -1961,7 +2102,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 53,
+                        "id": 54,
                         "type": "_Bool",
                         "const": false
                     },
@@ -1989,7 +2130,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 53,
+                        "id": 54,
                         "type": "_Bool",
                         "const": false
                     },
@@ -2017,11 +2158,58 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 53,
+                        "id": 54,
                         "type": "_Bool",
                         "const": false
                     },
                     "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "Box",
+                    "qualified_name": "Imath_2_5::Box<Imath_2_5::Vec2<double> >::Box",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": false,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": true,
+                    "copy_constructor": true,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 4,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "rhs",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 3002,
+                                "type": "const class Imath_2_5::Box<Imath_2_5::Vec2<double> > &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 3001,
+                                    "type": "Imath_2_5::Box<Imath_2_5::Vec2<double> >",
+                                    "record": 3005,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
                 }
             ]
         },
@@ -2030,9 +2218,9 @@
             "name": "Imath_2_5::Box<Imath_2_5::Vec3<short> >",
             "short_name": "Box",
             "namespaces": [
-                632
+                638
             ],
-            "id": 3033,
+            "id": 3028,
             "abstract": false,
             "size": 96,
             "align": 16,
@@ -2046,7 +2234,7 @@
                     "name": "min",
                     "type": {
                         "kind": "RecordType",
-                        "id": 3029,
+                        "id": 3022,
                         "type": "Imath_2_5::Vec3<short>",
                         "record": 3590,
                         "const": false
@@ -2057,7 +2245,7 @@
                     "name": "max",
                     "type": {
                         "kind": "RecordType",
-                        "id": 3029,
+                        "id": 3022,
                         "type": "Imath_2_5::Vec3<short>",
                         "record": 3590,
                         "const": false
@@ -2087,7 +2275,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -2115,7 +2303,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -2125,11 +2313,11 @@
                             "name": "point",
                             "type": {
                                 "kind": "Reference",
-                                "id": 3030,
+                                "id": 3023,
                                 "type": "const class Imath_2_5::Vec3<short> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 3029,
+                                    "id": 3022,
                                     "type": "Imath_2_5::Vec3<short>",
                                     "record": 3590,
                                     "const": true
@@ -2162,7 +2350,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -2172,11 +2360,11 @@
                             "name": "minV",
                             "type": {
                                 "kind": "Reference",
-                                "id": 3030,
+                                "id": 3023,
                                 "type": "const class Imath_2_5::Vec3<short> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 3029,
+                                    "id": 3022,
                                     "type": "Imath_2_5::Vec3<short>",
                                     "record": 3590,
                                     "const": true
@@ -2190,11 +2378,11 @@
                             "name": "maxV",
                             "type": {
                                 "kind": "Reference",
-                                "id": 3030,
+                                "id": 3023,
                                 "type": "const class Imath_2_5::Vec3<short> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 3029,
+                                    "id": 3022,
                                     "type": "Imath_2_5::Vec3<short>",
                                     "record": 3590,
                                     "const": true
@@ -2227,7 +2415,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -2255,7 +2443,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -2265,11 +2453,11 @@
                             "name": "point",
                             "type": {
                                 "kind": "Reference",
-                                "id": 3030,
+                                "id": 3023,
                                 "type": "const class Imath_2_5::Vec3<short> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 3029,
+                                    "id": 3022,
                                     "type": "Imath_2_5::Vec3<short>",
                                     "record": 3590,
                                     "const": true
@@ -2302,7 +2490,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -2330,7 +2518,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "RecordType",
-                        "id": 3029,
+                        "id": 3022,
                         "type": "Imath_2_5::Vec3<short>",
                         "record": 3590,
                         "const": false
@@ -2359,7 +2547,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "RecordType",
-                        "id": 3029,
+                        "id": 3022,
                         "type": "Imath_2_5::Vec3<short>",
                         "record": 3590,
                         "const": false
@@ -2388,7 +2576,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 53,
+                        "id": 54,
                         "type": "_Bool",
                         "const": false
                     },
@@ -2398,11 +2586,11 @@
                             "name": "point",
                             "type": {
                                 "kind": "Reference",
-                                "id": 3030,
+                                "id": 3023,
                                 "type": "const class Imath_2_5::Vec3<short> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 3029,
+                                    "id": 3022,
                                     "type": "Imath_2_5::Vec3<short>",
                                     "record": 3590,
                                     "const": true
@@ -2435,7 +2623,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 280,
+                        "id": 281,
                         "type": "unsigned int",
                         "const": false
                     },
@@ -2463,7 +2651,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 53,
+                        "id": 54,
                         "type": "_Bool",
                         "const": false
                     },
@@ -2491,7 +2679,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 53,
+                        "id": 54,
                         "type": "_Bool",
                         "const": false
                     },
@@ -2519,11 +2707,58 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 53,
+                        "id": 54,
                         "type": "_Bool",
                         "const": false
                     },
                     "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "Box",
+                    "qualified_name": "Imath_2_5::Box<Imath_2_5::Vec3<short> >::Box",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": false,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": true,
+                    "copy_constructor": true,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 4,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "rhs",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 3025,
+                                "type": "const class Imath_2_5::Box<Imath_2_5::Vec3<short> > &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 3024,
+                                    "type": "Imath_2_5::Box<Imath_2_5::Vec3<short> >",
+                                    "record": 3028,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
                 }
             ]
         },
@@ -2532,9 +2767,9 @@
             "name": "Imath_2_5::Box<Imath_2_5::Vec3<int> >",
             "short_name": "Box",
             "namespaces": [
-                632
+                638
             ],
-            "id": 3053,
+            "id": 3049,
             "abstract": false,
             "size": 192,
             "align": 32,
@@ -2548,9 +2783,9 @@
                     "name": "min",
                     "type": {
                         "kind": "RecordType",
-                        "id": 2805,
+                        "id": 2794,
                         "type": "Imath_2_5::Vec3<int>",
-                        "record": 3591,
+                        "record": 3593,
                         "const": false
                     }
                 },
@@ -2559,9 +2794,9 @@
                     "name": "max",
                     "type": {
                         "kind": "RecordType",
-                        "id": 2805,
+                        "id": 2794,
                         "type": "Imath_2_5::Vec3<int>",
-                        "record": 3591,
+                        "record": 3593,
                         "const": false
                     }
                 }
@@ -2589,7 +2824,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -2617,7 +2852,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -2627,13 +2862,13 @@
                             "name": "point",
                             "type": {
                                 "kind": "Reference",
-                                "id": 2806,
+                                "id": 2795,
                                 "type": "const class Imath_2_5::Vec3<int> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 2805,
+                                    "id": 2794,
                                     "type": "Imath_2_5::Vec3<int>",
-                                    "record": 3591,
+                                    "record": 3593,
                                     "const": true
                                 },
                                 "const": false
@@ -2664,7 +2899,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -2674,13 +2909,13 @@
                             "name": "minV",
                             "type": {
                                 "kind": "Reference",
-                                "id": 2806,
+                                "id": 2795,
                                 "type": "const class Imath_2_5::Vec3<int> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 2805,
+                                    "id": 2794,
                                     "type": "Imath_2_5::Vec3<int>",
-                                    "record": 3591,
+                                    "record": 3593,
                                     "const": true
                                 },
                                 "const": false
@@ -2692,13 +2927,13 @@
                             "name": "maxV",
                             "type": {
                                 "kind": "Reference",
-                                "id": 2806,
+                                "id": 2795,
                                 "type": "const class Imath_2_5::Vec3<int> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 2805,
+                                    "id": 2794,
                                     "type": "Imath_2_5::Vec3<int>",
-                                    "record": 3591,
+                                    "record": 3593,
                                     "const": true
                                 },
                                 "const": false
@@ -2729,7 +2964,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -2757,7 +2992,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -2767,13 +3002,13 @@
                             "name": "point",
                             "type": {
                                 "kind": "Reference",
-                                "id": 2806,
+                                "id": 2795,
                                 "type": "const class Imath_2_5::Vec3<int> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 2805,
+                                    "id": 2794,
                                     "type": "Imath_2_5::Vec3<int>",
-                                    "record": 3591,
+                                    "record": 3593,
                                     "const": true
                                 },
                                 "const": false
@@ -2804,7 +3039,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -2832,9 +3067,9 @@
                     "attributes": null,
                     "return": {
                         "kind": "RecordType",
-                        "id": 2805,
+                        "id": 2794,
                         "type": "Imath_2_5::Vec3<int>",
-                        "record": 3591,
+                        "record": 3593,
                         "const": false
                     },
                     "params": null
@@ -2861,9 +3096,9 @@
                     "attributes": null,
                     "return": {
                         "kind": "RecordType",
-                        "id": 2805,
+                        "id": 2794,
                         "type": "Imath_2_5::Vec3<int>",
-                        "record": 3591,
+                        "record": 3593,
                         "const": false
                     },
                     "params": null
@@ -2890,7 +3125,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 53,
+                        "id": 54,
                         "type": "_Bool",
                         "const": false
                     },
@@ -2900,13 +3135,13 @@
                             "name": "point",
                             "type": {
                                 "kind": "Reference",
-                                "id": 2806,
+                                "id": 2795,
                                 "type": "const class Imath_2_5::Vec3<int> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 2805,
+                                    "id": 2794,
                                     "type": "Imath_2_5::Vec3<int>",
-                                    "record": 3591,
+                                    "record": 3593,
                                     "const": true
                                 },
                                 "const": false
@@ -2937,7 +3172,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 280,
+                        "id": 281,
                         "type": "unsigned int",
                         "const": false
                     },
@@ -2965,7 +3200,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 53,
+                        "id": 54,
                         "type": "_Bool",
                         "const": false
                     },
@@ -2993,7 +3228,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 53,
+                        "id": 54,
                         "type": "_Bool",
                         "const": false
                     },
@@ -3021,11 +3256,58 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 53,
+                        "id": 54,
                         "type": "_Bool",
                         "const": false
                     },
                     "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "Box",
+                    "qualified_name": "Imath_2_5::Box<Imath_2_5::Vec3<int> >::Box",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": false,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": true,
+                    "copy_constructor": true,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 4,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "rhs",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 3046,
+                                "type": "const class Imath_2_5::Box<Imath_2_5::Vec3<int> > &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 3045,
+                                    "type": "Imath_2_5::Box<Imath_2_5::Vec3<int> >",
+                                    "record": 3049,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
                 }
             ]
         },
@@ -3034,9 +3316,9 @@
             "name": "Imath_2_5::Box<Imath_2_5::Vec3<float> >",
             "short_name": "Box",
             "namespaces": [
-                632
+                638
             ],
-            "id": 3073,
+            "id": 3070,
             "abstract": false,
             "size": 192,
             "align": 32,
@@ -3050,9 +3332,9 @@
                     "name": "min",
                     "type": {
                         "kind": "RecordType",
-                        "id": 744,
+                        "id": 750,
                         "type": "Imath_2_5::Vec3<float>",
-                        "record": 3592,
+                        "record": 3596,
                         "const": false
                     }
                 },
@@ -3061,9 +3343,9 @@
                     "name": "max",
                     "type": {
                         "kind": "RecordType",
-                        "id": 744,
+                        "id": 750,
                         "type": "Imath_2_5::Vec3<float>",
-                        "record": 3592,
+                        "record": 3596,
                         "const": false
                     }
                 }
@@ -3091,7 +3373,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -3119,7 +3401,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -3129,13 +3411,13 @@
                             "name": "point",
                             "type": {
                                 "kind": "Reference",
-                                "id": 1861,
+                                "id": 1871,
                                 "type": "const class Imath_2_5::Vec3<float> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 744,
+                                    "id": 750,
                                     "type": "Imath_2_5::Vec3<float>",
-                                    "record": 3592,
+                                    "record": 3596,
                                     "const": true
                                 },
                                 "const": false
@@ -3166,7 +3448,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -3176,13 +3458,13 @@
                             "name": "minV",
                             "type": {
                                 "kind": "Reference",
-                                "id": 1861,
+                                "id": 1871,
                                 "type": "const class Imath_2_5::Vec3<float> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 744,
+                                    "id": 750,
                                     "type": "Imath_2_5::Vec3<float>",
-                                    "record": 3592,
+                                    "record": 3596,
                                     "const": true
                                 },
                                 "const": false
@@ -3194,13 +3476,13 @@
                             "name": "maxV",
                             "type": {
                                 "kind": "Reference",
-                                "id": 1861,
+                                "id": 1871,
                                 "type": "const class Imath_2_5::Vec3<float> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 744,
+                                    "id": 750,
                                     "type": "Imath_2_5::Vec3<float>",
-                                    "record": 3592,
+                                    "record": 3596,
                                     "const": true
                                 },
                                 "const": false
@@ -3231,7 +3513,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -3259,7 +3541,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -3269,13 +3551,13 @@
                             "name": "point",
                             "type": {
                                 "kind": "Reference",
-                                "id": 1861,
+                                "id": 1871,
                                 "type": "const class Imath_2_5::Vec3<float> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 744,
+                                    "id": 750,
                                     "type": "Imath_2_5::Vec3<float>",
-                                    "record": 3592,
+                                    "record": 3596,
                                     "const": true
                                 },
                                 "const": false
@@ -3306,7 +3588,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -3334,9 +3616,9 @@
                     "attributes": null,
                     "return": {
                         "kind": "RecordType",
-                        "id": 744,
+                        "id": 750,
                         "type": "Imath_2_5::Vec3<float>",
-                        "record": 3592,
+                        "record": 3596,
                         "const": false
                     },
                     "params": null
@@ -3363,9 +3645,9 @@
                     "attributes": null,
                     "return": {
                         "kind": "RecordType",
-                        "id": 744,
+                        "id": 750,
                         "type": "Imath_2_5::Vec3<float>",
-                        "record": 3592,
+                        "record": 3596,
                         "const": false
                     },
                     "params": null
@@ -3392,7 +3674,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 53,
+                        "id": 54,
                         "type": "_Bool",
                         "const": false
                     },
@@ -3402,13 +3684,13 @@
                             "name": "point",
                             "type": {
                                 "kind": "Reference",
-                                "id": 1861,
+                                "id": 1871,
                                 "type": "const class Imath_2_5::Vec3<float> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 744,
+                                    "id": 750,
                                     "type": "Imath_2_5::Vec3<float>",
-                                    "record": 3592,
+                                    "record": 3596,
                                     "const": true
                                 },
                                 "const": false
@@ -3439,7 +3721,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 280,
+                        "id": 281,
                         "type": "unsigned int",
                         "const": false
                     },
@@ -3467,7 +3749,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 53,
+                        "id": 54,
                         "type": "_Bool",
                         "const": false
                     },
@@ -3495,7 +3777,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 53,
+                        "id": 54,
                         "type": "_Bool",
                         "const": false
                     },
@@ -3523,11 +3805,58 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 53,
+                        "id": 54,
                         "type": "_Bool",
                         "const": false
                     },
                     "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "Box",
+                    "qualified_name": "Imath_2_5::Box<Imath_2_5::Vec3<float> >::Box",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": false,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": true,
+                    "copy_constructor": true,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 4,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "rhs",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 3067,
+                                "type": "const class Imath_2_5::Box<Imath_2_5::Vec3<float> > &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 3066,
+                                    "type": "Imath_2_5::Box<Imath_2_5::Vec3<float> >",
+                                    "record": 3070,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
                 }
             ]
         },
@@ -3536,9 +3865,9 @@
             "name": "Imath_2_5::Box<Imath_2_5::Vec3<double> >",
             "short_name": "Box",
             "namespaces": [
-                632
+                638
             ],
-            "id": 3093,
+            "id": 3091,
             "abstract": false,
             "size": 384,
             "align": 64,
@@ -3552,9 +3881,9 @@
                     "name": "min",
                     "type": {
                         "kind": "RecordType",
-                        "id": 803,
+                        "id": 809,
                         "type": "Imath_2_5::Vec3<double>",
-                        "record": 3593,
+                        "record": 3599,
                         "const": false
                     }
                 },
@@ -3563,9 +3892,9 @@
                     "name": "max",
                     "type": {
                         "kind": "RecordType",
-                        "id": 803,
+                        "id": 809,
                         "type": "Imath_2_5::Vec3<double>",
-                        "record": 3593,
+                        "record": 3599,
                         "const": false
                     }
                 }
@@ -3593,7 +3922,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -3621,7 +3950,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -3631,13 +3960,13 @@
                             "name": "point",
                             "type": {
                                 "kind": "Reference",
-                                "id": 2863,
+                                "id": 2852,
                                 "type": "const class Imath_2_5::Vec3<double> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 803,
+                                    "id": 809,
                                     "type": "Imath_2_5::Vec3<double>",
-                                    "record": 3593,
+                                    "record": 3599,
                                     "const": true
                                 },
                                 "const": false
@@ -3668,7 +3997,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -3678,13 +4007,13 @@
                             "name": "minV",
                             "type": {
                                 "kind": "Reference",
-                                "id": 2863,
+                                "id": 2852,
                                 "type": "const class Imath_2_5::Vec3<double> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 803,
+                                    "id": 809,
                                     "type": "Imath_2_5::Vec3<double>",
-                                    "record": 3593,
+                                    "record": 3599,
                                     "const": true
                                 },
                                 "const": false
@@ -3696,13 +4025,13 @@
                             "name": "maxV",
                             "type": {
                                 "kind": "Reference",
-                                "id": 2863,
+                                "id": 2852,
                                 "type": "const class Imath_2_5::Vec3<double> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 803,
+                                    "id": 809,
                                     "type": "Imath_2_5::Vec3<double>",
-                                    "record": 3593,
+                                    "record": 3599,
                                     "const": true
                                 },
                                 "const": false
@@ -3733,7 +4062,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -3761,7 +4090,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -3771,13 +4100,13 @@
                             "name": "point",
                             "type": {
                                 "kind": "Reference",
-                                "id": 2863,
+                                "id": 2852,
                                 "type": "const class Imath_2_5::Vec3<double> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 803,
+                                    "id": 809,
                                     "type": "Imath_2_5::Vec3<double>",
-                                    "record": 3593,
+                                    "record": 3599,
                                     "const": true
                                 },
                                 "const": false
@@ -3808,7 +4137,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -3836,9 +4165,9 @@
                     "attributes": null,
                     "return": {
                         "kind": "RecordType",
-                        "id": 803,
+                        "id": 809,
                         "type": "Imath_2_5::Vec3<double>",
-                        "record": 3593,
+                        "record": 3599,
                         "const": false
                     },
                     "params": null
@@ -3865,9 +4194,9 @@
                     "attributes": null,
                     "return": {
                         "kind": "RecordType",
-                        "id": 803,
+                        "id": 809,
                         "type": "Imath_2_5::Vec3<double>",
-                        "record": 3593,
+                        "record": 3599,
                         "const": false
                     },
                     "params": null
@@ -3894,7 +4223,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 53,
+                        "id": 54,
                         "type": "_Bool",
                         "const": false
                     },
@@ -3904,13 +4233,13 @@
                             "name": "point",
                             "type": {
                                 "kind": "Reference",
-                                "id": 2863,
+                                "id": 2852,
                                 "type": "const class Imath_2_5::Vec3<double> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 803,
+                                    "id": 809,
                                     "type": "Imath_2_5::Vec3<double>",
-                                    "record": 3593,
+                                    "record": 3599,
                                     "const": true
                                 },
                                 "const": false
@@ -3941,7 +4270,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 280,
+                        "id": 281,
                         "type": "unsigned int",
                         "const": false
                     },
@@ -3969,7 +4298,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 53,
+                        "id": 54,
                         "type": "_Bool",
                         "const": false
                     },
@@ -3997,7 +4326,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 53,
+                        "id": 54,
                         "type": "_Bool",
                         "const": false
                     },
@@ -4025,11 +4354,58 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 53,
+                        "id": 54,
                         "type": "_Bool",
                         "const": false
                     },
                     "params": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "Box",
+                    "qualified_name": "Imath_2_5::Box<Imath_2_5::Vec3<double> >::Box",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": false,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": true,
+                    "copy_constructor": true,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 4,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "rhs",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 3088,
+                                "type": "const class Imath_2_5::Box<Imath_2_5::Vec3<double> > &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 3087,
+                                    "type": "Imath_2_5::Box<Imath_2_5::Vec3<double> >",
+                                    "record": 3091,
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ]
                 }
             ]
         }

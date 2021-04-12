@@ -9,19 +9,31 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 1886,
+    "id": 1900,
     "decls": [
+        {
+            "kind": "Namespace",
+            "name": "cppmm_bind::Imf_2_5::RgbaYca",
+            "id": 1901,
+            "short_name": "RgbaYca"
+        },
+        {
+            "kind": "Namespace",
+            "name": "cppmm_bind::Imf_2_5",
+            "id": 3,
+            "short_name": "Imf_2_5"
+        },
         {
             "kind": "Var",
             "qualified_name": "Imf_2_5::RgbaYca::N",
             "short_name": "N",
             "type": {
                 "kind": "BuiltinType",
-                "id": 9,
+                "id": 10,
                 "type": "int",
                 "const": true
             },
-            "id": 1889,
+            "id": 1904,
             "attributes": null
         },
         {
@@ -30,26 +42,30 @@
             "short_name": "N2",
             "type": {
                 "kind": "BuiltinType",
-                "id": 9,
+                "id": 10,
                 "type": "int",
                 "const": true
             },
-            "id": 1890,
+            "id": 1905,
             "attributes": null
         },
         {
             "kind": "Function",
-            "id": 1891,
+            "id": 1907,
             "short_name": "computeYw",
             "qualified_name": "Imf_2_5::RgbaYca::computeYw",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27,
+                1906
+            ],
             "return": {
                 "kind": "RecordType",
-                "id": 744,
+                "id": 750,
                 "type": "Imath_2_5::Vec3<float>",
-                "record": 3592,
+                "record": 3596,
                 "const": false
             },
             "params": [
@@ -64,7 +80,7 @@
                             "kind": "RecordType",
                             "id": 1,
                             "type": "Imf_2_5::Chromaticities",
-                            "record": 1621,
+                            "record": 1629,
                             "const": true
                         },
                         "const": false
@@ -75,15 +91,19 @@
         },
         {
             "kind": "Function",
-            "id": 1892,
+            "id": 1908,
             "short_name": "RGBAtoYCA",
             "qualified_name": "Imf_2_5::RgbaYca::RGBAtoYCA",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27,
+                1906
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 3,
+                "id": 4,
                 "type": "void",
                 "const": false
             },
@@ -93,13 +113,13 @@
                     "name": "yw",
                     "type": {
                         "kind": "Reference",
-                        "id": 1861,
+                        "id": 1871,
                         "type": "const class Imath_2_5::Vec3<float> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 744,
+                            "id": 750,
                             "type": "Imath_2_5::Vec3<float>",
-                            "record": 3592,
+                            "record": 3596,
                             "const": true
                         },
                         "const": false
@@ -111,7 +131,7 @@
                     "name": "n",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -122,7 +142,7 @@
                     "name": "aIsValid",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 53,
+                        "id": 54,
                         "type": "_Bool",
                         "const": false
                     },
@@ -133,13 +153,13 @@
                     "name": "rgbaIn",
                     "type": {
                         "kind": "Pointer",
-                        "id": 19,
+                        "id": 20,
                         "type": "const struct Imf_2_5::Rgba *",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 18,
+                            "id": 19,
                             "type": "Imf_2_5::Rgba",
-                            "record": 3112,
+                            "record": 3109,
                             "const": true
                         },
                         "const": false
@@ -151,13 +171,13 @@
                     "name": "ycaOut",
                     "type": {
                         "kind": "Pointer",
-                        "id": 50,
+                        "id": 51,
                         "type": "struct Imf_2_5::Rgba *",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 18,
+                            "id": 19,
                             "type": "Imf_2_5::Rgba",
-                            "record": 3112,
+                            "record": 3109,
                             "const": false
                         },
                         "const": false
@@ -168,15 +188,19 @@
         },
         {
             "kind": "Function",
-            "id": 1893,
+            "id": 1909,
             "short_name": "decimateChromaHoriz",
             "qualified_name": "Imf_2_5::RgbaYca::decimateChromaHoriz",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27,
+                1906
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 3,
+                "id": 4,
                 "type": "void",
                 "const": false
             },
@@ -186,7 +210,7 @@
                     "name": "n",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -197,13 +221,13 @@
                     "name": "ycaIn",
                     "type": {
                         "kind": "Pointer",
-                        "id": 19,
+                        "id": 20,
                         "type": "const struct Imf_2_5::Rgba *",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 18,
+                            "id": 19,
                             "type": "Imf_2_5::Rgba",
-                            "record": 3112,
+                            "record": 3109,
                             "const": true
                         },
                         "const": false
@@ -215,13 +239,13 @@
                     "name": "ycaOut",
                     "type": {
                         "kind": "Pointer",
-                        "id": 50,
+                        "id": 51,
                         "type": "struct Imf_2_5::Rgba *",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 18,
+                            "id": 19,
                             "type": "Imf_2_5::Rgba",
-                            "record": 3112,
+                            "record": 3109,
                             "const": false
                         },
                         "const": false
@@ -232,15 +256,19 @@
         },
         {
             "kind": "Function",
-            "id": 1894,
+            "id": 1910,
             "short_name": "decimateChromaVert",
             "qualified_name": "Imf_2_5::RgbaYca::decimateChromaVert",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27,
+                1906
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 3,
+                "id": 4,
                 "type": "void",
                 "const": false
             },
@@ -250,7 +278,7 @@
                     "name": "n",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -261,17 +289,17 @@
                     "name": "ycaIn",
                     "type": {
                         "kind": "Pointer",
-                        "id": 1888,
+                        "id": 1903,
                         "type": "const struct Imf_2_5::Rgba *const *",
                         "pointee": {
                             "kind": "Pointer",
-                            "id": 1887,
+                            "id": 1902,
                             "type": "const struct Imf_2_5::Rgba *const",
                             "pointee": {
                                 "kind": "RecordType",
-                                "id": 18,
+                                "id": 19,
                                 "type": "Imf_2_5::Rgba",
-                                "record": 3112,
+                                "record": 3109,
                                 "const": true
                             },
                             "const": true
@@ -285,13 +313,13 @@
                     "name": "ycaOut",
                     "type": {
                         "kind": "Pointer",
-                        "id": 50,
+                        "id": 51,
                         "type": "struct Imf_2_5::Rgba *",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 18,
+                            "id": 19,
                             "type": "Imf_2_5::Rgba",
-                            "record": 3112,
+                            "record": 3109,
                             "const": false
                         },
                         "const": false
@@ -302,15 +330,19 @@
         },
         {
             "kind": "Function",
-            "id": 1895,
+            "id": 1911,
             "short_name": "roundYCA",
             "qualified_name": "Imf_2_5::RgbaYca::roundYCA",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27,
+                1906
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 3,
+                "id": 4,
                 "type": "void",
                 "const": false
             },
@@ -320,7 +352,7 @@
                     "name": "n",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -331,7 +363,7 @@
                     "name": "roundY",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 280,
+                        "id": 281,
                         "type": "unsigned int",
                         "const": false
                     },
@@ -342,7 +374,7 @@
                     "name": "roundC",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 280,
+                        "id": 281,
                         "type": "unsigned int",
                         "const": false
                     },
@@ -353,13 +385,13 @@
                     "name": "ycaIn",
                     "type": {
                         "kind": "Pointer",
-                        "id": 19,
+                        "id": 20,
                         "type": "const struct Imf_2_5::Rgba *",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 18,
+                            "id": 19,
                             "type": "Imf_2_5::Rgba",
-                            "record": 3112,
+                            "record": 3109,
                             "const": true
                         },
                         "const": false
@@ -371,13 +403,13 @@
                     "name": "ycaOut",
                     "type": {
                         "kind": "Pointer",
-                        "id": 50,
+                        "id": 51,
                         "type": "struct Imf_2_5::Rgba *",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 18,
+                            "id": 19,
                             "type": "Imf_2_5::Rgba",
-                            "record": 3112,
+                            "record": 3109,
                             "const": false
                         },
                         "const": false
@@ -388,15 +420,19 @@
         },
         {
             "kind": "Function",
-            "id": 1896,
+            "id": 1912,
             "short_name": "reconstructChromaHoriz",
             "qualified_name": "Imf_2_5::RgbaYca::reconstructChromaHoriz",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27,
+                1906
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 3,
+                "id": 4,
                 "type": "void",
                 "const": false
             },
@@ -406,7 +442,7 @@
                     "name": "n",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -417,13 +453,13 @@
                     "name": "ycaIn",
                     "type": {
                         "kind": "Pointer",
-                        "id": 19,
+                        "id": 20,
                         "type": "const struct Imf_2_5::Rgba *",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 18,
+                            "id": 19,
                             "type": "Imf_2_5::Rgba",
-                            "record": 3112,
+                            "record": 3109,
                             "const": true
                         },
                         "const": false
@@ -435,13 +471,13 @@
                     "name": "ycaOut",
                     "type": {
                         "kind": "Pointer",
-                        "id": 50,
+                        "id": 51,
                         "type": "struct Imf_2_5::Rgba *",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 18,
+                            "id": 19,
                             "type": "Imf_2_5::Rgba",
-                            "record": 3112,
+                            "record": 3109,
                             "const": false
                         },
                         "const": false
@@ -452,15 +488,19 @@
         },
         {
             "kind": "Function",
-            "id": 1897,
+            "id": 1913,
             "short_name": "reconstructChromaVert",
             "qualified_name": "Imf_2_5::RgbaYca::reconstructChromaVert",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27,
+                1906
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 3,
+                "id": 4,
                 "type": "void",
                 "const": false
             },
@@ -470,7 +510,7 @@
                     "name": "n",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -481,17 +521,17 @@
                     "name": "ycaIn",
                     "type": {
                         "kind": "Pointer",
-                        "id": 1888,
+                        "id": 1903,
                         "type": "const struct Imf_2_5::Rgba *const *",
                         "pointee": {
                             "kind": "Pointer",
-                            "id": 1887,
+                            "id": 1902,
                             "type": "const struct Imf_2_5::Rgba *const",
                             "pointee": {
                                 "kind": "RecordType",
-                                "id": 18,
+                                "id": 19,
                                 "type": "Imf_2_5::Rgba",
-                                "record": 3112,
+                                "record": 3109,
                                 "const": true
                             },
                             "const": true
@@ -505,13 +545,13 @@
                     "name": "ycaOut",
                     "type": {
                         "kind": "Pointer",
-                        "id": 50,
+                        "id": 51,
                         "type": "struct Imf_2_5::Rgba *",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 18,
+                            "id": 19,
                             "type": "Imf_2_5::Rgba",
-                            "record": 3112,
+                            "record": 3109,
                             "const": false
                         },
                         "const": false
@@ -522,15 +562,19 @@
         },
         {
             "kind": "Function",
-            "id": 1898,
+            "id": 1914,
             "short_name": "YCAtoRGBA",
             "qualified_name": "Imf_2_5::RgbaYca::YCAtoRGBA",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27,
+                1906
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 3,
+                "id": 4,
                 "type": "void",
                 "const": false
             },
@@ -540,13 +584,13 @@
                     "name": "yw",
                     "type": {
                         "kind": "Reference",
-                        "id": 1861,
+                        "id": 1871,
                         "type": "const class Imath_2_5::Vec3<float> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 744,
+                            "id": 750,
                             "type": "Imath_2_5::Vec3<float>",
-                            "record": 3592,
+                            "record": 3596,
                             "const": true
                         },
                         "const": false
@@ -558,7 +602,7 @@
                     "name": "n",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -569,13 +613,13 @@
                     "name": "ycaIn",
                     "type": {
                         "kind": "Pointer",
-                        "id": 19,
+                        "id": 20,
                         "type": "const struct Imf_2_5::Rgba *",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 18,
+                            "id": 19,
                             "type": "Imf_2_5::Rgba",
-                            "record": 3112,
+                            "record": 3109,
                             "const": true
                         },
                         "const": false
@@ -587,13 +631,13 @@
                     "name": "rgbaOut",
                     "type": {
                         "kind": "Pointer",
-                        "id": 50,
+                        "id": 51,
                         "type": "struct Imf_2_5::Rgba *",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 18,
+                            "id": 19,
                             "type": "Imf_2_5::Rgba",
-                            "record": 3112,
+                            "record": 3109,
                             "const": false
                         },
                         "const": false
@@ -604,15 +648,19 @@
         },
         {
             "kind": "Function",
-            "id": 1899,
+            "id": 1915,
             "short_name": "fixSaturation",
             "qualified_name": "Imf_2_5::RgbaYca::fixSaturation",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27,
+                1906
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 3,
+                "id": 4,
                 "type": "void",
                 "const": false
             },
@@ -622,13 +670,13 @@
                     "name": "yw",
                     "type": {
                         "kind": "Reference",
-                        "id": 1861,
+                        "id": 1871,
                         "type": "const class Imath_2_5::Vec3<float> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 744,
+                            "id": 750,
                             "type": "Imath_2_5::Vec3<float>",
-                            "record": 3592,
+                            "record": 3596,
                             "const": true
                         },
                         "const": false
@@ -640,7 +688,7 @@
                     "name": "n",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -651,17 +699,17 @@
                     "name": "rgbaIn",
                     "type": {
                         "kind": "Pointer",
-                        "id": 1888,
+                        "id": 1903,
                         "type": "const struct Imf_2_5::Rgba *const *",
                         "pointee": {
                             "kind": "Pointer",
-                            "id": 1887,
+                            "id": 1902,
                             "type": "const struct Imf_2_5::Rgba *const",
                             "pointee": {
                                 "kind": "RecordType",
-                                "id": 18,
+                                "id": 19,
                                 "type": "Imf_2_5::Rgba",
-                                "record": 3112,
+                                "record": 3109,
                                 "const": true
                             },
                             "const": true
@@ -675,13 +723,13 @@
                     "name": "rgbaOut",
                     "type": {
                         "kind": "Pointer",
-                        "id": 50,
+                        "id": 51,
                         "type": "struct Imf_2_5::Rgba *",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 18,
+                            "id": 19,
                             "type": "Imf_2_5::Rgba",
-                            "record": 3112,
+                            "record": 3109,
                             "const": false
                         },
                         "const": false

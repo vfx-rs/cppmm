@@ -9,19 +9,28 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 1237,
+    "id": 1243,
     "decls": [
         {
+            "kind": "Namespace",
+            "name": "cppmm_bind::Imf_2_5",
+            "id": 3,
+            "short_name": "Imf_2_5"
+        },
+        {
             "kind": "Function",
-            "id": 1238,
+            "id": 1244,
             "short_name": "wav2Encode",
             "qualified_name": "Imf_2_5::wav2Encode",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 3,
+                "id": 4,
                 "type": "void",
                 "const": false
             },
@@ -31,11 +40,11 @@
                     "name": "in",
                     "type": {
                         "kind": "Pointer",
-                        "id": 971,
+                        "id": 977,
                         "type": "unsigned short *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 969,
+                            "id": 975,
                             "type": "unsigned short",
                             "const": false
                         },
@@ -48,7 +57,7 @@
                     "name": "nx",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -59,7 +68,7 @@
                     "name": "ox",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -70,7 +79,7 @@
                     "name": "ny",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -81,7 +90,7 @@
                     "name": "oy",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -92,7 +101,7 @@
                     "name": "mx",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 969,
+                        "id": 975,
                         "type": "unsigned short",
                         "const": false
                     },
@@ -102,15 +111,18 @@
         },
         {
             "kind": "Function",
-            "id": 1239,
+            "id": 1245,
             "short_name": "wav2Decode",
             "qualified_name": "Imf_2_5::wav2Decode",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 3,
+                "id": 4,
                 "type": "void",
                 "const": false
             },
@@ -120,11 +132,11 @@
                     "name": "in",
                     "type": {
                         "kind": "Pointer",
-                        "id": 971,
+                        "id": 977,
                         "type": "unsigned short *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 969,
+                            "id": 975,
                             "type": "unsigned short",
                             "const": false
                         },
@@ -137,7 +149,7 @@
                     "name": "nx",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -148,7 +160,7 @@
                     "name": "ox",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -159,7 +171,7 @@
                     "name": "ny",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -170,7 +182,7 @@
                     "name": "oy",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -181,7 +193,7 @@
                     "name": "mx",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 969,
+                        "id": 975,
                         "type": "unsigned short",
                         "const": false
                     },

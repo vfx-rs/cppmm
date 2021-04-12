@@ -9,12 +9,12 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 1013,
+    "id": 1019,
     "decls": [
         {
             "kind": "Namespace",
             "name": "Imf_2_5",
-            "id": 26,
+            "id": 27,
             "short_name": "Imf_2_5"
         },
         {
@@ -22,9 +22,9 @@
             "name": "Imf_2_5::ImageChannel",
             "short_name": "ImageChannel",
             "namespaces": [
-                26
+                27
             ],
-            "id": 1014,
+            "id": 1020,
             "abstract": true,
             "size": 384,
             "align": 64,
@@ -38,13 +38,13 @@
                     "name": "_level",
                     "type": {
                         "kind": "Reference",
-                        "id": 202,
+                        "id": 203,
                         "type": "class Imf_2_5::ImageLevel &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 201,
+                            "id": 202,
                             "type": "Imf_2_5::ImageLevel",
-                            "record": 1661,
+                            "record": 1669,
                             "const": false
                         },
                         "const": false
@@ -55,7 +55,7 @@
                     "name": "_xSampling",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     }
@@ -65,7 +65,7 @@
                     "name": "_ySampling",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     }
@@ -75,7 +75,7 @@
                     "name": "_pLinear",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 53,
+                        "id": 54,
                         "type": "_Bool",
                         "const": false
                     }
@@ -85,7 +85,7 @@
                     "name": "_pixelsPerRow",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     }
@@ -95,7 +95,7 @@
                     "name": "_pixelsPerColumn",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     }
@@ -105,7 +105,7 @@
                     "name": "_numPixels",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 20,
+                        "id": 21,
                         "type": "unsigned long",
                         "const": false
                     }
@@ -134,9 +134,9 @@
                     "attributes": null,
                     "return": {
                         "kind": "EnumType",
-                        "id": 200,
+                        "id": 201,
                         "type": "Imf_2_5::PixelType",
-                        "enum": 1859,
+                        "enum": 1869,
                         "const": false
                     },
                     "params": null
@@ -163,9 +163,9 @@
                     "attributes": null,
                     "return": {
                         "kind": "RecordType",
-                        "id": 214,
+                        "id": 215,
                         "type": "Imf_2_5::Channel",
-                        "record": 3209,
+                        "record": 3206,
                         "const": false
                     },
                     "params": null
@@ -192,7 +192,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -220,7 +220,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -248,7 +248,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 53,
+                        "id": 54,
                         "type": "_Bool",
                         "const": false
                     },
@@ -276,7 +276,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -304,7 +304,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -332,7 +332,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 20,
+                        "id": 21,
                         "type": "unsigned long",
                         "const": false
                     },
@@ -360,13 +360,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 202,
+                        "id": 203,
                         "type": "class Imf_2_5::ImageLevel &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 201,
+                            "id": 202,
                             "type": "Imf_2_5::ImageLevel",
-                            "record": 1661,
+                            "record": 1669,
                             "const": false
                         },
                         "const": false
@@ -395,13 +395,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 203,
+                        "id": 204,
                         "type": "const class Imf_2_5::ImageLevel &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 201,
+                            "id": 202,
                             "type": "Imf_2_5::ImageLevel",
-                            "record": 1661,
+                            "record": 1669,
                             "const": true
                         },
                         "const": false

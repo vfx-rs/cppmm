@@ -13,8 +13,14 @@
     "decls": [
         {
             "kind": "Namespace",
+            "name": "cppmm_bind::Imf_2_5",
+            "id": 3,
+            "short_name": "Imf_2_5"
+        },
+        {
+            "kind": "Namespace",
             "name": "Imf_2_5",
-            "id": 26,
+            "id": 27,
             "short_name": "Imf_2_5"
         },
         {
@@ -22,9 +28,9 @@
             "name": "Imf_2_5::AcesOutputFile",
             "short_name": "AcesOutputFile",
             "namespaces": [
-                26
+                27
             ],
-            "id": 27,
+            "id": 28,
             "abstract": false,
             "size": 128,
             "align": 64,
@@ -38,11 +44,11 @@
                     "name": "_data",
                     "type": {
                         "kind": "Pointer",
-                        "id": 47,
+                        "id": 48,
                         "type": "class Imf_2_5::AcesOutputFile::Data *",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 46,
+                            "id": 47,
                             "type": "Imf_2_5::AcesOutputFile::Data",
                             "record": -1,
                             "const": false
@@ -76,7 +82,7 @@
                     ],
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -86,11 +92,11 @@
                             "name": "name",
                             "type": {
                                 "kind": "Reference",
-                                "id": 5,
+                                "id": 6,
                                 "type": "const class std::__cxx11::basic_string<char> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 4,
+                                    "id": 5,
                                     "type": "std::__cxx11::basic_string<char>",
                                     "record": -1,
                                     "const": true
@@ -104,13 +110,13 @@
                             "name": "header",
                             "type": {
                                 "kind": "Reference",
-                                "id": 7,
+                                "id": 8,
                                 "type": "const class Imf_2_5::Header &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 6,
+                                    "id": 7,
                                     "type": "Imf_2_5::Header",
-                                    "record": 1526,
+                                    "record": 1532,
                                     "const": true
                                 },
                                 "const": false
@@ -122,9 +128,9 @@
                             "name": "rgbaChannels",
                             "type": {
                                 "kind": "EnumType",
-                                "id": 8,
+                                "id": 9,
                                 "type": "Imf_2_5::RgbaChannels",
-                                "enum": 1490,
+                                "enum": 1496,
                                 "const": false
                             },
                             "attrs": []
@@ -134,7 +140,7 @@
                             "name": "numThreads",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -166,7 +172,7 @@
                     ],
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -176,13 +182,13 @@
                             "name": "os",
                             "type": {
                                 "kind": "Reference",
-                                "id": 11,
+                                "id": 12,
                                 "type": "class Imf_2_5::OStream &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 10,
+                                    "id": 11,
                                     "type": "Imf_2_5::OStream",
-                                    "record": 1219,
+                                    "record": 1225,
                                     "const": false
                                 },
                                 "const": false
@@ -194,13 +200,13 @@
                             "name": "header",
                             "type": {
                                 "kind": "Reference",
-                                "id": 7,
+                                "id": 8,
                                 "type": "const class Imf_2_5::Header &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 6,
+                                    "id": 7,
                                     "type": "Imf_2_5::Header",
-                                    "record": 1526,
+                                    "record": 1532,
                                     "const": true
                                 },
                                 "const": false
@@ -212,9 +218,9 @@
                             "name": "rgbaChannels",
                             "type": {
                                 "kind": "EnumType",
-                                "id": 8,
+                                "id": 9,
                                 "type": "Imf_2_5::RgbaChannels",
-                                "enum": 1490,
+                                "enum": 1496,
                                 "const": false
                             },
                             "attrs": []
@@ -224,7 +230,7 @@
                             "name": "numThreads",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -256,7 +262,7 @@
                     ],
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -266,11 +272,11 @@
                             "name": "name",
                             "type": {
                                 "kind": "Reference",
-                                "id": 5,
+                                "id": 6,
                                 "type": "const class std::__cxx11::basic_string<char> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 4,
+                                    "id": 5,
                                     "type": "std::__cxx11::basic_string<char>",
                                     "record": -1,
                                     "const": true
@@ -284,13 +290,13 @@
                             "name": "displayWindow",
                             "type": {
                                 "kind": "Reference",
-                                "id": 13,
+                                "id": 14,
                                 "type": "const class Imath_2_5::Box<class Imath_2_5::Vec2<int> > &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 12,
+                                    "id": 13,
                                     "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                                    "record": 2973,
+                                    "record": 2964,
                                     "const": true
                                 },
                                 "const": false
@@ -302,13 +308,13 @@
                             "name": "dataWindow",
                             "type": {
                                 "kind": "Reference",
-                                "id": 13,
+                                "id": 14,
                                 "type": "const class Imath_2_5::Box<class Imath_2_5::Vec2<int> > &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 12,
+                                    "id": 13,
                                     "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                                    "record": 2973,
+                                    "record": 2964,
                                     "const": true
                                 },
                                 "const": false
@@ -320,9 +326,9 @@
                             "name": "rgbaChannels",
                             "type": {
                                 "kind": "EnumType",
-                                "id": 8,
+                                "id": 9,
                                 "type": "Imf_2_5::RgbaChannels",
-                                "enum": 1490,
+                                "enum": 1496,
                                 "const": false
                             },
                             "attrs": []
@@ -332,7 +338,7 @@
                             "name": "pixelAspectRatio",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 14,
+                                "id": 15,
                                 "type": "float",
                                 "const": false
                             },
@@ -343,7 +349,7 @@
                             "name": "screenWindowCenter",
                             "type": {
                                 "kind": "RecordType",
-                                "id": 15,
+                                "id": 16,
                                 "type": "Imath_2_5::Vec2<float>",
                                 "record": 3502,
                                 "const": true
@@ -355,7 +361,7 @@
                             "name": "screenWindowWidth",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 14,
+                                "id": 15,
                                 "type": "float",
                                 "const": false
                             },
@@ -366,9 +372,9 @@
                             "name": "lineOrder",
                             "type": {
                                 "kind": "EnumType",
-                                "id": 16,
+                                "id": 17,
                                 "type": "Imf_2_5::LineOrder",
-                                "enum": 929,
+                                "enum": 935,
                                 "const": false
                             },
                             "attrs": []
@@ -378,9 +384,9 @@
                             "name": "compression",
                             "type": {
                                 "kind": "EnumType",
-                                "id": 17,
+                                "id": 18,
                                 "type": "Imf_2_5::Compression",
-                                "enum": 544,
+                                "enum": 550,
                                 "const": false
                             },
                             "attrs": []
@@ -390,7 +396,7 @@
                             "name": "numThreads",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -422,7 +428,7 @@
                     ],
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -432,11 +438,11 @@
                             "name": "name",
                             "type": {
                                 "kind": "Reference",
-                                "id": 5,
+                                "id": 6,
                                 "type": "const class std::__cxx11::basic_string<char> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 4,
+                                    "id": 5,
                                     "type": "std::__cxx11::basic_string<char>",
                                     "record": -1,
                                     "const": true
@@ -450,7 +456,7 @@
                             "name": "width",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -461,7 +467,7 @@
                             "name": "height",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -472,9 +478,9 @@
                             "name": "rgbaChannels",
                             "type": {
                                 "kind": "EnumType",
-                                "id": 8,
+                                "id": 9,
                                 "type": "Imf_2_5::RgbaChannels",
-                                "enum": 1490,
+                                "enum": 1496,
                                 "const": false
                             },
                             "attrs": []
@@ -484,7 +490,7 @@
                             "name": "pixelAspectRatio",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 14,
+                                "id": 15,
                                 "type": "float",
                                 "const": false
                             },
@@ -495,7 +501,7 @@
                             "name": "screenWindowCenter",
                             "type": {
                                 "kind": "RecordType",
-                                "id": 15,
+                                "id": 16,
                                 "type": "Imath_2_5::Vec2<float>",
                                 "record": 3502,
                                 "const": true
@@ -507,7 +513,7 @@
                             "name": "screenWindowWidth",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 14,
+                                "id": 15,
                                 "type": "float",
                                 "const": false
                             },
@@ -518,9 +524,9 @@
                             "name": "lineOrder",
                             "type": {
                                 "kind": "EnumType",
-                                "id": 16,
+                                "id": 17,
                                 "type": "Imf_2_5::LineOrder",
-                                "enum": 929,
+                                "enum": 935,
                                 "const": false
                             },
                             "attrs": []
@@ -530,9 +536,9 @@
                             "name": "compression",
                             "type": {
                                 "kind": "EnumType",
-                                "id": 17,
+                                "id": 18,
                                 "type": "Imf_2_5::Compression",
-                                "enum": 544,
+                                "enum": 550,
                                 "const": false
                             },
                             "attrs": []
@@ -542,7 +548,7 @@
                             "name": "numThreads",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -572,7 +578,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -600,7 +606,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -610,13 +616,13 @@
                             "name": "base",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 19,
+                                "id": 20,
                                 "type": "const struct Imf_2_5::Rgba *",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 18,
+                                    "id": 19,
                                     "type": "Imf_2_5::Rgba",
-                                    "record": 3112,
+                                    "record": 3109,
                                     "const": true
                                 },
                                 "const": false
@@ -628,7 +634,7 @@
                             "name": "xStride",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 20,
+                                "id": 21,
                                 "type": "unsigned long",
                                 "const": false
                             },
@@ -639,7 +645,7 @@
                             "name": "yStride",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 20,
+                                "id": 21,
                                 "type": "unsigned long",
                                 "const": false
                             },
@@ -669,7 +675,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -679,7 +685,7 @@
                             "name": "numScanLines",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -709,7 +715,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -737,13 +743,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 7,
+                        "id": 8,
                         "type": "const class Imf_2_5::Header &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 6,
+                            "id": 7,
                             "type": "Imf_2_5::Header",
-                            "record": 1526,
+                            "record": 1532,
                             "const": true
                         },
                         "const": false
@@ -772,13 +778,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 13,
+                        "id": 14,
                         "type": "const class Imath_2_5::Box<class Imath_2_5::Vec2<int> > &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 12,
+                            "id": 13,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2973,
+                            "record": 2964,
                             "const": true
                         },
                         "const": false
@@ -807,13 +813,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 13,
+                        "id": 14,
                         "type": "const class Imath_2_5::Box<class Imath_2_5::Vec2<int> > &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 12,
+                            "id": 13,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2973,
+                            "record": 2964,
                             "const": true
                         },
                         "const": false
@@ -842,7 +848,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 14,
+                        "id": 15,
                         "type": "float",
                         "const": false
                     },
@@ -870,7 +876,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "RecordType",
-                        "id": 15,
+                        "id": 16,
                         "type": "Imath_2_5::Vec2<float>",
                         "record": 3502,
                         "const": true
@@ -899,7 +905,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 14,
+                        "id": 15,
                         "type": "float",
                         "const": false
                     },
@@ -927,9 +933,9 @@
                     "attributes": null,
                     "return": {
                         "kind": "EnumType",
-                        "id": 16,
+                        "id": 17,
                         "type": "Imf_2_5::LineOrder",
-                        "enum": 929,
+                        "enum": 935,
                         "const": false
                     },
                     "params": null
@@ -956,9 +962,9 @@
                     "attributes": null,
                     "return": {
                         "kind": "EnumType",
-                        "id": 17,
+                        "id": 18,
                         "type": "Imf_2_5::Compression",
-                        "enum": 544,
+                        "enum": 550,
                         "const": false
                     },
                     "params": null
@@ -985,9 +991,9 @@
                     "attributes": null,
                     "return": {
                         "kind": "EnumType",
-                        "id": 8,
+                        "id": 9,
                         "type": "Imf_2_5::RgbaChannels",
-                        "enum": 1490,
+                        "enum": 1496,
                         "const": false
                     },
                     "params": null
@@ -1014,23 +1020,23 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
                     "params": [
                         {
                             "index": 0,
-                            "name": "",
+                            "name": "newPixels",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 22,
+                                "id": 23,
                                 "type": "const struct Imf_2_5::PreviewRgba *",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 21,
+                                    "id": 22,
                                     "type": "Imf_2_5::PreviewRgba",
-                                    "record": 1361,
+                                    "record": 1367,
                                     "const": true
                                 },
                                 "const": false
@@ -1046,9 +1052,9 @@
             "name": "Imf_2_5::AcesInputFile",
             "short_name": "AcesInputFile",
             "namespaces": [
-                26
+                27
             ],
-            "id": 57,
+            "id": 58,
             "abstract": false,
             "size": 128,
             "align": 64,
@@ -1062,11 +1068,11 @@
                     "name": "_data",
                     "type": {
                         "kind": "Pointer",
-                        "id": 77,
+                        "id": 78,
                         "type": "class Imf_2_5::AcesInputFile::Data *",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 76,
+                            "id": 77,
                             "type": "Imf_2_5::AcesInputFile::Data",
                             "record": -1,
                             "const": false
@@ -1100,7 +1106,7 @@
                     ],
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -1110,11 +1116,11 @@
                             "name": "name",
                             "type": {
                                 "kind": "Reference",
-                                "id": 5,
+                                "id": 6,
                                 "type": "const class std::__cxx11::basic_string<char> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 4,
+                                    "id": 5,
                                     "type": "std::__cxx11::basic_string<char>",
                                     "record": -1,
                                     "const": true
@@ -1128,7 +1134,7 @@
                             "name": "numThreads",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -1160,7 +1166,7 @@
                     ],
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -1170,13 +1176,13 @@
                             "name": "is",
                             "type": {
                                 "kind": "Reference",
-                                "id": 49,
+                                "id": 50,
                                 "type": "class Imf_2_5::IStream &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 48,
+                                    "id": 49,
                                     "type": "Imf_2_5::IStream",
-                                    "record": 1228,
+                                    "record": 1234,
                                     "const": false
                                 },
                                 "const": false
@@ -1188,7 +1194,7 @@
                             "name": "numThreads",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -1218,7 +1224,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -1246,7 +1252,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -1256,13 +1262,13 @@
                             "name": "base",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 50,
+                                "id": 51,
                                 "type": "struct Imf_2_5::Rgba *",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 18,
+                                    "id": 19,
                                     "type": "Imf_2_5::Rgba",
-                                    "record": 3112,
+                                    "record": 3109,
                                     "const": false
                                 },
                                 "const": false
@@ -1274,7 +1280,7 @@
                             "name": "xStride",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 20,
+                                "id": 21,
                                 "type": "unsigned long",
                                 "const": false
                             },
@@ -1285,7 +1291,7 @@
                             "name": "yStride",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 20,
+                                "id": 21,
                                 "type": "unsigned long",
                                 "const": false
                             },
@@ -1315,7 +1321,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -1325,7 +1331,7 @@
                             "name": "scanLine1",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -1336,7 +1342,7 @@
                             "name": "scanLine2",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -1368,7 +1374,7 @@
                     ],
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -1378,7 +1384,7 @@
                             "name": "scanLine",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -1408,13 +1414,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 7,
+                        "id": 8,
                         "type": "const class Imf_2_5::Header &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 6,
+                            "id": 7,
                             "type": "Imf_2_5::Header",
-                            "record": 1526,
+                            "record": 1532,
                             "const": true
                         },
                         "const": false
@@ -1443,13 +1449,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 13,
+                        "id": 14,
                         "type": "const class Imath_2_5::Box<class Imath_2_5::Vec2<int> > &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 12,
+                            "id": 13,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2973,
+                            "record": 2964,
                             "const": true
                         },
                         "const": false
@@ -1478,13 +1484,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 13,
+                        "id": 14,
                         "type": "const class Imath_2_5::Box<class Imath_2_5::Vec2<int> > &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 12,
+                            "id": 13,
                             "type": "Imath_2_5::Box<Imath_2_5::Vec2<int> >",
-                            "record": 2973,
+                            "record": 2964,
                             "const": true
                         },
                         "const": false
@@ -1513,7 +1519,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 14,
+                        "id": 15,
                         "type": "float",
                         "const": false
                     },
@@ -1541,7 +1547,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "RecordType",
-                        "id": 15,
+                        "id": 16,
                         "type": "Imath_2_5::Vec2<float>",
                         "record": 3502,
                         "const": true
@@ -1570,7 +1576,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 14,
+                        "id": 15,
                         "type": "float",
                         "const": false
                     },
@@ -1598,9 +1604,9 @@
                     "attributes": null,
                     "return": {
                         "kind": "EnumType",
-                        "id": 16,
+                        "id": 17,
                         "type": "Imf_2_5::LineOrder",
-                        "enum": 929,
+                        "enum": 935,
                         "const": false
                     },
                     "params": null
@@ -1627,9 +1633,9 @@
                     "attributes": null,
                     "return": {
                         "kind": "EnumType",
-                        "id": 17,
+                        "id": 18,
                         "type": "Imf_2_5::Compression",
-                        "enum": 544,
+                        "enum": 550,
                         "const": false
                     },
                     "params": null
@@ -1656,9 +1662,9 @@
                     "attributes": null,
                     "return": {
                         "kind": "EnumType",
-                        "id": 8,
+                        "id": 9,
                         "type": "Imf_2_5::RgbaChannels",
-                        "enum": 1490,
+                        "enum": 1496,
                         "const": false
                     },
                     "params": null
@@ -1685,11 +1691,11 @@
                     "attributes": null,
                     "return": {
                         "kind": "Pointer",
-                        "id": 52,
+                        "id": 53,
                         "type": "const char *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 51,
+                            "id": 52,
                             "type": "char",
                             "const": true
                         },
@@ -1719,7 +1725,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 53,
+                        "id": 54,
                         "type": "_Bool",
                         "const": false
                     },
@@ -1747,7 +1753,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 9,
+                        "id": 10,
                         "type": "int",
                         "const": false
                     },
@@ -1757,12 +1763,15 @@
         },
         {
             "kind": "Function",
-            "id": 78,
+            "id": 79,
             "short_name": "acesChromaticities",
             "qualified_name": "Imf_2_5::acesChromaticities",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "Reference",
                 "id": 2,
@@ -1771,7 +1780,7 @@
                     "kind": "RecordType",
                     "id": 1,
                     "type": "Imf_2_5::Chromaticities",
-                    "record": 1621,
+                    "record": 1629,
                     "const": true
                 },
                 "const": false

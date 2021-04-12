@@ -9,12 +9,12 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 89,
+    "id": 90,
     "decls": [
         {
             "kind": "Namespace",
             "name": "Imf_2_5",
-            "id": 26,
+            "id": 27,
             "short_name": "Imf_2_5"
         },
         {
@@ -22,9 +22,9 @@
             "name": "Imf_2_5::OpaqueAttribute",
             "short_name": "OpaqueAttribute",
             "namespaces": [
-                26
+                27
             ],
-            "id": 90,
+            "id": 91,
             "abstract": false,
             "size": 512,
             "align": 64,
@@ -38,7 +38,7 @@
                     "name": "_typeName",
                     "type": {
                         "kind": "RecordType",
-                        "id": 4,
+                        "id": 5,
                         "type": "std::__cxx11::basic_string<char>",
                         "record": -1,
                         "const": false
@@ -49,7 +49,7 @@
                     "name": "_dataSize",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 102,
+                        "id": 103,
                         "type": "long",
                         "const": false
                     }
@@ -59,7 +59,7 @@
                     "name": "_data",
                     "type": {
                         "kind": "RecordType",
-                        "id": 84,
+                        "id": 85,
                         "type": "Imf_2_5::Array<char>",
                         "record": -1,
                         "const": false
@@ -89,11 +89,11 @@
                     "attributes": null,
                     "return": {
                         "kind": "Pointer",
-                        "id": 52,
+                        "id": 53,
                         "type": "const char *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 51,
+                            "id": 52,
                             "type": "char",
                             "const": true
                         },
@@ -123,13 +123,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Pointer",
-                        "id": 82,
+                        "id": 83,
                         "type": "class Imf_2_5::Attribute *",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 81,
+                            "id": 82,
                             "type": "Imf_2_5::Attribute",
-                            "record": 2044,
+                            "record": 2060,
                             "const": false
                         },
                         "const": false
@@ -158,7 +158,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -168,13 +168,13 @@
                             "name": "os",
                             "type": {
                                 "kind": "Reference",
-                                "id": 11,
+                                "id": 12,
                                 "type": "class Imf_2_5::OStream &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 10,
+                                    "id": 11,
                                     "type": "Imf_2_5::OStream",
-                                    "record": 1219,
+                                    "record": 1225,
                                     "const": false
                                 },
                                 "const": false
@@ -186,7 +186,7 @@
                             "name": "version",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -216,7 +216,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -226,13 +226,13 @@
                             "name": "is",
                             "type": {
                                 "kind": "Reference",
-                                "id": 49,
+                                "id": 50,
                                 "type": "class Imf_2_5::IStream &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 48,
+                                    "id": 49,
                                     "type": "Imf_2_5::IStream",
-                                    "record": 1228,
+                                    "record": 1234,
                                     "const": false
                                 },
                                 "const": false
@@ -244,7 +244,7 @@
                             "name": "size",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -255,7 +255,7 @@
                             "name": "version",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 9,
+                                "id": 10,
                                 "type": "int",
                                 "const": false
                             },
@@ -285,7 +285,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -295,13 +295,13 @@
                             "name": "other",
                             "type": {
                                 "kind": "Reference",
-                                "id": 83,
+                                "id": 84,
                                 "type": "const class Imf_2_5::Attribute &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 81,
+                                    "id": 82,
                                     "type": "Imf_2_5::Attribute",
-                                    "record": 2044,
+                                    "record": 2060,
                                     "const": true
                                 },
                                 "const": false
@@ -332,7 +332,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -342,11 +342,11 @@
                             "name": "typeName",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 52,
+                                "id": 53,
                                 "type": "const char *",
                                 "pointee": {
                                     "kind": "BuiltinType",
-                                    "id": 51,
+                                    "id": 52,
                                     "type": "char",
                                     "const": true
                                 },
@@ -378,7 +378,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -388,13 +388,13 @@
                             "name": "other",
                             "type": {
                                 "kind": "Reference",
-                                "id": 80,
+                                "id": 81,
                                 "type": "const class Imf_2_5::OpaqueAttribute &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 79,
+                                    "id": 80,
                                     "type": "Imf_2_5::OpaqueAttribute",
-                                    "record": 90,
+                                    "record": 91,
                                     "const": true
                                 },
                                 "const": false
@@ -425,7 +425,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 3,
+                        "id": 4,
                         "type": "void",
                         "const": false
                     },
@@ -453,11 +453,11 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 85,
+                        "id": 86,
                         "type": "const class Imf_2_5::Array<char> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 84,
+                            "id": 85,
                             "type": "Imf_2_5::Array<char>",
                             "record": -1,
                             "const": true

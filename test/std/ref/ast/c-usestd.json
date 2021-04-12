@@ -1,0 +1,96 @@
+{
+    "kind": "TranslationUnit",
+    "filename": "/home/anders/code/cppmm/test/std/bind/c-usestd.cpp",
+    "source_includes": [
+        "#include <usestd.hpp>"
+    ],
+    "include_paths": [
+        "/home/anders/code/cppmm/test/std/include"
+    ],
+    "id": 28,
+    "decls": [
+        {
+            "kind": "Namespace",
+            "name": "cppmm_bind::usestd",
+            "id": 29,
+            "short_name": "usestd",
+            "alias": "usestd"
+        },
+        {
+            "kind": "Function",
+            "id": 32,
+            "short_name": "takes_string",
+            "qualified_name": "usestd::takes_string",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "namespaces": [
+                31
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 0,
+                "type": "void",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "s",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 10,
+                        "type": "const class std::__cxx11::basic_string<char> &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 7,
+                            "type": "std::__cxx11::basic_string<char>",
+                            "record": -1,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 33,
+            "short_name": "takes_vector_string",
+            "qualified_name": "usestd::takes_vector_string",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "namespaces": [
+                31
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 0,
+                "type": "void",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "v",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 30,
+                        "type": "const class std::vector<class std::__cxx11::basic_string<char>, class std::allocator<class std::__cxx11::basic_string<char> > > &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 11,
+                            "type": "std::vector<std::string>",
+                            "record": 3,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        }
+    ]
+}

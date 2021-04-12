@@ -9,12 +9,12 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 3111,
+    "id": 3108,
     "decls": [
         {
             "kind": "Namespace",
             "name": "Imf_2_5",
-            "id": 26,
+            "id": 27,
             "short_name": "Imf_2_5"
         },
         {
@@ -22,9 +22,9 @@
             "name": "Imf_2_5::Rgba",
             "short_name": "Rgba",
             "namespaces": [
-                26
+                27
             ],
-            "id": 3112,
+            "id": 3109,
             "abstract": false,
             "size": 64,
             "align": 16,
@@ -38,9 +38,9 @@
                     "name": "r",
                     "type": {
                         "kind": "RecordType",
-                        "id": 227,
+                        "id": 228,
                         "type": "half",
-                        "record": 1052,
+                        "record": 1058,
                         "const": false
                     }
                 },
@@ -49,9 +49,9 @@
                     "name": "g",
                     "type": {
                         "kind": "RecordType",
-                        "id": 227,
+                        "id": 228,
                         "type": "half",
-                        "record": 1052,
+                        "record": 1058,
                         "const": false
                     }
                 },
@@ -60,9 +60,9 @@
                     "name": "b",
                     "type": {
                         "kind": "RecordType",
-                        "id": 227,
+                        "id": 228,
                         "type": "half",
-                        "record": 1052,
+                        "record": 1058,
                         "const": false
                     }
                 },
@@ -71,9 +71,9 @@
                     "name": "a",
                     "type": {
                         "kind": "RecordType",
-                        "id": 227,
+                        "id": 228,
                         "type": "half",
-                        "record": 1052,
+                        "record": 1058,
                         "const": false
                     }
                 }

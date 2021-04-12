@@ -1,0 +1,86 @@
+#pragma once
+#include <tftoken-c.h>
+
+
+#include <pxr/base/tf/token.h>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+inline pxrInternal_v0_20__pxrReserved__::TfToken const & to_cpp_ref(
+    pxr_TfToken_t const * rhs)
+{
+    return *(reinterpret_cast<pxrInternal_v0_20__pxrReserved__::TfToken const * >(rhs));
+}
+
+
+inline pxrInternal_v0_20__pxrReserved__::TfToken & to_cpp_ref(
+    pxr_TfToken_t * rhs)
+{
+    return *(reinterpret_cast<pxrInternal_v0_20__pxrReserved__::TfToken * >(rhs));
+}
+
+
+inline pxrInternal_v0_20__pxrReserved__::TfToken const * to_cpp(
+    pxr_TfToken_t const * rhs)
+{
+    return reinterpret_cast<pxrInternal_v0_20__pxrReserved__::TfToken const * >(rhs);
+}
+
+
+inline pxrInternal_v0_20__pxrReserved__::TfToken * to_cpp(
+    pxr_TfToken_t * rhs)
+{
+    return reinterpret_cast<pxrInternal_v0_20__pxrReserved__::TfToken * >(rhs);
+}
+
+
+inline pxr_TfToken_t const * to_c(
+    pxrInternal_v0_20__pxrReserved__::TfToken const & rhs)
+{
+    return reinterpret_cast<pxr_TfToken_t const * >(&(rhs));
+}
+
+
+inline pxr_TfToken_t const * to_c(
+    pxrInternal_v0_20__pxrReserved__::TfToken const * rhs)
+{
+    return reinterpret_cast<pxr_TfToken_t const * >(rhs);
+}
+
+
+inline pxr_TfToken_t * to_c(
+    pxrInternal_v0_20__pxrReserved__::TfToken & rhs)
+{
+    return reinterpret_cast<pxr_TfToken_t * >(&(rhs));
+}
+
+
+inline pxr_TfToken_t * to_c(
+    pxrInternal_v0_20__pxrReserved__::TfToken * rhs)
+{
+    return reinterpret_cast<pxr_TfToken_t * >(rhs);
+}
+
+
+inline pxr_TfToken_t to_c_copy(
+    pxrInternal_v0_20__pxrReserved__::TfToken const & rhs)
+{
+    pxr_TfToken_t result;
+    pxrInternal_v0_20__pxrReserved____TfToken_copy(&(result), reinterpret_cast<pxr_TfToken_t const * >(&(rhs)));
+    return result;
+}

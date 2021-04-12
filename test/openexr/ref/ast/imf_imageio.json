@@ -9,419 +9,29 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 575,
+    "id": 581,
     "decls": [
         {
-            "kind": "Function",
-            "id": 577,
-            "short_name": "saveImage",
-            "qualified_name": "Imf_2_5::saveImage",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": null,
-            "return": {
-                "kind": "BuiltinType",
-                "id": 3,
-                "type": "void",
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "fileName",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 5,
-                        "type": "const class std::__cxx11::basic_string<char> &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 4,
-                            "type": "std::__cxx11::basic_string<char>",
-                            "record": -1,
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 1,
-                    "name": "hdr",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 7,
-                        "type": "const class Imf_2_5::Header &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 6,
-                            "type": "Imf_2_5::Header",
-                            "record": 1526,
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 2,
-                    "name": "img",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 409,
-                        "type": "const class Imf_2_5::Image &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 407,
-                            "type": "Imf_2_5::Image",
-                            "record": 1719,
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 3,
-                    "name": "dws",
-                    "type": {
-                        "kind": "EnumType",
-                        "id": 548,
-                        "type": "Imf_2_5::DataWindowSource",
-                        "enum": 3117,
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
-        },
-        {
-            "kind": "Function",
-            "id": 578,
-            "short_name": "saveImage",
-            "qualified_name": "Imf_2_5::saveImage",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": null,
-            "return": {
-                "kind": "BuiltinType",
-                "id": 3,
-                "type": "void",
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "fileName",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 5,
-                        "type": "const class std::__cxx11::basic_string<char> &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 4,
-                            "type": "std::__cxx11::basic_string<char>",
-                            "record": -1,
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 1,
-                    "name": "hdr",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 7,
-                        "type": "const class Imf_2_5::Header &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 6,
-                            "type": "Imf_2_5::Header",
-                            "record": 1526,
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 2,
-                    "name": "img",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 409,
-                        "type": "const class Imf_2_5::Image &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 407,
-                            "type": "Imf_2_5::Image",
-                            "record": 1719,
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 3,
-                    "name": "dws",
-                    "type": {
-                        "kind": "EnumType",
-                        "id": 548,
-                        "type": "Imf_2_5::DataWindowSource",
-                        "enum": 3117,
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
-        },
-        {
-            "kind": "Function",
-            "id": 579,
-            "short_name": "saveImage",
-            "qualified_name": "Imf_2_5::saveImage",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": null,
-            "return": {
-                "kind": "BuiltinType",
-                "id": 3,
-                "type": "void",
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "fileName",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 5,
-                        "type": "const class std::__cxx11::basic_string<char> &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 4,
-                            "type": "std::__cxx11::basic_string<char>",
-                            "record": -1,
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 1,
-                    "name": "img",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 409,
-                        "type": "const class Imf_2_5::Image &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 407,
-                            "type": "Imf_2_5::Image",
-                            "record": 1719,
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
-        },
-        {
-            "kind": "Function",
-            "id": 580,
-            "short_name": "saveImage",
-            "qualified_name": "Imf_2_5::saveImage",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": null,
-            "return": {
-                "kind": "BuiltinType",
-                "id": 3,
-                "type": "void",
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "fileName",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 5,
-                        "type": "const class std::__cxx11::basic_string<char> &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 4,
-                            "type": "std::__cxx11::basic_string<char>",
-                            "record": -1,
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 1,
-                    "name": "img",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 409,
-                        "type": "const class Imf_2_5::Image &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 407,
-                            "type": "Imf_2_5::Image",
-                            "record": 1719,
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
-        },
-        {
-            "kind": "Function",
-            "id": 581,
-            "short_name": "loadImage",
-            "qualified_name": "Imf_2_5::loadImage",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": null,
-            "return": {
-                "kind": "Pointer",
-                "id": 576,
-                "type": "class Imf_2_5::Image *",
-                "pointee": {
-                    "kind": "RecordType",
-                    "id": 407,
-                    "type": "Imf_2_5::Image",
-                    "record": 1719,
-                    "const": false
-                },
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "fileName",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 5,
-                        "type": "const class std::__cxx11::basic_string<char> &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 4,
-                            "type": "std::__cxx11::basic_string<char>",
-                            "record": -1,
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 1,
-                    "name": "hdr",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 549,
-                        "type": "class Imf_2_5::Header &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 6,
-                            "type": "Imf_2_5::Header",
-                            "record": 1526,
-                            "const": false
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
-        },
-        {
-            "kind": "Function",
-            "id": 582,
-            "short_name": "loadImage",
-            "qualified_name": "Imf_2_5::loadImage",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": null,
-            "return": {
-                "kind": "Pointer",
-                "id": 576,
-                "type": "class Imf_2_5::Image *",
-                "pointee": {
-                    "kind": "RecordType",
-                    "id": 407,
-                    "type": "Imf_2_5::Image",
-                    "record": 1719,
-                    "const": false
-                },
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "fileName",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 5,
-                        "type": "const class std::__cxx11::basic_string<char> &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 4,
-                            "type": "std::__cxx11::basic_string<char>",
-                            "record": -1,
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 1,
-                    "name": "hdr",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 549,
-                        "type": "class Imf_2_5::Header &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 6,
-                            "type": "Imf_2_5::Header",
-                            "record": 1526,
-                            "const": false
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
+            "kind": "Namespace",
+            "name": "cppmm_bind::Imf_2_5",
+            "id": 3,
+            "short_name": "Imf_2_5"
         },
         {
             "kind": "Function",
             "id": 583,
-            "short_name": "loadImage",
-            "qualified_name": "Imf_2_5::loadImage",
+            "short_name": "saveImage",
+            "qualified_name": "Imf_2_5::saveImage",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
-                "kind": "Pointer",
-                "id": 576,
-                "type": "class Imf_2_5::Image *",
-                "pointee": {
-                    "kind": "RecordType",
-                    "id": 407,
-                    "type": "Imf_2_5::Image",
-                    "record": 1719,
-                    "const": false
-                },
+                "kind": "BuiltinType",
+                "id": 4,
+                "type": "void",
                 "const": false
             },
             "params": [
@@ -430,15 +40,63 @@
                     "name": "fileName",
                     "type": {
                         "kind": "Reference",
-                        "id": 5,
+                        "id": 6,
                         "type": "const class std::__cxx11::basic_string<char> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 4,
+                            "id": 5,
                             "type": "std::__cxx11::basic_string<char>",
                             "record": -1,
                             "const": true
                         },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "hdr",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 8,
+                        "type": "const class Imf_2_5::Header &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 7,
+                            "type": "Imf_2_5::Header",
+                            "record": 1532,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 2,
+                    "name": "img",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 413,
+                        "type": "const class Imf_2_5::Image &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 411,
+                            "type": "Imf_2_5::Image",
+                            "record": 1729,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 3,
+                    "name": "dws",
+                    "type": {
+                        "kind": "EnumType",
+                        "id": 554,
+                        "type": "Imf_2_5::DataWindowSource",
+                        "enum": 3114,
                         "const": false
                     },
                     "attrs": []
@@ -448,20 +106,221 @@
         {
             "kind": "Function",
             "id": 584,
+            "short_name": "saveImage",
+            "qualified_name": "Imf_2_5::saveImage",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 4,
+                "type": "void",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fileName",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 6,
+                        "type": "const class std::__cxx11::basic_string<char> &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 5,
+                            "type": "std::__cxx11::basic_string<char>",
+                            "record": -1,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "hdr",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 8,
+                        "type": "const class Imf_2_5::Header &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 7,
+                            "type": "Imf_2_5::Header",
+                            "record": 1532,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 2,
+                    "name": "img",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 413,
+                        "type": "const class Imf_2_5::Image &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 411,
+                            "type": "Imf_2_5::Image",
+                            "record": 1729,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 3,
+                    "name": "dws",
+                    "type": {
+                        "kind": "EnumType",
+                        "id": 554,
+                        "type": "Imf_2_5::DataWindowSource",
+                        "enum": 3114,
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 585,
+            "short_name": "saveImage",
+            "qualified_name": "Imf_2_5::saveImage",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 4,
+                "type": "void",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fileName",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 6,
+                        "type": "const class std::__cxx11::basic_string<char> &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 5,
+                            "type": "std::__cxx11::basic_string<char>",
+                            "record": -1,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "img",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 413,
+                        "type": "const class Imf_2_5::Image &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 411,
+                            "type": "Imf_2_5::Image",
+                            "record": 1729,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 586,
+            "short_name": "saveImage",
+            "qualified_name": "Imf_2_5::saveImage",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 4,
+                "type": "void",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fileName",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 6,
+                        "type": "const class std::__cxx11::basic_string<char> &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 5,
+                            "type": "std::__cxx11::basic_string<char>",
+                            "record": -1,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "img",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 413,
+                        "type": "const class Imf_2_5::Image &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 411,
+                            "type": "Imf_2_5::Image",
+                            "record": 1729,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 587,
             "short_name": "loadImage",
             "qualified_name": "Imf_2_5::loadImage",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "Pointer",
-                "id": 576,
+                "id": 582,
                 "type": "class Imf_2_5::Image *",
                 "pointee": {
                     "kind": "RecordType",
-                    "id": 407,
+                    "id": 411,
                     "type": "Imf_2_5::Image",
-                    "record": 1719,
+                    "record": 1729,
                     "const": false
                 },
                 "const": false
@@ -472,11 +331,182 @@
                     "name": "fileName",
                     "type": {
                         "kind": "Reference",
-                        "id": 5,
+                        "id": 6,
                         "type": "const class std::__cxx11::basic_string<char> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 4,
+                            "id": 5,
+                            "type": "std::__cxx11::basic_string<char>",
+                            "record": -1,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "hdr",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 555,
+                        "type": "class Imf_2_5::Header &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 7,
+                            "type": "Imf_2_5::Header",
+                            "record": 1532,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 588,
+            "short_name": "loadImage",
+            "qualified_name": "Imf_2_5::loadImage",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "Pointer",
+                "id": 582,
+                "type": "class Imf_2_5::Image *",
+                "pointee": {
+                    "kind": "RecordType",
+                    "id": 411,
+                    "type": "Imf_2_5::Image",
+                    "record": 1729,
+                    "const": false
+                },
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fileName",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 6,
+                        "type": "const class std::__cxx11::basic_string<char> &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 5,
+                            "type": "std::__cxx11::basic_string<char>",
+                            "record": -1,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "hdr",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 555,
+                        "type": "class Imf_2_5::Header &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 7,
+                            "type": "Imf_2_5::Header",
+                            "record": 1532,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 589,
+            "short_name": "loadImage",
+            "qualified_name": "Imf_2_5::loadImage",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "Pointer",
+                "id": 582,
+                "type": "class Imf_2_5::Image *",
+                "pointee": {
+                    "kind": "RecordType",
+                    "id": 411,
+                    "type": "Imf_2_5::Image",
+                    "record": 1729,
+                    "const": false
+                },
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fileName",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 6,
+                        "type": "const class std::__cxx11::basic_string<char> &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 5,
+                            "type": "std::__cxx11::basic_string<char>",
+                            "record": -1,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 590,
+            "short_name": "loadImage",
+            "qualified_name": "Imf_2_5::loadImage",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "Pointer",
+                "id": 582,
+                "type": "class Imf_2_5::Image *",
+                "pointee": {
+                    "kind": "RecordType",
+                    "id": 411,
+                    "type": "Imf_2_5::Image",
+                    "record": 1729,
+                    "const": false
+                },
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fileName",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 6,
+                        "type": "const class std::__cxx11::basic_string<char> &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 5,
                             "type": "std::__cxx11::basic_string<char>",
                             "record": -1,
                             "const": true

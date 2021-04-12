@@ -9,223 +9,13 @@
         "/home/anders/packages/openexr/2.5.5/include",
         "/home/anders/packages/openexr/2.5.5/include/OpenEXR"
     ],
-    "id": 465,
+    "id": 471,
     "decls": [
         {
-            "kind": "Function",
-            "id": 467,
-            "short_name": "isOpenExrFile",
-            "qualified_name": "Imf_2_5::isOpenExrFile",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": [
-                "cppmm|ignore"
-            ],
-            "return": {
-                "kind": "BuiltinType",
-                "id": 53,
-                "type": "_Bool",
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "fileName",
-                    "type": {
-                        "kind": "Pointer",
-                        "id": 52,
-                        "type": "const char *",
-                        "pointee": {
-                            "kind": "BuiltinType",
-                            "id": 51,
-                            "type": "char",
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
-        },
-        {
-            "kind": "Function",
-            "id": 468,
-            "short_name": "isOpenExrFile",
-            "qualified_name": "Imf_2_5::isOpenExrFile",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": [
-                "cppmm|ignore"
-            ],
-            "return": {
-                "kind": "BuiltinType",
-                "id": 53,
-                "type": "_Bool",
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "fileName",
-                    "type": {
-                        "kind": "Pointer",
-                        "id": 52,
-                        "type": "const char *",
-                        "pointee": {
-                            "kind": "BuiltinType",
-                            "id": 51,
-                            "type": "char",
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
-        },
-        {
-            "kind": "Function",
-            "id": 469,
-            "short_name": "isOpenExrFile",
-            "qualified_name": "Imf_2_5::isOpenExrFile",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": [
-                "cppmm|ignore"
-            ],
-            "return": {
-                "kind": "BuiltinType",
-                "id": 53,
-                "type": "_Bool",
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "fileName",
-                    "type": {
-                        "kind": "Pointer",
-                        "id": 52,
-                        "type": "const char *",
-                        "pointee": {
-                            "kind": "BuiltinType",
-                            "id": 51,
-                            "type": "char",
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
-        },
-        {
-            "kind": "Function",
-            "id": 470,
-            "short_name": "isOpenExrFile",
-            "qualified_name": "Imf_2_5::isOpenExrFile",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": [
-                "cppmm|ignore"
-            ],
-            "return": {
-                "kind": "BuiltinType",
-                "id": 53,
-                "type": "_Bool",
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "fileName",
-                    "type": {
-                        "kind": "Pointer",
-                        "id": 52,
-                        "type": "const char *",
-                        "pointee": {
-                            "kind": "BuiltinType",
-                            "id": 51,
-                            "type": "char",
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
-        },
-        {
-            "kind": "Function",
-            "id": 471,
-            "short_name": "isOpenExrFile",
-            "qualified_name": "Imf_2_5::isOpenExrFile",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": [
-                "cppmm|ignore"
-            ],
-            "return": {
-                "kind": "BuiltinType",
-                "id": 53,
-                "type": "_Bool",
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "fileName",
-                    "type": {
-                        "kind": "Pointer",
-                        "id": 52,
-                        "type": "const char *",
-                        "pointee": {
-                            "kind": "BuiltinType",
-                            "id": 51,
-                            "type": "char",
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
-        },
-        {
-            "kind": "Function",
-            "id": 472,
-            "short_name": "isOpenExrFile",
-            "qualified_name": "Imf_2_5::isOpenExrFile",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": [
-                "cppmm|ignore"
-            ],
-            "return": {
-                "kind": "BuiltinType",
-                "id": 53,
-                "type": "_Bool",
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "fileName",
-                    "type": {
-                        "kind": "Pointer",
-                        "id": 52,
-                        "type": "const char *",
-                        "pointee": {
-                            "kind": "BuiltinType",
-                            "id": 51,
-                            "type": "char",
-                            "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
+            "kind": "Namespace",
+            "name": "cppmm_bind::Imf_2_5",
+            "id": 3,
+            "short_name": "Imf_2_5"
         },
         {
             "kind": "Function",
@@ -237,9 +27,12 @@
             "attributes": [
                 "cppmm|ignore"
             ],
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -249,11 +42,11 @@
                     "name": "fileName",
                     "type": {
                         "kind": "Pointer",
-                        "id": 52,
+                        "id": 53,
                         "type": "const char *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 51,
+                            "id": 52,
                             "type": "char",
                             "const": true
                         },
@@ -273,9 +66,12 @@
             "attributes": [
                 "cppmm|ignore"
             ],
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -285,11 +81,11 @@
                     "name": "fileName",
                     "type": {
                         "kind": "Pointer",
-                        "id": 52,
+                        "id": 53,
                         "type": "const char *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 51,
+                            "id": 52,
                             "type": "char",
                             "const": true
                         },
@@ -309,9 +105,12 @@
             "attributes": [
                 "cppmm|ignore"
             ],
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -321,30 +120,13 @@
                     "name": "fileName",
                     "type": {
                         "kind": "Pointer",
-                        "id": 52,
+                        "id": 53,
                         "type": "const char *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 51,
+                            "id": 52,
                             "type": "char",
                             "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 1,
-                    "name": "isTiled",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 466,
-                        "type": "_Bool &",
-                        "pointee": {
-                            "kind": "BuiltinType",
-                            "id": 53,
-                            "type": "_Bool",
-                            "const": false
                         },
                         "const": false
                     },
@@ -362,9 +144,12 @@
             "attributes": [
                 "cppmm|ignore"
             ],
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -374,30 +159,13 @@
                     "name": "fileName",
                     "type": {
                         "kind": "Pointer",
-                        "id": 52,
+                        "id": 53,
                         "type": "const char *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 51,
+                            "id": 52,
                             "type": "char",
                             "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 1,
-                    "name": "isTiled",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 466,
-                        "type": "_Bool &",
-                        "pointee": {
-                            "kind": "BuiltinType",
-                            "id": 53,
-                            "type": "_Bool",
-                            "const": false
                         },
                         "const": false
                     },
@@ -415,9 +183,12 @@
             "attributes": [
                 "cppmm|ignore"
             ],
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -427,30 +198,13 @@
                     "name": "fileName",
                     "type": {
                         "kind": "Pointer",
-                        "id": 52,
+                        "id": 53,
                         "type": "const char *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 51,
+                            "id": 52,
                             "type": "char",
                             "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 1,
-                    "name": "isTiled",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 466,
-                        "type": "_Bool &",
-                        "pointee": {
-                            "kind": "BuiltinType",
-                            "id": 53,
-                            "type": "_Bool",
-                            "const": false
                         },
                         "const": false
                     },
@@ -468,9 +222,12 @@
             "attributes": [
                 "cppmm|ignore"
             ],
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -480,30 +237,13 @@
                     "name": "fileName",
                     "type": {
                         "kind": "Pointer",
-                        "id": 52,
+                        "id": 53,
                         "type": "const char *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 51,
+                            "id": 52,
                             "type": "char",
                             "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 1,
-                    "name": "isTiled",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 466,
-                        "type": "_Bool &",
-                        "pointee": {
-                            "kind": "BuiltinType",
-                            "id": 53,
-                            "type": "_Bool",
-                            "const": false
                         },
                         "const": false
                     },
@@ -521,9 +261,12 @@
             "attributes": [
                 "cppmm|ignore"
             ],
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -533,30 +276,13 @@
                     "name": "fileName",
                     "type": {
                         "kind": "Pointer",
-                        "id": 52,
+                        "id": 53,
                         "type": "const char *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 51,
+                            "id": 52,
                             "type": "char",
                             "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 1,
-                    "name": "isTiled",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 466,
-                        "type": "_Bool &",
-                        "pointee": {
-                            "kind": "BuiltinType",
-                            "id": 53,
-                            "type": "_Bool",
-                            "const": false
                         },
                         "const": false
                     },
@@ -574,9 +300,12 @@
             "attributes": [
                 "cppmm|ignore"
             ],
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -586,30 +315,13 @@
                     "name": "fileName",
                     "type": {
                         "kind": "Pointer",
-                        "id": 52,
+                        "id": 53,
                         "type": "const char *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 51,
+                            "id": 52,
                             "type": "char",
                             "const": true
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 1,
-                    "name": "isTiled",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 466,
-                        "type": "_Bool &",
-                        "pointee": {
-                            "kind": "BuiltinType",
-                            "id": 53,
-                            "type": "_Bool",
-                            "const": false
                         },
                         "const": false
                     },
@@ -627,9 +339,12 @@
             "attributes": [
                 "cppmm|ignore"
             ],
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -639,11 +354,11 @@
                     "name": "fileName",
                     "type": {
                         "kind": "Pointer",
-                        "id": 52,
+                        "id": 53,
                         "type": "const char *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 51,
+                            "id": 52,
                             "type": "char",
                             "const": true
                         },
@@ -656,11 +371,11 @@
                     "name": "isTiled",
                     "type": {
                         "kind": "Reference",
-                        "id": 466,
+                        "id": 472,
                         "type": "_Bool &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 53,
+                            "id": 54,
                             "type": "_Bool",
                             "const": false
                         },
@@ -680,9 +395,12 @@
             "attributes": [
                 "cppmm|ignore"
             ],
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -692,11 +410,11 @@
                     "name": "fileName",
                     "type": {
                         "kind": "Pointer",
-                        "id": 52,
+                        "id": 53,
                         "type": "const char *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 51,
+                            "id": 52,
                             "type": "char",
                             "const": true
                         },
@@ -709,11 +427,11 @@
                     "name": "isTiled",
                     "type": {
                         "kind": "Reference",
-                        "id": 466,
+                        "id": 472,
                         "type": "_Bool &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 53,
+                            "id": 54,
                             "type": "_Bool",
                             "const": false
                         },
@@ -733,9 +451,12 @@
             "attributes": [
                 "cppmm|ignore"
             ],
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -745,11 +466,11 @@
                     "name": "fileName",
                     "type": {
                         "kind": "Pointer",
-                        "id": 52,
+                        "id": 53,
                         "type": "const char *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 51,
+                            "id": 52,
                             "type": "char",
                             "const": true
                         },
@@ -762,28 +483,11 @@
                     "name": "isTiled",
                     "type": {
                         "kind": "Reference",
-                        "id": 466,
+                        "id": 472,
                         "type": "_Bool &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 53,
-                            "type": "_Bool",
-                            "const": false
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 2,
-                    "name": "isDeep",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 466,
-                        "type": "_Bool &",
-                        "pointee": {
-                            "kind": "BuiltinType",
-                            "id": 53,
+                            "id": 54,
                             "type": "_Bool",
                             "const": false
                         },
@@ -803,9 +507,12 @@
             "attributes": [
                 "cppmm|ignore"
             ],
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -815,11 +522,11 @@
                     "name": "fileName",
                     "type": {
                         "kind": "Pointer",
-                        "id": 52,
+                        "id": 53,
                         "type": "const char *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 51,
+                            "id": 52,
                             "type": "char",
                             "const": true
                         },
@@ -832,28 +539,11 @@
                     "name": "isTiled",
                     "type": {
                         "kind": "Reference",
-                        "id": 466,
+                        "id": 472,
                         "type": "_Bool &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 53,
-                            "type": "_Bool",
-                            "const": false
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 2,
-                    "name": "isDeep",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 466,
-                        "type": "_Bool &",
-                        "pointee": {
-                            "kind": "BuiltinType",
-                            "id": 53,
+                            "id": 54,
                             "type": "_Bool",
                             "const": false
                         },
@@ -873,9 +563,12 @@
             "attributes": [
                 "cppmm|ignore"
             ],
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -885,11 +578,11 @@
                     "name": "fileName",
                     "type": {
                         "kind": "Pointer",
-                        "id": 52,
+                        "id": 53,
                         "type": "const char *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 51,
+                            "id": 52,
                             "type": "char",
                             "const": true
                         },
@@ -902,28 +595,11 @@
                     "name": "isTiled",
                     "type": {
                         "kind": "Reference",
-                        "id": 466,
+                        "id": 472,
                         "type": "_Bool &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 53,
-                            "type": "_Bool",
-                            "const": false
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 2,
-                    "name": "isDeep",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 466,
-                        "type": "_Bool &",
-                        "pointee": {
-                            "kind": "BuiltinType",
-                            "id": 53,
+                            "id": 54,
                             "type": "_Bool",
                             "const": false
                         },
@@ -943,9 +619,12 @@
             "attributes": [
                 "cppmm|ignore"
             ],
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -955,11 +634,11 @@
                     "name": "fileName",
                     "type": {
                         "kind": "Pointer",
-                        "id": 52,
+                        "id": 53,
                         "type": "const char *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 51,
+                            "id": 52,
                             "type": "char",
                             "const": true
                         },
@@ -972,28 +651,11 @@
                     "name": "isTiled",
                     "type": {
                         "kind": "Reference",
-                        "id": 466,
+                        "id": 472,
                         "type": "_Bool &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 53,
-                            "type": "_Bool",
-                            "const": false
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 2,
-                    "name": "isDeep",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 466,
-                        "type": "_Bool &",
-                        "pointee": {
-                            "kind": "BuiltinType",
-                            "id": 53,
+                            "id": 54,
                             "type": "_Bool",
                             "const": false
                         },
@@ -1013,9 +675,12 @@
             "attributes": [
                 "cppmm|ignore"
             ],
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -1025,11 +690,11 @@
                     "name": "fileName",
                     "type": {
                         "kind": "Pointer",
-                        "id": 52,
+                        "id": 53,
                         "type": "const char *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 51,
+                            "id": 52,
                             "type": "char",
                             "const": true
                         },
@@ -1042,28 +707,11 @@
                     "name": "isTiled",
                     "type": {
                         "kind": "Reference",
-                        "id": 466,
+                        "id": 472,
                         "type": "_Bool &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 53,
-                            "type": "_Bool",
-                            "const": false
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 2,
-                    "name": "isDeep",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 466,
-                        "type": "_Bool &",
-                        "pointee": {
-                            "kind": "BuiltinType",
-                            "id": 53,
+                            "id": 54,
                             "type": "_Bool",
                             "const": false
                         },
@@ -1083,9 +731,12 @@
             "attributes": [
                 "cppmm|ignore"
             ],
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -1095,11 +746,11 @@
                     "name": "fileName",
                     "type": {
                         "kind": "Pointer",
-                        "id": 52,
+                        "id": 53,
                         "type": "const char *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 51,
+                            "id": 52,
                             "type": "char",
                             "const": true
                         },
@@ -1112,28 +763,11 @@
                     "name": "isTiled",
                     "type": {
                         "kind": "Reference",
-                        "id": 466,
+                        "id": 472,
                         "type": "_Bool &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 53,
-                            "type": "_Bool",
-                            "const": false
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 2,
-                    "name": "isDeep",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 466,
-                        "type": "_Bool &",
-                        "pointee": {
-                            "kind": "BuiltinType",
-                            "id": 53,
+                            "id": 54,
                             "type": "_Bool",
                             "const": false
                         },
@@ -1153,9 +787,12 @@
             "attributes": [
                 "cppmm|ignore"
             ],
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -1165,11 +802,11 @@
                     "name": "fileName",
                     "type": {
                         "kind": "Pointer",
-                        "id": 52,
+                        "id": 53,
                         "type": "const char *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 51,
+                            "id": 52,
                             "type": "char",
                             "const": true
                         },
@@ -1182,11 +819,11 @@
                     "name": "isTiled",
                     "type": {
                         "kind": "Reference",
-                        "id": 466,
+                        "id": 472,
                         "type": "_Bool &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 53,
+                            "id": 54,
                             "type": "_Bool",
                             "const": false
                         },
@@ -1199,11 +836,11 @@
                     "name": "isDeep",
                     "type": {
                         "kind": "Reference",
-                        "id": 466,
+                        "id": 472,
                         "type": "_Bool &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 53,
+                            "id": 54,
                             "type": "_Bool",
                             "const": false
                         },
@@ -1223,9 +860,12 @@
             "attributes": [
                 "cppmm|ignore"
             ],
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -1235,11 +875,11 @@
                     "name": "fileName",
                     "type": {
                         "kind": "Pointer",
-                        "id": 52,
+                        "id": 53,
                         "type": "const char *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 51,
+                            "id": 52,
                             "type": "char",
                             "const": true
                         },
@@ -1252,11 +892,11 @@
                     "name": "isTiled",
                     "type": {
                         "kind": "Reference",
-                        "id": 466,
+                        "id": 472,
                         "type": "_Bool &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 53,
+                            "id": 54,
                             "type": "_Bool",
                             "const": false
                         },
@@ -1269,11 +909,11 @@
                     "name": "isDeep",
                     "type": {
                         "kind": "Reference",
-                        "id": 466,
+                        "id": 472,
                         "type": "_Bool &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 53,
+                            "id": 54,
                             "type": "_Bool",
                             "const": false
                         },
@@ -1290,10 +930,15 @@
             "qualified_name": "Imf_2_5::isOpenExrFile",
             "in_binding": false,
             "in_library": false,
-            "attributes": null,
+            "attributes": [
+                "cppmm|ignore"
+            ],
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -1303,11 +948,11 @@
                     "name": "fileName",
                     "type": {
                         "kind": "Pointer",
-                        "id": 52,
+                        "id": 53,
                         "type": "const char *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 51,
+                            "id": 52,
                             "type": "char",
                             "const": true
                         },
@@ -1320,11 +965,11 @@
                     "name": "isTiled",
                     "type": {
                         "kind": "Reference",
-                        "id": 466,
+                        "id": 472,
                         "type": "_Bool &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 53,
+                            "id": 54,
                             "type": "_Bool",
                             "const": false
                         },
@@ -1337,28 +982,11 @@
                     "name": "isDeep",
                     "type": {
                         "kind": "Reference",
-                        "id": 466,
+                        "id": 472,
                         "type": "_Bool &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 53,
-                            "type": "_Bool",
-                            "const": false
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 3,
-                    "name": "isMultiPart",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 466,
-                        "type": "_Bool &",
-                        "pointee": {
-                            "kind": "BuiltinType",
-                            "id": 53,
+                            "id": 54,
                             "type": "_Bool",
                             "const": false
                         },
@@ -1375,10 +1003,15 @@
             "qualified_name": "Imf_2_5::isOpenExrFile",
             "in_binding": false,
             "in_library": false,
-            "attributes": null,
+            "attributes": [
+                "cppmm|ignore"
+            ],
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -1388,11 +1021,11 @@
                     "name": "fileName",
                     "type": {
                         "kind": "Pointer",
-                        "id": 52,
+                        "id": 53,
                         "type": "const char *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 51,
+                            "id": 52,
                             "type": "char",
                             "const": true
                         },
@@ -1405,11 +1038,11 @@
                     "name": "isTiled",
                     "type": {
                         "kind": "Reference",
-                        "id": 466,
+                        "id": 472,
                         "type": "_Bool &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 53,
+                            "id": 54,
                             "type": "_Bool",
                             "const": false
                         },
@@ -1422,28 +1055,11 @@
                     "name": "isDeep",
                     "type": {
                         "kind": "Reference",
-                        "id": 466,
+                        "id": 472,
                         "type": "_Bool &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 53,
-                            "type": "_Bool",
-                            "const": false
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 3,
-                    "name": "isMultiPart",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 466,
-                        "type": "_Bool &",
-                        "pointee": {
-                            "kind": "BuiltinType",
-                            "id": 53,
+                            "id": 54,
                             "type": "_Bool",
                             "const": false
                         },
@@ -1460,10 +1076,15 @@
             "qualified_name": "Imf_2_5::isOpenExrFile",
             "in_binding": false,
             "in_library": false,
-            "attributes": null,
+            "attributes": [
+                "cppmm|ignore"
+            ],
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -1473,11 +1094,11 @@
                     "name": "fileName",
                     "type": {
                         "kind": "Pointer",
-                        "id": 52,
+                        "id": 53,
                         "type": "const char *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 51,
+                            "id": 52,
                             "type": "char",
                             "const": true
                         },
@@ -1490,11 +1111,11 @@
                     "name": "isTiled",
                     "type": {
                         "kind": "Reference",
-                        "id": 466,
+                        "id": 472,
                         "type": "_Bool &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 53,
+                            "id": 54,
                             "type": "_Bool",
                             "const": false
                         },
@@ -1507,28 +1128,11 @@
                     "name": "isDeep",
                     "type": {
                         "kind": "Reference",
-                        "id": 466,
+                        "id": 472,
                         "type": "_Bool &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 53,
-                            "type": "_Bool",
-                            "const": false
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 3,
-                    "name": "isMultiPart",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 466,
-                        "type": "_Bool &",
-                        "pointee": {
-                            "kind": "BuiltinType",
-                            "id": 53,
+                            "id": 54,
                             "type": "_Bool",
                             "const": false
                         },
@@ -1545,10 +1149,15 @@
             "qualified_name": "Imf_2_5::isOpenExrFile",
             "in_binding": false,
             "in_library": false,
-            "attributes": null,
+            "attributes": [
+                "cppmm|ignore"
+            ],
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -1558,11 +1167,11 @@
                     "name": "fileName",
                     "type": {
                         "kind": "Pointer",
-                        "id": 52,
+                        "id": 53,
                         "type": "const char *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 51,
+                            "id": 52,
                             "type": "char",
                             "const": true
                         },
@@ -1575,11 +1184,11 @@
                     "name": "isTiled",
                     "type": {
                         "kind": "Reference",
-                        "id": 466,
+                        "id": 472,
                         "type": "_Bool &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 53,
+                            "id": 54,
                             "type": "_Bool",
                             "const": false
                         },
@@ -1592,28 +1201,11 @@
                     "name": "isDeep",
                     "type": {
                         "kind": "Reference",
-                        "id": 466,
+                        "id": 472,
                         "type": "_Bool &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 53,
-                            "type": "_Bool",
-                            "const": false
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 3,
-                    "name": "isMultiPart",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 466,
-                        "type": "_Bool &",
-                        "pointee": {
-                            "kind": "BuiltinType",
-                            "id": 53,
+                            "id": 54,
                             "type": "_Bool",
                             "const": false
                         },
@@ -1630,10 +1222,15 @@
             "qualified_name": "Imf_2_5::isOpenExrFile",
             "in_binding": false,
             "in_library": false,
-            "attributes": null,
+            "attributes": [
+                "cppmm|ignore"
+            ],
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -1643,11 +1240,11 @@
                     "name": "fileName",
                     "type": {
                         "kind": "Pointer",
-                        "id": 52,
+                        "id": 53,
                         "type": "const char *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 51,
+                            "id": 52,
                             "type": "char",
                             "const": true
                         },
@@ -1660,11 +1257,11 @@
                     "name": "isTiled",
                     "type": {
                         "kind": "Reference",
-                        "id": 466,
+                        "id": 472,
                         "type": "_Bool &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 53,
+                            "id": 54,
                             "type": "_Bool",
                             "const": false
                         },
@@ -1677,28 +1274,11 @@
                     "name": "isDeep",
                     "type": {
                         "kind": "Reference",
-                        "id": 466,
+                        "id": 472,
                         "type": "_Bool &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 53,
-                            "type": "_Bool",
-                            "const": false
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 3,
-                    "name": "isMultiPart",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 466,
-                        "type": "_Bool &",
-                        "pointee": {
-                            "kind": "BuiltinType",
-                            "id": 53,
+                            "id": 54,
                             "type": "_Bool",
                             "const": false
                         },
@@ -1715,10 +1295,15 @@
             "qualified_name": "Imf_2_5::isOpenExrFile",
             "in_binding": false,
             "in_library": false,
-            "attributes": null,
+            "attributes": [
+                "cppmm|ignore"
+            ],
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -1728,11 +1313,11 @@
                     "name": "fileName",
                     "type": {
                         "kind": "Pointer",
-                        "id": 52,
+                        "id": 53,
                         "type": "const char *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 51,
+                            "id": 52,
                             "type": "char",
                             "const": true
                         },
@@ -1745,11 +1330,11 @@
                     "name": "isTiled",
                     "type": {
                         "kind": "Reference",
-                        "id": 466,
+                        "id": 472,
                         "type": "_Bool &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 53,
+                            "id": 54,
                             "type": "_Bool",
                             "const": false
                         },
@@ -1762,28 +1347,11 @@
                     "name": "isDeep",
                     "type": {
                         "kind": "Reference",
-                        "id": 466,
+                        "id": 472,
                         "type": "_Bool &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 53,
-                            "type": "_Bool",
-                            "const": false
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 3,
-                    "name": "isMultiPart",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 466,
-                        "type": "_Bool &",
-                        "pointee": {
-                            "kind": "BuiltinType",
-                            "id": 53,
+                            "id": 54,
                             "type": "_Bool",
                             "const": false
                         },
@@ -1801,9 +1369,12 @@
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -1813,11 +1384,11 @@
                     "name": "fileName",
                     "type": {
                         "kind": "Pointer",
-                        "id": 52,
+                        "id": 53,
                         "type": "const char *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 51,
+                            "id": 52,
                             "type": "char",
                             "const": true
                         },
@@ -1830,11 +1401,11 @@
                     "name": "isTiled",
                     "type": {
                         "kind": "Reference",
-                        "id": 466,
+                        "id": 472,
                         "type": "_Bool &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 53,
+                            "id": 54,
                             "type": "_Bool",
                             "const": false
                         },
@@ -1847,11 +1418,11 @@
                     "name": "isDeep",
                     "type": {
                         "kind": "Reference",
-                        "id": 466,
+                        "id": 472,
                         "type": "_Bool &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 53,
+                            "id": 54,
                             "type": "_Bool",
                             "const": false
                         },
@@ -1864,11 +1435,11 @@
                     "name": "isMultiPart",
                     "type": {
                         "kind": "Reference",
-                        "id": 466,
+                        "id": 472,
                         "type": "_Bool &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 53,
+                            "id": 54,
                             "type": "_Bool",
                             "const": false
                         },
@@ -1886,9 +1457,12 @@
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -1898,11 +1472,11 @@
                     "name": "fileName",
                     "type": {
                         "kind": "Pointer",
-                        "id": 52,
+                        "id": 53,
                         "type": "const char *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 51,
+                            "id": 52,
                             "type": "char",
                             "const": true
                         },
@@ -1915,11 +1489,11 @@
                     "name": "isTiled",
                     "type": {
                         "kind": "Reference",
-                        "id": 466,
+                        "id": 472,
                         "type": "_Bool &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 53,
+                            "id": 54,
                             "type": "_Bool",
                             "const": false
                         },
@@ -1932,11 +1506,11 @@
                     "name": "isDeep",
                     "type": {
                         "kind": "Reference",
-                        "id": 466,
+                        "id": 472,
                         "type": "_Bool &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 53,
+                            "id": 54,
                             "type": "_Bool",
                             "const": false
                         },
@@ -1949,11 +1523,11 @@
                     "name": "isMultiPart",
                     "type": {
                         "kind": "Reference",
-                        "id": 466,
+                        "id": 472,
                         "type": "_Bool &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 53,
+                            "id": 54,
                             "type": "_Bool",
                             "const": false
                         },
@@ -1966,14 +1540,17 @@
         {
             "kind": "Function",
             "id": 499,
-            "short_name": "isTiledOpenExrFile",
-            "qualified_name": "Imf_2_5::isTiledOpenExrFile",
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -1983,13 +1560,64 @@
                     "name": "fileName",
                     "type": {
                         "kind": "Pointer",
-                        "id": 52,
+                        "id": 53,
                         "type": "const char *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 51,
+                            "id": 52,
                             "type": "char",
                             "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "isTiled",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 472,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 54,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 2,
+                    "name": "isDeep",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 472,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 54,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 3,
+                    "name": "isMultiPart",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 472,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 54,
+                            "type": "_Bool",
+                            "const": false
                         },
                         "const": false
                     },
@@ -2000,14 +1628,17 @@
         {
             "kind": "Function",
             "id": 500,
-            "short_name": "isTiledOpenExrFile",
-            "qualified_name": "Imf_2_5::isTiledOpenExrFile",
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -2017,13 +1648,64 @@
                     "name": "fileName",
                     "type": {
                         "kind": "Pointer",
-                        "id": 52,
+                        "id": 53,
                         "type": "const char *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 51,
+                            "id": 52,
                             "type": "char",
                             "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "isTiled",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 472,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 54,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 2,
+                    "name": "isDeep",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 472,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 54,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 3,
+                    "name": "isMultiPart",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 472,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 54,
+                            "type": "_Bool",
+                            "const": false
                         },
                         "const": false
                     },
@@ -2034,14 +1716,17 @@
         {
             "kind": "Function",
             "id": 501,
-            "short_name": "isDeepOpenExrFile",
-            "qualified_name": "Imf_2_5::isDeepOpenExrFile",
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -2051,13 +1736,64 @@
                     "name": "fileName",
                     "type": {
                         "kind": "Pointer",
-                        "id": 52,
+                        "id": 53,
                         "type": "const char *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 51,
+                            "id": 52,
                             "type": "char",
                             "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "isTiled",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 472,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 54,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 2,
+                    "name": "isDeep",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 472,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 54,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 3,
+                    "name": "isMultiPart",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 472,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 54,
+                            "type": "_Bool",
+                            "const": false
                         },
                         "const": false
                     },
@@ -2068,14 +1804,17 @@
         {
             "kind": "Function",
             "id": 502,
-            "short_name": "isDeepOpenExrFile",
-            "qualified_name": "Imf_2_5::isDeepOpenExrFile",
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -2085,13 +1824,64 @@
                     "name": "fileName",
                     "type": {
                         "kind": "Pointer",
-                        "id": 52,
+                        "id": 53,
                         "type": "const char *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 51,
+                            "id": 52,
                             "type": "char",
                             "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "isTiled",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 472,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 54,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 2,
+                    "name": "isDeep",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 472,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 54,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 3,
+                    "name": "isMultiPart",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 472,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 54,
+                            "type": "_Bool",
+                            "const": false
                         },
                         "const": false
                     },
@@ -2102,14 +1892,17 @@
         {
             "kind": "Function",
             "id": 503,
-            "short_name": "isMultiPartOpenExrFile",
-            "qualified_name": "Imf_2_5::isMultiPartOpenExrFile",
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -2119,13 +1912,64 @@
                     "name": "fileName",
                     "type": {
                         "kind": "Pointer",
-                        "id": 52,
+                        "id": 53,
                         "type": "const char *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 51,
+                            "id": 52,
                             "type": "char",
                             "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "isTiled",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 472,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 54,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 2,
+                    "name": "isDeep",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 472,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 54,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 3,
+                    "name": "isMultiPart",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 472,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 54,
+                            "type": "_Bool",
+                            "const": false
                         },
                         "const": false
                     },
@@ -2136,14 +1980,17 @@
         {
             "kind": "Function",
             "id": 504,
-            "short_name": "isMultiPartOpenExrFile",
-            "qualified_name": "Imf_2_5::isMultiPartOpenExrFile",
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -2153,11 +2000,99 @@
                     "name": "fileName",
                     "type": {
                         "kind": "Pointer",
-                        "id": 52,
+                        "id": 53,
                         "type": "const char *",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 51,
+                            "id": 52,
+                            "type": "char",
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "isTiled",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 472,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 54,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 2,
+                    "name": "isDeep",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 472,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 54,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 3,
+                    "name": "isMultiPart",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 472,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 54,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 505,
+            "short_name": "isTiledOpenExrFile",
+            "qualified_name": "Imf_2_5::isTiledOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 54,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "fileName",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 53,
+                        "type": "const char *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 52,
                             "type": "char",
                             "const": true
                         },
@@ -2169,71 +2104,34 @@
         },
         {
             "kind": "Function",
-            "id": 505,
-            "short_name": "isOpenExrFile",
-            "qualified_name": "Imf_2_5::isOpenExrFile",
-            "in_binding": false,
-            "in_library": false,
-            "attributes": [
-                "cppmm|ignore"
-            ],
-            "return": {
-                "kind": "BuiltinType",
-                "id": 53,
-                "type": "_Bool",
-                "const": false
-            },
-            "params": [
-                {
-                    "index": 0,
-                    "name": "is",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 49,
-                        "type": "class Imf_2_5::IStream &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 48,
-                            "type": "Imf_2_5::IStream",
-                            "record": 1228,
-                            "const": false
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                }
-            ]
-        },
-        {
-            "kind": "Function",
             "id": 506,
-            "short_name": "isOpenExrFile",
-            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "short_name": "isTiledOpenExrFile",
+            "qualified_name": "Imf_2_5::isTiledOpenExrFile",
             "in_binding": false,
             "in_library": false,
-            "attributes": [
-                "cppmm|ignore"
+            "attributes": null,
+            "namespaces": [
+                27
             ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
             "params": [
                 {
                     "index": 0,
-                    "name": "is",
+                    "name": "fileName",
                     "type": {
-                        "kind": "Reference",
-                        "id": 49,
-                        "type": "class Imf_2_5::IStream &",
+                        "kind": "Pointer",
+                        "id": 53,
+                        "type": "const char *",
                         "pointee": {
-                            "kind": "RecordType",
-                            "id": 48,
-                            "type": "Imf_2_5::IStream",
-                            "record": 1228,
-                            "const": false
+                            "kind": "BuiltinType",
+                            "id": 52,
+                            "type": "char",
+                            "const": true
                         },
                         "const": false
                     },
@@ -2244,33 +2142,33 @@
         {
             "kind": "Function",
             "id": 507,
-            "short_name": "isOpenExrFile",
-            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "short_name": "isDeepOpenExrFile",
+            "qualified_name": "Imf_2_5::isDeepOpenExrFile",
             "in_binding": false,
             "in_library": false,
-            "attributes": [
-                "cppmm|ignore"
+            "attributes": null,
+            "namespaces": [
+                27
             ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
             "params": [
                 {
                     "index": 0,
-                    "name": "is",
+                    "name": "fileName",
                     "type": {
-                        "kind": "Reference",
-                        "id": 49,
-                        "type": "class Imf_2_5::IStream &",
+                        "kind": "Pointer",
+                        "id": 53,
+                        "type": "const char *",
                         "pointee": {
-                            "kind": "RecordType",
-                            "id": 48,
-                            "type": "Imf_2_5::IStream",
-                            "record": 1228,
-                            "const": false
+                            "kind": "BuiltinType",
+                            "id": 52,
+                            "type": "char",
+                            "const": true
                         },
                         "const": false
                     },
@@ -2281,33 +2179,33 @@
         {
             "kind": "Function",
             "id": 508,
-            "short_name": "isOpenExrFile",
-            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "short_name": "isDeepOpenExrFile",
+            "qualified_name": "Imf_2_5::isDeepOpenExrFile",
             "in_binding": false,
             "in_library": false,
-            "attributes": [
-                "cppmm|ignore"
+            "attributes": null,
+            "namespaces": [
+                27
             ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
             "params": [
                 {
                     "index": 0,
-                    "name": "is",
+                    "name": "fileName",
                     "type": {
-                        "kind": "Reference",
-                        "id": 49,
-                        "type": "class Imf_2_5::IStream &",
+                        "kind": "Pointer",
+                        "id": 53,
+                        "type": "const char *",
                         "pointee": {
-                            "kind": "RecordType",
-                            "id": 48,
-                            "type": "Imf_2_5::IStream",
-                            "record": 1228,
-                            "const": false
+                            "kind": "BuiltinType",
+                            "id": 52,
+                            "type": "char",
+                            "const": true
                         },
                         "const": false
                     },
@@ -2318,33 +2216,33 @@
         {
             "kind": "Function",
             "id": 509,
-            "short_name": "isOpenExrFile",
-            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "short_name": "isMultiPartOpenExrFile",
+            "qualified_name": "Imf_2_5::isMultiPartOpenExrFile",
             "in_binding": false,
             "in_library": false,
-            "attributes": [
-                "cppmm|ignore"
+            "attributes": null,
+            "namespaces": [
+                27
             ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
             "params": [
                 {
                     "index": 0,
-                    "name": "is",
+                    "name": "fileName",
                     "type": {
-                        "kind": "Reference",
-                        "id": 49,
-                        "type": "class Imf_2_5::IStream &",
+                        "kind": "Pointer",
+                        "id": 53,
+                        "type": "const char *",
                         "pointee": {
-                            "kind": "RecordType",
-                            "id": 48,
-                            "type": "Imf_2_5::IStream",
-                            "record": 1228,
-                            "const": false
+                            "kind": "BuiltinType",
+                            "id": 52,
+                            "type": "char",
+                            "const": true
                         },
                         "const": false
                     },
@@ -2355,33 +2253,33 @@
         {
             "kind": "Function",
             "id": 510,
-            "short_name": "isOpenExrFile",
-            "qualified_name": "Imf_2_5::isOpenExrFile",
+            "short_name": "isMultiPartOpenExrFile",
+            "qualified_name": "Imf_2_5::isMultiPartOpenExrFile",
             "in_binding": false,
             "in_library": false,
-            "attributes": [
-                "cppmm|ignore"
+            "attributes": null,
+            "namespaces": [
+                27
             ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
             "params": [
                 {
                     "index": 0,
-                    "name": "is",
+                    "name": "fileName",
                     "type": {
-                        "kind": "Reference",
-                        "id": 49,
-                        "type": "class Imf_2_5::IStream &",
+                        "kind": "Pointer",
+                        "id": 53,
+                        "type": "const char *",
                         "pointee": {
-                            "kind": "RecordType",
-                            "id": 48,
-                            "type": "Imf_2_5::IStream",
-                            "record": 1228,
-                            "const": false
+                            "kind": "BuiltinType",
+                            "id": 52,
+                            "type": "char",
+                            "const": true
                         },
                         "const": false
                     },
@@ -2399,9 +2297,12 @@
             "attributes": [
                 "cppmm|ignore"
             ],
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -2411,13 +2312,13 @@
                     "name": "is",
                     "type": {
                         "kind": "Reference",
-                        "id": 49,
+                        "id": 50,
                         "type": "class Imf_2_5::IStream &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 48,
+                            "id": 49,
                             "type": "Imf_2_5::IStream",
-                            "record": 1228,
+                            "record": 1234,
                             "const": false
                         },
                         "const": false
@@ -2436,9 +2337,12 @@
             "attributes": [
                 "cppmm|ignore"
             ],
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -2448,13 +2352,13 @@
                     "name": "is",
                     "type": {
                         "kind": "Reference",
-                        "id": 49,
+                        "id": 50,
                         "type": "class Imf_2_5::IStream &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 48,
+                            "id": 49,
                             "type": "Imf_2_5::IStream",
-                            "record": 1228,
+                            "record": 1234,
                             "const": false
                         },
                         "const": false
@@ -2473,9 +2377,12 @@
             "attributes": [
                 "cppmm|ignore"
             ],
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -2485,30 +2392,13 @@
                     "name": "is",
                     "type": {
                         "kind": "Reference",
-                        "id": 49,
+                        "id": 50,
                         "type": "class Imf_2_5::IStream &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 48,
+                            "id": 49,
                             "type": "Imf_2_5::IStream",
-                            "record": 1228,
-                            "const": false
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 1,
-                    "name": "isTiled",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 466,
-                        "type": "_Bool &",
-                        "pointee": {
-                            "kind": "BuiltinType",
-                            "id": 53,
-                            "type": "_Bool",
+                            "record": 1234,
                             "const": false
                         },
                         "const": false
@@ -2527,9 +2417,12 @@
             "attributes": [
                 "cppmm|ignore"
             ],
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -2539,30 +2432,13 @@
                     "name": "is",
                     "type": {
                         "kind": "Reference",
-                        "id": 49,
+                        "id": 50,
                         "type": "class Imf_2_5::IStream &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 48,
+                            "id": 49,
                             "type": "Imf_2_5::IStream",
-                            "record": 1228,
-                            "const": false
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 1,
-                    "name": "isTiled",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 466,
-                        "type": "_Bool &",
-                        "pointee": {
-                            "kind": "BuiltinType",
-                            "id": 53,
-                            "type": "_Bool",
+                            "record": 1234,
                             "const": false
                         },
                         "const": false
@@ -2581,9 +2457,12 @@
             "attributes": [
                 "cppmm|ignore"
             ],
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -2593,30 +2472,13 @@
                     "name": "is",
                     "type": {
                         "kind": "Reference",
-                        "id": 49,
+                        "id": 50,
                         "type": "class Imf_2_5::IStream &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 48,
+                            "id": 49,
                             "type": "Imf_2_5::IStream",
-                            "record": 1228,
-                            "const": false
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 1,
-                    "name": "isTiled",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 466,
-                        "type": "_Bool &",
-                        "pointee": {
-                            "kind": "BuiltinType",
-                            "id": 53,
-                            "type": "_Bool",
+                            "record": 1234,
                             "const": false
                         },
                         "const": false
@@ -2635,9 +2497,12 @@
             "attributes": [
                 "cppmm|ignore"
             ],
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -2647,30 +2512,13 @@
                     "name": "is",
                     "type": {
                         "kind": "Reference",
-                        "id": 49,
+                        "id": 50,
                         "type": "class Imf_2_5::IStream &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 48,
+                            "id": 49,
                             "type": "Imf_2_5::IStream",
-                            "record": 1228,
-                            "const": false
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 1,
-                    "name": "isTiled",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 466,
-                        "type": "_Bool &",
-                        "pointee": {
-                            "kind": "BuiltinType",
-                            "id": 53,
-                            "type": "_Bool",
+                            "record": 1234,
                             "const": false
                         },
                         "const": false
@@ -2689,9 +2537,12 @@
             "attributes": [
                 "cppmm|ignore"
             ],
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -2701,30 +2552,13 @@
                     "name": "is",
                     "type": {
                         "kind": "Reference",
-                        "id": 49,
+                        "id": 50,
                         "type": "class Imf_2_5::IStream &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 48,
+                            "id": 49,
                             "type": "Imf_2_5::IStream",
-                            "record": 1228,
-                            "const": false
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 1,
-                    "name": "isTiled",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 466,
-                        "type": "_Bool &",
-                        "pointee": {
-                            "kind": "BuiltinType",
-                            "id": 53,
-                            "type": "_Bool",
+                            "record": 1234,
                             "const": false
                         },
                         "const": false
@@ -2743,9 +2577,12 @@
             "attributes": [
                 "cppmm|ignore"
             ],
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -2755,30 +2592,13 @@
                     "name": "is",
                     "type": {
                         "kind": "Reference",
-                        "id": 49,
+                        "id": 50,
                         "type": "class Imf_2_5::IStream &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 48,
+                            "id": 49,
                             "type": "Imf_2_5::IStream",
-                            "record": 1228,
-                            "const": false
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 1,
-                    "name": "isTiled",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 466,
-                        "type": "_Bool &",
-                        "pointee": {
-                            "kind": "BuiltinType",
-                            "id": 53,
-                            "type": "_Bool",
+                            "record": 1234,
                             "const": false
                         },
                         "const": false
@@ -2797,9 +2617,12 @@
             "attributes": [
                 "cppmm|ignore"
             ],
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -2809,13 +2632,13 @@
                     "name": "is",
                     "type": {
                         "kind": "Reference",
-                        "id": 49,
+                        "id": 50,
                         "type": "class Imf_2_5::IStream &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 48,
+                            "id": 49,
                             "type": "Imf_2_5::IStream",
-                            "record": 1228,
+                            "record": 1234,
                             "const": false
                         },
                         "const": false
@@ -2827,11 +2650,11 @@
                     "name": "isTiled",
                     "type": {
                         "kind": "Reference",
-                        "id": 466,
+                        "id": 472,
                         "type": "_Bool &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 53,
+                            "id": 54,
                             "type": "_Bool",
                             "const": false
                         },
@@ -2851,9 +2674,12 @@
             "attributes": [
                 "cppmm|ignore"
             ],
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -2863,13 +2689,13 @@
                     "name": "is",
                     "type": {
                         "kind": "Reference",
-                        "id": 49,
+                        "id": 50,
                         "type": "class Imf_2_5::IStream &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 48,
+                            "id": 49,
                             "type": "Imf_2_5::IStream",
-                            "record": 1228,
+                            "record": 1234,
                             "const": false
                         },
                         "const": false
@@ -2881,11 +2707,11 @@
                     "name": "isTiled",
                     "type": {
                         "kind": "Reference",
-                        "id": 466,
+                        "id": 472,
                         "type": "_Bool &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 53,
+                            "id": 54,
                             "type": "_Bool",
                             "const": false
                         },
@@ -2905,9 +2731,12 @@
             "attributes": [
                 "cppmm|ignore"
             ],
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -2917,13 +2746,13 @@
                     "name": "is",
                     "type": {
                         "kind": "Reference",
-                        "id": 49,
+                        "id": 50,
                         "type": "class Imf_2_5::IStream &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 48,
+                            "id": 49,
                             "type": "Imf_2_5::IStream",
-                            "record": 1228,
+                            "record": 1234,
                             "const": false
                         },
                         "const": false
@@ -2935,28 +2764,11 @@
                     "name": "isTiled",
                     "type": {
                         "kind": "Reference",
-                        "id": 466,
+                        "id": 472,
                         "type": "_Bool &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 53,
-                            "type": "_Bool",
-                            "const": false
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 2,
-                    "name": "isDeep",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 466,
-                        "type": "_Bool &",
-                        "pointee": {
-                            "kind": "BuiltinType",
-                            "id": 53,
+                            "id": 54,
                             "type": "_Bool",
                             "const": false
                         },
@@ -2976,9 +2788,12 @@
             "attributes": [
                 "cppmm|ignore"
             ],
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -2988,13 +2803,13 @@
                     "name": "is",
                     "type": {
                         "kind": "Reference",
-                        "id": 49,
+                        "id": 50,
                         "type": "class Imf_2_5::IStream &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 48,
+                            "id": 49,
                             "type": "Imf_2_5::IStream",
-                            "record": 1228,
+                            "record": 1234,
                             "const": false
                         },
                         "const": false
@@ -3006,28 +2821,11 @@
                     "name": "isTiled",
                     "type": {
                         "kind": "Reference",
-                        "id": 466,
+                        "id": 472,
                         "type": "_Bool &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 53,
-                            "type": "_Bool",
-                            "const": false
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 2,
-                    "name": "isDeep",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 466,
-                        "type": "_Bool &",
-                        "pointee": {
-                            "kind": "BuiltinType",
-                            "id": 53,
+                            "id": 54,
                             "type": "_Bool",
                             "const": false
                         },
@@ -3047,9 +2845,12 @@
             "attributes": [
                 "cppmm|ignore"
             ],
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -3059,13 +2860,13 @@
                     "name": "is",
                     "type": {
                         "kind": "Reference",
-                        "id": 49,
+                        "id": 50,
                         "type": "class Imf_2_5::IStream &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 48,
+                            "id": 49,
                             "type": "Imf_2_5::IStream",
-                            "record": 1228,
+                            "record": 1234,
                             "const": false
                         },
                         "const": false
@@ -3077,28 +2878,11 @@
                     "name": "isTiled",
                     "type": {
                         "kind": "Reference",
-                        "id": 466,
+                        "id": 472,
                         "type": "_Bool &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 53,
-                            "type": "_Bool",
-                            "const": false
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 2,
-                    "name": "isDeep",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 466,
-                        "type": "_Bool &",
-                        "pointee": {
-                            "kind": "BuiltinType",
-                            "id": 53,
+                            "id": 54,
                             "type": "_Bool",
                             "const": false
                         },
@@ -3118,9 +2902,12 @@
             "attributes": [
                 "cppmm|ignore"
             ],
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -3130,13 +2917,13 @@
                     "name": "is",
                     "type": {
                         "kind": "Reference",
-                        "id": 49,
+                        "id": 50,
                         "type": "class Imf_2_5::IStream &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 48,
+                            "id": 49,
                             "type": "Imf_2_5::IStream",
-                            "record": 1228,
+                            "record": 1234,
                             "const": false
                         },
                         "const": false
@@ -3148,28 +2935,11 @@
                     "name": "isTiled",
                     "type": {
                         "kind": "Reference",
-                        "id": 466,
+                        "id": 472,
                         "type": "_Bool &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 53,
-                            "type": "_Bool",
-                            "const": false
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 2,
-                    "name": "isDeep",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 466,
-                        "type": "_Bool &",
-                        "pointee": {
-                            "kind": "BuiltinType",
-                            "id": 53,
+                            "id": 54,
                             "type": "_Bool",
                             "const": false
                         },
@@ -3189,9 +2959,12 @@
             "attributes": [
                 "cppmm|ignore"
             ],
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -3201,13 +2974,13 @@
                     "name": "is",
                     "type": {
                         "kind": "Reference",
-                        "id": 49,
+                        "id": 50,
                         "type": "class Imf_2_5::IStream &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 48,
+                            "id": 49,
                             "type": "Imf_2_5::IStream",
-                            "record": 1228,
+                            "record": 1234,
                             "const": false
                         },
                         "const": false
@@ -3219,28 +2992,11 @@
                     "name": "isTiled",
                     "type": {
                         "kind": "Reference",
-                        "id": 466,
+                        "id": 472,
                         "type": "_Bool &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 53,
-                            "type": "_Bool",
-                            "const": false
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 2,
-                    "name": "isDeep",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 466,
-                        "type": "_Bool &",
-                        "pointee": {
-                            "kind": "BuiltinType",
-                            "id": 53,
+                            "id": 54,
                             "type": "_Bool",
                             "const": false
                         },
@@ -3260,9 +3016,12 @@
             "attributes": [
                 "cppmm|ignore"
             ],
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -3272,13 +3031,13 @@
                     "name": "is",
                     "type": {
                         "kind": "Reference",
-                        "id": 49,
+                        "id": 50,
                         "type": "class Imf_2_5::IStream &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 48,
+                            "id": 49,
                             "type": "Imf_2_5::IStream",
-                            "record": 1228,
+                            "record": 1234,
                             "const": false
                         },
                         "const": false
@@ -3290,28 +3049,11 @@
                     "name": "isTiled",
                     "type": {
                         "kind": "Reference",
-                        "id": 466,
+                        "id": 472,
                         "type": "_Bool &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 53,
-                            "type": "_Bool",
-                            "const": false
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 2,
-                    "name": "isDeep",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 466,
-                        "type": "_Bool &",
-                        "pointee": {
-                            "kind": "BuiltinType",
-                            "id": 53,
+                            "id": 54,
                             "type": "_Bool",
                             "const": false
                         },
@@ -3331,9 +3073,12 @@
             "attributes": [
                 "cppmm|ignore"
             ],
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -3343,13 +3088,13 @@
                     "name": "is",
                     "type": {
                         "kind": "Reference",
-                        "id": 49,
+                        "id": 50,
                         "type": "class Imf_2_5::IStream &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 48,
+                            "id": 49,
                             "type": "Imf_2_5::IStream",
-                            "record": 1228,
+                            "record": 1234,
                             "const": false
                         },
                         "const": false
@@ -3361,11 +3106,11 @@
                     "name": "isTiled",
                     "type": {
                         "kind": "Reference",
-                        "id": 466,
+                        "id": 472,
                         "type": "_Bool &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 53,
+                            "id": 54,
                             "type": "_Bool",
                             "const": false
                         },
@@ -3378,11 +3123,11 @@
                     "name": "isDeep",
                     "type": {
                         "kind": "Reference",
-                        "id": 466,
+                        "id": 472,
                         "type": "_Bool &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 53,
+                            "id": 54,
                             "type": "_Bool",
                             "const": false
                         },
@@ -3402,9 +3147,12 @@
             "attributes": [
                 "cppmm|ignore"
             ],
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -3414,13 +3162,13 @@
                     "name": "is",
                     "type": {
                         "kind": "Reference",
-                        "id": 49,
+                        "id": 50,
                         "type": "class Imf_2_5::IStream &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 48,
+                            "id": 49,
                             "type": "Imf_2_5::IStream",
-                            "record": 1228,
+                            "record": 1234,
                             "const": false
                         },
                         "const": false
@@ -3432,11 +3180,11 @@
                     "name": "isTiled",
                     "type": {
                         "kind": "Reference",
-                        "id": 466,
+                        "id": 472,
                         "type": "_Bool &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 53,
+                            "id": 54,
                             "type": "_Bool",
                             "const": false
                         },
@@ -3449,11 +3197,11 @@
                     "name": "isDeep",
                     "type": {
                         "kind": "Reference",
-                        "id": 466,
+                        "id": 472,
                         "type": "_Bool &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 53,
+                            "id": 54,
                             "type": "_Bool",
                             "const": false
                         },
@@ -3471,11 +3219,14 @@
             "in_binding": false,
             "in_library": false,
             "attributes": [
-                "cppmm|rename|stream_is_openexr_file"
+                "cppmm|ignore"
+            ],
+            "namespaces": [
+                27
             ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -3485,13 +3236,13 @@
                     "name": "is",
                     "type": {
                         "kind": "Reference",
-                        "id": 49,
+                        "id": 50,
                         "type": "class Imf_2_5::IStream &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 48,
+                            "id": 49,
                             "type": "Imf_2_5::IStream",
-                            "record": 1228,
+                            "record": 1234,
                             "const": false
                         },
                         "const": false
@@ -3503,11 +3254,11 @@
                     "name": "isTiled",
                     "type": {
                         "kind": "Reference",
-                        "id": 466,
+                        "id": 472,
                         "type": "_Bool &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 53,
+                            "id": 54,
                             "type": "_Bool",
                             "const": false
                         },
@@ -3520,28 +3271,11 @@
                     "name": "isDeep",
                     "type": {
                         "kind": "Reference",
-                        "id": 466,
+                        "id": 472,
                         "type": "_Bool &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 53,
-                            "type": "_Bool",
-                            "const": false
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 3,
-                    "name": "isMultiPart",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 466,
-                        "type": "_Bool &",
-                        "pointee": {
-                            "kind": "BuiltinType",
-                            "id": 53,
+                            "id": 54,
                             "type": "_Bool",
                             "const": false
                         },
@@ -3559,11 +3293,14 @@
             "in_binding": false,
             "in_library": false,
             "attributes": [
-                "cppmm|rename|stream_is_openexr_file"
+                "cppmm|ignore"
+            ],
+            "namespaces": [
+                27
             ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -3573,13 +3310,13 @@
                     "name": "is",
                     "type": {
                         "kind": "Reference",
-                        "id": 49,
+                        "id": 50,
                         "type": "class Imf_2_5::IStream &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 48,
+                            "id": 49,
                             "type": "Imf_2_5::IStream",
-                            "record": 1228,
+                            "record": 1234,
                             "const": false
                         },
                         "const": false
@@ -3591,11 +3328,11 @@
                     "name": "isTiled",
                     "type": {
                         "kind": "Reference",
-                        "id": 466,
+                        "id": 472,
                         "type": "_Bool &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 53,
+                            "id": 54,
                             "type": "_Bool",
                             "const": false
                         },
@@ -3608,28 +3345,11 @@
                     "name": "isDeep",
                     "type": {
                         "kind": "Reference",
-                        "id": 466,
+                        "id": 472,
                         "type": "_Bool &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 53,
-                            "type": "_Bool",
-                            "const": false
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 3,
-                    "name": "isMultiPart",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 466,
-                        "type": "_Bool &",
-                        "pointee": {
-                            "kind": "BuiltinType",
-                            "id": 53,
+                            "id": 54,
                             "type": "_Bool",
                             "const": false
                         },
@@ -3647,11 +3367,14 @@
             "in_binding": false,
             "in_library": false,
             "attributes": [
-                "cppmm|rename|stream_is_openexr_file"
+                "cppmm|ignore"
+            ],
+            "namespaces": [
+                27
             ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -3661,13 +3384,13 @@
                     "name": "is",
                     "type": {
                         "kind": "Reference",
-                        "id": 49,
+                        "id": 50,
                         "type": "class Imf_2_5::IStream &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 48,
+                            "id": 49,
                             "type": "Imf_2_5::IStream",
-                            "record": 1228,
+                            "record": 1234,
                             "const": false
                         },
                         "const": false
@@ -3679,11 +3402,11 @@
                     "name": "isTiled",
                     "type": {
                         "kind": "Reference",
-                        "id": 466,
+                        "id": 472,
                         "type": "_Bool &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 53,
+                            "id": 54,
                             "type": "_Bool",
                             "const": false
                         },
@@ -3696,28 +3419,11 @@
                     "name": "isDeep",
                     "type": {
                         "kind": "Reference",
-                        "id": 466,
+                        "id": 472,
                         "type": "_Bool &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 53,
-                            "type": "_Bool",
-                            "const": false
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 3,
-                    "name": "isMultiPart",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 466,
-                        "type": "_Bool &",
-                        "pointee": {
-                            "kind": "BuiltinType",
-                            "id": 53,
+                            "id": 54,
                             "type": "_Bool",
                             "const": false
                         },
@@ -3735,11 +3441,14 @@
             "in_binding": false,
             "in_library": false,
             "attributes": [
-                "cppmm|rename|stream_is_openexr_file"
+                "cppmm|ignore"
+            ],
+            "namespaces": [
+                27
             ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -3749,13 +3458,13 @@
                     "name": "is",
                     "type": {
                         "kind": "Reference",
-                        "id": 49,
+                        "id": 50,
                         "type": "class Imf_2_5::IStream &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 48,
+                            "id": 49,
                             "type": "Imf_2_5::IStream",
-                            "record": 1228,
+                            "record": 1234,
                             "const": false
                         },
                         "const": false
@@ -3767,11 +3476,11 @@
                     "name": "isTiled",
                     "type": {
                         "kind": "Reference",
-                        "id": 466,
+                        "id": 472,
                         "type": "_Bool &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 53,
+                            "id": 54,
                             "type": "_Bool",
                             "const": false
                         },
@@ -3784,28 +3493,11 @@
                     "name": "isDeep",
                     "type": {
                         "kind": "Reference",
-                        "id": 466,
+                        "id": 472,
                         "type": "_Bool &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 53,
-                            "type": "_Bool",
-                            "const": false
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 3,
-                    "name": "isMultiPart",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 466,
-                        "type": "_Bool &",
-                        "pointee": {
-                            "kind": "BuiltinType",
-                            "id": 53,
+                            "id": 54,
                             "type": "_Bool",
                             "const": false
                         },
@@ -3823,11 +3515,14 @@
             "in_binding": false,
             "in_library": false,
             "attributes": [
-                "cppmm|rename|stream_is_openexr_file"
+                "cppmm|ignore"
+            ],
+            "namespaces": [
+                27
             ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -3837,13 +3532,13 @@
                     "name": "is",
                     "type": {
                         "kind": "Reference",
-                        "id": 49,
+                        "id": 50,
                         "type": "class Imf_2_5::IStream &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 48,
+                            "id": 49,
                             "type": "Imf_2_5::IStream",
-                            "record": 1228,
+                            "record": 1234,
                             "const": false
                         },
                         "const": false
@@ -3855,11 +3550,11 @@
                     "name": "isTiled",
                     "type": {
                         "kind": "Reference",
-                        "id": 466,
+                        "id": 472,
                         "type": "_Bool &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 53,
+                            "id": 54,
                             "type": "_Bool",
                             "const": false
                         },
@@ -3872,28 +3567,11 @@
                     "name": "isDeep",
                     "type": {
                         "kind": "Reference",
-                        "id": 466,
+                        "id": 472,
                         "type": "_Bool &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 53,
-                            "type": "_Bool",
-                            "const": false
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 3,
-                    "name": "isMultiPart",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 466,
-                        "type": "_Bool &",
-                        "pointee": {
-                            "kind": "BuiltinType",
-                            "id": 53,
+                            "id": 54,
                             "type": "_Bool",
                             "const": false
                         },
@@ -3911,11 +3589,14 @@
             "in_binding": false,
             "in_library": false,
             "attributes": [
-                "cppmm|rename|stream_is_openexr_file"
+                "cppmm|ignore"
+            ],
+            "namespaces": [
+                27
             ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -3925,13 +3606,13 @@
                     "name": "is",
                     "type": {
                         "kind": "Reference",
-                        "id": 49,
+                        "id": 50,
                         "type": "class Imf_2_5::IStream &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 48,
+                            "id": 49,
                             "type": "Imf_2_5::IStream",
-                            "record": 1228,
+                            "record": 1234,
                             "const": false
                         },
                         "const": false
@@ -3943,11 +3624,11 @@
                     "name": "isTiled",
                     "type": {
                         "kind": "Reference",
-                        "id": 466,
+                        "id": 472,
                         "type": "_Bool &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 53,
+                            "id": 54,
                             "type": "_Bool",
                             "const": false
                         },
@@ -3960,28 +3641,11 @@
                     "name": "isDeep",
                     "type": {
                         "kind": "Reference",
-                        "id": 466,
+                        "id": 472,
                         "type": "_Bool &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 53,
-                            "type": "_Bool",
-                            "const": false
-                        },
-                        "const": false
-                    },
-                    "attrs": []
-                },
-                {
-                    "index": 3,
-                    "name": "isMultiPart",
-                    "type": {
-                        "kind": "Reference",
-                        "id": 466,
-                        "type": "_Bool &",
-                        "pointee": {
-                            "kind": "BuiltinType",
-                            "id": 53,
+                            "id": 54,
                             "type": "_Bool",
                             "const": false
                         },
@@ -4001,9 +3665,12 @@
             "attributes": [
                 "cppmm|rename|stream_is_openexr_file"
             ],
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -4013,13 +3680,13 @@
                     "name": "is",
                     "type": {
                         "kind": "Reference",
-                        "id": 49,
+                        "id": 50,
                         "type": "class Imf_2_5::IStream &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 48,
+                            "id": 49,
                             "type": "Imf_2_5::IStream",
-                            "record": 1228,
+                            "record": 1234,
                             "const": false
                         },
                         "const": false
@@ -4031,11 +3698,11 @@
                     "name": "isTiled",
                     "type": {
                         "kind": "Reference",
-                        "id": 466,
+                        "id": 472,
                         "type": "_Bool &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 53,
+                            "id": 54,
                             "type": "_Bool",
                             "const": false
                         },
@@ -4048,11 +3715,11 @@
                     "name": "isDeep",
                     "type": {
                         "kind": "Reference",
-                        "id": 466,
+                        "id": 472,
                         "type": "_Bool &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 53,
+                            "id": 54,
                             "type": "_Bool",
                             "const": false
                         },
@@ -4065,11 +3732,11 @@
                     "name": "isMultiPart",
                     "type": {
                         "kind": "Reference",
-                        "id": 466,
+                        "id": 472,
                         "type": "_Bool &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 53,
+                            "id": 54,
                             "type": "_Bool",
                             "const": false
                         },
@@ -4089,9 +3756,12 @@
             "attributes": [
                 "cppmm|rename|stream_is_openexr_file"
             ],
+            "namespaces": [
+                27
+            ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -4101,13 +3771,13 @@
                     "name": "is",
                     "type": {
                         "kind": "Reference",
-                        "id": 49,
+                        "id": 50,
                         "type": "class Imf_2_5::IStream &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 48,
+                            "id": 49,
                             "type": "Imf_2_5::IStream",
-                            "record": 1228,
+                            "record": 1234,
                             "const": false
                         },
                         "const": false
@@ -4119,11 +3789,11 @@
                     "name": "isTiled",
                     "type": {
                         "kind": "Reference",
-                        "id": 466,
+                        "id": 472,
                         "type": "_Bool &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 53,
+                            "id": 54,
                             "type": "_Bool",
                             "const": false
                         },
@@ -4136,11 +3806,11 @@
                     "name": "isDeep",
                     "type": {
                         "kind": "Reference",
-                        "id": 466,
+                        "id": 472,
                         "type": "_Bool &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 53,
+                            "id": 54,
                             "type": "_Bool",
                             "const": false
                         },
@@ -4153,11 +3823,11 @@
                     "name": "isMultiPart",
                     "type": {
                         "kind": "Reference",
-                        "id": 466,
+                        "id": 472,
                         "type": "_Bool &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 53,
+                            "id": 54,
                             "type": "_Bool",
                             "const": false
                         },
@@ -4170,16 +3840,19 @@
         {
             "kind": "Function",
             "id": 537,
-            "short_name": "isTiledOpenExrFile",
-            "qualified_name": "Imf_2_5::isTiledOpenExrFile",
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
             "in_binding": false,
             "in_library": false,
             "attributes": [
-                "cppmm|rename|stream_is_tiled_openexr_file"
+                "cppmm|rename|stream_is_openexr_file"
+            ],
+            "namespaces": [
+                27
             ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -4189,13 +3862,64 @@
                     "name": "is",
                     "type": {
                         "kind": "Reference",
-                        "id": 49,
+                        "id": 50,
                         "type": "class Imf_2_5::IStream &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 48,
+                            "id": 49,
                             "type": "Imf_2_5::IStream",
-                            "record": 1228,
+                            "record": 1234,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "isTiled",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 472,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 54,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 2,
+                    "name": "isDeep",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 472,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 54,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 3,
+                    "name": "isMultiPart",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 472,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 54,
+                            "type": "_Bool",
                             "const": false
                         },
                         "const": false
@@ -4207,16 +3931,19 @@
         {
             "kind": "Function",
             "id": 538,
-            "short_name": "isTiledOpenExrFile",
-            "qualified_name": "Imf_2_5::isTiledOpenExrFile",
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
             "in_binding": false,
             "in_library": false,
             "attributes": [
-                "cppmm|rename|stream_is_tiled_openexr_file"
+                "cppmm|rename|stream_is_openexr_file"
+            ],
+            "namespaces": [
+                27
             ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -4226,13 +3953,64 @@
                     "name": "is",
                     "type": {
                         "kind": "Reference",
-                        "id": 49,
+                        "id": 50,
                         "type": "class Imf_2_5::IStream &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 48,
+                            "id": 49,
                             "type": "Imf_2_5::IStream",
-                            "record": 1228,
+                            "record": 1234,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "isTiled",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 472,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 54,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 2,
+                    "name": "isDeep",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 472,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 54,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 3,
+                    "name": "isMultiPart",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 472,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 54,
+                            "type": "_Bool",
                             "const": false
                         },
                         "const": false
@@ -4244,16 +4022,19 @@
         {
             "kind": "Function",
             "id": 539,
-            "short_name": "isDeepOpenExrFile",
-            "qualified_name": "Imf_2_5::isDeepOpenExrFile",
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
             "in_binding": false,
             "in_library": false,
             "attributes": [
-                "cppmm|rename|stream_is_deep_openexr_file"
+                "cppmm|rename|stream_is_openexr_file"
+            ],
+            "namespaces": [
+                27
             ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -4263,13 +4044,64 @@
                     "name": "is",
                     "type": {
                         "kind": "Reference",
-                        "id": 49,
+                        "id": 50,
                         "type": "class Imf_2_5::IStream &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 48,
+                            "id": 49,
                             "type": "Imf_2_5::IStream",
-                            "record": 1228,
+                            "record": 1234,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "isTiled",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 472,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 54,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 2,
+                    "name": "isDeep",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 472,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 54,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 3,
+                    "name": "isMultiPart",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 472,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 54,
+                            "type": "_Bool",
                             "const": false
                         },
                         "const": false
@@ -4281,16 +4113,19 @@
         {
             "kind": "Function",
             "id": 540,
-            "short_name": "isDeepOpenExrFile",
-            "qualified_name": "Imf_2_5::isDeepOpenExrFile",
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
             "in_binding": false,
             "in_library": false,
             "attributes": [
-                "cppmm|rename|stream_is_deep_openexr_file"
+                "cppmm|rename|stream_is_openexr_file"
+            ],
+            "namespaces": [
+                27
             ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -4300,13 +4135,64 @@
                     "name": "is",
                     "type": {
                         "kind": "Reference",
-                        "id": 49,
+                        "id": 50,
                         "type": "class Imf_2_5::IStream &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 48,
+                            "id": 49,
                             "type": "Imf_2_5::IStream",
-                            "record": 1228,
+                            "record": 1234,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "isTiled",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 472,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 54,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 2,
+                    "name": "isDeep",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 472,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 54,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 3,
+                    "name": "isMultiPart",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 472,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 54,
+                            "type": "_Bool",
                             "const": false
                         },
                         "const": false
@@ -4318,16 +4204,19 @@
         {
             "kind": "Function",
             "id": 541,
-            "short_name": "isMultiPartOpenExrFile",
-            "qualified_name": "Imf_2_5::isMultiPartOpenExrFile",
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
             "in_binding": false,
             "in_library": false,
             "attributes": [
-                "cppmm|rename|stream_is_multi_part_openexr_file"
+                "cppmm|rename|stream_is_openexr_file"
+            ],
+            "namespaces": [
+                27
             ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -4337,13 +4226,64 @@
                     "name": "is",
                     "type": {
                         "kind": "Reference",
-                        "id": 49,
+                        "id": 50,
                         "type": "class Imf_2_5::IStream &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 48,
+                            "id": 49,
                             "type": "Imf_2_5::IStream",
-                            "record": 1228,
+                            "record": 1234,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "isTiled",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 472,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 54,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 2,
+                    "name": "isDeep",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 472,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 54,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 3,
+                    "name": "isMultiPart",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 472,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 54,
+                            "type": "_Bool",
                             "const": false
                         },
                         "const": false
@@ -4355,16 +4295,19 @@
         {
             "kind": "Function",
             "id": 542,
-            "short_name": "isMultiPartOpenExrFile",
-            "qualified_name": "Imf_2_5::isMultiPartOpenExrFile",
+            "short_name": "isOpenExrFile",
+            "qualified_name": "Imf_2_5::isOpenExrFile",
             "in_binding": false,
             "in_library": false,
             "attributes": [
-                "cppmm|rename|stream_is_multi_part_openexr_file"
+                "cppmm|rename|stream_is_openexr_file"
+            ],
+            "namespaces": [
+                27
             ],
             "return": {
                 "kind": "BuiltinType",
-                "id": 53,
+                "id": 54,
                 "type": "_Bool",
                 "const": false
             },
@@ -4374,13 +4317,304 @@
                     "name": "is",
                     "type": {
                         "kind": "Reference",
-                        "id": 49,
+                        "id": 50,
                         "type": "class Imf_2_5::IStream &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 48,
+                            "id": 49,
                             "type": "Imf_2_5::IStream",
-                            "record": 1228,
+                            "record": 1234,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "isTiled",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 472,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 54,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 2,
+                    "name": "isDeep",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 472,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 54,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 3,
+                    "name": "isMultiPart",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 472,
+                        "type": "_Bool &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 54,
+                            "type": "_Bool",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 543,
+            "short_name": "isTiledOpenExrFile",
+            "qualified_name": "Imf_2_5::isTiledOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|rename|stream_is_tiled_openexr_file"
+            ],
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 54,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "is",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 50,
+                        "type": "class Imf_2_5::IStream &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 49,
+                            "type": "Imf_2_5::IStream",
+                            "record": 1234,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 544,
+            "short_name": "isTiledOpenExrFile",
+            "qualified_name": "Imf_2_5::isTiledOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|rename|stream_is_tiled_openexr_file"
+            ],
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 54,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "is",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 50,
+                        "type": "class Imf_2_5::IStream &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 49,
+                            "type": "Imf_2_5::IStream",
+                            "record": 1234,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 545,
+            "short_name": "isDeepOpenExrFile",
+            "qualified_name": "Imf_2_5::isDeepOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|rename|stream_is_deep_openexr_file"
+            ],
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 54,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "is",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 50,
+                        "type": "class Imf_2_5::IStream &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 49,
+                            "type": "Imf_2_5::IStream",
+                            "record": 1234,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 546,
+            "short_name": "isDeepOpenExrFile",
+            "qualified_name": "Imf_2_5::isDeepOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|rename|stream_is_deep_openexr_file"
+            ],
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 54,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "is",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 50,
+                        "type": "class Imf_2_5::IStream &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 49,
+                            "type": "Imf_2_5::IStream",
+                            "record": 1234,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 547,
+            "short_name": "isMultiPartOpenExrFile",
+            "qualified_name": "Imf_2_5::isMultiPartOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|rename|stream_is_multi_part_openexr_file"
+            ],
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 54,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "is",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 50,
+                        "type": "class Imf_2_5::IStream &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 49,
+                            "type": "Imf_2_5::IStream",
+                            "record": 1234,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 548,
+            "short_name": "isMultiPartOpenExrFile",
+            "qualified_name": "Imf_2_5::isMultiPartOpenExrFile",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": [
+                "cppmm|rename|stream_is_multi_part_openexr_file"
+            ],
+            "namespaces": [
+                27
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 54,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "is",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 50,
+                        "type": "class Imf_2_5::IStream &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 49,
+                            "type": "Imf_2_5::IStream",
+                            "record": 1234,
                             "const": false
                         },
                         "const": false
