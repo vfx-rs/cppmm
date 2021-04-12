@@ -9,6 +9,7 @@ use std::os::raw::*;
 
 extern "C" {
 
+pub fn _takes_string(s: *const std___cxx11_string_t);
 pub fn _takes_vector_string(v: *const std_vector_string_t);
 
 } // extern "C"
