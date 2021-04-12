@@ -11,6 +11,8 @@
 #include "filesystem.hpp"
 #include "pystring.h"
 
+#include "fmt/format.h"
+
 #include <fstream>
 #include <iostream>
 
@@ -23,12 +25,8 @@ static cl::opt<std::string> opt_in_dir(cl::Positional, cl::desc("<input dir>"),
                                        cl::Required);
 
 static cl::opt<std::string> opt_out_dir(
-    "o", cl::desc("Directory under which output C binding project will be "
-                  "written. Defaults to current directory if not specified."));
-
-static cl::opt<std::string> opt_rust_dir(
-    "r",
-    cl::desc("Directory under which output Rust-sys binding project will be "
+    "o",
+    cl::desc("Directory under which output C and Rust binding projects will be "
              "written. Defaults to current directory if not specified."));
 
 static cl::opt<std::string> opt_project_name(
@@ -65,10 +63,12 @@ void generate(const char* input, const char* project_name, const char* output,
     cppmm::transform::add_c(output_directory, cpp_ast);
 
     // Save out only the c translation units
-    cppmm::write::c(project_name, cpp_ast, starting_point);
+    std::string c_project_name = fmt::format("{}-c", project_name);
+    cppmm::write::c(c_project_name.c_str(), cpp_ast, starting_point);
 
     // Create a cmake file as well
-    cppmm::write::cmake(project_name, cpp_ast, starting_point, libs, lib_dirs);
+    cppmm::write::cmake(c_project_name.c_str(), cpp_ast, starting_point, libs,
+                        lib_dirs);
 
     std::string cwd = fs::current_path().string();
     std::string c_dir = pystring::os::path::abspath(output_directory, cwd);
@@ -84,17 +84,15 @@ int main(int argc, char** argv) {
 
     // Grab the output directory from the options, defaulting to $CWD if not
     // specified.
-    fs::path out_dir = fs::current_path();
+    // Our C and Rust projects will be placed in directories under this,
+    // named project_name-c and project_name-sys, respectively.
+    fs::path cwd = fs::current_path();
+    fs::path out_dir = cwd;
     if (opt_out_dir != "") {
         out_dir = fs::path(opt_out_dir.c_str());
     }
 
-    fs::path rust_dir = fs::current_path();
-    if (opt_out_dir != "") {
-        rust_dir = fs::path(opt_rust_dir.c_str());
-    }
-    fs::path rust_src_dir = rust_dir / "src";
-
+    // must supply a project name
     std::string project_name;
     if (opt_project_name != "") {
         project_name = opt_project_name;
@@ -103,9 +101,13 @@ int main(int argc, char** argv) {
         return -3;
     }
 
+    // create the c and rust directories
+    fs::path c_dir = out_dir / fmt::format("{}-c", project_name);
+    fs::path rust_dir = out_dir / fmt::format("{}-sys", project_name);
+
     // attempt to create the output directory if it doesn't exist
-    if (!fs::is_directory(out_dir) && !fs::create_directories(out_dir)) {
-        std::cerr << "Could not create output directory " << out_dir << "\n";
+    if (!fs::is_directory(c_dir) && !fs::create_directories(c_dir)) {
+        std::cerr << "Could not create output directory " << c_dir << "\n";
         return -1;
     }
 
@@ -115,6 +117,7 @@ int main(int argc, char** argv) {
         return -2;
     }
 
+    fs::path rust_src_dir = rust_dir / "src";
     if (!fs::is_directory(rust_src_dir) &&
         !fs::create_directories(rust_src_dir)) {
         std::cerr << "Could not create Rust src directory " << rust_src_dir
@@ -124,7 +127,7 @@ int main(int argc, char** argv) {
 
     auto libs = to_vector(opt_lib);
     auto lib_dirs = to_vector(opt_lib_dir);
-    generate(opt_in_dir.c_str(), project_name.c_str(), out_dir.c_str(),
+    generate(opt_in_dir.c_str(), project_name.c_str(), c_dir.c_str(),
              rust_dir.c_str(), libs, lib_dirs);
 
     return 0;
