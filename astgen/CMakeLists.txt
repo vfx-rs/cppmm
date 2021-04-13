@@ -2,6 +2,7 @@ add_executable(astgen
   src/astgen.cpp
   src/pystring.cpp
   src/process_binding.cpp
+  src/resources.cpp
   )
 
 target_link_libraries(astgen clangTooling clangBasic clangASTMatchers spdlog::spdlog nlohmann_json::nlohmann_json)

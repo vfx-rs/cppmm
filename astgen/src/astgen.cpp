@@ -16,6 +16,9 @@
 
 #include "process_binding.hpp"
 
+#include "base64.hpp"
+#include "resources.hpp"
+
 #define SPDLOG_ACTIVE_LEVEL TRACE
 
 #include <spdlog/sinks/stdout_color_sinks.h>
@@ -131,8 +134,11 @@ int main(int argc_, const char** argv_) {
         argv[i++] = "--";
         argc++;
     }
+    // argv[i++] = "-isystem";
+    // argv[i++] = respath1.c_str();
+
     argv[i++] = "-isystem";
-    argv[i++] = respath1.c_str();
+    argv[i++] = "/CPPMM_VIRTUAL_INCLUDES";
 #else
     int argc = argc_;
     const char** argv = argv_;
@@ -190,7 +196,7 @@ int main(int argc_, const char** argv_) {
     ClangTool Tool(OptionsParser.getCompilations(),
                    ArrayRef<std::string>(dir_paths));
 
-    Tool.mapVirtualFile("/usr/local/include/cppmm_bind.hpp", R"#(
+    Tool.mapVirtualFile("/CPPMM_VIRTUAL_INCLUDES/cppmm_bind.hpp", R"#(
 #define CPPMM_IGNORE __attribute__((annotate("cppmm|ignore")))
 #define CPPMM_RENAME(x) __attribute__((annotate("cppmm|rename|" #x)))
 #define CPPMM_OPAQUEPTR __attribute__((annotate("cppmm|opaqueptr")))
@@ -201,6 +207,14 @@ int main(int argc_, const char** argv_) {
 
 #define CPPMM_ENUM_STRIP(x) __attribute__((annotate("cppmm|enum_strip|" #x)))
 )#");
+
+    for (int i = 0; i < num_files(); ++i) {
+        std::string vfn = std::string("/CPPMM_VIRTUAL_INCLUDES/") +
+                          cppmm_resource_filename(i);
+        std::cerr << "mapping " << vfn << "\n";
+        Tool.mapVirtualFile(vfn.c_str(),
+                            base64::decode(cppmm_resource_array(i)));
+    }
 
     WARN_UNMATCHED = opt_warn_unbound;
 
