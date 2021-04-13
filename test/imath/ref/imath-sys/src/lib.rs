@@ -18,3 +18,7 @@ pub use imath_box::Imath_2_5__Box_Imath__Vec3_int___t as Imath_Box3i_t;
 pub use imath_box::Imath_2_5__Box_Imath__Vec3_float___extendBy as Imath_Box3f_extendBy;
 pub use imath_box::Imath_2_5__Box_Imath__Vec3_float___extendBy_1 as Imath_Box3f_extendBy_1;
 pub use imath_box::Imath_2_5__Box_Imath__Vec3_int___extendBy as Imath_Box3i_extendBy;
+
+
+#[cfg(test)]
+mod test;

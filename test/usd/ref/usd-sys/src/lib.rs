@@ -16,3 +16,7 @@ pub use tftoken_c::pxrInternal_v0_20__pxrReserved____TfToken_neq_string as pxr_T
 pub use tftoken_c::pxrInternal_v0_20__pxrReserved____TfToken_operator_ as pxr_TfToken_operator_;
 pub use tftoken_c::pxrInternal_v0_20__pxrReserved____TfToken_IsEmpty as pxr_TfToken_IsEmpty;
 pub use tftoken_c::pxrInternal_v0_20__pxrReserved____TfToken_IsImmortal as pxr_TfToken_IsImmortal;
+
+
+#[cfg(test)]
+mod test;

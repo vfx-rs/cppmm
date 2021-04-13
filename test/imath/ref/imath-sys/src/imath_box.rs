@@ -6,13 +6,27 @@ use crate::*;
 use std::os::raw::*;
 
 #[repr(C, align(4))]
+#[derive(Clone)]
 pub struct Imath_2_5__Box_Imath__Vec3_float___t {
     _inner: [u8; 24]
 }
 
+impl Default for Imath_2_5__Box_Imath__Vec3_float___t {
+    fn default() -> Self {
+        Self { _inner: [0u8; 24] }
+    }
+}
+
 #[repr(C, align(4))]
+#[derive(Clone)]
 pub struct Imath_2_5__Box_Imath__Vec3_int___t {
     _inner: [u8; 24]
+}
+
+impl Default for Imath_2_5__Box_Imath__Vec3_int___t {
+    fn default() -> Self {
+        Self { _inner: [0u8; 24] }
+    }
 }
 
 

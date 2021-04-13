@@ -6,18 +6,39 @@ use crate::*;
 use std::os::raw::*;
 
 #[repr(C, align(4))]
+#[derive(Clone)]
 pub struct OpenImageIO_v2_2__ROI_t {
     _inner: [u8; 32]
 }
 
+impl Default for OpenImageIO_v2_2__ROI_t {
+    fn default() -> Self {
+        Self { _inner: [0u8; 32] }
+    }
+}
+
 #[repr(C, align(8))]
+#[derive(Clone)]
 pub struct OpenImageIO_v2_2__ImageSpec_t {
     _inner: [u8; 160]
 }
 
+impl Default for OpenImageIO_v2_2__ImageSpec_t {
+    fn default() -> Self {
+        Self { _inner: [0u8; 160] }
+    }
+}
+
 #[repr(C, align(8))]
+#[derive(Clone)]
 pub struct OpenImageIO_v2_2__ImageInput_t {
     _inner: [u8; 248]
+}
+
+impl Default for OpenImageIO_v2_2__ImageInput_t {
+    fn default() -> Self {
+        Self { _inner: [0u8; 248] }
+    }
 }
 
 

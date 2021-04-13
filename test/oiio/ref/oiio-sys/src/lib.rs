@@ -3,6 +3,9 @@ pub use c_filesystem::OpenImageIO_v2_2__Filesystem__IOProxy_t as OIIO_Filesystem
 pub use c_filesystem::OpenImageIO_v2_2__Filesystem__IOMemReader_t as OIIO_Filesystem_IOMemReader_t;
 
 pub use c_filesystem::OpenImageIO_v2_2__Filesystem__IOProxy__Mode_e as OIIO_Filesystem_IOProxy_Mode;
+pub use c_filesystem::OIIO_Filesystem_IOProxy_Mode_Closed;
+pub use c_filesystem::OIIO_Filesystem_IOProxy_Mode_Read;
+pub use c_filesystem::OIIO_Filesystem_IOProxy_Mode_Write;
 pub use c_filesystem::OpenImageIO_v2_2__Filesystem__IOProxy_delete as OIIO_Filesystem_IOProxy_delete;
 pub use c_filesystem::OpenImageIO_v2_2__Filesystem__IOProxy_proxytype as OIIO_Filesystem_IOProxy_proxytype;
 pub use c_filesystem::OpenImageIO_v2_2__Filesystem__IOProxy_close as OIIO_Filesystem_IOProxy_close;
@@ -30,15 +33,59 @@ pub mod c_typedesc;
 pub use c_typedesc::OpenImageIO_v2_2__TypeDesc_t as OIIO_TypeDesc_t;
 
 pub use c_typedesc::OpenImageIO_v2_2__TypeDesc__BASETYPE_e as OIIO_TypeDesc_BASETYPE;
+pub use c_typedesc::OIIO_TypeDesc_BASETYPE_CHAR;
+pub use c_typedesc::OIIO_TypeDesc_BASETYPE_DOUBLE;
+pub use c_typedesc::OIIO_TypeDesc_BASETYPE_FLOAT;
+pub use c_typedesc::OIIO_TypeDesc_BASETYPE_HALF;
+pub use c_typedesc::OIIO_TypeDesc_BASETYPE_INT;
+pub use c_typedesc::OIIO_TypeDesc_BASETYPE_INT16;
+pub use c_typedesc::OIIO_TypeDesc_BASETYPE_INT32;
+pub use c_typedesc::OIIO_TypeDesc_BASETYPE_INT64;
+pub use c_typedesc::OIIO_TypeDesc_BASETYPE_INT8;
+pub use c_typedesc::OIIO_TypeDesc_BASETYPE_LASTBASE;
+pub use c_typedesc::OIIO_TypeDesc_BASETYPE_LONGLONG;
+pub use c_typedesc::OIIO_TypeDesc_BASETYPE_NONE;
+pub use c_typedesc::OIIO_TypeDesc_BASETYPE_PTR;
+pub use c_typedesc::OIIO_TypeDesc_BASETYPE_SHORT;
+pub use c_typedesc::OIIO_TypeDesc_BASETYPE_STRING;
+pub use c_typedesc::OIIO_TypeDesc_BASETYPE_UCHAR;
+pub use c_typedesc::OIIO_TypeDesc_BASETYPE_UINT;
+pub use c_typedesc::OIIO_TypeDesc_BASETYPE_UINT16;
+pub use c_typedesc::OIIO_TypeDesc_BASETYPE_UINT32;
+pub use c_typedesc::OIIO_TypeDesc_BASETYPE_UINT64;
+pub use c_typedesc::OIIO_TypeDesc_BASETYPE_UINT8;
+pub use c_typedesc::OIIO_TypeDesc_BASETYPE_ULONGLONG;
+pub use c_typedesc::OIIO_TypeDesc_BASETYPE_UNKNOWN;
+pub use c_typedesc::OIIO_TypeDesc_BASETYPE_USHORT;
 pub use c_typedesc::OpenImageIO_v2_2__TypeDesc__AGGREGATE_e as OIIO_TypeDesc_AGGREGATE;
+pub use c_typedesc::OIIO_TypeDesc_AGGREGATE_MATRIX33;
+pub use c_typedesc::OIIO_TypeDesc_AGGREGATE_MATRIX44;
+pub use c_typedesc::OIIO_TypeDesc_AGGREGATE_SCALAR;
+pub use c_typedesc::OIIO_TypeDesc_AGGREGATE_VEC2;
+pub use c_typedesc::OIIO_TypeDesc_AGGREGATE_VEC3;
+pub use c_typedesc::OIIO_TypeDesc_AGGREGATE_VEC4;
 pub use c_typedesc::OpenImageIO_v2_2__TypeDesc__VECSEMANTICS_e as OIIO_TypeDesc_VECSEMANTICS;
+pub use c_typedesc::OIIO_TypeDesc_VECSEMANTICS_COLOR;
+pub use c_typedesc::OIIO_TypeDesc_VECSEMANTICS_KEYCODE;
+pub use c_typedesc::OIIO_TypeDesc_VECSEMANTICS_NORMAL;
+pub use c_typedesc::OIIO_TypeDesc_VECSEMANTICS_NOSEMANTICS;
+pub use c_typedesc::OIIO_TypeDesc_VECSEMANTICS_NOXFORM;
+pub use c_typedesc::OIIO_TypeDesc_VECSEMANTICS_POINT;
+pub use c_typedesc::OIIO_TypeDesc_VECSEMANTICS_RATIONAL;
+pub use c_typedesc::OIIO_TypeDesc_VECSEMANTICS_TIMECODE;
+pub use c_typedesc::OIIO_TypeDesc_VECSEMANTICS_VECTOR;
 pub mod c_imageio;
 pub use c_imageio::OpenImageIO_v2_2__ROI_t as OIIO_ROI_t;
 pub use c_imageio::OpenImageIO_v2_2__ImageSpec_t as OIIO_ImageSpec_t;
 pub use c_imageio::OpenImageIO_v2_2__ImageInput_t as OIIO_ImageInput_t;
 
 pub use c_imageio::OpenImageIO_v2_2__ImageSpec__SerialFormat_e as OIIO_ImageSpec_SerialFormat;
+pub use c_imageio::OIIO_ImageSpec_SerialFormat_SerialText;
+pub use c_imageio::OIIO_ImageSpec_SerialFormat_SerialXML;
 pub use c_imageio::OpenImageIO_v2_2__ImageSpec__SerialVerbose_e as OIIO_ImageSpec_SerialVerbose;
+pub use c_imageio::OIIO_ImageSpec_SerialVerbose_SerialBrief;
+pub use c_imageio::OIIO_ImageSpec_SerialVerbose_SerialDetailed;
+pub use c_imageio::OIIO_ImageSpec_SerialVerbose_SerialDetailedHuman;
 pub use c_imageio::OpenImageIO_v2_2__ROI_default as OIIO_ROI_default;
 pub use c_imageio::OpenImageIO_v2_2__ROI_defined as OIIO_ROI_defined;
 pub use c_imageio::OpenImageIO_v2_2__ROI_width as OIIO_ROI_width;
@@ -58,3 +105,7 @@ pub use c_imageio::OpenImageIO_v2_2__ImageSpec_assign as OIIO_ImageSpec_assign;
 pub use c_imageio::OpenImageIO_v2_2__ImageInput_format_name as OIIO_ImageInput_format_name;
 pub use c_imageio::OpenImageIO_v2_2_roi_union as OIIO_roi_union;
 pub use c_imageio::OpenImageIO_v2_2_roi_intersection as OIIO_roi_intersection;
+
+
+#[cfg(test)]
+mod test;

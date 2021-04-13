@@ -6,13 +6,27 @@ use crate::*;
 use std::os::raw::*;
 
 #[repr(C, align(8))]
+#[derive(Clone)]
 pub struct OpenImageIO_v2_2__Filesystem__IOProxy_t {
     _inner: [u8; 88]
 }
 
+impl Default for OpenImageIO_v2_2__Filesystem__IOProxy_t {
+    fn default() -> Self {
+        Self { _inner: [0u8; 88] }
+    }
+}
+
 #[repr(C, align(8))]
+#[derive(Clone)]
 pub struct OpenImageIO_v2_2__Filesystem__IOMemReader_t {
     _inner: [u8; 104]
+}
+
+impl Default for OpenImageIO_v2_2__Filesystem__IOMemReader_t {
+    fn default() -> Self {
+        Self { _inner: [0u8; 104] }
+    }
 }
 
 
