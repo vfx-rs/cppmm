@@ -203,6 +203,9 @@ void write_translation_unit(const char* out_dir, fmt::ostream& out_lib,
         out.print("\n");
         out_lib.print("pub use {}::{} as {};\n", mod_name, n->name,
                       n->nice_name);
+        for (const auto& p : n->variants) {
+            out_lib.print("pub use {}::{};\n", mod_name, p.first);
+        }
     }
 
     out.print("\n");
