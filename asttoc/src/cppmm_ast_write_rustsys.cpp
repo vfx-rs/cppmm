@@ -121,9 +121,19 @@ void write_function(fmt::ostream& out, const NodeFunction* node_function) {
 
 void write_record(fmt::ostream& out, const NodeRecord* node_record) {
     out.print("#[repr(C, align({}))]\n", node_record->align / 8);
+    out.print("#[derive(Clone)]\n");
     out.print("pub struct {} {{\n", node_record->name);
     out.print("    _inner: [u8; {}]\n", node_record->size / 8);
     out.print("}}\n");
+
+    out.print(R"(
+impl Default for {} {{
+    fn default() -> Self {{
+        Self {{ _inner: [0u8; {}] }}
+    }}
+}}
+)",
+              node_record->name, node_record->size / 8);
 }
 
 void write_enum(fmt::ostream& out, const NodeEnum* node_enum) {
@@ -228,6 +238,18 @@ void write(const char* out_dir, const char* project_name, const char* c_dir,
         const auto& tu = root.tus[i];
         write_translation_unit(out_dir, out_lib, *tu);
     }
+
+    // write the test import and an empty test file
+    auto p_test = rust_src / "test.rs";
+    auto out_test = fmt::output_file(p_test.string());
+    out_test.print("// Empty dummy test file for automated testing. This will "
+                   "be replaced by a file copied in from the test suite\n");
+
+    out_lib.print(R"#(
+
+#[cfg(test)]
+mod test;
+)#");
 
     std::string cargo_toml = fmt::format(R"(
 [package]
