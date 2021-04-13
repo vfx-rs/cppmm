@@ -208,12 +208,19 @@ int main(int argc_, const char** argv_) {
 #define CPPMM_ENUM_STRIP(x) __attribute__((annotate("cppmm|enum_strip|" #x)))
 )#");
 
+    std::vector<std::string> decoded_headers;
+    decoded_headers.reserve(num_files());
+    std::vector<std::string> virtual_filenames;
+    virtual_filenames.reserve(num_files());
+
     for (int i = 0; i < num_files(); ++i) {
-        std::string vfn = std::string("/CPPMM_VIRTUAL_INCLUDES/") +
-                          cppmm_resource_filename(i);
-        std::cerr << "mapping " << vfn << "\n";
-        Tool.mapVirtualFile(vfn.c_str(),
-                            base64::decode(cppmm_resource_array(i)));
+        virtual_filenames.push_back(std::string("/CPPMM_VIRTUAL_INCLUDES/") +
+                                    cppmm_resource_filename(i));
+        decoded_headers.push_back(base64::decode(cppmm_resource_array(i)));
+    }
+
+    for (int i = 0; i < num_files(); ++i) {
+        Tool.mapVirtualFile(virtual_filenames[i], decoded_headers[i]);
     }
 
     WARN_UNMATCHED = opt_warn_unbound;
