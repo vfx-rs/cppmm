@@ -9,9 +9,9 @@ public:
     using BoundType = ::half;
 
     half();
-    half(float f);
+    half(float f) CPPMM_RENAME(from_float);
     ~half();
-    half(const ::half& rhs);
+    half(const ::half& rhs) CPPMM_RENAME(copy);
     half(::half&&) CPPMM_IGNORE;
 
     operator float() const;
@@ -52,7 +52,5 @@ public:
     HALF_EXPORT void setBits(unsigned short bits);
 
 } CPPMM_OPAQUEBYTES;
-
-using Imath_2_5_half = ::half;
 
 } // namespace cppmm_bind
