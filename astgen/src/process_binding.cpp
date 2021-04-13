@@ -79,17 +79,6 @@ std::string get_record_name(const CXXRecordDecl* crd) {
                                 .getAsString());
 }
 
-/*
-std::string mangle_decl(const NamedDecl* nd) {
-    // auto mng_ctx = nd->getASTContext().createMangleContext();
-    // std::string s;
-    // llvm::raw_string_ostream os(s);
-    // mng_ctx->mangleCXXName(nd, os);
-    // return os.str();
-    return fmt::format("{}", (void*)nd->getCanonicalDecl());
-}
-*/
-
 std::string get_namespace_path(const DeclContext* dc) {
     std::string result;
     auto* parent = dc->getParent();
@@ -109,7 +98,7 @@ std::string get_namespace_path(const DeclContext* dc) {
     return result;
 }
 
-std::string mangle_decl(const CXXRecordDecl* crd);
+std::string mangle_decl(const TagDecl* crd);
 
 std::string mangle_type(const QualType& qt) {
     std::string const_ = "";
@@ -138,6 +127,9 @@ std::string mangle_type(const QualType& qt) {
     } else if (qt->isBuiltinType()) {
         return fmt::format("{}{}", const_,
                            qt.getUnqualifiedType().getAsString());
+    } else if (qt->isEnumeralType()) {
+        auto ed = qt->getAsTagDecl();
+        return fmt::format("{}{}", const_, mangle_decl(ed));
     } else {
         const auto type_name = qt.getUnqualifiedType().getAsString();
         SPDLOG_WARN("Unhandled type in mangling {}", type_name);
@@ -159,7 +151,7 @@ mangle_template_args(const TemplateArgumentList& args) {
         } else if (arg.getKind() == TemplateArgument::ArgKind::NullPtr) {
             result.push_back("NullPtr");
         } else if (arg.getKind() == TemplateArgument::ArgKind::Integral) {
-            result.push_back("Integral");
+            result.push_back(arg.getAsIntegral().toString(10));
         } else if (arg.getKind() == TemplateArgument::ArgKind::Template) {
             result.push_back("Template");
         } else if (arg.getKind() ==
@@ -175,7 +167,7 @@ mangle_template_args(const TemplateArgumentList& args) {
     return result;
 }
 
-std::string mangle_decl(const CXXRecordDecl* crd) {
+std::string mangle_decl(const TagDecl* crd) {
     std::string namespace_path = get_namespace_path(crd);
 
     if (const auto* ctd = dyn_cast<ClassTemplateSpecializationDecl>(crd)) {
