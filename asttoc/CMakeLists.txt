@@ -17,3 +17,5 @@ target_include_directories(asttoc PRIVATE fmt/include)
 target_include_directories(asttoc PRIVATE ${LLVM_INCLUDE_DIRS})
 
 target_link_libraries(asttoc fmt LLVMSupport)
+
+install(TARGETS asttoc DESTINATION ${CMAKE_INSTALL_BINDIR})

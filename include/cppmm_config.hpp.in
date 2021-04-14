@@ -1,0 +1,13 @@
+#pragma once
+
+#define CPPMM_MAJOR_VERSION @CPPMM_MAJOR_VERSION@
+#define CPPMM_MINOR_VERSION @CPPMM_MINOR_VERSION@
+#define CPPMM_PATCH_VERSION @CPPMM_PATCH_VERSION@
+
+namespace cppmm {
+
+inline const char* version() {
+    return "@CPPMM_VERSION@";
+}
+
+}

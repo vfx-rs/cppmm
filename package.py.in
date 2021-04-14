@@ -1,0 +1,5 @@
+name = 'cppmm'
+version = '@CPPMM_VERSION@'
+
+def commands():
+    env.PATH.append('{root}/bin')

@@ -18,3 +18,4 @@ target_include_directories(astgen
     PRIVATE 
     ${LLVM_INCLUDE_DIRS})
 
+install(TARGETS astgen DESTINATION ${CMAKE_INSTALL_BINDIR})

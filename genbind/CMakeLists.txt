@@ -7,3 +7,5 @@ target_link_libraries(genbind clangTooling clangBasic clangASTMatchers spdlog::s
 target_compile_definitions(genbind PRIVATE SPDLOG_ACTIVE_LEVEL=TRACE)
 target_include_directories(genbind PRIVATE ${LLVM_INCLUDE_DIRS})
 
+install(TARGETS genbind DESTINATION ${CMAKE_INSTALL_BINDIR})
+install(FILES src/genbind.py DESTINATION ${CMAKE_INSTALL_BINDIR})
