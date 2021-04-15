@@ -62,7 +62,7 @@ std::string sanitize_keyword(std::string s) {
         s == "use" || s == "where" || s == "async" || s == "await" ||
         s == "dyn" || s == "abstract" || s == "become" || s == "box" ||
         s == "final" || s == "macro" || s == "priv" || s == "typeof" ||
-        s == "unsized" || s == "yield") {
+        s == "unsized" || s == "yield" || s == "override") {
         return s + "_";
     }
     return s;
