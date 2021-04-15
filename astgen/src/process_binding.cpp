@@ -1649,10 +1649,20 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
     SourceManager& sm = ctx.getSourceManager();
     const auto& loc = crd->getLocation();
 
-    crd = crd->getCanonicalDecl()
-              ->getDefinition(); // TODO: this seems to do what we want... but
-                                 // does it? Can you imagine a world in which
-                                 // Clang was actually documented?
+    const auto* can_rd =
+        crd->getCanonicalDecl()
+            ->getDefinition(); // TODO: this seems to do what we want... but
+                               // does it? Can you imagine a world in which
+                               // Clang was actually documented?
+    if (can_rd != nullptr) {
+        crd = can_rd;
+    } else {
+        SPDLOG_ERROR("Could not get canonical decl definition from {}",
+                     crd->getQualifiedNameAsString());
+        SPDLOG_ERROR("can def is {}", (void*)crd->getCanonicalDecl());
+        crd->dump();
+    }
+
     const std::string record_name = get_record_name(crd);
     const std::string short_name = crd->getNameAsString();
 
@@ -1972,7 +1982,7 @@ void handle_library_function(const FunctionDecl* fd) {
 
     auto it = binding_functions.find(function_qual_name);
     if (it == binding_functions.end()) {
-        SPDLOG_CRITICAL(
+        SPDLOG_TRACE(
             "function {} matched but is not present in binding functions table",
             function_qual_name);
         return;
