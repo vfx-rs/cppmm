@@ -66,6 +66,10 @@ std::string strip_name_kinds(std::string s) {
     s = pystring::replace(s, "struct ", "");
     s = pystring::replace(s, "enum ", "");
     s = pystring::replace(s, "union ", "");
+
+    // and get rid of any nasty characters
+    s = pystring::replace(s, "-", "neg");
+
     return s;
 }
 
@@ -151,7 +155,8 @@ mangle_template_args(const TemplateArgumentList& args) {
         } else if (arg.getKind() == TemplateArgument::ArgKind::NullPtr) {
             result.push_back("NullPtr");
         } else if (arg.getKind() == TemplateArgument::ArgKind::Integral) {
-            result.push_back(arg.getAsIntegral().toString(10));
+            result.push_back(
+                ps::replace(arg.getAsIntegral().toString(10), "-", "neg"));
         } else if (arg.getKind() == TemplateArgument::ArgKind::Template) {
             result.push_back("Template");
         } else if (arg.getKind() ==
