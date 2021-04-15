@@ -245,8 +245,14 @@ void write(const char* out_dir, const char* project_name, const char* c_dir,
     // write the test import and an empty test file
     auto p_test = rust_src / "test.rs";
     auto out_test = fmt::output_file(p_test.string());
-    out_test.print("// Empty dummy test file for automated testing. This will "
-                   "be replaced by a file copied in from the test suite\n");
+    out_test.print(
+        R"(// Empty dummy test file for automated testing. This will be replaced by a 
+// file copied in from the test suite
+
+#[test]
+fn it_works() {{
+    assert!(true, "It works!");
+}})");
 
     out_lib.print(R"#(
 
