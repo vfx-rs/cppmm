@@ -48,7 +48,7 @@ std::string convert_builtin_type(const NodeBuiltinType* t) {
     } else if (t->type_name == "double") {
         return "c_double";
     } else if (t->type_name == "void") {
-        return "void";
+        return "c_void";
     }
     cassert(false, fmt::format("Unhandled builtin {}", t->type_name));
     return t->type_name;
