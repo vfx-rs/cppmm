@@ -1399,6 +1399,59 @@ void opaquebytes_conversions(TranslationUnit& c_tu,
 }
 
 //------------------------------------------------------------------------------
+// BindType
+//------------------------------------------------------------------------------
+enum class BindType : uint32_t {
+    OpaquePtr = 0,
+    OpaqueBytes = 1,
+    ValueType = 2,
+};
+
+//------------------------------------------------------------------------------
+BindType bind_type(const NodeRecord & cpp_record,
+                   const NodeRecordPtr & c_record)
+{
+    BindType bind_type = BindType::ValueType;
+    for( auto i: cpp_record.attributes )
+    {
+        if(i == "cppmm|opaquebytes")
+        {
+            return BindType::OpaquePtr;
+        }
+        else if(i == "cppmm|valuetype")
+        {
+            return BindType::ValueType;
+        }
+    }
+
+    return bind_type;
+}
+
+//------------------------------------------------------------------------------
+void value_types(TypeRegistry & type_registry, TranslationUnit & c_tu,
+                 const NodeRecord & cpp_record, NodeRecordPtr & c_record)
+{
+}
+
+//------------------------------------------------------------------------------
+void record_fields(TypeRegistry & type_registry, TranslationUnit & c_tu,
+                   const NodeRecord & cpp_record, NodeRecordPtr & c_record)
+{
+    switch bind_type(c_record)
+    {
+        case kRecordType_OpaqueBytes:
+            opaquebytes_record(c_record);
+            return;
+        case kRecordType_OpaquePtr:
+            opaquebytes_record(c_record);
+            return;
+        case kRecordType_ValueType:
+            valuetype_record(type_registry, c_tu, cpp_record, c_record);
+            return;
+    }
+}
+
+//------------------------------------------------------------------------------
 void record_detail(TypeRegistry& type_registry, TranslationUnit& c_tu,
                    const NodePtr& cpp_node) {
     const auto& cpp_record = *static_cast<NodeRecord*>(cpp_node.get());
@@ -1414,7 +1467,7 @@ void record_detail(TypeRegistry& type_registry, TranslationUnit& c_tu,
     // So doing that first. Later will switch depending on the cppm attributes.
 
     // Record
-    opaquebytes_record(c_record);
+    record_fields(type_registry, c_tu, cpp_record, c_record);
 
     // Methods
     NodePtr copy_constructor;
