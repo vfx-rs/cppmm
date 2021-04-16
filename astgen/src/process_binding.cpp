@@ -203,6 +203,7 @@ enum class NodeKind : uint32_t {
     Enum,
     ConstantArrayType,
     Var,
+    FunctionPointerTypedef,
 };
 
 std::ostream& operator<<(std::ostream& os, NodeKind k) {
@@ -251,6 +252,9 @@ std::ostream& operator<<(std::ostream& os, NodeKind k) {
         break;
     case NodeKind::Var:
         os << "Var";
+        break;
+    case NodeKind::FunctionPointerTypedef:
+        os << "FunctionPointerTypedef";
         break;
     }
     return os;
@@ -309,6 +313,8 @@ std::unordered_map<std::string, NodeId> NODE_MAP;
 std::vector<NodeId> ROOT;
 /// Namespace aliases
 std::unordered_map<std::string, std::string> NAMESPACE_ALIASES;
+/// Function prototype typedefs
+std::unordered_map<std::string, std::string> FPT_TYPEDEFS;
 
 /// Represents one translation unit (TU), i.e. one binding source file.
 /// NodeTranslationUnit::qualified_name contains the filename
@@ -532,12 +538,16 @@ struct NodeFunctionProtoType : public NodeType {
     QType return_type;
     /// Function parameters
     std::vector<QType> params;
+    NodeId function_pointer_typedef;
+
     NodeFunctionProtoType(std::string qualified_name, NodeId id, NodeId context,
                           std::string type_name, QType return_type,
-                          std::vector<QType> params)
+                          std::vector<QType> params,
+                          NodeId function_pointer_typedef)
         : NodeType(qualified_name, id, context, NodeKind::FunctionProtoType,
                    type_name),
-          return_type(std::move(return_type)), params(std::move(params)) {}
+          return_type(std::move(return_type)), params(std::move(params)),
+          function_pointer_typedef(function_pointer_typedef) {}
 
     virtual void write_json_attrs(json& o) const override {
         NodeType::write_json_attrs(o);
@@ -558,6 +568,8 @@ struct NodeFunctionProtoType : public NodeType {
             param.write_json(p["type"]);
             o["params"].emplace_back(p);
         }
+
+        o["function_pointer_typedef"] = function_pointer_typedef;
     }
 };
 
@@ -921,6 +933,36 @@ struct NodeEnum : public NodeAttributeHolder {
     }
 };
 
+/// An function pointer typedef declaration. Used to name function pointer
+/// types so that they can be used as parameters
+struct NodeFunctionPointerTypedef : public NodeAttributeHolder {
+    /// Name of the typedef without any qualifiers
+    std::string alias;
+    /// Full namespace path
+    std::vector<NodeId> namespaces;
+
+    NodeFunctionPointerTypedef(std::string qualified_name, NodeId id,
+                               NodeId context, std::vector<std::string> attrs,
+                               std::string alias,
+                               std::vector<NodeId> namespaces)
+        : NodeAttributeHolder(qualified_name, id, context, NodeKind::Enum,
+                              attrs),
+          alias(std::move(alias)), namespaces(std::move(namespaces)) {}
+
+    virtual void write_json_attrs(json& o) const override {
+        NodeAttributeHolder::write_json_attrs(o);
+    }
+
+    virtual void write_json(json& o) const override {
+        o["kind"] = "FunctionPointerTypedef";
+        o["name"] = qualified_name;
+        o["alias"] = alias;
+        o["namespaces"] = namespaces;
+        write_json_attrs(o);
+        write_attrs_json(o);
+    }
+};
+
 /// Write out the AST to json output files. Each NodeTranslationUnit which
 /// is a child of the ROOT is written to its own json file and all decls in
 /// that TU are written recursively
@@ -1000,6 +1042,7 @@ QType process_qtype(const QualType& qt);
 NodeId process_function_proto_type(const FunctionProtoType* fpt,
                                    std::string type_name,
                                    std::string type_node_name) {
+    SPDLOG_TRACE("Got FPT {}", type_name);
     auto it = NODE_MAP.find(type_node_name);
     if (it != NODE_MAP.end()) {
         // already have an entry for this
@@ -1011,10 +1054,17 @@ NodeId process_function_proto_type(const FunctionProtoType* fpt,
             params.push_back(process_qtype(pqt));
         }
 
+        // See if we've got a typedef for this funtion pointer type
+        NodeId typedef_id = -1;
+        const auto it = NODE_MAP.find(type_name);
+        if (it != NODE_MAP.end()) {
+            typedef_id = it->second;
+        }
+
         NodeId id = NODES.size();
         auto node_ptr = std::make_unique<NodeFunctionProtoType>(
             type_node_name, id, 0, std::move(type_name), std::move(return_type),
-            std::move(params));
+            std::move(params), typedef_id);
         NODES.emplace_back(std::move(node_ptr));
         NODE_MAP[type_node_name] = id;
         return id;
@@ -2055,18 +2105,74 @@ void handle_library_var(const VarDecl* vd) {
     process_var_decl(vd, std::move(filename));
 }
 
+void handle_function_pointer_typedef(const QualType& ty,
+                                     const TypedefNameDecl* tdd) {
+    const auto qname = tdd->getQualifiedNameAsString();
+    SPDLOG_DEBUG("Got FPT Typedef {} -> {}", ty->getPointeeType().getAsString(),
+                 qname);
+
+    const auto fp_name = ty->getPointeeType().getAsString();
+
+    const auto it = NODE_MAP.find(fp_name);
+    if (it != NODE_MAP.end()) {
+        return;
+    }
+
+    ASTContext& ctx = tdd->getASTContext();
+    SourceManager& sm = ctx.getSourceManager();
+    const auto& loc = tdd->getLocation();
+    std::string filename = sm.getFilename(loc).str();
+
+    // Get the translation unit node we're going to add this function pointer to
+    auto* node_tu = get_translation_unit(filename);
+
+    auto decl_ctx = tdd->getDeclContext();
+
+    auto namespaces = get_namespaces(decl_ctx, node_tu);
+
+    const auto id = NODES.size();
+    auto node_fpt = std::make_unique<NodeFunctionPointerTypedef>(
+        qname, id, -1, std::vector<std::string>{}, tdd->getNameAsString(),
+        namespaces);
+    NODES.emplace_back(std::move(node_fpt));
+    NODE_MAP[fp_name] = id;
+
+    node_tu->children.push_back(id);
+}
+
 /// Clang AST matcher that matches on the decls we're interested in in the
 /// bindings and dispatches to our handling functions
 void ProcessBindingCallback::run(const MatchFinder::MatchResult& result) {
     if (const CXXRecordDecl* rec_decl =
             result.Nodes.getNodeAs<CXXRecordDecl>("recordDecl")) {
         handle_cxx_record_decl(rec_decl);
-    } else if (const TypeAliasDecl* tdecl =
+    } else if (const TypeAliasDecl* tad =
                    result.Nodes.getNodeAs<TypeAliasDecl>("typeAliasDecl")) {
-        if (const auto* crd =
-                tdecl->getUnderlyingType()->getAsCXXRecordDecl()) {
-            handle_typealias_decl(tdecl, crd);
+        if (const auto* crd = tad->getUnderlyingType()->getAsCXXRecordDecl()) {
+            handle_typealias_decl(tad, crd);
+        } else {
+            SPDLOG_DEBUG("Got other TAD");
+            tad->dump();
+            QualType ty = tad->getUnderlyingType();
+            if (ty->isPointerType() &&
+                ty->getPointeeType()->isFunctionProtoType()) {
+                FPT_TYPEDEFS[ty->getPointeeType().getAsString()] =
+                    tad->getNameAsString();
+                handle_function_pointer_typedef(ty, tad);
+            }
         }
+    } else if (const auto* tdd =
+                   result.Nodes.getNodeAs<TypedefDecl>("typedefDecl")) {
+        SPDLOG_DEBUG("Got TDD");
+        tdd->dump();
+        QualType ty = tdd->getUnderlyingType();
+        if (ty->isPointerType() &&
+            ty->getPointeeType()->isFunctionProtoType()) {
+            FPT_TYPEDEFS[ty->getPointeeType().getAsString()] =
+                tdd->getNameAsString();
+            handle_function_pointer_typedef(ty, tdd);
+        }
+
     } else if (const FunctionDecl* function =
                    result.Nodes.getNodeAs<FunctionDecl>("functionDecl")) {
         handle_binding_function(function);
@@ -2118,10 +2224,16 @@ ProcessBindingConsumer::ProcessBindingConsumer(ASTContext* context) {
     _match_finder.addMatcher(record_decl_matcher, &_handler);
 
     // match all typedef declrations in the cppmm_bind namespace
-    DeclarationMatcher typedef_decl_matcher =
+    DeclarationMatcher type_alias_decl_matcher =
         typeAliasDecl(hasAncestor(namespaceDecl(hasName("cppmm_bind"))),
                       unless(hasAncestor(recordDecl())), unless(isImplicit()))
             .bind("typeAliasDecl");
+    _match_finder.addMatcher(type_alias_decl_matcher, &_handler);
+
+    DeclarationMatcher typedef_decl_matcher =
+        typedefDecl(hasAncestor(namespaceDecl(hasName("cppmm_bind"))),
+                    unless(hasAncestor(recordDecl())), unless(isImplicit()))
+            .bind("typedefDecl");
     _match_finder.addMatcher(typedef_decl_matcher, &_handler);
 
     // match all function declarations
