@@ -53,6 +53,4 @@ public:
 
 } CPPMM_OPAQUEBYTES;
 
-using c_half = ::half;
-
 } // namespace cppmm_bind
