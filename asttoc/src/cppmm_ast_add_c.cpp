@@ -381,6 +381,24 @@ NodeTypePtr convert_enum_type(TranslationUnit& c_tu,
 }
 
 //------------------------------------------------------------------------------
+NodeTypePtr convert_array_type(TranslationUnit& c_tu,
+                               TypeRegistry& type_registry, const NodeTypePtr& t,
+                               bool in_reference) {
+    auto a = static_cast<const NodeArrayType*>(t.get());
+
+    auto element_type =
+        convert_type(c_tu, type_registry, a->element_type, in_reference);
+
+    // If we can't convert, then dont bother with this type either
+    if (!element_type) {
+        return NodeTypePtr();
+    }
+
+    return NodeArrayType::n("", 0, "", std::move(element_type), a->size,
+                            a->const_);
+}
+
+//------------------------------------------------------------------------------
 NodeTypePtr convert_pointer_type(TranslationUnit& c_tu,
                                  TypeRegistry& type_registry,
                                  const NodeTypePtr& t, bool in_reference) {
@@ -411,9 +429,10 @@ NodeTypePtr convert_type(TranslationUnit& c_tu, TypeRegistry& type_registry,
         return convert_pointer_type(c_tu, type_registry, t, in_reference);
     case NodeKind::EnumType:
         return convert_enum_type(c_tu, type_registry, t, in_reference);
+    case NodeKind::ArrayType:
+        return convert_array_type(c_tu, type_registry, t, in_reference);
 
     // Unsupported for the moment
-    case NodeKind::ArrayType:
     case NodeKind::FunctionProtoType:
         return NodeTypePtr();
     default:
@@ -551,6 +570,8 @@ std::string compute_to_cpp_name(const TypeRegistry& type_registry,
         return compute_to_cpp_name(
             type_registry,
             static_cast<const NodePointerType*>(p->pointee_type.get()), suffix);
+    case NodeKind::ArrayType:
+        return std::string(suffix); // TODO LT: Not sure if this is correct
     case NodeKind::RecordType:
         return std::string(suffix);
     case NodeKind::EnumType:
