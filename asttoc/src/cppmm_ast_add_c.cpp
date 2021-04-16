@@ -1408,11 +1408,10 @@ enum class BindType : uint32_t {
 };
 
 //------------------------------------------------------------------------------
-BindType bind_type(const NodeRecord & cpp_record,
-                   const NodeRecordPtr & c_record)
+BindType bind_type(const NodeRecord & cpp_record)
 {
     BindType bind_type = BindType::ValueType;
-    for( auto i: cpp_record.attributes )
+    for( auto i: cpp_record.attrs )
     {
         if(i == "cppmm|opaquebytes")
         {
@@ -1428,24 +1427,24 @@ BindType bind_type(const NodeRecord & cpp_record,
 }
 
 //------------------------------------------------------------------------------
-void value_types(TypeRegistry & type_registry, TranslationUnit & c_tu,
-                 const NodeRecord & cpp_record, NodeRecordPtr & c_record)
+void valuetype_record(TypeRegistry & type_registry, TranslationUnit & c_tu,
+                      const NodeRecord & cpp_record, NodeRecord & c_record)
 {
 }
 
 //------------------------------------------------------------------------------
 void record_fields(TypeRegistry & type_registry, TranslationUnit & c_tu,
-                   const NodeRecord & cpp_record, NodeRecordPtr & c_record)
+                   const NodeRecord & cpp_record, NodeRecord & c_record)
 {
-    switch bind_type(c_record)
+    switch (bind_type(cpp_record))
     {
-        case kRecordType_OpaqueBytes:
+        case BindType::OpaqueBytes:
             opaquebytes_record(c_record);
             return;
-        case kRecordType_OpaquePtr:
+        case BindType::OpaquePtr:
             opaquebytes_record(c_record);
             return;
-        case kRecordType_ValueType:
+        case BindType::ValueType:
             valuetype_record(type_registry, c_tu, cpp_record, c_record);
             return;
     }
