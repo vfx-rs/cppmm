@@ -382,8 +382,8 @@ NodeTypePtr convert_enum_type(TranslationUnit& c_tu,
 
 //------------------------------------------------------------------------------
 NodeTypePtr convert_array_type(TranslationUnit& c_tu,
-                               TypeRegistry& type_registry, const NodeTypePtr& t,
-                               bool in_reference) {
+                               TypeRegistry& type_registry,
+                               const NodeTypePtr& t, bool in_reference) {
     auto a = static_cast<const NodeArrayType*>(t.get());
 
     auto element_type =
@@ -1429,17 +1429,12 @@ enum class BindType : uint32_t {
 };
 
 //------------------------------------------------------------------------------
-BindType bind_type(const NodeRecord & cpp_record)
-{
+BindType bind_type(const NodeRecord& cpp_record) {
     BindType bind_type = BindType::OpaquePtr;
-    for( auto i: cpp_record.attrs )
-    {
-        if(i == "cppmm|opaquebytes")
-        {
+    for (auto i : cpp_record.attrs) {
+        if (i == "cppmm|opaquebytes") {
             return BindType::OpaquePtr;
-        }
-        else if(i == "cppmm|valuetype")
-        {
+        } else if (i == "cppmm|valuetype") {
             return BindType::ValueType;
         }
     }
@@ -1448,44 +1443,39 @@ BindType bind_type(const NodeRecord & cpp_record)
 }
 
 //------------------------------------------------------------------------------
-void valuetype_fields(TypeRegistry & type_registry, TranslationUnit & c_tu,
-                      const NodeRecord & cpp_record, NodeRecord & c_record)
-{
-    for(const auto & field : cpp_record.fields)
-    {
+void valuetype_fields(TypeRegistry& type_registry, TranslationUnit& c_tu,
+                      const NodeRecord& cpp_record, NodeRecord& c_record) {
+    for (const auto& field : cpp_record.fields) {
         auto c_field_type = convert_type(c_tu, type_registry, field.type);
         if (!c_field_type) {
             std::cerr << "Found unsupported type for field " << field.name;
             std::cerr << " of " << c_record.name << std::endl;
             cassert(false, "Unsupported type");
         }
-        c_record.fields.push_back(Field{ field.name, c_field_type });
+        c_record.fields.push_back(Field{field.name, c_field_type});
     }
 }
 
 //------------------------------------------------------------------------------
-void valuetype_record(TypeRegistry & type_registry, TranslationUnit & c_tu,
-                      const NodeRecord & cpp_record, NodeRecord & c_record)
-{
+void valuetype_record(TypeRegistry& type_registry, TranslationUnit& c_tu,
+                      const NodeRecord& cpp_record, NodeRecord& c_record) {
     valuetype_fields(type_registry, c_tu, cpp_record, c_record);
 }
 
 //------------------------------------------------------------------------------
-void record_fields(TypeRegistry & type_registry, TranslationUnit & c_tu,
-                   const NodeRecord & cpp_record, NodeRecord & c_record)
-{
-    switch (bind_type(cpp_record))
-    {
-        case BindType::OpaqueBytes:
-            opaquebytes_record(c_record);
-            return;
-        case BindType::OpaquePtr:
-            opaquebytes_record(c_record);
-            return;
-        case BindType::ValueType:
-            //opaquebytes_record(c_record);
-            valuetype_record(type_registry, c_tu, cpp_record, c_record);
-            return;
+void record_fields(TypeRegistry& type_registry, TranslationUnit& c_tu,
+                   const NodeRecord& cpp_record, NodeRecord& c_record) {
+    switch (bind_type(cpp_record)) {
+    case BindType::OpaqueBytes:
+        opaquebytes_record(c_record);
+        return;
+    case BindType::OpaquePtr:
+        opaquebytes_record(c_record);
+        return;
+    case BindType::ValueType:
+        // opaquebytes_record(c_record);
+        valuetype_record(type_registry, c_tu, cpp_record, c_record);
+        return;
     }
 }
 
