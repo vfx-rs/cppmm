@@ -1427,9 +1427,16 @@ BindType bind_type(const NodeRecord & cpp_record)
 }
 
 //------------------------------------------------------------------------------
+void valuetype_fields(TypeRegistry & type_registry, TranslationUnit & c_tu,
+                      const NodeRecord & cpp_record, NodeRecord & c_record)
+{
+}
+
+//------------------------------------------------------------------------------
 void valuetype_record(TypeRegistry & type_registry, TranslationUnit & c_tu,
                       const NodeRecord & cpp_record, NodeRecord & c_record)
 {
+    valuetype_fields(type_registry, c_tu, cpp_record, c_record);
 }
 
 //------------------------------------------------------------------------------
