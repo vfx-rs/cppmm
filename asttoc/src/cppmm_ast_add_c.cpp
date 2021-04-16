@@ -1433,6 +1433,11 @@ void valuetype_fields(TypeRegistry & type_registry, TranslationUnit & c_tu,
     for(const auto & field : cpp_record.fields)
     {
         auto c_field_type = convert_type(c_tu, type_registry, field.type);
+        if (!c_field_type) {
+            std::cerr << "Found unsupported type for field " << field.name;
+            std::cerr << " of " << c_record.name << std::endl;
+            cassert(false, "Unsupported type");
+        }
         c_record.fields.push_back(Field{ field.name, c_field_type });
     }
 }
@@ -1457,6 +1462,7 @@ void record_fields(TypeRegistry & type_registry, TranslationUnit & c_tu,
             opaquebytes_record(c_record);
             return;
         case BindType::ValueType:
+            //opaquebytes_record(c_record);
             valuetype_record(type_registry, c_tu, cpp_record, c_record);
             return;
     }
