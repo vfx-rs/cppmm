@@ -1410,7 +1410,7 @@ enum class BindType : uint32_t {
 //------------------------------------------------------------------------------
 BindType bind_type(const NodeRecord & cpp_record)
 {
-    BindType bind_type = BindType::ValueType;
+    BindType bind_type = BindType::OpaquePtr;
     for( auto i: cpp_record.attrs )
     {
         if(i == "cppmm|opaquebytes")
@@ -1430,6 +1430,11 @@ BindType bind_type(const NodeRecord & cpp_record)
 void valuetype_fields(TypeRegistry & type_registry, TranslationUnit & c_tu,
                       const NodeRecord & cpp_record, NodeRecord & c_record)
 {
+    for(const auto & field : cpp_record.fields)
+    {
+        auto c_field_type = convert_type(c_tu, type_registry, field.type);
+        c_record.fields.push_back(Field{ field.name, c_field_type });
+    }
 }
 
 //------------------------------------------------------------------------------
