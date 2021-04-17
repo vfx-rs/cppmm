@@ -61,6 +61,8 @@ const char* INCLUDE_PATHS = "include_paths";
 const char* VARIANTS = "variants";
 const char* VAR_C = "Var";
 const char* ELEMENT_TYPE = "element_type";
+const char* FUNCTION_POINTER_TYPEDEF_C = "FunctionPointerTypedef";
+const char* FUNCTION_POINTER_TYPEDEF_L = "function_pointer_typedef";
 } // namespace
 
 //------------------------------------------------------------------------------
@@ -95,8 +97,9 @@ NodeTypePtr read_type_enum(const nln::json& json) {
 
 //------------------------------------------------------------------------------
 NodeTypePtr read_type_function_proto(const nln::json& json) {
-    return NodeFunctionProtoType::n(read_type(json[RETURN]),
-                                    json[TYPE].get<std::string>());
+    return NodeFunctionProtoType::n(
+        read_type(json[RETURN]), json[TYPE].get<std::string>(),
+        json[FUNCTION_POINTER_TYPEDEF_L].get<NodeId>());
 }
 
 //------------------------------------------------------------------------------
@@ -359,6 +362,28 @@ NodePtr read_namespace(const TranslationUnit::Ptr& tu, const nln::json& json) {
 }
 
 //------------------------------------------------------------------------------
+NodePtr read_function_pointer_typedef(const TranslationUnit::Ptr& tu,
+                                      const nln::json& json) {
+    // Ignore these for the moment
+    std::vector<std::string> _attrs;
+
+    // Dont ignore these
+    Id id = json[ID].get<Id>();
+    auto name = json[NAME].get<std::string>();
+    auto alias = json[ALIAS].get<std::string>();
+
+    std::vector<NodeId> namespaces;
+    for (const auto& ns : json[NAMESPACES]) {
+        namespaces.push_back(ns);
+    }
+
+    auto result = NodeFunctionPointerTypedef::n(tu, name, alias, namespaces);
+
+    // Return the result
+    return result;
+}
+
+//------------------------------------------------------------------------------
 NodePtr read_node(const TranslationUnit::Ptr& tu, const nln::json& json) {
     auto kind = json[KIND].get<std::string>();
 
@@ -372,6 +397,8 @@ NodePtr read_node(const TranslationUnit::Ptr& tu, const nln::json& json) {
         return read_namespace(tu, json);
     } else if (kind == VAR_C) {
         return read_var(tu, json);
+    } else if (kind == FUNCTION_POINTER_TYPEDEF_C) {
+        return read_function_pointer_typedef(tu, json);
     }
 
     std::cerr << kind << std::endl;
