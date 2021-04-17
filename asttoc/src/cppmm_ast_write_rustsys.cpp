@@ -100,6 +100,15 @@ std::vector<std::string> convert_params(const std::vector<Param>& params) {
     return result;
 }
 
+std::vector<std::string> convert_fields(const std::vector<Field>& fields) {
+    std::vector<std::string> result;
+    for (const auto& f : fields) {
+        result.push_back(fmt::format("{}: {}", sanitize_keyword(f.name),
+                                     convert_type(f.type)));
+    }
+    return result;
+}
+
 void write_function(fmt::ostream& out, const NodeFunction* node_function) {
     // don't want to bind the internal conversion functions
     if (node_function->private_) {
@@ -123,17 +132,26 @@ void write_record(fmt::ostream& out, const NodeRecord* node_record) {
     out.print("#[repr(C, align({}))]\n", node_record->align / 8);
     out.print("#[derive(Clone)]\n");
     out.print("pub struct {} {{\n", node_record->name);
-    out.print("    _inner: [u8; {}]\n", node_record->size / 8);
+
+    if (bind_type(*node_record) == BindType::ValueType) {
+        std::vector<std::string> fields = convert_fields(node_record->fields);
+        out.print("    {},\n", pystring::join(",\n    ", fields));
+    } else { // if (bind_type(*node_record) == BindType::OpaqueBytes) {
+        out.print("    _inner: [u8; {}]\n", node_record->size / 8);
+    }
+
     out.print("}}\n");
 
-    out.print(R"(
+    if (bind_type(*node_record) == BindType::OpaqueBytes) {
+        out.print(R"(
 impl Default for {} {{
     fn default() -> Self {{
         Self {{ _inner: [0u8; {}] }}
     }}
 }}
 )",
-              node_record->name, node_record->size / 8);
+                  node_record->name, node_record->size / 8);
+    }
 }
 
 void write_enum(fmt::ostream& out, const NodeEnum* node_enum) {
