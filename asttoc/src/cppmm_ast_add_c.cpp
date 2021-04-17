@@ -1420,29 +1420,6 @@ void opaquebytes_conversions(TranslationUnit& c_tu,
 }
 
 //------------------------------------------------------------------------------
-// BindType
-//------------------------------------------------------------------------------
-enum class BindType : uint32_t {
-    OpaquePtr = 0,
-    OpaqueBytes = 1,
-    ValueType = 2,
-};
-
-//------------------------------------------------------------------------------
-BindType bind_type(const NodeRecord& cpp_record) {
-    BindType bind_type = BindType::OpaquePtr;
-    for (auto i : cpp_record.attrs) {
-        if (i == "cppmm|opaquebytes") {
-            return BindType::OpaquePtr;
-        } else if (i == "cppmm|valuetype") {
-            return BindType::ValueType;
-        }
-    }
-
-    return bind_type;
-}
-
-//------------------------------------------------------------------------------
 void valuetype_fields(TypeRegistry& type_registry, TranslationUnit& c_tu,
                       const NodeRecord& cpp_record, NodeRecord& c_record) {
     for (const auto& field : cpp_record.fields) {

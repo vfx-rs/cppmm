@@ -717,4 +717,27 @@ struct Root {
     void operator==(Root&& rhs) { tus = std::move(rhs.tus); }
 };
 
+//------------------------------------------------------------------------------
+// BindType
+//------------------------------------------------------------------------------
+enum class BindType : uint32_t {
+    OpaquePtr = 0,
+    OpaqueBytes = 1,
+    ValueType = 2,
+};
+
+//------------------------------------------------------------------------------
+inline BindType bind_type(const NodeRecord& cpp_record) {
+    BindType bind_type = BindType::OpaquePtr;
+    for (auto i : cpp_record.attrs) {
+        if (i == "cppmm|opaquebytes") {
+            return BindType::OpaquePtr;
+        } else if (i == "cppmm|valuetype") {
+            return BindType::ValueType;
+        }
+    }
+
+    return bind_type;
+}
+
 } // namespace cppmm
