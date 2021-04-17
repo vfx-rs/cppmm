@@ -15,7 +15,10 @@ fn write_rgba1() {
 
         let par = 1.0f32;
 
-        let sw_center = Imath_V2f_t::default();
+        let sw_center = Imath_V2f_t {
+            x: 0.0f32,
+            y: 0.0f32,
+        };
         let sw_width = 1.0f32;
 
         let line_order = Imf_LineOrder_INCREASING_Y;
@@ -37,7 +40,15 @@ fn write_rgba1() {
         );
 
         // allocate pixel storage
-        let mut pixels = vec![Imf_Rgba_t::default(); 256 * 128];
+        let mut pixels = vec![
+            Imf_Rgba_t {
+                r: half_t::default(),
+                g: half_t::default(),
+                b: half_t::default(),
+                a: half_t::default()
+            };
+            256 * 128
+        ];
 
         // draw a pattern.
         for y in 0..height {
@@ -45,26 +56,11 @@ fn write_rgba1() {
                 let u = x as f32 / width as f32;
                 let v = y as f32 / height as f32;
 
-                let mut r = half_t::default();
-                let mut g = half_t::default();
-                let mut b = half_t::default();
-                let mut a = half_t::default();
-
-                half_from_float(&mut r, u);
-                half_from_float(&mut g, v);
-                half_from_float(&mut b, 0.0f32);
-                half_from_float(&mut a, 1.0f32);
-
-                // don't try this at home, kids
                 let pix = &mut pixels[(y * width + x) as usize];
-                let mut ptr = pix as *mut _ as *mut u8;
-                ptr.copy_from(&r as *const _ as *const u8, 2);
-                ptr = ptr.offset(2);
-                ptr.copy_from(&g as *const _ as *const u8, 2);
-                ptr = ptr.offset(2);
-                ptr.copy_from(&b as *const _ as *const u8, 2);
-                ptr = ptr.offset(2);
-                ptr.copy_from(&a as *const _ as *const u8, 2);
+                half_from_float(&mut pix.r, u);
+                half_from_float(&mut pix.g, v);
+                half_from_float(&mut pix.b, 0.0f32);
+                half_from_float(&mut pix.a, 1.0f32);
             }
         }
 
