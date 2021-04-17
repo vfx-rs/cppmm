@@ -2,6 +2,11 @@
 # CPPMM
 C-plus-plus-minus-minus
 
+`cppmm` is a binding generator for creating C and Rust interfaces to C++ libraries. Its purpose is to semi-automatically take any* C++ and turn it into a C API and a matching Rust FFI crate (what is commonly known as a `-sys` crate). It takes a binding file as input which describes what classes and functions of the target library are to be bound, instantiates and names templates, names overloads and much more.
+
+[* ] Our priority is targeting a small set of libraries--just those in consideration by the `vfx-rs` project. It should work for other libraries but will have assumptions baked into it about the C++ it will accept based on the types and idioms found in our target libraries. Failure to bind libraries outside of that scope will be considered a low-priority bug.
+
+
 ## Current status
 
 ### Components
@@ -25,12 +30,6 @@ C-plus-plus-minus-minus
 | Alembic | <ul><li> - [ ] Planned </ul></li> |
 | OpenVDB | <ul><li> - [ ] Planned </ul></li> |
 | USD | <ul><li> - [ ]  Planned </ul></li> |
-
-## Introduction
-
-`cppmm` is a binding generator for creating C and Rust interfaces to C++ libraries. 
-
-Our priority is targeting a small set of libraries--just those in consideration by the `vfx-rs` project. It should work for other libraries but will have assumptions baked into it about the C++ it will accept based on the types and idioms found in our target libraries. Failure to bind libraries outside of that scope will be considered a low-priority bug.
 
 ## Documentation
 
