@@ -8,25 +8,17 @@ use std::os::raw::*;
 #[repr(C, align(4))]
 #[derive(Clone)]
 pub struct Imath_2_5__Vec3_float__t {
-    _inner: [u8; 12]
-}
-
-impl Default for Imath_2_5__Vec3_float__t {
-    fn default() -> Self {
-        Self { _inner: [0u8; 12] }
-    }
+    x: c_float,
+    y: c_float,
+    z: c_float,
 }
 
 #[repr(C, align(4))]
 #[derive(Clone)]
 pub struct Imath_2_5__Vec3_int__t {
-    _inner: [u8; 12]
-}
-
-impl Default for Imath_2_5__Vec3_int__t {
-    fn default() -> Self {
-        Self { _inner: [0u8; 12] }
-    }
+    x: c_int,
+    y: c_int,
+    z: c_int,
 }
 
 

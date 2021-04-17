@@ -8,13 +8,14 @@ use std::os::raw::*;
 #[repr(C, align(4))]
 #[derive(Clone)]
 pub struct OpenImageIO_v2_2__ROI_t {
-    _inner: [u8; 32]
-}
-
-impl Default for OpenImageIO_v2_2__ROI_t {
-    fn default() -> Self {
-        Self { _inner: [0u8; 32] }
-    }
+    xbegin: c_int,
+    xend: c_int,
+    ybegin: c_int,
+    yend: c_int,
+    zbegin: c_int,
+    zend: c_int,
+    chbegin: c_int,
+    chend: c_int,
 }
 
 #[repr(C, align(8))]

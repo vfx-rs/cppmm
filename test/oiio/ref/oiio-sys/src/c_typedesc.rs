@@ -8,13 +8,11 @@ use std::os::raw::*;
 #[repr(C, align(4))]
 #[derive(Clone)]
 pub struct OpenImageIO_v2_2__TypeDesc_t {
-    _inner: [u8; 8]
-}
-
-impl Default for OpenImageIO_v2_2__TypeDesc_t {
-    fn default() -> Self {
-        Self { _inner: [0u8; 8] }
-    }
+    basetype: c_uchar,
+    aggregate: c_uchar,
+    vecsemantics: c_uchar,
+    reserved: c_uchar,
+    arraylen: c_int,
 }
 
 
