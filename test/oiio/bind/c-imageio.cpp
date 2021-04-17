@@ -10,7 +10,7 @@ namespace OIIO_NAMESPACE {
 namespace OIIO = ::OIIO_NAMESPACE;
 
 using OIIO::imagesize_t;
-using OIIO::ProgressCallback;
+// using OIIO::ProgressCallback;
 using OIIO::stride_t;
 using OIIO::string_view;
 
@@ -19,21 +19,24 @@ struct ROI {
     constexpr ROI() noexcept CPPMM_RENAME(default);
     constexpr bool defined() const noexcept;
 
-    constexpr int width () const noexcept;
-    constexpr int height () const noexcept;
-    constexpr int depth () const noexcept;
-    constexpr int nchannels () const noexcept;
-    constexpr imagesize_t npixels () const noexcept;
+    constexpr int width() const noexcept;
+    constexpr int height() const noexcept;
+    constexpr int depth() const noexcept;
+    constexpr int nchannels() const noexcept;
+    constexpr imagesize_t npixels() const noexcept;
 
-    static constexpr OIIO::ROI All () noexcept;
+    static constexpr OIIO::ROI All() noexcept;
 
     // FIXME: how do we match these?
-    friend constexpr bool operator== (const OIIO::ROI &a, const OIIO::ROI &b) noexcept;
-    friend constexpr bool operator!= (const OIIO::ROI &a, const OIIO::ROI &b) noexcept;
+    friend constexpr bool operator==(const OIIO::ROI& a,
+                                     const OIIO::ROI& b) noexcept;
+    friend constexpr bool operator!=(const OIIO::ROI& a,
+                                     const OIIO::ROI& b) noexcept;
 } CPPMM_VALUETYPE;
 
-constexpr OIIO::ROI roi_union (const OIIO::ROI &A, const OIIO::ROI &B) noexcept;
-constexpr OIIO::ROI roi_intersection (const OIIO::ROI &A, const OIIO::ROI &B) noexcept;
+constexpr OIIO::ROI roi_union(const OIIO::ROI& A, const OIIO::ROI& B) noexcept;
+constexpr OIIO::ROI roi_intersection(const OIIO::ROI& A,
+                                     const OIIO::ROI& B) noexcept;
 
 class ImageSpec {
 public:
@@ -100,21 +103,19 @@ public:
                            const OIIO::ImageSpec* config,
                            OIIO::Filesystem::IOProxy* ioproxy);
 
-    static unique_ptr
-    create(OIIO::string_view, bool, const OIIO::ImageSpec*,
-           OIIO::Filesystem::IOProxy*, OIIO::string_view);
+    static unique_ptr create(OIIO::string_view, bool, const OIIO::ImageSpec*,
+                             OIIO::Filesystem::IOProxy*, OIIO::string_view);
 
-    bool read_image(int subimage, int miplevel, int chbegin, int chend,
-                    OIIO::TypeDesc format, void* data, stride_t xstride,
-                    stride_t ystride, stride_t zstride,
-                    ProgressCallback progress_callback,
-                    void* progress_callback_data);
+    // bool read_image(int subimage, int miplevel, int chbegin, int chend,
+    //                 OIIO::TypeDesc format, void* data, stride_t xstride,
+    //                 stride_t ystride, stride_t zstride,
+    //                 ProgressCallback progress_callback,
+    //                 void* progress_callback_data);
 
     std::string geterror() const;
 } CPPMM_OPAQUEPTR;
 
 bool getattribute(OIIO::string_view, OIIO::TypeDesc, void*);
 
-} // namespace OIIO
+} // namespace OIIO_NAMESPACE
 } // namespace cppmm_bind
-

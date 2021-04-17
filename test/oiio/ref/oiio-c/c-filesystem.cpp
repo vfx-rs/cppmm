@@ -1,6 +1,7 @@
 #include <c-filesystem_private.h>
 
 #include <new>
+#include <std_string_private.h>
 
 
 void OpenImageIO_v2_2__Filesystem__IOProxy_delete(
@@ -72,6 +73,12 @@ unsigned long OpenImageIO_v2_2__Filesystem__IOProxy_pwrite(
     , long offset)
 {
     return (to_cpp(this_)) -> pwrite(buf, size, offset);
+}
+
+std___cxx11_string_t const * OpenImageIO_v2_2__Filesystem__IOProxy_filename(
+    OIIO_Filesystem_IOProxy_t const * this_)
+{
+    return to_c((to_cpp(this_)) -> filename());
 }
 
 _Bool OpenImageIO_v2_2__Filesystem__IOProxy_seek_1(
@@ -167,4 +174,30 @@ void OpenImageIO_v2_2__Filesystem__IOMemReader_delete(
     OIIO_Filesystem_IOMemReader_t * this_)
 {
     (to_cpp(this_)) -> OpenImageIO_v2_2::Filesystem::IOMemReader::~IOMemReader();
+}
+
+std___cxx11_string_t OpenImageIO_v2_2_Filesystem_filename(
+    std___cxx11_string_t const * filepath)
+{
+    return to_c_copy(OpenImageIO_v2_2::Filesystem::filename(to_cpp_ref(filepath)));
+}
+
+std___cxx11_string_t OpenImageIO_v2_2_Filesystem_extension(
+    std___cxx11_string_t const * filepath
+    , _Bool include_dot)
+{
+    return to_c_copy(OpenImageIO_v2_2::Filesystem::extension(to_cpp_ref(filepath), include_dot));
+}
+
+std___cxx11_string_t OpenImageIO_v2_2_Filesystem_parent_path(
+    std___cxx11_string_t const * filepath)
+{
+    return to_c_copy(OpenImageIO_v2_2::Filesystem::parent_path(to_cpp_ref(filepath)));
+}
+
+std___cxx11_string_t OpenImageIO_v2_2_Filesystem_replace_extension(
+    std___cxx11_string_t const * filepath
+    , std___cxx11_string_t const * new_extension)
+{
+    return to_c_copy(OpenImageIO_v2_2::Filesystem::replace_extension(to_cpp_ref(filepath), to_cpp_ref(new_extension)));
 }

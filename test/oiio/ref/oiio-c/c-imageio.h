@@ -1,5 +1,6 @@
 #pragma once
 #include <c-typedesc.h>
+#include <std_string.h>
 #include <stdbool.h>
 
 #ifdef __cplusplus
@@ -170,6 +171,15 @@ unsigned long OpenImageIO_v2_2__ImageSpec_scanline_bytes(
 
 
 
+std___cxx11_string_t OpenImageIO_v2_2__ImageSpec_serialize(
+    OIIO_ImageSpec_t const * this_
+    , OIIO_ImageSpec_SerialFormat format
+    , OIIO_ImageSpec_SerialVerbose verbose);
+
+#define OIIO_ImageSpec_serialize OpenImageIO_v2_2__ImageSpec_serialize
+
+
+
 void OpenImageIO_v2_2__ImageSpec_copy(
     OIIO_ImageSpec_t * this_
     , OIIO_ImageSpec_t const * other);
@@ -199,6 +209,13 @@ char const * OpenImageIO_v2_2__ImageInput_format_name(
     OIIO_ImageInput_t const * this_);
 
 #define OIIO_ImageInput_format_name OpenImageIO_v2_2__ImageInput_format_name
+
+
+
+std___cxx11_string_t OpenImageIO_v2_2__ImageInput_geterror(
+    OIIO_ImageInput_t const * this_);
+
+#define OIIO_ImageInput_geterror OpenImageIO_v2_2__ImageInput_geterror
 
 
 

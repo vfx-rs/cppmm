@@ -219,6 +219,7 @@ inline OIIO_ROI_t to_c_copy(
 
 
 
+
 inline OpenImageIO_v2_2::ImageSpec const & to_cpp_ref(
     OIIO_ImageSpec_t const * rhs)
 {
@@ -282,6 +283,7 @@ inline OIIO_ImageSpec_t to_c_copy(
     OpenImageIO_v2_2__ImageSpec_copy(&(result), reinterpret_cast<OIIO_ImageSpec_t const * >(&(rhs)));
     return result;
 }
+
 
 
 

@@ -9,26 +9,26 @@
         "/home/anders/packages/oiio/2.2.8/include",
         "/home/anders/packages/openexr/2.5.5/include"
     ],
-    "id": 105,
+    "id": 143,
     "decls": [
         {
             "kind": "Namespace",
             "name": "cppmm_bind::OpenImageIO_v2_2::Filesystem",
-            "id": 106,
+            "id": 144,
             "short_name": "Filesystem",
             "alias": "Filesystem"
         },
         {
             "kind": "Namespace",
             "name": "cppmm_bind::OpenImageIO_v2_2",
-            "id": 32,
+            "id": 76,
             "short_name": "OpenImageIO_v2_2",
             "alias": "OIIO"
         },
         {
             "kind": "Namespace",
             "name": "OpenImageIO_v2_2::Filesystem",
-            "id": 111,
+            "id": 149,
             "short_name": "Filesystem",
             "alias": "Filesystem"
         },
@@ -45,9 +45,9 @@
             "short_name": "IOProxy",
             "namespaces": [
                 1,
-                111
+                149
             ],
-            "id": 112,
+            "id": 150,
             "abstract": true,
             "trivially_copyable": false,
             "size": 704,
@@ -62,9 +62,9 @@
                     "name": "m_filename",
                     "type": {
                         "kind": "RecordType",
-                        "id": 40,
+                        "id": 19,
                         "type": "std::__cxx11::basic_string<char>",
-                        "record": -1,
+                        "record": 25,
                         "const": false
                     }
                 },
@@ -73,7 +73,7 @@
                     "name": "m_pos",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 37,
+                        "id": 81,
                         "type": "long",
                         "const": false
                     }
@@ -83,9 +83,9 @@
                     "name": "m_mode",
                     "type": {
                         "kind": "EnumType",
-                        "id": 107,
+                        "id": 145,
                         "type": "OpenImageIO_v2_2::Filesystem::IOProxy::Mode",
-                        "enum": 129,
+                        "enum": 167,
                         "const": false
                     }
                 },
@@ -94,9 +94,9 @@
                     "name": "m_error",
                     "type": {
                         "kind": "RecordType",
-                        "id": 40,
+                        "id": 19,
                         "type": "std::__cxx11::basic_string<char>",
-                        "record": -1,
+                        "record": 25,
                         "const": false
                     }
                 }
@@ -178,9 +178,9 @@
                             "name": "mode",
                             "type": {
                                 "kind": "EnumType",
-                                "id": 107,
+                                "id": 145,
                                 "type": "OpenImageIO_v2_2::Filesystem::IOProxy::Mode",
-                                "enum": 129,
+                                "enum": 167,
                                 "const": false
                             },
                             "attrs": []
@@ -329,7 +329,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 37,
+                        "id": 81,
                         "type": "long",
                         "const": false
                     },
@@ -367,7 +367,7 @@
                             "name": "offset",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 37,
+                                "id": 81,
                                 "type": "long",
                                 "const": false
                             },
@@ -407,7 +407,7 @@
                             "name": "buf",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 52,
+                                "id": 95,
                                 "type": "void *",
                                 "pointee": {
                                     "kind": "BuiltinType",
@@ -464,7 +464,7 @@
                             "name": "buf",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 39,
+                                "id": 83,
                                 "type": "const void *",
                                 "pointee": {
                                     "kind": "BuiltinType",
@@ -521,7 +521,7 @@
                             "name": "buf",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 52,
+                                "id": 95,
                                 "type": "void *",
                                 "pointee": {
                                     "kind": "BuiltinType",
@@ -549,7 +549,7 @@
                             "name": "offset",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 37,
+                                "id": 81,
                                 "type": "long",
                                 "const": false
                             },
@@ -589,7 +589,7 @@
                             "name": "buf",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 39,
+                                "id": 83,
                                 "type": "const void *",
                                 "pointee": {
                                     "kind": "BuiltinType",
@@ -617,7 +617,7 @@
                             "name": "offset",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 37,
+                                "id": 81,
                                 "type": "long",
                                 "const": false
                             },
@@ -647,13 +647,13 @@
                     "attributes": null,
                     "return": {
                         "kind": "Reference",
-                        "id": 77,
+                        "id": 20,
                         "type": "const class std::__cxx11::basic_string<char> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 40,
+                            "id": 19,
                             "type": "std::__cxx11::basic_string<char>",
-                            "record": -1,
+                            "record": 25,
                             "const": true
                         },
                         "const": false
@@ -692,7 +692,7 @@
                             "name": "offset",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 37,
+                                "id": 81,
                                 "type": "long",
                                 "const": false
                             },
@@ -719,10 +719,10 @@
             "short_name": "Mode",
             "namespaces": [
                 1,
-                111,
-                112
+                149,
+                150
             ],
-            "id": 129,
+            "id": 167,
             "size": 32,
             "align": 32,
             "attributes": null,
@@ -738,9 +738,9 @@
             "short_name": "IOMemReader",
             "namespaces": [
                 1,
-                111
+                149
             ],
-            "id": 133,
+            "id": 171,
             "abstract": false,
             "trivially_copyable": false,
             "size": 832,
@@ -755,9 +755,9 @@
                     "name": "m_filename",
                     "type": {
                         "kind": "RecordType",
-                        "id": 40,
+                        "id": 19,
                         "type": "std::__cxx11::basic_string<char>",
-                        "record": -1,
+                        "record": 25,
                         "const": false
                     }
                 },
@@ -766,7 +766,7 @@
                     "name": "m_pos",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 37,
+                        "id": 81,
                         "type": "long",
                         "const": false
                     }
@@ -776,9 +776,9 @@
                     "name": "m_mode",
                     "type": {
                         "kind": "EnumType",
-                        "id": 107,
+                        "id": 145,
                         "type": "OpenImageIO_v2_2::Filesystem::IOProxy::Mode",
-                        "enum": 129,
+                        "enum": 167,
                         "const": false
                     }
                 },
@@ -787,9 +787,9 @@
                     "name": "m_error",
                     "type": {
                         "kind": "RecordType",
-                        "id": 40,
+                        "id": 19,
                         "type": "std::__cxx11::basic_string<char>",
-                        "record": -1,
+                        "record": 25,
                         "const": false
                     }
                 },
@@ -798,8 +798,8 @@
                     "name": "m_buf",
                     "type": {
                         "kind": "RecordType",
-                        "id": 134,
-                        "type": "OpenImageIO_v2_2::span<const unsigned char, -1>",
+                        "id": 172,
+                        "type": "OpenImageIO_v2_2::span<const unsigned char, neg1>",
                         "record": -1,
                         "const": false
                     }
@@ -918,7 +918,7 @@
                     "attributes": null,
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 37,
+                        "id": 81,
                         "type": "long",
                         "const": false
                     },
@@ -956,7 +956,7 @@
                             "name": "offset",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 37,
+                                "id": 81,
                                 "type": "long",
                                 "const": false
                             },
@@ -996,7 +996,7 @@
                             "name": "buf",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 52,
+                                "id": 95,
                                 "type": "void *",
                                 "pointee": {
                                     "kind": "BuiltinType",
@@ -1053,7 +1053,7 @@
                             "name": "buf",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 39,
+                                "id": 83,
                                 "type": "const void *",
                                 "pointee": {
                                     "kind": "BuiltinType",
@@ -1110,7 +1110,7 @@
                             "name": "buf",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 52,
+                                "id": 95,
                                 "type": "void *",
                                 "pointee": {
                                     "kind": "BuiltinType",
@@ -1138,7 +1138,7 @@
                             "name": "offset",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 37,
+                                "id": 81,
                                 "type": "long",
                                 "const": false
                             },
@@ -1178,7 +1178,7 @@
                             "name": "buf",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 39,
+                                "id": 83,
                                 "type": "const void *",
                                 "pointee": {
                                     "kind": "BuiltinType",
@@ -1206,7 +1206,7 @@
                             "name": "offset",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 37,
+                                "id": 81,
                                 "type": "long",
                                 "const": false
                             },
@@ -1246,7 +1246,7 @@
                             "name": "offset",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 37,
+                                "id": 81,
                                 "type": "long",
                                 "const": false
                             },
@@ -1299,7 +1299,7 @@
                             "name": "buf",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 52,
+                                "id": 95,
                                 "type": "void *",
                                 "pointee": {
                                     "kind": "BuiltinType",
@@ -1358,7 +1358,7 @@
         },
         {
             "kind": "Function",
-            "id": 151,
+            "id": 189,
             "short_name": "filename",
             "qualified_name": "OpenImageIO_v2_2::Filesystem::filename",
             "in_binding": false,
@@ -1366,13 +1366,13 @@
             "attributes": null,
             "namespaces": [
                 1,
-                111
+                149
             ],
             "return": {
                 "kind": "RecordType",
-                "id": 40,
+                "id": 19,
                 "type": "std::__cxx11::basic_string<char>",
-                "record": -1,
+                "record": 25,
                 "const": false
             },
             "params": [
@@ -1381,13 +1381,13 @@
                     "name": "filepath",
                     "type": {
                         "kind": "Reference",
-                        "id": 77,
+                        "id": 20,
                         "type": "const class std::__cxx11::basic_string<char> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 40,
+                            "id": 19,
                             "type": "std::__cxx11::basic_string<char>",
-                            "record": -1,
+                            "record": 25,
                             "const": true
                         },
                         "const": false
@@ -1398,7 +1398,7 @@
         },
         {
             "kind": "Function",
-            "id": 152,
+            "id": 190,
             "short_name": "extension",
             "qualified_name": "OpenImageIO_v2_2::Filesystem::extension",
             "in_binding": false,
@@ -1406,13 +1406,13 @@
             "attributes": null,
             "namespaces": [
                 1,
-                111
+                149
             ],
             "return": {
                 "kind": "RecordType",
-                "id": 40,
+                "id": 19,
                 "type": "std::__cxx11::basic_string<char>",
-                "record": -1,
+                "record": 25,
                 "const": false
             },
             "params": [
@@ -1421,13 +1421,13 @@
                     "name": "filepath",
                     "type": {
                         "kind": "Reference",
-                        "id": 77,
+                        "id": 20,
                         "type": "const class std::__cxx11::basic_string<char> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 40,
+                            "id": 19,
                             "type": "std::__cxx11::basic_string<char>",
-                            "record": -1,
+                            "record": 25,
                             "const": true
                         },
                         "const": false
@@ -1449,7 +1449,7 @@
         },
         {
             "kind": "Function",
-            "id": 153,
+            "id": 191,
             "short_name": "parent_path",
             "qualified_name": "OpenImageIO_v2_2::Filesystem::parent_path",
             "in_binding": false,
@@ -1457,13 +1457,13 @@
             "attributes": null,
             "namespaces": [
                 1,
-                111
+                149
             ],
             "return": {
                 "kind": "RecordType",
-                "id": 40,
+                "id": 19,
                 "type": "std::__cxx11::basic_string<char>",
-                "record": -1,
+                "record": 25,
                 "const": false
             },
             "params": [
@@ -1472,13 +1472,13 @@
                     "name": "filepath",
                     "type": {
                         "kind": "Reference",
-                        "id": 77,
+                        "id": 20,
                         "type": "const class std::__cxx11::basic_string<char> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 40,
+                            "id": 19,
                             "type": "std::__cxx11::basic_string<char>",
-                            "record": -1,
+                            "record": 25,
                             "const": true
                         },
                         "const": false
@@ -1489,7 +1489,7 @@
         },
         {
             "kind": "Function",
-            "id": 154,
+            "id": 192,
             "short_name": "replace_extension",
             "qualified_name": "OpenImageIO_v2_2::Filesystem::replace_extension",
             "in_binding": false,
@@ -1497,13 +1497,13 @@
             "attributes": null,
             "namespaces": [
                 1,
-                111
+                149
             ],
             "return": {
                 "kind": "RecordType",
-                "id": 40,
+                "id": 19,
                 "type": "std::__cxx11::basic_string<char>",
-                "record": -1,
+                "record": 25,
                 "const": false
             },
             "params": [
@@ -1512,13 +1512,13 @@
                     "name": "filepath",
                     "type": {
                         "kind": "Reference",
-                        "id": 77,
+                        "id": 20,
                         "type": "const class std::__cxx11::basic_string<char> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 40,
+                            "id": 19,
                             "type": "std::__cxx11::basic_string<char>",
-                            "record": -1,
+                            "record": 25,
                             "const": true
                         },
                         "const": false
@@ -1530,13 +1530,13 @@
                     "name": "new_extension",
                     "type": {
                         "kind": "Reference",
-                        "id": 77,
+                        "id": 20,
                         "type": "const class std::__cxx11::basic_string<char> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 40,
+                            "id": 19,
                             "type": "std::__cxx11::basic_string<char>",
-                            "record": -1,
+                            "record": 25,
                             "const": true
                         },
                         "const": false

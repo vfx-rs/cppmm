@@ -69,9 +69,9 @@ public:
 
 // explicit instantiation
 template class Vec3<float>;
-// template class Vec3<int>;
+template class Vec3<int>;
 using V3f = Imath::V3f;
-// using V3i = Imath::V3i;
+using V3i = Imath::V3i;
 
 // note the 'extern' here otherwise we get an error because we're not
 // defining the template body up above
@@ -81,7 +81,7 @@ extern template void Vec3<float>::setValue(float a, float b, float c);
 } // namespace cppmm_bind
 
 template class Imath::Vec3<float>;
-// template class Imath::Vec3<int>;
+template class Imath::Vec3<int>;
 
 extern template void Imath::Vec3<float>::setValue(float a, float b, float c);
-// extern template void Imath::Vec3<int>::setValue(int a, int b, int c);
+extern template void Imath::Vec3<int>::setValue(int a, int b, int c);

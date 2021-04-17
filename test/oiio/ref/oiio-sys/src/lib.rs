@@ -1,3 +1,8 @@
+pub mod std_vector;
+pub use std_vector::std__vector_std__string__t as std_vector_string_t;
+
+pub use std_vector::std__vector_std__string__vector as std_vector_string_vector;
+pub use std_vector::std__vector_std__string__dtor as std_vector_string_dtor;
 pub mod c_filesystem;
 pub use c_filesystem::OpenImageIO_v2_2__Filesystem__IOProxy_t as OIIO_Filesystem_IOProxy_t;
 pub use c_filesystem::OpenImageIO_v2_2__Filesystem__IOMemReader_t as OIIO_Filesystem_IOMemReader_t;
@@ -16,6 +21,7 @@ pub use c_filesystem::OpenImageIO_v2_2__Filesystem__IOProxy_read as OIIO_Filesys
 pub use c_filesystem::OpenImageIO_v2_2__Filesystem__IOProxy_write as OIIO_Filesystem_IOProxy_write;
 pub use c_filesystem::OpenImageIO_v2_2__Filesystem__IOProxy_pread as OIIO_Filesystem_IOProxy_pread;
 pub use c_filesystem::OpenImageIO_v2_2__Filesystem__IOProxy_pwrite as OIIO_Filesystem_IOProxy_pwrite;
+pub use c_filesystem::OpenImageIO_v2_2__Filesystem__IOProxy_filename as OIIO_Filesystem_IOProxy_filename;
 pub use c_filesystem::OpenImageIO_v2_2__Filesystem__IOProxy_seek_1 as OIIO_Filesystem_IOProxy_seek_1;
 pub use c_filesystem::OpenImageIO_v2_2__Filesystem__IOMemReader_proxytype as OIIO_Filesystem_IOMemReader_proxytype;
 pub use c_filesystem::OpenImageIO_v2_2__Filesystem__IOMemReader_close as OIIO_Filesystem_IOMemReader_close;
@@ -29,6 +35,10 @@ pub use c_filesystem::OpenImageIO_v2_2__Filesystem__IOMemReader_pwrite as OIIO_F
 pub use c_filesystem::OpenImageIO_v2_2__Filesystem__IOMemReader_seek_1 as OIIO_Filesystem_IOMemReader_seek_1;
 pub use c_filesystem::OpenImageIO_v2_2__Filesystem__IOMemReader_new as OIIO_Filesystem_IOMemReader_new;
 pub use c_filesystem::OpenImageIO_v2_2__Filesystem__IOMemReader_delete as OIIO_Filesystem_IOMemReader_delete;
+pub use c_filesystem::OpenImageIO_v2_2_Filesystem_filename as OIIO_Filesystem_filename;
+pub use c_filesystem::OpenImageIO_v2_2_Filesystem_extension as OIIO_Filesystem_extension;
+pub use c_filesystem::OpenImageIO_v2_2_Filesystem_parent_path as OIIO_Filesystem_parent_path;
+pub use c_filesystem::OpenImageIO_v2_2_Filesystem_replace_extension as OIIO_Filesystem_replace_extension;
 pub mod c_typedesc;
 pub use c_typedesc::OpenImageIO_v2_2__TypeDesc_t as OIIO_TypeDesc_t;
 
@@ -100,11 +110,20 @@ pub use c_imageio::OpenImageIO_v2_2__ImageSpec_default_channel_names as OIIO_Ima
 pub use c_imageio::OpenImageIO_v2_2__ImageSpec_channel_bytes as OIIO_ImageSpec_channel_bytes;
 pub use c_imageio::OpenImageIO_v2_2__ImageSpec_channel_bytes_for as OIIO_ImageSpec_channel_bytes_for;
 pub use c_imageio::OpenImageIO_v2_2__ImageSpec_scanline_bytes as OIIO_ImageSpec_scanline_bytes;
+pub use c_imageio::OpenImageIO_v2_2__ImageSpec_serialize as OIIO_ImageSpec_serialize;
 pub use c_imageio::OpenImageIO_v2_2__ImageSpec_copy as OIIO_ImageSpec_copy;
 pub use c_imageio::OpenImageIO_v2_2__ImageSpec_assign as OIIO_ImageSpec_assign;
 pub use c_imageio::OpenImageIO_v2_2__ImageInput_format_name as OIIO_ImageInput_format_name;
+pub use c_imageio::OpenImageIO_v2_2__ImageInput_geterror as OIIO_ImageInput_geterror;
 pub use c_imageio::OpenImageIO_v2_2_roi_union as OIIO_roi_union;
 pub use c_imageio::OpenImageIO_v2_2_roi_intersection as OIIO_roi_intersection;
+pub mod std_string;
+pub use std_string::std____cxx11__basic_string_char__t as std___cxx11_string_t;
+
+pub use std_string::std____cxx11__basic_string_char__basic_string as std___cxx11_string_basic_string;
+pub use std_string::std____cxx11__basic_string_char__basic_string_1 as std___cxx11_string_basic_string_1;
+pub use std_string::std____cxx11__basic_string_char__assign as std___cxx11_string_assign;
+pub use std_string::std____cxx11__basic_string_char__c_str as std___cxx11_string_c_str;
 
 
 #[cfg(test)]

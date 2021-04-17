@@ -39,28 +39,33 @@ pub const OIIO_Filesystem_IOProxy_Mode_Write: OpenImageIO_v2_2__Filesystem__IOPr
 
 extern "C" {
 
-pub fn OpenImageIO_v2_2__Filesystem__IOProxy_delete(this_: *mut OIIO_Filesystem_IOProxy_t);
+pub fn OpenImageIO_v2_2__Filesystem__IOProxy_delete(this_: *mut OIIO_Filesystem_IOProxy_t) -> c_void;
 pub fn OpenImageIO_v2_2__Filesystem__IOProxy_proxytype(this_: *const OIIO_Filesystem_IOProxy_t) -> *const c_char;
-pub fn OpenImageIO_v2_2__Filesystem__IOProxy_close(this_: *mut OIIO_Filesystem_IOProxy_t);
+pub fn OpenImageIO_v2_2__Filesystem__IOProxy_close(this_: *mut OIIO_Filesystem_IOProxy_t) -> c_void;
 pub fn OpenImageIO_v2_2__Filesystem__IOProxy_opened(this_: *const OIIO_Filesystem_IOProxy_t) -> bool;
 pub fn OpenImageIO_v2_2__Filesystem__IOProxy_tell(this_: *mut OIIO_Filesystem_IOProxy_t) -> c_long;
 pub fn OpenImageIO_v2_2__Filesystem__IOProxy_seek(this_: *mut OIIO_Filesystem_IOProxy_t, offset: c_long) -> bool;
-pub fn OpenImageIO_v2_2__Filesystem__IOProxy_read(this_: *mut OIIO_Filesystem_IOProxy_t, buf: *mut void, size: c_ulong) -> c_ulong;
-pub fn OpenImageIO_v2_2__Filesystem__IOProxy_write(this_: *mut OIIO_Filesystem_IOProxy_t, buf: *const void, size: c_ulong) -> c_ulong;
-pub fn OpenImageIO_v2_2__Filesystem__IOProxy_pread(this_: *mut OIIO_Filesystem_IOProxy_t, buf: *mut void, size: c_ulong, offset: c_long) -> c_ulong;
-pub fn OpenImageIO_v2_2__Filesystem__IOProxy_pwrite(this_: *mut OIIO_Filesystem_IOProxy_t, buf: *const void, size: c_ulong, offset: c_long) -> c_ulong;
+pub fn OpenImageIO_v2_2__Filesystem__IOProxy_read(this_: *mut OIIO_Filesystem_IOProxy_t, buf: *mut c_void, size: c_ulong) -> c_ulong;
+pub fn OpenImageIO_v2_2__Filesystem__IOProxy_write(this_: *mut OIIO_Filesystem_IOProxy_t, buf: *const c_void, size: c_ulong) -> c_ulong;
+pub fn OpenImageIO_v2_2__Filesystem__IOProxy_pread(this_: *mut OIIO_Filesystem_IOProxy_t, buf: *mut c_void, size: c_ulong, offset: c_long) -> c_ulong;
+pub fn OpenImageIO_v2_2__Filesystem__IOProxy_pwrite(this_: *mut OIIO_Filesystem_IOProxy_t, buf: *const c_void, size: c_ulong, offset: c_long) -> c_ulong;
+pub fn OpenImageIO_v2_2__Filesystem__IOProxy_filename(this_: *const OIIO_Filesystem_IOProxy_t) -> *const std___cxx11_string_t;
 pub fn OpenImageIO_v2_2__Filesystem__IOProxy_seek_1(this_: *mut OIIO_Filesystem_IOProxy_t, offset: c_long, origin: c_int) -> bool;
 pub fn OpenImageIO_v2_2__Filesystem__IOMemReader_proxytype(this_: *const OIIO_Filesystem_IOMemReader_t) -> *const c_char;
-pub fn OpenImageIO_v2_2__Filesystem__IOMemReader_close(this_: *mut OIIO_Filesystem_IOMemReader_t);
+pub fn OpenImageIO_v2_2__Filesystem__IOMemReader_close(this_: *mut OIIO_Filesystem_IOMemReader_t) -> c_void;
 pub fn OpenImageIO_v2_2__Filesystem__IOMemReader_opened(this_: *const OIIO_Filesystem_IOMemReader_t) -> bool;
 pub fn OpenImageIO_v2_2__Filesystem__IOMemReader_tell(this_: *mut OIIO_Filesystem_IOMemReader_t) -> c_long;
 pub fn OpenImageIO_v2_2__Filesystem__IOMemReader_seek(this_: *mut OIIO_Filesystem_IOMemReader_t, offset: c_long) -> bool;
-pub fn OpenImageIO_v2_2__Filesystem__IOMemReader_read(this_: *mut OIIO_Filesystem_IOMemReader_t, buf: *mut void, size: c_ulong) -> c_ulong;
-pub fn OpenImageIO_v2_2__Filesystem__IOMemReader_write(this_: *mut OIIO_Filesystem_IOMemReader_t, buf: *const void, size: c_ulong) -> c_ulong;
-pub fn OpenImageIO_v2_2__Filesystem__IOMemReader_pread(this_: *mut OIIO_Filesystem_IOMemReader_t, buf: *mut void, size: c_ulong, offset: c_long) -> c_ulong;
-pub fn OpenImageIO_v2_2__Filesystem__IOMemReader_pwrite(this_: *mut OIIO_Filesystem_IOMemReader_t, buf: *const void, size: c_ulong, offset: c_long) -> c_ulong;
+pub fn OpenImageIO_v2_2__Filesystem__IOMemReader_read(this_: *mut OIIO_Filesystem_IOMemReader_t, buf: *mut c_void, size: c_ulong) -> c_ulong;
+pub fn OpenImageIO_v2_2__Filesystem__IOMemReader_write(this_: *mut OIIO_Filesystem_IOMemReader_t, buf: *const c_void, size: c_ulong) -> c_ulong;
+pub fn OpenImageIO_v2_2__Filesystem__IOMemReader_pread(this_: *mut OIIO_Filesystem_IOMemReader_t, buf: *mut c_void, size: c_ulong, offset: c_long) -> c_ulong;
+pub fn OpenImageIO_v2_2__Filesystem__IOMemReader_pwrite(this_: *mut OIIO_Filesystem_IOMemReader_t, buf: *const c_void, size: c_ulong, offset: c_long) -> c_ulong;
 pub fn OpenImageIO_v2_2__Filesystem__IOMemReader_seek_1(this_: *mut OIIO_Filesystem_IOMemReader_t, offset: c_long, origin: c_int) -> bool;
-pub fn OpenImageIO_v2_2__Filesystem__IOMemReader_new(this_: *mut OIIO_Filesystem_IOMemReader_t, buf: *mut void, size: c_ulong);
-pub fn OpenImageIO_v2_2__Filesystem__IOMemReader_delete(this_: *mut OIIO_Filesystem_IOMemReader_t);
+pub fn OpenImageIO_v2_2__Filesystem__IOMemReader_new(this_: *mut OIIO_Filesystem_IOMemReader_t, buf: *mut c_void, size: c_ulong) -> c_void;
+pub fn OpenImageIO_v2_2__Filesystem__IOMemReader_delete(this_: *mut OIIO_Filesystem_IOMemReader_t) -> c_void;
+pub fn OpenImageIO_v2_2_Filesystem_filename(filepath: *const std___cxx11_string_t) -> std___cxx11_string_t;
+pub fn OpenImageIO_v2_2_Filesystem_extension(filepath: *const std___cxx11_string_t, include_dot: bool) -> std___cxx11_string_t;
+pub fn OpenImageIO_v2_2_Filesystem_parent_path(filepath: *const std___cxx11_string_t) -> std___cxx11_string_t;
+pub fn OpenImageIO_v2_2_Filesystem_replace_extension(filepath: *const std___cxx11_string_t, new_extension: *const std___cxx11_string_t) -> std___cxx11_string_t;
 
 } // extern "C"

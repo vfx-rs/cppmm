@@ -83,6 +83,7 @@ inline OIIO_Filesystem_IOProxy_Mode to_c_copy(
 
 
 
+
 inline OpenImageIO_v2_2::Filesystem::IOProxy const & to_cpp_ref(
     OIIO_Filesystem_IOProxy_t const * rhs)
 {
@@ -205,3 +206,7 @@ inline OIIO_Filesystem_IOMemReader_t * to_c(
 {
     return reinterpret_cast<OIIO_Filesystem_IOMemReader_t * >(rhs);
 }
+
+
+
+

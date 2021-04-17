@@ -2,6 +2,7 @@
 
 #include <c-typedesc_private.h>
 #include <new>
+#include <std_string_private.h>
 
 
 void OpenImageIO_v2_2__ROI_default(
@@ -97,6 +98,14 @@ unsigned long OpenImageIO_v2_2__ImageSpec_scanline_bytes(
     return (to_cpp(this_)) -> scanline_bytes(native);
 }
 
+std___cxx11_string_t OpenImageIO_v2_2__ImageSpec_serialize(
+    OIIO_ImageSpec_t const * this_
+    , OIIO_ImageSpec_SerialFormat format
+    , OIIO_ImageSpec_SerialVerbose verbose)
+{
+    return to_c_copy((to_cpp(this_)) -> serialize(OIIO_ImageSpec_SerialFormat_to_cpp_ref(&(format)), OIIO_ImageSpec_SerialVerbose_to_cpp_ref(&(verbose))));
+}
+
 void OpenImageIO_v2_2__ImageSpec_copy(
     OIIO_ImageSpec_t * this_
     , OIIO_ImageSpec_t const * other)
@@ -115,6 +124,12 @@ char const * OpenImageIO_v2_2__ImageInput_format_name(
     OIIO_ImageInput_t const * this_)
 {
     return (to_cpp(this_)) -> format_name();
+}
+
+std___cxx11_string_t OpenImageIO_v2_2__ImageInput_geterror(
+    OIIO_ImageInput_t const * this_)
+{
+    return to_c_copy((to_cpp(this_)) -> geterror());
 }
 
 OIIO_ROI_t OpenImageIO_v2_2_roi_union(

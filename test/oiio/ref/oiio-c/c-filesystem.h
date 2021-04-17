@@ -1,9 +1,12 @@
 #pragma once
+#include <std_string.h>
 #include <stdbool.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
+typedef struct std____cxx11__basic_string_char__t_s std____cxx11__basic_string_char__t;
+typedef std____cxx11__basic_string_char__t std___cxx11_string_t;
 
 enum OpenImageIO_v2_2__Filesystem__IOProxy__Mode_e {
     OIIO_Filesystem_IOProxy_Mode_Closed = 0,
@@ -112,6 +115,13 @@ unsigned long OpenImageIO_v2_2__Filesystem__IOProxy_pwrite(
     , long offset);
 
 #define OIIO_Filesystem_IOProxy_pwrite OpenImageIO_v2_2__Filesystem__IOProxy_pwrite
+
+
+
+std___cxx11_string_t const * OpenImageIO_v2_2__Filesystem__IOProxy_filename(
+    OIIO_Filesystem_IOProxy_t const * this_);
+
+#define OIIO_Filesystem_IOProxy_filename OpenImageIO_v2_2__Filesystem__IOProxy_filename
 
 
 
@@ -236,6 +246,36 @@ void OpenImageIO_v2_2__Filesystem__IOMemReader_delete(
 
 
 
+
+
+
+std___cxx11_string_t OpenImageIO_v2_2_Filesystem_filename(
+    std___cxx11_string_t const * filepath);
+
+#define OIIO_Filesystem_filename OpenImageIO_v2_2_Filesystem_filename
+
+
+
+std___cxx11_string_t OpenImageIO_v2_2_Filesystem_extension(
+    std___cxx11_string_t const * filepath
+    , _Bool include_dot);
+
+#define OIIO_Filesystem_extension OpenImageIO_v2_2_Filesystem_extension
+
+
+
+std___cxx11_string_t OpenImageIO_v2_2_Filesystem_parent_path(
+    std___cxx11_string_t const * filepath);
+
+#define OIIO_Filesystem_parent_path OpenImageIO_v2_2_Filesystem_parent_path
+
+
+
+std___cxx11_string_t OpenImageIO_v2_2_Filesystem_replace_extension(
+    std___cxx11_string_t const * filepath
+    , std___cxx11_string_t const * new_extension);
+
+#define OIIO_Filesystem_replace_extension OpenImageIO_v2_2_Filesystem_replace_extension
 
 #ifdef __cplusplus
 }

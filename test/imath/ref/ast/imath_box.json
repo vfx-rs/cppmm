@@ -178,7 +178,7 @@
                         "kind": "RecordType",
                         "id": 14,
                         "type": "Imath_2_5::Vec3<int>",
-                        "record": -1,
+                        "record": 41,
                         "const": false
                     }
                 },
@@ -189,7 +189,7 @@
                         "kind": "RecordType",
                         "id": 14,
                         "type": "Imath_2_5::Vec3<int>",
-                        "record": -1,
+                        "record": 41,
                         "const": false
                     }
                 }
@@ -233,7 +233,7 @@
                                     "kind": "RecordType",
                                     "id": 14,
                                     "type": "Imath_2_5::Vec3<int>",
-                                    "record": -1,
+                                    "record": 41,
                                     "const": true
                                 },
                                 "const": false

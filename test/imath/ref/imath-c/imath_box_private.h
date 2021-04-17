@@ -65,6 +65,7 @@ inline Imath_Box3f_t * to_c(
 
 
 
+
 inline Imath_2_5::Box<Imath::Vec3<int> > const & to_cpp_ref(
     Imath_Box3i_t const * rhs)
 {

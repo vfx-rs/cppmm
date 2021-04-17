@@ -21,10 +21,10 @@ impl Default for pxrInternal_v0_20__pxrReserved____TfToken_t {
 
 extern "C" {
 
-pub fn pxrInternal_v0_20__pxrReserved____TfToken_copy(this_: *mut pxr_TfToken_t, rhs: *const pxr_TfToken_t);
+pub fn pxrInternal_v0_20__pxrReserved____TfToken_copy(this_: *mut pxr_TfToken_t, rhs: *const pxr_TfToken_t) -> c_void;
 pub fn pxrInternal_v0_20__pxrReserved____TfToken_assign(this_: *mut pxr_TfToken_t, rhs: *const pxr_TfToken_t) -> *mut pxr_TfToken_t;
-pub fn pxrInternal_v0_20__pxrReserved____TfToken_destruct(this_: *mut pxr_TfToken_t);
-pub fn pxrInternal_v0_20__pxrReserved____TfToken_from_string(this_: *mut pxr_TfToken_t, s: *const c_char);
+pub fn pxrInternal_v0_20__pxrReserved____TfToken_destruct(this_: *mut pxr_TfToken_t) -> c_void;
+pub fn pxrInternal_v0_20__pxrReserved____TfToken_from_string(this_: *mut pxr_TfToken_t, s: *const c_char) -> c_void;
 pub fn pxrInternal_v0_20__pxrReserved____TfToken_Hash(this_: *const pxr_TfToken_t) -> c_ulong;
 pub fn pxrInternal_v0_20__pxrReserved____TfToken_size(this_: *const pxr_TfToken_t) -> c_ulong;
 pub fn pxrInternal_v0_20__pxrReserved____TfToken_GetText(this_: *const pxr_TfToken_t) -> *const c_char;
