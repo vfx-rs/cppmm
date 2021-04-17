@@ -235,9 +235,6 @@ Field read_field(const nln::json& json) {
 
 //------------------------------------------------------------------------------
 NodePtr read_record(const TranslationUnit::Ptr& tu, const nln::json& json) {
-    // Ignore these for the moment
-    std::vector<std::string> _attrs;
-
     // Dont ignore these
     Id id = json[ID].get<Id>();
     auto size = json[SIZE].get<uint64_t>();
@@ -271,8 +268,11 @@ NodePtr read_record(const TranslationUnit::Ptr& tu, const nln::json& json) {
         namespaces.push_back(ns);
     }
 
+    // Pull out the attributes
+    std::vector<std::string> attrs = read_attrs(json);
+
     // Instantiate the translation unit
-    auto result = NodeRecord::n(tu, qual_name, id, _attrs, size, align, name,
+    auto result = NodeRecord::n(tu, qual_name, id, attrs, size, align, name,
                                 namespaces, abstract, trivially_copyable);
 
     // Pull out the methods
