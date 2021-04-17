@@ -126,8 +126,10 @@ void Imath_2_5_V3f_copy(Imath_2_5_V3f* this_, const Imath_2_5_V3f* param1);
 float Imath_2_5_V3f_length(const Imath_2_5_V3f* this_);
 ```
 
-and then another generator can create a rust-sys wrapper that would look something like:
+`asttoc` also creates a rust-sys wrapper that looks something like:
 ```Rust
+#[repr(C)]
+#[derive(Debug, Clone)]
 pub struct Imath_2_5_V3f {
     pub x: c_float,
     pub y: c_float,
