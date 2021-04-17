@@ -20,7 +20,14 @@ enum OpenImageIO_v2_2__ImageSpec__SerialVerbose_e {
 typedef unsigned int OIIO_ImageSpec_SerialVerbose;
 
 typedef struct OpenImageIO_v2_2__ROI_t_s {
-    char data[32];
+    int xbegin;
+    int xend;
+    int ybegin;
+    int yend;
+    int zbegin;
+    int zend;
+    int chbegin;
+    int chend;
 } __attribute__((aligned(4))) OpenImageIO_v2_2__ROI_t;
 typedef OpenImageIO_v2_2__ROI_t OIIO_ROI_t;
 

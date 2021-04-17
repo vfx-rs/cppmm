@@ -6,12 +6,16 @@ extern "C" {
 
 
 typedef struct Imath_2_5__Vec3_float__t_s {
-    char data[12];
+    float x;
+    float y;
+    float z;
 } __attribute__((aligned(4))) Imath_2_5__Vec3_float__t;
 typedef Imath_2_5__Vec3_float__t Imath_V3f_t;
 
 typedef struct Imath_2_5__Vec3_int__t_s {
-    char data[12];
+    int x;
+    int y;
+    int z;
 } __attribute__((aligned(4))) Imath_2_5__Vec3_int__t;
 typedef Imath_2_5__Vec3_int__t Imath_V3i_t;
 

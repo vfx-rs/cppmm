@@ -1,4 +1,5 @@
 #pragma once
+#include <imath_vec.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -10,12 +11,14 @@ typedef Imath_2_5__Vec3_int__t Imath_V3i_t;
 
 
 typedef struct Imath_2_5__Box_Imath__Vec3_float___t_s {
-    char data[24];
+    Imath_V3f_t min;
+    Imath_V3f_t max;
 } __attribute__((aligned(4))) Imath_2_5__Box_Imath__Vec3_float___t;
 typedef Imath_2_5__Box_Imath__Vec3_float___t Imath_Box3f_t;
 
 typedef struct Imath_2_5__Box_Imath__Vec3_int___t_s {
-    char data[24];
+    Imath_V3i_t min;
+    Imath_V3i_t max;
 } __attribute__((aligned(4))) Imath_2_5__Box_Imath__Vec3_int___t;
 typedef Imath_2_5__Box_Imath__Vec3_int___t Imath_Box3i_t;
 

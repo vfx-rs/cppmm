@@ -54,7 +54,11 @@ enum OpenImageIO_v2_2__TypeDesc__VECSEMANTICS_e {
 typedef unsigned int OIIO_TypeDesc_VECSEMANTICS;
 
 typedef struct OpenImageIO_v2_2__TypeDesc_t_s {
-    char data[8];
+    unsigned char basetype;
+    unsigned char aggregate;
+    unsigned char vecsemantics;
+    unsigned char reserved;
+    int arraylen;
 } __attribute__((aligned(4))) OpenImageIO_v2_2__TypeDesc_t;
 typedef OpenImageIO_v2_2__TypeDesc_t OIIO_TypeDesc_t;
 
