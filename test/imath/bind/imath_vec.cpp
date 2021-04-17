@@ -13,7 +13,7 @@ public:
     using BoundType = ::Imath::Vec3<T>;
 
     Vec3();
-    Vec3(const ::Imath::Vec3<T>& v);
+    Vec3(const ::Imath::Vec3<T>&);
     template <typename S> Vec3(const ::Imath::Vec3<S>& v);
 
     // we're not actually paying any attention to the method declarations yet

@@ -1250,8 +1250,19 @@ void process_function_parameters(const FunctionDecl* fd, QType& return_qtype,
                      pvd->getType().getCanonicalType().getAsString());
         QType qtype = process_qtype(pvd->getType());
 
-        params.emplace_back(
-            Param{pvd->getNameAsString(), qtype, index, get_attrs(pvd)});
+        // handle unnamed parameters
+        auto param_name = pvd->getNameAsString();
+        if (param_name.empty()) {
+            if (fd->getNumParams() == 1) {
+                // if it's a single parameter call it "rhs" as we're probably in
+                // a copy constructor or assignment operator etc.
+                param_name = "rhs";
+            } else {
+                param_name = fmt::format("_param{}", index);
+            }
+        }
+
+        params.emplace_back(Param{param_name, qtype, index, get_attrs(pvd)});
 
         if (const auto* vtd = pvd->getDescribedVarTemplate()) {
             SPDLOG_TRACE("            GOT VTD");
