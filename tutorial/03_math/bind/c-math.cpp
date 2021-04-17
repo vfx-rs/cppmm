@@ -17,7 +17,7 @@ struct Vec3 {
     Vec3(const Mymath::Vec3& v) CPPMM_RENAME(copy);
 
     float length() const;
-};
+} CPPMM_VALUETYPE;
 
 } // namespace MYMATH_INTERNAL_NAMESPACE
 

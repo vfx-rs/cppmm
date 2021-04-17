@@ -17,7 +17,7 @@ template <typename T> struct Vec3 {
     Vec3(const Mymath::Vec3<T>& v) CPPMM_RENAME(copy);
 
     T length() const;
-};
+} CPPMM_VALUETYPE;
 
 template class Vec3<float>; // instantiate binding for float
 template class Vec3<int>;   // instantiate binding for int
