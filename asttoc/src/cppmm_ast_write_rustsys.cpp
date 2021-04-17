@@ -133,16 +133,24 @@ void write_record(fmt::ostream& out, const NodeRecord* node_record) {
     out.print("#[derive(Clone)]\n");
     out.print("pub struct {} {{\n", node_record->name);
 
-    if (bind_type(*node_record) == BindType::ValueType) {
+    BindType bt = bind_type(*node_record);
+    if (bt == BindType::OpaquePtr) {
+        // temporary hack until ptr is implemented
+        bt = BindType::OpaqueBytes;
+    }
+
+    if (bt == BindType::ValueType) {
         std::vector<std::string> fields = convert_fields(node_record->fields);
         out.print("    {},\n", pystring::join(",\n    ", fields));
-    } else { // if (bind_type(*node_record) == BindType::OpaqueBytes) {
+    } else if (bt == BindType::OpaqueBytes) {
         out.print("    _inner: [u8; {}]\n", node_record->size / 8);
+    } else {
+        // ...
     }
 
     out.print("}}\n");
 
-    if (bind_type(*node_record) == BindType::OpaqueBytes) {
+    if (bt == BindType::OpaqueBytes) {
         out.print(R"(
 impl Default for {} {{
     fn default() -> Self {{
