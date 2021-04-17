@@ -46,6 +46,7 @@ enum class NodeKind : uint32_t {
     Method,
     Record,
     Typedef,
+    FunctionPointerTypedef,
     Sentinal, // A sentinal entry to keep track of how many there are
 };
 
@@ -193,11 +194,14 @@ struct NodePointerType : public NodeType {
 struct NodeFunctionProtoType : public NodeType {
     NodeTypePtr return_type;
     std::string type;
+    NodeId function_pointer_typedef;
 
     NodeFunctionProtoType(const NodeTypePtr& return_type,
-                          const std::string& type)
+                          const std::string& type,
+                          NodeId function_pointer_typedef)
         : NodeType("", 0, NodeKind::FunctionProtoType, "", false),
-          return_type(return_type), type(type) {}
+          return_type(return_type), type(type),
+          function_pointer_typedef(function_pointer_typedef) {}
 
     // A static method for creating this as a shared pointer
     using This = NodeFunctionProtoType;
@@ -673,6 +677,28 @@ struct NodeTypedef : public NodeAttributeHolder {
           tu(tu), type(type) {}
 
     using This = NodeTypedef;
+    template <typename... Args> static std::shared_ptr<This> n(Args&&... args) {
+        return std::make_shared<This>(std::forward<Args>(args)...);
+    }
+};
+
+//------------------------------------------------------------------------------
+// NodeFunctionPointerTypedef
+//------------------------------------------------------------------------------
+struct NodeFunctionPointerTypedef : public NodeAttributeHolder {
+    NodeTypePtr type;
+    TranslationUnit::WPtr tu;
+    std::string alias;
+    std::vector<NodeId> namespaces;
+
+    NodeFunctionPointerTypedef(const TranslationUnit::Ptr& tu,
+                               std::string qualified_name, std::string alias,
+                               std::vector<NodeId> namespaces)
+        : NodeAttributeHolder(qualified_name, 0, NodeKind::Typedef,
+                              std::vector<std::string>()),
+          tu(tu), alias(alias), namespaces(namespaces) {}
+
+    using This = NodeFunctionPointerTypedef;
     template <typename... Args> static std::shared_ptr<This> n(Args&&... args) {
         return std::make_shared<This>(std::forward<Args>(args)...);
     }
