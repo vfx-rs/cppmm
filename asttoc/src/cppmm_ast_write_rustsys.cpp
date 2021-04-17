@@ -103,7 +103,7 @@ std::vector<std::string> convert_params(const std::vector<Param>& params) {
 std::vector<std::string> convert_fields(const std::vector<Field>& fields) {
     std::vector<std::string> result;
     for (const auto& f : fields) {
-        result.push_back(fmt::format("{}: {}", sanitize_keyword(f.name),
+        result.push_back(fmt::format("pub {}: {}", sanitize_keyword(f.name),
                                      convert_type(f.type)));
     }
     return result;
@@ -172,8 +172,9 @@ void write_enum(fmt::ostream& out, const NodeEnum* node_enum) {
         repr = "u32";
     }
 
-    out.print("#[repr(transparent)]\npub struct {}(pub {});\n", node_enum->name,
-              repr);
+    out.print("#[repr(transparent)]\n#[derive(Debug, Copy, Clone)]\npub struct "
+              "{}(pub {});\n",
+              node_enum->name, repr);
     for (const auto& p : node_enum->variants) {
         out.print("pub const {0}: {1} = {1}({2});\n", p.first, node_enum->name,
                   p.second);
