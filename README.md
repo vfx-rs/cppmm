@@ -4,14 +4,33 @@ C-plus-plus-minus-minus
 
 ## Current status
 
+### Components
 - [x] AST generation
-- [ ] C library output
-- [ ] Rust-sys output
+- [x] C library output
+- [x] Rust-sys output
 - [x] Binding file generation
+
+### Libraries bound
+
+| Feature | Status |
+| ------- | ------ |
+| Imath | <ul><li> - [ ] Still under discussion whether this will be a binding, a reimplementation, or just using mint or something like it. </ul></li> |
+| OpenEXR | <ul><li> - [x] Complete. Not fully tested </ul></li> |
+| OpenImageIO | <ul><li> - [ ] Partially complete </ul></li> |
+| OpenColorIO | <ul><li> - [ ] Planned </ul></li> |
+| Ptex | <ul><li> - [ ] In progress </ul></li> |
+| OpenShadingLanguage | <ul><li> - [ ] Planned </ul></li> |
+| Slang | <ul><li> - [ ] Planned </ul></li> |
+| MaterialX | <ul><li> - [ ] Planned </ul></li> |
+| Alembic | <ul><li> - [ ] Planned </ul></li> |
+| OpenVDB | <ul><li> - [ ] Planned </ul></li> |
+| USD | <ul><li> - [ ]  Planned </ul></li> |
 
 ## Introduction
 
-`cppmm` is a binding generator for creating C and Rust interfaces to C++ libraries. It is targeting a very small subset of libraries--just those in consideration by the `vfx-rs` project--and is not expected to work for anything else and will have assumptions about the C++ it will accept based on the types and idioms found in those libraries baked into it.
+`cppmm` is a binding generator for creating C and Rust interfaces to C++ libraries. 
+
+Our priority is targeting a small set of libraries--just those in consideration by the `vfx-rs` project. It should work for other libraries but will have assumptions baked into it about the C++ it will accept based on the types and idioms found in our target libraries. Failure to bind libraries outside of that scope will be considered a low-priority bug.
 
 ## Documentation
 
@@ -20,7 +39,6 @@ There is a series of tutorials introducing the concepts of writing binding files
 
 ## Why not bindgen/cxx/autocxx?
 
-Several reasons:
 1. While excellent, all these libraries have limitations in the C++ they can bind that make them unsuitable for our target libraries.
 2. We want to be able to control the output to generate good C and Rust APIs: to choose which template instantiations and which overloads we want to bind, and what to name them.
 3. The target libraries tend to move very quickly with a lot of API churn. It would be nice if our binding tool could help us keep up to date by tracking changes in the target libraries.
@@ -112,9 +130,9 @@ float Imath_2_5_V3f_length(const Imath_2_5_V3f* this_);
 and then another generator can create a rust-sys wrapper that would look something like:
 ```Rust
 pub struct Imath_2_5_V3f {
-    pub x: f32,
-    pub y: f32,
-    pub z: f32,
+    pub x: c_float,
+    pub y: c_float,
+    pub z: c_float,
 }
 
 extern "C" {
@@ -126,7 +144,7 @@ extern "C" {
 
 
 ## Quick start
-You must have LLVM and clang installed. I've tested it with llvm 10.0.1 and 11.0.0. To run the tests you'll need USD 20.05, OIIO 2.2.8 and OpenEXR 2.5.5 installed. Other versions may work but the tests will fail as they rely on diffing the output, which will have the version numbers baked into the namespaces.
+You must have LLVM and clang installed. I've tested it with llvm 10.0.1 and 11.0.0. To run the tests you'll need USD 20.05, OIIO 2.2.8 and OpenEXR 2.5.5 installed. Other versions may work but the tests will fail as they rely on diffing the output, which will have the version numbers baked into the type names.
 
 ### Checkout
 The repository includes spdlog and nlohmann::json as submodules, so clone with `--recursive`:
