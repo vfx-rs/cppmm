@@ -549,12 +549,20 @@ NodeExprPtr convert_enum_to(const TypeRegistry& type_registry,
                                    std::vector<NodeExprPtr>({reference}));
 }
 
+bool leaf_type_is(const NodeArrayType* p, NodeKind kind);
+
 //------------------------------------------------------------------------------
 bool leaf_type_is(const NodePointerType* p, NodeKind kind) {
-    switch (p->pointee_type->kind) {
+    auto pointee_type = p->pointee_type.get();
+    switch (pointee_type->kind) {
     case NodeKind::PointerType: {
         return leaf_type_is(
-            static_cast<const NodePointerType*>(p->pointee_type.get()),
+            static_cast<const NodePointerType*>(pointee_type),
+            NodeKind::BuiltinType);
+    }
+    case NodeKind::ArrayType: {
+        return leaf_type_is(
+            static_cast<const NodeArrayType*>(pointee_type),
             NodeKind::BuiltinType);
     }
     default:
@@ -562,6 +570,25 @@ bool leaf_type_is(const NodePointerType* p, NodeKind kind) {
     }
 }
 
+//------------------------------------------------------------------------------
+bool leaf_type_is(const NodeArrayType* p, NodeKind kind) {
+    auto element_type = p->element_type.get();
+    switch (element_type->kind) {
+    case NodeKind::PointerType: {
+        return leaf_type_is(
+            static_cast<const NodePointerType*>(element_type),
+            NodeKind::BuiltinType);
+    }
+    case NodeKind::ArrayType: {
+        return leaf_type_is(
+            static_cast<const NodeArrayType*>(element_type),
+            NodeKind::BuiltinType);
+    }
+    default:
+        return p->element_type->kind == kind;
+    }
+}
+/*
 //------------------------------------------------------------------------------
 std::string compute_to_cpp_name(const TypeRegistry& type_registry,
                                 const NodePointerType* p, const char* suffix) {
@@ -576,6 +603,33 @@ std::string compute_to_cpp_name(const TypeRegistry& type_registry,
         return std::string(suffix);
     case NodeKind::EnumType:
         return build_enum_to_cpp_name(type_registry, p->pointee_type, suffix);
+    default:
+        cassert(
+            false,
+            "compute_to_cpp_name Shouldn't get here"); // TODO LT: Clean this up
+        break;
+    }
+}
+*/
+
+//------------------------------------------------------------------------------
+std::string compute_to_cpp_name(const TypeRegistry& type_registry,
+                                const NodeTypePtr& node, const char* suffix) {
+    switch (node->kind) {
+    case NodeKind::PointerType:
+        return compute_to_cpp_name(
+            type_registry,
+            static_cast<const NodePointerType*>(node.get())->pointee_type,
+            suffix);
+    case NodeKind::ArrayType:
+        return compute_to_cpp_name(
+            type_registry,
+            static_cast<const NodeArrayType*>(node.get())->element_type,
+            suffix);
+    case NodeKind::RecordType:
+        return std::string(suffix);
+    case NodeKind::EnumType:
+        return build_enum_to_cpp_name(type_registry, node, suffix);
     default:
         cassert(
             false,
@@ -613,14 +667,38 @@ NodeExprPtr convert_pointer_to(const TypeRegistry& type_registry,
     std::string to_cpp;
     switch (p->pointer_kind) {
     case PointerKind::Pointer:
-        to_cpp = compute_to_cpp_name(type_registry, p, "to_cpp");
+        to_cpp = compute_to_cpp_name(type_registry, p->pointee_type,
+                                     "to_cpp");
         break;
     case PointerKind::RValueReference: // TODO LT: Add support for rvalue
                                        // reference
     case PointerKind::Reference:
-        to_cpp = compute_to_cpp_name(type_registry, p, "to_cpp_ref");
+        to_cpp = compute_to_cpp_name(type_registry, p->pointee_type,
+                                     "to_cpp_ref");
         break;
     }
+
+    return NodeFunctionCallExpr::n(to_cpp, std::vector<NodeExprPtr>({name}));
+}
+
+//------------------------------------------------------------------------------
+NodeExprPtr convert_array_to(const TypeRegistry& type_registry,
+                             const NodeTypePtr& t, const NodeExprPtr& name) {
+    // TODO LT: Assuming opaquebytes at the moment, opaqueptr will have a
+    // different implementation.
+    //
+    auto a = static_cast<const NodeArrayType*>(t.get());
+
+    // If we're using a pointer to a builtin type
+    //
+    if (leaf_type_is(a, NodeKind::BuiltinType)) {
+        return name;
+    }
+
+    // Compute the correct conversion function name
+    std::string to_cpp;
+    to_cpp = compute_to_cpp_name(type_registry, a->element_type,
+                                 "to_cpp");
 
     return NodeFunctionCallExpr::n(to_cpp, std::vector<NodeExprPtr>({name}));
 }
@@ -637,6 +715,8 @@ NodeExprPtr convert_to(const TypeRegistry& type_registry, const NodeTypePtr& t,
         return convert_enum_to(type_registry, t, name);
     case NodeKind::PointerType:
         return convert_pointer_to(type_registry, t, name);
+    case NodeKind::ArrayType:
+        return convert_array_to(type_registry, t, name);
     default:
         break;
     }
