@@ -171,7 +171,7 @@ public:
     // a a a a
     // a a a a
 
-    Matrix44(const T a[4][4]) CPPMM_IGNORE; //CPPMM_RENAME(from_array); // TODO LT: Temporary
+    Matrix44(const T a[4][4]) CPPMM_RENAME(from_array);
     // a[0][0] a[0][1] a[0][2] a[0][3]
     // a[1][0] a[1][1] a[1][2] a[1][3]
     // a[2][0] a[2][1] a[2][2] a[2][3]
