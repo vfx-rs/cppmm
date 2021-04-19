@@ -1,10 +1,12 @@
 #include "ast_utils.hpp"
 #include "pystring.h"
-#include "clang/Basic/ExceptionSpecificationType.h"
 namespace ps = pystring;
 #include "base64.hpp"
 
+#include <clang/AST/ASTContext.h>
 #include <clang/AST/Attr.h>
+#include <clang/Basic/ExceptionSpecificationType.h>
+#include <clang/Basic/SourceManager.h>
 
 #define SPDLOG_ACTIVE_LEVEL TRACE
 #include <spdlog/fmt/fmt.h>
