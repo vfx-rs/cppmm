@@ -74,7 +74,7 @@ std::unordered_map<std::string, NodeId> NODE_MAP;
 /// contain the rest of the tree
 std::vector<NodeId> ROOT;
 /// Namespace aliases
-std::unordered_map<std::string, std::string> NAMESPACE_ALIASES;
+std::unordered_map<std::string, std::pair<std::string, bool>> NAMESPACE_ALIASES;
 /// Function prototype typedefs
 std::unordered_map<std::string, std::string> FPT_TYPEDEFS;
 
@@ -106,6 +106,7 @@ void NodeNamespace::write_json_attrs(json& o) const {
     Node::write_json_attrs(o);
     o["short_name"] = short_name;
     o["alias"] = alias;
+    o["collapse"] = collapse;
 }
 
 void NodeNamespace::write_json(json& o) const {

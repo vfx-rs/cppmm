@@ -194,6 +194,7 @@ int main(int argc_, const char** argv_) {
 #define CPPMM_OPAQUEPTR __attribute__((annotate("cppmm|opaqueptr")))
 #define CPPMM_OPAQUEBYTES __attribute__((annotate("cppmm|opaquebytes")))
 #define CPPMM_VALUETYPE __attribute__((annotate("cppmm|valuetype")))
+#define CPPMM_COLLAPSE __attribute__((annotate("cppmm|collapse")))
 
 #define CPPMM_THROWS(EX, VAR) __attribute__((annotate("cppmm|throws|" #EX "|" #VAR)))
 

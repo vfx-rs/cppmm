@@ -125,11 +125,12 @@ struct TranslationUnit {
 struct NodeNamespace : public Node {
     std::string short_name;
     std::string alias;
+    bool collapse;
 
     NodeNamespace(std::string name, NodeId id, std::string short_name,
-                  std::string alias)
+                  std::string alias, bool collapse)
         : Node(name, id, NodeKind::Namespace), short_name(short_name),
-          alias(alias) {}
+          alias(alias), collapse(collapse) {}
 
     // A static method for creating this as a shared pointer
     using This = NodeNamespace;

@@ -89,6 +89,7 @@ struct NodeTranslationUnit : public Node {
 struct NodeNamespace : public Node {
     std::string short_name;
     std::string alias;
+    bool collapse = false;
 
     NodeNamespace(std::string qualified_name, NodeId id, NodeId context,
                   std::string short_name, std::string alias)
@@ -463,7 +464,8 @@ extern std::unordered_map<std::string, NodeId> NODE_MAP;
 /// contain the rest of the tree
 extern std::vector<NodeId> ROOT;
 /// Namespace aliases
-extern std::unordered_map<std::string, std::string> NAMESPACE_ALIASES;
+extern std::unordered_map<std::string, std::pair<std::string, bool>>
+    NAMESPACE_ALIASES;
 /// Function prototype typedefs
 extern std::unordered_map<std::string, std::string> FPT_TYPEDEFS;
 

@@ -30,6 +30,7 @@ const char* ATTRIBUTES = "attributes";
 const char* ABSTRACT = "abstract";
 const char* CHILDREN = "children";
 const char* DESTRUCTOR = "destructor";
+const char* COLLAPSE = "collapse";
 const char* COMMENT = "comment";
 const char* CONSTRUCTOR = "constructor";
 const char* COPY_CONSTRUCTOR = "copy_constructor";
@@ -365,8 +366,9 @@ NodePtr read_namespace(const TranslationUnit::Ptr& tu, const nln::json& json) {
     auto name = json[NAME].get<std::string>();
     auto short_name = json[SHORT_NAME].get<std::string>();
     auto alias = json[ALIAS].get<std::string>();
+    auto collapse = json[COLLAPSE].get<bool>();
 
-    auto result = NodeNamespace::n(name, id, short_name, alias);
+    auto result = NodeNamespace::n(name, id, short_name, alias, collapse);
 
     // Return the result
     return result;
