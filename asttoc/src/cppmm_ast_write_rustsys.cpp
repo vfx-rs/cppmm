@@ -117,18 +117,27 @@ void write_function(fmt::ostream& out, const NodeFunction* node_function) {
 
     std::vector<std::string> params = convert_params(node_function->params);
 
+    if (!node_function->comment.empty()) {
+        auto comment =
+            pystring::replace(node_function->comment, "\n", "\n/// ");
+        out.print("/// {}\n", comment);
+    }
     out.print("pub fn {}({})", node_function->name,
               pystring::join(", ", params));
 
     std::string ret = convert_type(node_function->return_type);
     if (ret != "void") {
-        out.print(" -> {};\n", ret);
+        out.print(" -> {};\n\n", ret);
     } else {
-        out.print(";\n");
+        out.print(";\n\n");
     }
 }
 
 void write_record(fmt::ostream& out, const NodeRecord* node_record) {
+    if (!node_record->comment.empty()) {
+        auto comment = pystring::replace(node_record->comment, "\n", "\n/// ");
+        out.print("/// {}\n", comment);
+    }
     out.print("#[repr(C, align({}))]\n", node_record->align / 8);
     out.print("#[derive(Clone)]\n");
     out.print("pub struct {} {{\n", node_record->name);
@@ -172,6 +181,10 @@ void write_enum(fmt::ostream& out, const NodeEnum* node_enum) {
         repr = "u32";
     }
 
+    if (!node_enum->comment.empty()) {
+        auto comment = pystring::replace(node_enum->comment, "\n", "\n/// ");
+        out.print("/// {}\n", comment);
+    }
     out.print("#[repr(transparent)]\n#[derive(Debug, Copy, Clone)]\npub struct "
               "{}(pub {});\n",
               node_enum->name, repr);

@@ -34,6 +34,7 @@
             "attributes": [
                 "cppmm|valuetype"
             ],
+            "comment": "",
             "fields": [
                 {
                     "kind": "Field",
@@ -87,6 +88,7 @@
                     "conversion_decl": false,
                     "destructor": false,
                     "attributes": null,
+                    "comment": "",
                     "return": {
                         "kind": "BuiltinType",
                         "id": 0,
@@ -115,6 +117,7 @@
                     "conversion_decl": false,
                     "destructor": false,
                     "attributes": null,
+                    "comment": "",
                     "return": {
                         "kind": "BuiltinType",
                         "id": 0,
@@ -162,6 +165,7 @@
                     "conversion_decl": false,
                     "destructor": false,
                     "attributes": null,
+                    "comment": "",
                     "return": {
                         "kind": "BuiltinType",
                         "id": 0,
@@ -224,6 +228,7 @@
                     "conversion_decl": false,
                     "destructor": false,
                     "attributes": null,
+                    "comment": "",
                     "return": {
                         "kind": "BuiltinType",
                         "id": 23,
@@ -271,6 +276,7 @@
                     "conversion_decl": false,
                     "destructor": false,
                     "attributes": null,
+                    "comment": "",
                     "return": {
                         "kind": "RecordType",
                         "id": 1,
@@ -321,6 +327,7 @@
                     "attributes": [
                         "cppmm|rename|op_iadd"
                     ],
+                    "comment": "",
                     "return": {
                         "kind": "Reference",
                         "id": 2,
@@ -375,6 +382,7 @@
                     "conversion_decl": false,
                     "destructor": false,
                     "attributes": null,
+                    "comment": "",
                     "return": {
                         "kind": "BuiltinType",
                         "id": 23,
@@ -403,6 +411,7 @@
                     "conversion_decl": false,
                     "destructor": false,
                     "attributes": null,
+                    "comment": "",
                     "return": {
                         "kind": "BuiltinType",
                         "id": 23,
@@ -431,6 +440,7 @@
                     "conversion_decl": false,
                     "destructor": false,
                     "attributes": null,
+                    "comment": "",
                     "return": {
                         "kind": "Reference",
                         "id": 2,
@@ -466,6 +476,7 @@
                     "conversion_decl": false,
                     "destructor": false,
                     "attributes": null,
+                    "comment": "",
                     "return": {
                         "kind": "RecordType",
                         "id": 1,
@@ -493,6 +504,7 @@
             "attributes": [
                 "cppmm|valuetype"
             ],
+            "comment": "",
             "fields": [
                 {
                     "kind": "Field",
@@ -546,6 +558,7 @@
                     "conversion_decl": false,
                     "destructor": false,
                     "attributes": null,
+                    "comment": "",
                     "return": {
                         "kind": "BuiltinType",
                         "id": 0,
@@ -574,6 +587,7 @@
                     "conversion_decl": false,
                     "destructor": false,
                     "attributes": null,
+                    "comment": "",
                     "return": {
                         "kind": "BuiltinType",
                         "id": 0,
@@ -621,6 +635,7 @@
                     "conversion_decl": false,
                     "destructor": false,
                     "attributes": null,
+                    "comment": "",
                     "return": {
                         "kind": "BuiltinType",
                         "id": 27,
@@ -668,6 +683,7 @@
                     "conversion_decl": false,
                     "destructor": false,
                     "attributes": null,
+                    "comment": "",
                     "return": {
                         "kind": "RecordType",
                         "id": 14,
@@ -718,6 +734,7 @@
                     "attributes": [
                         "cppmm|rename|op_iadd"
                     ],
+                    "comment": "",
                     "return": {
                         "kind": "Reference",
                         "id": 15,
@@ -772,6 +789,7 @@
                     "conversion_decl": false,
                     "destructor": false,
                     "attributes": null,
+                    "comment": "",
                     "return": {
                         "kind": "BuiltinType",
                         "id": 27,
@@ -800,6 +818,7 @@
                     "conversion_decl": false,
                     "destructor": false,
                     "attributes": null,
+                    "comment": "",
                     "return": {
                         "kind": "BuiltinType",
                         "id": 27,
@@ -828,6 +847,7 @@
                     "conversion_decl": false,
                     "destructor": false,
                     "attributes": null,
+                    "comment": "",
                     "return": {
                         "kind": "Reference",
                         "id": 15,
@@ -863,6 +883,7 @@
                     "conversion_decl": false,
                     "destructor": false,
                     "attributes": null,
+                    "comment": "",
                     "return": {
                         "kind": "RecordType",
                         "id": 14,

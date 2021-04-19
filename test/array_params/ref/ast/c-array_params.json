@@ -1,0 +1,124 @@
+{
+    "kind": "TranslationUnit",
+    "filename": "/home/anders/code/cppmm/test/array_params/bind/c-array_params.cpp",
+    "source_includes": [
+        "#include <array_params.hpp>",
+        "#include <cppmm_bind.hpp>"
+    ],
+    "include_paths": [
+        "/home/anders/code/cppmm/test/array_params/include"
+    ],
+    "id": 4,
+    "decls": [
+        {
+            "kind": "Namespace",
+            "name": "imath",
+            "id": 5,
+            "short_name": "imath",
+            "alias": "imath"
+        },
+        {
+            "kind": "Record",
+            "name": "imath::Matrix44<float>",
+            "short_name": "Matrix44",
+            "namespaces": [
+                5
+            ],
+            "id": 6,
+            "abstract": false,
+            "trivially_copyable": true,
+            "size": 512,
+            "align": 32,
+            "alias": "M44f",
+            "attributes": [
+                "cppmm|valuetype"
+            ],
+            "comment": "",
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "data",
+                    "type": {
+                        "kind": "ConstantArrayType",
+                        "id": 9,
+                        "type": "float [4][4]",
+                        "size": 4,
+                        "element_type": {
+                            "kind": "ConstantArrayType",
+                            "id": 8,
+                            "type": "float [4]",
+                            "size": 4,
+                            "element_type": {
+                                "kind": "BuiltinType",
+                                "id": 1,
+                                "type": "float",
+                                "const": false
+                            },
+                            "const": false
+                        },
+                        "const": false
+                    }
+                }
+            ],
+            "methods": [
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "Matrix44",
+                    "qualified_name": "imath::Matrix44<float>::Matrix44",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": true,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm|rename|from_array"
+                    ],
+                    "comment": "",
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 0,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "a",
+                            "type": {
+                                "kind": "ConstantArrayType",
+                                "id": 3,
+                                "type": "float const[4][4]",
+                                "size": 4,
+                                "element_type": {
+                                    "kind": "ConstantArrayType",
+                                    "id": 2,
+                                    "type": "float const[4]",
+                                    "size": 4,
+                                    "element_type": {
+                                        "kind": "BuiltinType",
+                                        "id": 1,
+                                        "type": "float",
+                                        "const": true
+                                    },
+                                    "const": true
+                                },
+                                "const": true
+                            },
+                            "attrs": []
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

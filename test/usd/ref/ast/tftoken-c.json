@@ -35,6 +35,7 @@
             "attributes": [
                 "cppmm|opaquebytes"
             ],
+            "comment": "XGNsYXNzIFRmVG9rZW4KXGluZ3JvdXAgZ3JvdXBfdGZfU3RyaW5nCgpUb2tlbiBmb3IgZWZmaWNpZW50IGNvbXBhcmlzb24sIGFzc2lnbm1lbnQsIGFuZCBoYXNoaW5nIG9mIGtub3duIHN0cmluZ3MuCgpBIFRmVG9rZW4gaXMgYSBoYW5kbGUgZm9yIGEgcmVnaXN0ZXJlZCBzdHJpbmcsIGFuZCBjYW4gYmUgY29tcGFyZWQsCmFzc2lnbmVkLCBhbmQgaGFzaGVkIGluIGNvbnN0YW50IHRpbWUuICBJdCBpcyB1c2VmdWwgd2hlbiBhIGJvdW5kZWQgbnVtYmVyCm9mIHN0cmluZ3MgYXJlIHVzZWQgYXMgZml4ZWQgc3ltYm9scyAoYnV0IG5ldmVyIG1vZGlmaWVkKS4KCkZvciBleGFtcGxlLCB0aGUgc2V0IG9mIGF2YXIgbmFtZXMgaW4gYSBzaG90IGlzIGxhcmdlIGJ1dCBib3VuZGVkLCBhbmQKb25jZSBhbiBhdmFyIG5hbWUgaXMgZGlzY292ZXJlZCwgaXQgaXMgbmV2ZXIgbWFuaXB1bGF0ZWQuICBJZiB0aGVzZSBuYW1lcwp3ZXJlIHBhc3NlZCBhcm91bmQgYXMgc3RyaW5ncywgZXZlcnkgY29tcGFyaXNvbiBhbmQgaGFzaCB3b3VsZCBiZSBsaW5lYXIKaW4gdGhlIG51bWJlciBvZiBjaGFyYWN0ZXJzLiAgKFN0cmluZyBhc3NpZ25tZW50IGl0c2VsZiBpcyBzb21ldGltZXMgYQpjb25zdGFudCB0aW1lIG9wZXJhdGlvbiwgYnV0IGl0IGlzIHNvbWV0aW1lcyBsaW5lYXIgaW4gdGhlIGxlbmd0aCBvZiB0aGUKc3RyaW5nIGFzIHdlbGwgYXMgcmVxdWlyaW5nIGEgbWVtb3J5IGFsbG9jYXRpb24uKQoKVG8gdXNlIFRmVG9rZW4sIHNpbXBseSBjcmVhdGUgYW4gaW5zdGFuY2UgZnJvbSBhIHN0cmluZyBvciBjb25zdCBjaGFyKi4KSWYgdGhlIHN0cmluZyBoYXNuJ3QgYmVlbiBzZWVuIGJlZm9yZSwgYSBjb3B5IG9mIGl0IGlzIGFkZGVkIHRvIGEgZ2xvYmFsCnRhYmxlLiAgVGhlIHJlc3VsdGluZyBUZlRva2VuIGlzIHNpbXBseSBhIHdyYXBwZXIgYXJvdW5kIGFuIHN0cmluZyosCnBvaW50aW5nIHRoYXQgY2Fub25pY2FsIGNvcHkgb2YgdGhlIHN0cmluZy4gIFRodXMsIG9wZXJhdGlvbnMgb24gdGhlIHRva2VuCmFyZSB2ZXJ5IGZhc3QuICAoVGhlIHN0cmluZydzIGhhc2ggaXMgc2ltcGx5IHRoZSBhZGRyZXNzIG9mIHRoZSBjYW5vbmljYWwKY29weSwgc28gaGFzaGluZyB0aGUgc3RyaW5nIGlzIGNvbnN0YW50IHRpbWUuKQoKVGhlIGZyZWUgZnVuY3Rpb25zIFxjIFRmVG9Ub2tlblZlY3RvcigpIGFuZCBcYyBUZlRvU3RyaW5nVmVjdG9yKCkgcHJvdmlkZQpjb252ZXJzaW9ucyB0byBhbmQgZnJvbSB2ZWN0b3JzIG9mIFxjIHN0cmluZy4KCk5vdGU6IEFjY2VzcyB0byB0aGUgZ2xvYmFsIHRhYmxlIGlzIHByb3RlY3RlZCBieSBhIG11dGV4LiAgVGhpcyBpcyBhIGdvb2QKaWRlYSBhcyBsb25nIGFzIGNsaWVudHMgZG8gbm90IGNvbnN0cnVjdCB0b2tlbnMgZnJvbSBzdHJpbmdzIHRvbwpmcmVxdWVudGx5LiAgQ29uc3RydWN0IHRva2VucyBvbmx5IGFzIG9mdGVuIGFzIHlvdSBtdXN0IChmb3IgZXhhbXBsZSwgYXMKeW91IHJlYWQgZGF0YSBmaWxlcyksIGFuZCA8aT5uZXZlcjwvaT4gaW4gaW5uZXIgbG9vcHMuICBPZiBjb3Vyc2UsIG9uY2UKeW91IGhhdmUgYSB0b2tlbiwgZmVlbCBmcmVlIHRvIGNvbXBhcmUsIGFzc2lnbiwgYW5kIGhhc2ggaXQgYXMgb2Z0ZW4gYXMKeW91IGxpa2UuICAoVGhhdCdzIHdoYXQgaXQncyBmb3IuKSAgSW4gb3JkZXIgdG8gaGVscCBwcmV2ZW50IHRva2VucyBmcm9tCmJlaW5nIHJlLWNyZWF0ZWQgb3ZlciBhbmQgb3ZlciwgYXV0byB0eXBlIGNvbnZlcnNpb24gZnJvbSBcYyBzdHJpbmcgYW5kIFxjCmNoYXIqIHRvIFxjIFRmVG9rZW4gaXMgZGlzYWJsZWQgKHlvdSBtdXN0IHVzZSB0aGUgZXhwbGljaXQgXGMgVGZUb2tlbgpjb25zdHJ1Y3RvcnMpLiAgSG93ZXZlciwgYXV0byBjb252ZXJzaW9uIGZyb20gXGMgVGZUb2tlbiB0byBcYyBzdHJpbmcgYW5kClxjIGNoYXIqIGlzIHByb3ZpZGVkLg==",
             "fields": [
                 {
                     "kind": "Field",
@@ -71,6 +72,7 @@
                     "attributes": [
                         "cppmm|rename|copy"
                     ],
+                    "comment": "Q29weSBjb25zdHJ1Y3Rvci4=",
                     "return": {
                         "kind": "BuiltinType",
                         "id": 0,
@@ -120,6 +122,7 @@
                     "attributes": [
                         "cppmm|rename|assign"
                     ],
+                    "comment": "Q29weSBhc3NpZ25tZW50Lg==",
                     "return": {
                         "kind": "Reference",
                         "id": 3,
@@ -176,6 +179,7 @@
                     "attributes": [
                         "cppmm|rename|destruct"
                     ],
+                    "comment": "RGVzdHJ1Y3Rvci4=",
                     "return": {
                         "kind": "BuiltinType",
                         "id": 0,
@@ -206,6 +210,7 @@
                     "attributes": [
                         "cppmm|rename|from_string"
                     ],
+                    "comment": "QWNxdWlyZSBhIHRva2VuIGZvciB0aGUgZ2l2ZW4gc3RyaW5nLg==",
                     "return": {
                         "kind": "BuiltinType",
                         "id": 0,
@@ -252,6 +257,7 @@
                     "conversion_decl": false,
                     "destructor": false,
                     "attributes": null,
+                    "comment": "",
                     "return": {
                         "kind": "BuiltinType",
                         "id": 6,
@@ -280,6 +286,7 @@
                     "conversion_decl": false,
                     "destructor": false,
                     "attributes": null,
+                    "comment": "UmV0dXJuIHRoZSBzaXplIG9mIHRoZSBzdHJpbmcgdGhhdCB0aGlzIHRva2VuIHJlcHJlc2VudHMu",
                     "return": {
                         "kind": "BuiltinType",
                         "id": 6,
@@ -308,6 +315,7 @@
                     "conversion_decl": false,
                     "destructor": false,
                     "attributes": null,
+                    "comment": "UmV0dXJuIHRoZSB0ZXh0IHRoYXQgdGhpcyB0b2tlbiByZXByZXNlbnRzLgoKXG5vdGUgVGhlIHJldHVybmVkIHBvaW50ZXIgdmFsdWUgaXMgbm90IHZhbGlkIGFmdGVyIHRoaXMgVGZUb2tlbgpvYmplY3QgaGFzIGJlZW4gZGVzdHJveWVkLg==",
                     "return": {
                         "kind": "Pointer",
                         "id": 5,
@@ -342,6 +350,7 @@
                     "conversion_decl": false,
                     "destructor": false,
                     "attributes": null,
+                    "comment": "U3lub255bSBmb3IgR2V0VGV4dCgpLg==",
                     "return": {
                         "kind": "Pointer",
                         "id": 5,
@@ -376,6 +385,7 @@
                     "conversion_decl": false,
                     "destructor": false,
                     "attributes": null,
+                    "comment": "RXF1YWxpdHkgb3BlcmF0b3I=",
                     "return": {
                         "kind": "BuiltinType",
                         "id": 7,
@@ -423,6 +433,7 @@
                     "conversion_decl": false,
                     "destructor": false,
                     "attributes": null,
+                    "comment": "RXF1YWxpdHkgb3BlcmF0b3I=",
                     "return": {
                         "kind": "BuiltinType",
                         "id": 7,
@@ -472,6 +483,7 @@
                     "attributes": [
                         "cppmm|rename|eq_string"
                     ],
+                    "comment": "RXF1YWxpdHkgb3BlcmF0b3IgZm9yIFxjIGNoYXIgc3RyaW5ncy4gIE5vdCBhcyBmYXN0IGFzIGRpcmVjdAp0b2tlbiB0byB0b2tlbiBlcXVhbGl0eSB0ZXN0aW5n",
                     "return": {
                         "kind": "BuiltinType",
                         "id": 7,
@@ -520,6 +532,7 @@
                     "attributes": [
                         "cppmm|rename|neq_string"
                     ],
+                    "comment": "SW5lcXVhbGl0eSBvcGVyYXRvciBmb3IgXGMgY2hhciBzdHJpbmdzLiAgTm90IGFzIGZhc3QgYXMgZGlyZWN0CnRva2VuIHRvIHRva2VuIGVxdWFsaXR5IHRlc3Rpbmc=",
                     "return": {
                         "kind": "BuiltinType",
                         "id": 7,
@@ -566,6 +579,7 @@
                     "conversion_decl": false,
                     "destructor": false,
                     "attributes": null,
+                    "comment": "TGVzcy10aGFuIG9wZXJhdG9yIHRoYXQgY29tcGFyZXMgdG9rZW5pemVkIHN0cmluZ3MgbGV4aWNvZ3JhcGhpY2FsbHkuCkFsbG93cyBcYyBUZlRva2VuIHRvIGJlIHVzZWQgaW4gXGMgc3RkOjpzZXQ=",
                     "return": {
                         "kind": "BuiltinType",
                         "id": 7,
@@ -613,6 +627,7 @@
                     "conversion_decl": false,
                     "destructor": false,
                     "attributes": null,
+                    "comment": "UmV0dXJucyBcYyB0cnVlIGlmZiB0aGlzIHRva2VuIGNvbnRhaW5zIHRoZSBlbXB0eSBzdHJpbmcgXGMgIiI=",
                     "return": {
                         "kind": "BuiltinType",
                         "id": 7,
@@ -641,6 +656,7 @@
                     "conversion_decl": false,
                     "destructor": false,
                     "attributes": null,
+                    "comment": "UmV0dXJucyBcYyB0cnVlIGlmZiB0aGlzIGlzIGFuIGltbW9ydGFsIHRva2VuLg==",
                     "return": {
                         "kind": "BuiltinType",
                         "id": 7,

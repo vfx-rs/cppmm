@@ -33,6 +33,7 @@
             "attributes": [
                 "cppmm|valuetype"
             ],
+            "comment": "",
             "fields": [
                 {
                     "kind": "Field",
@@ -78,6 +79,7 @@
                     "conversion_decl": false,
                     "destructor": false,
                     "attributes": null,
+                    "comment": "",
                     "return": {
                         "kind": "BuiltinType",
                         "id": 0,
@@ -125,6 +127,7 @@
                     "conversion_decl": false,
                     "destructor": false,
                     "attributes": null,
+                    "comment": "",
                     "return": {
                         "kind": "BuiltinType",
                         "id": 0,
@@ -170,6 +173,7 @@
             "attributes": [
                 "cppmm|valuetype"
             ],
+            "comment": "",
             "fields": [
                 {
                     "kind": "Field",
@@ -215,6 +219,7 @@
                     "conversion_decl": false,
                     "destructor": false,
                     "attributes": null,
+                    "comment": "",
                     "return": {
                         "kind": "BuiltinType",
                         "id": 0,
@@ -262,6 +267,7 @@
                     "conversion_decl": false,
                     "destructor": false,
                     "attributes": null,
+                    "comment": "",
                     "return": {
                         "kind": "BuiltinType",
                         "id": 0,

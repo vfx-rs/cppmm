@@ -320,10 +320,13 @@ struct Param {
 //------------------------------------------------------------------------------
 struct NodeAttributeHolder : public Node {
     std::vector<std::string> attrs;
+    /// doc comment, decoded
+    std::string comment;
 
     NodeAttributeHolder(std::string name, NodeId id, NodeKind node_kind,
-                        std::vector<std::string> attrs)
-        : Node(name, id, node_kind), attrs(attrs) {}
+                        std::vector<std::string> attrs, std::string comment)
+        : Node(name, id, node_kind), attrs(attrs), comment(std::move(comment)) {
+    }
 };
 
 //------------------------------------------------------------------------------
@@ -545,8 +548,9 @@ struct NodeFunction : public NodeAttributeHolder {
     NodeFunction(std::string qualified_name, NodeId id,
                  std::vector<std::string> attrs, std::string short_name,
                  NodeTypePtr&& return_type, std::vector<Param>&& params,
-                 std::string nice_name)
-        : NodeAttributeHolder(qualified_name, id, NodeKind::Function, attrs),
+                 std::string nice_name, std::string comment)
+        : NodeAttributeHolder(qualified_name, id, NodeKind::Function, attrs,
+                              std::move(comment)),
           short_name(short_name), return_type(std::move(return_type)),
           params(std::move(params)), nice_name(std::move(nice_name)) {}
 
@@ -571,10 +575,10 @@ struct NodeMethod : public NodeFunction {
                std::vector<std::string> attrs, std::string short_name,
                NodeTypePtr&& return_type, std::vector<Param>&& params,
                bool is_static, bool is_constructor, bool is_copy_constructor,
-               bool is_destructor, bool is_const)
+               bool is_destructor, bool is_const, std::string comment)
         : NodeFunction(qualified_name, id, attrs, short_name,
                        std::move(return_type), std::move(params),
-                       qualified_name),
+                       qualified_name, std::move(comment)),
           is_static(is_static), is_constructor(is_constructor),
           is_copy_constructor(is_copy_constructor),
           is_destructor(is_destructor), is_const(is_const) {
@@ -620,8 +624,9 @@ struct NodeRecord : public NodeAttributeHolder {
                NodeId id, std::vector<std::string> attrs, uint32_t size,
                uint32_t align, const std::string& alias,
                const std::vector<NodeId>& namespaces, bool abstract,
-               bool trivially_copyable)
-        : NodeAttributeHolder(qualified_name, id, NodeKind::Record, attrs),
+               bool trivially_copyable, std::string comment)
+        : NodeAttributeHolder(qualified_name, id, NodeKind::Record, attrs,
+                              std::move(comment)),
           tu(tu), size(size), align(align), force_alignment(false),
           alias(alias), namespaces(namespaces), abstract(abstract),
           trivially_copyable(trivially_copyable) {}
@@ -651,8 +656,9 @@ struct NodeEnum : public NodeAttributeHolder {
              std::vector<std::string> attrs,
              std::vector<std::pair<std::string, std::string>> variants,
              uint32_t size, uint32_t align,
-             const std::vector<NodeId>& namespaces)
-        : NodeAttributeHolder(qualified_name, id, NodeKind::Enum, attrs),
+             const std::vector<NodeId>& namespaces, std::string comment)
+        : NodeAttributeHolder(qualified_name, id, NodeKind::Enum, attrs,
+                              std::move(comment)),
           tu(tu), variants(variants), size(size), align(align),
           namespaces(namespaces), nice_name(nice_name), short_name(short_name) {
     }
@@ -671,9 +677,9 @@ struct NodeTypedef : public NodeAttributeHolder {
     TranslationUnit::WPtr tu;
 
     NodeTypedef(const TranslationUnit::Ptr& tu, std::string qualified_name,
-                const NodeTypePtr& type)
+                const NodeTypePtr& type, std::string comment)
         : NodeAttributeHolder(qualified_name, 0, NodeKind::Typedef,
-                              std::vector<std::string>()),
+                              std::vector<std::string>(), std::move(comment)),
           tu(tu), type(type) {}
 
     using This = NodeTypedef;
@@ -693,9 +699,10 @@ struct NodeFunctionPointerTypedef : public NodeAttributeHolder {
 
     NodeFunctionPointerTypedef(const TranslationUnit::Ptr& tu,
                                std::string qualified_name, std::string alias,
-                               std::vector<NodeId> namespaces)
+                               std::vector<NodeId> namespaces,
+                               std::string comment)
         : NodeAttributeHolder(qualified_name, 0, NodeKind::Typedef,
-                              std::vector<std::string>()),
+                              std::vector<std::string>(), std::move(comment)),
           tu(tu), alias(alias), namespaces(namespaces) {}
 
     using This = NodeFunctionPointerTypedef;

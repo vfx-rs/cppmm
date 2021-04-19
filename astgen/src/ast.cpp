@@ -216,6 +216,7 @@ void NodeAttributeHolder::write_attrs_json(json& o) const {
     for (const auto& a : attrs) {
         o["attributes"].emplace_back(a);
     }
+    o["comment"] = comment;
 }
 
 void NodeVar::write_json_attrs(json& o) const {

@@ -896,9 +896,10 @@ void opaquebytes_method(TypeRegistry& type_registry, TranslationUnit& c_tu,
     std::string function_nice_name =
         pystring::slice(c_record.nice_name, 0, -2) + "_" + function_suffix;
 
-    auto c_function = NodeFunction::n(function_name, PLACEHOLDER_ID,
-                                      cpp_method.attrs, "", std::move(c_return),
-                                      std::move(c_params), function_nice_name);
+    auto c_function =
+        NodeFunction::n(function_name, PLACEHOLDER_ID, cpp_method.attrs, "",
+                        std::move(c_return), std::move(c_params),
+                        function_nice_name, cpp_method.comment);
 
     c_function->body = c_function_body;
     c_tu.decls.push_back(NodePtr(c_function));
@@ -938,7 +939,7 @@ void record_entry(NodeId& record_id, TypeRegistry& type_registry,
     auto c_record = NodeRecord::n(
         c_tu, c_record_name, record_id++, cpp_record.attrs, cpp_record.size,
         cpp_record.align, cpp_record.alias, cpp_record.namespaces, false,
-        cpp_record.trivially_copyable);
+        cpp_record.trivially_copyable, cpp_record.comment);
 
     c_record->nice_name = nice_name;
 
@@ -992,7 +993,7 @@ void cast_to_cpp(TranslationUnit& c_tu, const std::string& cpp_record_name,
     }
     auto c_function =
         NodeFunction::n(function_name, PLACEHOLDER_ID, attrs, "",
-                        std::move(cpp_return), std::move(params), "");
+                        std::move(cpp_return), std::move(params), "", "");
 
     c_function->body = c_function_body;
     c_function->private_ = true;
@@ -1043,7 +1044,7 @@ void cast_to_c(TranslationUnit& c_tu, const std::string& cpp_record_name,
     std::vector<Param> params = {Param("rhs", rhs, 0)};
     auto c_function =
         NodeFunction::n(function_name, PLACEHOLDER_ID, attrs, "",
-                        std::move(c_return), std::move(params), "");
+                        std::move(c_return), std::move(params), "", "");
 
     c_function->body = c_function_body;
     c_function->private_ = true;
@@ -1095,7 +1096,7 @@ void opaquebytes_to_c_copy__trivial(TranslationUnit& c_tu,
     std::vector<Param> params = {Param("rhs", rhs, 0)};
     auto c_function =
         NodeFunction::n(function_name, PLACEHOLDER_ID, attrs, "",
-                        std::move(c_return), std::move(params), "");
+                        std::move(c_return), std::move(params), "", "");
 
     c_function->body = c_function_body;
     c_function->private_ = true;
@@ -1178,7 +1179,7 @@ void enum_entry(NodeId& new_id, TypeRegistry& type_registry,
     auto c_enum =
         NodeEnum::n(c_tu, c_enum_name, c_typedef_name, cpp_enum.short_name,
                     new_id++, cpp_enum.attrs, variants, cpp_enum.size,
-                    cpp_enum.align, cpp_enum.namespaces);
+                    cpp_enum.align, cpp_enum.namespaces, cpp_enum.comment);
 
     // Build the typedef for the actual data
     auto underlying_type_name =
@@ -1186,7 +1187,8 @@ void enum_entry(NodeId& new_id, TypeRegistry& type_registry,
     auto c_typedef =
         NodeTypedef::n(c_tu, c_typedef_name,
                        NodeBuiltinType::n(underlying_type_name, 0,
-                                          underlying_type_name, false));
+                                          underlying_type_name, false),
+                       "");
 
     // Add the conversion functions for to_c and to_cpp.
     enum_conversions(*c_tu, cpp_enum, *c_typedef);
@@ -1242,9 +1244,10 @@ void function_detail(TypeRegistry& type_registry, TranslationUnit& c_tu,
     function_name = type_registry.make_symbol_unique(function_name);
     function_nice_name = type_registry.make_symbol_unique(function_nice_name);
 
-    auto c_function = NodeFunction::n(
-        function_name, PLACEHOLDER_ID, cpp_function.attrs, "",
-        std::move(c_return), std::move(c_params), function_nice_name);
+    auto c_function =
+        NodeFunction::n(function_name, PLACEHOLDER_ID, cpp_function.attrs, "",
+                        std::move(c_return), std::move(c_params),
+                        function_nice_name, cpp_function.comment);
 
     c_function->body = c_function_body;
     c_tu.decls.push_back(NodePtr(c_function));
@@ -1376,7 +1379,7 @@ void opaquebytes_to_c_copy__constructor(TranslationUnit& c_tu,
     std::vector<Param> params = {Param("rhs", rhs, 0)};
     auto c_function =
         NodeFunction::n("to_c_copy", PLACEHOLDER_ID, attrs, "",
-                        std::move(c_return), std::move(params), "");
+                        std::move(c_return), std::move(params), "", "");
 
     c_function->body = c_function_body;
     c_function->private_ = true;

@@ -56,6 +56,7 @@
             "attributes": [
                 "cppmm|opaqueptr"
             ],
+            "comment": "UHJveHkgY2xhc3MgZm9yIEkvTy4gVGhpcyBwcm92aWRlcyBhIHNpbXBsaWZpZWQgaW50ZXJmYWNlIGZvciBmaWxlIEkvTwp0aGF0IGNhbiBoYXZlIGN1c3RvbSBvdmVycmlkZXMu",
             "fields": [
                 {
                     "kind": "Field",
@@ -124,6 +125,7 @@
                     "attributes": [
                         "cppmm|ignore"
                     ],
+                    "comment": "",
                     "return": {
                         "kind": "BuiltinType",
                         "id": 3,
@@ -154,6 +156,7 @@
                     "attributes": [
                         "cppmm|ignore"
                     ],
+                    "comment": "",
                     "return": {
                         "kind": "BuiltinType",
                         "id": 3,
@@ -209,6 +212,7 @@
                     "attributes": [
                         "cppmm|rename|delete"
                     ],
+                    "comment": "",
                     "return": {
                         "kind": "BuiltinType",
                         "id": 3,
@@ -237,6 +241,7 @@
                     "conversion_decl": false,
                     "destructor": false,
                     "attributes": null,
+                    "comment": "",
                     "return": {
                         "kind": "Pointer",
                         "id": 12,
@@ -271,6 +276,7 @@
                     "conversion_decl": false,
                     "destructor": false,
                     "attributes": null,
+                    "comment": "",
                     "return": {
                         "kind": "BuiltinType",
                         "id": 3,
@@ -299,6 +305,7 @@
                     "conversion_decl": false,
                     "destructor": false,
                     "attributes": null,
+                    "comment": "",
                     "return": {
                         "kind": "BuiltinType",
                         "id": 14,
@@ -327,6 +334,7 @@
                     "conversion_decl": false,
                     "destructor": false,
                     "attributes": null,
+                    "comment": "",
                     "return": {
                         "kind": "BuiltinType",
                         "id": 81,
@@ -355,6 +363,7 @@
                     "conversion_decl": false,
                     "destructor": false,
                     "attributes": null,
+                    "comment": "",
                     "return": {
                         "kind": "BuiltinType",
                         "id": 14,
@@ -395,6 +404,7 @@
                     "conversion_decl": false,
                     "destructor": false,
                     "attributes": null,
+                    "comment": "",
                     "return": {
                         "kind": "BuiltinType",
                         "id": 13,
@@ -452,6 +462,7 @@
                     "conversion_decl": false,
                     "destructor": false,
                     "attributes": null,
+                    "comment": "",
                     "return": {
                         "kind": "BuiltinType",
                         "id": 13,
@@ -509,6 +520,7 @@
                     "conversion_decl": false,
                     "destructor": false,
                     "attributes": null,
+                    "comment": "",
                     "return": {
                         "kind": "BuiltinType",
                         "id": 13,
@@ -577,6 +589,7 @@
                     "conversion_decl": false,
                     "destructor": false,
                     "attributes": null,
+                    "comment": "",
                     "return": {
                         "kind": "BuiltinType",
                         "id": 13,
@@ -645,6 +658,7 @@
                     "conversion_decl": false,
                     "destructor": false,
                     "attributes": null,
+                    "comment": "",
                     "return": {
                         "kind": "Reference",
                         "id": 20,
@@ -680,6 +694,7 @@
                     "conversion_decl": false,
                     "destructor": false,
                     "attributes": null,
+                    "comment": "",
                     "return": {
                         "kind": "BuiltinType",
                         "id": 14,
@@ -726,6 +741,7 @@
             "size": 32,
             "align": 32,
             "attributes": null,
+            "comment": "",
             "variants": {
                 "Closed": "0",
                 "Read": "114",
@@ -749,6 +765,7 @@
             "attributes": [
                 "cppmm|opaqueptr"
             ],
+            "comment": "SU9Qcm94eSBzdWJjbGFzcyBmb3IgcmVhZGluZyB0aGF0IHdyYXBzIGFuIGNzcGFuPGNoYXI+Lg==",
             "fields": [
                 {
                     "kind": "Field",
@@ -826,6 +843,7 @@
                     "conversion_decl": false,
                     "destructor": false,
                     "attributes": null,
+                    "comment": "",
                     "return": {
                         "kind": "Pointer",
                         "id": 12,
@@ -860,6 +878,7 @@
                     "conversion_decl": false,
                     "destructor": false,
                     "attributes": null,
+                    "comment": "",
                     "return": {
                         "kind": "BuiltinType",
                         "id": 3,
@@ -888,6 +907,7 @@
                     "conversion_decl": false,
                     "destructor": false,
                     "attributes": null,
+                    "comment": "",
                     "return": {
                         "kind": "BuiltinType",
                         "id": 14,
@@ -916,6 +936,7 @@
                     "conversion_decl": false,
                     "destructor": false,
                     "attributes": null,
+                    "comment": "",
                     "return": {
                         "kind": "BuiltinType",
                         "id": 81,
@@ -944,6 +965,7 @@
                     "conversion_decl": false,
                     "destructor": false,
                     "attributes": null,
+                    "comment": "",
                     "return": {
                         "kind": "BuiltinType",
                         "id": 14,
@@ -984,6 +1006,7 @@
                     "conversion_decl": false,
                     "destructor": false,
                     "attributes": null,
+                    "comment": "",
                     "return": {
                         "kind": "BuiltinType",
                         "id": 13,
@@ -1041,6 +1064,7 @@
                     "conversion_decl": false,
                     "destructor": false,
                     "attributes": null,
+                    "comment": "",
                     "return": {
                         "kind": "BuiltinType",
                         "id": 13,
@@ -1098,6 +1122,7 @@
                     "conversion_decl": false,
                     "destructor": false,
                     "attributes": null,
+                    "comment": "",
                     "return": {
                         "kind": "BuiltinType",
                         "id": 13,
@@ -1166,6 +1191,7 @@
                     "conversion_decl": false,
                     "destructor": false,
                     "attributes": null,
+                    "comment": "",
                     "return": {
                         "kind": "BuiltinType",
                         "id": 13,
@@ -1234,6 +1260,7 @@
                     "conversion_decl": false,
                     "destructor": false,
                     "attributes": null,
+                    "comment": "",
                     "return": {
                         "kind": "BuiltinType",
                         "id": 14,
@@ -1287,6 +1314,7 @@
                     "attributes": [
                         "cppmm|rename|new"
                     ],
+                    "comment": "",
                     "return": {
                         "kind": "BuiltinType",
                         "id": 3,
@@ -1346,6 +1374,7 @@
                     "attributes": [
                         "cppmm|rename|delete"
                     ],
+                    "comment": "",
                     "return": {
                         "kind": "BuiltinType",
                         "id": 3,
@@ -1364,6 +1393,7 @@
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "comment": "UmV0dXJuIHRoZSBmaWxlbmFtZSAoZXhjbHVkaW5nIGFueSBkaXJlY3RvcmllcywgYnV0IGluY2x1ZGluZyB0aGUKZmlsZSBleHRlbnNpb24sIGlmIGFueSkgb2YgYSBmaWxlcGF0aC4=",
             "namespaces": [
                 1,
                 149
@@ -1404,6 +1434,7 @@
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "comment": "UmV0dXJuIHRoZSBmaWxlIGV4dGVuc2lvbiAoaW5jbHVkaW5nIHRoZSBsYXN0ICcuJyBpZgppbmNsdWRlX2RvdD10cnVlKSBvZiBhIGZpbGVuYW1lIG9yIGZpbGVwYXRoLg==",
             "namespaces": [
                 1,
                 149
@@ -1455,6 +1486,7 @@
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "comment": "UmV0dXJuIGFsbCBidXQgdGhlIGxhc3QgcGFydCBvZiB0aGUgcGF0aCwgZm9yIGV4YW1wbGUsCnBhcmVudF9wYXRoKCJmb28vYmFyIikgcmV0dXJucyAiZm9vIiwgYW5kIHBhcmVudF9wYXRoKCJmb28iKQpyZXR1cm5zICIiLg==",
             "namespaces": [
                 1,
                 149
@@ -1495,6 +1527,7 @@
             "in_binding": false,
             "in_library": false,
             "attributes": null,
+            "comment": "UmVwbGFjZSB0aGUgZmlsZSBleHRlbnNpb24gb2YgYSBmaWxlbmFtZSBvciBmaWxlcGF0aC4gRG9lcyBub3QgYWx0ZXIKZmlsZXBhdGgsIGp1c3QgcmV0dXJucyBhIG5ldyBzdHJpbmcuICBOb3RlIHRoYXQgdGhlIG5ld19leHRlbnNpb24Kc2hvdWxkIGNvbnRhaW4gYSBsZWFkaW5nICcuJyBkb3Qu",
             "namespaces": [
                 1,
                 149

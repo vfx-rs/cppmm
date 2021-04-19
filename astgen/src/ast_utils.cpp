@@ -1,6 +1,7 @@
 #include "ast_utils.hpp"
 #include "pystring.h"
 namespace ps = pystring;
+#include "base64.hpp"
 
 #include <clang/AST/Attr.h>
 
@@ -151,6 +152,27 @@ std::string mangle_decl(const TagDecl* crd) {
     } else {
         return fmt::format("{}::{}", namespace_path, crd->getNameAsString());
     }
+}
+
+std::string get_comment(const clang::Decl* decl) {
+    ASTContext& ctx = decl->getASTContext();
+    SourceManager& sm = ctx.getSourceManager();
+
+    const RawComment* rc = ctx.getRawCommentForDeclNoCache(decl);
+    if (rc) {
+        // Found comment!
+        SourceRange range = rc->getSourceRange();
+
+        PresumedLoc startPos = sm.getPresumedLoc(range.getBegin());
+        PresumedLoc endPos = sm.getPresumedLoc(range.getEnd());
+
+        return rc->getFormattedText(sm, sm.getDiagnostics());
+    }
+    return "";
+}
+
+std::string get_comment_base64(const clang::Decl* decl) {
+    return base64::base64_encode(get_comment(decl));
 }
 
 } // namespace cppmm

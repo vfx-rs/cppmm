@@ -317,7 +317,7 @@ NodePtr process_method_decl(const CXXMethodDecl* cmd,
 
     auto node_function = std::make_unique<NodeMethod>(
         method_name, 0, 0, std::move(attrs), method_short_name, return_qtype,
-        std::move(params), cmd->isStatic());
+        std::move(params), cmd->isStatic(), get_comment_base64(cmd));
 
     NodeMethod* m = (NodeMethod*)node_function.get();
     m->is_user_provided = cmd->isUserProvided();
@@ -478,7 +478,7 @@ std::vector<NodePtr> process_methods(const CXXRecordDecl* crd, bool is_base) {
                     auto node_function = std::make_unique<NodeMethod>(
                         function_name, -1, -1, std::move(attrs),
                         method_short_name, return_qtype, std::move(params),
-                        fd->isStatic());
+                        fd->isStatic(), get_comment_base64(ftd));
                     add_method_to_list(std::move(node_function), result);
                 }
             }
@@ -627,7 +627,7 @@ void process_enum_decl(const EnumDecl* ed, std::string filename) {
     NodeId new_id = NODES.size();
     auto node_enum = std::make_unique<NodeEnum>(
         enum_name, new_id, 0, std::move(attrs), std::move(enum_short_name),
-        std::move(namespaces), variants, size, align);
+        std::move(namespaces), variants, size, align, get_comment_base64(ed));
     NODES.emplace_back(std::move(node_enum));
     NODE_MAP[enum_name] = new_id;
     // add this record to the TU
@@ -667,9 +667,9 @@ void process_var_decl(const VarDecl* vd, std::string filename) {
     ASTContext& ctx = vd->getASTContext();
 
     NodeId new_id = NODES.size();
-    auto node_var =
-        std::make_unique<NodeVar>(var_name, new_id, 0, std::move(attrs),
-                                  std::move(var_short_name), qtype);
+    auto node_var = std::make_unique<NodeVar>(
+        var_name, new_id, 0, std::move(attrs), std::move(var_short_name), qtype,
+        get_comment_base64(vd));
     NODES.emplace_back(std::move(node_var));
     NODE_MAP[var_name] = new_id;
     // add this record to the TU
@@ -759,7 +759,7 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
     const std::string short_name = crd->getNameAsString();
 
     SPDLOG_TRACE("Processing concrete record {}", record_name);
-    //
+
     // Get the translation unit node we're going to add this Record to
     auto* node_tu = get_translation_unit(filename);
     std::vector<NodeId> namespaces = get_namespaces(crd->getParent(), node_tu);
@@ -785,7 +785,9 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
     auto node_record = std::make_unique<NodeRecord>(
         record_name, new_id, node_tu->id, std::move(attrs),
         std::move(short_name), std::move(namespaces), RecordKind::OpaquePtr,
-        crd->isAbstract(), crd->isTriviallyCopyable(), size, align);
+        crd->isAbstract(), crd->isTriviallyCopyable(), size, align,
+        get_comment_base64(crd));
+
     auto* node_record_ptr = node_record.get();
     NODES.emplace_back(std::move(node_record));
     NODE_MAP[mangled_name] = new_id;
@@ -1004,7 +1006,7 @@ void handle_binding_function(const FunctionDecl* fd) {
     auto node_function =
         NodeFunction(function_qual_name, 0, node_tu->id, std::move(attrs),
                      function_short_name, return_qtype, std::move(params),
-                     std::move(namespaces));
+                     std::move(namespaces), get_comment_base64(fd));
 
     SPDLOG_DEBUG("Adding binding function {}", node_function);
 
@@ -1034,8 +1036,9 @@ void handle_binding_enum(const EnumDecl* ed) {
 
     auto attrs = get_attrs(ed);
 
-    auto node_enum = NodeEnum(enum_qual_name, -1, node_tu->id, std::move(attrs),
-                              enum_short_name, {}, {}, 0, 0);
+    auto node_enum =
+        NodeEnum(enum_qual_name, -1, node_tu->id, std::move(attrs),
+                 enum_short_name, {}, {}, 0, 0, get_comment_base64(ed));
     binding_enums.insert(std::make_pair(enum_qual_name, std::move(node_enum)));
 }
 
@@ -1061,7 +1064,7 @@ void handle_binding_var(const VarDecl* vd) {
     auto qtype = process_qtype(vd->getType());
 
     auto node_var = NodeVar(var_qual_name, -1, node_tu->id, std::move(attrs),
-                            var_short_name, qtype);
+                            var_short_name, qtype, get_comment_base64(vd));
     binding_vars.insert(std::make_pair(var_qual_name, std::move(node_var)));
 }
 
@@ -1086,9 +1089,9 @@ void handle_library_function(const FunctionDecl* fd) {
 
     const std::vector<NodeId> namespaces =
         get_namespaces(fd->getParent(), nullptr);
-    auto node_function =
-        NodeFunction(function_qual_name, 0, 0, {}, function_short_name,
-                     return_qtype, std::move(params), std::move(namespaces));
+    auto node_function = NodeFunction(
+        function_qual_name, 0, 0, {}, function_short_name, return_qtype,
+        std::move(params), std::move(namespaces), get_comment_base64(fd));
 
     // find a match in the overloads
     for (auto& binding_fn : it->second) {
@@ -1175,7 +1178,7 @@ void handle_function_pointer_typedef(const QualType& ty,
     const auto id = NODES.size();
     auto node_fpt = std::make_unique<NodeFunctionPointerTypedef>(
         qname, id, -1, std::vector<std::string>{}, tdd->getNameAsString(),
-        namespaces);
+        namespaces, get_comment_base64(tdd));
     NODES.emplace_back(std::move(node_fpt));
     NODE_MAP[fp_name] = id;
 

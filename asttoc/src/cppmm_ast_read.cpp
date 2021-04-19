@@ -3,6 +3,7 @@
 // vfx-rs
 //------------------------------------------------------------------------------
 #include "cppmm_ast_read.hpp"
+#include "base64.hpp"
 #include "filesystem.hpp"
 #include "json.hh"
 
@@ -29,6 +30,7 @@ const char* ATTRIBUTES = "attributes";
 const char* ABSTRACT = "abstract";
 const char* CHILDREN = "children";
 const char* DESTRUCTOR = "destructor";
+const char* COMMENT = "comment";
 const char* CONSTRUCTOR = "constructor";
 const char* COPY_CONSTRUCTOR = "copy_constructor";
 const char* CONST = "const";
@@ -193,9 +195,11 @@ NodePtr read_function(const TranslationUnit::Ptr& tu, const nln::json& json) {
         namespaces.push_back(ns);
     }
 
+    auto comment = base64::decode(json[COMMENT].get<std::string>());
+
     auto result = NodeFunction::n(qualified_name, id, attrs, short_name,
                                   std::move(return_type), std::move(params),
-                                  qualified_name);
+                                  qualified_name, std::move(comment));
     result->namespaces = namespaces;
 
     return result;
@@ -217,6 +221,7 @@ NodeMethod read_method(const nln::json& json) {
     auto copy_constructor = json[COPY_CONSTRUCTOR].get<bool>();
     auto return_type = read_type(json[RETURN]);
     auto const_ = json[CONST].get<bool>();
+    auto comment = base64::decode(json[COMMENT].get<std::string>());
 
     auto params = std::vector<Param>();
     for (const auto& i : json[PARAMS]) {
@@ -225,7 +230,8 @@ NodeMethod read_method(const nln::json& json) {
 
     return NodeMethod(qualified_name, id, attrs, short_name,
                       std::move(return_type), std::move(params), static_,
-                      constructor, copy_constructor, destructor, const_);
+                      constructor, copy_constructor, destructor, const_,
+                      std::move(comment));
 }
 
 //------------------------------------------------------------------------------
@@ -274,9 +280,12 @@ NodePtr read_record(const TranslationUnit::Ptr& tu, const nln::json& json) {
     // Pull out the attributes
     std::vector<std::string> attrs = read_attrs(json);
 
+    auto comment = base64::decode(json[COMMENT].get<std::string>());
+
     // Instantiate the translation unit
-    auto result = NodeRecord::n(tu, qual_name, id, attrs, size, align, name,
-                                namespaces, abstract, trivially_copyable);
+    auto result =
+        NodeRecord::n(tu, qual_name, id, attrs, size, align, name, namespaces,
+                      abstract, trivially_copyable, std::move(comment));
 
     // Pull out the methods
     for (const auto& i : json[METHODS]) {
@@ -319,9 +328,11 @@ NodePtr read_enum(const TranslationUnit::Ptr& tu, const nln::json& json) {
             ));
     }
 
+    auto comment = base64::decode(json[COMMENT].get<std::string>());
+
     // Instantiate the translation unit
     auto result = NodeEnum::n(tu, name, name, short_name, id, _attrs, variants,
-                              size, align, namespaces);
+                              size, align, namespaces, std::move(comment));
 
     // Return the result
     return result;
@@ -377,7 +388,10 @@ NodePtr read_function_pointer_typedef(const TranslationUnit::Ptr& tu,
         namespaces.push_back(ns);
     }
 
-    auto result = NodeFunctionPointerTypedef::n(tu, name, alias, namespaces);
+    auto comment = base64::decode(json[COMMENT].get<std::string>());
+
+    auto result = NodeFunctionPointerTypedef::n(tu, name, alias, namespaces,
+                                                std::move(comment));
 
     // Return the result
     return result;

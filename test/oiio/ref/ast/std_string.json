@@ -42,6 +42,7 @@
             "attributes": [
                 "cppmm|opaquebytes"
             ],
+            "comment": "",
             "fields": [
                 {
                     "kind": "Field",
@@ -97,6 +98,7 @@
                     "conversion_decl": false,
                     "destructor": false,
                     "attributes": null,
+                    "comment": "",
                     "return": {
                         "kind": "BuiltinType",
                         "id": 3,
@@ -125,6 +127,7 @@
                     "conversion_decl": false,
                     "destructor": false,
                     "attributes": null,
+                    "comment": "",
                     "return": {
                         "kind": "BuiltinType",
                         "id": 3,
@@ -172,6 +175,7 @@
                     "conversion_decl": false,
                     "destructor": false,
                     "attributes": null,
+                    "comment": "",
                     "return": {
                         "kind": "Reference",
                         "id": 21,
@@ -236,6 +240,7 @@
                     "conversion_decl": false,
                     "destructor": false,
                     "attributes": null,
+                    "comment": "",
                     "return": {
                         "kind": "Pointer",
                         "id": 12,

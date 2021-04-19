@@ -2,13 +2,11 @@
 
 #include <new>
 
-
 void std__vector_std__string__vector(
     std_vector_string_t * this_)
 {
     new (this_) std::vector<std::string>();
 }
-
 void std__vector_std__string__dtor(
     std_vector_string_t * this_)
 {

@@ -245,10 +245,14 @@ std::ostream& operator<<(std::ostream& os, const Param& p);
 struct NodeAttributeHolder : public Node {
     /// The annotation attributes
     std::vector<std::string> attrs;
+    /// Doc comments, stored as base64
+    std::string comment;
 
     NodeAttributeHolder(std::string qualified_name, NodeId id, NodeId context,
-                        NodeKind node_kind, std::vector<std::string> attrs)
-        : Node(qualified_name, id, context, node_kind), attrs(attrs) {}
+                        NodeKind node_kind, std::vector<std::string> attrs,
+                        std::string comment)
+        : Node(qualified_name, id, context, node_kind), attrs(attrs),
+          comment(std::move(comment)) {}
 
     virtual void write_json(json& o) const override = 0;
 
@@ -261,9 +265,11 @@ struct NodeVar : public NodeAttributeHolder {
     QType qtype;
 
     NodeVar(std::string qualified_name, NodeId id, NodeId context,
-            std::vector<std::string> attrs, std::string short_name, QType qtype)
+            std::vector<std::string> attrs, std::string short_name, QType qtype,
+            std::string comment)
         : NodeAttributeHolder(std::move(qualified_name), id, context,
-                              NodeKind::Var, std::move(attrs)),
+                              NodeKind::Var, std::move(attrs),
+                              std::move(comment)),
           qtype(qtype), short_name(std::move(short_name)) {}
 
     virtual void write_json_attrs(json& o) const override;
@@ -290,9 +296,9 @@ struct NodeFunction : public NodeAttributeHolder {
     NodeFunction(std::string qualified_name, NodeId id, NodeId context,
                  std::vector<std::string> attrs, std::string short_name,
                  QType return_type, std::vector<Param> params,
-                 std::vector<NodeId> namespaces)
+                 std::vector<NodeId> namespaces, std::string comment)
         : NodeAttributeHolder(qualified_name, id, context, NodeKind::Function,
-                              attrs),
+                              std::move(attrs), std::move(comment)),
           short_name(std::move(short_name)), return_type(return_type),
           params(std::move(params)), namespaces(std::move(namespaces)) {}
 
@@ -326,9 +332,10 @@ struct NodeMethod : public NodeFunction {
 
     NodeMethod(std::string qualified_name, NodeId id, NodeId context,
                std::vector<std::string> attrs, std::string short_name,
-               QType return_type, std::vector<Param> params, bool is_static)
+               QType return_type, std::vector<Param> params, bool is_static,
+               std::string comment)
         : NodeFunction(qualified_name, id, context, attrs, short_name,
-                       return_type, params, {}),
+                       return_type, params, {}, std::move(comment)),
           is_static(is_static) {
         node_kind = NodeKind::Method;
     }
@@ -373,9 +380,9 @@ struct NodeRecord : public NodeAttributeHolder {
                std::vector<std::string> attrs, std::string short_name,
                std::vector<NodeId> namespaces, RecordKind record_kind,
                bool is_abstract, bool is_trivially_copyable, uint32_t size,
-               uint32_t align)
+               uint32_t align, std::string comment)
         : NodeAttributeHolder(qualified_name, id, context, NodeKind::Record,
-                              attrs),
+                              std::move(attrs), std::move(comment)),
           short_name(std::move(short_name)), namespaces(std::move(namespaces)),
           record_kind(record_kind), is_abstract(is_abstract),
           is_trivially_copyable(is_trivially_copyable), size(size),
@@ -406,9 +413,9 @@ struct NodeEnum : public NodeAttributeHolder {
              std::vector<std::string> attrs, std::string short_name,
              std::vector<NodeId> namespaces,
              std::vector<std::pair<std::string, std::string>> variants,
-             uint32_t size, uint32_t align)
+             uint32_t size, uint32_t align, std::string comment)
         : NodeAttributeHolder(qualified_name, id, context, NodeKind::Enum,
-                              attrs),
+                              std::move(attrs), std::move(comment)),
           short_name(std::move(short_name)), namespaces(std::move(namespaces)),
           variants(variants), size(size), align(align) {}
 
@@ -427,9 +434,10 @@ struct NodeFunctionPointerTypedef : public NodeAttributeHolder {
     NodeFunctionPointerTypedef(std::string qualified_name, NodeId id,
                                NodeId context, std::vector<std::string> attrs,
                                std::string alias,
-                               std::vector<NodeId> namespaces)
+                               std::vector<NodeId> namespaces,
+                               std::string comment)
         : NodeAttributeHolder(qualified_name, id, context, NodeKind::Enum,
-                              attrs),
+                              std::move(attrs), std::move(comment)),
           alias(std::move(alias)), namespaces(std::move(namespaces)) {}
 
     virtual void write_json_attrs(json& o) const override;

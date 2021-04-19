@@ -15,4 +15,6 @@ std::string mangle_decl(const clang::TagDecl* crd);
 std::string mangle_type(const clang::QualType& qt);
 std::vector<std::string>
 mangle_template_args(const clang::TemplateArgumentList& args);
+std::string get_comment(const clang::Decl* decl);
+std::string get_comment_base64(const clang::Decl* decl);
 } // namespace cppmm

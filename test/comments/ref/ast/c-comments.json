@@ -1,0 +1,96 @@
+{
+    "kind": "TranslationUnit",
+    "filename": "/home/anders/code/cppmm/test/comments/bind/c-comments.cpp",
+    "source_includes": [
+        "#include <comments.hpp>",
+        "#include <cppmm_bind.hpp>"
+    ],
+    "include_paths": [
+        "/home/anders/code/cppmm/test/comments/include"
+    ],
+    "id": 1,
+    "decls": [
+        {
+            "kind": "Namespace",
+            "name": "comments",
+            "id": 2,
+            "short_name": "comments",
+            "alias": "comments"
+        },
+        {
+            "kind": "Record",
+            "name": "comments::Class",
+            "short_name": "Class",
+            "namespaces": [
+                2
+            ],
+            "id": 3,
+            "abstract": false,
+            "trivially_copyable": true,
+            "size": 8,
+            "align": 8,
+            "alias": "Class",
+            "attributes": null,
+            "comment": "QSB0ZXN0IGNsYXNzIHRvIG1ha2Ugc3VyZSB3ZSBjYW4KZ3JhYiBjb21tZW50cyB0byBiZSBpbmplY3RlZCBpbnRvIEMgYW5kIFJ1c3Q=",
+            "fields": null,
+            "methods": [
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "method",
+                    "qualified_name": "comments::Class::method",
+                    "in_binding": true,
+                    "in_library": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "comment": "VGhpcyBtZXRob2QgZG9lc24ndCBkbyBhbnl0aGluZyBpbnRlcmVzdGluZyBhdCBhbGw=",
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 0,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": null
+                }
+            ]
+        },
+        {
+            "kind": "Namespace",
+            "name": "cppmm_bind::comments",
+            "id": 5,
+            "short_name": "comments",
+            "alias": "comments"
+        },
+        {
+            "kind": "Function",
+            "id": 6,
+            "short_name": "function",
+            "qualified_name": "comments::function",
+            "in_binding": false,
+            "in_library": false,
+            "attributes": null,
+            "comment": "VGhpcyBpcyBhIGZyZWUgZnVuY3Rpb24gdGhhdCBhbHNvIGRvZXMgbm90aGluZyBpbnRlcmVzdGluZw==",
+            "namespaces": [
+                2
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 0,
+                "type": "void",
+                "const": false
+            },
+            "params": null
+        }
+    ]
+}

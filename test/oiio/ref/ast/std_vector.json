@@ -35,6 +35,7 @@
             "attributes": [
                 "cppmm|opaquebytes"
             ],
+            "comment": "",
             "fields": [
                 {
                     "kind": "Field",
@@ -69,6 +70,7 @@
                     "conversion_decl": false,
                     "destructor": false,
                     "attributes": null,
+                    "comment": "",
                     "return": {
                         "kind": "BuiltinType",
                         "id": 3,
@@ -97,6 +99,7 @@
                     "conversion_decl": false,
                     "destructor": true,
                     "attributes": null,
+                    "comment": "",
                     "return": {
                         "kind": "BuiltinType",
                         "id": 3,

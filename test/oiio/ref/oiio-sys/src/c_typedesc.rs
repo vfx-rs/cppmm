@@ -5,6 +5,19 @@
 use crate::*;
 use std::os::raw::*;
 
+/// //////////////////////////////////////////////////////////////////////////
+///  A TypeDesc describes simple data types.
+/// 
+///  It frequently comes up (in my experience, with renderers and image
+///  handling programs) that you want a way to describe data that is passed
+///  through APIs through blind pointers.  These are some simple classes
+///  that provide a simple type descriptor system.  This is not meant to
+///  be comprehensive -- for example, there is no provision for structs,
+///  unions, pointers, const, or 'nested' type definitions.  Just simple
+///  integer and floating point, *common* aggregates such as 3-points,
+///  and reasonably-lengthed arrays thereof.
+/// 
+/// //////////////////////////////////////////////////////////////////////////
 #[repr(C, align(4))]
 #[derive(Clone)]
 pub struct OpenImageIO_v2_2__TypeDesc_t {
@@ -16,6 +29,8 @@ pub struct OpenImageIO_v2_2__TypeDesc_t {
 }
 
 
+/// BASETYPE is a simple enum describing the base data types that
+/// correspond (mostly) to the C/C++ built-in types.
 #[repr(transparent)]
 #[derive(Debug, Copy, Clone)]
 pub struct OpenImageIO_v2_2__TypeDesc__BASETYPE_e(pub u32);
@@ -44,6 +59,13 @@ pub const OIIO_TypeDesc_BASETYPE_ULONGLONG: OpenImageIO_v2_2__TypeDesc__BASETYPE
 pub const OIIO_TypeDesc_BASETYPE_UNKNOWN: OpenImageIO_v2_2__TypeDesc__BASETYPE_e = OpenImageIO_v2_2__TypeDesc__BASETYPE_e(0);
 pub const OIIO_TypeDesc_BASETYPE_USHORT: OpenImageIO_v2_2__TypeDesc__BASETYPE_e = OpenImageIO_v2_2__TypeDesc__BASETYPE_e(4);
 
+/// AGGREGATE describes whether our TypeDesc is a simple scalar of one
+/// of the BASETYPE's, or one of several simple aggregates.
+/// 
+/// Note that aggregates and arrays are different. A `TypeDesc(FLOAT,3)`
+/// is an array of three floats, a `TypeDesc(FLOAT,VEC3)` is a single
+/// 3-component vector comprised of floats, and `TypeDesc(FLOAT,3,VEC3)`
+/// is an array of 3 vectors, each of which is comprised of 3 floats.
 #[repr(transparent)]
 #[derive(Debug, Copy, Clone)]
 pub struct OpenImageIO_v2_2__TypeDesc__AGGREGATE_e(pub u32);
@@ -54,6 +76,9 @@ pub const OIIO_TypeDesc_AGGREGATE_VEC2: OpenImageIO_v2_2__TypeDesc__AGGREGATE_e 
 pub const OIIO_TypeDesc_AGGREGATE_VEC3: OpenImageIO_v2_2__TypeDesc__AGGREGATE_e = OpenImageIO_v2_2__TypeDesc__AGGREGATE_e(3);
 pub const OIIO_TypeDesc_AGGREGATE_VEC4: OpenImageIO_v2_2__TypeDesc__AGGREGATE_e = OpenImageIO_v2_2__TypeDesc__AGGREGATE_e(4);
 
+/// VECSEMANTICS gives hints about what the data represent (for example,
+/// if a spatial vector quantity should transform as a point, direction
+/// vector, or surface normal).
 #[repr(transparent)]
 #[derive(Debug, Copy, Clone)]
 pub struct OpenImageIO_v2_2__TypeDesc__VECSEMANTICS_e(pub u32);

@@ -122,6 +122,10 @@ void write_record(fmt::ostream& out, const NodePtr& node) {
     constexpr auto sizeof_byte = 8;
     const auto align_in_bytes = record.align / sizeof_byte;
 
+    if (!record.comment.empty()) {
+        auto comment = record.comment;
+        out.print("/** {} */\n", comment);
+    }
     out.print("typedef struct {}_s {{\n", record.name);
     write_fields(out, record);
     out.print("}} __attribute__((aligned({}))) {};\n",
@@ -146,6 +150,10 @@ void write_record_forward_decl(fmt::ostream& out, const NodePtr& node) {
 void write_enum(fmt::ostream& out, const NodePtr& node) {
     const NodeEnum& enum_ = *static_cast<const NodeEnum*>(node.get());
 
+    if (!enum_.comment.empty()) {
+        auto comment = enum_.comment;
+        out.print("/** {} */\n", comment);
+    }
     out.print("enum {} {{\n", enum_.name);
     for (const auto& v : enum_.variants) {
         out.print("    {} = {},\n", v.first, v.second);
@@ -182,9 +190,12 @@ void write_function_dcl(fmt::ostream& out, const NodePtr& node, Access access) {
     const NodeFunction& function =
         *static_cast<const NodeFunction*>(node.get());
 
+    if (!function.comment.empty()) {
+        auto comment = function.comment;
+        out.print("/** {} */\n", comment);
+    }
     const bool private_ = (access == Access::Private);
     if (private_ == function.private_) {
-        out.print("\n");
         out.print("{}(", convert_param(function.return_type, function.name));
         write_params(out, function);
         out.print(");\n");
@@ -199,7 +210,6 @@ void write_function_define(fmt::ostream& out, const NodePtr& node,
 
     const bool private_ = (access == Access::Private);
     if (private_ == function.private_ && function.nice_name != "") {
-        out.print("\n");
         out.print("#define {} {}\n\n", function.nice_name, function.name);
     }
 }
@@ -390,7 +400,6 @@ void write_function_bdy(fmt::ostream& out, const NodePtr& node, Access access) {
 
     const bool private_ = (access == Access::Private);
     if (private_ == function.private_) {
-        out.print("\n");
         if (function.inline_) {
             out.print("inline ");
         }
@@ -503,49 +512,64 @@ void write_header(const TranslationUnit& tu) {
     write_header_includes(out, tu);
 
     // Extern "C"
-    out.print("#ifdef __cplusplus\nextern \"C\" {{\n#endif\n");
+    out.print("#ifdef __cplusplus\nextern \"C\" {{\n#endif\n\n");
 
     // Write out all the forward declarations
+    bool wrote_any = false;
     for (const auto& node : tu.forward_decls) {
         if (node->kind == NodeKind::Record) {
             write_record_forward_decl(out, node);
+            wrote_any = true;
         }
     }
 
-    out.print("\n");
+    if (wrote_any) {
+        out.print("\n");
+    }
 
+    wrote_any = false;
     // Write out all the enums and typedefs
     for (const auto& node : tu.decls) {
         switch (node->kind) {
         case NodeKind::Enum:
             write_enum(out, node);
+            wrote_any = true;
             break;
         case NodeKind::Typedef:
             write_typedef(out, node);
+            wrote_any = true;
             break;
         default:
             break;
         }
     }
 
-    out.print("\n");
+    if (wrote_any) {
+        out.print("\n");
+    }
 
+    wrote_any = false;
     // Write out all the records
     for (const auto& node : tu.decls) {
         if (node->kind == NodeKind::Record) {
             if (!node->private_) {
                 write_record(out, node);
+                wrote_any = true;
             }
         }
     }
 
-    out.print("\n");
+    if (wrote_any) {
+        out.print("\n");
+    }
 
+    wrote_any = false;
     // Then all the public functions
     for (const auto& node : tu.decls) {
         if (node->kind == NodeKind::Function) {
             out.print("\n");
             write_function(out, node, Access::Public, Place::Header);
+            wrote_any = true;
         }
     }
 

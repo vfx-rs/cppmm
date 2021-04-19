@@ -34,6 +34,7 @@
             "attributes": [
                 "cppmm|valuetype"
             ],
+            "comment": "Ly8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8KIEEgVHlwZURlc2MgZGVzY3JpYmVzIHNpbXBsZSBkYXRhIHR5cGVzLgoKIEl0IGZyZXF1ZW50bHkgY29tZXMgdXAgKGluIG15IGV4cGVyaWVuY2UsIHdpdGggcmVuZGVyZXJzIGFuZCBpbWFnZQogaGFuZGxpbmcgcHJvZ3JhbXMpIHRoYXQgeW91IHdhbnQgYSB3YXkgdG8gZGVzY3JpYmUgZGF0YSB0aGF0IGlzIHBhc3NlZAogdGhyb3VnaCBBUElzIHRocm91Z2ggYmxpbmQgcG9pbnRlcnMuICBUaGVzZSBhcmUgc29tZSBzaW1wbGUgY2xhc3NlcwogdGhhdCBwcm92aWRlIGEgc2ltcGxlIHR5cGUgZGVzY3JpcHRvciBzeXN0ZW0uICBUaGlzIGlzIG5vdCBtZWFudCB0bwogYmUgY29tcHJlaGVuc2l2ZSAtLSBmb3IgZXhhbXBsZSwgdGhlcmUgaXMgbm8gcHJvdmlzaW9uIGZvciBzdHJ1Y3RzLAogdW5pb25zLCBwb2ludGVycywgY29uc3QsIG9yICduZXN0ZWQnIHR5cGUgZGVmaW5pdGlvbnMuICBKdXN0IHNpbXBsZQogaW50ZWdlciBhbmQgZmxvYXRpbmcgcG9pbnQsICpjb21tb24qIGFnZ3JlZ2F0ZXMgc3VjaCBhcyAzLXBvaW50cywKIGFuZCByZWFzb25hYmx5LWxlbmd0aGVkIGFycmF5cyB0aGVyZW9mLgoKLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8=",
             "fields": [
                 {
                     "kind": "Field",
@@ -100,6 +101,7 @@
             "size": 32,
             "align": 32,
             "attributes": null,
+            "comment": "QkFTRVRZUEUgaXMgYSBzaW1wbGUgZW51bSBkZXNjcmliaW5nIHRoZSBiYXNlIGRhdGEgdHlwZXMgdGhhdApjb3JyZXNwb25kIChtb3N0bHkpIHRvIHRoZSBDL0MrKyBidWlsdC1pbiB0eXBlcy4=",
             "variants": {
                 "UNKNOWN": "0",
                 "NONE": "1",
@@ -139,6 +141,7 @@
             "size": 32,
             "align": 32,
             "attributes": null,
+            "comment": "QUdHUkVHQVRFIGRlc2NyaWJlcyB3aGV0aGVyIG91ciBUeXBlRGVzYyBpcyBhIHNpbXBsZSBzY2FsYXIgb2Ygb25lCm9mIHRoZSBCQVNFVFlQRSdzLCBvciBvbmUgb2Ygc2V2ZXJhbCBzaW1wbGUgYWdncmVnYXRlcy4KCk5vdGUgdGhhdCBhZ2dyZWdhdGVzIGFuZCBhcnJheXMgYXJlIGRpZmZlcmVudC4gQSBgVHlwZURlc2MoRkxPQVQsMylgCmlzIGFuIGFycmF5IG9mIHRocmVlIGZsb2F0cywgYSBgVHlwZURlc2MoRkxPQVQsVkVDMylgIGlzIGEgc2luZ2xlCjMtY29tcG9uZW50IHZlY3RvciBjb21wcmlzZWQgb2YgZmxvYXRzLCBhbmQgYFR5cGVEZXNjKEZMT0FULDMsVkVDMylgCmlzIGFuIGFycmF5IG9mIDMgdmVjdG9ycywgZWFjaCBvZiB3aGljaCBpcyBjb21wcmlzZWQgb2YgMyBmbG9hdHMu",
             "variants": {
                 "SCALAR": "1",
                 "VEC2": "2",
@@ -160,6 +163,7 @@
             "size": 32,
             "align": 32,
             "attributes": null,
+            "comment": "VkVDU0VNQU5USUNTIGdpdmVzIGhpbnRzIGFib3V0IHdoYXQgdGhlIGRhdGEgcmVwcmVzZW50IChmb3IgZXhhbXBsZSwKaWYgYSBzcGF0aWFsIHZlY3RvciBxdWFudGl0eSBzaG91bGQgdHJhbnNmb3JtIGFzIGEgcG9pbnQsIGRpcmVjdGlvbgp2ZWN0b3IsIG9yIHN1cmZhY2Ugbm9ybWFsKS4=",
             "variants": {
                 "NOXFORM": "0",
                 "NOSEMANTICS": "0",
