@@ -102,9 +102,14 @@ NodeId process_function_proto_type(const FunctionProtoType* fpt,
 /// types.
 QType process_qtype(const QualType& qt) {
     if (const auto* dt = qt->getAs<DecayedType>()) {
-        // if it's a decayed type, get back the original type
+        // if it's a decayed type, get back the original type if it's a
+        // constant array
         const auto ot = dt->getOriginalType();
-        return process_qtype(ot);
+        if (ot->isConstantArrayType()) {
+            return process_qtype(ot);
+        } else {
+            return process_qtype(dt->getDecayedType());
+        }
     } else if (qt->isConstantArrayType()) {
         // e.g. float[3]
         const std::string type_name = qt.getCanonicalType().getAsString();
