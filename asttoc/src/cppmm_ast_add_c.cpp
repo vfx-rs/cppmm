@@ -8,9 +8,20 @@
 
 #include <cstdlib> // for exit function
 
-#define cassert(C, M)                                                          \
-    if (!(C)) {                                                                \
-        std::cerr << M << std::endl;                                           \
+#define SPDLOG_ACTIVE_LEVEL TRACE
+
+#include <spdlog/sinks/stdout_color_sinks.h>
+#include <spdlog/spdlog.h>
+
+#define panic(...)                                                             \
+    {                                                                          \
+        SPDLOG_CRITICAL(__VA_ARGS__);                                          \
+        abort();                                                               \
+    }
+
+#define expect(CONDITION, ...)                                                 \
+    if (!(CONDITION)) {                                                        \
+        SPDLOG_CRITICAL(__VA_ARGS__);                                          \
         abort();                                                               \
     }
 
@@ -90,8 +101,9 @@ public:
         if (entry == m_mapping.end()) {
             return NodePtr(); // TODO LT: Turn this into optional
         } else {
-            cassert(entry->second.m_cpp->kind == NodeKind::Enum,
-                    "Incorrect return type for find_enum_c");
+            expect(entry->second.m_cpp->kind == NodeKind::Enum,
+                   "Incorrect return type ({}) for find_enum_c",
+                   entry->second.m_cpp->kind);
             return entry->second.m_c;
         }
     }
@@ -102,8 +114,9 @@ public:
         if (entry == m_mapping.end()) {
             return NodePtr(); // TODO LT: Turn this into optional
         } else {
-            cassert(entry->second.m_cpp->kind == NodeKind::Record,
-                    "Incorrect return type for find_record_c");
+            expect(entry->second.m_cpp->kind == NodeKind::Record,
+                   "Incorrect return type ({}) for find_record_c",
+                   entry->second.m_cpp->kind);
             return entry->second.m_c;
         }
     }
@@ -298,7 +311,7 @@ NodeTypePtr convert_builtin_type(TranslationUnit& c_tu,
 //------------------------------------------------------------------------------
 std::string build_enum_to_cpp_name(const TypeRegistry& type_registry,
                                    const NodeTypePtr& t, const char* suffix) {
-    cassert(suffix[0] != '\0', "Suffix must not be empty");
+    expect(suffix[0] != '\0', "Suffix must not be empty");
 
     const auto& cpp_enum_type = *static_cast<const NodeEnumType*>(t.get());
     const auto& node_ptr = type_registry.find_enum_c(cpp_enum_type.enm);
@@ -447,9 +460,8 @@ NodeTypePtr convert_type(TranslationUnit& c_tu, TypeRegistry& type_registry,
         break;
     }
 
-    std::cerr << "kind: " << static_cast<unsigned int>(t->kind) << std::endl;
-    cassert(false,
-            "convert_type: Shouldn't get here"); // TODO LT: Clean this up
+    panic("convert_type: got unsupported kind {}",
+          t->kind); // TODO LT: Clean this up
 }
 
 //------------------------------------------------------------------------------
@@ -585,9 +597,8 @@ std::string compute_to_cpp_name(const TypeRegistry& type_registry,
     case NodeKind::EnumType:
         return build_enum_to_cpp_name(type_registry, p->pointee_type, suffix);
     default:
-        cassert(
-            false,
-            "compute_to_cpp_name Shouldn't get here"); // TODO LT: Clean this up
+        panic("compute_to_cpp_name unhandled pointee kind {}",
+              p->pointee_type->kind); // TODO LT: Clean this up
         break;
     }
 }
@@ -649,7 +660,8 @@ NodeExprPtr convert_to(const TypeRegistry& type_registry, const NodeTypePtr& t,
         break;
     }
 
-    cassert(false, "convert_to Shouldn't get here"); // TODO LT: Clean this up
+    panic("convert_to unhandled type kind {}",
+          t->kind); // TODO LT: Clean this up
 }
 
 //------------------------------------------------------------------------------
@@ -704,8 +716,8 @@ NodeExprPtr convert_pointer_from(const NodeTypePtr& from_ptr,
         break;
     }
 
-    cassert(false,
-            "convert_pointer_arg Shouldn't get here"); // TODO LT: Clean this up
+    panic("convert_pointer_arg unhandled pointer kind {}",
+          from->pointer_kind); // TODO LT: Clean this up
 }
 
 //------------------------------------------------------------------------------
@@ -722,7 +734,8 @@ NodeExprPtr convert_from(const NodeTypePtr& from, const NodeTypePtr& to,
         break;
     }
 
-    cassert(false, "convert_to Shouldn't get here"); // TODO LT: Clean this up
+    panic("convert_from unhanled type kind {}",
+          to->kind); // TODO LT: Clean this up
 }
 
 //------------------------------------------------------------------------------
@@ -1161,7 +1174,7 @@ const char* enum_infer_underlying_type(
         break;
     }
 
-    cassert(false, "Enum size doesn't match an underlying int type");
+    panic("Enum size ({}) doesn't match an underlying int type", enum_size);
 
     return "long unsigned int";
 }
@@ -1437,9 +1450,8 @@ void valuetype_fields(TypeRegistry& type_registry, TranslationUnit& c_tu,
     for (const auto& field : cpp_record.fields) {
         auto c_field_type = convert_type(c_tu, type_registry, field.type);
         if (!c_field_type) {
-            std::cerr << "Found unsupported type for field " << field.name;
-            std::cerr << " of " << c_record.name << std::endl;
-            cassert(false, "Unsupported type");
+            panic("Unsupported type for field {} of record {}", field.name,
+                  c_record.name);
         }
         c_record.fields.push_back(Field{field.name, c_field_type});
     }

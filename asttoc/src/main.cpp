@@ -18,6 +18,11 @@
 
 #include <llvm/Support/CommandLine.h> // TODO: consider https://github.com/jarro2783/cxxopts to remove clang dep
 
+#define SPDLOG_ACTIVE_LEVEL TRACE
+
+#include <spdlog/sinks/stdout_color_sinks.h>
+#include <spdlog/spdlog.h>
+
 namespace cl = llvm::cl;
 namespace fs = ghc::filesystem;
 
@@ -39,6 +44,10 @@ static cl::list<std::string>
 static cl::list<std::string>
     opt_lib_dir("L", cl::desc("Directories you can find libraries in."),
                 cl::ZeroOrMore);
+
+static cl::opt<int> opt_verbosity(
+    "v", cl::desc("Verbosity. 0=errors, 1=warnings, 2=info, 3=debug, 4=trace"),
+    cl::init(1));
 
 template <typename T> std::vector<std::string> to_vector(const T& t) {
     std::vector<std::string> result;
@@ -78,9 +87,34 @@ void generate(const char* input, const char* project_name, const char* output,
 }
 
 int main(int argc, char** argv) {
+    auto _console = spdlog::stdout_color_mt("console");
+
     cl::ParseCommandLineOptions(
         argc, argv,
         " Generates a C binding project from input JSON AST output by astgen");
+
+    // Set up logging
+    switch (opt_verbosity) {
+    case 0:
+        spdlog::set_level(spdlog::level::err);
+        break;
+    case 1:
+        spdlog::set_level(spdlog::level::warn);
+        break;
+    case 2:
+        spdlog::set_level(spdlog::level::info);
+        break;
+    case 3:
+        spdlog::set_level(spdlog::level::debug);
+        break;
+    case 4:
+        spdlog::set_level(spdlog::level::trace);
+        break;
+    default:
+        spdlog::set_level(spdlog::level::warn);
+        break;
+    }
+    spdlog::set_pattern("%20s:%4# %^[%5l]%$ %v");
 
     // Grab the output directory from the options, defaulting to $CWD if not
     // specified.
