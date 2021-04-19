@@ -173,6 +173,18 @@ std::vector<std::string> read_attrs(const nln::json& json) {
     return attrs;
 }
 
+
+//------------------------------------------------------------------------------
+std::string read_comment(const nln::json& json) {
+    std::string comment;
+    auto comment_ = json.find(COMMENT);
+    if (comment_ != json.end()) {
+        comment = base64::decode(comment_->get<std::string>());
+    }
+
+    return comment;
+}
+
 //------------------------------------------------------------------------------
 NodePtr read_function(const TranslationUnit::Ptr& tu, const nln::json& json) {
     // ignore for the moment
@@ -195,7 +207,7 @@ NodePtr read_function(const TranslationUnit::Ptr& tu, const nln::json& json) {
         namespaces.push_back(ns);
     }
 
-    auto comment = base64::decode(json[COMMENT].get<std::string>());
+    auto comment = read_comment(json);
 
     auto result = NodeFunction::n(qualified_name, id, attrs, short_name,
                                   std::move(return_type), std::move(params),
@@ -221,7 +233,7 @@ NodeMethod read_method(const nln::json& json) {
     auto copy_constructor = json[COPY_CONSTRUCTOR].get<bool>();
     auto return_type = read_type(json[RETURN]);
     auto const_ = json[CONST].get<bool>();
-    auto comment = base64::decode(json[COMMENT].get<std::string>());
+    auto comment = read_comment(json);
 
     auto params = std::vector<Param>();
     for (const auto& i : json[PARAMS]) {
@@ -280,7 +292,8 @@ NodePtr read_record(const TranslationUnit::Ptr& tu, const nln::json& json) {
     // Pull out the attributes
     std::vector<std::string> attrs = read_attrs(json);
 
-    auto comment = base64::decode(json[COMMENT].get<std::string>());
+    // Read the comment
+    auto comment = read_comment(json);
 
     // Instantiate the translation unit
     auto result =
@@ -328,7 +341,7 @@ NodePtr read_enum(const TranslationUnit::Ptr& tu, const nln::json& json) {
             ));
     }
 
-    auto comment = base64::decode(json[COMMENT].get<std::string>());
+    auto comment = read_comment(json);
 
     // Instantiate the translation unit
     auto result = NodeEnum::n(tu, name, name, short_name, id, _attrs, variants,
@@ -388,7 +401,7 @@ NodePtr read_function_pointer_typedef(const TranslationUnit::Ptr& tu,
         namespaces.push_back(ns);
     }
 
-    auto comment = base64::decode(json[COMMENT].get<std::string>());
+    auto comment = read_comment(json);
 
     auto result = NodeFunctionPointerTypedef::n(tu, name, alias, namespaces,
                                                 std::move(comment));
