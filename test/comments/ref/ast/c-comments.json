@@ -41,6 +41,7 @@
                     "qualified_name": "comments::Class::method",
                     "in_binding": true,
                     "in_library": false,
+                    "noexcept": false,
                     "static": false,
                     "user_provided": true,
                     "const": false,
@@ -79,6 +80,7 @@
             "qualified_name": "comments::function",
             "in_binding": false,
             "in_library": false,
+            "noexcept": false,
             "attributes": null,
             "comment": "VGhpcyBpcyBhIGZyZWUgZnVuY3Rpb24gdGhhdCBhbHNvIGRvZXMgbm90aGluZyBpbnRlcmVzdGluZw==",
             "namespaces": [

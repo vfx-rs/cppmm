@@ -68,6 +68,7 @@
                     "qualified_name": "imath::Matrix44<float>::Matrix44",
                     "in_binding": true,
                     "in_library": false,
+                    "noexcept": false,
                     "static": false,
                     "user_provided": true,
                     "const": false,

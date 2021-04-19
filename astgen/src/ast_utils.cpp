@@ -1,5 +1,6 @@
 #include "ast_utils.hpp"
 #include "pystring.h"
+#include "clang/Basic/ExceptionSpecificationType.h"
 namespace ps = pystring;
 #include "base64.hpp"
 
@@ -173,6 +174,22 @@ std::string get_comment(const clang::Decl* decl) {
 
 std::string get_comment_base64(const clang::Decl* decl) {
     return base64::base64_encode(get_comment(decl));
+}
+
+bool is_noexcept(const clang::FunctionDecl* fd) {
+    switch (fd->getExceptionSpecType()) {
+    case clang::EST_BasicNoexcept:
+    case clang::EST_NoexceptTrue:
+        return true;
+    case clang::EST_Dynamic:
+    case clang::EST_DynamicNone:
+    case clang::EST_NoexceptFalse:
+        return false;
+    default:
+        SPDLOG_WARN("Unhandled exception specification on {}",
+                    fd->getQualifiedNameAsString());
+        return false;
+    }
 }
 
 } // namespace cppmm

@@ -326,6 +326,7 @@ NodePtr process_method_decl(const CXXMethodDecl* cmd,
     m->is_overloaded_operator = cmd->isOverloadedOperator();
     m->is_copy_assignment_operator = cmd->isCopyAssignmentOperator();
     m->is_move_assignment_operator = cmd->isMoveAssignmentOperator();
+    m->is_noexcept = is_noexcept(cmd);
 
     if (const auto* ccd = dyn_cast<CXXConstructorDecl>(cmd)) {
         m->is_constructor = true;
@@ -479,6 +480,7 @@ std::vector<NodePtr> process_methods(const CXXRecordDecl* crd, bool is_base) {
                         function_name, -1, -1, std::move(attrs),
                         method_short_name, return_qtype, std::move(params),
                         fd->isStatic(), get_comment_base64(ftd));
+                    node_function->is_noexcept = is_noexcept(fd);
                     add_method_to_list(std::move(node_function), result);
                 }
             }
@@ -1092,6 +1094,7 @@ void handle_library_function(const FunctionDecl* fd) {
     auto node_function = NodeFunction(
         function_qual_name, 0, 0, {}, function_short_name, return_qtype,
         std::move(params), std::move(namespaces), get_comment_base64(fd));
+    node_function.is_noexcept = is_noexcept(fd);
 
     // find a match in the overloads
     for (auto& binding_fn : it->second) {

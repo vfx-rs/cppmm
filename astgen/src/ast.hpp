@@ -292,6 +292,8 @@ struct NodeFunction : public NodeAttributeHolder {
     bool in_library = false;
     /// Have we already processed this library function?
     bool processed = false;
+    /// Is this function noexcept?
+    bool is_noexcept = false;
 
     NodeFunction(std::string qualified_name, NodeId id, NodeId context,
                  std::vector<std::string> attrs, std::string short_name,

@@ -23,6 +23,7 @@
             "qualified_name": "usestd::takes_string",
             "in_binding": false,
             "in_library": false,
+            "noexcept": false,
             "attributes": null,
             "comment": "",
             "namespaces": [
@@ -62,6 +63,7 @@
             "qualified_name": "usestd::takes_vector_string",
             "in_binding": false,
             "in_library": false,
+            "noexcept": false,
             "attributes": null,
             "comment": "",
             "namespaces": [

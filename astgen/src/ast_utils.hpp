@@ -17,4 +17,5 @@ std::vector<std::string>
 mangle_template_args(const clang::TemplateArgumentList& args);
 std::string get_comment(const clang::Decl* decl);
 std::string get_comment_base64(const clang::Decl* decl);
+bool is_noexcept(const clang::FunctionDecl* fd);
 } // namespace cppmm
