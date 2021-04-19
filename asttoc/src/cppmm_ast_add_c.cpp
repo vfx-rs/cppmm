@@ -31,7 +31,8 @@ class TypeRegistry {
     // The node entries are sparse, so store them in a map for the moment.
     using Mapping = std::unordered_map<NodeId, Records>;
     using Namespaces = std::unordered_map<NodeId, std::string>;
-    using NamespaceAliases = std::unordered_map<NodeId, std::string>;
+    using NamespaceAliases =
+        std::unordered_map<NodeId, std::pair<std::string, bool>>;
     using SymbolCounts = std::unordered_map<std::string, size_t>;
 
     Mapping m_mapping;
@@ -52,9 +53,9 @@ public:
         m_namespaces[id] = ns;
     }
 
-    void add_namespace_alias(NodeId id, const std::string& ns) {
+    void add_namespace_alias(NodeId id, const std::string& ns, bool collapse) {
         // TODO LT: Assert for double entries
-        m_namespace_aliases[id] = ns;
+        m_namespace_aliases[id] = std::make_pair(ns, collapse);
     }
 
     const char* find_namespace(NodeId id) const {
@@ -66,12 +67,12 @@ public:
         }
     }
 
-    const char* find_namespace_alias(NodeId id) const {
+    std::pair<std::string, bool> find_namespace_alias(NodeId id) const {
         auto result = m_namespace_aliases.find(id);
         if (result == m_namespace_aliases.end()) {
-            return ""; // TODO LT: optional return with error would be better
+            return std::make_pair("", false);
         } else {
-            return result->second.c_str();
+            return result->second;
         }
     }
 
@@ -262,8 +263,15 @@ std::string compute_qualified_nice_name(const TypeRegistry& type_registry,
                                         const std::string& alias) {
     std::string result;
     for (const auto& ns : namespaces) {
-        result += type_registry.find_namespace_alias(ns);
-        result += "_";
+        auto p = type_registry.find_namespace_alias(ns);
+        if (p.second) {
+            // we want to collapse the head of the namespace path
+            // into this single alias
+            result = p.first + "_";
+        } else {
+            result += p.first;
+            result += "_";
+        }
     }
 
     result += alias;
@@ -946,7 +954,7 @@ void record_entry(NodeId& record_id, TypeRegistry& type_registry,
     // Add the cpp and c record to the registry
     type_registry.add(cpp_node->id, cpp_node, c_record);
     type_registry.add_namespace(cpp_record.id, cpp_record.alias);
-    type_registry.add_namespace_alias(cpp_record.id, cpp_record.alias);
+    type_registry.add_namespace_alias(cpp_record.id, cpp_record.alias, false);
 
     // Finally add the record to the translation unit
     c_tu->decls.push_back(std::move(c_record));
@@ -1259,7 +1267,8 @@ void namespace_entry(TypeRegistry& type_registry, const NodePtr& cpp_node) {
         *static_cast<const NodeNamespace*>(cpp_node.get());
 
     type_registry.add_namespace(cpp_namespace.id, cpp_namespace.short_name);
-    type_registry.add_namespace_alias(cpp_namespace.id, cpp_namespace.alias);
+    type_registry.add_namespace_alias(cpp_namespace.id, cpp_namespace.alias,
+                                      cpp_namespace.collapse);
 }
 
 /*

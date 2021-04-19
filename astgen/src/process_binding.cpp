@@ -538,9 +538,11 @@ std::vector<NodeId> get_namespaces(const clang::DeclContext* parent,
 
             // see if there's an alias for this namespace already
             auto alias = short_name;
+            bool collapse = false;
             auto it_alias = NAMESPACE_ALIASES.find(short_name);
             if (it_alias != NAMESPACE_ALIASES.end()) {
-                alias = it_alias->second;
+                alias = it_alias->second.first;
+                collapse = it_alias->second.second;
             }
 
             // Add the id of this namespace to our list of namespaces, creating
@@ -551,6 +553,7 @@ std::vector<NodeId> get_namespaces(const clang::DeclContext* parent,
                 id = NODES.size();
                 auto node = std::make_unique<NodeNamespace>(
                     qualified_name, id, 0, short_name, alias);
+                node->collapse = collapse;
                 NODES.emplace_back(std::move(node));
                 NODE_MAP[qualified_name] = id;
 
@@ -706,11 +709,6 @@ void process_fields(const CXXRecordDecl* crd, NodeRecord* node_record_ptr) {
 std::unordered_map<std::string, std::string> pending_aliases;
 
 void handle_typealias_decl(const TypeAliasDecl* tad, const CXXRecordDecl* crd) {
-    // auto mng_ctx = crd->getASTContext().createMangleContext();
-    // std::string s;
-    // llvm::raw_string_ostream os(s);
-    // mng_ctx->mangleCXXName(crd, os);
-    // std::string mangled_name = os.str();
     std::string mangled_name = mangle_decl(crd);
     auto record_qualified_name = get_record_name(crd);
     auto alias_name = tad->getNameAsString();
@@ -1239,7 +1237,12 @@ void ProcessBindingCallback::run(const MatchFinder::MatchResult& result) {
                    "namespaceAliasDecl")) {
         const auto alias = nad->getNameAsString();
         const auto short_name = nad->getNamespace()->getNameAsString();
-        NAMESPACE_ALIASES[short_name] = alias;
+        // if the namespace we're targeting is a child namespace, then assume
+        // we want to collapse that down to a single namespace
+        const auto collapse = nad->getNamespace()->getParent() &&
+                              nad->getNamespace()->getParent()->isNamespace();
+        NAMESPACE_ALIASES[short_name] = std::make_pair(alias, collapse);
+
         // iterate over all namespaces we've created so far and add the alias to
         // them
         for (auto& node : NODES) {
@@ -1247,6 +1250,7 @@ void ProcessBindingCallback::run(const MatchFinder::MatchResult& result) {
                 auto* node_ns = static_cast<NodeNamespace*>(node.get());
                 if (node_ns->short_name == short_name) {
                     node_ns->alias = alias;
+                    node_ns->collapse = collapse;
                 }
             }
         }
