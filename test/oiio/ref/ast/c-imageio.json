@@ -1632,7 +1632,7 @@
                     "params": [
                         {
                             "index": 0,
-                            "name": "",
+                            "name": "_param0",
                             "type": {
                                 "kind": "RecordType",
                                 "id": 8,
@@ -1644,7 +1644,7 @@
                         },
                         {
                             "index": 1,
-                            "name": "",
+                            "name": "_param1",
                             "type": {
                                 "kind": "BuiltinType",
                                 "id": 14,
@@ -1655,7 +1655,7 @@
                         },
                         {
                             "index": 2,
-                            "name": "",
+                            "name": "_param2",
                             "type": {
                                 "kind": "Pointer",
                                 "id": 119,
@@ -1673,7 +1673,7 @@
                         },
                         {
                             "index": 3,
-                            "name": "",
+                            "name": "_param3",
                             "type": {
                                 "kind": "Pointer",
                                 "id": 121,
@@ -1691,7 +1691,7 @@
                         },
                         {
                             "index": 4,
-                            "name": "",
+                            "name": "_param4",
                             "type": {
                                 "kind": "RecordType",
                                 "id": 8,

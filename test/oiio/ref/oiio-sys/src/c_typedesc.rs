@@ -8,15 +8,16 @@ use std::os::raw::*;
 #[repr(C, align(4))]
 #[derive(Clone)]
 pub struct OpenImageIO_v2_2__TypeDesc_t {
-    basetype: c_uchar,
-    aggregate: c_uchar,
-    vecsemantics: c_uchar,
-    reserved: c_uchar,
-    arraylen: c_int,
+    pub basetype: c_uchar,
+    pub aggregate: c_uchar,
+    pub vecsemantics: c_uchar,
+    pub reserved: c_uchar,
+    pub arraylen: c_int,
 }
 
 
 #[repr(transparent)]
+#[derive(Debug, Copy, Clone)]
 pub struct OpenImageIO_v2_2__TypeDesc__BASETYPE_e(pub u32);
 pub const OIIO_TypeDesc_BASETYPE_CHAR: OpenImageIO_v2_2__TypeDesc__BASETYPE_e = OpenImageIO_v2_2__TypeDesc__BASETYPE_e(3);
 pub const OIIO_TypeDesc_BASETYPE_DOUBLE: OpenImageIO_v2_2__TypeDesc__BASETYPE_e = OpenImageIO_v2_2__TypeDesc__BASETYPE_e(12);
@@ -44,6 +45,7 @@ pub const OIIO_TypeDesc_BASETYPE_UNKNOWN: OpenImageIO_v2_2__TypeDesc__BASETYPE_e
 pub const OIIO_TypeDesc_BASETYPE_USHORT: OpenImageIO_v2_2__TypeDesc__BASETYPE_e = OpenImageIO_v2_2__TypeDesc__BASETYPE_e(4);
 
 #[repr(transparent)]
+#[derive(Debug, Copy, Clone)]
 pub struct OpenImageIO_v2_2__TypeDesc__AGGREGATE_e(pub u32);
 pub const OIIO_TypeDesc_AGGREGATE_MATRIX33: OpenImageIO_v2_2__TypeDesc__AGGREGATE_e = OpenImageIO_v2_2__TypeDesc__AGGREGATE_e(9);
 pub const OIIO_TypeDesc_AGGREGATE_MATRIX44: OpenImageIO_v2_2__TypeDesc__AGGREGATE_e = OpenImageIO_v2_2__TypeDesc__AGGREGATE_e(16);
@@ -53,6 +55,7 @@ pub const OIIO_TypeDesc_AGGREGATE_VEC3: OpenImageIO_v2_2__TypeDesc__AGGREGATE_e 
 pub const OIIO_TypeDesc_AGGREGATE_VEC4: OpenImageIO_v2_2__TypeDesc__AGGREGATE_e = OpenImageIO_v2_2__TypeDesc__AGGREGATE_e(4);
 
 #[repr(transparent)]
+#[derive(Debug, Copy, Clone)]
 pub struct OpenImageIO_v2_2__TypeDesc__VECSEMANTICS_e(pub u32);
 pub const OIIO_TypeDesc_VECSEMANTICS_COLOR: OpenImageIO_v2_2__TypeDesc__VECSEMANTICS_e = OpenImageIO_v2_2__TypeDesc__VECSEMANTICS_e(1);
 pub const OIIO_TypeDesc_VECSEMANTICS_KEYCODE: OpenImageIO_v2_2__TypeDesc__VECSEMANTICS_e = OpenImageIO_v2_2__TypeDesc__VECSEMANTICS_e(6);

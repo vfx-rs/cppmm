@@ -31,7 +31,7 @@ void Imath_2_5__Vec3_float__Vec3(
 
 void Imath_2_5__Vec3_float__Vec3_1(
     Imath_V3f_t * this_
-    , Imath_V3f_t const * v);
+    , Imath_V3f_t const * rhs);
 
 #define Imath_V3f_Vec3_1 Imath_2_5__Vec3_float__Vec3_1
 
@@ -117,7 +117,7 @@ void Imath_2_5__Vec3_int__Vec3(
 
 void Imath_2_5__Vec3_int__Vec3_1(
     Imath_V3i_t * this_
-    , Imath_V3i_t const * v);
+    , Imath_V3i_t const * rhs);
 
 #define Imath_V3i_Vec3_1 Imath_2_5__Vec3_int__Vec3_1
 

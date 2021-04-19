@@ -8,14 +8,14 @@ use std::os::raw::*;
 #[repr(C, align(4))]
 #[derive(Clone)]
 pub struct OpenImageIO_v2_2__ROI_t {
-    xbegin: c_int,
-    xend: c_int,
-    ybegin: c_int,
-    yend: c_int,
-    zbegin: c_int,
-    zend: c_int,
-    chbegin: c_int,
-    chend: c_int,
+    pub xbegin: c_int,
+    pub xend: c_int,
+    pub ybegin: c_int,
+    pub yend: c_int,
+    pub zbegin: c_int,
+    pub zend: c_int,
+    pub chbegin: c_int,
+    pub chend: c_int,
 }
 
 #[repr(C, align(8))]
@@ -44,11 +44,13 @@ impl Default for OpenImageIO_v2_2__ImageInput_t {
 
 
 #[repr(transparent)]
+#[derive(Debug, Copy, Clone)]
 pub struct OpenImageIO_v2_2__ImageSpec__SerialFormat_e(pub u32);
 pub const OIIO_ImageSpec_SerialFormat_SerialText: OpenImageIO_v2_2__ImageSpec__SerialFormat_e = OpenImageIO_v2_2__ImageSpec__SerialFormat_e(0);
 pub const OIIO_ImageSpec_SerialFormat_SerialXML: OpenImageIO_v2_2__ImageSpec__SerialFormat_e = OpenImageIO_v2_2__ImageSpec__SerialFormat_e(1);
 
 #[repr(transparent)]
+#[derive(Debug, Copy, Clone)]
 pub struct OpenImageIO_v2_2__ImageSpec__SerialVerbose_e(pub u32);
 pub const OIIO_ImageSpec_SerialVerbose_SerialBrief: OpenImageIO_v2_2__ImageSpec__SerialVerbose_e = OpenImageIO_v2_2__ImageSpec__SerialVerbose_e(0);
 pub const OIIO_ImageSpec_SerialVerbose_SerialDetailed: OpenImageIO_v2_2__ImageSpec__SerialVerbose_e = OpenImageIO_v2_2__ImageSpec__SerialVerbose_e(1);

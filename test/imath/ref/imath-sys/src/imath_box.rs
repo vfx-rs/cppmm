@@ -8,15 +8,15 @@ use std::os::raw::*;
 #[repr(C, align(4))]
 #[derive(Clone)]
 pub struct Imath_2_5__Box_Imath__Vec3_float___t {
-    min: Imath_V3f_t,
-    max: Imath_V3f_t,
+    pub min: Imath_V3f_t,
+    pub max: Imath_V3f_t,
 }
 
 #[repr(C, align(4))]
 #[derive(Clone)]
 pub struct Imath_2_5__Box_Imath__Vec3_int___t {
-    min: Imath_V3i_t,
-    max: Imath_V3i_t,
+    pub min: Imath_V3i_t,
+    pub max: Imath_V3i_t,
 }
 
 
