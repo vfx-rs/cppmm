@@ -179,19 +179,7 @@ std::string get_comment_base64(const clang::Decl* decl) {
 }
 
 bool is_noexcept(const clang::FunctionDecl* fd) {
-    switch (fd->getExceptionSpecType()) {
-    case clang::EST_BasicNoexcept:
-    case clang::EST_NoexceptTrue:
-        return true;
-    case clang::EST_Dynamic:
-    case clang::EST_DynamicNone:
-    case clang::EST_NoexceptFalse:
-        return false;
-    default:
-        SPDLOG_WARN("Unhandled exception specification on {}",
-                    fd->getQualifiedNameAsString());
-        return false;
-    }
+    return isNoexceptExceptionSpec(fd->getExceptionSpecType());
 }
 
 } // namespace cppmm
