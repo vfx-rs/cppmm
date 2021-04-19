@@ -316,7 +316,7 @@ std::string build_enum_to_cpp_name(const TypeRegistry& type_registry,
     const auto& cpp_enum_type = *static_cast<const NodeEnumType*>(t.get());
     const auto& node_ptr = type_registry.find_enum_c(cpp_enum_type.enm);
     if (!node_ptr) {
-        std::cerr << "Found unsupported type: " << t->type_name << std::endl;
+        SPDLOG_ERROR("Found unsupported type: {}", t->type_name);
         return std::string();
     }
 
@@ -365,7 +365,7 @@ NodeTypePtr convert_record_type(TranslationUnit& c_tu,
 
     const auto& node_ptr = type_registry.find_record_c(cpp_record_type.record);
     if (!node_ptr) {
-        std::cerr << "Found unsupported type: " << t->type_name << std::endl;
+        SPDLOG_ERROR("Found unsupported type: {}", t->type_name);
         return NodeTypePtr();
     }
 
@@ -388,7 +388,7 @@ NodeTypePtr convert_enum_type(TranslationUnit& c_tu,
 
     const auto& node_ptr = type_registry.find_enum_c(cpp_enum_type.enm);
     if (!node_ptr) {
-        std::cerr << "Found unsupported type: " << t->type_name << std::endl;
+        SPDLOG_ERROR("Found unsupported type: {}", t->type_name);
         return NodeTypePtr();
     }
 
@@ -883,8 +883,9 @@ void opaquebytes_method(TypeRegistry& type_registry, TranslationUnit& c_tu,
     c_params.push_back(self_param(c_record, cpp_method.is_const));
     for (const auto& p : cpp_method.params) {
         if (!parameter(c_tu, type_registry, c_params, p)) {
-            std::cerr << "Skipping: " << cpp_method.name
-                      << "\n  unrecognised parameter type." << std::endl;
+            SPDLOG_ERROR("Skipping method {} due to unrecognised type {} of "
+                         "parameter \"{}\"",
+                         cpp_method.name, p.type->type_name, p.name);
             return;
         }
     }
@@ -892,8 +893,8 @@ void opaquebytes_method(TypeRegistry& type_registry, TranslationUnit& c_tu,
     // Convert return type
     auto c_return = convert_type(c_tu, type_registry, cpp_method.return_type);
     if (!c_return) {
-        std::cerr << "Skipping: " << cpp_method.name
-                  << "\n  unrecognised return type." << std::endl;
+        SPDLOG_ERROR("Skipping method {} due to unrecognised return type {}",
+                     cpp_method.name, cpp_method.return_type->type_name);
         return;
     }
 
@@ -1235,8 +1236,9 @@ void function_detail(TypeRegistry& type_registry, TranslationUnit& c_tu,
     auto c_params = std::vector<Param>();
     for (const auto& p : cpp_function.params) {
         if (!parameter(c_tu, type_registry, c_params, p)) {
-            std::cerr << "Skipping: " << cpp_function.name
-                      << "\n  unrecognised parameter type." << std::endl;
+            SPDLOG_ERROR("Skipping function {} due to unrecognised type {} of "
+                         "parameter \"{}\"",
+                         cpp_function.name, p.type->type_name, p.name);
             return;
         }
     }
@@ -1244,8 +1246,8 @@ void function_detail(TypeRegistry& type_registry, TranslationUnit& c_tu,
     // Convert return type
     auto c_return = convert_type(c_tu, type_registry, cpp_function.return_type);
     if (!c_return) {
-        std::cerr << "Skipping: " << cpp_function.name
-                  << "\n  unrecognised return type." << std::endl;
+        SPDLOG_ERROR("Skipping function {} due to unrecognised return type {}",
+                     cpp_function.name, cpp_function.return_type->type_name);
         return;
     }
 

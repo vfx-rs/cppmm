@@ -131,7 +131,7 @@ int main(int argc, char** argv) {
     if (opt_project_name != "") {
         project_name = opt_project_name;
     } else {
-        std::cerr << "Must supply a project name with the -p flag\n";
+        SPDLOG_CRITICAL("Must supply a project name with the -p flag");
         return -3;
     }
 
@@ -141,21 +141,22 @@ int main(int argc, char** argv) {
 
     // attempt to create the output directory if it doesn't exist
     if (!fs::is_directory(c_dir) && !fs::create_directories(c_dir)) {
-        std::cerr << "Could not create output directory " << c_dir << "\n";
+        SPDLOG_CRITICAL("Could not create output directory \"{}\"",
+                        c_dir.string());
         return -1;
     }
 
     if (!fs::is_directory(rust_dir) && !fs::create_directories(rust_dir)) {
-        std::cerr << "Could not create Rust output directory " << rust_dir
-                  << "\n";
+        SPDLOG_CRITICAL("Could not create Rust output directory \"{}\"",
+                        rust_dir.string());
         return -2;
     }
 
     fs::path rust_src_dir = rust_dir / "src";
     if (!fs::is_directory(rust_src_dir) &&
         !fs::create_directories(rust_src_dir)) {
-        std::cerr << "Could not create Rust src directory " << rust_src_dir
-                  << "\n";
+        SPDLOG_CRITICAL("Could not create Rust src directory \"{}\"",
+                        rust_src_dir.string());
         return -2;
     }
 

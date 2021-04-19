@@ -11,9 +11,20 @@
 
 #include <iostream>
 
-#define cassert(C, M)                                                          \
-    if (!(C)) {                                                                \
-        std::cerr << M << std::endl;                                           \
+#define SPDLOG_ACTIVE_LEVEL TRACE
+
+#include <spdlog/sinks/stdout_color_sinks.h>
+#include <spdlog/spdlog.h>
+
+#define panic(...)                                                             \
+    {                                                                          \
+        SPDLOG_CRITICAL(__VA_ARGS__);                                          \
+        abort();                                                               \
+    }
+
+#define expect(CONDITION, ...)                                                 \
+    if (!(CONDITION)) {                                                        \
+        SPDLOG_CRITICAL(__VA_ARGS__);                                          \
         abort();                                                               \
     }
 
@@ -99,7 +110,8 @@ std::string convert_param(const NodeTypePtr& t, const std::string& name) {
         break;
     }
 
-    cassert(false, "Shouldn't get here"); // TODO LT: Clean this up
+    SPDLOG_CRITICAL("Unhandled node kind {}", t->kind);
+    return "";
 }
 
 //------------------------------------------------------------------------------
@@ -389,8 +401,7 @@ void write_expression(fmt::ostream& out, size_t depth,
         break;
     }
 
-    cassert(false,
-            "write expression Shouldn't get here"); // TODO LT: Clean this up
+    panic("Unhandled expression kind {}", node->kind);
 }
 
 //------------------------------------------------------------------------------
@@ -601,7 +612,9 @@ void write_translation_unit(const TranslationUnit& tu) {
 
 //------------------------------------------------------------------------------
 void c(const char* project_name, const Root& root, size_t starting_point) {
-    cassert(starting_point < root.tus.size(), "starting point is out of range");
+    expect(starting_point < root.tus.size(),
+           "starting point ({}) is out of range ({})", starting_point,
+           root.tus.size());
 
     const auto size = root.tus.size();
     for (size_t i = starting_point; i < size; ++i) {

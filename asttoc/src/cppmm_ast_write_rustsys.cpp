@@ -8,9 +8,20 @@
 
 namespace fs = ghc::filesystem;
 
-#define cassert(C, M)                                                          \
-    if (!(C)) {                                                                \
-        std::cerr << M << std::endl;                                           \
+#define SPDLOG_ACTIVE_LEVEL TRACE
+
+#include <spdlog/sinks/stdout_color_sinks.h>
+#include <spdlog/spdlog.h>
+
+#define panic(...)                                                             \
+    {                                                                          \
+        SPDLOG_CRITICAL(__VA_ARGS__);                                          \
+        abort();                                                               \
+    }
+
+#define expect(CONDITION, ...)                                                 \
+    if (!(CONDITION)) {                                                        \
+        SPDLOG_CRITICAL(__VA_ARGS__);                                          \
         abort();                                                               \
     }
 
@@ -50,7 +61,7 @@ std::string convert_builtin_type(const NodeBuiltinType* t) {
     } else if (t->type_name == "void") {
         return "c_void";
     }
-    cassert(false, fmt::format("Unhandled builtin {}", t->type_name));
+    panic("Unhandled builtin {}", t->type_name);
     return t->type_name;
 }
 
@@ -87,7 +98,7 @@ std::string convert_type(const NodeTypePtr& t) {
         }
         return fmt::format("*{} {}", cnst, convert_type(p->pointee_type));
     } else {
-        cassert(false, fmt::format("Unhandled type {}", t->type_name));
+        panic("Unhandled type {}", t->type_name);
     }
 }
 
@@ -268,7 +279,10 @@ void write(const char* out_dir, const char* project_name, const char* c_dir,
            const Root& root, size_t starting_point,
            const std::vector<std::string>& libs,
            const std::vector<std::string>& lib_dirs) {
-    cassert(starting_point < root.tus.size(), "starting point is out of range");
+
+    expect(starting_point < root.tus.size(),
+           "starting point ({}) is out of range ({})", starting_point,
+           root.tus.size());
 
     fs::path rust_src = fs::path(out_dir) / "src";
     fs::path lib_rs = rust_src / "lib.rs";

@@ -10,9 +10,20 @@
 #include <iostream>
 #include <memory>
 
-#define cassert(C, M)                                                          \
-    if (!(C)) {                                                                \
-        std::cerr << M << std::endl;                                           \
+#define SPDLOG_ACTIVE_LEVEL TRACE
+
+#include <spdlog/sinks/stdout_color_sinks.h>
+#include <spdlog/spdlog.h>
+
+#define panic(...)                                                             \
+    {                                                                          \
+        SPDLOG_CRITICAL(__VA_ARGS__);                                          \
+        abort();                                                               \
+    }
+
+#define expect(CONDITION, ...)                                                 \
+    if (!(CONDITION)) {                                                        \
+        SPDLOG_CRITICAL(__VA_ARGS__);                                          \
         abort();                                                               \
     }
 
@@ -142,17 +153,18 @@ NodeTypePtr read_type(const nln::json& json) {
             return read_type_const_array(json);
         }
 
-        std::cerr << kind << std::endl;
+        SPDLOG_CRITICAL("Unhandled type kind {}", kind);
     } else {
         auto type_iter = json.find(TYPE);
         if (type_iter != json.end() &&
             type_iter->get<std::string>() == "UNKNOWN") {
             return read_type_unknown(json);
+        } else {
+            SPDLOG_CRITICAL("Could not find {} in json", TYPE);
         }
     }
 
-    std::cerr << json << std::endl;
-    cassert(false, "Shouldn't get here"); // TODO LT: Clean this up
+    panic("{}", json);
 }
 
 //------------------------------------------------------------------------------
@@ -211,8 +223,6 @@ NodeMethod read_method(const nln::json& json) {
 
     auto qualified_name = json[QUALIFIED_NAME].get<std::string>();
     auto attrs = read_attrs(json);
-
-    // std::cerr << qualified_name << std::endl;
 
     auto short_name = json[SHORT_NAME].get<std::string>();
     auto id = json[ID].get<Id>();
@@ -417,9 +427,7 @@ NodePtr read_node(const TranslationUnit::Ptr& tu, const nln::json& json) {
         return read_function_pointer_typedef(tu, json);
     }
 
-    std::cerr << kind << std::endl;
-
-    cassert(false, "Have hit a node type that we can't handle");
+    panic("Unhandled node kind {}", kind);
 
     // TODO LT: Fix the return type
 }

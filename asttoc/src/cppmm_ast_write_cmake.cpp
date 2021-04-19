@@ -12,15 +12,26 @@
 #include <iostream>
 #include <set>
 
-#define cassert(C, M)                                                          \
-    if (!(C)) {                                                                \
-        std::cerr << M << std::endl;                                           \
-        abort();                                                               \
-    }
-
 #include "filesystem.hpp"
 
 namespace fs = ghc::filesystem;
+
+#define SPDLOG_ACTIVE_LEVEL TRACE
+
+#include <spdlog/sinks/stdout_color_sinks.h>
+#include <spdlog/spdlog.h>
+
+#define panic(...)                                                             \
+    {                                                                          \
+        SPDLOG_CRITICAL(__VA_ARGS__);                                          \
+        abort();                                                               \
+    }
+
+#define expect(CONDITION, ...)                                                 \
+    if (!(CONDITION)) {                                                        \
+        SPDLOG_CRITICAL(__VA_ARGS__);                                          \
+        abort();                                                               \
+    }
 
 namespace cppmm {
 namespace write {
@@ -92,7 +103,10 @@ const std::string compute_cmakefile_path(const std::string& filename) {
 //------------------------------------------------------------------------------
 void cmake(const char* project_name, const Root& root, size_t starting_point,
            const Libs& libs, const LibDirs& lib_dirs) {
-    cassert(starting_point < root.tus.size(), "starting point is out of range");
+    expect(starting_point < root.tus.size(),
+           "starting point ({}) is out of range ({})", starting_point,
+           root.tus.size());
+
     auto cmakefile_path =
         compute_cmakefile_path(root.tus[starting_point]->filename);
 
