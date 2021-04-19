@@ -78,20 +78,24 @@ extern bool WARN_UNMATCHED;
 static cl::opt<bool> opt_warn_unbound("u", cl::desc("Warn on unbound methods"));
 
 static cl::opt<int> opt_verbosity(
-    "v", cl::desc("Verbosity. 0=errors, 1=warnings, 2=info, 3=debug, 4=trace"));
+    "v", cl::desc("Verbosity. 0=errors, 1=warnings, 2=info, 3=debug, 4=trace"),
+    cl::init(1));
 
 static cl::opt<std::string> opt_output_directory(
     "o",
     cl::desc(
         "Directory under which output project directories will be written"));
+
 static cl::list<std::string>
     opt_rename_namespace("n", cl::desc("Rename namespace <to>=<from>"));
+
 static cl::opt<std::string> opt_rust_sys_directory(
     "rust-sys",
     cl::desc("Directory under which rust-sys project will be written"));
 
 static cl::list<std::string>
     opt_includes("i", cl::desc("Extra includes for the project"));
+
 static cl::list<std::string>
     opt_libraries("l", cl::desc("Libraries to link against"));
 
