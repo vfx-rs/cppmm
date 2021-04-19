@@ -1074,7 +1074,32 @@ NodeId process_function_proto_type(const FunctionProtoType* fpt,
 /// Create a QType from the given QualType. Recursively processes the contained
 /// types.
 QType process_qtype(const QualType& qt) {
-    if (qt->isPointerType() || qt->isReferenceType()) {
+    if (const auto* dt = qt->getAs<DecayedType>()) {
+        // if it's a decayed type, get back the original type
+        const auto ot = dt->getOriginalType();
+        return process_qtype(ot);
+    } else if (qt->isConstantArrayType()) {
+        // e.g. float[3]
+        const std::string type_name = qt.getCanonicalType().getAsString();
+        const std::string type_node_name = "TYPE:" + type_name;
+        auto it = NODE_MAP.find(type_node_name);
+        NodeId id;
+        if (it == NODE_MAP.end()) {
+            const ConstantArrayType* cat =
+                dyn_cast<ConstantArrayType>(qt.getTypePtr());
+            QType element_type = process_qtype(cat->getElementType());
+            id = NODES.size();
+            auto node_type = std::make_unique<NodeConstantArrayType>(
+                type_node_name, id, 0, type_name, element_type,
+                cat->getSize().getLimitedValue());
+            NODES.emplace_back(std::move(node_type));
+            NODE_MAP[type_node_name] = id;
+        } else {
+            id = it->second;
+        }
+
+        return QType{id, qt.isConstQualified()};
+    } else if (qt->isPointerType() || qt->isReferenceType()) {
         // first, figure out what kind of pointer we have
         auto pointer_kind = PointerKind::Pointer;
         if (qt->isRValueReferenceType()) {
@@ -1103,27 +1128,6 @@ QType process_qtype(const QualType& qt) {
             NODE_MAP[pointer_type_name] = id;
         } else {
             // already done this type
-            id = it->second;
-        }
-
-        return QType{id, qt.isConstQualified()};
-    } else if (qt->isConstantArrayType()) {
-        // e.g. float[3]
-        const std::string type_name = qt.getCanonicalType().getAsString();
-        const std::string type_node_name = "TYPE:" + type_name;
-        auto it = NODE_MAP.find(type_node_name);
-        NodeId id;
-        if (it == NODE_MAP.end()) {
-            const ConstantArrayType* cat =
-                dyn_cast<ConstantArrayType>(qt.getTypePtr());
-            QType element_type = process_qtype(cat->getElementType());
-            id = NODES.size();
-            auto node_type = std::make_unique<NodeConstantArrayType>(
-                type_node_name, id, 0, type_name, element_type,
-                cat->getSize().getLimitedValue());
-            NODES.emplace_back(std::move(node_type));
-            NODE_MAP[type_node_name] = id;
-        } else {
             id = it->second;
         }
 
