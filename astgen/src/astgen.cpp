@@ -24,6 +24,8 @@
 #include <spdlog/sinks/stdout_color_sinks.h>
 #include <spdlog/spdlog.h>
 
+#include "ast.hpp"
+
 using namespace clang::tooling;
 using namespace llvm;
 using namespace clang;
@@ -59,11 +61,6 @@ std::vector<std::string> parse_project_includes(int argc, const char** argv,
     }
     return result;
 }
-
-// list of includes for each input source file
-// this global is read in process_bindings.cpp
-std::unordered_map<std::string, std::vector<std::string>> source_includes;
-std::vector<std::string> project_includes;
 
 // Apply a custom category to all command-line options so that they are the
 // only ones displayed.
@@ -140,7 +137,7 @@ int main(int argc_, const char** argv_) {
     argv[i++] = "/CPPMM_VIRTUAL_INCLUDES";
 
     // grab any user-specified include directories from the command line
-    project_includes = parse_project_includes(argc, argv, cwd);
+    cppmm::PROJECT_INCLUDES = parse_project_includes(argc, argv, cwd);
 
     CommonOptionsParser OptionsParser(argc, argv, CppmmCategory);
 
@@ -229,7 +226,7 @@ int main(int argc_, const char** argv_) {
     }
 
     for (const auto& i : opt_includes) {
-        project_includes.push_back(i);
+        cppmm::PROJECT_INCLUDES.push_back(i);
     }
 
     std::vector<std::string> project_libraries;
@@ -241,7 +238,7 @@ int main(int argc_, const char** argv_) {
     // generated bindings
     for (const auto& src : dir_paths) {
         const auto src_path = ps::os::path::join(cwd, src);
-        source_includes[src_path] = parse_file_includes(src_path);
+        cppmm::SOURCE_INCLUDES[src_path] = parse_file_includes(src_path);
     }
 
     // Run our tool to generate the AST

@@ -1,5 +1,7 @@
 add_executable(astgen
   src/astgen.cpp
+  src/ast.cpp
+  src/ast_utils.cpp
   src/pystring.cpp
   src/process_binding.cpp
   src/resources.cpp
