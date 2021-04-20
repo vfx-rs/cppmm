@@ -105,7 +105,11 @@ void NodeTranslationUnit::write_json(json& o) const {
 void NodeNamespace::write_json_attrs(json& o) const {
     Node::write_json_attrs(o);
     o["short_name"] = short_name;
-    o["alias"] = alias;
+    if (alias.empty()) {
+        o["alias"] = short_name;
+    } else {
+        o["alias"] = alias;
+    }
     o["collapse"] = collapse;
 }
 
@@ -198,9 +202,12 @@ void NodeFunctionProtoType::write_json(json& o) const {
     return_type.write_json(o["return"]);
 
     o["params"] = {};
+    int index = 0;
     for (const auto& param : params) {
         auto p = json::object();
         p["type"] = json::object();
+        p["name"] = "";
+        p["index"] = index++;
         param.write_json(p["type"]);
         o["params"].emplace_back(p);
     }
@@ -414,6 +421,21 @@ void NodeFunctionPointerTypedef::write_json(json& o) const {
     o["name"] = qualified_name;
     o["alias"] = alias;
     o["namespaces"] = namespaces;
+
+    o["return"] = {};
+    return_type.write_json(o["return"]);
+
+    o["params"] = {};
+    int index = 0;
+    for (const auto& param : params) {
+        auto p = json::object();
+        p["type"] = json::object();
+        p["name"] = "";
+        p["index"] = index++;
+        param.write_json(p["type"]);
+        o["params"].emplace_back(p);
+    }
+
     write_json_attrs(o);
     write_attrs_json(o);
 }

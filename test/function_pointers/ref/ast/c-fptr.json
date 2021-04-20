@@ -1,0 +1,166 @@
+{
+    "kind": "TranslationUnit",
+    "filename": "/home/anders/code/cppmm/test/function_pointers/bind/c-fptr.cpp",
+    "source_includes": [
+        "#include <fptr.hpp>",
+        "#include <cppmm_bind.hpp>"
+    ],
+    "include_paths": [
+        "/home/anders/code/cppmm/test/function_pointers/include"
+    ],
+    "id": 0,
+    "decls": [
+        {
+            "kind": "Namespace",
+            "name": "cppmm_bind::fptr",
+            "id": 1,
+            "short_name": "fptr",
+            "alias": "fptr",
+            "collapse": false
+        },
+        {
+            "kind": "FunctionPointerTypedef",
+            "name": "cppmm_bind::fptr::ProgressCallback",
+            "alias": "ProgressCallback",
+            "namespaces": [
+                1
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 2,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 4,
+                        "type": "void *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 3,
+                            "type": "void",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "name": "",
+                    "index": 0
+                },
+                {
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 5,
+                        "type": "float",
+                        "const": false
+                    },
+                    "name": "",
+                    "index": 1
+                }
+            ],
+            "id": 6,
+            "attributes": null,
+            "comment": ""
+        },
+        {
+            "kind": "Namespace",
+            "name": "fptr",
+            "id": 9,
+            "short_name": "fptr",
+            "alias": "fptr",
+            "collapse": false
+        },
+        {
+            "kind": "Function",
+            "id": 10,
+            "short_name": "takes_ages",
+            "qualified_name": "fptr::takes_ages",
+            "in_binding": false,
+            "in_library": false,
+            "noexcept": false,
+            "attributes": null,
+            "comment": "",
+            "namespaces": [
+                9
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 3,
+                "type": "void",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "cb",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 8,
+                        "type": "_Bool (*)(void *, float)",
+                        "pointee": {
+                            "kind": "FunctionProtoType",
+                            "id": 7,
+                            "type": "_Bool (void *, float)",
+                            "return": {
+                                "kind": "BuiltinType",
+                                "id": 2,
+                                "type": "_Bool",
+                                "const": false
+                            },
+                            "params": [
+                                {
+                                    "type": {
+                                        "kind": "Pointer",
+                                        "id": 4,
+                                        "type": "void *",
+                                        "pointee": {
+                                            "kind": "BuiltinType",
+                                            "id": 3,
+                                            "type": "void",
+                                            "const": false
+                                        },
+                                        "const": false
+                                    },
+                                    "name": "",
+                                    "index": 0
+                                },
+                                {
+                                    "type": {
+                                        "kind": "BuiltinType",
+                                        "id": 5,
+                                        "type": "float",
+                                        "const": false
+                                    },
+                                    "name": "",
+                                    "index": 1
+                                }
+                            ],
+                            "function_pointer_typedef": 6,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "data",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 4,
+                        "type": "void *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 3,
+                            "type": "void",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ]
+        }
+    ]
+}

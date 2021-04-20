@@ -110,13 +110,6 @@ NodeTypePtr read_type_enum(const nln::json& json) {
 }
 
 //------------------------------------------------------------------------------
-NodeTypePtr read_type_function_proto(const nln::json& json) {
-    return NodeFunctionProtoType::n(
-        read_type(json[RETURN]), json[TYPE].get<std::string>(),
-        json[FUNCTION_POINTER_TYPEDEF_L].get<NodeId>());
-}
-
-//------------------------------------------------------------------------------
 NodeTypePtr read_type_const_array(const nln::json& json) {
     return NodeArrayType::n("", json[ID].get<NodeId>(),
                             json[TYPE].get<std::string>(),
@@ -128,6 +121,8 @@ NodeTypePtr read_type_const_array(const nln::json& json) {
 NodeTypePtr read_type_unknown(const nln::json& json) {
     return NodeUnknownType::n(json[CONST].get<bool>());
 }
+
+NodeTypePtr read_type_function_proto(const nln::json& json);
 
 //------------------------------------------------------------------------------
 NodeTypePtr read_type(const nln::json& json) {
@@ -186,7 +181,6 @@ std::vector<std::string> read_attrs(const nln::json& json) {
     return attrs;
 }
 
-
 //------------------------------------------------------------------------------
 std::string read_comment(const nln::json& json) {
     std::string comment;
@@ -196,6 +190,22 @@ std::string read_comment(const nln::json& json) {
     }
 
     return comment;
+}
+
+//------------------------------------------------------------------------------
+NodeTypePtr read_type_function_proto(const nln::json& json) {
+    auto return_type = read_type(json[RETURN]);
+
+    auto params = std::vector<NodeTypePtr>();
+    for (const auto& i : json[PARAMS]) {
+        auto p = read_param(i);
+        params.push_back(std::move(p.type));
+    }
+
+    return NodeFunctionProtoType::n(
+        std::move(return_type), std::move(params),
+        json[TYPE].get<std::string>(),
+        json[FUNCTION_POINTER_TYPEDEF_L].get<NodeId>());
 }
 
 //------------------------------------------------------------------------------
@@ -415,8 +425,16 @@ NodePtr read_function_pointer_typedef(const TranslationUnit::Ptr& tu,
 
     auto comment = read_comment(json);
 
-    auto result = NodeFunctionPointerTypedef::n(tu, name, alias, namespaces,
-                                                std::move(comment));
+    auto return_type = read_type(json[RETURN]);
+
+    auto params = std::vector<Param>();
+    for (const auto& i : json[PARAMS]) {
+        params.push_back(read_param(i));
+    }
+
+    auto result = NodeFunctionPointerTypedef::n(
+        tu, name, id, alias, namespaces, std::move(comment),
+        std::move(return_type), std::move(params));
 
     // Return the result
     return result;

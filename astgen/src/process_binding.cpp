@@ -551,6 +551,8 @@ std::vector<NodeId> get_namespaces(const clang::DeclContext* parent,
             NodeId id;
             if (it == NODE_MAP.end()) {
                 id = NODES.size();
+                SPDLOG_TRACE("Inserting namespace {} woth id {}",
+                             qualified_name, id);
                 auto node = std::make_unique<NodeNamespace>(
                     qualified_name, id, 0, short_name, alias);
                 node->collapse = collapse;
@@ -565,6 +567,8 @@ std::vector<NodeId> get_namespaces(const clang::DeclContext* parent,
             if (node_tu &&
                 std::find(node_tu->children.begin(), node_tu->children.end(),
                           id) == node_tu->children.end()) {
+                SPDLOG_TRACE("Adding namespace id {} to tu {}", id,
+                             node_tu->qualified_name);
                 node_tu->children.push_back(id);
             }
             result.push_back(id);
@@ -577,11 +581,6 @@ std::vector<NodeId> get_namespaces(const clang::DeclContext* parent,
                 static_cast<const clang::CXXRecordDecl*>(parent);
 
             auto record_name = get_record_name(crd);
-            // auto mng_ctx = crd->getASTContext().createMangleContext();
-            // std::string s;
-            // llvm::raw_string_ostream os(s);
-            // mng_ctx->mangleCXXName(crd, os);
-            // std::string mangled_name = os.str();
             std::string mangled_name = mangle_decl(crd);
             auto it = NODE_MAP.find(mangled_name);
             if (it == NODE_MAP.end()) {
@@ -1114,6 +1113,10 @@ void handle_library_function(const FunctionDecl* fd) {
             SPDLOG_DEBUG("MATCHED {}", function_qual_name);
             auto* node_tu =
                 (NodeTranslationUnit*)NODES.at(node_function.context).get();
+            // process the namespaces again to make sure we've got the
+            // namespaces in the TU
+            const std::vector<NodeId> namespaces =
+                get_namespaces(fd->getParent(), node_tu);
             fnptr->context = node_tu->id;
             node_tu->children.push_back(id);
             NODES.emplace_back(std::move(fnptr));
@@ -1158,9 +1161,9 @@ void handle_library_var(const VarDecl* vd) {
 
 void handle_function_pointer_typedef(const QualType& ty,
                                      const TypedefNameDecl* tdd) {
+    tdd = tdd->getCanonicalDecl();
     const auto qname = tdd->getQualifiedNameAsString();
-    SPDLOG_DEBUG("Got FPT Typedef {} -> {}", ty->getPointeeType().getAsString(),
-                 qname);
+    const auto* fpt = ty->getPointeeType()->getAs<FunctionProtoType>();
 
     const auto fp_name = ty->getPointeeType().getAsString();
 
@@ -1176,15 +1179,23 @@ void handle_function_pointer_typedef(const QualType& ty,
 
     // Get the translation unit node we're going to add this function pointer to
     auto* node_tu = get_translation_unit(filename);
+    SPDLOG_DEBUG("Got FPT Typedef {} -> {} in {}", fp_name, qname,
+                 (void*)node_tu);
 
     auto decl_ctx = tdd->getDeclContext();
 
     auto namespaces = get_namespaces(decl_ctx, node_tu);
 
+    QType return_type = process_qtype(fpt->getReturnType());
+    std::vector<QType> params;
+    for (const QualType& pqt : fpt->param_types()) {
+        params.push_back(process_qtype(pqt));
+    }
+
     const auto id = NODES.size();
     auto node_fpt = std::make_unique<NodeFunctionPointerTypedef>(
         qname, id, -1, std::vector<std::string>{}, tdd->getNameAsString(),
-        namespaces, get_comment_base64(tdd));
+        namespaces, get_comment_base64(tdd), return_type, params);
     NODES.emplace_back(std::move(node_fpt));
     NODE_MAP[fp_name] = id;
 
@@ -1202,8 +1213,8 @@ void ProcessBindingCallback::run(const MatchFinder::MatchResult& result) {
         if (const auto* crd = tad->getUnderlyingType()->getAsCXXRecordDecl()) {
             handle_typealias_decl(tad, crd);
         } else {
-            SPDLOG_DEBUG("Got other TAD");
-            tad->dump();
+            // SPDLOG_DEBUG("Got other TAD");
+            // tad->dump();
             QualType ty = tad->getUnderlyingType();
             if (ty->isPointerType() &&
                 ty->getPointeeType()->isFunctionProtoType()) {

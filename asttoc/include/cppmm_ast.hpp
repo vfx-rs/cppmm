@@ -194,14 +194,16 @@ struct NodePointerType : public NodeType {
 //------------------------------------------------------------------------------
 struct NodeFunctionProtoType : public NodeType {
     NodeTypePtr return_type;
+    std::vector<NodeTypePtr> params;
     std::string type;
     NodeId function_pointer_typedef;
 
     NodeFunctionProtoType(const NodeTypePtr& return_type,
+                          std::vector<NodeTypePtr>&& params,
                           const std::string& type,
                           NodeId function_pointer_typedef)
         : NodeType("", 0, NodeKind::FunctionProtoType, "", false),
-          return_type(return_type), type(type),
+          return_type(return_type), params(std::move(params)), type(type),
           function_pointer_typedef(function_pointer_typedef) {}
 
     // A static method for creating this as a shared pointer
@@ -697,14 +699,21 @@ struct NodeFunctionPointerTypedef : public NodeAttributeHolder {
     TranslationUnit::WPtr tu;
     std::string alias;
     std::vector<NodeId> namespaces;
+    std::string nice_name;
+    NodeTypePtr return_type;
+    std::vector<Param> params;
 
     NodeFunctionPointerTypedef(const TranslationUnit::Ptr& tu,
-                               std::string qualified_name, std::string alias,
+                               std::string qualified_name, NodeId id,
+                               std::string alias,
                                std::vector<NodeId> namespaces,
-                               std::string comment)
-        : NodeAttributeHolder(qualified_name, 0, NodeKind::Typedef,
+                               std::string comment, NodeTypePtr&& return_type,
+                               std::vector<Param>&& params)
+        : NodeAttributeHolder(qualified_name, id,
+                              NodeKind::FunctionPointerTypedef,
                               std::vector<std::string>(), std::move(comment)),
-          tu(tu), alias(alias), namespaces(namespaces) {}
+          tu(tu), alias(alias), namespaces(namespaces),
+          return_type(std::move(return_type)), params(std::move(params)) {}
 
     using This = NodeFunctionPointerTypedef;
     template <typename... Args> static std::shared_ptr<This> n(Args&&... args) {
