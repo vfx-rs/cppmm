@@ -105,7 +105,11 @@ void NodeTranslationUnit::write_json(json& o) const {
 void NodeNamespace::write_json_attrs(json& o) const {
     Node::write_json_attrs(o);
     o["short_name"] = short_name;
-    o["alias"] = alias;
+    if (alias.empty()) {
+        o["alias"] = short_name;
+    } else {
+        o["alias"] = alias;
+    }
     o["collapse"] = collapse;
 }
 
