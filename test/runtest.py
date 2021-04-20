@@ -33,7 +33,7 @@ if result.returncode != 0:
     sys.exit(result.returncode)
 
 
-# Generate C
+# Generate C and Rust
 args = [asttoc_exe, output_ast_dir, '-o', output_dir, '-p', project_name]
 print('Running ' + ' '.join(args))
 
@@ -52,5 +52,22 @@ result = subprocess.Popen(['diff', '-r', ignore_regex, output_dir, ref_dir], std
 (stdout, _) = result.communicate(None)
 
 if result.returncode != 0:
+    print(stdout)
+    sys.exit(255)
+
+# Run cargo test on Rust
+rustdir = os.path.join(output_dir, "%s-sys" % project_name)
+rust_src_dir = os.path.join(rustdir, 'src')
+
+# copy the test file over if there is one
+test_file = os.path.join(os.path.dirname(binding_dir), 'test.rs')
+if os.path.isfile(test_file):
+    shutil.copyfile(test_file, os.path.join(rust_src_dir, 'test.rs'))
+
+result = subprocess.Popen(['cargo', 'test'], cwd=rustdir, stderr=subprocess.STDOUT, stdout=subprocess.PIPE, shell=True)
+(stdout, _) = result.communicate(None)
+
+if result.returncode != 0:
+    print('cargo test failed')
     print(stdout)
     sys.exit(255)
