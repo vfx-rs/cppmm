@@ -32,7 +32,7 @@ public:
     // a a a
     // a a a
 
-    Matrix33(const T a[3][3]) CPPMM_IGNORE; //CPPMM_RENAME(from_array); // TODO LT: Temporary
+    Matrix33(const T a[3][3]) CPPMM_RENAME(from_array);
     // a[0][0] a[0][1] a[0][2]
     // a[1][0] a[1][1] a[1][2]
     // a[2][0] a[2][1] a[2][2]

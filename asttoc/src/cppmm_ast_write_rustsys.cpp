@@ -79,24 +79,49 @@ std::string sanitize_keyword(std::string s) {
     return s;
 }
 
-std::string convert_record_type(NodeRecordType* t) { return t->type_name; }
-std::string convert_array_type(NodeArrayType* t) { return t->type_name; }
+std::string convert_type(const NodeType* t);
 
-std::string convert_type(const NodeTypePtr& t) {
+std::string convert_record_type(const NodeRecordType* t) {
+    return t->type_name;
+}
+
+std::string convert_array_type(const NodeArrayType* t) {
+    // const auto el = convert_type(t->element_type);
+    // return fmt::format("*const {}", el);
+
+    // we need to decay this to a single pointer, so we need to traverse the
+    // graph until we find something that's not an array in order to handle
+    // multidimensional arrays (which are laid out as a consecutive chunk)
+    const NodeType* p = static_cast<const NodeType*>(t);
+    while (p->kind == NodeKind::ArrayType) {
+        const NodeArrayType* a = static_cast<const NodeArrayType*>(p);
+        p = a->element_type.get();
+    }
+
+    std::string cnst = "mut";
+    if (p->const_) {
+        cnst = "const";
+    }
+
+    const auto pointee = convert_type(p);
+    return fmt::format("*{} {}", cnst, pointee);
+}
+
+std::string convert_type(const NodeType* t) {
     if (t->kind == NodeKind::BuiltinType) {
-        return convert_builtin_type(static_cast<NodeBuiltinType*>(t.get()));
+        return convert_builtin_type(static_cast<const NodeBuiltinType*>(t));
     } else if (t->kind == NodeKind::RecordType) {
 
-        return convert_record_type(static_cast<NodeRecordType*>(t.get()));
+        return convert_record_type(static_cast<const NodeRecordType*>(t));
     } else if (t->kind == NodeKind::ArrayType) {
-        return convert_array_type(static_cast<NodeArrayType*>(t.get()));
+        return convert_array_type(static_cast<const NodeArrayType*>(t));
     } else if (t->kind == NodeKind::PointerType) {
         std::string cnst = "mut";
-        NodePointerType* p = static_cast<NodePointerType*>(t.get());
+        const NodePointerType* p = static_cast<const NodePointerType*>(t);
         if (p->pointee_type->const_) {
             cnst = "const";
         }
-        return fmt::format("*{} {}", cnst, convert_type(p->pointee_type));
+        return fmt::format("*{} {}", cnst, convert_type(p->pointee_type.get()));
     } else {
         panic("Unhandled type {}", t->type_name);
     }
@@ -106,7 +131,7 @@ std::vector<std::string> convert_params(const std::vector<Param>& params) {
     std::vector<std::string> result;
     for (const auto& p : params) {
         result.push_back(fmt::format("{}: {}", sanitize_keyword(p.name),
-                                     convert_type(p.type)));
+                                     convert_type(p.type.get())));
     }
     return result;
 }
@@ -115,7 +140,7 @@ std::vector<std::string> convert_fields(const std::vector<Field>& fields) {
     std::vector<std::string> result;
     for (const auto& f : fields) {
         result.push_back(fmt::format("pub {}: {}", sanitize_keyword(f.name),
-                                     convert_type(f.type)));
+                                     convert_type(f.type.get())));
     }
     return result;
 }
@@ -136,7 +161,7 @@ void write_function(fmt::ostream& out, const NodeFunction* node_function) {
     out.print("pub fn {}({})", node_function->name,
               pystring::join(", ", params));
 
-    std::string ret = convert_type(node_function->return_type);
+    std::string ret = convert_type(node_function->return_type.get());
     if (ret != "void") {
         out.print(" -> {};\n\n", ret);
     } else {
