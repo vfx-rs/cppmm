@@ -36,55 +36,6 @@ namespace fs = ghc::filesystem;
 namespace cppmm {
 namespace write {
 
-#if 0
-//------------------------------------------------------------------------------
-void write_source(const TranslationUnit & tu)
-{
-    auto out = fmt::output_file(tu.filename);
-
-    // Write out the source includes
-    write_source_includes(out, tu);
-
-    // Write out the function definitions
-    for(const auto & node : tu.decls)
-    {
-        if (node->kind == NodeKind::Function)
-        {
-            write_function(out, node, Access::Public, Place::Source);
-        }
-    }
-}
-
-//------------------------------------------------------------------------------
-void write_translation_unit(const TranslationUnit & tu)
-{
-    write_header(tu);
-    write_private_header(tu);
-    write_source(tu);
-}
-#endif
-
-/*
-cmake_minimum_required(VERSION 3.5)
-
-add_subdirectory(fmt)
-
-add_executable(asttoc
-  src/main.cpp
-  src/pystring.cpp
-  src/cppmm_ast_read.cpp
-  src/cppmm_ast_add_c.cpp
-  src/cppmm_ast_write_c.cpp
-  src/cppmm_ast_write_cmake.cpp
-)
-
-target_include_directories(asttoc PRIVATE include)
-target_include_directories(asttoc PRIVATE fmt/include)
-target_include_directories(asttoc PRIVATE ${LLVM_INCLUDE_DIRS})
-
-target_link_libraries(asttoc fmt LLVMSupport)
-*/
-
 //------------------------------------------------------------------------------
 static void indent(fmt::ostream& out, const size_t depth) {
     for (size_t i = 0; i != depth; ++i) {
@@ -102,7 +53,8 @@ const std::string compute_cmakefile_path(const std::string& filename) {
 
 //------------------------------------------------------------------------------
 void cmake(const char* project_name, const Root& root, size_t starting_point,
-           const Libs& libs, const LibDirs& lib_dirs) {
+           const Libs& libs, const LibDirs& lib_dirs, int version_major,
+           int version_minor, int version_patch) {
     expect(starting_point < root.tus.size(),
            "starting point ({}) is out of range ({})", starting_point,
            root.tus.size());
@@ -114,13 +66,16 @@ void cmake(const char* project_name, const Root& root, size_t starting_point,
 
     // Minimum version
     out.print("cmake_minimum_required(VERSION 3.5)\n");
-    out.print("project({})\n", project_name);
+    out.print("project({} VERSION {}.{}.{})\n", project_name, version_major,
+              version_minor, version_patch);
     out.print("set(CMAKE_CXX_STANDARD 14 CACHE STRING \"\")\n");
 
     // Library
     std::set<std::string> include_paths;
 
-    out.print("add_library({} SHARED\n", project_name);
+    out.print("set(LIBNAME {}-{}_{})\n", project_name, version_major,
+              version_minor);
+    out.print("add_library(${{LIBNAME}} SHARED\n");
     const auto size = root.tus.size();
     for (size_t i = starting_point; i < size; ++i) {
         const auto& tu = root.tus[i];
@@ -142,7 +97,7 @@ void cmake(const char* project_name, const Root& root, size_t starting_point,
 
     // Include directories
     for (auto& include_path : include_paths) {
-        out.print("target_include_directories({} PRIVATE {})\n", project_name,
+        out.print("target_include_directories(${{LIBNAME}} PRIVATE {})\n",
                   include_path);
     }
 
@@ -155,13 +110,12 @@ void cmake(const char* project_name, const Root& root, size_t starting_point,
             out.print(" {}", lib_dir);
         }
         out.print(")\n");
-        out.print("target_link_libraries ({} ${{{}}})\n", project_name,
-                  lib_var);
+        out.print("target_link_libraries (${{LIBNAME}} ${{{}}})\n", lib_var);
     }
 
     // add install command for rust cmake
-    out.print("install(TARGETS {} DESTINATION ${{CMAKE_INSTALL_PREFIX}})",
-              project_name);
+    out.print(
+        "install(TARGETS ${{LIBNAME}} DESTINATION ${{CMAKE_INSTALL_PREFIX}})");
 }
 
 } // namespace write

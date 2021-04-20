@@ -49,6 +49,15 @@ static cl::opt<int> opt_verbosity(
     "v", cl::desc("Verbosity. 0=errors, 1=warnings, 2=info, 3=debug, 4=trace"),
     cl::init(1));
 
+static cl::opt<int> opt_version_major("major", cl::desc("Major version"),
+                                      cl::init(0));
+
+static cl::opt<int> opt_version_minor("minor", cl::desc("Minor version"),
+                                      cl::init(1));
+
+static cl::opt<int> opt_version_patch("patch", cl::desc("Patch version"),
+                                      cl::init(0));
+
 template <typename T> std::vector<std::string> to_vector(const T& t) {
     std::vector<std::string> result;
     for (auto& i : t) {
@@ -60,7 +69,8 @@ template <typename T> std::vector<std::string> to_vector(const T& t) {
 
 void generate(const char* input, const char* project_name, const char* output,
               const char* rust_output, const cppmm::Libs& libs,
-              const cppmm::LibDirs& lib_dirs) {
+              const cppmm::LibDirs& lib_dirs, int version_major,
+              int version_minor, int version_patch) {
     const std::string input_directory = input;
     const std::string output_directory = output;
 
@@ -77,13 +87,14 @@ void generate(const char* input, const char* project_name, const char* output,
 
     // Create a cmake file as well
     cppmm::write::cmake(c_project_name.c_str(), cpp_ast, starting_point, libs,
-                        lib_dirs);
+                        lib_dirs, version_major, version_minor, version_patch);
 
     std::string cwd = fs::current_path().string();
     std::string c_dir = pystring::os::path::abspath(output_directory, cwd);
 
     cppmm::rust_sys::write(rust_output, project_name, c_dir.c_str(), cpp_ast,
-                           starting_point, libs, lib_dirs);
+                           starting_point, libs, lib_dirs, version_major,
+                           version_minor, version_patch);
 }
 
 int main(int argc, char** argv) {
@@ -163,7 +174,8 @@ int main(int argc, char** argv) {
     auto libs = to_vector(opt_lib);
     auto lib_dirs = to_vector(opt_lib_dir);
     generate(opt_in_dir.c_str(), project_name.c_str(), c_dir.c_str(),
-             rust_dir.c_str(), libs, lib_dirs);
+             rust_dir.c_str(), libs, lib_dirs, opt_version_major,
+             opt_version_minor, opt_version_patch);
 
     return 0;
 }

@@ -303,7 +303,8 @@ void write_translation_unit(const char* out_dir, fmt::ostream& out_lib,
 void write(const char* out_dir, const char* project_name, const char* c_dir,
            const Root& root, size_t starting_point,
            const std::vector<std::string>& libs,
-           const std::vector<std::string>& lib_dirs) {
+           const std::vector<std::string>& lib_dirs, int version_major,
+           int version_minor, int version_patch) {
 
     expect(starting_point < root.tus.size(),
            "starting point ({}) is out of range ({})", starting_point,
@@ -339,10 +340,11 @@ fn it_works() {{
 mod test;
 )#");
 
-    std::string cargo_toml = fmt::format(R"(
+    std::string cargo_toml =
+        fmt::format(R"(
 [package]
 name = "{}"
-version = "0.1.0"
+version = "{}.{}.{}"
 authors = ["Anders Langlands <anderslanglands@gmail.com>"]
 edition = "2018"
 
@@ -352,7 +354,7 @@ cmake = "0.1"
 [dependencies]
 
 )",
-                                         project_name);
+                    project_name, version_major, version_minor, version_patch);
 
     auto out_cargo_toml = fmt::output_file(p_cargo_toml.string());
     out_cargo_toml.print(cargo_toml);
@@ -362,9 +364,9 @@ cmake = "0.1"
 fn main() {{
     let dst = cmake::Config::new("{}").build();
     println!("cargo:rustc-link-search=native={{}}", dst.display());
-    println!("cargo:rustc-link-lib=dylib={}-c");
+    println!("cargo:rustc-link-lib=dylib={}-c-{}_{}");
 )#",
-                   c_dir, project_name);
+                   c_dir, project_name, version_major, version_minor);
 
     for (const auto& d : lib_dirs) {
         build_rs.print("    println!(\"cargo:rustc-link-search=native={}\");\n",
@@ -383,8 +385,6 @@ fn main() {{
     println!("cargo:rustc-link-lib=dylib=c++");
 }}
     )");
-
-    // out_build_rs.print(build_rs);
 
 } // namespace rust_sys
 
