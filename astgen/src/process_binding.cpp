@@ -551,6 +551,8 @@ std::vector<NodeId> get_namespaces(const clang::DeclContext* parent,
             NodeId id;
             if (it == NODE_MAP.end()) {
                 id = NODES.size();
+                SPDLOG_TRACE("Inserting namespace {} woth id {}",
+                             qualified_name, id);
                 auto node = std::make_unique<NodeNamespace>(
                     qualified_name, id, 0, short_name, alias);
                 node->collapse = collapse;
@@ -565,6 +567,8 @@ std::vector<NodeId> get_namespaces(const clang::DeclContext* parent,
             if (node_tu &&
                 std::find(node_tu->children.begin(), node_tu->children.end(),
                           id) == node_tu->children.end()) {
+                SPDLOG_TRACE("Adding namespace id {} to tu {}", id,
+                             node_tu->qualified_name);
                 node_tu->children.push_back(id);
             }
             result.push_back(id);
@@ -577,11 +581,6 @@ std::vector<NodeId> get_namespaces(const clang::DeclContext* parent,
                 static_cast<const clang::CXXRecordDecl*>(parent);
 
             auto record_name = get_record_name(crd);
-            // auto mng_ctx = crd->getASTContext().createMangleContext();
-            // std::string s;
-            // llvm::raw_string_ostream os(s);
-            // mng_ctx->mangleCXXName(crd, os);
-            // std::string mangled_name = os.str();
             std::string mangled_name = mangle_decl(crd);
             auto it = NODE_MAP.find(mangled_name);
             if (it == NODE_MAP.end()) {
@@ -1114,6 +1113,10 @@ void handle_library_function(const FunctionDecl* fd) {
             SPDLOG_DEBUG("MATCHED {}", function_qual_name);
             auto* node_tu =
                 (NodeTranslationUnit*)NODES.at(node_function.context).get();
+            // process the namespaces again to make sure we've got the
+            // namespaces in the TU
+            const std::vector<NodeId> namespaces =
+                get_namespaces(fd->getParent(), node_tu);
             fnptr->context = node_tu->id;
             node_tu->children.push_back(id);
             NODES.emplace_back(std::move(fnptr));
