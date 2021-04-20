@@ -96,6 +96,14 @@ std::string convert_array_param(const NodeTypePtr& t, const std::string& name) {
 }
 
 //------------------------------------------------------------------------------
+std::string convert_function_pointer_param(const NodeTypePtr& t,
+                                           const std::string& name) {
+    auto p = static_cast<const NodeFunctionProtoType*>(t.get());
+
+    return fmt::format("{} {}", p->type, name);
+}
+
+//------------------------------------------------------------------------------
 std::string convert_param(const NodeTypePtr& t, const std::string& name) {
     switch (t->kind) {
     case NodeKind::ArrayType:
@@ -106,6 +114,8 @@ std::string convert_param(const NodeTypePtr& t, const std::string& name) {
         return convert_record_param(t, name);
     case NodeKind::PointerType:
         return convert_pointer_param(t, name);
+    case NodeKind::FunctionProtoType:
+        return convert_function_pointer_param(t, name);
     default:
         break;
     }
@@ -198,6 +208,25 @@ void write_params(fmt::ostream& out, const NodeFunction& function) {
 }
 
 //------------------------------------------------------------------------------
+void write_function_pointer_typedef(fmt::ostream& out, const NodePtr& node) {
+    const NodeFunctionPointerTypedef& fpt =
+        *static_cast<const NodeFunctionPointerTypedef*>(node.get());
+
+    if (!fpt.comment.empty()) {
+        auto comment = fpt.comment;
+        out.print("/** {} */\n", comment);
+    }
+
+    std::vector<std::string> params;
+    for (const auto& p : fpt.params) {
+        params.push_back(convert_param(p.type, p.name));
+    }
+
+    out.print("typedef {} (*{})({});", convert_param(fpt.return_type, ""),
+              fpt.nice_name, pystring::join(", ", params));
+}
+
+//------------------------------------------------------------------------------
 void write_function_dcl(fmt::ostream& out, const NodePtr& node, Access access) {
     const NodeFunction& function =
         *static_cast<const NodeFunction*>(node.get());
@@ -221,7 +250,8 @@ void write_function_define(fmt::ostream& out, const NodePtr& node,
         *static_cast<const NodeFunction*>(node.get());
 
     const bool private_ = (access == Access::Private);
-    if (private_ == function.private_ && function.nice_name != "") {
+    if (private_ == function.private_ && function.nice_name != "" &&
+        function.name != function.nice_name) {
         out.print("#define {} {}\n\n", function.nice_name, function.name);
     }
 }
@@ -550,6 +580,9 @@ void write_header(const TranslationUnit& tu) {
             write_typedef(out, node);
             wrote_any = true;
             break;
+        case NodeKind::FunctionPointerTypedef:
+            write_function_pointer_typedef(out, node);
+            wrote_any = true;
         default:
             break;
         }

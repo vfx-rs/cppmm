@@ -1161,9 +1161,9 @@ void handle_library_var(const VarDecl* vd) {
 
 void handle_function_pointer_typedef(const QualType& ty,
                                      const TypedefNameDecl* tdd) {
+    tdd = tdd->getCanonicalDecl();
     const auto qname = tdd->getQualifiedNameAsString();
-    SPDLOG_DEBUG("Got FPT Typedef {} -> {}", ty->getPointeeType().getAsString(),
-                 qname);
+    const auto* fpt = ty->getPointeeType()->getAs<FunctionProtoType>();
 
     const auto fp_name = ty->getPointeeType().getAsString();
 
@@ -1179,15 +1179,23 @@ void handle_function_pointer_typedef(const QualType& ty,
 
     // Get the translation unit node we're going to add this function pointer to
     auto* node_tu = get_translation_unit(filename);
+    SPDLOG_DEBUG("Got FPT Typedef {} -> {} in {}", fp_name, qname,
+                 (void*)node_tu);
 
     auto decl_ctx = tdd->getDeclContext();
 
     auto namespaces = get_namespaces(decl_ctx, node_tu);
 
+    QType return_type = process_qtype(fpt->getReturnType());
+    std::vector<QType> params;
+    for (const QualType& pqt : fpt->param_types()) {
+        params.push_back(process_qtype(pqt));
+    }
+
     const auto id = NODES.size();
     auto node_fpt = std::make_unique<NodeFunctionPointerTypedef>(
         qname, id, -1, std::vector<std::string>{}, tdd->getNameAsString(),
-        namespaces, get_comment_base64(tdd));
+        namespaces, get_comment_base64(tdd), return_type, params);
     NODES.emplace_back(std::move(node_fpt));
     NODE_MAP[fp_name] = id;
 
@@ -1205,8 +1213,8 @@ void ProcessBindingCallback::run(const MatchFinder::MatchResult& result) {
         if (const auto* crd = tad->getUnderlyingType()->getAsCXXRecordDecl()) {
             handle_typealias_decl(tad, crd);
         } else {
-            SPDLOG_DEBUG("Got other TAD");
-            tad->dump();
+            // SPDLOG_DEBUG("Got other TAD");
+            // tad->dump();
             QualType ty = tad->getUnderlyingType();
             if (ty->isPointerType() &&
                 ty->getPointeeType()->isFunctionProtoType()) {

@@ -107,6 +107,18 @@ std::string convert_array_type(const NodeArrayType* t) {
     return fmt::format("*{} {}", cnst, pointee);
 }
 
+std::string convert_type(const NodeType* t);
+
+std::string convert_function_pointer_type(const NodeFunctionProtoType* t) {
+    auto return_type = convert_type(t->return_type.get());
+    std::vector<std::string> params;
+    for (const auto& p : t->params) {
+        params.push_back(convert_type(p.get()));
+    }
+    return fmt::format("extern fn({}) -> {}", pystring::join(", ", params),
+                       return_type);
+}
+
 std::string convert_type(const NodeType* t) {
     if (t->kind == NodeKind::BuiltinType) {
         return convert_builtin_type(static_cast<const NodeBuiltinType*>(t));
@@ -122,10 +134,13 @@ std::string convert_type(const NodeType* t) {
             cnst = "const";
         }
         return fmt::format("*{} {}", cnst, convert_type(p->pointee_type.get()));
+    } else if (t->kind == NodeKind::FunctionProtoType) {
+        return convert_function_pointer_type(
+            static_cast<const NodeFunctionProtoType*>(t));
     } else {
         panic("Unhandled type {}", t->type_name);
     }
-}
+} // namespace rust_sys
 
 std::vector<std::string> convert_params(const std::vector<Param>& params) {
     std::vector<std::string> result;

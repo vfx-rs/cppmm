@@ -2,6 +2,7 @@
 // vfx-rs
 //------------------------------------------------------------------------------
 #include "cppmm_ast_add_c.hpp"
+#include "cppmm_ast.hpp"
 #include "pystring.h"
 #include <iostream>
 #include <unordered_map>
@@ -72,6 +73,7 @@ public:
     const char* find_namespace(NodeId id) const {
         auto result = m_namespaces.find(id);
         if (result == m_namespaces.end()) {
+            SPDLOG_ERROR("Could not find namespace for id {}", id);
             return ""; // TODO LT: optional return with error would be better
         } else {
             return result->second.c_str();
@@ -81,6 +83,7 @@ public:
     std::pair<std::string, bool> find_namespace_alias(NodeId id) const {
         auto result = m_namespace_aliases.find(id);
         if (result == m_namespace_aliases.end()) {
+            SPDLOG_ERROR("Could not find namespace for id {}", id);
             return std::make_pair("", false);
         } else {
             return result->second;
@@ -115,6 +118,20 @@ public:
             return NodePtr(); // TODO LT: Turn this into optional
         } else {
             expect(entry->second.m_cpp->kind == NodeKind::Record,
+                   "Incorrect return type ({}) for find_record_c",
+                   entry->second.m_cpp->kind);
+            return entry->second.m_c;
+        }
+    }
+
+    NodePtr find_function_pointer_typedef_c(NodeId id) const {
+        auto entry = m_mapping.find(id);
+
+        if (entry == m_mapping.end()) {
+            return NodePtr(); // TODO LT: Turn this into optional
+        } else {
+            expect(entry->second.m_cpp->kind ==
+                       NodeKind::FunctionPointerTypedef,
                    "Incorrect return type ({}) for find_record_c",
                    entry->second.m_cpp->kind);
             return entry->second.m_c;
@@ -358,6 +375,20 @@ void add_enum_declaration(TranslationUnit& c_tu, const NodePtr& node_ptr,
 }
 
 //------------------------------------------------------------------------------
+void add_function_pointer_typedef_declaration(TranslationUnit& c_tu,
+                                              const NodePtr& node_ptr,
+                                              bool in_reference) {
+    const auto& fpt =
+        *static_cast<const NodeFunctionPointerTypedef*>(node_ptr.get());
+    if (auto e_tu = fpt.tu.lock()) {
+        if (e_tu.get() != &c_tu) {
+            c_tu.header_includes.insert(e_tu->header_filename);
+            c_tu.source_includes.insert(e_tu->private_header_filename);
+        }
+    }
+}
+
+//------------------------------------------------------------------------------
 NodeTypePtr convert_record_type(TranslationUnit& c_tu,
                                 TypeRegistry& type_registry,
                                 const NodeTypePtr& t, bool in_reference) {
@@ -439,8 +470,54 @@ NodeTypePtr convert_pointer_type(TranslationUnit& c_tu,
 }
 
 //------------------------------------------------------------------------------
+NodeTypePtr convert_function_proto_type(TranslationUnit& c_tu,
+                                        TypeRegistry& type_registry,
+                                        const NodeTypePtr& t,
+                                        bool in_reference) {
+    auto fpt = static_cast<const NodeFunctionProtoType*>(t.get());
+
+    const auto& node_ptr = type_registry.find_function_pointer_typedef_c(
+        fpt->function_pointer_typedef);
+    if (!node_ptr) {
+        SPDLOG_ERROR("Found unsupported type \"{}\" for id {}", t->type_name,
+                     fpt->function_pointer_typedef);
+        return NodeTypePtr();
+    }
+
+    // Add the header file or forward declaration needed for this type
+    // to be available.
+    add_function_pointer_typedef_declaration(c_tu, node_ptr, in_reference);
+
+    const auto* c_fpt =
+        static_cast<const NodeFunctionPointerTypedef*>(node_ptr.get());
+    SPDLOG_TRACE("GOT C FPT {}", c_fpt->name);
+
+    auto return_type =
+        convert_type(c_tu, type_registry, fpt->return_type, false);
+
+    std::vector<NodeTypePtr> params;
+    for (const auto& p : fpt->params) {
+        params.push_back(convert_type(c_tu, type_registry, p, false));
+    }
+
+    return NodeFunctionProtoType::n(return_type, std::move(params),
+                                    c_fpt->nice_name, c_fpt->id);
+}
+
+//------------------------------------------------------------------------------
 NodeTypePtr convert_type(TranslationUnit& c_tu, TypeRegistry& type_registry,
                          const NodeTypePtr& t, bool in_reference = false) {
+    // Function pointers come out in the AST as a pointer to a function
+    // prototype. We actually want to pass them around as value types (via a
+    // typedef) so intercept it here.
+    if (t->kind == NodeKind::PointerType) {
+        const NodePointerType* p = static_cast<const NodePointerType*>(t.get());
+        if (p->pointee_type->kind == NodeKind::FunctionProtoType) {
+            return convert_function_proto_type(c_tu, type_registry,
+                                               p->pointee_type, false);
+        }
+    }
+
     switch (t->kind) {
     case NodeKind::BuiltinType:
         return convert_builtin_type(c_tu, type_registry, t, in_reference);
@@ -452,10 +529,9 @@ NodeTypePtr convert_type(TranslationUnit& c_tu, TypeRegistry& type_registry,
         return convert_enum_type(c_tu, type_registry, t, in_reference);
     case NodeKind::ArrayType:
         return convert_array_type(c_tu, type_registry, t, in_reference);
-
-    // Unsupported for the moment
     case NodeKind::FunctionProtoType:
-        return NodeTypePtr();
+        return convert_function_proto_type(c_tu, type_registry, t,
+                                           in_reference);
     default:
         break;
     }
@@ -717,6 +793,17 @@ NodeExprPtr convert_array_to(const TypeRegistry& type_registry,
 //------------------------------------------------------------------------------
 NodeExprPtr convert_to(const TypeRegistry& type_registry, const NodeTypePtr& t,
                        const NodeExprPtr& name) {
+
+    // Function pointers come out in the AST as a pointer to a function
+    // prototype. We actually want to pass them around as value types (via a
+    // typedef) so intercept it here.
+    if (t->kind == NodeKind::PointerType) {
+        const NodePointerType* p = static_cast<const NodePointerType*>(t.get());
+        if (p->pointee_type->kind == NodeKind::FunctionProtoType) {
+            return NodeExprPtr(name);
+        }
+    }
+
     switch (t->kind) {
     case NodeKind::BuiltinType:
         return convert_builtin_to(type_registry, t, name);
@@ -1047,6 +1134,34 @@ void record_entry(NodeId& record_id, TypeRegistry& type_registry,
 }
 
 //------------------------------------------------------------------------------
+void function_pointer_typedef_entry(NodeId& fpt_id, TypeRegistry& type_registry,
+                                    TranslationUnit::Ptr& c_tu,
+                                    const NodePtr& cpp_node) {
+    const auto& cpp_fpt =
+        *static_cast<const NodeFunctionPointerTypedef*>(cpp_node.get());
+
+    const auto c_fpt_name = compute_c_name(cpp_fpt.name);
+    const auto nice_name =
+        compute_qualified_nice_name(type_registry, cpp_fpt.namespaces,
+                                    cpp_fpt.alias) +
+        "_t";
+    SPDLOG_TRACE("Adding FPT {} -> {} with id {}", c_fpt_name, nice_name,
+                 cpp_fpt.id);
+
+    auto return_type = cpp_fpt.return_type;
+    auto params = cpp_fpt.params;
+
+    auto c_fpt = NodeFunctionPointerTypedef::n(
+        c_tu, c_fpt_name, fpt_id++, cpp_fpt.alias, cpp_fpt.namespaces,
+        cpp_fpt.comment, std::move(return_type), std::move(params));
+    c_fpt->nice_name = nice_name;
+
+    type_registry.add(cpp_fpt.id, cpp_node, c_fpt);
+
+    c_tu->decls.push_back(std::move(c_fpt));
+}
+
+//------------------------------------------------------------------------------
 void cast_to_cpp(TranslationUnit& c_tu, const std::string& cpp_record_name,
                  NodeId cpp_record_id, const std::string& c_record_name,
                  NodeId c_record_id, bool const_, PointerKind pointer_kind,
@@ -1336,8 +1451,14 @@ void function_detail(TypeRegistry& type_registry, TranslationUnit& c_tu,
                                     find_function_short_name(cpp_function)));
 
     // Build the new method name
-    function_name = type_registry.make_symbol_unique(function_name);
-    function_nice_name = type_registry.make_symbol_unique(function_nice_name);
+    if (function_name == function_nice_name) {
+        function_name = function_nice_name =
+            type_registry.make_symbol_unique(function_name);
+    } else {
+        function_name = type_registry.make_symbol_unique(function_name);
+        function_nice_name =
+            type_registry.make_symbol_unique(function_nice_name);
+    }
 
     auto c_function =
         NodeFunction::n(function_name, PLACEHOLDER_ID, cpp_function.attrs, "",
@@ -1353,6 +1474,8 @@ void namespace_entry(TypeRegistry& type_registry, const NodePtr& cpp_node) {
     const auto& cpp_namespace =
         *static_cast<const NodeNamespace*>(cpp_node.get());
 
+    SPDLOG_TRACE("Adding namespace \"{}\" \"{}\"", cpp_namespace.short_name,
+                 cpp_namespace.alias);
     type_registry.add_namespace(cpp_namespace.id, cpp_namespace.short_name);
     type_registry.add_namespace_alias(cpp_namespace.id, cpp_namespace.alias,
                                       cpp_namespace.collapse);
@@ -1646,6 +1769,14 @@ void translation_unit_entries(NodeId& new_id, TypeRegistry& type_registry,
             break;
         default:
             break;
+        }
+    }
+
+    // function pointers
+    for (const auto& node : cpp_tu->decls) {
+        if (node->kind == NodeKind::FunctionPointerTypedef) {
+            generate::function_pointer_typedef_entry(new_id, type_registry,
+                                                     c_tu, node);
         }
     }
 

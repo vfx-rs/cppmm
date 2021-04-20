@@ -434,14 +434,21 @@ struct NodeFunctionPointerTypedef : public NodeAttributeHolder {
     /// Full namespace path
     std::vector<NodeId> namespaces;
 
+    /// Return type of the function
+    QType return_type;
+    /// Function parameters
+    std::vector<QType> params;
+
     NodeFunctionPointerTypedef(std::string qualified_name, NodeId id,
                                NodeId context, std::vector<std::string> attrs,
                                std::string alias,
                                std::vector<NodeId> namespaces,
-                               std::string comment)
+                               std::string comment, QType return_type,
+                               std::vector<QType> params)
         : NodeAttributeHolder(qualified_name, id, context, NodeKind::Enum,
                               std::move(attrs), std::move(comment)),
-          alias(std::move(alias)), namespaces(std::move(namespaces)) {}
+          alias(std::move(alias)), namespaces(std::move(namespaces)),
+          return_type(return_type), params(std::move(params)) {}
 
     virtual void write_json_attrs(json& o) const override;
     virtual void write_json(json& o) const override;
