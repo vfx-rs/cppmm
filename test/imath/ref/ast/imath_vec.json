@@ -16,7 +16,8 @@
             "name": "Imath_2_5",
             "id": 6,
             "short_name": "Imath_2_5",
-            "alias": "Imath"
+            "alias": "Imath",
+            "collapse": false
         },
         {
             "kind": "Record",

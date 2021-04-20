@@ -15,7 +15,8 @@
             "name": "imath",
             "id": 5,
             "short_name": "imath",
-            "alias": "imath"
+            "alias": "imath",
+            "collapse": false
         },
         {
             "kind": "Record",

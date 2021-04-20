@@ -30,8 +30,6 @@ void comments__Class_method(
 
 /** This is a free function that also does nothing interesting */
 void comments_function();
-#define comments_function_1 comments_function
-
 #ifdef __cplusplus
 }
 #endif

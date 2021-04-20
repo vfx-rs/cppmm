@@ -15,7 +15,8 @@
             "name": "comments",
             "id": 2,
             "short_name": "comments",
-            "alias": "comments"
+            "alias": "comments",
+            "collapse": false
         },
         {
             "kind": "Record",
@@ -71,7 +72,8 @@
             "name": "cppmm_bind::comments",
             "id": 5,
             "short_name": "comments",
-            "alias": "comments"
+            "alias": "comments",
+            "collapse": false
         },
         {
             "kind": "Function",

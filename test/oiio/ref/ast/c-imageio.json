@@ -17,7 +17,8 @@
             "name": "OpenImageIO_v2_2",
             "id": 1,
             "short_name": "OpenImageIO_v2_2",
-            "alias": "OIIO"
+            "alias": "OIIO",
+            "collapse": false
         },
         {
             "kind": "Record",
@@ -369,7 +370,8 @@
             "name": "cppmm_bind::OpenImageIO_v2_2",
             "id": 76,
             "short_name": "OpenImageIO_v2_2",
-            "alias": "OIIO"
+            "alias": "OIIO",
+            "collapse": false
         },
         {
             "kind": "Record",
@@ -1416,7 +1418,7 @@
                     "qualified_name": "OpenImageIO_v2_2::ImageSpec::operator=",
                     "in_binding": true,
                     "in_library": false,
-                    "noexcept": false,
+                    "noexcept": true,
                     "static": false,
                     "user_provided": false,
                     "const": false,

@@ -16,14 +16,16 @@
             "name": "std::__cxx11",
             "id": 9,
             "short_name": "__cxx11",
-            "alias": "__cxx11"
+            "alias": "__cxx11",
+            "collapse": false
         },
         {
             "kind": "Namespace",
             "name": "std",
             "id": 10,
             "short_name": "std",
-            "alias": "std"
+            "alias": "std",
+            "collapse": false
         },
         {
             "kind": "Record",

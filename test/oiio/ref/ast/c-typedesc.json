@@ -16,7 +16,8 @@
             "name": "OpenImageIO_v2_2",
             "id": 1,
             "short_name": "OpenImageIO_v2_2",
-            "alias": "OIIO"
+            "alias": "OIIO",
+            "collapse": false
         },
         {
             "kind": "Record",

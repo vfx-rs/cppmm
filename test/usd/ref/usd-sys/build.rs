@@ -2,7 +2,7 @@
 fn main() {
     let dst = cmake::Config::new("/home/anders/code/cppmm/build/test/usd/output/usd-c").build();
     println!("cargo:rustc-link-search=native={}", dst.display());
-    println!("cargo:rustc-link-lib=dylib=usd-c");
+    println!("cargo:rustc-link-lib=dylib=usd-c-0_1");
 
 
     #[cfg(target_os = "linux")]

@@ -17,7 +17,8 @@
             "name": "pxrInternal_v0_20__pxrReserved__",
             "id": 9,
             "short_name": "pxrInternal_v0_20__pxrReserved__",
-            "alias": "pxr"
+            "alias": "pxr",
+            "collapse": false
         },
         {
             "kind": "Record",

@@ -17,7 +17,8 @@
             "name": "std",
             "id": 24,
             "short_name": "std",
-            "alias": "std"
+            "alias": "std",
+            "collapse": false
         },
         {
             "kind": "Record",

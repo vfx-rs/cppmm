@@ -1,7 +1,7 @@
 pub mod c_usestd;
 
-pub use c_usestd::_takes_string as _takes_string_1;
-pub use c_usestd::_takes_vector_string as _takes_vector_string_1;
+pub use c_usestd::usestd_takes_string as usestd_takes_string;
+pub use c_usestd::usestd_takes_vector_string as usestd_takes_vector_string;
 pub mod std_string;
 pub use std_string::std____cxx11__basic_string_char__t as std___cxx11_string_t;
 pub use std_string::std__vector_std__string__t as std_vector_string_t;

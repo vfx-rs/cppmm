@@ -14,7 +14,16 @@
             "name": "cppmm_bind::usestd",
             "id": 49,
             "short_name": "usestd",
-            "alias": "usestd"
+            "alias": "usestd",
+            "collapse": false
+        },
+        {
+            "kind": "Namespace",
+            "name": "usestd",
+            "id": 51,
+            "short_name": "usestd",
+            "alias": "usestd",
+            "collapse": false
         },
         {
             "kind": "Function",

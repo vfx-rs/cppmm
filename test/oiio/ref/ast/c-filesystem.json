@@ -16,28 +16,32 @@
             "name": "cppmm_bind::OpenImageIO_v2_2::Filesystem",
             "id": 144,
             "short_name": "Filesystem",
-            "alias": "Filesystem"
+            "alias": "Filesystem",
+            "collapse": false
         },
         {
             "kind": "Namespace",
             "name": "cppmm_bind::OpenImageIO_v2_2",
             "id": 76,
             "short_name": "OpenImageIO_v2_2",
-            "alias": "OIIO"
+            "alias": "OIIO",
+            "collapse": false
         },
         {
             "kind": "Namespace",
             "name": "OpenImageIO_v2_2::Filesystem",
             "id": 149,
             "short_name": "Filesystem",
-            "alias": "Filesystem"
+            "alias": "Filesystem",
+            "collapse": false
         },
         {
             "kind": "Namespace",
             "name": "OpenImageIO_v2_2",
             "id": 1,
             "short_name": "OpenImageIO_v2_2",
-            "alias": "OIIO"
+            "alias": "OIIO",
+            "collapse": false
         },
         {
             "kind": "Record",

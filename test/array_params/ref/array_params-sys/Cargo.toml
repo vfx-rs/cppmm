@@ -1,0 +1,12 @@
+
+[package]
+name = "array_params"
+version = "0.1.0"
+authors = ["Anders Langlands <anderslanglands@gmail.com>"]
+edition = "2018"
+
+[build-dependencies]
+cmake = "0.1"
+
+[dependencies]
+

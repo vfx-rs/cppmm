@@ -16,14 +16,16 @@
             "name": "std::__cxx11",
             "id": 23,
             "short_name": "__cxx11",
-            "alias": "__cxx11"
+            "alias": "__cxx11",
+            "collapse": false
         },
         {
             "kind": "Namespace",
             "name": "std",
             "id": 24,
             "short_name": "std",
-            "alias": "std"
+            "alias": "std",
+            "collapse": false
         },
         {
             "kind": "Record",
@@ -85,7 +87,7 @@
                     "qualified_name": "std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string",
                     "in_binding": true,
                     "in_library": false,
-                    "noexcept": false,
+                    "noexcept": true,
                     "static": false,
                     "user_provided": true,
                     "const": false,
