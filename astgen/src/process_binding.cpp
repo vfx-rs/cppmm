@@ -731,9 +731,20 @@ void process_fields(const CXXRecordDecl* crd, NodeRecord* node_record_ptr) {
     for (const Decl* d : crd->decls()) {
         const auto record_name = get_record_name(crd);
         if (const auto* fd = dyn_cast<FieldDecl>(d)) {
+
+            if (fd->getAccess() != AccessSpecifier::AS_public) {
+                // don't want to inspect private fields as they may involve
+                // types we don't care about
+                continue;
+            }
             const std::string field_name = fd->getNameAsString();
             SPDLOG_TRACE("    FIELD {}::{}", record_name, field_name);
             QType qtype = process_qtype(fd->getType());
+            if (qtype.ty == -1) {
+                SPDLOG_ERROR("processing field {} of CXXRecordDecl {}",
+                             field_name, crd->getQualifiedNameAsString());
+            }
+
             node_record_ptr->fields.push_back(Field{field_name, qtype.ty});
         }
     }
