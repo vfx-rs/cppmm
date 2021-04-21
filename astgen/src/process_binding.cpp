@@ -1023,6 +1023,11 @@ std::unordered_map<std::string, NodeVar> binding_vars;
 /// FunctionDecl so that we can match against it later. Only functions that
 /// are explicitly declared in the bindings have AST output for them.
 void handle_binding_function(const FunctionDecl* fd) {
+    if (fd->getTemplatedKind() == 1) {
+        // ignore template functions in the binding
+        return;
+    }
+
     const std::string function_qual_name =
         pystring::replace(fd->getQualifiedNameAsString(), "cppmm_bind::", "");
     const std::string function_short_name = fd->getNameAsString();
@@ -1120,6 +1125,11 @@ void handle_binding_var(const VarDecl* vd) {
 /// matching it against a decl from the bindings. If so, create the new
 /// NodeFunction and store it in the AST
 void handle_library_function(const FunctionDecl* fd) {
+    if (fd->getTemplatedKind() == 1) {
+        // ignore template functions in the library
+        return;
+    }
+
     const std::string function_qual_name = fd->getQualifiedNameAsString();
     const std::string function_short_name = fd->getNameAsString();
 
