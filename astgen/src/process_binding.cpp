@@ -775,11 +775,6 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
     }
 
     // Get the mangled version of the record name
-    // auto mng_ctx = crd->getASTContext().createMangleContext();
-    // std::string s;
-    // llvm::raw_string_ostream os(s);
-    // mng_ctx->mangleCXXName(crd, os);
-    // std::string mangled_name = os.str();
     std::string mangled_name = mangle_decl(crd);
     SPDLOG_DEBUG("Record {} mangles to {}", crd->getQualifiedNameAsString(),
                  mangled_name);

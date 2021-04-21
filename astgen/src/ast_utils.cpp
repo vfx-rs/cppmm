@@ -41,9 +41,6 @@ std::string strip_name_kinds(std::string s) {
     s = pystring::replace(s, "enum ", "");
     s = pystring::replace(s, "union ", "");
 
-    // and get rid of any nasty characters
-    s = pystring::replace(s, "-", "neg");
-
     return s;
 }
 

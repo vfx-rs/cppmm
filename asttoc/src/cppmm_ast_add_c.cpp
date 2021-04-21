@@ -261,6 +261,7 @@ std::string compute_c_name(const std::string& name) {
         case '*':
         case '<':
         case '>':
+        case '-':
             result.push_back('_');
             break;
         case ' ':
@@ -284,6 +285,8 @@ std::string compute_qualified_name(const TypeRegistry& type_registry,
 
     result += alias;
 
+    result = pystring::replace(result, "-", "neg");
+
     return result;
 }
 
@@ -305,6 +308,8 @@ std::string compute_qualified_nice_name(const TypeRegistry& type_registry,
     }
 
     result += alias;
+
+    result = pystring::replace(result, "-", "neg");
 
     return result;
 }
