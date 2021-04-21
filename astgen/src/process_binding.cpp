@@ -76,9 +76,18 @@ NodeId process_function_proto_type(const FunctionProtoType* fpt,
         return it->second;
     } else {
         QType return_type = process_qtype(fpt->getReturnType());
+        if (return_type.ty == -1) {
+            SPDLOG_ERROR("processing return type of FunctionProtoType {}",
+                         type_name);
+        }
         std::vector<QType> params;
         for (const QualType& pqt : fpt->param_types()) {
-            params.push_back(process_qtype(pqt));
+            auto pt = process_qtype(pqt);
+            if (pt.ty == -1) {
+                SPDLOG_ERROR("processing parameter of FunctionProtoType {}",
+                             type_name);
+            }
+            params.push_back(pt);
         }
 
         // See if we've got a typedef for this funtion pointer type
@@ -261,6 +270,9 @@ QType process_qtype(const QualType& qt) {
 
                 id =
                     process_function_proto_type(fpt, type_name, type_node_name);
+            } else if (const auto* pet = qt->getAs<PackExpansionType>()) {
+                SPDLOG_WARN("Got PackExpansionType");
+                id = NodeId(-1);
             } else {
                 SPDLOG_WARN("Unhandled type {}", type_node_name);
                 qt->dump();
@@ -274,17 +286,35 @@ QType process_qtype(const QualType& qt) {
     }
 }
 
+std::string get_decl_location(const Decl* d) {
+    ASTContext& ctx = d->getASTContext();
+    SourceManager& sm = ctx.getSourceManager();
+    const auto& loc = d->getLocation();
+
+    std::string filename = sm.getFilename(loc).str();
+    return fmt::format("{}:{}", filename, sm.getSpellingLineNumber(loc));
+}
+
 /// Create nodes for the function return type and parameters
 void process_function_parameters(const FunctionDecl* fd, QType& return_qtype,
                                  std::vector<Param>& params) {
     SPDLOG_TRACE("    -> {}", fd->getReturnType().getAsString());
     return_qtype = process_qtype(fd->getReturnType());
+    if (return_qtype.ty == -1) {
+        SPDLOG_ERROR("processing return type of FunctionDecl {} ({})",
+                     fd->getQualifiedNameAsString(), get_decl_location(fd));
+    }
 
     for (const ParmVarDecl* pvd : fd->parameters()) {
         int index = pvd->getFunctionScopeIndex();
         SPDLOG_TRACE("        {}: {}", pvd->getQualifiedNameAsString(),
                      pvd->getType().getCanonicalType().getAsString());
         QType qtype = process_qtype(pvd->getType());
+        if (qtype.ty == -1) {
+            SPDLOG_ERROR("processing parameter {}:{} of FunctionDecl {} ({})",
+                         index, pvd->getNameAsString(),
+                         fd->getQualifiedNameAsString(), get_decl_location(fd));
+        }
 
         // handle unnamed parameters
         auto param_name = pvd->getNameAsString();
@@ -667,6 +697,10 @@ void process_var_decl(const VarDecl* vd, std::string filename) {
     std::vector<std::string> attrs = get_attrs(vd);
 
     auto qtype = process_qtype(vd->getType());
+    if (qtype.ty == -1) {
+        SPDLOG_ERROR("processing type of VarDecl {}",
+                     vd->getQualifiedNameAsString());
+    }
 
     // Get the translation unit node we're going to add this Var to
     auto* node_tu = get_translation_unit(filename);
@@ -1061,6 +1095,10 @@ void handle_binding_var(const VarDecl* vd) {
     auto attrs = get_attrs(vd);
 
     auto qtype = process_qtype(vd->getType());
+    if (qtype.ty == -1) {
+        SPDLOG_ERROR("processing type of VarDecl {}",
+                     vd->getQualifiedNameAsString());
+    }
 
     auto node_var = NodeVar(var_qual_name, -1, node_tu->id, std::move(attrs),
                             var_short_name, qtype, get_comment_base64(vd));
@@ -1182,9 +1220,18 @@ void handle_function_pointer_typedef(const QualType& ty,
     auto namespaces = get_namespaces(decl_ctx, node_tu);
 
     QType return_type = process_qtype(fpt->getReturnType());
+    if (return_type.ty == -1) {
+        SPDLOG_ERROR("processing return type of FunctionPointerTypedef {}",
+                     qname);
+    }
     std::vector<QType> params;
     for (const QualType& pqt : fpt->param_types()) {
-        params.push_back(process_qtype(pqt));
+        auto qtype = process_qtype(pqt);
+        params.push_back(qtype);
+        if (qtype.ty == -1) {
+            SPDLOG_ERROR("processing param of FunctionPointerTypedef {}",
+                         qname);
+        }
     }
 
     const auto id = NODES.size();
