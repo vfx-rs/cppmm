@@ -429,9 +429,9 @@ bool match_method(const NodeMethod* a, const NodeMethod* b) {
         return false;
     }
 
-    if (a->is_specialization != b->is_specialization) {
-        return false;
-    }
+    // if (a->is_specialization != b->is_specialization) {
+    //     return false;
+    // }
 
     if (!match_function(a, b)) {
         return false;
