@@ -10,6 +10,8 @@
 #include "filesystem.hpp"
 namespace fs = ghc::filesystem;
 
+#include "pystring.h"
+
 namespace cppmm {
 
 std::ostream& operator<<(std::ostream& os, NodeKind k) {
@@ -313,15 +315,19 @@ std::ostream& operator<<(std::ostream& os, const NodeMethod& f) {
     if (f.is_virtual) {
         os << "virtual ";
     }
-    os << f.qualified_name << "(";
+
+    std::vector<std::string> params;
     for (const Param& p : f.params) {
-        os << p << ", ";
+        params.push_back(fmt::format("{}", p));
     }
-    os << ") -> " << f.return_type;
+
+    os << f.return_type << " " << f.qualified_name << "("
+       << pystring::join(", ", params) << ")";
+
     if (f.is_const) {
         os << " const";
     }
-    os << "[[";
+    os << " [[";
     if (f.is_user_provided) {
         os << "user_provided, ";
     }
