@@ -104,6 +104,9 @@ std::string mangle_type(const QualType& qt) {
     } else if (qt->isEnumeralType()) {
         auto ed = qt->getAsTagDecl();
         return fmt::format("{}{}", const_, mangle_decl(ed));
+    } else if (qt->isFunctionProtoType()) {
+        const auto type_name = qt.getUnqualifiedType().getAsString();
+        return fmt::format("{}{}", const_, type_name);
     } else {
         const auto type_name = qt.getUnqualifiedType().getAsString();
         SPDLOG_WARN("Unhandled type in mangling {}", type_name);
