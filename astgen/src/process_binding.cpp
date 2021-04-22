@@ -783,6 +783,11 @@ void handle_typealias_decl(const TypeAliasDecl* tad, const CXXRecordDecl* crd) {
     }
 }
 
+bool has_ignore_unbound_attr(const std::vector<std::string>& attrs) {
+    return std::find(attrs.begin(), attrs.end(), "cppmm|ignore_unbound") !=
+           attrs.end();
+}
+
 /// Create a new NodeRecord for the given record decl and store it in the AST.
 /// `crd` must represent a "concrete" record - i.e. it must not be dependent
 /// on any template parameters. This is done in the binding file by explicitly
