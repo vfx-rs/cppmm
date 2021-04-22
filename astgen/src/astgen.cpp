@@ -199,10 +199,15 @@ int main(int argc_, const char** argv_) {
 #define CPPMM_OPAQUEBYTES __attribute__((annotate("cppmm|opaquebytes")))
 #define CPPMM_VALUETYPE __attribute__((annotate("cppmm|valuetype")))
 #define CPPMM_COLLAPSE __attribute__((annotate("cppmm|collapse")))
+#define CPPMM_IGNORE_UNBOUND __attribute__((annotate("cppmm|ignore_unbound")))
 
 #define CPPMM_THROWS(EX, VAR) __attribute__((annotate("cppmm|throws|" #EX "|" #VAR)))
 
 #define CPPMM_ENUM_STRIP(x) __attribute__((annotate("cppmm|enum_strip|" #x)))
+
+#define CPPMM_COPY(NS, CLASS) CLASS(const NS::CLASS& rhs); NS::CLASS& operator=(const NS::CLASS& rhs);
+#define CPPMM_MOVE(NS, CLASS) CLASS(NS::CLASS&& rhs) CPPMM_IGNORE; NS::CLASS& operator=(NS::CLASS&& rhs) CPPMM_IGNORE;
+#define CPPMM_ROFIVE(NS, CLASS) CPPMM_COPY(NS, CLASS) CPPMM_MOVE(NS, CLASS) ~CLASS();
 )#");
 
     // Expose the clang headers (e.g. stddef.h) as virtual headers. These are

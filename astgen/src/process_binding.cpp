@@ -824,6 +824,8 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
     SPDLOG_DEBUG("Record {} mangles to {}", crd->getQualifiedNameAsString(),
                  mangled_name);
 
+    bool ignore_unbound = has_ignore_unbound_attr(attrs);
+
     // Add the new Record node
     NodeId new_id = NODES.size();
     auto node_record = std::make_unique<NodeRecord>(
@@ -860,27 +862,28 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
         node_record_ptr->methods.push_back(id);
     }
 
-    if (WARN_UNMATCHED) {
+    if (WARN_UNMATCHED && !ignore_unbound) {
         for (const auto& n : methods) {
             const auto* m = (NodeMethod*)n.get();
             if (m && !m->in_binding) {
-                SPDLOG_WARN(
-                    "Method {} is present in the library but not declared "
-                    "in the binding",
-                    *m);
+                SPDLOG_WARN("[{}]({}) - \n"
+                            "{} is present in the library but not declared "
+                            "in the binding",
+                            record_name, node_tu->qualified_name, *m);
             }
         }
 
         for (const auto& n : binding_methods) {
             const auto* m = (NodeMethod*)n.get();
             if (m && m->is_user_provided && !m->in_library) {
-                SPDLOG_WARN(
-                    "Method {} is declared in the binding but not present "
-                    "in the library",
-                    *m);
+                SPDLOG_WARN("[{}]({}) - \n"
+                            "{} is declared in the binding but not present "
+                            "in the library",
+                            record_name, node_tu->qualified_name, *m);
             }
         }
     }
+
     // process remaining children
     // first process (recursively) the fields from this decl and all bases
     process_fields(crd, node_record_ptr);
