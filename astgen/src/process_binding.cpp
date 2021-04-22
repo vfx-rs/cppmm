@@ -533,7 +533,7 @@ std::vector<NodePtr> process_methods(const CXXRecordDecl* crd, bool is_base) {
     }
 
     return result;
-}
+} // namespace cppmm
 
 /// Check if the given method, `m`, has an equivalent method in
 /// `binding_methods` If `m` does match, its attrs field is set to `attrs`
