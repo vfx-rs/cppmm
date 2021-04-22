@@ -32,7 +32,7 @@ namespace rust_sys {
 std::string convert_builtin_type(const NodeBuiltinType* t) {
     if (t->type_name == "int") {
         return "c_int";
-    } else if (t->type_name == "char") {
+    } else if (t->type_name == "char" || t->type_name == "signed char") {
         return "c_char";
     } else if (t->type_name == "short") {
         return "c_short";

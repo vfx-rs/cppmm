@@ -1302,7 +1302,6 @@ void ProcessBindingCallback::run(const MatchFinder::MatchResult& result) {
     } else if (const auto* tdd =
                    result.Nodes.getNodeAs<TypedefDecl>("typedefDecl")) {
         SPDLOG_DEBUG("Got TDD");
-        tdd->dump();
         QualType ty = tdd->getUnderlyingType();
         if (ty->isPointerType() &&
             ty->getPointeeType()->isFunctionProtoType()) {
