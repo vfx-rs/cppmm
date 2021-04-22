@@ -520,6 +520,11 @@ std::vector<NodePtr> process_methods(const CXXRecordDecl* crd, bool is_base) {
                 }
             }
         } else if (const auto* cmd = dyn_cast<CXXMethodDecl>(d)) {
+            if (is_base && cmd->isCopyAssignmentOperator() ||
+                cmd->isMoveAssignmentOperator()) {
+                continue;
+            }
+
             // just a regular boring old method
             std::vector<std::string> attrs = get_attrs(d);
             auto node_function = process_method_decl(cmd, attrs);
