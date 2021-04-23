@@ -512,14 +512,20 @@ NodeTypePtr convert_function_proto_type(TranslationUnit& c_tu,
 //------------------------------------------------------------------------------
 NodeTypePtr convert_type(TranslationUnit& c_tu, TypeRegistry& type_registry,
                          const NodeTypePtr& t, bool in_reference = false) {
-    // Function pointers come out in the AST as a pointer to a function
-    // prototype. We actually want to pass them around as value types (via a
-    // typedef) so intercept it here.
     if (t->kind == NodeKind::PointerType) {
         const NodePointerType* p = static_cast<const NodePointerType*>(t.get());
         if (p->pointee_type->kind == NodeKind::FunctionProtoType) {
+            // Function pointers come out in the AST as a pointer to a function
+            // prototype. We actually want to pass them around as value types
+            // (via a typedef) so intercept it here.
             return convert_function_proto_type(c_tu, type_registry,
                                                p->pointee_type, false);
+        } else if (p->pointer_kind == PointerKind::Reference &&
+                   p->pointee_type->kind == NodeKind::ArrayType) {
+            // Array references want to desugar to just passing arrays around
+            // "by value"
+            return convert_array_type(c_tu, type_registry, p->pointee_type,
+                                      false, true);
         }
     }
 
@@ -533,7 +539,7 @@ NodeTypePtr convert_type(TranslationUnit& c_tu, TypeRegistry& type_registry,
     case NodeKind::EnumType:
         return convert_enum_type(c_tu, type_registry, t, in_reference);
     case NodeKind::ArrayType:
-        return convert_array_type(c_tu, type_registry, t, in_reference);
+        return convert_array_type(c_tu, type_registry, t, in_reference, false);
     case NodeKind::FunctionProtoType:
         return convert_function_proto_type(c_tu, type_registry, t,
                                            in_reference);
@@ -799,13 +805,23 @@ NodeExprPtr convert_array_to(const TypeRegistry& type_registry,
 NodeExprPtr convert_to(const TypeRegistry& type_registry, const NodeTypePtr& t,
                        const NodeExprPtr& name) {
 
-    // Function pointers come out in the AST as a pointer to a function
-    // prototype. We actually want to pass them around as value types (via a
-    // typedef) so intercept it here.
     if (t->kind == NodeKind::PointerType) {
         const NodePointerType* p = static_cast<const NodePointerType*>(t.get());
         if (p->pointee_type->kind == NodeKind::FunctionProtoType) {
+            // Function pointers come out in the AST as a pointer to a function
+            // prototype. We actually want to pass them around as value types
+            // (via a typedef) so intercept it here.
             return NodeExprPtr(name);
+        } else if (p->pointer_kind == PointerKind::Reference &&
+                   p->pointee_type->kind == NodeKind::ArrayType) {
+            // And array references want to be treated as values, but we need to
+            // cast them back to the reference in order make the C++ compiler
+            // happy
+            const auto* a = static_cast<NodeArrayType*>(p->pointee_type.get());
+            const auto* v = static_cast<NodeVarRefExpr*>(name.get());
+            return NodeVarRefExpr::n(fmt::format("({} (&)[{}]){}",
+                                                 a->element_type->type_name,
+                                                 a->size, v->var_name));
         }
     }
 
