@@ -22,7 +22,7 @@ C-plus-plus-minus-minus
 | Imath | <ul><li> - [ ] Still under discussion whether this will be a binding, a reimplementation, or just using mint or something like it. </ul></li> |
 | OpenEXR | <ul><li> - [x] Complete. Not fully tested </ul></li> |
 | OpenImageIO | <ul><li> - [ ] Partially complete </ul></li> |
-| OpenColorIO | <ul><li> - [ ] Planned </ul></li> |
+| OpenColorIO | <ul><li> - [ ] In progress </ul></li> |
 | Ptex | <ul><li> - [ ] In progress </ul></li> |
 | OpenShadingLanguage | <ul><li> - [ ] Planned </ul></li> |
 | Slang | <ul><li> - [ ] Planned </ul></li> |
