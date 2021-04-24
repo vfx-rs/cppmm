@@ -20,16 +20,16 @@ C-plus-plus-minus-minus
 | Feature | Status |
 | ------- | ------ |
 | Imath | <ul><li> - [ ] Still under discussion whether this will be a binding, a reimplementation, or just using mint or something like it. </ul></li> |
-| OpenEXR | <ul><li> - [x] Complete. Not fully tested </ul></li> |
-| OpenImageIO | <ul><li> - [ ] Partially complete </ul></li> |
-| OpenColorIO | <ul><li> - [ ] Planned </ul></li> |
-| Ptex | <ul><li> - [ ] In progress </ul></li> |
-| OpenShadingLanguage | <ul><li> - [ ] Planned </ul></li> |
-| Slang | <ul><li> - [ ] Planned </ul></li> |
-| MaterialX | <ul><li> - [ ] Planned </ul></li> |
-| Alembic | <ul><li> - [ ] Planned </ul></li> |
-| OpenVDB | <ul><li> - [ ] Planned </ul></li> |
-| USD | <ul><li> - [ ]  Planned </ul></li> |
+| OpenEXR | <ul><li> ✔️ Complete. Not fully tested </ul></li> |
+| OpenImageIO | <ul><li> ⚙️ Partially complete </ul></li> |
+| OpenColorIO | <ul><li> ⚙️ In progress </ul></li> |
+| Ptex | <ul><li> ⚙️ In progress </ul></li> |
+| OpenShadingLanguage | <ul><li> :x: Planned </ul></li> |
+| Slang | <ul><li> :x: Planned </ul></li> |
+| MaterialX | <ul><li> :x: Planned </ul></li> |
+| Alembic | <ul><li> :x: Planned </ul></li> |
+| OpenVDB | <ul><li> :x: Planned </ul></li> |
+| USD | <ul><li> :x:  Planned </ul></li> |
 
 ## Documentation
 
