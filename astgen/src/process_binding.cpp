@@ -890,7 +890,7 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
     SPDLOG_TRACE("record {} has {} methods", record_name, methods.size());
     for (NodePtr& method : methods) {
         NodeMethod* mptr = (NodeMethod*)method.get();
-        if (method_in_list(mptr, binding_methods, attrs)) {
+        if (method_in_list(mptr, binding_methods, attrs) && !mptr->is_deleted) {
             mptr->attrs = std::move(attrs);
             mptr->in_binding = true;
         } else {
