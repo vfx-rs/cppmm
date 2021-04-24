@@ -10,7 +10,7 @@
         "/home/anders/packages/oiio/2.2.8/include",
         "/home/anders/packages/openexr/2.5.5/include"
     ],
-    "id": 64,
+    "id": 62,
     "decls": [
         {
             "kind": "Namespace",
@@ -27,7 +27,7 @@
             "namespaces": [
                 1
             ],
-            "id": 65,
+            "id": 63,
             "abstract": false,
             "trivially_copyable": true,
             "size": 256,
@@ -356,9 +356,9 @@
                     "comment": "QWxsKCkgaXMgYW4gYWxpYXMgZm9yIHRoZSBkZWZhdWx0IGNvbnN0cnVjdG9yLCB3aGljaCBpbmRpY2F0ZXMgdGhhdAppdCBtZWFucyAiYWxsIiBvZiB0aGUgaW1hZ2UsIG9yIG5vIHJlZ2lvbiByZXN0cmljdGlvbi4gIEZvciBleGFtcGxlLAogICAgZmxvYXQgbXlmdW5jIChJbWFnZUJ1ZiAmYnVmLCBST0kgcm9pID0gUk9JOjpBbGwoKSk7Ck5vdGUgdGhhdCB0aGlzIGlzIGVxdWl2YWxlbnQgdG86CiAgICBmbG9hdCBteWZ1bmMgKEltYWdlQnVmICZidWYsIFJPSSByb2kgPSB7fSk7",
                     "return": {
                         "kind": "RecordType",
-                        "id": 63,
+                        "id": 61,
                         "type": "OpenImageIO_v2_2::ROI",
-                        "record": 65,
+                        "record": 63,
                         "const": false
                     },
                     "params": null
@@ -368,7 +368,7 @@
         {
             "kind": "Namespace",
             "name": "cppmm_bind::OpenImageIO_v2_2",
-            "id": 76,
+            "id": 74,
             "short_name": "OpenImageIO_v2_2",
             "alias": "OIIO",
             "collapse": false
@@ -380,7 +380,7 @@
             "namespaces": [
                 1
             ],
-            "id": 88,
+            "id": 86,
             "abstract": false,
             "trivially_copyable": false,
             "size": 1280,
@@ -567,7 +567,7 @@
                     "name": "channelformats",
                     "type": {
                         "kind": "RecordType",
-                        "id": 86,
+                        "id": 84,
                         "type": "std::vector<OpenImageIO_v2_2::TypeDesc, std::allocator<OpenImageIO_v2_2::TypeDesc> >",
                         "record": -1,
                         "const": false
@@ -578,9 +578,9 @@
                     "name": "channelnames",
                     "type": {
                         "kind": "RecordType",
-                        "id": 49,
+                        "id": 47,
                         "type": "std::vector<std::string>",
-                        "record": 44,
+                        "record": 42,
                         "const": false
                     }
                 },
@@ -619,7 +619,7 @@
                     "name": "extra_attribs",
                     "type": {
                         "kind": "RecordType",
-                        "id": 115,
+                        "id": 112,
                         "type": "OpenImageIO_v2_2::ParamValueList",
                         "record": -1,
                         "const": false
@@ -982,11 +982,11 @@
                             "name": "xstride",
                             "type": {
                                 "kind": "Reference",
-                                "id": 82,
+                                "id": 80,
                                 "type": "long &",
                                 "pointee": {
                                     "kind": "BuiltinType",
-                                    "id": 81,
+                                    "id": 79,
                                     "type": "long",
                                     "const": false
                                 },
@@ -999,11 +999,11 @@
                             "name": "ystride",
                             "type": {
                                 "kind": "Reference",
-                                "id": 82,
+                                "id": 80,
                                 "type": "long &",
                                 "pointee": {
                                     "kind": "BuiltinType",
-                                    "id": 81,
+                                    "id": 79,
                                     "type": "long",
                                     "const": false
                                 },
@@ -1016,11 +1016,11 @@
                             "name": "zstride",
                             "type": {
                                 "kind": "Reference",
-                                "id": 82,
+                                "id": 80,
                                 "type": "long &",
                                 "pointee": {
                                     "kind": "BuiltinType",
-                                    "id": 81,
+                                    "id": 79,
                                     "type": "long",
                                     "const": false
                                 },
@@ -1033,7 +1033,7 @@
                             "name": "channelsize",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 81,
+                                "id": 79,
                                 "type": "long",
                                 "const": false
                             },
@@ -1132,7 +1132,7 @@
                             "name": "value",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 83,
+                                "id": 81,
                                 "type": "const void *",
                                 "pointee": {
                                     "kind": "BuiltinType",
@@ -1181,9 +1181,9 @@
                             "name": "format",
                             "type": {
                                 "kind": "EnumType",
-                                "id": 84,
+                                "id": 82,
                                 "type": "OpenImageIO_v2_2::ImageSpec::SerialFormat",
-                                "enum": 116,
+                                "enum": 113,
                                 "const": false
                             },
                             "attrs": []
@@ -1193,9 +1193,9 @@
                             "name": "verbose",
                             "type": {
                                 "kind": "EnumType",
-                                "id": 85,
+                                "id": 83,
                                 "type": "OpenImageIO_v2_2::ImageSpec::SerialVerbose",
-                                "enum": 117,
+                                "enum": 114,
                                 "const": false
                             },
                             "attrs": []
@@ -1236,11 +1236,11 @@
                             "name": "formats",
                             "type": {
                                 "kind": "Reference",
-                                "id": 87,
+                                "id": 85,
                                 "type": "class std::vector<struct OpenImageIO_v2_2::TypeDesc, class std::allocator<struct OpenImageIO_v2_2::TypeDesc> > &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 86,
+                                    "id": 84,
                                     "type": "std::vector<OpenImageIO_v2_2::TypeDesc, std::allocator<OpenImageIO_v2_2::TypeDesc> >",
                                     "record": -1,
                                     "const": false
@@ -1287,13 +1287,13 @@
                             "name": "other",
                             "type": {
                                 "kind": "Reference",
-                                "id": 78,
+                                "id": 76,
                                 "type": "const class OpenImageIO_v2_2::ImageSpec &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 77,
+                                    "id": 75,
                                     "type": "OpenImageIO_v2_2::ImageSpec",
-                                    "record": 88,
+                                    "record": 86,
                                     "const": true
                                 },
                                 "const": false
@@ -1338,71 +1338,13 @@
                             "name": "other",
                             "type": {
                                 "kind": "RValueReference",
-                                "id": 80,
+                                "id": 78,
                                 "type": "class OpenImageIO_v2_2::ImageSpec &&",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 77,
+                                    "id": 75,
                                     "type": "OpenImageIO_v2_2::ImageSpec",
-                                    "record": 88,
-                                    "const": false
-                                },
-                                "const": false
-                            },
-                            "attrs": []
-                        }
-                    ]
-                },
-                {
-                    "kind": "Method",
-                    "id": 0,
-                    "short_name": "operator=",
-                    "qualified_name": "OpenImageIO_v2_2::ImageSpec::operator=",
-                    "in_binding": true,
-                    "in_library": false,
-                    "noexcept": false,
-                    "static": false,
-                    "user_provided": false,
-                    "const": false,
-                    "virtual": false,
-                    "overloaded_operator": true,
-                    "copy_assignment_operator": false,
-                    "move_assignment_operator": true,
-                    "constructor": false,
-                    "copy_constructor": false,
-                    "move_constructor": false,
-                    "conversion_decl": false,
-                    "destructor": false,
-                    "attributes": [
-                        "cppmm|ignore"
-                    ],
-                    "comment": "",
-                    "return": {
-                        "kind": "Reference",
-                        "id": 79,
-                        "type": "class OpenImageIO_v2_2::ImageSpec &",
-                        "pointee": {
-                            "kind": "RecordType",
-                            "id": 77,
-                            "type": "OpenImageIO_v2_2::ImageSpec",
-                            "record": 88,
-                            "const": false
-                        },
-                        "const": false
-                    },
-                    "params": [
-                        {
-                            "index": 0,
-                            "name": "other",
-                            "type": {
-                                "kind": "RValueReference",
-                                "id": 80,
-                                "type": "class OpenImageIO_v2_2::ImageSpec &&",
-                                "pointee": {
-                                    "kind": "RecordType",
-                                    "id": 77,
-                                    "type": "OpenImageIO_v2_2::ImageSpec",
-                                    "record": 88,
+                                    "record": 86,
                                     "const": false
                                 },
                                 "const": false
@@ -1437,13 +1379,13 @@
                     "comment": "",
                     "return": {
                         "kind": "Reference",
-                        "id": 79,
+                        "id": 77,
                         "type": "class OpenImageIO_v2_2::ImageSpec &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 77,
+                            "id": 75,
                             "type": "OpenImageIO_v2_2::ImageSpec",
-                            "record": 88,
+                            "record": 86,
                             "const": false
                         },
                         "const": false
@@ -1454,13 +1396,13 @@
                             "name": "other",
                             "type": {
                                 "kind": "Reference",
-                                "id": 78,
+                                "id": 76,
                                 "type": "const class OpenImageIO_v2_2::ImageSpec &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 77,
+                                    "id": 75,
                                     "type": "OpenImageIO_v2_2::ImageSpec",
-                                    "record": 88,
+                                    "record": 86,
                                     "const": true
                                 },
                                 "const": false
@@ -1477,9 +1419,9 @@
             "short_name": "SerialFormat",
             "namespaces": [
                 1,
-                88
+                86
             ],
-            "id": 116,
+            "id": 113,
             "size": 32,
             "align": 32,
             "attributes": null,
@@ -1495,9 +1437,9 @@
             "short_name": "SerialVerbose",
             "namespaces": [
                 1,
-                88
+                86
             ],
-            "id": 117,
+            "id": 114,
             "size": 32,
             "align": 32,
             "attributes": null,
@@ -1515,7 +1457,7 @@
             "namespaces": [
                 1
             ],
-            "id": 122,
+            "id": 119,
             "abstract": true,
             "trivially_copyable": false,
             "size": 1984,
@@ -1525,51 +1467,7 @@
                 "cppmm|opaqueptr"
             ],
             "comment": "SW1hZ2VJbnB1dCBhYnN0cmFjdHMgdGhlIHJlYWRpbmcgb2YgYW4gaW1hZ2UgZmlsZSBpbiBhIGZpbGUKZm9ybWF0LWFnbm9zdGljIG1hbm5lci4=",
-            "fields": [
-                {
-                    "kind": "Field",
-                    "name": "m_mutex",
-                    "type": {
-                        "kind": "RecordType",
-                        "id": 136,
-                        "type": "std::recursive_mutex",
-                        "record": -1,
-                        "const": false
-                    }
-                },
-                {
-                    "kind": "Field",
-                    "name": "m_spec",
-                    "type": {
-                        "kind": "RecordType",
-                        "id": 77,
-                        "type": "OpenImageIO_v2_2::ImageSpec",
-                        "record": 88,
-                        "const": false
-                    }
-                },
-                {
-                    "kind": "Field",
-                    "name": "m_errmessage",
-                    "type": {
-                        "kind": "RecordType",
-                        "id": 19,
-                        "type": "std::__cxx11::basic_string<char>",
-                        "record": 25,
-                        "const": false
-                    }
-                },
-                {
-                    "kind": "Field",
-                    "name": "m_threads",
-                    "type": {
-                        "kind": "BuiltinType",
-                        "id": 7,
-                        "type": "int",
-                        "const": false
-                    }
-                }
-            ],
+            "fields": null,
             "methods": [
                 {
                     "kind": "Method",
@@ -1595,7 +1493,7 @@
                     "comment": "Q3JlYXRlIGFuIEltYWdlSW5wdXQgc3ViY2xhc3MgaW5zdGFuY2UgdGhhdCBpcyBhYmxlIHRvIHJlYWQgdGhlCmdpdmVuIGZpbGUgYW5kIG9wZW4gaXQsIHJldHVybmluZyBhIGB1bmlxdWVfcHRyYCB0byB0aGUgSW1hZ2VJbnB1dAppZiBzdWNjZXNzZnVsLiAgVGhlIGB1bmlxdWVfcHRyYCBpcyBzZXQgdXAgd2l0aCBhbiBhcHByb3ByaWF0ZQpkZWxldGVyIHNvIHRoZSBJbWFnZUlucHV0IHdpbGwgYmUgcHJvcGVybHkgY2xvc2VkIGFuZCBkZWxldGVkIHdoZW4KdGhlIGB1bmlxdWVfcHRyYCBnb2VzIG91dCBvZiBzY29wZSBvciBpcyByZXNldC4gSWYgdGhlIG9wZW4gZmFpbHMsCnJldHVybiBhbiBlbXB0eSBgdW5pcXVlX3B0cmAgYW5kIHNldCBhbiBlcnJvciB0aGF0IGNhbiBiZSByZXRyaWV2ZWQKYnkgYE9JSU86OmdldGVycm9yKClgLgoKVGhlIGBjb25maWdgLCBpZiBub3QgbnVsbHB0ciwgcG9pbnRzIHRvIGFuIEltYWdlU3BlYyBnaXZpbmcgaGludHMsCnJlcXVlc3RzLCBvciBzcGVjaWFsIGluc3RydWN0aW9ucy4gIEltYWdlSW5wdXQgaW1wbGVtZW50YXRpb25zIGFyZQpmcmVlIHRvIG5vdCByZXNwb25kIHRvIGFueSBzdWNoIHJlcXVlc3RzLCBzbyB0aGUgZGVmYXVsdAppbXBsZW1lbnRhdGlvbiBpcyBqdXN0IHRvIGlnbm9yZSBgY29uZmlnYC4KCmBvcGVuKClgIHdpbGwgZmlyc3QgdHJ5IHRvIG1ha2UgYW4gSW1hZ2VJbnB1dCBjb3JyZXNwb25kaW5nIHRvCnRoZSBmb3JtYXQgaW1wbGllZCBieSB0aGUgZmlsZSBleHRlbnNpb24gKGZvciBleGFtcGxlLCBgImZvby50aWYiYAp3aWxsIHRyeSB0aGUgVElGRiBwbHVnaW4pLCBidXQgaWYgb25lIGlzIG5vdCBmb3VuZCBvciBpZiB0aGUKaW5mZXJyZWQgb25lIGRvZXMgbm90IG9wZW4gdGhlIGZpbGUsIGV2ZXJ5IGtub3duIEltYWdlSW5wdXQgdHlwZQp3aWxsIGJlIHRyaWVkIHVudGlsIG9uZSBpcyBmb3VuZCB0aGF0IHdpbGwgb3BlbiB0aGUgZmlsZS4KCkBwYXJhbSBmaWxlbmFtZQogICAgICAgIFRoZSBuYW1lIG9mIHRoZSBmaWxlIHRvIG9wZW4uCgpAcGFyYW0gY29uZmlnCiAgICAgICAgT3B0aW9uYWwgcG9pbnRlciB0byBhbiBJbWFnZVNwZWMgd2hvc2UgbWV0YWRhdGEgY29udGFpbnMKICAgICAgICAiY29uZmlndXJhdGlvbiBoaW50cy4iCgpAcGFyYW0gaW9wcm94eQogICAgICAgIE9wdGlvbmFsIHBvaW50ZXIgdG8gYW4gSU9Qcm94eSB0byB1c2UgKG5vdCBzdXBwb3J0ZWQgYnkgYWxsCiAgICAgICAgZm9ybWF0cywgc2VlIGBzdXBwb3J0cygiaW9wcm94eSIpYCkuIFRoZSBjYWxsZXIgcmV0YWlucwogICAgICAgIG93bmVyc2hpcCBvZiB0aGUgcHJveHkuCgpAcmV0dXJucwogICAgICAgIEEgYHVuaXF1ZV9wdHJgIHRoYXQgd2lsbCBjbG9zZSBhbmQgZnJlZSB0aGUgSW1hZ2VJbnB1dCB3aGVuCiAgICAgICAgaXQgZXhpdHMgc2NvcGUgb3IgaXMgcmVzZXQuIFRoZSBwb2ludGVyIHdpbGwgYmUgZW1wdHkgaWYgdGhlCiAgICAgICAgcmVxdWlyZWQgd3JpdGVyIHdhcyBub3QgYWJsZSB0byBiZSBjcmVhdGVkLg==",
                     "return": {
                         "kind": "RecordType",
-                        "id": 118,
+                        "id": 115,
                         "type": "std::unique_ptr<OpenImageIO_v2_2::ImageInput, std::default_delete<OpenImageIO_v2_2::ImageInput> >",
                         "record": -1,
                         "const": false
@@ -1624,13 +1522,13 @@
                             "name": "config",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 119,
+                                "id": 116,
                                 "type": "const class OpenImageIO_v2_2::ImageSpec *",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 77,
+                                    "id": 75,
                                     "type": "OpenImageIO_v2_2::ImageSpec",
-                                    "record": 88,
+                                    "record": 86,
                                     "const": true
                                 },
                                 "const": false
@@ -1642,13 +1540,13 @@
                             "name": "ioproxy",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 121,
+                                "id": 118,
                                 "type": "class OpenImageIO_v2_2::Filesystem::IOProxy *",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 120,
+                                    "id": 117,
                                     "type": "OpenImageIO_v2_2::Filesystem::IOProxy",
-                                    "record": 150,
+                                    "record": 146,
                                     "const": false
                                 },
                                 "const": false
@@ -1681,7 +1579,7 @@
                     "comment": "Q3JlYXRlIGFuZCByZXR1cm4gYW4gSW1hZ2VJbnB1dCBpbXBsZW1lbnRhdGlvbiB0aGF0IGlzIGFibGUgdG8gcmVhZAp0aGUgZ2l2ZW4gZmlsZSBvciBmb3JtYXQuICBJZiBgZG9fb3BlbmAgaXMgdHJ1ZSAoYW5kIHRoZSBgZmlsZW5hbWVgCmlzIHRoZSBuYW1lIG9mIGEgZmlsZSwgbm90IGp1c3QgYSBmb3JtYXQpLCBmdWxseSBvcGVuIGl0IGlmIHBvc3NpYmxlCih1c2luZyB0aGUgb3B0aW9uYWwgYGNvbmZpZ2AgY29uZmlndXJhdGlvbiBzcGVjLCBpZiBzdXBwbGllZCksCm90aGVyd2lzZSBqdXN0IGNyZWF0ZSB0aGUgSW1hZ2VJbnB1dCBidXQgZG9uJ3Qgb3BlbiBpdC4gVGhlCnBsdWdpbl9zZWFyY2hwYXRoIHBhcmFtZXRlciBpcyBhbiBvdmVycmlkZSBvZiB0aGUgc2VhcmNocGF0aC4KY29sb24tc2VwYXJhdGVkIGxpc3Qgb2YgZGlyZWN0b3JpZXMgdG8gc2VhcmNoIGZvciBJbWFnZUlPIHBsdWdpbgpEU08vRExMJ3MgKG5vdCBhIHNlYXJjaHBhdGggZm9yIHRoZSBpbWFnZSBpdHNlbGYhKS4KCklmIHRoZSBgZmlsZW5hbWVgIHBhcmFtZXRlciBpcyB0aGUgbmFtZSBvZiBhIGZpbGUgZm9ybWF0IChzdWNoIGFzCiJvcGVuZXhyIiksIGl0IHdpbGwgY3JlYXRlIGFuIEltYWdlSW5wdXQgdGhhdCByZWFkcyB0aGF0IHBhcnRpY3VsYXIKZm9ybWF0LiBJZiB0aGUgbmFtZSBpcyBhIGZpbGUgZXh0ZW5zaW9uIChzdWNoIGFzICJleHIiIG9yICIuZXhyIiksCml0IHdpbGwgZ3Vlc3MgdGhlIGZpbGUgZm9ybWF0IGZyb20gdGhlIGV4dGVuc2lvbiBhbmQgcmV0dXJuIHRoYXQKdHlwZSBvZiBJbWFnZUlucHV0LgoKSWYgYGZpbGVuYW1lYCBpcyBhIGZ1bGwgZmlsZSBuYW1lIChzdWNoIGFzICJoYXdhaWkuZXhyIiksIGl0IHdpbGwKY3JlYXRlIGFuIEltYWdlSW5wdXQgdGhhdCByZWFkcyB0aGUgZm9ybWF0IGltcGxpZWQgYnkgdGhlIGZpbGUKZXh0ZW5zaW9uICgiLnRpZiIpIGFuZCB0cnkgdG8gb3BlbiB0aGUgZmlsZSB3aXRoIHRoYXQgcmVhZGVyLiBJZiB0aGUKZmlsZSBjYW4gYmUgb3BlbmVkIGFuZCBhcHBlYXJzIHRvIGJlIG9mIHRoZSBjb3JyZWN0IHR5cGUsIHRoZW4gdGhhdApJbWFnZUlucHV0IChhZnRlciBiZWluZyBjbG9zZWQpIHdpbGwgYmUgcmV0dXJuZWQgdG8gdGhlIGNhbGxlci4gQnV0CmlmIGl0IGZhaWxzIChzYXksIGJlY2F1c2UgdGhlIGZpbGUgdHlwZSBkb2VzIG5vdCBtYXRjaCB0aGUKZXh0ZW5zaW9uKSwgdGhlbiBldmVyeSBrbm93biBraW5kIG9mIGltYWdlIHJlYWRlciB3aWxsIGJlIHRyaWVkIGluCnR1cm4sIHVudGlsIG9uZSBjYW4gYmUgZm91bmQgdGhhdCBzdWNjZWVkcyBpbiBvcGVuaW5nIHRoYXQgZmlsZS4gVGhlCmBjcmVhdGUoKWAgZmlsZSB3aWxsIGZhaWwgZW50aXJlbHkgb25seSBpZiBubyBrbm93biBpbWFnZSByZWFkZXIKdHlwZSBzdWNjZWVkcy4KCklmIHRoZSBjYWxsZXIgaW50ZW5kcyB0byBpbW1lZGlhdGVseSBvcGVuIHRoZSBmaWxlLCB0aGVuIGl0IGlzIG9mdGVuCnNpbXBsZXIgdG8gY2FsbCBzdGF0aWMgYEltYWdlSW5wdXQ6Om9wZW4oKWAuCgpAcGFyYW0gZmlsZW5hbWUKICAgICAgICBUaGUgbmFtZSBvZiBhbiBpbWFnZSBmaWxlLCBvciBhIGZpbGUgZXh0ZW5zaW9uLCBvciB0aGUgbmFtZQogICAgICAgIG9mIGEgZmlsZSBmb3JtYXQuCgpAcGFyYW0gZG9fb3BlbgogICAgICAgIElmIGB0cnVlYCwgbm90IG9ubHkgY3JlYXRlIGJ1dCBhbHNvIG9wZW4gdGhlIGZpbGUuCgpAcGFyYW0gY29uZmlnCiAgICAgICAgT3B0aW9uYWwgcG9pbnRlciB0byBhbiBJbWFnZVNwZWMgd2hvc2UgbWV0YWRhdGEgY29udGFpbnMKICAgICAgICAiY29uZmlndXJhdGlvbiBoaW50cyIgZm9yIHRoZSBJbWFnZUlucHV0IGltcGxlbWVudGF0aW9uLgoKQHBhcmFtIGlvcHJveHkKICAgICAgICBPcHRpb25hbCBwb2ludGVyIHRvIGFuIElPUHJveHkgdG8gdXNlIChub3Qgc3VwcG9ydGVkIGJ5IGFsbAogICAgICAgIGZvcm1hdHMsIHNlZSBgc3VwcG9ydHMoImlvcHJveHkiKWApLiBUaGUgY2FsbGVyIHJldGFpbnMKICAgICAgICBvd25lcnNoaXAgb2YgdGhlIHByb3h5LiBJZiB0aGlzIGlzIG5vdCBzdXBwbGllZCwgaXQgaXMgc3RpbGwKICAgICAgICBwb3NzaWJsZSB0byBzZXQgdGhlIHByb3h5IHdpdGggYSBjYWxsIHRvIGBzZXRfcHJveHkoKWAgcHJpb3IKICAgICAgICB0byBgb3BlbigpYC4KCkBwYXJhbSBwbHVnaW5fc2VhcmNocGF0aAogICAgICAgIEFuIG9wdGlvbmFsIGNvbG9uLXNlcGFyYXRlZCBsaXN0IG9mIGRpcmVjdG9yaWVzIHRvIHNlYXJjaAogICAgICAgIGZvciBPcGVuSW1hZ2VJTyBwbHVnaW4gRFNPL0RMTCdzLgoKQHJldHVybnMKICAgICAgICBBIGB1bmlxdWVfcHRyYCB0aGF0IHdpbGwgY2xvc2UgYW5kIGZyZWUgdGhlIEltYWdlSW5wdXQgd2hlbgogICAgICAgIGl0IGV4aXRzIHNjb3BlIG9yIGlzIHJlc2V0LiBUaGUgcG9pbnRlciB3aWxsIGJlIGVtcHR5IGlmIHRoZQogICAgICAgIHJlcXVpcmVkIHdyaXRlciB3YXMgbm90IGFibGUgdG8gYmUgY3JlYXRlZC4=",
                     "return": {
                         "kind": "RecordType",
-                        "id": 118,
+                        "id": 115,
                         "type": "std::unique_ptr<OpenImageIO_v2_2::ImageInput, std::default_delete<OpenImageIO_v2_2::ImageInput> >",
                         "record": -1,
                         "const": false
@@ -1715,13 +1613,13 @@
                             "name": "_param2",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 119,
+                                "id": 116,
                                 "type": "const class OpenImageIO_v2_2::ImageSpec *",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 77,
+                                    "id": 75,
                                     "type": "OpenImageIO_v2_2::ImageSpec",
-                                    "record": 88,
+                                    "record": 86,
                                     "const": true
                                 },
                                 "const": false
@@ -1733,13 +1631,13 @@
                             "name": "_param3",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 121,
+                                "id": 118,
                                 "type": "class OpenImageIO_v2_2::Filesystem::IOProxy *",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 120,
+                                    "id": 117,
                                     "type": "OpenImageIO_v2_2::Filesystem::IOProxy",
-                                    "record": 150,
+                                    "record": 146,
                                     "const": false
                                 },
                                 "const": false
@@ -1831,7 +1729,7 @@
         },
         {
             "kind": "Function",
-            "id": 137,
+            "id": 133,
             "short_name": "roi_union",
             "qualified_name": "OpenImageIO_v2_2::roi_union",
             "in_binding": false,
@@ -1844,9 +1742,9 @@
             ],
             "return": {
                 "kind": "RecordType",
-                "id": 63,
+                "id": 61,
                 "type": "OpenImageIO_v2_2::ROI",
-                "record": 65,
+                "record": 63,
                 "const": false
             },
             "params": [
@@ -1855,13 +1753,13 @@
                     "name": "A",
                     "type": {
                         "kind": "Reference",
-                        "id": 66,
+                        "id": 64,
                         "type": "const struct OpenImageIO_v2_2::ROI &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 63,
+                            "id": 61,
                             "type": "OpenImageIO_v2_2::ROI",
-                            "record": 65,
+                            "record": 63,
                             "const": true
                         },
                         "const": false
@@ -1873,13 +1771,13 @@
                     "name": "B",
                     "type": {
                         "kind": "Reference",
-                        "id": 66,
+                        "id": 64,
                         "type": "const struct OpenImageIO_v2_2::ROI &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 63,
+                            "id": 61,
                             "type": "OpenImageIO_v2_2::ROI",
-                            "record": 65,
+                            "record": 63,
                             "const": true
                         },
                         "const": false
@@ -1890,7 +1788,7 @@
         },
         {
             "kind": "Function",
-            "id": 138,
+            "id": 134,
             "short_name": "roi_intersection",
             "qualified_name": "OpenImageIO_v2_2::roi_intersection",
             "in_binding": false,
@@ -1903,9 +1801,9 @@
             ],
             "return": {
                 "kind": "RecordType",
-                "id": 63,
+                "id": 61,
                 "type": "OpenImageIO_v2_2::ROI",
-                "record": 65,
+                "record": 63,
                 "const": false
             },
             "params": [
@@ -1914,13 +1812,13 @@
                     "name": "A",
                     "type": {
                         "kind": "Reference",
-                        "id": 66,
+                        "id": 64,
                         "type": "const struct OpenImageIO_v2_2::ROI &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 63,
+                            "id": 61,
                             "type": "OpenImageIO_v2_2::ROI",
-                            "record": 65,
+                            "record": 63,
                             "const": true
                         },
                         "const": false
@@ -1932,13 +1830,13 @@
                     "name": "B",
                     "type": {
                         "kind": "Reference",
-                        "id": 66,
+                        "id": 64,
                         "type": "const struct OpenImageIO_v2_2::ROI &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 63,
+                            "id": 61,
                             "type": "OpenImageIO_v2_2::ROI",
-                            "record": 65,
+                            "record": 63,
                             "const": true
                         },
                         "const": false
@@ -1949,7 +1847,7 @@
         },
         {
             "kind": "Function",
-            "id": 139,
+            "id": 135,
             "short_name": "getattribute",
             "qualified_name": "OpenImageIO_v2_2::getattribute",
             "in_binding": false,
@@ -1996,7 +1894,7 @@
                     "name": "val",
                     "type": {
                         "kind": "Pointer",
-                        "id": 95,
+                        "id": 93,
                         "type": "void *",
                         "pointee": {
                             "kind": "BuiltinType",

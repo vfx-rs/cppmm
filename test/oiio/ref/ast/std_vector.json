@@ -10,7 +10,7 @@
         "/home/anders/packages/oiio/2.2.8/include",
         "/home/anders/packages/openexr/2.5.5/include"
     ],
-    "id": 43,
+    "id": 41,
     "decls": [
         {
             "kind": "Namespace",
@@ -27,7 +27,7 @@
             "namespaces": [
                 24
             ],
-            "id": 44,
+            "id": 42,
             "abstract": false,
             "trivially_copyable": false,
             "size": 192,
@@ -43,7 +43,7 @@
                     "name": "_M_impl",
                     "type": {
                         "kind": "RecordType",
-                        "id": 62,
+                        "id": 60,
                         "type": "std::_Vector_base<std::__cxx11::basic_string<char>, std::allocator<std::__cxx11::basic_string<char> > >::_Vector_impl",
                         "record": -1,
                         "const": false

@@ -45,40 +45,7 @@
                 "cppmm|opaquebytes"
             ],
             "comment": "",
-            "fields": [
-                {
-                    "kind": "Field",
-                    "name": "_M_dataplus",
-                    "type": {
-                        "kind": "RecordType",
-                        "id": 41,
-                        "type": "std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_Alloc_hider",
-                        "record": -1,
-                        "const": false
-                    }
-                },
-                {
-                    "kind": "Field",
-                    "name": "_M_string_length",
-                    "type": {
-                        "kind": "BuiltinType",
-                        "id": 13,
-                        "type": "unsigned long",
-                        "const": false
-                    }
-                },
-                {
-                    "kind": "Field",
-                    "name": "",
-                    "type": {
-                        "kind": "RecordType",
-                        "id": 42,
-                        "type": "std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::(anonymous at /usr/lib/gcc/x86_64neglinuxneggnu/10/../../../../include/c++/10/bits/basic_string.h:171:7)",
-                        "record": -1,
-                        "const": false
-                    }
-                }
-            ],
+            "fields": null,
             "methods": [
                 {
                     "kind": "Method",

@@ -9,12 +9,12 @@
         "/home/anders/packages/oiio/2.2.8/include",
         "/home/anders/packages/openexr/2.5.5/include"
     ],
-    "id": 143,
+    "id": 139,
     "decls": [
         {
             "kind": "Namespace",
             "name": "cppmm_bind::OpenImageIO_v2_2::Filesystem",
-            "id": 144,
+            "id": 140,
             "short_name": "Filesystem",
             "alias": "Filesystem",
             "collapse": false
@@ -22,7 +22,7 @@
         {
             "kind": "Namespace",
             "name": "cppmm_bind::OpenImageIO_v2_2",
-            "id": 76,
+            "id": 74,
             "short_name": "OpenImageIO_v2_2",
             "alias": "OIIO",
             "collapse": false
@@ -30,7 +30,7 @@
         {
             "kind": "Namespace",
             "name": "OpenImageIO_v2_2::Filesystem",
-            "id": 149,
+            "id": 145,
             "short_name": "Filesystem",
             "alias": "Filesystem",
             "collapse": false
@@ -49,9 +49,9 @@
             "short_name": "IOProxy",
             "namespaces": [
                 1,
-                149
+                145
             ],
-            "id": 150,
+            "id": 146,
             "abstract": true,
             "trivially_copyable": false,
             "size": 704,
@@ -61,51 +61,7 @@
                 "cppmm|opaqueptr"
             ],
             "comment": "UHJveHkgY2xhc3MgZm9yIEkvTy4gVGhpcyBwcm92aWRlcyBhIHNpbXBsaWZpZWQgaW50ZXJmYWNlIGZvciBmaWxlIEkvTwp0aGF0IGNhbiBoYXZlIGN1c3RvbSBvdmVycmlkZXMu",
-            "fields": [
-                {
-                    "kind": "Field",
-                    "name": "m_filename",
-                    "type": {
-                        "kind": "RecordType",
-                        "id": 19,
-                        "type": "std::__cxx11::basic_string<char>",
-                        "record": 25,
-                        "const": false
-                    }
-                },
-                {
-                    "kind": "Field",
-                    "name": "m_pos",
-                    "type": {
-                        "kind": "BuiltinType",
-                        "id": 81,
-                        "type": "long",
-                        "const": false
-                    }
-                },
-                {
-                    "kind": "Field",
-                    "name": "m_mode",
-                    "type": {
-                        "kind": "EnumType",
-                        "id": 145,
-                        "type": "OpenImageIO_v2_2::Filesystem::IOProxy::Mode",
-                        "enum": 167,
-                        "const": false
-                    }
-                },
-                {
-                    "kind": "Field",
-                    "name": "m_error",
-                    "type": {
-                        "kind": "RecordType",
-                        "id": 19,
-                        "type": "std::__cxx11::basic_string<char>",
-                        "record": 25,
-                        "const": false
-                    }
-                }
-            ],
+            "fields": null,
             "methods": [
                 {
                     "kind": "Method",
@@ -187,9 +143,9 @@
                             "name": "mode",
                             "type": {
                                 "kind": "EnumType",
-                                "id": 145,
+                                "id": 141,
                                 "type": "OpenImageIO_v2_2::Filesystem::IOProxy::Mode",
-                                "enum": 167,
+                                "enum": 163,
                                 "const": false
                             },
                             "attrs": []
@@ -348,7 +304,7 @@
                     "comment": "",
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 81,
+                        "id": 79,
                         "type": "long",
                         "const": false
                     },
@@ -388,7 +344,7 @@
                             "name": "offset",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 81,
+                                "id": 79,
                                 "type": "long",
                                 "const": false
                             },
@@ -430,7 +386,7 @@
                             "name": "buf",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 95,
+                                "id": 93,
                                 "type": "void *",
                                 "pointee": {
                                     "kind": "BuiltinType",
@@ -489,7 +445,7 @@
                             "name": "buf",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 83,
+                                "id": 81,
                                 "type": "const void *",
                                 "pointee": {
                                     "kind": "BuiltinType",
@@ -548,7 +504,7 @@
                             "name": "buf",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 95,
+                                "id": 93,
                                 "type": "void *",
                                 "pointee": {
                                     "kind": "BuiltinType",
@@ -576,7 +532,7 @@
                             "name": "offset",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 81,
+                                "id": 79,
                                 "type": "long",
                                 "const": false
                             },
@@ -618,7 +574,7 @@
                             "name": "buf",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 83,
+                                "id": 81,
                                 "type": "const void *",
                                 "pointee": {
                                     "kind": "BuiltinType",
@@ -646,7 +602,7 @@
                             "name": "offset",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 81,
+                                "id": 79,
                                 "type": "long",
                                 "const": false
                             },
@@ -725,7 +681,7 @@
                             "name": "offset",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 81,
+                                "id": 79,
                                 "type": "long",
                                 "const": false
                             },
@@ -752,10 +708,10 @@
             "short_name": "Mode",
             "namespaces": [
                 1,
-                149,
-                150
+                145,
+                146
             ],
-            "id": 167,
+            "id": 163,
             "size": 32,
             "align": 32,
             "attributes": null,
@@ -772,9 +728,9 @@
             "short_name": "IOMemReader",
             "namespaces": [
                 1,
-                149
+                145
             ],
-            "id": 171,
+            "id": 167,
             "abstract": false,
             "trivially_copyable": false,
             "size": 832,
@@ -784,62 +740,7 @@
                 "cppmm|opaqueptr"
             ],
             "comment": "SU9Qcm94eSBzdWJjbGFzcyBmb3IgcmVhZGluZyB0aGF0IHdyYXBzIGFuIGNzcGFuPGNoYXI+Lg==",
-            "fields": [
-                {
-                    "kind": "Field",
-                    "name": "m_filename",
-                    "type": {
-                        "kind": "RecordType",
-                        "id": 19,
-                        "type": "std::__cxx11::basic_string<char>",
-                        "record": 25,
-                        "const": false
-                    }
-                },
-                {
-                    "kind": "Field",
-                    "name": "m_pos",
-                    "type": {
-                        "kind": "BuiltinType",
-                        "id": 81,
-                        "type": "long",
-                        "const": false
-                    }
-                },
-                {
-                    "kind": "Field",
-                    "name": "m_mode",
-                    "type": {
-                        "kind": "EnumType",
-                        "id": 145,
-                        "type": "OpenImageIO_v2_2::Filesystem::IOProxy::Mode",
-                        "enum": 167,
-                        "const": false
-                    }
-                },
-                {
-                    "kind": "Field",
-                    "name": "m_error",
-                    "type": {
-                        "kind": "RecordType",
-                        "id": 19,
-                        "type": "std::__cxx11::basic_string<char>",
-                        "record": 25,
-                        "const": false
-                    }
-                },
-                {
-                    "kind": "Field",
-                    "name": "m_buf",
-                    "type": {
-                        "kind": "RecordType",
-                        "id": 172,
-                        "type": "OpenImageIO_v2_2::span<const unsigned char, neg1>",
-                        "record": -1,
-                        "const": false
-                    }
-                }
-            ],
+            "fields": null,
             "methods": [
                 {
                     "kind": "Method",
@@ -961,7 +862,7 @@
                     "comment": "",
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 81,
+                        "id": 79,
                         "type": "long",
                         "const": false
                     },
@@ -1001,7 +902,7 @@
                             "name": "offset",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 81,
+                                "id": 79,
                                 "type": "long",
                                 "const": false
                             },
@@ -1043,7 +944,7 @@
                             "name": "buf",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 95,
+                                "id": 93,
                                 "type": "void *",
                                 "pointee": {
                                     "kind": "BuiltinType",
@@ -1102,7 +1003,7 @@
                             "name": "buf",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 83,
+                                "id": 81,
                                 "type": "const void *",
                                 "pointee": {
                                     "kind": "BuiltinType",
@@ -1161,7 +1062,7 @@
                             "name": "buf",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 95,
+                                "id": 93,
                                 "type": "void *",
                                 "pointee": {
                                     "kind": "BuiltinType",
@@ -1189,7 +1090,7 @@
                             "name": "offset",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 81,
+                                "id": 79,
                                 "type": "long",
                                 "const": false
                             },
@@ -1231,7 +1132,7 @@
                             "name": "buf",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 83,
+                                "id": 81,
                                 "type": "const void *",
                                 "pointee": {
                                     "kind": "BuiltinType",
@@ -1259,7 +1160,7 @@
                             "name": "offset",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 81,
+                                "id": 79,
                                 "type": "long",
                                 "const": false
                             },
@@ -1301,7 +1202,7 @@
                             "name": "offset",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 81,
+                                "id": 79,
                                 "type": "long",
                                 "const": false
                             },
@@ -1356,7 +1257,7 @@
                             "name": "buf",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 95,
+                                "id": 93,
                                 "type": "void *",
                                 "pointee": {
                                     "kind": "BuiltinType",
@@ -1417,7 +1318,7 @@
         },
         {
             "kind": "Function",
-            "id": 189,
+            "id": 185,
             "short_name": "filename",
             "qualified_name": "OpenImageIO_v2_2::Filesystem::filename",
             "in_binding": false,
@@ -1427,7 +1328,7 @@
             "comment": "UmV0dXJuIHRoZSBmaWxlbmFtZSAoZXhjbHVkaW5nIGFueSBkaXJlY3RvcmllcywgYnV0IGluY2x1ZGluZyB0aGUKZmlsZSBleHRlbnNpb24sIGlmIGFueSkgb2YgYSBmaWxlcGF0aC4=",
             "namespaces": [
                 1,
-                149
+                145
             ],
             "return": {
                 "kind": "RecordType",
@@ -1459,7 +1360,7 @@
         },
         {
             "kind": "Function",
-            "id": 190,
+            "id": 186,
             "short_name": "extension",
             "qualified_name": "OpenImageIO_v2_2::Filesystem::extension",
             "in_binding": false,
@@ -1469,7 +1370,7 @@
             "comment": "UmV0dXJuIHRoZSBmaWxlIGV4dGVuc2lvbiAoaW5jbHVkaW5nIHRoZSBsYXN0ICcuJyBpZgppbmNsdWRlX2RvdD10cnVlKSBvZiBhIGZpbGVuYW1lIG9yIGZpbGVwYXRoLg==",
             "namespaces": [
                 1,
-                149
+                145
             ],
             "return": {
                 "kind": "RecordType",
@@ -1512,7 +1413,7 @@
         },
         {
             "kind": "Function",
-            "id": 191,
+            "id": 187,
             "short_name": "parent_path",
             "qualified_name": "OpenImageIO_v2_2::Filesystem::parent_path",
             "in_binding": false,
@@ -1522,7 +1423,7 @@
             "comment": "UmV0dXJuIGFsbCBidXQgdGhlIGxhc3QgcGFydCBvZiB0aGUgcGF0aCwgZm9yIGV4YW1wbGUsCnBhcmVudF9wYXRoKCJmb28vYmFyIikgcmV0dXJucyAiZm9vIiwgYW5kIHBhcmVudF9wYXRoKCJmb28iKQpyZXR1cm5zICIiLg==",
             "namespaces": [
                 1,
-                149
+                145
             ],
             "return": {
                 "kind": "RecordType",
@@ -1554,7 +1455,7 @@
         },
         {
             "kind": "Function",
-            "id": 192,
+            "id": 188,
             "short_name": "replace_extension",
             "qualified_name": "OpenImageIO_v2_2::Filesystem::replace_extension",
             "in_binding": false,
@@ -1564,7 +1465,7 @@
             "comment": "UmVwbGFjZSB0aGUgZmlsZSBleHRlbnNpb24gb2YgYSBmaWxlbmFtZSBvciBmaWxlcGF0aC4gRG9lcyBub3QgYWx0ZXIKZmlsZXBhdGgsIGp1c3QgcmV0dXJucyBhIG5ldyBzdHJpbmcuICBOb3RlIHRoYXQgdGhlIG5ld19leHRlbnNpb24Kc2hvdWxkIGNvbnRhaW4gYSBsZWFkaW5nICcuJyBkb3Qu",
             "namespaces": [
                 1,
-                149
+                145
             ],
             "return": {
                 "kind": "RecordType",

@@ -37,19 +37,7 @@
                 "cppmm|opaquebytes"
             ],
             "comment": "XGNsYXNzIFRmVG9rZW4KXGluZ3JvdXAgZ3JvdXBfdGZfU3RyaW5nCgpUb2tlbiBmb3IgZWZmaWNpZW50IGNvbXBhcmlzb24sIGFzc2lnbm1lbnQsIGFuZCBoYXNoaW5nIG9mIGtub3duIHN0cmluZ3MuCgpBIFRmVG9rZW4gaXMgYSBoYW5kbGUgZm9yIGEgcmVnaXN0ZXJlZCBzdHJpbmcsIGFuZCBjYW4gYmUgY29tcGFyZWQsCmFzc2lnbmVkLCBhbmQgaGFzaGVkIGluIGNvbnN0YW50IHRpbWUuICBJdCBpcyB1c2VmdWwgd2hlbiBhIGJvdW5kZWQgbnVtYmVyCm9mIHN0cmluZ3MgYXJlIHVzZWQgYXMgZml4ZWQgc3ltYm9scyAoYnV0IG5ldmVyIG1vZGlmaWVkKS4KCkZvciBleGFtcGxlLCB0aGUgc2V0IG9mIGF2YXIgbmFtZXMgaW4gYSBzaG90IGlzIGxhcmdlIGJ1dCBib3VuZGVkLCBhbmQKb25jZSBhbiBhdmFyIG5hbWUgaXMgZGlzY292ZXJlZCwgaXQgaXMgbmV2ZXIgbWFuaXB1bGF0ZWQuICBJZiB0aGVzZSBuYW1lcwp3ZXJlIHBhc3NlZCBhcm91bmQgYXMgc3RyaW5ncywgZXZlcnkgY29tcGFyaXNvbiBhbmQgaGFzaCB3b3VsZCBiZSBsaW5lYXIKaW4gdGhlIG51bWJlciBvZiBjaGFyYWN0ZXJzLiAgKFN0cmluZyBhc3NpZ25tZW50IGl0c2VsZiBpcyBzb21ldGltZXMgYQpjb25zdGFudCB0aW1lIG9wZXJhdGlvbiwgYnV0IGl0IGlzIHNvbWV0aW1lcyBsaW5lYXIgaW4gdGhlIGxlbmd0aCBvZiB0aGUKc3RyaW5nIGFzIHdlbGwgYXMgcmVxdWlyaW5nIGEgbWVtb3J5IGFsbG9jYXRpb24uKQoKVG8gdXNlIFRmVG9rZW4sIHNpbXBseSBjcmVhdGUgYW4gaW5zdGFuY2UgZnJvbSBhIHN0cmluZyBvciBjb25zdCBjaGFyKi4KSWYgdGhlIHN0cmluZyBoYXNuJ3QgYmVlbiBzZWVuIGJlZm9yZSwgYSBjb3B5IG9mIGl0IGlzIGFkZGVkIHRvIGEgZ2xvYmFsCnRhYmxlLiAgVGhlIHJlc3VsdGluZyBUZlRva2VuIGlzIHNpbXBseSBhIHdyYXBwZXIgYXJvdW5kIGFuIHN0cmluZyosCnBvaW50aW5nIHRoYXQgY2Fub25pY2FsIGNvcHkgb2YgdGhlIHN0cmluZy4gIFRodXMsIG9wZXJhdGlvbnMgb24gdGhlIHRva2VuCmFyZSB2ZXJ5IGZhc3QuICAoVGhlIHN0cmluZydzIGhhc2ggaXMgc2ltcGx5IHRoZSBhZGRyZXNzIG9mIHRoZSBjYW5vbmljYWwKY29weSwgc28gaGFzaGluZyB0aGUgc3RyaW5nIGlzIGNvbnN0YW50IHRpbWUuKQoKVGhlIGZyZWUgZnVuY3Rpb25zIFxjIFRmVG9Ub2tlblZlY3RvcigpIGFuZCBcYyBUZlRvU3RyaW5nVmVjdG9yKCkgcHJvdmlkZQpjb252ZXJzaW9ucyB0byBhbmQgZnJvbSB2ZWN0b3JzIG9mIFxjIHN0cmluZy4KCk5vdGU6IEFjY2VzcyB0byB0aGUgZ2xvYmFsIHRhYmxlIGlzIHByb3RlY3RlZCBieSBhIG11dGV4LiAgVGhpcyBpcyBhIGdvb2QKaWRlYSBhcyBsb25nIGFzIGNsaWVudHMgZG8gbm90IGNvbnN0cnVjdCB0b2tlbnMgZnJvbSBzdHJpbmdzIHRvbwpmcmVxdWVudGx5LiAgQ29uc3RydWN0IHRva2VucyBvbmx5IGFzIG9mdGVuIGFzIHlvdSBtdXN0IChmb3IgZXhhbXBsZSwgYXMKeW91IHJlYWQgZGF0YSBmaWxlcyksIGFuZCA8aT5uZXZlcjwvaT4gaW4gaW5uZXIgbG9vcHMuICBPZiBjb3Vyc2UsIG9uY2UKeW91IGhhdmUgYSB0b2tlbiwgZmVlbCBmcmVlIHRvIGNvbXBhcmUsIGFzc2lnbiwgYW5kIGhhc2ggaXQgYXMgb2Z0ZW4gYXMKeW91IGxpa2UuICAoVGhhdCdzIHdoYXQgaXQncyBmb3IuKSAgSW4gb3JkZXIgdG8gaGVscCBwcmV2ZW50IHRva2VucyBmcm9tCmJlaW5nIHJlLWNyZWF0ZWQgb3ZlciBhbmQgb3ZlciwgYXV0byB0eXBlIGNvbnZlcnNpb24gZnJvbSBcYyBzdHJpbmcgYW5kIFxjCmNoYXIqIHRvIFxjIFRmVG9rZW4gaXMgZGlzYWJsZWQgKHlvdSBtdXN0IHVzZSB0aGUgZXhwbGljaXQgXGMgVGZUb2tlbgpjb25zdHJ1Y3RvcnMpLiAgSG93ZXZlciwgYXV0byBjb252ZXJzaW9uIGZyb20gXGMgVGZUb2tlbiB0byBcYyBzdHJpbmcgYW5kClxjIGNoYXIqIGlzIHByb3ZpZGVkLg==",
-            "fields": [
-                {
-                    "kind": "Field",
-                    "name": "_rep",
-                    "type": {
-                        "kind": "RecordType",
-                        "id": 30,
-                        "type": "pxrInternal_v0_20__pxrReserved__::TfPointerAndBits<const pxrInternal_v0_20__pxrReserved__::TfToken::_Rep>",
-                        "record": -1,
-                        "const": false
-                    }
-                }
-            ],
+            "fields": null,
             "methods": [
                 {
                     "kind": "Method",

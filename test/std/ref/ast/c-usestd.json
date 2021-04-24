@@ -7,12 +7,12 @@
     "include_paths": [
         "/home/anders/code/cppmm/test/std/include"
     ],
-    "id": 48,
+    "id": 46,
     "decls": [
         {
             "kind": "Namespace",
             "name": "cppmm_bind::usestd",
-            "id": 49,
+            "id": 47,
             "short_name": "usestd",
             "alias": "usestd",
             "collapse": false
@@ -20,14 +20,14 @@
         {
             "kind": "Namespace",
             "name": "usestd",
-            "id": 51,
+            "id": 49,
             "short_name": "usestd",
             "alias": "usestd",
             "collapse": false
         },
         {
             "kind": "Function",
-            "id": 52,
+            "id": 50,
             "short_name": "takes_string",
             "qualified_name": "usestd::takes_string",
             "in_binding": false,
@@ -36,7 +36,7 @@
             "attributes": null,
             "comment": "",
             "namespaces": [
-                51
+                49
             ],
             "return": {
                 "kind": "BuiltinType",
@@ -67,7 +67,7 @@
         },
         {
             "kind": "Function",
-            "id": 53,
+            "id": 51,
             "short_name": "takes_vector_string",
             "qualified_name": "usestd::takes_vector_string",
             "in_binding": false,
@@ -76,7 +76,7 @@
             "attributes": null,
             "comment": "",
             "namespaces": [
-                51
+                49
             ],
             "return": {
                 "kind": "BuiltinType",
@@ -90,13 +90,13 @@
                     "name": "v",
                     "type": {
                         "kind": "Reference",
-                        "id": 50,
+                        "id": 48,
                         "type": "const class std::vector<class std::__cxx11::basic_string<char>, class std::allocator<class std::__cxx11::basic_string<char> > > &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 34,
+                            "id": 32,
                             "type": "std::vector<std::string>",
-                            "record": 29,
+                            "record": 27,
                             "const": true
                         },
                         "const": false

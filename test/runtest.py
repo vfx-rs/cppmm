@@ -46,15 +46,6 @@ if result.returncode != 0:
     sys.exit(result.returncode)
 
 
-# diff entire directory with a crummy attempt to ignore paths
-ignore_regex = '-I\s*\"\/.*\/.*'
-result = subprocess.Popen(['diff', '-r', ignore_regex, output_dir, ref_dir], stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
-(stdout, _) = result.communicate(None)
-
-if result.returncode != 0:
-    print(stdout)
-    sys.exit(255)
-
 # Run cargo test on Rust
 rustdir = os.path.join(output_dir, "%s-sys" % project_name)
 rust_src_dir = os.path.join(rustdir, 'src')
@@ -66,6 +57,19 @@ if os.path.isfile(test_file):
 
 result = subprocess.Popen(['cargo', 'test'], cwd=rustdir, stderr=subprocess.STDOUT, stdout=subprocess.PIPE, shell=True)
 (stdout, _) = result.communicate(None)
+
+# Remove cargo build stuff
+shutil.rmtree(os.path.join(rustdir, 'target'), ignore_errors=True)
+shutil.rmtree(os.path.join(rustdir, 'Cargo.lock'), ignore_errors=True)
+
+# diff entire directory with a crummy attempt to ignore paths
+ignore_regex = '-I\s*\"\/.*\/.*'
+result = subprocess.Popen(['diff', '-r', ignore_regex, output_dir, ref_dir], stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
+(stdout, _) = result.communicate(None)
+
+if result.returncode != 0:
+    print(stdout)
+    sys.exit(255)
 
 if result.returncode != 0:
     print('cargo test failed')
