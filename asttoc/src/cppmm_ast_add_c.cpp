@@ -525,7 +525,7 @@ NodeTypePtr convert_type(TranslationUnit& c_tu, TypeRegistry& type_registry,
             // Array references want to desugar to just passing arrays around
             // "by value"
             return convert_array_type(c_tu, type_registry, p->pointee_type,
-                                      false, true);
+                                      false);
         }
     }
 
@@ -539,7 +539,7 @@ NodeTypePtr convert_type(TranslationUnit& c_tu, TypeRegistry& type_registry,
     case NodeKind::EnumType:
         return convert_enum_type(c_tu, type_registry, t, in_reference);
     case NodeKind::ArrayType:
-        return convert_array_type(c_tu, type_registry, t, in_reference, false);
+        return convert_array_type(c_tu, type_registry, t, in_reference);
     case NodeKind::FunctionProtoType:
         return convert_function_proto_type(c_tu, type_registry, t,
                                            in_reference);

@@ -339,57 +339,7 @@ void process_function_parameters(const FunctionDecl* fd, QType& return_qtype,
     }
 }
 
-/// Create a new node for the given method decl and return it
-NodePtr process_method_decl(const CXXMethodDecl* cmd,
-                            std::vector<std::string> attrs,
-                            bool is_specialization = false) {
-    const std::string method_name = cmd->getQualifiedNameAsString();
-    const std::string method_short_name = cmd->getNameAsString();
-
-    QType return_qtype;
-    std::vector<Param> params;
-    process_function_parameters(cmd, return_qtype, params);
-
-    auto node_function = std::make_unique<NodeMethod>(
-        method_name, 0, 0, std::move(attrs), method_short_name, return_qtype,
-        std::move(params), cmd->isStatic(), get_comment_base64(cmd));
-
-    NodeMethod* m = (NodeMethod*)node_function.get();
-    m->is_user_provided = cmd->isUserProvided();
-    m->is_const = cmd->isConst();
-    m->is_virtual = cmd->isVirtual();
-    m->is_overloaded_operator = cmd->isOverloadedOperator();
-    m->is_copy_assignment_operator = cmd->isCopyAssignmentOperator();
-    m->is_move_assignment_operator = cmd->isMoveAssignmentOperator();
-    m->is_noexcept = is_noexcept(cmd);
-
-    if (const auto* ccd = dyn_cast<CXXConstructorDecl>(cmd)) {
-        m->is_constructor = true;
-        m->is_copy_constructor = ccd->isCopyConstructor();
-        m->is_move_constructor = ccd->isMoveConstructor();
-    } else if (const auto* cdd = dyn_cast<CXXDestructorDecl>(cmd)) {
-        m->is_destructor = true;
-    } else if (const auto* ccd = dyn_cast<CXXConversionDecl>(cmd)) {
-        m->is_conversion_decl = true;
-    }
-
-    m->is_specialization = is_specialization;
-
-    SPDLOG_TRACE("Processed method {}", *m);
-
-    return node_function;
-}
-//
-/// Determine if two functions are equivalent. Equivalent in this case means
-/// that their return types and parameters are the same and they have the
-/// same short (not qualified) name
-bool match_function(const NodeFunction* a, const NodeFunction* b) {
-    SPDLOG_TRACE("        matching {} with {}", a->qualified_name,
-                 b->qualified_name);
-    if (a->short_name != b->short_name) {
-        return false;
-    }
-
+bool match_parameters(const NodeFunction* a, const NodeFunction* b) {
     if (a->return_type != b->return_type) {
         SPDLOG_TRACE("        match failed because return types do not match");
         return false;
@@ -414,6 +364,74 @@ bool match_function(const NodeFunction* a, const NodeFunction* b) {
     }
 
     return true;
+}
+
+/// Create a new node for the given method decl and return it
+NodePtr process_method_decl(const CXXMethodDecl* cmd,
+                            std::vector<std::string> attrs,
+                            const CXXRecordDecl* final_crd,
+                            bool is_specialization = false) {
+    const std::string method_name = cmd->getQualifiedNameAsString();
+    const std::string method_short_name = cmd->getNameAsString();
+
+    QType return_qtype;
+    std::vector<Param> params;
+    process_function_parameters(cmd, return_qtype, params);
+
+    auto node_function = std::make_unique<NodeMethod>(
+        method_name, 0, 0, std::move(attrs), method_short_name, return_qtype,
+        std::move(params), cmd->isStatic(), get_comment_base64(cmd));
+
+    NodeMethod* m = (NodeMethod*)node_function.get();
+    m->is_user_provided = cmd->isUserProvided();
+    m->is_const = cmd->isConst();
+    m->is_virtual = cmd->isVirtual();
+    m->is_overloaded_operator = cmd->isOverloadedOperator();
+    m->is_copy_assignment_operator = cmd->isCopyAssignmentOperator();
+    m->is_move_assignment_operator = cmd->isMoveAssignmentOperator();
+    m->is_noexcept = is_noexcept(cmd);
+    m->is_deleted = cmd->isDeleted();
+
+    if (const auto* ccd = dyn_cast<CXXConstructorDecl>(cmd)) {
+        m->is_constructor = true;
+        m->is_copy_constructor = ccd->isCopyConstructor();
+        m->is_move_constructor = ccd->isMoveConstructor();
+    } else if (const auto* cdd = dyn_cast<CXXDestructorDecl>(cmd)) {
+        m->is_destructor = true;
+    } else if (const auto* ccd = dyn_cast<CXXConversionDecl>(cmd)) {
+        m->is_conversion_decl = true;
+    }
+
+    m->is_specialization = is_specialization;
+
+    if (final_crd) {
+        // check if this method is shadowed in the final derived class
+        const auto* dcmd = cmd->getCorrespondingMethodInClass(final_crd);
+        if (dcmd) {
+            NodePtr dm = process_method_decl(dcmd, {}, nullptr, false);
+            if (!match_parameters(m, (NodeMethod*)dm.get())) {
+                m->is_shadowed = true;
+                SPDLOG_DEBUG("Method {} is shadowed", *m);
+            }
+        }
+    }
+
+    SPDLOG_TRACE("Processed method {}", *m);
+
+    return node_function;
+}
+
+/// Determine if two functions are equivalent. Equivalent in this case means
+/// that their return types and parameters are the same and they have the
+/// same short (not qualified) name
+bool match_function(const NodeFunction* a, const NodeFunction* b) {
+    SPDLOG_TRACE("        matching {} with {}", a->qualified_name,
+                 b->qualified_name);
+    if (a->short_name != b->short_name) {
+        return false;
+    }
+
+    return match_parameters(a, b);
 }
 
 /// Determine if two methods are equivalent. In addition to function equivalence
@@ -457,7 +475,8 @@ void add_method_to_list(NodePtr method,
 /// Extract all the public methods on a decl and return them for later use.
 /// The resulting methods are NOT inserted in the AST or stored in the global
 /// node tables.
-std::vector<NodePtr> process_methods(const CXXRecordDecl* crd, bool is_base) {
+std::vector<NodePtr> process_methods(const CXXRecordDecl* crd, bool is_base,
+                                     const CXXRecordDecl* final_crd) {
     std::vector<NodePtr> result;
     SPDLOG_TRACE("process_methods({})", get_record_name(crd));
 
@@ -467,7 +486,8 @@ std::vector<NodePtr> process_methods(const CXXRecordDecl* crd, bool is_base) {
         if (const CXXRecordDecl* base_crd =
                 base.getType()->getAsCXXRecordDecl()) {
             SPDLOG_TRACE("found base {}", get_record_name(crd));
-            auto base_methods = process_methods(base_crd, true);
+            auto base_methods =
+                process_methods(base_crd, true, final_crd ? final_crd : crd);
             for (auto&& m : base_methods) {
                 result.emplace_back(std::move(m));
             }
@@ -499,7 +519,8 @@ std::vector<NodePtr> process_methods(const CXXRecordDecl* crd, bool is_base) {
             for (const FunctionDecl* fd : ftd->specializations()) {
                 std::vector<std::string> attrs = get_attrs(fd);
                 if (const auto* cmd = dyn_cast<CXXMethodDecl>(fd)) {
-                    auto node_function = process_method_decl(cmd, attrs, true);
+                    auto node_function =
+                        process_method_decl(cmd, attrs, final_crd, true);
                     add_method_to_list(std::move(node_function), result);
                 } else {
                     // shouldn't get here
@@ -527,7 +548,7 @@ std::vector<NodePtr> process_methods(const CXXRecordDecl* crd, bool is_base) {
 
             // just a regular boring old method
             std::vector<std::string> attrs = get_attrs(d);
-            auto node_function = process_method_decl(cmd, attrs);
+            auto node_function = process_method_decl(cmd, attrs, final_crd);
             add_method_to_list(std::move(node_function), result);
         }
     }
@@ -543,10 +564,16 @@ bool method_in_list(NodeMethod* m, std::vector<NodePtr>& binding_methods,
     for (auto& n : binding_methods) {
         auto* b = (NodeMethod*)n.get();
         if (match_method(m, b)) {
-            attrs = b->attrs;
-            m->params = b->params;
-            b->in_library = true;
-            return true;
+            if (m->is_deleted && !b->is_deleted) {
+                SPDLOG_WARN("Method {} is specified in the binding but is "
+                            "deleted in the library.",
+                            *b);
+            } else {
+                attrs = b->attrs;
+                m->params = b->params;
+                b->in_library = true;
+                return true;
+            }
         }
     }
     SPDLOG_TRACE("Method {} did not match", m->qualified_name);
@@ -622,6 +649,7 @@ std::vector<NodeId> get_namespaces(const clang::DeclContext* parent,
                 SPDLOG_CRITICAL(
                     "Could not find record {} ({}) when processing namespaces",
                     record_name, mangled_name);
+                throw std::runtime_error("whut");
             } else {
                 result.push_back(it->second);
             }
@@ -852,7 +880,7 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
     node_tu->children.push_back(new_id);
 
     // grab all the methods that are specified in the binding
-    std::vector<NodePtr> methods = process_methods(crd, false);
+    std::vector<NodePtr> methods = process_methods(crd, false, nullptr);
     SPDLOG_TRACE("record {} has {} methods", record_name, methods.size());
     for (NodePtr& method : methods) {
         NodeMethod* mptr = (NodeMethod*)method.get();
@@ -875,7 +903,7 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
     if (WARN_UNMATCHED && !ignore_unbound) {
         for (const auto& n : methods) {
             const auto* m = (NodeMethod*)n.get();
-            if (m && !m->in_binding) {
+            if (m && !m->in_binding && !m->is_deleted && !m->is_shadowed) {
                 SPDLOG_WARN("[{}]({}) - \n"
                             "{} is present in the library but not declared "
                             "in the binding",
@@ -885,7 +913,7 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
 
         for (const auto& n : binding_methods) {
             const auto* m = (NodeMethod*)n.get();
-            if (m && m->is_user_provided && !m->in_library) {
+            if (m && m->is_user_provided && !m->in_library && !m->is_deleted) {
                 SPDLOG_WARN("[{}]({}) - \n"
                             "{} is declared in the binding but not present "
                             "in the library",
@@ -981,7 +1009,7 @@ void handle_cxx_record_decl(const CXXRecordDecl* crd) {
     std::vector<std::string> attrs = get_attrs(crd);
 
     // now get the methods so we can match
-    std::vector<NodePtr> methods = process_methods(crd, false);
+    std::vector<NodePtr> methods = process_methods(crd, false, nullptr);
     for (const auto& n : methods) {
         const auto& m = *(NodeMethod*)n.get();
         SPDLOG_DEBUG("Adding binding method {}", m);
@@ -1041,6 +1069,11 @@ void handle_binding_function(const FunctionDecl* fd) {
         return;
     }
 
+    if (const auto* cmd = dyn_cast<CXXMethodDecl>(fd)) {
+        // don't do out-of-line method declarations
+        return;
+    }
+
     const std::string function_qual_name =
         pystring::replace(fd->getQualifiedNameAsString(), "cppmm_bind::", "");
     const std::string function_short_name = fd->getNameAsString();
@@ -1059,7 +1092,6 @@ void handle_binding_function(const FunctionDecl* fd) {
     QType return_qtype;
     std::vector<Param> params;
     process_function_parameters(fd, return_qtype, params);
-    // NodeId id = NODES.size();
 
     const std::vector<NodeId> namespaces =
         get_namespaces(fd->getParent(), node_tu);

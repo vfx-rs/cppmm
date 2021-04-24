@@ -332,6 +332,10 @@ struct NodeMethod : public NodeFunction {
     /// Is this method the result of a FunctionTemplateDecl specialization
     /// We use this to differentiate `foo(int)` from `foo<T>(T)` with `T=int`.
     bool is_specialization = false;
+    bool is_deleted = false;
+    /// Is this method overriden in a subclass with different parameters?
+    /// parameters. This happens in OpenEXR for methods like DeepImage::level()
+    bool is_shadowed = false;
 
     NodeMethod(std::string qualified_name, NodeId id, NodeId context,
                std::vector<std::string> attrs, std::string short_name,

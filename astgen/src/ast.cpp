@@ -218,7 +218,7 @@ void NodeFunctionProtoType::write_json(json& o) const {
 }
 
 std::ostream& operator<<(std::ostream& os, const Param& p) {
-    return os << p.name << ": " << p.qty;
+    return os << p.qty << " " << p.name;
 }
 
 void NodeAttributeHolder::write_attrs_json(json& o) const {
