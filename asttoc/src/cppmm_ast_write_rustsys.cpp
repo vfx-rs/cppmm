@@ -358,7 +358,7 @@ mod test;
     std::string cargo_toml =
         fmt::format(R"(
 [package]
-name = "{}"
+name = "{}-sys"
 version = "{}.{}.{}"
 authors = ["Anders Langlands <anderslanglands@gmail.com>"]
 edition = "2018"
