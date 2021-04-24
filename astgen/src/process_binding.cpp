@@ -816,6 +816,11 @@ bool has_ignore_unbound_attr(const std::vector<std::string>& attrs) {
            attrs.end();
 }
 
+bool has_trivially_copyable_attr(const std::vector<std::string>& attrs) {
+    return std::find(attrs.begin(), attrs.end(), "cppmm|trivially_copyable") !=
+           attrs.end();
+}
+
 /// Create a new NodeRecord for the given record decl and store it in the AST.
 /// `crd` must represent a "concrete" record - i.e. it must not be dependent
 /// on any template parameters. This is done in the binding file by explicitly
@@ -869,8 +874,9 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
     auto node_record = std::make_unique<NodeRecord>(
         record_name, new_id, node_tu->id, std::move(attrs),
         std::move(short_name), std::move(namespaces), RecordKind::OpaquePtr,
-        crd->isAbstract(), crd->isTriviallyCopyable(), size, align,
-        get_comment_base64(crd));
+        crd->isAbstract(),
+        crd->isTriviallyCopyable() || has_trivially_copyable_attr(attrs), size,
+        align, get_comment_base64(crd));
 
     auto* node_record_ptr = node_record.get();
     NODES.emplace_back(std::move(node_record));

@@ -200,6 +200,7 @@ int main(int argc_, const char** argv_) {
 #define CPPMM_VALUETYPE __attribute__((annotate("cppmm|valuetype")))
 #define CPPMM_COLLAPSE __attribute__((annotate("cppmm|collapse")))
 #define CPPMM_IGNORE_UNBOUND __attribute__((annotate("cppmm|ignore_unbound")))
+#define CPPMM_TRIVIALLY_COPYABLE __attribute__((annotate("cppmm|trivially_copyable")))
 
 #define CPPMM_THROWS(EX, VAR) __attribute__((annotate("cppmm|throws|" #EX "|" #VAR)))
 
