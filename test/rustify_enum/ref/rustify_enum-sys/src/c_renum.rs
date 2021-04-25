@@ -8,18 +8,18 @@ use std::os::raw::*;
 
 #[repr(transparent)]
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
-pub(crate) struct rustify__Compression_e(pub(crate) u32);
-pub(crate) const rustify_Compression_NO_COMPRESSION: rustify__Compression_e = rustify__Compression_e(0);
-pub(crate) const rustify_Compression_RLE_COMPRESSION: rustify__Compression_e = rustify__Compression_e(1);
-pub(crate) const rustify_Compression_ZIPS_COMPRESSION: rustify__Compression_e = rustify__Compression_e(2);
-pub(crate) const rustify_Compression_ZIP_COMPRESSION: rustify__Compression_e = rustify__Compression_e(3);
-pub(crate) const rustify_Compression_PIZ_COMPRESSION: rustify__Compression_e = rustify__Compression_e(4);
-pub(crate) const rustify_Compression_PXR24_COMPRESSION: rustify__Compression_e = rustify__Compression_e(5);
-pub(crate) const rustify_Compression_B44_COMPRESSION: rustify__Compression_e = rustify__Compression_e(6);
-pub(crate) const rustify_Compression_B44A_COMPRESSION: rustify__Compression_e = rustify__Compression_e(7);
-pub(crate) const rustify_Compression_DWAA_COMPRESSION: rustify__Compression_e = rustify__Compression_e(8);
-pub(crate) const rustify_Compression_DWAB_COMPRESSION: rustify__Compression_e = rustify__Compression_e(9);
-pub(crate) const rustify_Compression_NUM_COMPRESSION_METHODS: rustify__Compression_e = rustify__Compression_e(10);
+pub struct rustify__Compression_e(pub u32);
+pub const rustify_Compression_NO_COMPRESSION: rustify__Compression_e = rustify__Compression_e(0);
+pub const rustify_Compression_RLE_COMPRESSION: rustify__Compression_e = rustify__Compression_e(1);
+pub const rustify_Compression_ZIPS_COMPRESSION: rustify__Compression_e = rustify__Compression_e(2);
+pub const rustify_Compression_ZIP_COMPRESSION: rustify__Compression_e = rustify__Compression_e(3);
+pub const rustify_Compression_PIZ_COMPRESSION: rustify__Compression_e = rustify__Compression_e(4);
+pub const rustify_Compression_PXR24_COMPRESSION: rustify__Compression_e = rustify__Compression_e(5);
+pub const rustify_Compression_B44_COMPRESSION: rustify__Compression_e = rustify__Compression_e(6);
+pub const rustify_Compression_B44A_COMPRESSION: rustify__Compression_e = rustify__Compression_e(7);
+pub const rustify_Compression_DWAA_COMPRESSION: rustify__Compression_e = rustify__Compression_e(8);
+pub const rustify_Compression_DWAB_COMPRESSION: rustify__Compression_e = rustify__Compression_e(9);
+pub const rustify_Compression_NUM_COMPRESSION_METHODS: rustify__Compression_e = rustify__Compression_e(10);
 
 #[repr(u32)]
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
@@ -76,11 +76,11 @@ impl From<Compression> for rustify__Compression_e {
 
 #[repr(transparent)]
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
-pub(crate) struct rustify__LineOrder_e(pub(crate) u32);
-pub(crate) const rustify_LineOrder_INCREASING_Y: rustify__LineOrder_e = rustify__LineOrder_e(0);
-pub(crate) const rustify_LineOrder_DECREASING_Y: rustify__LineOrder_e = rustify__LineOrder_e(1);
-pub(crate) const rustify_LineOrder_RANDOM_Y: rustify__LineOrder_e = rustify__LineOrder_e(2);
-pub(crate) const rustify_LineOrder_NUM_LINEORDERS: rustify__LineOrder_e = rustify__LineOrder_e(3);
+pub struct rustify__LineOrder_e(pub u32);
+pub const rustify_LineOrder_INCREASING_Y: rustify__LineOrder_e = rustify__LineOrder_e(0);
+pub const rustify_LineOrder_DECREASING_Y: rustify__LineOrder_e = rustify__LineOrder_e(1);
+pub const rustify_LineOrder_RANDOM_Y: rustify__LineOrder_e = rustify__LineOrder_e(2);
+pub const rustify_LineOrder_NUM_LINEORDERS: rustify__LineOrder_e = rustify__LineOrder_e(3);
 
 #[repr(u32)]
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
@@ -116,12 +116,12 @@ impl From<LineOrder> for rustify__LineOrder_e {
 
 #[repr(transparent)]
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
-pub(crate) struct rustify__RgbaChannels_e(pub(crate) u32);
-pub(crate) const rustify_RgbaChannels_RGBA_CHANNELS_R: rustify__RgbaChannels_e = rustify__RgbaChannels_e(0);
-pub(crate) const rustify_RgbaChannels_RGBA_CHANNELS_G: rustify__RgbaChannels_e = rustify__RgbaChannels_e(1);
-pub(crate) const rustify_RgbaChannels_RGBA_CHANNELS_B: rustify__RgbaChannels_e = rustify__RgbaChannels_e(2);
-pub(crate) const rustify_RgbaChannels_RGBA_CHANNELS_A: rustify__RgbaChannels_e = rustify__RgbaChannels_e(3);
-pub(crate) const rustify_RgbaChannels_RGBA_CHANNELS_ALL: rustify__RgbaChannels_e = rustify__RgbaChannels_e(4);
+pub struct rustify__RgbaChannels_e(pub u32);
+pub const rustify_RgbaChannels_RGBA_CHANNELS_R: rustify__RgbaChannels_e = rustify__RgbaChannels_e(0);
+pub const rustify_RgbaChannels_RGBA_CHANNELS_G: rustify__RgbaChannels_e = rustify__RgbaChannels_e(1);
+pub const rustify_RgbaChannels_RGBA_CHANNELS_B: rustify__RgbaChannels_e = rustify__RgbaChannels_e(2);
+pub const rustify_RgbaChannels_RGBA_CHANNELS_A: rustify__RgbaChannels_e = rustify__RgbaChannels_e(3);
+pub const rustify_RgbaChannels_RGBA_CHANNELS_ALL: rustify__RgbaChannels_e = rustify__RgbaChannels_e(4);
 
 #[repr(u32)]
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
