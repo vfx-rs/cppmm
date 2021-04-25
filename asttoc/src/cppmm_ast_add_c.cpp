@@ -1172,7 +1172,8 @@ void opaquebytes_method(TypeRegistry& type_registry, TranslationUnit& c_tu,
     auto template_args = cpp_method.template_args;
 
     // Add the error int
-    auto error_return = NodeBuiltinType::n("int", "", "int", false);
+    auto error_return = NodeBuiltinType::n(std::string("int"), 0,
+                                           std::string("int"), false);
 
     auto c_function = NodeFunction::n(
         function_name, PLACEHOLDER_ID, cpp_method.attrs, "",
