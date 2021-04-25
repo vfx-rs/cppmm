@@ -714,6 +714,53 @@ void process_enum_decl(const EnumDecl* ed, std::string filename) {
     }
 }
 
+void process_library_enum_decl(const EnumDecl* ed, std::string filename,
+                               NodeEnum& binding_enum) {
+    ed = ed->getCanonicalDecl();
+    assert(ed && "canonical decl is null");
+    const std::string enum_name = ed->getQualifiedNameAsString();
+    const std::string enum_short_name = ed->getNameAsString();
+
+    if (NODE_MAP.find(enum_name) != NODE_MAP.end()) {
+        // already done this one
+        return;
+    }
+
+    // Get the translation unit node we're going to add this Enum to
+    auto* node_tu = get_translation_unit(filename);
+    const std::vector<NodeId> namespaces =
+        get_namespaces(ed->getParent(), node_tu);
+    ASTContext& ctx = ed->getASTContext();
+    uint32_t size, align;
+    if (!get_abi_info(dyn_cast<TypeDecl>(ed), ctx, size, align)) {
+        SPDLOG_CRITICAL("Could not get ABI info for {}", enum_name);
+    }
+
+    std::vector<std::pair<std::string, std::string>> variants;
+    for (const auto& ecd : ed->enumerators()) {
+        SPDLOG_DEBUG("        {}", ecd->getNameAsString());
+        variants.push_back(std::make_pair(ecd->getNameAsString(),
+                                          ecd->getInitVal().toString(10)));
+    }
+
+    NodeId new_id = NODES.size();
+    auto node_enum = std::make_unique<NodeEnum>(
+        enum_name, new_id, 0, binding_enum.attrs, std::move(enum_short_name),
+        std::move(namespaces), variants, size, align, get_comment_base64(ed));
+    NODES.emplace_back(std::move(node_enum));
+    NODE_MAP[enum_name] = new_id;
+    // add this record to the TU
+    node_tu->children.push_back(new_id);
+
+    // Find any EnumType nodes that need the new id
+    auto it_enum_type = NODE_MAP.find("TYPE:" + enum_name);
+    if (it_enum_type != NODE_MAP.end()) {
+        auto* node_enum_type =
+            (NodeEnumType*)NODES.at(it_enum_type->second).get();
+        node_enum_type->enm = new_id;
+    }
+}
+
 /// Create a NodeVar for the given VarDecl contained in the given file and
 /// store it in the AST.
 void process_var_decl(const VarDecl* vd, std::string filename) {
@@ -1244,7 +1291,7 @@ void handle_library_enum(const EnumDecl* ed) {
         ((NodeTranslationUnit*)NODES.at(it->second.context).get())
             ->qualified_name;
 
-    process_enum_decl(ed, std::move(filename));
+    process_library_enum_decl(ed, std::move(filename), it->second);
 }
 
 /// Decide if we want to store the given library VarDecl in the AST by

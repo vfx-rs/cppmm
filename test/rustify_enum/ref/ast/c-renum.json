@@ -1,0 +1,95 @@
+{
+    "kind": "TranslationUnit",
+    "filename": "/home/anders/code/cppmm/test/rustify_enum/bind/c-renum.cpp",
+    "source_includes": [
+        "#include <renum.hpp>",
+        "#include <cppmm_bind.hpp>"
+    ],
+    "include_paths": [
+        "/home/anders/code/cppmm/test/rustify_enum/include"
+    ],
+    "id": 0,
+    "decls": [
+        {
+            "kind": "Namespace",
+            "name": "rustify",
+            "id": 1,
+            "short_name": "rustify",
+            "alias": "rustify",
+            "collapse": false
+        },
+        {
+            "kind": "Enum",
+            "name": "rustify::Compression",
+            "short_name": "Compression",
+            "namespaces": [
+                1
+            ],
+            "id": 2,
+            "size": 32,
+            "align": 32,
+            "attributes": [
+                "cppmm|enum_suffix|_COMPRESSION",
+                "cppmm|rustify_enum"
+            ],
+            "comment": "",
+            "variants": {
+                "NO_COMPRESSION": "0",
+                "RLE_COMPRESSION": "1",
+                "ZIPS_COMPRESSION": "2",
+                "ZIP_COMPRESSION": "3",
+                "PIZ_COMPRESSION": "4",
+                "PXR24_COMPRESSION": "5",
+                "B44_COMPRESSION": "6",
+                "B44A_COMPRESSION": "7",
+                "DWAA_COMPRESSION": "8",
+                "DWAB_COMPRESSION": "9",
+                "NUM_COMPRESSION_METHODS": "10"
+            }
+        },
+        {
+            "kind": "Enum",
+            "name": "rustify::LineOrder",
+            "short_name": "LineOrder",
+            "namespaces": [
+                1
+            ],
+            "id": 3,
+            "size": 32,
+            "align": 32,
+            "attributes": [
+                "cppmm|rustify_enum"
+            ],
+            "comment": "",
+            "variants": {
+                "INCREASING_Y": "0",
+                "DECREASING_Y": "1",
+                "RANDOM_Y": "2",
+                "NUM_LINEORDERS": "3"
+            }
+        },
+        {
+            "kind": "Enum",
+            "name": "rustify::RgbaChannels",
+            "short_name": "RgbaChannels",
+            "namespaces": [
+                1
+            ],
+            "id": 4,
+            "size": 32,
+            "align": 32,
+            "attributes": [
+                "cppmm|enum_prefix|RGBA_",
+                "cppmm|rustify_enum"
+            ],
+            "comment": "",
+            "variants": {
+                "RGBA_CHANNELS_R": "0",
+                "RGBA_CHANNELS_G": "1",
+                "RGBA_CHANNELS_B": "2",
+                "RGBA_CHANNELS_A": "3",
+                "RGBA_CHANNELS_ALL": "4"
+            }
+        }
+    ]
+}

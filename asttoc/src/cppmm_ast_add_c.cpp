@@ -1410,6 +1410,7 @@ void enum_entry(NodeId& new_id, TypeRegistry& type_registry,
         NodeEnum::n(c_tu, c_enum_name, c_typedef_name, cpp_enum.short_name,
                     new_id++, cpp_enum.attrs, variants, cpp_enum.size,
                     cpp_enum.align, cpp_enum.namespaces, cpp_enum.comment);
+    c_enum->cpp_variants = cpp_enum.variants;
 
     // Build the typedef for the actual data
     auto underlying_type_name =

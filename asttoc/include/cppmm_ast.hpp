@@ -646,6 +646,7 @@ struct NodeRecord : public NodeAttributeHolder {
 //------------------------------------------------------------------------------
 struct NodeEnum : public NodeAttributeHolder {
     std::vector<std::pair<std::string, std::string>> variants;
+    std::vector<std::pair<std::string, std::string>> cpp_variants;
     uint32_t size;
     uint32_t align;
     TranslationUnit::WPtr tu;

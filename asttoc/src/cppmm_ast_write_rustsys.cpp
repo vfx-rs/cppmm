@@ -222,6 +222,29 @@ impl Default for {} {{
     }
 }
 
+bool has_rustify_enum_attr(const NodeEnum* node_enum) {
+    return std::find(node_enum->attrs.begin(), node_enum->attrs.end(),
+                     "cppmm|rustify_enum") != node_enum->attrs.end();
+}
+
+size_t get_enum_prefix(const NodeEnum* node_enum) {
+    for (const auto& a : node_enum->attrs) {
+        if (pystring::find(a, "cppmm|enum_prefix|") == 0) {
+            return a.substr(18).length();
+        }
+    }
+    return 0;
+}
+
+size_t get_enum_suffix(const NodeEnum* node_enum) {
+    for (const auto& a : node_enum->attrs) {
+        if (pystring::find(a, "cppmm|enum_suffix|") == 0) {
+            return a.substr(18).length();
+        }
+    }
+    return 0;
+}
+
 void write_enum(fmt::ostream& out, const NodeEnum* node_enum) {
     std::string repr("u64");
     if (node_enum->size == 8) {
@@ -232,16 +255,72 @@ void write_enum(fmt::ostream& out, const NodeEnum* node_enum) {
         repr = "u32";
     }
 
+    bool rustify = has_rustify_enum_attr(node_enum);
+    std::string pub = "pub ";
+    if (false) {
+        pub = "";
+    }
+
     if (!node_enum->comment.empty()) {
         auto comment = pystring::replace(node_enum->comment, "\n", "\n/// ");
         out.print("/// {}\n", comment);
     }
-    out.print("#[repr(transparent)]\n#[derive(Debug, Copy, Clone)]\npub struct "
-              "{}(pub {});\n",
-              node_enum->name, repr);
+    out.print("#[repr(transparent)]\n#[derive(Debug, Copy, Clone, PartialEq, "
+              "Eq)]\n{0}struct "
+              "{1}({0}{2});\n",
+              pub, node_enum->name, repr);
     for (const auto& p : node_enum->variants) {
-        out.print("pub const {0}: {1} = {1}({2});\n", p.first, node_enum->name,
-                  p.second);
+        out.print("{3}const {0}: {1} = {1}({2});\n", p.first, node_enum->name,
+                  p.second, pub);
+    }
+
+    if (rustify) {
+        // Convert the newtype to a proper Rust enum
+        // panic on invalid values
+        size_t prefix = get_enum_prefix(node_enum);
+        size_t suffix = get_enum_suffix(node_enum);
+
+        out.print("\n#[repr({})]\n", repr);
+        out.print("#[derive(Debug, Copy, Clone, PartialEq, Eq)]\n");
+        out.print("pub enum {} {{\n", node_enum->short_name);
+        for (const auto& p : node_enum->cpp_variants) {
+            out.print("    {} = {},\n", p.first, p.second);
+        }
+        out.print("}}\n\n");
+
+        out.print("impl From<{}> for {} {{\n", node_enum->name,
+                  node_enum->short_name);
+        out.print("    fn from(e: {}) -> {} {{\n", node_enum->name,
+                  node_enum->short_name);
+        out.print("        match e {{\n");
+
+        for (int i = 0; i < node_enum->variants.size(); ++i) {
+            out.print("            {} => {}::{},\n",
+                      node_enum->variants[i].first, node_enum->short_name,
+                      node_enum->cpp_variants[i].first);
+        }
+        out.print("            _ => panic!(\"Invalid value {{:?}} for {} in "
+                  "conversion\", e),\n",
+                  node_enum->short_name);
+
+        out.print("        }}\n");
+        out.print("    }}\n");
+        out.print("}}\n\n");
+
+        out.print("impl From<{}> for {} {{\n", node_enum->short_name,
+                  node_enum->name);
+        out.print("    fn from(e: {}) -> {} {{\n", node_enum->short_name,
+                  node_enum->name);
+        out.print("        match e {{\n");
+
+        for (int i = 0; i < node_enum->variants.size(); ++i) {
+            out.print("            {}::{} => {},\n", node_enum->short_name,
+                      node_enum->cpp_variants[i].first,
+                      node_enum->variants[i].first);
+        }
+        out.print("        }}\n");
+        out.print("    }}\n");
+        out.print("}}\n");
     }
 }
 
