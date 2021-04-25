@@ -373,6 +373,10 @@ void write_translation_unit(const char* out_dir, fmt::ostream& out_lib,
         for (const auto& p : n->variants) {
             out_lib.print("pub use {}::{};\n", mod_name, p.first);
         }
+
+        if (has_rustify_enum_attr(n)) {
+            out_lib.print("pub use {}::{}\n", mod_name, n->short_name);
+        }
     }
 
     out.print("\n");
