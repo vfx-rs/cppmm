@@ -1109,9 +1109,36 @@ void opaquebytes_method(TypeRegistry& type_registry, TranslationUnit& c_tu,
         return;
     }
 
+    // Convert return type
+    auto c_return = convert_type(c_tu, type_registry, cpp_method.return_type);
+    if (!c_return) {
+        SPDLOG_ERROR("Skipping method {} due to unrecognised return type {}",
+                     cpp_method.name, cpp_method.return_type->type_name);
+        return;
+    }
+    auto c_return_for_method = c_return;
+
     // Convert params
     auto c_params = std::vector<Param>();
     c_params.push_back(self_param(c_record, cpp_method.is_const));
+
+    // Return value
+    auto c_return_is_void =
+        c_return->kind == NodeKind::BuiltinType &&
+        static_cast<const NodeBuiltinType*>(c_return.get())->type_name ==
+            "void";
+
+    if(!c_return_is_void) {
+        auto return_pointer =
+            NodePointerType::n(PointerKind::Pointer, std::move(c_return),
+                               false);
+        c_params.push_back(Param(std::string("return_"),
+                                 std::move(return_pointer),
+                                 c_params.size()));
+    }
+
+
+    // Add the other methods
     for (const auto& p : cpp_method.params) {
         if (!parameter(c_tu, type_registry, c_params, p)) {
             SPDLOG_ERROR("Skipping method {} due to unrecognised type {} of "
@@ -1121,17 +1148,10 @@ void opaquebytes_method(TypeRegistry& type_registry, TranslationUnit& c_tu,
         }
     }
 
-    // Convert return type
-    auto c_return = convert_type(c_tu, type_registry, cpp_method.return_type);
-    if (!c_return) {
-        SPDLOG_ERROR("Skipping method {} due to unrecognised return type {}",
-                     cpp_method.name, cpp_method.return_type->type_name);
-        return;
-    }
-
     // Function body
     auto c_function_body = method_body(type_registry, c_tu, cpp_record,
-                                       c_record, c_return, cpp_method);
+                                       c_record, c_return_for_method,
+                                       cpp_method);
 
     auto short_name = find_function_short_name(cpp_method);
 
@@ -1151,9 +1171,12 @@ void opaquebytes_method(TypeRegistry& type_registry, TranslationUnit& c_tu,
 
     auto template_args = cpp_method.template_args;
 
+    // Add the error int
+    auto error_return = NodeBuiltinType::n("int", "", "int", false);
+
     auto c_function = NodeFunction::n(
         function_name, PLACEHOLDER_ID, cpp_method.attrs, "",
-        std::move(c_return), std::move(c_params), function_nice_name,
+        std::move(error_return), std::move(c_params), function_nice_name,
         cpp_method.comment, std::move(template_args));
 
     c_function->body = c_function_body;
