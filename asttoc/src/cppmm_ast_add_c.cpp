@@ -1062,7 +1062,12 @@ NodeExprPtr opaquebytes_method_body(TypeRegistry& type_registry,
             "void";
 
     if (is_void) {
-        return NodeBlockExpr::n(std::vector<NodeExprPtr>({method_call}));
+        return NodeBlockExpr::n(
+                std::vector<NodeExprPtr>({
+                    method_call,
+                    NodeReturnExpr::n(NodeVarRefExpr::n("0"))
+                })
+        );
     }
 
     return NodeBlockExpr::n(std::vector<NodeExprPtr>({NodeReturnExpr::n(
