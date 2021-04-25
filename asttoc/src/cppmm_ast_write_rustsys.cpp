@@ -257,8 +257,8 @@ void write_enum(fmt::ostream& out, const NodeEnum* node_enum) {
 
     bool rustify = has_rustify_enum_attr(node_enum);
     std::string pub = "pub ";
-    if (false) {
-        pub = "";
+    if (rustify) {
+        pub = "pub(crate) ";
     }
 
     if (!node_enum->comment.empty()) {
