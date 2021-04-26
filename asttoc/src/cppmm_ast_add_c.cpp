@@ -852,24 +852,29 @@ NodeExprPtr convert_to(const TypeRegistry& type_registry, const NodeTypePtr& t,
 //------------------------------------------------------------------------------
 NodeExprPtr convert_builtin_from(const NodeTypePtr& from_ptr,
                                  const NodeTypePtr& to_ptr,
-                                 const NodeExprPtr& name) {
+                                 const NodeExprPtr& rhs,
+                                 const NodeExprPtr& lhs) {
     // TODO LT: Be smarter
-    return NodeExprPtr(name);
+    return NodeAssignExpr::n(NodeExprPtr(lhs), NodeExprPtr(rhs));
 }
 
 //------------------------------------------------------------------------------
 NodeExprPtr convert_record_from(const NodeTypePtr& from_ptr,
                                 const NodeTypePtr& to_ptr,
-                                const NodeExprPtr& name) {
+                                const NodeExprPtr& rhs,
+                                const NodeExprPtr& lhs) {
     return NodeFunctionCallExpr::n("to_c_copy",
-                                   std::vector<NodeExprPtr>({name}),
-                                   std::vector<NodeTypePtr>{});
+                                   std::vector<NodeExprPtr>({lhs, rhs}),
+                                   std::vector<NodeTypePtr>{}
+    );
 }
 
 //------------------------------------------------------------------------------
 NodeExprPtr convert_pointer_from(const NodeTypePtr& from_ptr,
                                  const NodeTypePtr& to_ptr,
-                                 const NodeExprPtr& name) {
+                                 const NodeExprPtr& rhs,
+                                 const NodeExprPtr& lhs
+                                ) {
     auto from = static_cast<const NodePointerType*>(from_ptr.get());
 
     // If we're returning a pointer to a builtin type, then just return the
@@ -879,11 +884,12 @@ NodeExprPtr convert_pointer_from(const NodeTypePtr& from_ptr,
     if (from->pointee_type->kind == NodeKind::BuiltinType) {
         switch (from->pointer_kind) {
         case PointerKind::Pointer:
-            return name;
+            return NodeAssignExpr::n(NodeExprPtr(lhs), NodeExprPtr(rhs));
         case PointerKind::RValueReference: // TODO LT: Add support for rvalue
                                            // reference
         case PointerKind::Reference: {
-            return NodeRefExpr::n(NodeExprPtr(name));
+            return NodeAssignExpr::n(NodeExprPtr(lhs),
+                                     NodeRefExpr::n(NodeExprPtr(rhs)));
         }
         default:
             break;
@@ -895,8 +901,13 @@ NodeExprPtr convert_pointer_from(const NodeTypePtr& from_ptr,
                                        // reference
     case PointerKind::Pointer:
     case PointerKind::Reference: {
-        return NodeFunctionCallExpr::n("to_c", std::vector<NodeExprPtr>({name}),
-                                       std::vector<NodeTypePtr>{});
+        return NodeFunctionCallExpr::n("to_c",
+                                       std::vector<NodeExprPtr>({
+                                            lhs,
+                                            rhs
+                                       }),
+                                       std::vector<NodeTypePtr>{}
+        );
     }
     default:
         break;
@@ -908,14 +919,14 @@ NodeExprPtr convert_pointer_from(const NodeTypePtr& from_ptr,
 
 //------------------------------------------------------------------------------
 NodeExprPtr convert_from(const NodeTypePtr& from, const NodeTypePtr& to,
-                         const NodeExprPtr& name) {
+                         const NodeExprPtr& rhs, const NodeExprPtr& lhs) {
     switch (to->kind) {
     case NodeKind::BuiltinType:
-        return convert_builtin_from(from, to, name);
+        return convert_builtin_from(from, to, rhs, lhs);
     case NodeKind::RecordType:
-        return convert_record_from(from, to, name);
+        return convert_record_from(from, to, rhs, lhs);
     case NodeKind::PointerType:
-        return convert_pointer_from(from, to, name);
+        return convert_pointer_from(from, to, rhs, lhs);
     default:
         break;
     }
@@ -1022,7 +1033,8 @@ NodeExprPtr function_body(TypeRegistry& type_registry, TranslationUnit& c_tu,
     }
 
     return NodeBlockExpr::n(std::vector<NodeExprPtr>({NodeReturnExpr::n(
-        convert_from(cpp_function.return_type, c_return, function_call))}));
+        convert_from(cpp_function.return_type, c_return, function_call,
+                     NodeVarRefExpr::n("return_")))}));
 }
 
 //------------------------------------------------------------------------------
@@ -1071,11 +1083,9 @@ NodeExprPtr opaquebytes_method_body(TypeRegistry& type_registry,
     }
 
     return NodeBlockExpr::n(std::vector<NodeExprPtr>({
-                    NodeAssignExpr::n(
-                        NodeDerefExpr::n(NodeVarRefExpr::n("return_")),
                         convert_from(cpp_method.return_type, c_return,
-                                     method_call)
-                    ),
+                                     method_call, NodeVarRefExpr::n("return_")
+                        ),
                     NodeReturnExpr::n(NodeVarRefExpr::n("0"))
     }));
 }
