@@ -1488,23 +1488,24 @@ void opaquebytes_to_c_copy__trivial(TranslationUnit& c_tu,
 
     // Function body
     auto c_function_body = NodeBlockExpr::n(std::vector<NodeExprPtr>(
-        {// TO result;
-         NodeVarDeclExpr::n(NodeTypePtr(c_return), "result"),
-
+        {
          // memcpy(&result, &rhs, sizeof(result))
          NodeFunctionCallExpr::n(
              "memcpy",
              std::vector<NodeExprPtr>(
-                 {NodeRefExpr::n(NodeVarRefExpr::n("result")),
+                 {NodeVarRefExpr::n("result"),
                   NodeRefExpr::n(NodeVarRefExpr::n("rhs")),
                   NodeFunctionCallExpr::n(
-                      "sizeof",
-                      std::vector<NodeExprPtr>({NodeVarRefExpr::n("result")}),
-                      std::vector<NodeTypePtr>{})}),
-             std::vector<NodeTypePtr>{}),
-
-         // Return
-         NodeReturnExpr::n(NodeVarRefExpr::n("result"))}));
+                      "sizeof", std::vector<NodeExprPtr>(
+                                    {NodeDerefExpr::n(NodeVarRefExpr::n("result"))}
+                                ),
+                       std::vector<NodeTypePtr>{}
+                  )
+                 }
+            )
+         )
+        }
+    ));
 
     // Function name
     auto function_name = prefix;
@@ -1512,10 +1513,14 @@ void opaquebytes_to_c_copy__trivial(TranslationUnit& c_tu,
 
     // Add the new function to the translation unit
     std::vector<std::string> attrs;
-    std::vector<Param> params = {Param("rhs", rhs, 0)};
-    auto c_function = NodeFunction::n(function_name, PLACEHOLDER_ID, attrs, "",
-                                      std::move(c_return), std::move(params),
-                                      "", "", std::vector<NodeTypePtr>{});
+    std::vector<Param> params = {
+        Param("lhs", NodePointerType::n(PointerKind::Pointer, c_return, false), 0),
+        Param("rhs", rhs, 1)
+    };
+    auto c_function =
+        NodeFunction::n(function_name, PLACEHOLDER_ID, attrs, "",
+                        NodeBuiltinType::n("void", 0, "void", false),
+                        std::move(params), "", "", std::vector<NodeTypePtr>{});
 
     c_function->body = c_function_body;
     c_function->private_ = true;
