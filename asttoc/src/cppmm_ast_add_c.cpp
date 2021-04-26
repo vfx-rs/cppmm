@@ -855,7 +855,8 @@ NodeExprPtr convert_builtin_from(const NodeTypePtr& from_ptr,
                                  const NodeExprPtr& rhs,
                                  const NodeExprPtr& lhs) {
     // TODO LT: Be smarter
-    return NodeAssignExpr::n(NodeExprPtr(lhs), NodeExprPtr(rhs));
+    return NodeAssignExpr::n(NodeDerefExpr::n(NodeExprPtr(lhs)),
+                             NodeExprPtr(rhs));
 }
 
 //------------------------------------------------------------------------------
@@ -884,11 +885,11 @@ NodeExprPtr convert_pointer_from(const NodeTypePtr& from_ptr,
     if (from->pointee_type->kind == NodeKind::BuiltinType) {
         switch (from->pointer_kind) {
         case PointerKind::Pointer:
-            return NodeAssignExpr::n(NodeExprPtr(lhs), NodeExprPtr(rhs));
+            return NodeAssignExpr::n(NodeDerefExpr::n(NodeExprPtr(lhs)), NodeExprPtr(rhs));
         case PointerKind::RValueReference: // TODO LT: Add support for rvalue
                                            // reference
         case PointerKind::Reference: {
-            return NodeAssignExpr::n(NodeExprPtr(lhs),
+            return NodeAssignExpr::n(NodeDerefExpr::n(NodeExprPtr(lhs)),
                                      NodeRefExpr::n(NodeExprPtr(rhs)));
         }
         default:
@@ -1507,7 +1508,7 @@ void opaquebytes_to_c_copy__trivial(TranslationUnit& c_tu,
                   NodeRefExpr::n(NodeVarRefExpr::n("rhs")),
                   NodeFunctionCallExpr::n(
                       "sizeof", std::vector<NodeExprPtr>(
-                                    {NodeDerefExpr::n(NodeVarRefExpr::n("result"))}
+                                    {NodeDerefExpr::n(NodeVarRefExpr::n("lhs"))}
                                 ),
                        std::vector<NodeTypePtr>{}
                   )
