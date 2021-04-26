@@ -1493,7 +1493,7 @@ void opaquebytes_to_c_copy__trivial(TranslationUnit& c_tu,
          NodeFunctionCallExpr::n(
              "memcpy",
              std::vector<NodeExprPtr>(
-                 {NodeVarRefExpr::n("result"),
+                 {NodeVarRefExpr::n("lhs"),
                   NodeRefExpr::n(NodeVarRefExpr::n("rhs")),
                   NodeFunctionCallExpr::n(
                       "sizeof", std::vector<NodeExprPtr>(
@@ -1791,14 +1791,12 @@ void opaquebytes_to_c_copy__constructor(TranslationUnit& c_tu,
 
     // Function body
     auto c_function_body = NodeBlockExpr::n(std::vector<NodeExprPtr>(
-        {// TO result;
-         NodeVarDeclExpr::n(NodeTypePtr(c_return), "result"),
-
+        {
          // copy_constructor(&result, reinterpret_cast<const CTYPE *>(rhs))
          NodeFunctionCallExpr::n(
              copy_constructor.name,
              std::vector<NodeExprPtr>(
-                 {NodeRefExpr::n(NodeVarRefExpr::n("result")),
+                 {NodeVarRefExpr::n("lhs"),
                   NodeCastExpr::n(
                       NodeRefExpr::n(NodeVarRefExpr::n("rhs")),
                       NodePointerType::n(PointerKind::Pointer,
@@ -1806,18 +1804,23 @@ void opaquebytes_to_c_copy__constructor(TranslationUnit& c_tu,
                                                            c_record.nice_name,
                                                            c_record.id, true),
                                          false),
-                      "reinterpret")}),
-             std::vector<NodeTypePtr>{}),
-
-         // Return
-         NodeReturnExpr::n(NodeVarRefExpr::n("result"))}));
+                      "reinterpret")
+                })),
+        }
+    ));
 
     // Add the new function to the translation unit
     std::vector<std::string> attrs;
-    std::vector<Param> params = {Param("rhs", rhs, 0)};
-    auto c_function = NodeFunction::n("to_c_copy", PLACEHOLDER_ID, attrs, "",
-                                      std::move(c_return), std::move(params),
-                                      "", "", std::vector<NodeTypePtr>{});
+    std::vector<Param> params = {
+        Param("lhs", NodePointerType::n(PointerKind::Pointer,
+                                        std::move(c_return),
+                                        false), 0),
+        Param("rhs", rhs, 1),
+    };
+    auto c_function =
+        NodeFunction::n("to_c_copy", PLACEHOLDER_ID, attrs, "",
+                        NodeBuiltinType::n("void", 0, "void", false),
+                        std::move(params), "", "", std::vector<NodeTypePtr>{});
 
     c_function->body = c_function_body;
     c_function->private_ = true;
