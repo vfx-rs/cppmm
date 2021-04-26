@@ -1033,9 +1033,9 @@ NodeExprPtr function_body(TypeRegistry& type_registry, TranslationUnit& c_tu,
         return NodeBlockExpr::n(std::vector<NodeExprPtr>({function_call}));
     }
 
-    return NodeBlockExpr::n(std::vector<NodeExprPtr>({NodeReturnExpr::n(
+    return NodeBlockExpr::n(std::vector<NodeExprPtr>({
         convert_from(cpp_function.return_type, c_return, function_call,
-                     NodeVarRefExpr::n("return_")))}));
+                     NodeVarRefExpr::n("return_"))}));
 }
 
 //------------------------------------------------------------------------------
@@ -1646,8 +1646,36 @@ void function_detail(TypeRegistry& type_registry, TranslationUnit& c_tu,
         return;
     }
 
-    // Convert params
+    // Convert return type
+    auto c_return = convert_type(c_tu, type_registry, cpp_function.return_type);
+    if (!c_return) {
+        SPDLOG_ERROR("Skipping function {} due to unrecognised return type {}",
+                     cpp_function.name, cpp_function.return_type->type_name);
+        return;
+    }
+
+    c_return->const_ = false;
+
+    auto c_return_for_function = c_return;
+
     auto c_params = std::vector<Param>();
+
+    // Return value
+    auto c_return_is_void =
+        c_return->kind == NodeKind::BuiltinType &&
+        static_cast<const NodeBuiltinType*>(c_return.get())->type_name ==
+            "void";
+
+    if(!c_return_is_void) {
+        auto return_pointer =
+            NodePointerType::n(PointerKind::Pointer, std::move(c_return),
+                               false);
+        c_params.push_back(Param(std::string("return_"),
+                                 std::move(return_pointer),
+                                 c_params.size()));
+    }
+
+    // Convert params
     for (const auto& p : cpp_function.params) {
         if (!parameter(c_tu, type_registry, c_params, p)) {
             SPDLOG_ERROR("Skipping function {} due to unrecognised type {} of "
@@ -1657,17 +1685,9 @@ void function_detail(TypeRegistry& type_registry, TranslationUnit& c_tu,
         }
     }
 
-    // Convert return type
-    auto c_return = convert_type(c_tu, type_registry, cpp_function.return_type);
-    if (!c_return) {
-        SPDLOG_ERROR("Skipping function {} due to unrecognised return type {}",
-                     cpp_function.name, cpp_function.return_type->type_name);
-        return;
-    }
-
     // Function body
     auto c_function_body =
-        function_body(type_registry, c_tu, c_return, cpp_function);
+        function_body(type_registry, c_tu, c_return_for_function, cpp_function);
 
     auto function_name = compute_c_name(
         compute_qualified_name(type_registry, cpp_function.namespaces,
@@ -1687,12 +1707,12 @@ void function_detail(TypeRegistry& type_registry, TranslationUnit& c_tu,
             type_registry.make_symbol_unique(function_nice_name);
     }
 
-    auto template_args = cpp_function.template_args;
-
-    auto c_function = NodeFunction::n(
-        function_name, PLACEHOLDER_ID, cpp_function.attrs, "",
-        std::move(c_return), std::move(c_params), function_nice_name,
-        cpp_function.comment, std::move(template_args));
+    auto c_function =
+        NodeFunction::n(function_name, PLACEHOLDER_ID, cpp_function.attrs, "",
+                        NodeBuiltinType::n("void", 0, "void", false),
+                        std::move(c_params),
+                        function_nice_name, cpp_function.comment,
+                        std::move(template_args));
 
     c_function->body = c_function_body;
     c_tu.decls.push_back(NodePtr(c_function));
