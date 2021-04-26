@@ -1071,8 +1071,11 @@ NodeExprPtr opaquebytes_method_body(TypeRegistry& type_registry,
     }
 
     return NodeBlockExpr::n(std::vector<NodeExprPtr>({
-                    NodeDerefExpr::n(NodeVarRefExpr::n("return_")),
-                    convert_from(cpp_method.return_type, c_return, method_call),
+                    NodeAssignExpr::n(
+                        NodeDerefExpr::n(NodeVarRefExpr::n("return_")),
+                        convert_from(cpp_method.return_type, c_return,
+                                     method_call)
+                    ),
                     NodeReturnExpr::n(NodeVarRefExpr::n("0"))
     }));
 }
@@ -1124,6 +1127,11 @@ void opaquebytes_method(TypeRegistry& type_registry, TranslationUnit& c_tu,
                      cpp_method.name, cpp_method.return_type->type_name);
         return;
     }
+   
+    // The value of the return type cannot be const. If it's a pointer type
+    // or reference the pointee type can be const, but the return value cannot.
+    c_return->const_ = false;
+
     auto c_return_for_method = c_return;
 
     // Convert params
@@ -1435,7 +1443,9 @@ void cast_to_c(TranslationUnit& c_tu, const std::string& cpp_record_name,
 
     // Function body
     auto c_function_body = NodeBlockExpr::n(std::vector<NodeExprPtr>({
-        NodeReturnExpr::n(std::move(cast_expr)),
+        NodeAssignExpr::n(
+            NodeDerefExpr::n(NodeVarRefExpr::n("lhs")),
+            std::move(cast_expr)),
     }));
 
     // Function name
@@ -1444,9 +1454,13 @@ void cast_to_c(TranslationUnit& c_tu, const std::string& cpp_record_name,
 
     // Add the new function to the translation unit
     std::vector<std::string> attrs;
-    std::vector<Param> params = {Param("rhs", rhs, 0)};
+    std::vector<Param> params =
+        {Param("lhs", NodePointerType::n(PointerKind::Pointer, c_return, false), 0),
+         Param("rhs", rhs, 1)
+    };
+    auto void_t = NodeBuiltinType::n("void", 0, "void", false);
     auto c_function = NodeFunction::n(function_name, PLACEHOLDER_ID, attrs, "",
-                                      std::move(c_return), std::move(params),
+                                      std::move(void_t), std::move(params),
                                       "", "", std::vector<NodeTypePtr>{});
 
     c_function->body = c_function_body;
