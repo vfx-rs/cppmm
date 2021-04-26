@@ -1071,20 +1071,9 @@ NodeExprPtr opaquebytes_method_body(TypeRegistry& type_registry,
     }
 
     return NodeBlockExpr::n(std::vector<NodeExprPtr>({
-            NodeFunctionCallExpr::n(
-                "memcpy",
-                std::vector<NodeExprPtr>({
-                    NodeVarRefExpr::n("(void*)return_"),
-                    NodeRefExpr::n(convert_from(cpp_method.return_type, c_return, method_call)),
-                    NodeFunctionCallExpr::n(
-                        "sizeof",
-                        std::vector<NodeExprPtr>({
-                            NodeDerefExpr::n(NodeVarRefExpr::n("return_"))
-                        })
-                    )
-                })
-            ),
-            NodeReturnExpr::n(NodeVarRefExpr::n("0"))
+                    NodeDerefExpr::n(NodeVarRefExpr::n("return_")),
+                    convert_from(cpp_method.return_type, c_return, method_call),
+                    NodeReturnExpr::n(NodeVarRefExpr::n("0"))
     }));
 }
 
