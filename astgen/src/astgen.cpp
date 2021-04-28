@@ -209,7 +209,7 @@ int main(int argc_, const char** argv_) {
 #define CPPMM_ENUM_SUFFIX(x) __attribute__((annotate("cppmm|enum_suffix|" #x)))
 #define CPPMM_RUSTIFY_ENUM __attribute__((annotate("cppmm|rustify_enum")))
 
-#define CPPMM_COPY(NS, CLASS) CLASS(const NS::CLASS& rhs); NS::CLASS& operator=(const NS::CLASS& rhs);
+#define CPPMM_COPY(NS, CLASS) CLASS(const NS::CLASS& rhs) CPPMM_RENAME(copy); NS::CLASS& operator=(const NS::CLASS& rhs);
 #define CPPMM_MOVE(NS, CLASS) CLASS(NS::CLASS&& rhs) CPPMM_IGNORE; NS::CLASS& operator=(NS::CLASS&& rhs) CPPMM_IGNORE;
 #define CPPMM_ROFIVE(NS, CLASS) CPPMM_COPY(NS, CLASS) CPPMM_MOVE(NS, CLASS) ~CLASS();
 )#");
