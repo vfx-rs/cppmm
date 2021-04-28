@@ -23,7 +23,7 @@ public:
     void extendBy(const V& point);
     void extendBy(const Imath::Box<V>& box);
 
-} CPPMM_VALUETYPE;
+} CPPMM_VALUETYPE CPPMM_TRIVIALLY_MOVABLE CPPMM_TRIVIALLY_COPYABLE;
 
 // This 'pulls' the Imath::Box specialization through
 template class Box<Imath::Vec3<float>>;

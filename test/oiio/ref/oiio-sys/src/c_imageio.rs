@@ -81,13 +81,13 @@ impl Default for OpenImageIO_v2_2__ImageInput_t {
 
 
 #[repr(transparent)]
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub struct OpenImageIO_v2_2__ImageSpec__SerialFormat_e(pub u32);
 pub const OIIO_ImageSpec_SerialFormat_SerialText: OpenImageIO_v2_2__ImageSpec__SerialFormat_e = OpenImageIO_v2_2__ImageSpec__SerialFormat_e(0);
 pub const OIIO_ImageSpec_SerialFormat_SerialXML: OpenImageIO_v2_2__ImageSpec__SerialFormat_e = OpenImageIO_v2_2__ImageSpec__SerialFormat_e(1);
 
 #[repr(transparent)]
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub struct OpenImageIO_v2_2__ImageSpec__SerialVerbose_e(pub u32);
 pub const OIIO_ImageSpec_SerialVerbose_SerialBrief: OpenImageIO_v2_2__ImageSpec__SerialVerbose_e = OpenImageIO_v2_2__ImageSpec__SerialVerbose_e(0);
 pub const OIIO_ImageSpec_SerialVerbose_SerialDetailed: OpenImageIO_v2_2__ImageSpec__SerialVerbose_e = OpenImageIO_v2_2__ImageSpec__SerialVerbose_e(1);
@@ -187,10 +187,10 @@ pub fn OpenImageIO_v2_2__ImageInput_format_name(this_: *const OIIO_ImageInput_t)
 pub fn OpenImageIO_v2_2__ImageInput_geterror(this_: *const OIIO_ImageInput_t) -> std___cxx11_string_t;
 
 /// Union of two regions, the smallest region containing both.
-pub fn OpenImageIO_v2_2_roi_union(A: *const OIIO_ROI_t, B: *const OIIO_ROI_t) -> OIIO_ROI_t;
+pub fn OpenImageIO_v2_2_roi_union(a: *const OIIO_ROI_t, b: *const OIIO_ROI_t) -> OIIO_ROI_t;
 
 /// Intersection of two regions.
-pub fn OpenImageIO_v2_2_roi_intersection(A: *const OIIO_ROI_t, B: *const OIIO_ROI_t) -> OIIO_ROI_t;
+pub fn OpenImageIO_v2_2_roi_intersection(a: *const OIIO_ROI_t, b: *const OIIO_ROI_t) -> OIIO_ROI_t;
 
 
 } // extern "C"

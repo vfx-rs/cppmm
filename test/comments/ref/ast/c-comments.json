@@ -28,6 +28,7 @@
             "id": 3,
             "abstract": false,
             "trivially_copyable": true,
+            "trivially_movable": true,
             "size": 8,
             "align": 8,
             "alias": "Class",

@@ -29,6 +29,7 @@
             "id": 2,
             "abstract": false,
             "trivially_copyable": false,
+            "trivially_movable": true,
             "size": 64,
             "align": 32,
             "alias": "TypeDesc",

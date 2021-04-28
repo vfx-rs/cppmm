@@ -1,6 +1,6 @@
 
 [package]
-name = "oiio"
+name = "oiio-sys"
 version = "0.1.0"
 authors = ["Anders Langlands <anderslanglands@gmail.com>"]
 edition = "2018"

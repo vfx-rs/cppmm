@@ -28,12 +28,15 @@
             ],
             "id": 23,
             "abstract": false,
-            "trivially_copyable": false,
+            "trivially_copyable": true,
+            "trivially_movable": true,
             "size": 96,
             "align": 32,
             "alias": "V3f",
             "attributes": [
-                "cppmm|valuetype"
+                "cppmm|valuetype",
+                "cppmm|trivially_movable",
+                "cppmm|trivially_copyable"
             ],
             "comment": "",
             "fields": [
@@ -508,12 +511,15 @@
             ],
             "id": 39,
             "abstract": false,
-            "trivially_copyable": false,
+            "trivially_copyable": true,
+            "trivially_movable": true,
             "size": 96,
             "align": 32,
             "alias": "V3i",
             "attributes": [
-                "cppmm|valuetype"
+                "cppmm|valuetype",
+                "cppmm|trivially_movable",
+                "cppmm|trivially_copyable"
             ],
             "comment": "",
             "fields": [

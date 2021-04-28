@@ -26,11 +26,11 @@ pub struct DN__v2_2__Class__Struct_t {
 
 
 #[repr(transparent)]
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub struct DN__v2_2__Class__Enum_e(pub u32);
 pub const DN_Class_Enum_One: DN__v2_2__Class__Enum_e = DN__v2_2__Class__Enum_e(0);
-pub const DN_Class_Enum_Three: DN__v2_2__Class__Enum_e = DN__v2_2__Class__Enum_e(2);
 pub const DN_Class_Enum_Two: DN__v2_2__Class__Enum_e = DN__v2_2__Class__Enum_e(1);
+pub const DN_Class_Enum_Three: DN__v2_2__Class__Enum_e = DN__v2_2__Class__Enum_e(2);
 
 
 extern "C" {

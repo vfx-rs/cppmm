@@ -30,6 +30,7 @@
             "id": 10,
             "abstract": false,
             "trivially_copyable": false,
+            "trivially_movable": false,
             "size": 64,
             "align": 64,
             "alias": "TfToken",

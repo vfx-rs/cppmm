@@ -3,6 +3,7 @@
 
 
 #include <OpenEXR/ImathBox.h>
+#include <cstring>
 
 
 
@@ -55,6 +56,14 @@ inline Imath_Box3f_t * to_c(
     return reinterpret_cast<Imath_Box3f_t * >(rhs);
 }
 
+inline Imath_Box3f_t to_c_copy(
+    Imath_2_5::Box<Imath::Vec3<float> > const & rhs)
+{
+    Imath_Box3f_t result;
+    memcpy(&(result), &(rhs), sizeof(result));
+    return result;
+}
+
 
 
 inline Imath_2_5::Box<Imath::Vec3<int> > const & to_cpp_ref(
@@ -103,4 +112,12 @@ inline Imath_Box3i_t * to_c(
     Imath_2_5::Box<Imath::Vec3<int> > * rhs)
 {
     return reinterpret_cast<Imath_Box3i_t * >(rhs);
+}
+
+inline Imath_Box3i_t to_c_copy(
+    Imath_2_5::Box<Imath::Vec3<int> > const & rhs)
+{
+    Imath_Box3i_t result;
+    memcpy(&(result), &(rhs), sizeof(result));
+    return result;
 }

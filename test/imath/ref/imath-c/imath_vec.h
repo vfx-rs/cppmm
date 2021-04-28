@@ -85,6 +85,7 @@ Imath_V3f_t Imath_2_5__Vec3_float__normalized(
 
 
 
+
 void Imath_2_5__Vec3_int__Vec3(
     Imath_V3i_t * this_);
 #define Imath_V3i_Vec3 Imath_2_5__Vec3_int__Vec3
@@ -132,6 +133,7 @@ Imath_V3i_t const * Imath_2_5__Vec3_int__normalize(
 Imath_V3i_t Imath_2_5__Vec3_int__normalized(
     Imath_V3i_t const * this_);
 #define Imath_V3i_normalized Imath_2_5__Vec3_int__normalized
+
 
 
 

@@ -3,6 +3,7 @@
 
 
 #include <OpenEXR/ImathVec.h>
+#include <cstring>
 #include <vector>
 
 
@@ -64,6 +65,14 @@ inline Imath_V3f_t * to_c(
     return reinterpret_cast<Imath_V3f_t * >(rhs);
 }
 
+inline Imath_V3f_t to_c_copy(
+    Imath_2_5::Vec3<float> const & rhs)
+{
+    Imath_V3f_t result;
+    memcpy(&(result), &(rhs), sizeof(result));
+    return result;
+}
+
 
 
 
@@ -119,4 +128,12 @@ inline Imath_V3i_t * to_c(
     Imath_2_5::Vec3<int> * rhs)
 {
     return reinterpret_cast<Imath_V3i_t * >(rhs);
+}
+
+inline Imath_V3i_t to_c_copy(
+    Imath_2_5::Vec3<int> const & rhs)
+{
+    Imath_V3i_t result;
+    memcpy(&(result), &(rhs), sizeof(result));
+    return result;
 }

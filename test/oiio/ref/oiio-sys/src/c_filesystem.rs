@@ -34,7 +34,7 @@ impl Default for OpenImageIO_v2_2__Filesystem__IOMemReader_t {
 
 
 #[repr(transparent)]
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub struct OpenImageIO_v2_2__Filesystem__IOProxy__Mode_e(pub u32);
 pub const OIIO_Filesystem_IOProxy_Mode_Closed: OpenImageIO_v2_2__Filesystem__IOProxy__Mode_e = OpenImageIO_v2_2__Filesystem__IOProxy__Mode_e(0);
 pub const OIIO_Filesystem_IOProxy_Mode_Read: OpenImageIO_v2_2__Filesystem__IOProxy__Mode_e = OpenImageIO_v2_2__Filesystem__IOProxy__Mode_e(114);

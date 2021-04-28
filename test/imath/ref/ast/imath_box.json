@@ -27,12 +27,15 @@
             ],
             "id": 7,
             "abstract": false,
-            "trivially_copyable": false,
+            "trivially_copyable": true,
+            "trivially_movable": true,
             "size": 192,
             "align": 32,
             "alias": "Box3f",
             "attributes": [
-                "cppmm|valuetype"
+                "cppmm|valuetype",
+                "cppmm|trivially_movable",
+                "cppmm|trivially_copyable"
             ],
             "comment": "",
             "fields": [
@@ -169,12 +172,15 @@
             ],
             "id": 17,
             "abstract": false,
-            "trivially_copyable": false,
+            "trivially_copyable": true,
+            "trivially_movable": true,
             "size": 192,
             "align": 32,
             "alias": "Box3i",
             "attributes": [
-                "cppmm|valuetype"
+                "cppmm|valuetype",
+                "cppmm|trivially_movable",
+                "cppmm|trivially_copyable"
             ],
             "comment": "",
             "fields": [

@@ -6,8 +6,8 @@ extern "C" {
 
 enum DN__v2_2__Class__Enum_e {
     DN_Class_Enum_One = 0,
-    DN_Class_Enum_Three = 2,
     DN_Class_Enum_Two = 1,
+    DN_Class_Enum_Three = 2,
 };
 typedef unsigned int DN_Class_Enum;
 

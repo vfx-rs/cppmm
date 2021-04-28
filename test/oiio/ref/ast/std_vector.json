@@ -30,6 +30,7 @@
             "id": 42,
             "abstract": false,
             "trivially_copyable": false,
+            "trivially_movable": false,
             "size": 192,
             "align": 64,
             "alias": "vector_string",

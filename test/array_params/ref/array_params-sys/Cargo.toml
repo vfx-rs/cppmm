@@ -1,6 +1,6 @@
 
 [package]
-name = "array_params"
+name = "array_params-sys"
 version = "0.1.0"
 authors = ["Anders Langlands <anderslanglands@gmail.com>"]
 edition = "2018"

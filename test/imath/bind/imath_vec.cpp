@@ -65,7 +65,7 @@ public:
 
     template <class S> void setValue(S a, S b, S c);
 
-} CPPMM_VALUETYPE;
+} CPPMM_VALUETYPE CPPMM_TRIVIALLY_MOVABLE CPPMM_TRIVIALLY_COPYABLE;
 
 // explicit instantiation
 template class Vec3<float>;
