@@ -374,7 +374,11 @@ std::vector<QType> get_template_args(const FunctionDecl* fd) {
     const auto* tal = fd->getTemplateSpecializationArgs();
     if (tal) {
         for (int i = 0; i < tal->size(); ++i) {
-            result.push_back(process_qtype(tal->get(i).getAsType()));
+            // FIXME: we're just ignoring non-type template arguments here which
+            // will surely bite us one day
+            if (tal->get(i).getKind() == TemplateArgument::ArgKind::Type) {
+                result.push_back(process_qtype(tal->get(i).getAsType()));
+            }
         }
     }
     return result;

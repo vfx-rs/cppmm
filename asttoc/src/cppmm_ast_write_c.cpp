@@ -283,12 +283,34 @@ void write_function_call_arguments(fmt::ostream& out, size_t depth,
 }
 
 //------------------------------------------------------------------------------
+void write_function_call_template_args(
+    fmt::ostream& out, size_t depth,
+    const NodeFunctionCallExpr& function_call) {
+    if (function_call.template_args.empty()) {
+        return;
+    } else {
+        // start
+        out.print("<");
+
+        std::vector<std::string> args;
+        for (const auto& t : function_call.template_args) {
+            args.push_back(t->type_name);
+        }
+
+        out.print(pystring::join(", ", args));
+
+        out.print(">");
+    }
+}
+
+//------------------------------------------------------------------------------
 void write_expression_function_call(fmt::ostream& out, size_t depth,
                                     const NodeExprPtr& node) {
     const auto& function_call =
         *static_cast<const NodeMethodCallExpr*>(node.get());
 
     out.print("{}", function_call.name);
+    write_function_call_template_args(out, depth, function_call);
     write_function_call_arguments(out, depth, function_call);
 }
 
@@ -298,9 +320,13 @@ void write_expression_method_call(fmt::ostream& out, size_t depth,
     const auto& method_call =
         *static_cast<const NodeMethodCallExpr*>(node.get());
 
+    SPDLOG_DEBUG("method {} has {} template args", method_call.name,
+                 method_call.template_args.size());
+
     out.print("(");
     write_expression(out, depth, method_call.this_);
     out.print(") -> {}", method_call.name);
+    write_function_call_template_args(out, depth, method_call);
     write_function_call_arguments(out, depth, method_call);
 }
 

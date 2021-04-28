@@ -9,6 +9,8 @@ namespace specs {
 template <typename T> struct Attribute {
     using BoundType = ::specs::Attribute<T>;
     T t;
+
+    const T& value();
 };
 
 template class Attribute<int>;
@@ -18,6 +20,7 @@ using FloatAttribute = ::specs::Attribute<float>;
 
 struct Specs {
     using BoundType = ::specs::Specs;
+    void do_something(int);
     template <typename T> T* findAttribute(const char* name);
 };
 

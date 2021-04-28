@@ -2,7 +2,10 @@
 
 namespace specs {
 
-template <typename T> struct Attribute { T t; };
+template <typename T> struct Attribute {
+    T t;
+    const T& value();
+};
 
 using IntAttribute = Attribute<int>;
 using FloatAttribute = Attribute<float>;

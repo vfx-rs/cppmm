@@ -77,6 +77,7 @@ const char* VAR_C = "Var";
 const char* ELEMENT_TYPE = "element_type";
 const char* FUNCTION_POINTER_TYPEDEF_C = "FunctionPointerTypedef";
 const char* FUNCTION_POINTER_TYPEDEF_L = "function_pointer_typedef";
+const char* TEMPLATE_ARGS = "template_args";
 } // namespace
 
 //------------------------------------------------------------------------------
@@ -230,11 +231,19 @@ NodePtr read_function(const TranslationUnit::Ptr& tu, const nln::json& json) {
         namespaces.push_back(ns);
     }
 
+    auto template_args = std::vector<NodeTypePtr>();
+    for (const auto& i : json[TEMPLATE_ARGS]) {
+        auto typ = read_type(i[TYPE]);
+        SPDLOG_DEBUG("Read template arg type {}", typ->type_name);
+        template_args.push_back(typ);
+    }
+
     auto comment = read_comment(json);
 
     auto result = NodeFunction::n(qualified_name, id, attrs, short_name,
                                   std::move(return_type), std::move(params),
-                                  qualified_name, std::move(comment));
+                                  qualified_name, std::move(comment),
+                                  std::move(template_args));
     result->namespaces = namespaces;
 
     return result;
@@ -261,10 +270,17 @@ NodeMethod read_method(const nln::json& json) {
         params.push_back(read_param(i));
     }
 
+    auto template_args = std::vector<NodeTypePtr>();
+    for (const auto& i : json[TEMPLATE_ARGS]) {
+        auto typ = read_type(i[TYPE]);
+        SPDLOG_DEBUG("Read template arg type {}", typ->type_name);
+        template_args.push_back(typ);
+    }
+
     return NodeMethod(qualified_name, id, attrs, short_name,
                       std::move(return_type), std::move(params), static_,
                       constructor, copy_constructor, destructor, const_,
-                      std::move(comment));
+                      std::move(comment), std::move(template_args));
 }
 
 //------------------------------------------------------------------------------

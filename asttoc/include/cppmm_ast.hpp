@@ -347,10 +347,12 @@ using NodeExprPtr = std::shared_ptr<NodeExpr>;
 struct NodeFunctionCallExpr
     : public NodeExpr { // TODO LT: Added by luke, like CallExpr
     std::vector<NodeExprPtr> args;
+    std::vector<NodeTypePtr> template_args;
 
     NodeFunctionCallExpr(std::string name, std::vector<NodeExprPtr> args,
+                         std::vector<NodeTypePtr> template_args,
                          NodeKind kind = NodeKind::FunctionCallExpr)
-        : NodeExpr(kind, name), args(args) {}
+        : NodeExpr(kind, name), args(args), template_args(template_args) {}
 
     // A static method for creating this as a shared pointer
     using This = NodeFunctionCallExpr;
@@ -368,8 +370,10 @@ struct NodeMethodCallExpr
     NodeExprPtr this_;
 
     NodeMethodCallExpr(NodeExprPtr&& this_, std::string name,
-                       std::vector<NodeExprPtr> args)
-        : NodeFunctionCallExpr(name, args, NodeKind::MethodCallExpr),
+                       std::vector<NodeExprPtr> args,
+                       std::vector<NodeTypePtr> template_args)
+        : NodeFunctionCallExpr(name, args, template_args,
+                               NodeKind::MethodCallExpr),
           this_(std::move(this_)) {}
 
     // A static method for creating this as a shared pointer
@@ -547,15 +551,18 @@ struct NodeFunction : public NodeAttributeHolder {
 
     NodeExprPtr body;
     std::vector<NodeId> namespaces;
+    std::vector<NodeTypePtr> template_args;
 
     NodeFunction(std::string qualified_name, NodeId id,
                  std::vector<std::string> attrs, std::string short_name,
                  NodeTypePtr&& return_type, std::vector<Param>&& params,
-                 std::string nice_name, std::string comment)
+                 std::string nice_name, std::string comment,
+                 std::vector<NodeTypePtr>&& template_args)
         : NodeAttributeHolder(qualified_name, id, NodeKind::Function, attrs,
                               std::move(comment)),
           short_name(short_name), return_type(std::move(return_type)),
-          params(std::move(params)), nice_name(std::move(nice_name)) {}
+          params(std::move(params)), nice_name(std::move(nice_name)),
+          template_args(std::move(template_args)) {}
 
     // A static method for creating this as a shared pointer
     using This = NodeFunction;
@@ -578,10 +585,12 @@ struct NodeMethod : public NodeFunction {
                std::vector<std::string> attrs, std::string short_name,
                NodeTypePtr&& return_type, std::vector<Param>&& params,
                bool is_static, bool is_constructor, bool is_copy_constructor,
-               bool is_destructor, bool is_const, std::string comment)
+               bool is_destructor, bool is_const, std::string comment,
+               std::vector<NodeTypePtr>&& template_args)
         : NodeFunction(qualified_name, id, attrs, short_name,
                        std::move(return_type), std::move(params),
-                       qualified_name, std::move(comment)),
+                       qualified_name, std::move(comment),
+                       std::move(template_args)),
           is_static(is_static), is_constructor(is_constructor),
           is_copy_constructor(is_copy_constructor),
           is_destructor(is_destructor), is_const(is_const) {
