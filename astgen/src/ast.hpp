@@ -295,6 +295,11 @@ struct NodeFunction : public NodeAttributeHolder {
     bool processed = false;
     /// Is this function noexcept?
     bool is_noexcept = false;
+    /// The template args (empty if this is not a template specialization)
+    /// FIXME: need to support non-types as well
+    std::vector<QType> template_args;
+
+    uint64_t _function_id;
 
     NodeFunction(std::string qualified_name, NodeId id, NodeId context,
                  std::vector<std::string> attrs, std::string short_name,
