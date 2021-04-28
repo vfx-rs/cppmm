@@ -19,7 +19,7 @@ void Imath_2_5__Vec3_float__setValue(
     , float b
     , float c)
 {
-    (to_cpp(this_)) -> setValue(a, b, c);
+    (to_cpp(this_)) -> setValue<float>(a, b, c);
 }
 float Imath_2_5__Vec3_float__dot(
     Imath_V3f_t const * this_

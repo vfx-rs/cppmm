@@ -64,7 +64,8 @@
                         "type": "void",
                         "const": false
                     },
-                    "params": null
+                    "params": null,
+                    "template_args": null
                 }
             ]
         },
@@ -95,7 +96,8 @@
                 "type": "void",
                 "const": false
             },
-            "params": null
+            "params": null,
+            "template_args": null
         }
     ]
 }
