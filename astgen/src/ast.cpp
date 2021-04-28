@@ -363,6 +363,7 @@ void NodeRecord::write_json_attrs(json& o) const {
     NodeAttributeHolder::write_json_attrs(o);
     o["abstract"] = is_abstract;
     o["trivially_copyable"] = is_trivially_copyable;
+    o["trivially_movable"] = is_trivially_movable;
     o["size"] = size;
     o["align"] = align;
     if (!alias.empty()) {
