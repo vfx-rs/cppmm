@@ -61,6 +61,18 @@ specs_FloatAttribute_t * specs__Specs_findAttribute_float(
 #define specs_Specs_findAttribute_float specs__Specs_findAttribute_float
 
 
+specs_IntAttribute_t const * specs__Specs_findAttribute_int_const(
+    specs_Specs_t const * this_
+    , char const * name);
+#define specs_Specs_findAttribute_int_const specs__Specs_findAttribute_int_const
+
+
+specs_FloatAttribute_t const * specs__Specs_findAttribute_float_const(
+    specs_Specs_t const * this_
+    , char const * name);
+#define specs_Specs_findAttribute_float_const specs__Specs_findAttribute_float_const
+
+
 
 
 

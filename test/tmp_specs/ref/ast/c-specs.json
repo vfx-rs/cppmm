@@ -161,7 +161,7 @@
             "namespaces": [
                 3
             ],
-            "id": 17,
+            "id": 19,
             "abstract": false,
             "trivially_copyable": true,
             "trivially_movable": true,
@@ -275,6 +275,144 @@
                             "type": "specs::Attribute<float>",
                             "record": 8,
                             "const": false
+                        },
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "name",
+                            "type": {
+                                "kind": "Pointer",
+                                "id": 14,
+                                "type": "const char *",
+                                "pointee": {
+                                    "kind": "BuiltinType",
+                                    "id": 13,
+                                    "type": "char",
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ],
+                    "template_args": [
+                        {
+                            "index": 0,
+                            "type": {
+                                "kind": "RecordType",
+                                "id": 15,
+                                "type": "specs::Attribute<float>",
+                                "record": 8,
+                                "const": false
+                            }
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "findAttribute",
+                    "qualified_name": "specs::Specs::findAttribute",
+                    "in_binding": true,
+                    "in_library": false,
+                    "noexcept": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm|rename|findAttribute_int_const"
+                    ],
+                    "comment": "",
+                    "return": {
+                        "kind": "Pointer",
+                        "id": 17,
+                        "type": "const struct specs::Attribute<int> *",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 11,
+                            "type": "specs::Attribute<int>",
+                            "record": 4,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "name",
+                            "type": {
+                                "kind": "Pointer",
+                                "id": 14,
+                                "type": "const char *",
+                                "pointee": {
+                                    "kind": "BuiltinType",
+                                    "id": 13,
+                                    "type": "char",
+                                    "const": true
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ],
+                    "template_args": [
+                        {
+                            "index": 0,
+                            "type": {
+                                "kind": "RecordType",
+                                "id": 11,
+                                "type": "specs::Attribute<int>",
+                                "record": 4,
+                                "const": false
+                            }
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "findAttribute",
+                    "qualified_name": "specs::Specs::findAttribute",
+                    "in_binding": true,
+                    "in_library": false,
+                    "noexcept": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm|rename|findAttribute_float_const"
+                    ],
+                    "comment": "",
+                    "return": {
+                        "kind": "Pointer",
+                        "id": 18,
+                        "type": "const struct specs::Attribute<float> *",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 15,
+                            "type": "specs::Attribute<float>",
+                            "record": 8,
+                            "const": true
                         },
                         "const": false
                     },

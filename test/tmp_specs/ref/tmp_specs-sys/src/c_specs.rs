@@ -53,5 +53,9 @@ pub fn specs__Specs_findAttribute_int(this_: *mut specs_Specs_t, name: *const c_
 
 pub fn specs__Specs_findAttribute_float(this_: *mut specs_Specs_t, name: *const c_char) -> *mut specs_FloatAttribute_t;
 
+pub fn specs__Specs_findAttribute_int_const(this_: *const specs_Specs_t, name: *const c_char) -> *const specs_IntAttribute_t;
+
+pub fn specs__Specs_findAttribute_float_const(this_: *const specs_Specs_t, name: *const c_char) -> *const specs_FloatAttribute_t;
+
 
 } // extern "C"

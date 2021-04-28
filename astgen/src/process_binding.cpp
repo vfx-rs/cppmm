@@ -1251,31 +1251,32 @@ void handle_binding_var(const VarDecl* vd) {
     const std::string var_qual_name =
         pystring::replace(vd->getQualifiedNameAsString(), "cppmm_bind::", "");
     const std::string var_short_name = vd->getNameAsString();
-    SPDLOG_DEBUG("    BIND VAR {}", var_qual_name);
+    SPDLOG_TRACE("    BIND VAR {}", var_qual_name);
 
-    // If it's an auto decl then it might be a reference to a method and in that
+    // If it's a ref decl then it might be a reference to a method and in that
     // case we use the name of the var to rename the method
-    if (const auto* at = vd->getType()->getAs<AutoType>()) {
-        if (const auto* uo = dyn_cast<UnaryOperator>(vd->getInit())) {
+    if (const auto* init = vd->getInit()) {
+        if (const auto* uo = dyn_cast<UnaryOperator>(init)) {
             if (const auto* dre = dyn_cast<DeclRefExpr>(uo->getSubExpr())) {
                 if (const auto* cmd = dyn_cast<CXXMethodDecl>(dre->getDecl())) {
-                    SPDLOG_DEBUG("VAR CMD {}", (void*)cmd);
+                    SPDLOG_TRACE("VAR CMD {}", (void*)cmd);
                     const auto rename =
                         fmt::format("cppmm|rename|{}", vd->getNameAsString());
 
                     auto it = function_map.find((uint64_t)cmd);
                     if (it != function_map.end()) {
-                        SPDLOG_DEBUG("FOUND FUNCION");
+                        SPDLOG_TRACE("FOUND FUNCION");
                         it->second->attrs.push_back(rename);
                     } else {
-                        SPDLOG_DEBUG("NOT FOUND!!");
+                        SPDLOG_TRACE("NOT FOUND!!");
                     }
                 }
             }
+            return;
         }
-
-        return;
     }
+
+    // }
 
     ASTContext& ctx = vd->getASTContext();
     SourceManager& sm = ctx.getSourceManager();

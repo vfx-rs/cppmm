@@ -294,7 +294,11 @@ void write_function_call_template_args(
 
         std::vector<std::string> args;
         for (const auto& t : function_call.template_args) {
-            args.push_back(t->type_name);
+            auto c = "";
+            if (t->const_) {
+                c = "const ";
+            }
+            args.push_back(fmt::format("{}{}", c, t->type_name));
         }
 
         out.print(pystring::join(", ", args));
@@ -319,9 +323,6 @@ void write_expression_method_call(fmt::ostream& out, size_t depth,
                                   const NodeExprPtr& node) {
     const auto& method_call =
         *static_cast<const NodeMethodCallExpr*>(node.get());
-
-    SPDLOG_DEBUG("method {} has {} template args", method_call.name,
-                 method_call.template_args.size());
 
     out.print("(");
     write_expression(out, depth, method_call.this_);
