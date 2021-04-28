@@ -1,3 +1,4 @@
+#include "case.hpp"
 #include "cppmm_ast.hpp"
 #include "filesystem.hpp"
 #include "pystring.h"
@@ -145,8 +146,9 @@ std::string convert_type(const NodeType* t) {
 std::vector<std::string> convert_params(const std::vector<Param>& params) {
     std::vector<std::string> result;
     for (const auto& p : params) {
-        result.push_back(fmt::format("{}: {}", sanitize_keyword(p.name),
-                                     convert_type(p.type.get())));
+        auto name = sanitize_keyword(to_snake_case(p.name));
+        result.push_back(
+            fmt::format("{}: {}", name, convert_type(p.type.get())));
     }
     return result;
 }
@@ -154,8 +156,9 @@ std::vector<std::string> convert_params(const std::vector<Param>& params) {
 std::vector<std::string> convert_fields(const std::vector<Field>& fields) {
     std::vector<std::string> result;
     for (const auto& f : fields) {
-        result.push_back(fmt::format("pub {}: {}", sanitize_keyword(f.name),
-                                     convert_type(f.type.get())));
+        auto name = sanitize_keyword(to_snake_case(f.name));
+        result.push_back(
+            fmt::format("pub {}: {}", name, convert_type(f.type.get())));
     }
     return result;
 }
@@ -227,22 +230,44 @@ bool has_rustify_enum_attr(const NodeEnum* node_enum) {
                      "cppmm|rustify_enum") != node_enum->attrs.end();
 }
 
-size_t get_enum_prefix(const NodeEnum* node_enum) {
+std::string get_enum_prefix(const NodeEnum* node_enum) {
     for (const auto& a : node_enum->attrs) {
         if (pystring::find(a, "cppmm|enum_prefix|") == 0) {
-            return a.substr(18).length();
+            return a.substr(18);
         }
     }
-    return 0;
+    return "";
 }
 
-size_t get_enum_suffix(const NodeEnum* node_enum) {
+std::string get_enum_suffix(const NodeEnum* node_enum) {
     for (const auto& a : node_enum->attrs) {
         if (pystring::find(a, "cppmm|enum_suffix|") == 0) {
-            return a.substr(18).length();
+            return a.substr(18);
         }
     }
-    return 0;
+    return "";
+}
+
+std::string remove_suffix(const std::string& str, const std::string& sfx) {
+    auto p = str.rfind(sfx);
+    if (p >= str.size()) {
+        return str;
+    }
+
+    if (str.size() - p - sfx.size() == 0) {
+        return str.substr(0, p);
+    }
+
+    return str;
+}
+
+std::string remove_prefix(const std::string& str, const std::string& pfx) {
+    auto p = str.find(pfx);
+    if (p == 0) {
+        return str.substr(pfx.size(), std::string::npos);
+    }
+
+    return str;
 }
 
 void write_enum(fmt::ostream& out, const NodeEnum* node_enum) {
@@ -274,13 +299,19 @@ void write_enum(fmt::ostream& out, const NodeEnum* node_enum) {
     if (rustify) {
         // Convert the newtype to a proper Rust enum
         // panic on invalid values
-        size_t prefix = get_enum_prefix(node_enum);
-        size_t suffix = get_enum_suffix(node_enum);
+        std::string prefix = get_enum_prefix(node_enum);
+        std::string suffix = get_enum_suffix(node_enum);
+
+        auto rust_variants = node_enum->cpp_variants;
+        for (auto& v : rust_variants) {
+            v.first = sanitize_keyword(to_pascal_case(
+                remove_prefix(remove_suffix(v.first, suffix), prefix)));
+        }
 
         out.print("\n#[repr({})]\n", repr);
         out.print("#[derive(Debug, Copy, Clone, PartialEq, Eq)]\n");
         out.print("pub enum {} {{\n", node_enum->short_name);
-        for (const auto& p : node_enum->cpp_variants) {
+        for (const auto& p : rust_variants) {
             out.print("    {} = {},\n", p.first, p.second);
         }
         out.print("}}\n\n");
@@ -294,7 +325,7 @@ void write_enum(fmt::ostream& out, const NodeEnum* node_enum) {
         for (int i = 0; i < node_enum->variants.size(); ++i) {
             out.print("            {} => {}::{},\n",
                       node_enum->variants[i].first, node_enum->short_name,
-                      node_enum->cpp_variants[i].first);
+                      rust_variants[i].first);
         }
         out.print("            _ => panic!(\"Invalid value {{:?}} for {} in "
                   "conversion\", e),\n",
@@ -312,8 +343,7 @@ void write_enum(fmt::ostream& out, const NodeEnum* node_enum) {
 
         for (int i = 0; i < node_enum->variants.size(); ++i) {
             out.print("            {}::{} => {},\n", node_enum->short_name,
-                      node_enum->cpp_variants[i].first,
-                      node_enum->variants[i].first);
+                      rust_variants[i].first, node_enum->variants[i].first);
         }
         out.print("        }}\n");
         out.print("    }}\n");
@@ -375,7 +405,7 @@ void write_translation_unit(const char* out_dir, fmt::ostream& out_lib,
         }
 
         if (has_rustify_enum_attr(n)) {
-            out_lib.print("pub use {}::{}\n", mod_name, n->short_name);
+            out_lib.print("pub use {}::{};\n", mod_name, n->short_name);
         }
     }
 
