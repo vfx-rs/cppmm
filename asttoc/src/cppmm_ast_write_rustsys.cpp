@@ -44,7 +44,7 @@ std::string convert_builtin_type(const NodeBuiltinType* t) {
     } else if (t->type_name == "unsigned char") {
         return "c_uchar";
     } else if (t->type_name == "unsigned int") {
-        return "c_uchar";
+        return "c_uint";
     } else if (t->type_name == "unsigned short") {
         return "c_ushort";
     } else if (t->type_name == "unsigned long") {
