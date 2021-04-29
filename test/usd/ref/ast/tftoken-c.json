@@ -89,7 +89,8 @@
                             },
                             "attrs": []
                         }
-                    ]
+                    ],
+                    "template_args": null
                 },
                 {
                     "kind": "Method",
@@ -147,7 +148,8 @@
                             },
                             "attrs": []
                         }
-                    ]
+                    ],
+                    "template_args": null
                 },
                 {
                     "kind": "Method",
@@ -179,7 +181,8 @@
                         "type": "void",
                         "const": false
                     },
-                    "params": null
+                    "params": null,
+                    "template_args": null
                 },
                 {
                     "kind": "Method",
@@ -229,7 +232,8 @@
                             },
                             "attrs": []
                         }
-                    ]
+                    ],
+                    "template_args": null
                 },
                 {
                     "kind": "Method",
@@ -259,7 +263,8 @@
                         "type": "unsigned long",
                         "const": false
                     },
-                    "params": null
+                    "params": null,
+                    "template_args": null
                 },
                 {
                     "kind": "Method",
@@ -289,7 +294,8 @@
                         "type": "unsigned long",
                         "const": false
                     },
-                    "params": null
+                    "params": null,
+                    "template_args": null
                 },
                 {
                     "kind": "Method",
@@ -325,7 +331,8 @@
                         },
                         "const": false
                     },
-                    "params": null
+                    "params": null,
+                    "template_args": null
                 },
                 {
                     "kind": "Method",
@@ -361,7 +368,8 @@
                         },
                         "const": false
                     },
-                    "params": null
+                    "params": null,
+                    "template_args": null
                 },
                 {
                     "kind": "Method",
@@ -410,7 +418,8 @@
                             },
                             "attrs": []
                         }
-                    ]
+                    ],
+                    "template_args": null
                 },
                 {
                     "kind": "Method",
@@ -459,7 +468,8 @@
                             },
                             "attrs": []
                         }
-                    ]
+                    ],
+                    "template_args": null
                 },
                 {
                     "kind": "Method",
@@ -509,7 +519,8 @@
                             },
                             "attrs": []
                         }
-                    ]
+                    ],
+                    "template_args": null
                 },
                 {
                     "kind": "Method",
@@ -559,7 +570,8 @@
                             },
                             "attrs": []
                         }
-                    ]
+                    ],
+                    "template_args": null
                 },
                 {
                     "kind": "Method",
@@ -608,7 +620,8 @@
                             },
                             "attrs": []
                         }
-                    ]
+                    ],
+                    "template_args": null
                 },
                 {
                     "kind": "Method",
@@ -638,7 +651,8 @@
                         "type": "_Bool",
                         "const": false
                     },
-                    "params": null
+                    "params": null,
+                    "template_args": null
                 },
                 {
                     "kind": "Method",
@@ -668,7 +682,8 @@
                         "type": "_Bool",
                         "const": false
                     },
-                    "params": null
+                    "params": null,
+                    "template_args": null
                 }
             ]
         }

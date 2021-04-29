@@ -119,7 +119,8 @@
                             },
                             "attrs": []
                         }
-                    ]
+                    ],
+                    "template_args": null
                 }
             ]
         }

@@ -41,6 +41,8 @@ bool WARN_UNMATCHED = false;
 
 namespace cppmm {
 
+std::unordered_map<uint64_t, NodeFunction*> function_map;
+
 /// Get the size and alignment for the given decl. Returns true if the info
 /// could be ascertained, false otherwise.
 bool get_abi_info(const TypeDecl* td, ASTContext& ctx, uint32_t& size,
@@ -366,6 +368,22 @@ bool match_parameters(const NodeFunction* a, const NodeFunction* b) {
     return true;
 }
 
+std::vector<QType> get_template_args(const FunctionDecl* fd) {
+    std::vector<QType> result;
+
+    const auto* tal = fd->getTemplateSpecializationArgs();
+    if (tal) {
+        for (int i = 0; i < tal->size(); ++i) {
+            // FIXME: we're just ignoring non-type template arguments here which
+            // will surely bite us one day
+            if (tal->get(i).getKind() == TemplateArgument::ArgKind::Type) {
+                result.push_back(process_qtype(tal->get(i).getAsType()));
+            }
+        }
+    }
+    return result;
+}
+
 /// Create a new node for the given method decl and return it
 NodePtr process_method_decl(const CXXMethodDecl* cmd,
                             std::vector<std::string> attrs,
@@ -391,6 +409,8 @@ NodePtr process_method_decl(const CXXMethodDecl* cmd,
     m->is_move_assignment_operator = cmd->isMoveAssignmentOperator();
     m->is_noexcept = is_noexcept(cmd);
     m->is_deleted = cmd->isDeleted();
+    m->_function_id = (uint64_t)cmd;
+    m->template_args = get_template_args(cmd);
 
     if (const auto* ccd = dyn_cast<CXXConstructorDecl>(cmd)) {
         m->is_constructor = true;
@@ -519,6 +539,8 @@ std::vector<NodePtr> process_methods(const CXXRecordDecl* crd, bool is_base,
             for (const FunctionDecl* fd : ftd->specializations()) {
                 std::vector<std::string> attrs = get_attrs(fd);
                 if (const auto* cmd = dyn_cast<CXXMethodDecl>(fd)) {
+                    SPDLOG_DEBUG("FTSD {}: {}", cmd->getQualifiedNameAsString(),
+                                 (void*)cmd);
                     auto node_function =
                         process_method_decl(cmd, attrs, final_crd, true);
                     add_method_to_list(std::move(node_function), result);
@@ -541,6 +563,8 @@ std::vector<NodePtr> process_methods(const CXXRecordDecl* crd, bool is_base,
                 }
             }
         } else if (const auto* cmd = dyn_cast<CXXMethodDecl>(d)) {
+            SPDLOG_DEBUG("CMD {}: {}", cmd->getQualifiedNameAsString(),
+                         (void*)cmd);
             if (is_base && cmd->isCopyAssignmentOperator() ||
                 cmd->isMoveAssignmentOperator()) {
                 continue;
@@ -571,6 +595,7 @@ bool method_in_list(NodeMethod* m, std::vector<NodePtr>& binding_methods,
             } else {
                 attrs = b->attrs;
                 m->params = b->params;
+                m->_function_id = b->_function_id;
                 b->in_library = true;
                 return true;
             }
@@ -956,6 +981,10 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
             continue;
         }
 
+        // stick this method in the function map so we can find it later if we
+        // need to for renaming
+        function_map[mptr->_function_id] = mptr;
+
         NodeId id = NODES.size();
         NODE_MAP[method->qualified_name] = id;
         NODES.emplace_back(std::move(method));
@@ -1126,6 +1155,7 @@ std::unordered_map<std::string, NodeVar> binding_vars;
 /// FunctionDecl so that we can match against it later. Only functions that
 /// are explicitly declared in the bindings have AST output for them.
 void handle_binding_function(const FunctionDecl* fd) {
+    SPDLOG_DEBUG("GOt FD {}", fd->getQualifiedNameAsString());
     if (fd->getTemplatedKind() == 1) {
         // ignore template functions in the binding
         return;
@@ -1133,6 +1163,22 @@ void handle_binding_function(const FunctionDecl* fd) {
 
     if (const auto* cmd = dyn_cast<CXXMethodDecl>(fd)) {
         // don't do out-of-line method declarations
+
+        // auto attrs = get_attrs(fd);
+        // SPDLOG_DEBUG("    attrs: {}", ps::join(", ", attrs));
+
+        // SPDLOG_DEBUG("    Is CMD");
+        // if (const auto* ftsi = cmd->getTemplateSpecializationInfo()) {
+        //     SPDLOG_DEBUG("    Got ftsi {}", (void*)ftsi->getTemplate());
+        //     ftsi->getTemplate()->dump();
+        // }
+        // if (const auto* tal = cmd->getTemplateSpecializationArgs()) {
+        //     SPDLOG_DEBUG("    TAL");
+        //     for (int i = 0; i < tal->size(); ++i) {
+        //         SPDLOG_DEBUG("        {}",
+        //                      tal->get(i).getAsType().getAsString());
+        //     }
+        // }
         return;
     }
 
@@ -1205,7 +1251,32 @@ void handle_binding_var(const VarDecl* vd) {
     const std::string var_qual_name =
         pystring::replace(vd->getQualifiedNameAsString(), "cppmm_bind::", "");
     const std::string var_short_name = vd->getNameAsString();
-    SPDLOG_DEBUG("    BIND VAR {}", var_qual_name);
+    SPDLOG_TRACE("    BIND VAR {}", var_qual_name);
+
+    // If it's a ref decl then it might be a reference to a method and in that
+    // case we use the name of the var to rename the method
+    if (const auto* init = vd->getInit()) {
+        if (const auto* uo = dyn_cast<UnaryOperator>(init)) {
+            if (const auto* dre = dyn_cast<DeclRefExpr>(uo->getSubExpr())) {
+                if (const auto* cmd = dyn_cast<CXXMethodDecl>(dre->getDecl())) {
+                    SPDLOG_TRACE("VAR CMD {}", (void*)cmd);
+                    const auto rename =
+                        fmt::format("cppmm|rename|{}", vd->getNameAsString());
+
+                    auto it = function_map.find((uint64_t)cmd);
+                    if (it != function_map.end()) {
+                        SPDLOG_TRACE("FOUND FUNCION");
+                        it->second->attrs.push_back(rename);
+                    } else {
+                        SPDLOG_TRACE("NOT FOUND!!");
+                    }
+                }
+            }
+            return;
+        }
+    }
+
+    // }
 
     ASTContext& ctx = vd->getASTContext();
     SourceManager& sm = ctx.getSourceManager();
@@ -1475,8 +1546,7 @@ ProcessBindingConsumer::ProcessBindingConsumer(ASTContext* context) {
 
     // match all function declarations
     DeclarationMatcher function_decl_matcher =
-        functionDecl(hasAncestor(namespaceDecl(hasName("cppmm_bind"))),
-                     unless(hasAncestor(recordDecl())))
+        functionDecl(hasAncestor(namespaceDecl(hasName("cppmm_bind"))))
             .bind("functionDecl");
     _match_finder.addMatcher(function_decl_matcher, &_handler);
 

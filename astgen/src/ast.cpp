@@ -266,6 +266,17 @@ void NodeFunction::write_parameters_json(json& o) const {
         param.qty.write_json(p["type"]);
         o["params"].emplace_back(p);
     }
+
+    o["template_args"] = {};
+    int i = 0;
+    for (const auto& a : template_args) {
+        auto p = json::object();
+        p["index"] = i;
+        p["type"] = json::object();
+        a.write_json(p["type"]);
+        o["template_args"].push_back(p);
+        i++;
+    }
 }
 
 void NodeFunction::write_json(json& o) const {

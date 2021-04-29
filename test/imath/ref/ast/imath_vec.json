@@ -100,7 +100,8 @@
                         "type": "void",
                         "const": false
                     },
-                    "params": null
+                    "params": null,
+                    "template_args": null
                 },
                 {
                     "kind": "Method",
@@ -148,6 +149,17 @@
                                 "const": false
                             },
                             "attrs": []
+                        }
+                    ],
+                    "template_args": [
+                        {
+                            "index": 0,
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 21,
+                                "type": "float",
+                                "const": false
+                            }
                         }
                     ]
                 },
@@ -213,6 +225,17 @@
                             },
                             "attrs": []
                         }
+                    ],
+                    "template_args": [
+                        {
+                            "index": 0,
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 21,
+                                "type": "float",
+                                "const": false
+                            }
+                        }
                     ]
                 },
                 {
@@ -262,7 +285,8 @@
                             },
                             "attrs": []
                         }
-                    ]
+                    ],
+                    "template_args": null
                 },
                 {
                     "kind": "Method",
@@ -312,7 +336,8 @@
                             },
                             "attrs": []
                         }
-                    ]
+                    ],
+                    "template_args": null
                 },
                 {
                     "kind": "Method",
@@ -370,7 +395,8 @@
                             },
                             "attrs": []
                         }
-                    ]
+                    ],
+                    "template_args": null
                 },
                 {
                     "kind": "Method",
@@ -400,7 +426,8 @@
                         "type": "float",
                         "const": false
                     },
-                    "params": null
+                    "params": null,
+                    "template_args": null
                 },
                 {
                     "kind": "Method",
@@ -430,7 +457,8 @@
                         "type": "float",
                         "const": false
                     },
-                    "params": null
+                    "params": null,
+                    "template_args": null
                 },
                 {
                     "kind": "Method",
@@ -467,7 +495,8 @@
                         },
                         "const": false
                     },
-                    "params": null
+                    "params": null,
+                    "template_args": null
                 },
                 {
                     "kind": "Method",
@@ -498,7 +527,8 @@
                         "record": 23,
                         "const": false
                     },
-                    "params": null
+                    "params": null,
+                    "template_args": null
                 }
             ]
         },
@@ -583,7 +613,8 @@
                         "type": "void",
                         "const": false
                     },
-                    "params": null
+                    "params": null,
+                    "template_args": null
                 },
                 {
                     "kind": "Method",
@@ -631,6 +662,17 @@
                                 "const": false
                             },
                             "attrs": []
+                        }
+                    ],
+                    "template_args": [
+                        {
+                            "index": 0,
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 25,
+                                "type": "int",
+                                "const": false
+                            }
                         }
                     ]
                 },
@@ -681,7 +723,8 @@
                             },
                             "attrs": []
                         }
-                    ]
+                    ],
+                    "template_args": null
                 },
                 {
                     "kind": "Method",
@@ -731,7 +774,8 @@
                             },
                             "attrs": []
                         }
-                    ]
+                    ],
+                    "template_args": null
                 },
                 {
                     "kind": "Method",
@@ -789,7 +833,8 @@
                             },
                             "attrs": []
                         }
-                    ]
+                    ],
+                    "template_args": null
                 },
                 {
                     "kind": "Method",
@@ -819,7 +864,8 @@
                         "type": "int",
                         "const": false
                     },
-                    "params": null
+                    "params": null,
+                    "template_args": null
                 },
                 {
                     "kind": "Method",
@@ -849,7 +895,8 @@
                         "type": "int",
                         "const": false
                     },
-                    "params": null
+                    "params": null,
+                    "template_args": null
                 },
                 {
                     "kind": "Method",
@@ -886,7 +933,8 @@
                         },
                         "const": false
                     },
-                    "params": null
+                    "params": null,
+                    "template_args": null
                 },
                 {
                     "kind": "Method",
@@ -917,7 +965,8 @@
                         "record": 39,
                         "const": false
                     },
-                    "params": null
+                    "params": null,
+                    "template_args": null
                 }
             ]
         }

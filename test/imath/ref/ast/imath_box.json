@@ -110,7 +110,8 @@
                             },
                             "attrs": []
                         }
-                    ]
+                    ],
+                    "template_args": null
                 },
                 {
                     "kind": "Method",
@@ -159,7 +160,8 @@
                             },
                             "attrs": []
                         }
-                    ]
+                    ],
+                    "template_args": null
                 }
             ]
         },
@@ -255,7 +257,8 @@
                             },
                             "attrs": []
                         }
-                    ]
+                    ],
+                    "template_args": null
                 },
                 {
                     "kind": "Method",
@@ -304,7 +307,8 @@
                             },
                             "attrs": []
                         }
-                    ]
+                    ],
+                    "template_args": null
                 }
             ]
         }

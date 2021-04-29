@@ -80,7 +80,8 @@
                         "type": "void",
                         "const": false
                     },
-                    "params": null
+                    "params": null,
+                    "template_args": null
                 },
                 {
                     "kind": "Method",
@@ -110,7 +111,8 @@
                         "type": "void",
                         "const": false
                     },
-                    "params": null
+                    "params": null,
+                    "template_args": null
                 }
             ]
         }

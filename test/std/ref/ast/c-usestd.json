@@ -63,7 +63,8 @@
                     },
                     "attrs": []
                 }
-            ]
+            ],
+            "template_args": null
         },
         {
             "kind": "Function",
@@ -103,7 +104,8 @@
                     },
                     "attrs": []
                 }
-            ]
+            ],
+            "template_args": null
         }
     ]
 }
