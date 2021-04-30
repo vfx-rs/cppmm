@@ -1707,6 +1707,8 @@ void function_detail(TypeRegistry& type_registry, TranslationUnit& c_tu,
             type_registry.make_symbol_unique(function_nice_name);
     }
 
+    auto template_args = cpp_function.template_args;
+
     auto c_function =
         NodeFunction::n(function_name, PLACEHOLDER_ID, cpp_function.attrs, "",
                         NodeBuiltinType::n("void", 0, "void", false),
