@@ -898,6 +898,11 @@ bool has_trivially_movable_attr(const std::vector<std::string>& attrs) {
            attrs.end();
 }
 
+bool has_opaquetype_attr(const std::vector<std::string>& attrs) {
+    return std::find(attrs.begin(), attrs.end(), "cppmm|opaquetype") !=
+           attrs.end();
+}
+
 /// Create a new NodeRecord for the given record decl and store it in the AST.
 /// `crd` must represent a "concrete" record - i.e. it must not be dependent
 /// on any template parameters. This is done in the binding file by explicitly
@@ -910,6 +915,8 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
     SourceManager& sm = ctx.getSourceManager();
     const auto& loc = crd->getLocation();
 
+    bool is_opaquetype = has_opaquetype_attr(attrs);
+
     const auto* can_rd =
         crd->getCanonicalDecl()
             ->getDefinition(); // TODO: this seems to do what we want... but
@@ -918,46 +925,61 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
     if (can_rd != nullptr) {
         crd = can_rd;
     } else {
-        SPDLOG_ERROR("Could not get canonical decl definition from {}",
-                     crd->getQualifiedNameAsString());
-        SPDLOG_ERROR("can def is {}", (void*)crd->getCanonicalDecl());
-        crd->dump();
+        // we don't expect a canonical definition for an opaque type
+        if (!is_opaquetype) {
+            SPDLOG_ERROR("Could not get canonical decl definition from {}",
+                         crd->getQualifiedNameAsString());
+            SPDLOG_ERROR("can def is {}", (void*)crd->getCanonicalDecl());
+            crd->dump();
+        }
     }
 
     const std::string record_name = get_record_name(crd);
     const std::string short_name = crd->getNameAsString();
 
-    SPDLOG_TRACE("Processing concrete record {}", record_name);
+    SPDLOG_DEBUG("Processing concrete record {} with attrs [{}]", record_name,
+                 ps::join(", ", attrs));
 
     // Get the translation unit node we're going to add this Record to
     auto* node_tu = get_translation_unit(filename);
     std::vector<NodeId> namespaces = get_namespaces(crd->getParent(), node_tu);
-
-    // Get the size and alignment of the Record
-    uint32_t size, align;
-    if (!get_abi_info(dyn_cast<TypeDecl>(crd), ctx, size, align)) {
-        SPDLOG_CRITICAL("Could not get ABI info for {}", record_name);
-    }
 
     // Get the mangled version of the record name
     std::string mangled_name = mangle_decl(crd);
     SPDLOG_DEBUG("Record {} mangles to {}", crd->getQualifiedNameAsString(),
                  mangled_name);
 
+    uint32_t size = 0, align = 0;
+    bool is_trivially_movable = false;
+    bool is_trivially_copyable = false;
+    bool is_abstract = false;
     bool ignore_unbound = has_ignore_unbound_attr(attrs);
 
-    bool is_trivially_movable = !(crd->hasNonTrivialMoveAssignment() ||
-                                  crd->hasNonTrivialMoveConstructor()) ||
-                                has_trivially_movable_attr(attrs);
+    if (!is_opaquetype) {
+        // We can only get the detailed info here for a non-opaque type
+        // Get the size and alignment of the Record
+        if (!get_abi_info(dyn_cast<TypeDecl>(crd), ctx, size, align)) {
+            SPDLOG_CRITICAL("Could not get ABI info for {}", record_name);
+            // if we can't get ABI info then need to assume it's an untagged
+            // opaque type
+            is_opaquetype = true;
+        } else {
+            is_trivially_movable = !(crd->hasNonTrivialMoveAssignment() ||
+                                     crd->hasNonTrivialMoveConstructor()) ||
+                                   has_trivially_movable_attr(attrs);
+            is_trivially_copyable = crd->isTriviallyCopyable() ||
+                                    has_trivially_copyable_attr(attrs);
+            is_abstract = crd->isAbstract();
+        }
+    }
 
     // Add the new Record node
     NodeId new_id = NODES.size();
     auto node_record = std::make_unique<NodeRecord>(
         record_name, new_id, node_tu->id, std::move(attrs),
         std::move(short_name), std::move(namespaces), RecordKind::OpaquePtr,
-        crd->isAbstract(),
-        crd->isTriviallyCopyable() || has_trivially_copyable_attr(attrs),
-        is_trivially_movable, size, align, get_comment_base64(crd));
+        is_abstract, is_trivially_copyable, is_trivially_movable, is_opaquetype,
+        size, align, get_comment_base64(crd));
 
     auto* node_record_ptr = node_record.get();
     NODES.emplace_back(std::move(node_record));
@@ -966,68 +988,72 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
     // add this record to the TU
     node_tu->children.push_back(new_id);
 
-    // grab all the methods that are specified in the binding
-    std::vector<NodePtr> methods = process_methods(crd, false, nullptr);
-    SPDLOG_TRACE("record {} has {} methods", record_name, methods.size());
-    for (NodePtr& method : methods) {
-        NodeMethod* mptr = (NodeMethod*)method.get();
-        if (method_in_list(mptr, binding_methods, attrs) && !mptr->is_deleted) {
-            mptr->attrs = std::move(attrs);
-            mptr->in_binding = true;
-        } else {
-            // TODO: decide what we really want to do here.
-            // For now, ignoring unmatched methods makes dev easier by cutting
-            // out noise
-            continue;
+    if (!is_opaquetype) {
+        // grab all the methods that are specified in the binding
+        std::vector<NodePtr> methods = process_methods(crd, false, nullptr);
+        SPDLOG_TRACE("record {} has {} methods", record_name, methods.size());
+        for (NodePtr& method : methods) {
+            NodeMethod* mptr = (NodeMethod*)method.get();
+            if (method_in_list(mptr, binding_methods, attrs) &&
+                !mptr->is_deleted) {
+                mptr->attrs = std::move(attrs);
+                mptr->in_binding = true;
+            } else {
+                // TODO: decide what we really want to do here.
+                // For now, ignoring unmatched methods makes dev easier by
+                // cutting out noise
+                continue;
+            }
+
+            // stick this method in the function map so we can find it later if
+            // we need to for renaming
+            function_map[mptr->_function_id] = mptr;
+
+            NodeId id = NODES.size();
+            NODE_MAP[method->qualified_name] = id;
+            NODES.emplace_back(std::move(method));
+            node_record_ptr->methods.push_back(id);
         }
 
-        // stick this method in the function map so we can find it later if we
-        // need to for renaming
-        function_map[mptr->_function_id] = mptr;
+        if (WARN_UNMATCHED && !ignore_unbound) {
+            for (const auto& n : methods) {
+                const auto* m = (NodeMethod*)n.get();
+                if (m && !m->in_binding && !m->is_deleted && !m->is_shadowed) {
+                    SPDLOG_WARN("[{}]({}) - \n"
+                                "{} is present in the library but not declared "
+                                "in the binding",
+                                record_name, node_tu->qualified_name, *m);
+                }
+            }
 
-        NodeId id = NODES.size();
-        NODE_MAP[method->qualified_name] = id;
-        NODES.emplace_back(std::move(method));
-        node_record_ptr->methods.push_back(id);
-    }
-
-    if (WARN_UNMATCHED && !ignore_unbound) {
-        for (const auto& n : methods) {
-            const auto* m = (NodeMethod*)n.get();
-            if (m && !m->in_binding && !m->is_deleted && !m->is_shadowed) {
-                SPDLOG_WARN("[{}]({}) - \n"
-                            "{} is present in the library but not declared "
-                            "in the binding",
-                            record_name, node_tu->qualified_name, *m);
+            for (const auto& n : binding_methods) {
+                const auto* m = (NodeMethod*)n.get();
+                if (m && m->is_user_provided && !m->in_library &&
+                    !m->is_deleted) {
+                    SPDLOG_WARN("[{}]({}) - \n"
+                                "{} is declared in the binding but not present "
+                                "in the library",
+                                record_name, node_tu->qualified_name, *m);
+                }
             }
         }
 
-        for (const auto& n : binding_methods) {
-            const auto* m = (NodeMethod*)n.get();
-            if (m && m->is_user_provided && !m->in_library && !m->is_deleted) {
-                SPDLOG_WARN("[{}]({}) - \n"
-                            "{} is declared in the binding but not present "
-                            "in the library",
-                            record_name, node_tu->qualified_name, *m);
-            }
-        }
-    }
+        // process remaining children
+        // first process (recursively) the fields from this decl and all bases
+        process_fields(crd, node_record_ptr);
 
-    // process remaining children
-    // first process (recursively) the fields from this decl and all bases
-    process_fields(crd, node_record_ptr);
-
-    // now get other child decls
-    for (const Decl* d : crd->decls()) {
-        if (const auto* md = dyn_cast<CXXMethodDecl>(d)) {
-            // pass
-        } else if (const auto* fd = dyn_cast<FunctionDecl>(d)) {
-            SPDLOG_TRACE(" FUNCTION {}", fd->getQualifiedNameAsString());
-        } else if (const auto* ed = dyn_cast<EnumDecl>(d)) {
-            SPDLOG_TRACE("Got enum decl {}", ed->getNameAsString());
-            if (std::find(child_enums.begin(), child_enums.end(),
-                          ed->getNameAsString()) != child_enums.end()) {
-                process_enum_decl(ed, filename);
+        // now get other child decls
+        for (const Decl* d : crd->decls()) {
+            if (const auto* md = dyn_cast<CXXMethodDecl>(d)) {
+                // pass
+            } else if (const auto* fd = dyn_cast<FunctionDecl>(d)) {
+                SPDLOG_TRACE(" FUNCTION {}", fd->getQualifiedNameAsString());
+            } else if (const auto* ed = dyn_cast<EnumDecl>(d)) {
+                SPDLOG_TRACE("Got enum decl {}", ed->getNameAsString());
+                if (std::find(child_enums.begin(), child_enums.end(),
+                              ed->getNameAsString()) != child_enums.end()) {
+                    process_enum_decl(ed, filename);
+                }
             }
         }
     }

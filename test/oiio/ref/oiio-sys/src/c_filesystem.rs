@@ -7,31 +7,15 @@ use std::os::raw::*;
 
 /// Proxy class for I/O. This provides a simplified interface for file I/O
 /// that can have custom overrides.
-#[repr(C, align(8))]
-#[derive(Clone)]
+#[repr(C)]
 pub struct OpenImageIO_v2_2__Filesystem__IOProxy_t {
-    _inner: [u8; 88]
+    _unused: [u8; 0],
 }
-
-impl Default for OpenImageIO_v2_2__Filesystem__IOProxy_t {
-    fn default() -> Self {
-        Self { _inner: [0u8; 88] }
-    }
-}
-
 /// IOProxy subclass for reading that wraps an cspan<char>.
-#[repr(C, align(8))]
-#[derive(Clone)]
+#[repr(C)]
 pub struct OpenImageIO_v2_2__Filesystem__IOMemReader_t {
-    _inner: [u8; 104]
+    _unused: [u8; 0],
 }
-
-impl Default for OpenImageIO_v2_2__Filesystem__IOMemReader_t {
-    fn default() -> Self {
-        Self { _inner: [0u8; 104] }
-    }
-}
-
 
 #[repr(transparent)]
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
@@ -87,7 +71,7 @@ pub fn OpenImageIO_v2_2__Filesystem__IOMemReader_pwrite(this_: *mut OIIO_Filesys
 
 pub fn OpenImageIO_v2_2__Filesystem__IOMemReader_seek_1(this_: *mut OIIO_Filesystem_IOMemReader_t, offset: c_long, origin: c_int) -> bool;
 
-pub fn OpenImageIO_v2_2__Filesystem__IOMemReader_new(this_: *mut OIIO_Filesystem_IOMemReader_t, buf: *mut c_void, size: c_ulong) -> c_void;
+pub fn OpenImageIO_v2_2__Filesystem__IOMemReader_new(this_: *mut *mut OIIO_Filesystem_IOMemReader_t, buf: *mut c_void, size: c_ulong) -> c_void;
 
 pub fn OpenImageIO_v2_2__Filesystem__IOMemReader_delete(this_: *mut OIIO_Filesystem_IOMemReader_t) -> c_void;
 

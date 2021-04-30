@@ -5,18 +5,10 @@
 use crate::*;
 use std::os::raw::*;
 
-#[repr(C, align(4))]
-#[derive(Clone)]
+#[repr(C)]
 pub struct DN__v2_2__Class_t {
-    _inner: [u8; 8]
+    _unused: [u8; 0],
 }
-
-impl Default for DN__v2_2__Class_t {
-    fn default() -> Self {
-        Self { _inner: [0u8; 8] }
-    }
-}
-
 #[repr(C, align(4))]
 #[derive(Clone)]
 pub struct DN__v2_2__Class__Struct_t {

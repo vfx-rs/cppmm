@@ -31,6 +31,7 @@
             "abstract": false,
             "trivially_copyable": false,
             "trivially_movable": false,
+            "opaque_type": false,
             "size": 192,
             "align": 64,
             "alias": "vector_string",

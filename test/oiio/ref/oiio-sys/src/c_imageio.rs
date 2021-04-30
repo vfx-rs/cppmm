@@ -53,32 +53,16 @@ pub struct OpenImageIO_v2_2__ROI_t {
 /// that the image is stored in a file organized into rectangular *tiles*
 /// of these dimensions. The default of 0 value for these fields indicates
 /// that the image is stored in scanline order, rather than as tiles.
-#[repr(C, align(8))]
-#[derive(Clone)]
+#[repr(C)]
 pub struct OpenImageIO_v2_2__ImageSpec_t {
-    _inner: [u8; 160]
+    _unused: [u8; 0],
 }
-
-impl Default for OpenImageIO_v2_2__ImageSpec_t {
-    fn default() -> Self {
-        Self { _inner: [0u8; 160] }
-    }
-}
-
 /// ImageInput abstracts the reading of an image file in a file
 /// format-agnostic manner.
-#[repr(C, align(8))]
-#[derive(Clone)]
+#[repr(C)]
 pub struct OpenImageIO_v2_2__ImageInput_t {
-    _inner: [u8; 248]
+    _unused: [u8; 0],
 }
-
-impl Default for OpenImageIO_v2_2__ImageInput_t {
-    fn default() -> Self {
-        Self { _inner: [0u8; 248] }
-    }
-}
-
 
 #[repr(transparent)]
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
@@ -122,7 +106,7 @@ pub fn OpenImageIO_v2_2__ROI_npixels(this_: *const OIIO_ROI_t) -> c_ulong;
 
 /// Constructor: given just the data format, set all other fields to
 /// something reasonable.
-pub fn OpenImageIO_v2_2__ImageSpec_ImageSpec(this_: *mut OIIO_ImageSpec_t, format: OIIO_TypeDesc_t) -> c_void;
+pub fn OpenImageIO_v2_2__ImageSpec_ImageSpec(this_: *mut *mut OIIO_ImageSpec_t, format: OIIO_TypeDesc_t) -> c_void;
 
 /// Constructs an `ImageSpec` with the given x and y resolution, number
 /// of channels, and pixel data format.
@@ -133,7 +117,7 @@ pub fn OpenImageIO_v2_2__ImageSpec_ImageSpec(this_: *mut OIIO_ImageSpec_t, forma
 /// channel names are "R", "G", "B"' and "A" (up to and including 4
 /// channels, beyond that they are named "channel *n*"), the fourth
 /// channel (if it exists) is assumed to be alpha.
-pub fn OpenImageIO_v2_2__ImageSpec_new_with_dimensions(this_: *mut OIIO_ImageSpec_t, xres: c_int, yres: c_int, nchans: c_int, fmt: OIIO_TypeDesc_t) -> c_void;
+pub fn OpenImageIO_v2_2__ImageSpec_new_with_dimensions(this_: *mut *mut OIIO_ImageSpec_t, xres: c_int, yres: c_int, nchans: c_int, fmt: OIIO_TypeDesc_t) -> c_void;
 
 /// Set the data format, and clear any per-channel format information
 /// in `channelformats`.
@@ -173,7 +157,7 @@ pub fn OpenImageIO_v2_2__ImageSpec_scanline_bytes(this_: *const OIIO_ImageSpec_t
 /// cases with human-readable explanation).
 pub fn OpenImageIO_v2_2__ImageSpec_serialize(this_: *const OIIO_ImageSpec_t, format: OIIO_ImageSpec_SerialFormat, verbose: OIIO_ImageSpec_SerialVerbose) -> std___cxx11_string_t;
 
-pub fn OpenImageIO_v2_2__ImageSpec_copy(this_: *mut OIIO_ImageSpec_t, other: *const OIIO_ImageSpec_t) -> c_void;
+pub fn OpenImageIO_v2_2__ImageSpec_copy(this_: *mut *mut OIIO_ImageSpec_t, other: *const OIIO_ImageSpec_t) -> c_void;
 
 pub fn OpenImageIO_v2_2__ImageSpec_assign(this_: *mut OIIO_ImageSpec_t, other: *const OIIO_ImageSpec_t) -> *mut OIIO_ImageSpec_t;
 

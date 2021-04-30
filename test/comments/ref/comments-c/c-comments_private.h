@@ -3,7 +3,6 @@
 
 
 #include <comments.hpp>
-#include <cstring>
 
 
 /** This method doesn't do anything interesting at all */
@@ -54,14 +53,6 @@ inline comments_Class_t * to_c(
     comments::Class * rhs)
 {
     return reinterpret_cast<comments_Class_t * >(rhs);
-}
-
-inline comments_Class_t to_c_copy(
-    comments::Class const & rhs)
-{
-    comments_Class_t result;
-    memcpy(&(result), &(rhs), sizeof(result));
-    return result;
 }
 
 /** This is a free function that also does nothing interesting */

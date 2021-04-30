@@ -3,15 +3,15 @@
 #include <new>
 
 void std____cxx11__basic_string_char__basic_string(
-    std___cxx11_string_t * this_)
+    std___cxx11_string_t * * this_)
 {
-    new (this_) std::__cxx11::basic_string<char>();
+    *this_ = to_c(new std::__cxx11::basic_string<char>());
 }
 void std____cxx11__basic_string_char__basic_string_1(
-    std___cxx11_string_t * this_
+    std___cxx11_string_t * * this_
     , std___cxx11_string_t const * rhs)
 {
-    new (this_) std::__cxx11::basic_string<char>(to_cpp_ref(rhs));
+    *this_ = to_c(new std::__cxx11::basic_string<char>(to_cpp_ref(rhs)));
 }
 std___cxx11_string_t * std____cxx11__basic_string_char__assign(
     std___cxx11_string_t * this_

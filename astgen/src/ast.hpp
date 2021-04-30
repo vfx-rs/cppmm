@@ -384,6 +384,8 @@ struct NodeRecord : public NodeAttributeHolder {
     bool is_trivially_copyable;
     /// Does this object declare move ctor/assign?
     bool is_trivially_movable;
+    /// Is this type opaque?
+    bool is_opaque_type;
 
     /// Size of the record, in bits
     uint32_t size;
@@ -394,15 +396,15 @@ struct NodeRecord : public NodeAttributeHolder {
                std::vector<std::string> attrs, std::string short_name,
                std::vector<NodeId> namespaces, RecordKind record_kind,
                bool is_abstract, bool is_trivially_copyable,
-               bool is_trivially_movable, uint32_t size, uint32_t align,
-               std::string comment)
+               bool is_trivially_movable, bool is_opaque_type, uint32_t size,
+               uint32_t align, std::string comment)
         : NodeAttributeHolder(qualified_name, id, context, NodeKind::Record,
                               std::move(attrs), std::move(comment)),
           short_name(std::move(short_name)), namespaces(std::move(namespaces)),
           record_kind(record_kind), is_abstract(is_abstract),
           is_trivially_copyable(is_trivially_copyable),
-          is_trivially_movable(is_trivially_movable), size(size), align(align) {
-    }
+          is_trivially_movable(is_trivially_movable),
+          is_opaque_type(is_opaque_type), size(size), align(align) {}
 
     virtual void write_json_attrs(json& o) const override;
     virtual void write_json(json& o) const override;

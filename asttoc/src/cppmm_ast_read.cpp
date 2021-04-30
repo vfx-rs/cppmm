@@ -68,6 +68,7 @@ const char* RECORD_C = "Record";
 const char* RECORD_L = "record";
 const char* TYPE = "type";
 const char* TRIVIALLY_COPYABLE = "trivially_copyable";
+const char* TRIVIALLY_MOVABLE = "trivially_movable";
 const char* POINTEE = "pointee";
 const char* RETURN = "return";
 const char* SOURCE_INCLUDES = "source_includes";
@@ -78,6 +79,7 @@ const char* ELEMENT_TYPE = "element_type";
 const char* FUNCTION_POINTER_TYPEDEF_C = "FunctionPointerTypedef";
 const char* FUNCTION_POINTER_TYPEDEF_L = "function_pointer_typedef";
 const char* TEMPLATE_ARGS = "template_args";
+const char* OPAQUE_TYPE = "opaque_type";
 } // namespace
 
 //------------------------------------------------------------------------------
@@ -314,6 +316,18 @@ NodePtr read_record(const TranslationUnit::Ptr& tu, const nln::json& json) {
         trivially_copyable = trivially_copyable_a->get<bool>();
     }
 
+    auto trivially_movable = false;
+    auto trivially_movable_a = json.find(TRIVIALLY_MOVABLE);
+    if (trivially_movable_a != json.end()) {
+        trivially_movable = trivially_movable_a->get<bool>();
+    }
+
+    auto opaque_type = false;
+    auto opaque_type_a = json.find(OPAQUE_TYPE);
+    if (opaque_type_a != json.end()) {
+        opaque_type = opaque_type_a->get<bool>();
+    }
+
     // Override the name with an alias if one is provided
     auto alias = json.find(ALIAS);
     if (alias != json.end()) {
@@ -333,9 +347,9 @@ NodePtr read_record(const TranslationUnit::Ptr& tu, const nln::json& json) {
     auto comment = read_comment(json);
 
     // Instantiate the translation unit
-    auto result =
-        NodeRecord::n(tu, qual_name, id, attrs, size, align, name, namespaces,
-                      abstract, trivially_copyable, std::move(comment));
+    auto result = NodeRecord::n(
+        tu, qual_name, id, attrs, size, align, name, namespaces, abstract,
+        trivially_copyable, trivially_movable, opaque_type, std::move(comment));
 
     // Pull out the methods
     for (const auto& i : json[METHODS]) {

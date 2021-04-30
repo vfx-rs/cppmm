@@ -40,19 +40,19 @@ unsigned long OpenImageIO_v2_2__ROI_npixels(
     return (to_cpp(this_)) -> npixels();
 }
 void OpenImageIO_v2_2__ImageSpec_ImageSpec(
-    OIIO_ImageSpec_t * this_
+    OIIO_ImageSpec_t * * this_
     , OIIO_TypeDesc_t format)
 {
-    new (this_) OpenImageIO_v2_2::ImageSpec(to_cpp_ref(&(format)));
+    *this_ = to_c(new OpenImageIO_v2_2::ImageSpec(to_cpp_ref(&(format))));
 }
 void OpenImageIO_v2_2__ImageSpec_new_with_dimensions(
-    OIIO_ImageSpec_t * this_
+    OIIO_ImageSpec_t * * this_
     , int xres
     , int yres
     , int nchans
     , OIIO_TypeDesc_t fmt)
 {
-    new (this_) OpenImageIO_v2_2::ImageSpec(xres, yres, nchans, to_cpp_ref(&(fmt)));
+    *this_ = to_c(new OpenImageIO_v2_2::ImageSpec(xres, yres, nchans, to_cpp_ref(&(fmt))));
 }
 void OpenImageIO_v2_2__ImageSpec_set_format(
     OIIO_ImageSpec_t * this_
@@ -91,10 +91,10 @@ std___cxx11_string_t OpenImageIO_v2_2__ImageSpec_serialize(
     return to_c_copy((to_cpp(this_)) -> serialize(OIIO_ImageSpec_SerialFormat_to_cpp_ref(&(format)), OIIO_ImageSpec_SerialVerbose_to_cpp_ref(&(verbose))));
 }
 void OpenImageIO_v2_2__ImageSpec_copy(
-    OIIO_ImageSpec_t * this_
+    OIIO_ImageSpec_t * * this_
     , OIIO_ImageSpec_t const * other)
 {
-    new (this_) OpenImageIO_v2_2::ImageSpec(to_cpp_ref(other));
+    *this_ = to_c(new OpenImageIO_v2_2::ImageSpec(to_cpp_ref(other)));
 }
 OIIO_ImageSpec_t * OpenImageIO_v2_2__ImageSpec_assign(
     OIIO_ImageSpec_t * this_

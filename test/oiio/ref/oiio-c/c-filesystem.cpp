@@ -6,7 +6,7 @@
 void OpenImageIO_v2_2__Filesystem__IOProxy_delete(
     OIIO_Filesystem_IOProxy_t * this_)
 {
-    (to_cpp(this_)) -> OpenImageIO_v2_2::Filesystem::IOProxy::~IOProxy();
+    delete this_;
 }
 char const * OpenImageIO_v2_2__Filesystem__IOProxy_proxytype(
     OIIO_Filesystem_IOProxy_t const * this_)
@@ -140,16 +140,16 @@ _Bool OpenImageIO_v2_2__Filesystem__IOMemReader_seek_1(
     return (to_cpp(this_)) -> seek(offset, origin);
 }
 void OpenImageIO_v2_2__Filesystem__IOMemReader_new(
-    OIIO_Filesystem_IOMemReader_t * this_
+    OIIO_Filesystem_IOMemReader_t * * this_
     , void * buf
     , unsigned long size)
 {
-    new (this_) OpenImageIO_v2_2::Filesystem::IOMemReader(buf, size);
+    *this_ = to_c(new OpenImageIO_v2_2::Filesystem::IOMemReader(buf, size));
 }
 void OpenImageIO_v2_2__Filesystem__IOMemReader_delete(
     OIIO_Filesystem_IOMemReader_t * this_)
 {
-    (to_cpp(this_)) -> OpenImageIO_v2_2::Filesystem::IOMemReader::~IOMemReader();
+    delete this_;
 }
 std___cxx11_string_t OpenImageIO_v2_2_Filesystem_filename(
     std___cxx11_string_t const * filepath)

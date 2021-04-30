@@ -7,7 +7,6 @@ extern "C" {
 /** A test class to make sure we can
 grab comments to be injected into C and Rust */
 typedef struct comments__Class_t_s {
-    char data[1];
 } __attribute__((aligned(1))) comments__Class_t;
 typedef comments__Class_t comments_Class_t;
 
@@ -17,7 +16,6 @@ typedef comments__Class_t comments_Class_t;
 void comments__Class_method(
     comments_Class_t * this_);
 #define comments_Class_method comments__Class_method
-
 
 
 

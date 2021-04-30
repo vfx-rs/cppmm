@@ -15,12 +15,12 @@ char const * std____cxx11__basic_string_char__c_str(
     return (to_cpp(this_)) -> c_str();
 }
 void std__vector_std__string__vector(
-    std_vector_string_t * this_)
+    std_vector_string_t * * this_)
 {
-    new (this_) std::vector<std::string>();
+    *this_ = to_c(new std::vector<std::string>());
 }
 void std__vector_std__string__dtor(
     std_vector_string_t * this_)
 {
-    (to_cpp(this_)) -> std::vector<std::__cxx11::basic_string<char>, std::allocator<std::__cxx11::basic_string<char> > >::~vector();
+    delete this_;
 }

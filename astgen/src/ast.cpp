@@ -375,6 +375,7 @@ void NodeRecord::write_json_attrs(json& o) const {
     o["abstract"] = is_abstract;
     o["trivially_copyable"] = is_trivially_copyable;
     o["trivially_movable"] = is_trivially_movable;
+    o["opaque_type"] = is_opaque_type;
     o["size"] = size;
     o["align"] = align;
     if (!alias.empty()) {

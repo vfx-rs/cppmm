@@ -19,13 +19,11 @@ typedef unsigned int OIIO_Filesystem_IOProxy_Mode;
 /** Proxy class for I/O. This provides a simplified interface for file I/O
 that can have custom overrides. */
 typedef struct OpenImageIO_v2_2__Filesystem__IOProxy_t_s {
-    char data[88];
 } __attribute__((aligned(8))) OpenImageIO_v2_2__Filesystem__IOProxy_t;
 typedef OpenImageIO_v2_2__Filesystem__IOProxy_t OIIO_Filesystem_IOProxy_t;
 
 /** IOProxy subclass for reading that wraps an cspan<char>. */
 typedef struct OpenImageIO_v2_2__Filesystem__IOMemReader_t_s {
-    char data[104];
 } __attribute__((aligned(8))) OpenImageIO_v2_2__Filesystem__IOMemReader_t;
 typedef OpenImageIO_v2_2__Filesystem__IOMemReader_t OIIO_Filesystem_IOMemReader_t;
 
@@ -185,7 +183,7 @@ _Bool OpenImageIO_v2_2__Filesystem__IOMemReader_seek_1(
 
 
 void OpenImageIO_v2_2__Filesystem__IOMemReader_new(
-    OIIO_Filesystem_IOMemReader_t * this_
+    OIIO_Filesystem_IOMemReader_t * * this_
     , void * buf
     , unsigned long size);
 #define OIIO_Filesystem_IOMemReader_new OpenImageIO_v2_2__Filesystem__IOMemReader_new

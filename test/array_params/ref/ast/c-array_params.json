@@ -29,6 +29,7 @@
             "abstract": false,
             "trivially_copyable": true,
             "trivially_movable": true,
+            "opaque_type": false,
             "size": 512,
             "align": 32,
             "alias": "M44f",

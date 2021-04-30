@@ -12,7 +12,6 @@ enum DN__v2_2__Class__Enum_e {
 typedef unsigned int DN_Class_Enum;
 
 typedef struct DN__v2_2__Class_t_s {
-    char data[8];
 } __attribute__((aligned(4))) DN__v2_2__Class_t;
 typedef DN__v2_2__Class_t DN_Class_t;
 
@@ -21,7 +20,6 @@ typedef struct DN__v2_2__Class__Struct_t_s {
     float b;
 } __attribute__((aligned(4))) DN__v2_2__Class__Struct_t;
 typedef DN__v2_2__Class__Struct_t DN_Class_Struct_t;
-
 
 
 

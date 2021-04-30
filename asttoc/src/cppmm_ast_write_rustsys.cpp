@@ -192,28 +192,22 @@ void write_record(fmt::ostream& out, const NodeRecord* node_record) {
         auto comment = pystring::replace(node_record->comment, "\n", "\n/// ");
         out.print("/// {}\n", comment);
     }
-    out.print("#[repr(C, align({}))]\n", node_record->align / 8);
-    out.print("#[derive(Clone)]\n");
-    out.print("pub struct {} {{\n", node_record->name);
 
     BindType bt = bind_type(*node_record);
+
     if (bt == BindType::OpaquePtr) {
-        // temporary hack until ptr is implemented
-        bt = BindType::OpaqueBytes;
-    }
+        out.print("#[repr(C)]\n");
+        out.print("pub struct {} {{\n", node_record->name);
+        out.print("    _unused: [u8; 0],\n");
+        out.print("}}");
 
-    if (bt == BindType::ValueType) {
-        std::vector<std::string> fields = convert_fields(node_record->fields);
-        out.print("    {},\n", pystring::join(",\n    ", fields));
     } else if (bt == BindType::OpaqueBytes) {
+        out.print("#[repr(C, align({}))]\n", node_record->align / 8);
+        out.print("#[derive(Clone)]\n");
+        out.print("pub struct {} {{\n", node_record->name);
         out.print("    _inner: [u8; {}]\n", node_record->size / 8);
-    } else {
-        // ...
-    }
+        out.print("}}\n");
 
-    out.print("}}\n");
-
-    if (bt == BindType::OpaqueBytes) {
         out.print(R"(
 impl Default for {} {{
     fn default() -> Self {{
@@ -222,6 +216,13 @@ impl Default for {} {{
 }}
 )",
                   node_record->name, node_record->size / 8);
+    } else { // BindType::ValueType
+        out.print("#[repr(C, align({}))]\n", node_record->align / 8);
+        out.print("#[derive(Clone)]\n");
+        out.print("pub struct {} {{\n", node_record->name);
+        std::vector<std::string> fields = convert_fields(node_record->fields);
+        out.print("    {},\n", pystring::join(",\n    ", fields));
+        out.print("}}\n");
     }
 }
 

@@ -148,12 +148,18 @@ void write_record(fmt::ostream& out, const NodePtr& node) {
         auto comment = record.comment;
         out.print("/** {} */\n", comment);
     }
-    out.print("typedef struct {}_s {{\n", record.name);
-    write_fields(out, record);
-    out.print("}} __attribute__((aligned({}))) {};\n",
-              align_in_bytes, // TODO LT: Only force alignment if 'align'
-                              // attribute is on it.
-              record.name);
+
+    if (record.opaque_type) {
+        out.print("typedef struct {0}_s {0};\n", record.name);
+    } else {
+        out.print("typedef struct {}_s {{\n", record.name);
+        write_fields(out, record);
+        out.print("}} __attribute__((aligned({}))) {};\n",
+                  align_in_bytes, // TODO LT: Only force alignment if 'align'
+                                  // attribute is on it.
+                  record.name);
+    }
+
     if (record.name != record.nice_name) {
         out.print("typedef {} {};\n\n", record.name, record.nice_name);
     }
@@ -383,6 +389,25 @@ void write_expression_placement_new(fmt::ostream& out, size_t depth,
 }
 
 //------------------------------------------------------------------------------
+void write_expression_new(fmt::ostream& out, size_t depth,
+                          const NodeExprPtr& node) {
+    const auto& new_expr = *static_cast<const NodeNewExpr*>(node.get());
+
+    out.print("*this_ = to_c(new ");
+    write_expression(out, depth, new_expr.constructor);
+    out.print(")");
+}
+
+//------------------------------------------------------------------------------
+void write_expression_delete(fmt::ostream& out, size_t depth,
+                             const NodeExprPtr& node) {
+    const auto& delete_expr = *static_cast<const NodeDeleteExpr*>(node.get());
+
+    // FIXME (AL): handle args here
+    out.print("delete this_", delete_expr.name);
+}
+
+//------------------------------------------------------------------------------
 void write_expression_return(fmt::ostream& out, size_t depth,
                              const NodeExprPtr& node) {
     const auto& return_expr = *static_cast<const NodeReturnExpr*>(node.get());
@@ -446,6 +471,10 @@ void write_expression(fmt::ostream& out, size_t depth,
         return write_expression_cast(out, depth, node);
     case NodeKind::PlacementNewExpr:
         return write_expression_placement_new(out, depth, node);
+    case NodeKind::NewExpr:
+        return write_expression_new(out, depth, node);
+    case NodeKind::DeleteExpr:
+        return write_expression_delete(out, depth, node);
     case NodeKind::ReturnExpr:
         return write_expression_return(out, depth, node);
     case NodeKind::VarDeclExpr:

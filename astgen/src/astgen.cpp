@@ -197,6 +197,7 @@ int main(int argc_, const char** argv_) {
 #define CPPMM_RENAME(x) __attribute__((annotate("cppmm|rename|" #x)))
 #define CPPMM_OPAQUEPTR __attribute__((annotate("cppmm|opaqueptr")))
 #define CPPMM_OPAQUEBYTES __attribute__((annotate("cppmm|opaquebytes")))
+#define CPPMM_OPAQUETYPE __attribute__((annotate("cppmm|opaquetype")))
 #define CPPMM_VALUETYPE __attribute__((annotate("cppmm|valuetype")))
 #define CPPMM_COLLAPSE __attribute__((annotate("cppmm|collapse")))
 #define CPPMM_IGNORE_UNBOUND __attribute__((annotate("cppmm|ignore_unbound")))

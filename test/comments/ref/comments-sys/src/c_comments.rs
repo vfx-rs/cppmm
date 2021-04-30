@@ -7,18 +7,10 @@ use std::os::raw::*;
 
 /// A test class to make sure we can
 /// grab comments to be injected into C and Rust
-#[repr(C, align(1))]
-#[derive(Clone)]
+#[repr(C)]
 pub struct comments__Class_t {
-    _inner: [u8; 1]
+    _unused: [u8; 0],
 }
-
-impl Default for comments__Class_t {
-    fn default() -> Self {
-        Self { _inner: [0u8; 1] }
-    }
-}
-
 
 
 extern "C" {

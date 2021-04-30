@@ -41,6 +41,8 @@ enum class NodeKind : uint32_t {
     RefExpr,
     CastExpr,
     PlacementNewExpr,
+    NewExpr,
+    DeleteExpr,
     ReturnExpr,
     Enum,
     Method,
@@ -538,6 +540,38 @@ struct NodePlacementNewExpr
 };
 
 //------------------------------------------------------------------------------
+// NodeNewExpr
+//------------------------------------------------------------------------------
+struct NodeNewExpr : public NodeExpr {
+    NodeExprPtr constructor;
+
+    NodeNewExpr(NodeExprPtr&& constructor)
+        : NodeExpr(NodeKind::NewExpr), constructor(std::move(constructor)) {}
+
+    // A static method for creating this as a shared pointer
+    using This = NodeNewExpr;
+    template <typename... Args> static std::shared_ptr<This> n(Args&&... args) {
+        return std::make_shared<This>(std::forward<Args>(args)...);
+    }
+};
+
+//------------------------------------------------------------------------------
+// NodeDeleteExpr
+//------------------------------------------------------------------------------
+struct NodeDeleteExpr : public NodeExpr {
+    std::string name;
+
+    NodeDeleteExpr(std::string name)
+        : NodeExpr(NodeKind::DeleteExpr), name(name) {}
+
+    // A static method for creating this as a shared pointer
+    using This = NodeDeleteExpr;
+    template <typename... Args> static std::shared_ptr<This> n(Args&&... args) {
+        return std::make_shared<This>(std::forward<Args>(args)...);
+    }
+};
+
+//------------------------------------------------------------------------------
 // NodeFunction
 //------------------------------------------------------------------------------
 struct NodeFunction : public NodeAttributeHolder {
@@ -629,6 +663,8 @@ struct NodeRecord : public NodeAttributeHolder {
 
     bool abstract;
     bool trivially_copyable;
+    bool trivially_movable;
+    bool opaque_type;
 
     std::string nice_name;
 
@@ -636,12 +672,14 @@ struct NodeRecord : public NodeAttributeHolder {
                NodeId id, std::vector<std::string> attrs, uint32_t size,
                uint32_t align, const std::string& alias,
                const std::vector<NodeId>& namespaces, bool abstract,
-               bool trivially_copyable, std::string comment)
+               bool trivially_copyable, bool trivially_movable,
+               bool opaque_type, std::string comment)
         : NodeAttributeHolder(qualified_name, id, NodeKind::Record, attrs,
                               std::move(comment)),
           tu(tu), size(size), align(align), force_alignment(false),
           alias(alias), namespaces(namespaces), abstract(abstract),
-          trivially_copyable(trivially_copyable) {}
+          trivially_copyable(trivially_copyable),
+          trivially_movable(trivially_movable), opaque_type(opaque_type) {}
 
     // A static method for creating this as a shared pointer
     using This = NodeRecord;
@@ -756,11 +794,14 @@ enum class BindType : uint32_t {
 //------------------------------------------------------------------------------
 inline BindType bind_type(const NodeRecord& cpp_record) {
     BindType bind_type = BindType::OpaquePtr;
-    for (auto i : cpp_record.attrs) {
-        if (i == "cppmm|opaquebytes") {
-            return BindType::OpaquePtr;
-        } else if (i == "cppmm|valuetype") {
-            return BindType::ValueType;
+
+    if (cpp_record.trivially_movable && !cpp_record.opaque_type) {
+        for (auto i : cpp_record.attrs) {
+            if (i == "cppmm|opaquebytes") {
+                return BindType::OpaqueBytes;
+            } else if (i == "cppmm|valuetype") {
+                return BindType::ValueType;
+            }
         }
     }
 

@@ -956,6 +956,45 @@ NodeExprPtr opaquebytes_constructor_body(TypeRegistry& type_registry,
 }
 
 //------------------------------------------------------------------------------
+NodeExprPtr opaqueptr_constructor_body(TypeRegistry& type_registry,
+                                       TranslationUnit& c_tu,
+                                       const NodeRecord& cpp_record,
+                                       const NodeRecord& c_record,
+                                       const NodeMethod& cpp_method) {
+    // Loop over the parameters, creating arguments for the method call
+    auto args = std::vector<NodeExprPtr>();
+    for (const auto& p : cpp_method.params) {
+        argument(type_registry, args, p);
+    }
+
+    // All constructors use placement new, so we need to make sure new is
+    // included
+    c_tu.source_includes.insert("#include <new>");
+
+    // Create the method call expression
+    return NodeBlockExpr::n(
+        std::vector<NodeExprPtr>({NodeNewExpr::n(NodeFunctionCallExpr::n(
+            cpp_record.name, args, std::vector<NodeTypePtr>{}))}));
+}
+
+//------------------------------------------------------------------------------
+NodeExprPtr opaqueptr_destructor_body(TypeRegistry& type_registry,
+                                      TranslationUnit& c_tu,
+                                      const NodeRecord& cpp_record,
+                                      const NodeRecord& c_record,
+                                      const NodeMethod& cpp_method) {
+    // Loop over the parameters, creating arguments for the method call
+    auto args = std::vector<NodeExprPtr>();
+    for (const auto& p : cpp_method.params) {
+        argument(type_registry, args, p);
+    }
+
+    // Create the method call expression
+    return NodeBlockExpr::n(
+        std::vector<NodeExprPtr>({NodeDeleteExpr::n(cpp_record.name)}));
+}
+
+//------------------------------------------------------------------------------
 NodeExprPtr function_body(TypeRegistry& type_registry, TranslationUnit& c_tu,
                           const NodeTypePtr& c_return,
                           const NodeFunction& cpp_function) {
@@ -1141,6 +1180,93 @@ void opaquebytes_methods(TypeRegistry& type_registry, TranslationUnit& c_tu,
 }
 
 //------------------------------------------------------------------------------
+void opaqueptr_method(TypeRegistry& type_registry, TranslationUnit& c_tu,
+                      const NodeRecord& cpp_record, const NodeRecord& c_record,
+                      const NodeMethod& cpp_method) {
+    // Skip ignored methods
+    if (!should_wrap(cpp_record, cpp_method)) {
+        // std::cerr << "ignoring method decl: " << cpp_method.name <<
+        // std::endl;
+        return;
+    }
+
+    // Convert params
+    auto c_params = std::vector<Param>();
+    c_params.push_back(self_param(c_record, cpp_method.is_const));
+    for (const auto& p : cpp_method.params) {
+        if (!parameter(c_tu, type_registry, c_params, p)) {
+            SPDLOG_ERROR("Skipping method {} due to unrecognised type {} of "
+                         "parameter \"{}\"",
+                         cpp_method.name, p.type->type_name, p.name);
+            return;
+        }
+    }
+
+    if (bind_type(cpp_record) == BindType::OpaquePtr &&
+        cpp_method.is_constructor) {
+        // convert the first parameter to a **
+        c_params[0].type = NodePointerType::n(
+            PointerKind::Pointer, std::move(c_params[0].type), false);
+    }
+
+    // Convert return type
+    auto c_return = convert_type(c_tu, type_registry, cpp_method.return_type);
+    if (!c_return) {
+        SPDLOG_ERROR("Skipping method {} due to unrecognised return type {}",
+                     cpp_method.name, cpp_method.return_type->type_name);
+        return;
+    }
+
+    // Function body
+    NodeExprPtr c_function_body;
+    if (cpp_method.is_constructor) {
+        c_function_body = opaqueptr_constructor_body(
+            type_registry, c_tu, cpp_record, c_record, cpp_method);
+    } else if (cpp_method.is_destructor) {
+        c_function_body = opaqueptr_destructor_body(
+            type_registry, c_tu, cpp_record, c_record, cpp_method);
+    } else {
+        c_function_body = opaquebytes_method_body(
+            type_registry, c_tu, cpp_record, c_record, c_return, cpp_method);
+    }
+
+    auto short_name = find_function_short_name(cpp_method);
+
+    // Build the new method name. We need to generate unique function names
+    // that share a common suffix but with different prefixes
+    // The full prefix we get by stripping the "_t" from the struct name
+    std::string function_prefix = pystring::slice(c_record.name, 0, -2);
+    std::string function_suffix = compute_c_name(short_name);
+    std::string function_name = function_prefix + "_" + function_suffix;
+    function_name = type_registry.make_symbol_unique(function_name);
+
+    // now strip the uniquified suffix from the function name and stick on the
+    // nice prefix
+    function_suffix = function_name.substr(function_prefix.size() + 1);
+    std::string function_nice_name =
+        pystring::slice(c_record.nice_name, 0, -2) + "_" + function_suffix;
+
+    auto template_args = cpp_method.template_args;
+
+    auto c_function = NodeFunction::n(
+        function_name, PLACEHOLDER_ID, cpp_method.attrs, "",
+        std::move(c_return), std::move(c_params), function_nice_name,
+        cpp_method.comment, std::move(template_args));
+
+    c_function->body = c_function_body;
+    c_tu.decls.push_back(NodePtr(c_function));
+}
+
+//------------------------------------------------------------------------------
+void opaqueptr_methods(TypeRegistry& type_registry, TranslationUnit& c_tu,
+                       const NodeRecord& cpp_record,
+                       const NodeRecord& c_record) {
+    for (const auto& m : cpp_record.methods) {
+        opaqueptr_method(type_registry, c_tu, cpp_record, c_record, m);
+    }
+}
+
+//------------------------------------------------------------------------------
 void record_entry(NodeId& record_id, TypeRegistry& type_registry,
                   TranslationUnit::Ptr& c_tu, const NodePtr& cpp_node) {
     const auto& cpp_record = *static_cast<const NodeRecord*>(cpp_node.get());
@@ -1155,7 +1281,8 @@ void record_entry(NodeId& record_id, TypeRegistry& type_registry,
     auto c_record = NodeRecord::n(
         c_tu, c_record_name, record_id++, cpp_record.attrs, cpp_record.size,
         cpp_record.align, cpp_record.alias, cpp_record.namespaces, false,
-        cpp_record.trivially_copyable, cpp_record.comment);
+        cpp_record.trivially_copyable, cpp_record.trivially_movable,
+        cpp_record.opaque_type, cpp_record.comment);
 
     c_record->nice_name = nice_name;
 
@@ -1683,6 +1810,27 @@ void opaquebytes_conversions(TranslationUnit& c_tu,
 }
 
 //------------------------------------------------------------------------------
+void opaqueptr_conversions(TranslationUnit& c_tu, const NodeRecord& cpp_record,
+                           const NodeRecord& c_record) {
+    const auto& c_n = c_record.nice_name;
+    const auto& c_id = c_record.id;
+    const auto& cpp_n = cpp_record.name;
+    const auto& cpp_id = cpp_record.id;
+
+    // Conversions for going from cpp to c
+    cast_to_cpp(c_tu, cpp_n, cpp_id, c_n, c_id, true, PointerKind::Reference);
+    cast_to_cpp(c_tu, cpp_n, cpp_id, c_n, c_id, false, PointerKind::Reference);
+    cast_to_cpp(c_tu, cpp_n, cpp_id, c_n, c_id, true, PointerKind::Pointer);
+    cast_to_cpp(c_tu, cpp_n, cpp_id, c_n, c_id, false, PointerKind::Pointer);
+
+    // Conversions for going from c to cpp
+    cast_to_c(c_tu, cpp_n, cpp_id, c_n, c_id, true, PointerKind::Reference);
+    cast_to_c(c_tu, cpp_n, cpp_id, c_n, c_id, true, PointerKind::Pointer);
+    cast_to_c(c_tu, cpp_n, cpp_id, c_n, c_id, false, PointerKind::Reference);
+    cast_to_c(c_tu, cpp_n, cpp_id, c_n, c_id, false, PointerKind::Pointer);
+}
+
+//------------------------------------------------------------------------------
 void valuetype_fields(TypeRegistry& type_registry, TranslationUnit& c_tu,
                       const NodeRecord& cpp_record, NodeRecord& c_record) {
     for (const auto& field : cpp_record.fields) {
@@ -1709,7 +1857,7 @@ void record_fields(TypeRegistry& type_registry, TranslationUnit& c_tu,
         opaquebytes_record(c_record);
         return;
     case BindType::OpaquePtr:
-        opaquebytes_record(c_record);
+        // opaquebytes_record(c_record);
         return;
     case BindType::ValueType:
         // opaquebytes_record(c_record);
@@ -1729,20 +1877,23 @@ void record_detail(TypeRegistry& type_registry, TranslationUnit& c_tu,
     auto& c_record = type_registry.edit_c(
         cpp_record.id); // TODO LT: Return optional for error
 
-    // Most simple record implementation is the opaque bytes.
-    // Least safe and most restrictive in use, but easiest to implement.
-    // So doing that first. Later will switch depending on the cppm attributes.
-
     // Record
     record_fields(type_registry, c_tu, cpp_record, c_record);
 
-    // Methods
-    NodePtr copy_constructor;
-    opaquebytes_methods(type_registry, c_tu, cpp_record, c_record,
-                        copy_constructor);
+    if (bind_type(cpp_record) == BindType::OpaquePtr) {
+        opaqueptr_methods(type_registry, c_tu, cpp_record, c_record);
 
-    // Conversions
-    opaquebytes_conversions(c_tu, cpp_record, c_record, copy_constructor);
+        // Conversions
+        opaqueptr_conversions(c_tu, cpp_record, c_record);
+    } else {
+        // Methods
+        NodePtr copy_constructor;
+        opaquebytes_methods(type_registry, c_tu, cpp_record, c_record,
+                            copy_constructor);
+
+        // Conversions
+        opaquebytes_conversions(c_tu, cpp_record, c_record, copy_constructor);
+    }
 }
 
 //------------------------------------------------------------------------------

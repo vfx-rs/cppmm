@@ -67,14 +67,12 @@ that the image is stored in a file organized into rectangular *tiles*
 of these dimensions. The default of 0 value for these fields indicates
 that the image is stored in scanline order, rather than as tiles. */
 typedef struct OpenImageIO_v2_2__ImageSpec_t_s {
-    char data[160];
 } __attribute__((aligned(8))) OpenImageIO_v2_2__ImageSpec_t;
 typedef OpenImageIO_v2_2__ImageSpec_t OIIO_ImageSpec_t;
 
 /** ImageInput abstracts the reading of an image file in a file
 format-agnostic manner. */
 typedef struct OpenImageIO_v2_2__ImageInput_t_s {
-    char data[248];
 } __attribute__((aligned(8))) OpenImageIO_v2_2__ImageInput_t;
 typedef OpenImageIO_v2_2__ImageInput_t OIIO_ImageInput_t;
 
@@ -155,7 +153,7 @@ unsigned long OpenImageIO_v2_2__ROI_npixels(
 /** Constructor: given just the data format, set all other fields to
 something reasonable. */
 void OpenImageIO_v2_2__ImageSpec_ImageSpec(
-    OIIO_ImageSpec_t * this_
+    OIIO_ImageSpec_t * * this_
     , OIIO_TypeDesc_t format);
 #define OIIO_ImageSpec_ImageSpec OpenImageIO_v2_2__ImageSpec_ImageSpec
 
@@ -170,7 +168,7 @@ channel names are "R", "G", "B"' and "A" (up to and including 4
 channels, beyond that they are named "channel *n*"), the fourth
 channel (if it exists) is assumed to be alpha. */
 void OpenImageIO_v2_2__ImageSpec_new_with_dimensions(
-    OIIO_ImageSpec_t * this_
+    OIIO_ImageSpec_t * * this_
     , int xres
     , int yres
     , int nchans
@@ -241,7 +239,7 @@ std___cxx11_string_t OpenImageIO_v2_2__ImageSpec_serialize(
 
 
 void OpenImageIO_v2_2__ImageSpec_copy(
-    OIIO_ImageSpec_t * this_
+    OIIO_ImageSpec_t * * this_
     , OIIO_ImageSpec_t const * other);
 #define OIIO_ImageSpec_copy OpenImageIO_v2_2__ImageSpec_copy
 
@@ -250,7 +248,6 @@ OIIO_ImageSpec_t * OpenImageIO_v2_2__ImageSpec_assign(
     OIIO_ImageSpec_t * this_
     , OIIO_ImageSpec_t const * other);
 #define OIIO_ImageSpec_assign OpenImageIO_v2_2__ImageSpec_assign
-
 
 
 

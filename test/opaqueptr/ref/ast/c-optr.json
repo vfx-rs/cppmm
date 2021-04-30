@@ -1,0 +1,234 @@
+{
+    "kind": "TranslationUnit",
+    "filename": "/home/anders/code/cppmm/test/opaqueptr/bind/c-optr.cpp",
+    "source_includes": [
+        "#include <optr.hpp>",
+        "#include <cppmm_bind.hpp>"
+    ],
+    "include_paths": [
+        "/home/anders/code/cppmm/test/opaqueptr/include"
+    ],
+    "id": 1,
+    "decls": [
+        {
+            "kind": "Namespace",
+            "name": "optr",
+            "id": 2,
+            "short_name": "optr",
+            "alias": "optr",
+            "collapse": false
+        },
+        {
+            "kind": "Record",
+            "name": "optr::PubCtor",
+            "short_name": "PubCtor",
+            "namespaces": [
+                2
+            ],
+            "id": 3,
+            "abstract": false,
+            "trivially_copyable": false,
+            "trivially_movable": true,
+            "opaque_type": false,
+            "size": 8,
+            "align": 8,
+            "alias": "PubCtor",
+            "attributes": [
+                "cppmm|opaqueptr"
+            ],
+            "comment": "",
+            "fields": null,
+            "methods": [
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "PubCtor",
+                    "qualified_name": "optr::PubCtor::PubCtor",
+                    "in_binding": true,
+                    "in_library": false,
+                    "noexcept": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": true,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm|rename|ctor"
+                    ],
+                    "comment": "",
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 0,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": null,
+                    "template_args": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "~PubCtor",
+                    "qualified_name": "optr::PubCtor::~PubCtor",
+                    "in_binding": true,
+                    "in_library": false,
+                    "noexcept": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": true,
+                    "attributes": null,
+                    "comment": "",
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 0,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": null,
+                    "template_args": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "doit",
+                    "qualified_name": "optr::PubCtor::doit",
+                    "in_binding": true,
+                    "in_library": false,
+                    "noexcept": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "comment": "",
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 0,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": null,
+                    "template_args": null
+                }
+            ]
+        },
+        {
+            "kind": "Record",
+            "name": "optr::PrvCtor",
+            "short_name": "PrvCtor",
+            "namespaces": [
+                2
+            ],
+            "id": 7,
+            "abstract": false,
+            "trivially_copyable": false,
+            "trivially_movable": true,
+            "opaque_type": false,
+            "size": 8,
+            "align": 8,
+            "alias": "PrvCtor",
+            "attributes": null,
+            "comment": "",
+            "fields": null,
+            "methods": [
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "doit",
+                    "qualified_name": "optr::PrvCtor::doit",
+                    "in_binding": true,
+                    "in_library": false,
+                    "noexcept": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "comment": "",
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 0,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": null,
+                    "template_args": null
+                }
+            ]
+        },
+        {
+            "kind": "Record",
+            "name": "optr::AllPrv",
+            "short_name": "AllPrv",
+            "namespaces": [
+                2
+            ],
+            "id": 9,
+            "abstract": false,
+            "trivially_copyable": false,
+            "trivially_movable": true,
+            "opaque_type": false,
+            "size": 8,
+            "align": 8,
+            "alias": "AllPrv",
+            "attributes": null,
+            "comment": "",
+            "fields": null,
+            "methods": null
+        },
+        {
+            "kind": "Record",
+            "name": "optr::Opaque",
+            "short_name": "Opaque",
+            "namespaces": [
+                2
+            ],
+            "id": 10,
+            "abstract": false,
+            "trivially_copyable": false,
+            "trivially_movable": false,
+            "opaque_type": true,
+            "size": 0,
+            "align": 0,
+            "alias": "Opaque",
+            "attributes": [
+                "cppmm|opaquetype"
+            ],
+            "comment": "",
+            "fields": null,
+            "methods": null
+        }
+    ]
+}

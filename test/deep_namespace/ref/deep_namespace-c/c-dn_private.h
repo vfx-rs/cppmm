@@ -110,14 +110,6 @@ inline DN_Class_t * to_c(
     return reinterpret_cast<DN_Class_t * >(rhs);
 }
 
-inline DN_Class_t to_c_copy(
-    DN::v2_2::Class const & rhs)
-{
-    DN_Class_t result;
-    memcpy(&(result), &(rhs), sizeof(result));
-    return result;
-}
-
 
 inline DN::v2_2::Class::Struct const & to_cpp_ref(
     DN_Class_Struct_t const * rhs)

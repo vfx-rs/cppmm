@@ -1,0 +1,139 @@
+{
+    "kind": "TranslationUnit",
+    "filename": "/home/anders/code/cppmm/test/dtor/bind/c-dtor.cpp",
+    "source_includes": [
+        "#include <dtor.hpp>",
+        "#include <cppmm_bind.hpp>"
+    ],
+    "include_paths": [
+        "/home/anders/code/cppmm/test/dtor/include"
+    ],
+    "id": 29,
+    "decls": [
+        {
+            "kind": "Namespace",
+            "name": "dtor",
+            "id": 30,
+            "short_name": "dtor",
+            "alias": "dtor",
+            "collapse": false
+        },
+        {
+            "kind": "Record",
+            "name": "dtor::Struct",
+            "short_name": "Struct",
+            "namespaces": [
+                30
+            ],
+            "id": 31,
+            "abstract": false,
+            "trivially_copyable": false,
+            "trivially_movable": true,
+            "opaque_type": false,
+            "size": 384,
+            "align": 64,
+            "alias": "Struct",
+            "attributes": [
+                "cppmm|opaquebytes"
+            ],
+            "comment": "",
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "a",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 6,
+                        "type": "unsigned long",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "b",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 6,
+                        "type": "unsigned long",
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "c",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 1,
+                        "type": "std::__cxx11::basic_string<char>",
+                        "record": 10,
+                        "const": false
+                    }
+                }
+            ],
+            "methods": [
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "Struct",
+                    "qualified_name": "dtor::Struct::Struct",
+                    "in_binding": true,
+                    "in_library": false,
+                    "noexcept": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": true,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "comment": "",
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 0,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": null,
+                    "template_args": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "~Struct",
+                    "qualified_name": "dtor::Struct::~Struct",
+                    "in_binding": true,
+                    "in_library": false,
+                    "noexcept": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": true,
+                    "attributes": null,
+                    "comment": "",
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 0,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": null,
+                    "template_args": null
+                }
+            ]
+        }
+    ]
+}

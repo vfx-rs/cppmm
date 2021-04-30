@@ -39,6 +39,7 @@
             "abstract": false,
             "trivially_copyable": false,
             "trivially_movable": false,
+            "opaque_type": false,
             "size": 256,
             "align": 64,
             "alias": "string",

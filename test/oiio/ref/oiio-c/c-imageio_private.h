@@ -287,14 +287,6 @@ inline OIIO_ImageSpec_t * to_c(
     return reinterpret_cast<OIIO_ImageSpec_t * >(rhs);
 }
 
-inline OIIO_ImageSpec_t to_c_copy(
-    OpenImageIO_v2_2::ImageSpec const & rhs)
-{
-    OIIO_ImageSpec_t result;
-    OpenImageIO_v2_2__ImageSpec_copy(&(result), reinterpret_cast<OIIO_ImageSpec_t const * >(&(rhs)));
-    return result;
-}
-
 /** Return the name of the format implemented by this class. */
 
 /** If any of the API routines returned false indicating an error, this
