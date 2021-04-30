@@ -1513,7 +1513,8 @@ void opaquebytes_to_c_copy__trivial(TranslationUnit& c_tu,
                        std::vector<NodeTypePtr>{}
                   )
                  }
-            )
+            ),
+            std::vector<NodeTypePtr>{}
          )
         }
     ));
@@ -1838,7 +1839,10 @@ void opaquebytes_to_c_copy__constructor(TranslationUnit& c_tu,
                                                            c_record.id, true),
                                          false),
                       "reinterpret")
-                })),
+                }),
+
+            std::vector<NodeTypePtr>{}
+          ),
         }
     ));
 
