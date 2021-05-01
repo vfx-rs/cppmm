@@ -618,11 +618,13 @@ bool should_wrap(const NodeRecord& cpp_record, const NodeMethod& cpp_method) {
     // Skip static methods for now
     if (cpp_method.is_static) // TODO LT: Bring in support for static methods
     {
+        //SPDLOG_WARN("Skipping static {}", cpp_method.name);
         return false;
     }
 
     // Check this is not a constructor for an abstract type
     if (cpp_method.is_constructor && cpp_record.abstract) {
+        SPDLOG_WARN("Skipping abstract constructor {}", cpp_method.name);
         return false;
     }
 
@@ -983,10 +985,22 @@ NodeExprPtr opaqueptr_constructor_body(TypeRegistry& type_registry,
     // included
     c_tu.source_includes.insert("#include <new>");
 
+    // to_c
+    auto to_c_args = std::vector<NodeExprPtr>{
+        NodeVarRefExpr::n("this_"),
+
+        NodeNewExpr::n(
+            NodeFunctionCallExpr::n(
+                cpp_record.name, args, std::vector<NodeTypePtr>{}
+            )
+        )
+    };
+
     // Create the method call expression
     return NodeBlockExpr::n(
-        std::vector<NodeExprPtr>({NodeNewExpr::n(NodeFunctionCallExpr::n(
-            cpp_record.name, args, std::vector<NodeTypePtr>{}))}));
+        std::vector<NodeExprPtr>({
+            NodeFunctionCallExpr::n("to_c", to_c_args, std::vector<NodeTypePtr>{})
+        }));
 }
 
 //------------------------------------------------------------------------------
@@ -1215,6 +1229,8 @@ void opaquebytes_method(TypeRegistry& type_registry, TranslationUnit& c_tu,
     //
     // TODO LT: Take the move constructor with priority
     if (cpp_method.is_copy_constructor) {
+        
+        SPDLOG_WARN("Found copy constructor {}", cpp_method.name);
         copy_constructor = c_function;
     }
 }
@@ -1241,9 +1257,39 @@ void opaqueptr_method(TypeRegistry& type_registry, TranslationUnit& c_tu,
         return;
     }
 
+    // Convert return type
+    auto c_return = convert_type(c_tu, type_registry, cpp_method.return_type);
+    if (!c_return) {
+        SPDLOG_ERROR("Skipping method {} due to unrecognised return type {}",
+                     cpp_method.name, cpp_method.return_type->type_name);
+        return;
+    }
+
+    // The value of the return type cannot be const. If it's a pointer type
+    // or reference the pointee type can be const, but the return value cannot.
+    c_return->const_ = false;
+
+    auto c_return_for_method = c_return;
+
     // Convert params
     auto c_params = std::vector<Param>();
     c_params.push_back(self_param(c_record, cpp_method.is_const));
+
+    // Return value
+    auto c_return_is_void =
+        c_return->kind == NodeKind::BuiltinType &&
+        static_cast<const NodeBuiltinType*>(c_return.get())->type_name ==
+            "void";
+
+    if(!c_return_is_void) {
+        auto return_pointer =
+            NodePointerType::n(PointerKind::Pointer, std::move(c_return),
+                               false);
+        c_params.push_back(Param(std::string("return_"),
+                                 std::move(return_pointer),
+                                 c_params.size()));
+    }
+
     for (const auto& p : cpp_method.params) {
         if (!parameter(c_tu, type_registry, c_params, p)) {
             SPDLOG_ERROR("Skipping method {} due to unrecognised type {} of "
@@ -1260,14 +1306,6 @@ void opaqueptr_method(TypeRegistry& type_registry, TranslationUnit& c_tu,
             PointerKind::Pointer, std::move(c_params[0].type), false);
     }
 
-    // Convert return type
-    auto c_return = convert_type(c_tu, type_registry, cpp_method.return_type);
-    if (!c_return) {
-        SPDLOG_ERROR("Skipping method {} due to unrecognised return type {}",
-                     cpp_method.name, cpp_method.return_type->type_name);
-        return;
-    }
-
     // Function body
     NodeExprPtr c_function_body;
     if (cpp_method.is_constructor) {
@@ -1278,7 +1316,8 @@ void opaqueptr_method(TypeRegistry& type_registry, TranslationUnit& c_tu,
             type_registry, c_tu, cpp_record, c_record, cpp_method);
     } else {
         c_function_body = opaquebytes_method_body(
-            type_registry, c_tu, cpp_record, c_record, c_return, cpp_method);
+            type_registry, c_tu, cpp_record, c_record, c_return_for_method,
+            cpp_method);
     }
 
     auto short_name = find_function_short_name(cpp_method);
@@ -1299,9 +1338,13 @@ void opaqueptr_method(TypeRegistry& type_registry, TranslationUnit& c_tu,
 
     auto template_args = cpp_method.template_args;
 
+    // Add the error int
+    auto error_return = NodeBuiltinType::n(std::string("unsigned int"), 0,
+                                           std::string("unsigned int"), false);
+
     auto c_function = NodeFunction::n(
         function_name, PLACEHOLDER_ID, cpp_method.attrs, "",
-        std::move(c_return), std::move(c_params), function_nice_name,
+        std::move(error_return), std::move(c_params), function_nice_name,
         cpp_method.comment, std::move(template_args));
 
     c_function->body = c_function_body;

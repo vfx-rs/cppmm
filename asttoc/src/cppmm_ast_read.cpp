@@ -267,6 +267,15 @@ NodeMethod read_method(const nln::json& json) {
     auto const_ = json[CONST].get<bool>();
     auto comment = read_comment(json);
 
+    if(copy_constructor){
+        SPDLOG_WARN("Reading copy {}", short_name);
+    }
+/*
+    if(constructor){
+        SPDLOG_WARN("Reading constructor {}", short_name);
+    }
+*/
+
     auto params = std::vector<Param>();
     for (const auto& i : json[PARAMS]) {
         params.push_back(read_param(i));
