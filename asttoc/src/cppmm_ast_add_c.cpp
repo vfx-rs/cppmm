@@ -1038,7 +1038,12 @@ NodeExprPtr opaqueptr_destructor_body(TypeRegistry& type_registry,
                                       const NodeMethod& cpp_method) {
     // Create the method call expression
     return NodeBlockExpr::n(
-        std::vector<NodeExprPtr>({NodeDeleteExpr::n(cpp_record.name)}));
+        std::vector<NodeExprPtr>({
+            NodeDeleteExpr::n(
+                NodeVarRefExpr::n(cpp_record.name)
+            )
+        })
+    );
 }
 
 //------------------------------------------------------------------------------
