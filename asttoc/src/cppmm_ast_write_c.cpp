@@ -393,7 +393,7 @@ void write_expression_new(fmt::ostream& out, size_t depth,
                           const NodeExprPtr& node) {
     const auto& new_expr = *static_cast<const NodeNewExpr*>(node.get());
 
-    out.print("*this_ = to_c(new ");
+    out.print("new (");
     write_expression(out, depth, new_expr.constructor);
     out.print(")");
 }
