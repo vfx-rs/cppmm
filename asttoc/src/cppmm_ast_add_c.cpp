@@ -1572,12 +1572,12 @@ void cast_to_c(TranslationUnit& c_tu, const std::string& cpp_record_name,
 }
 
 //------------------------------------------------------------------------------
-void opaquebytes_to_c_copy__trivial(TranslationUnit& c_tu,
-                                    const std::string& cpp_record_name,
-                                    NodeId cpp_record_id,
-                                    const std::string& c_record_name,
-                                    NodeId c_record_id,
-                                    const std::string& prefix = std::string()) {
+void to_c_copy__trivial(TranslationUnit& c_tu,
+                        const std::string& cpp_record_name,
+                        NodeId cpp_record_id,
+                        const std::string& c_record_name,
+                        NodeId c_record_id,
+                        const std::string& prefix = std::string()) {
     auto rhs = NodePointerType::n(
         PointerKind::Reference,
         NodeRecordType::n("", 0, cpp_record_name, cpp_record_id, true), false);
@@ -1658,7 +1658,7 @@ void enum_conversions(TranslationUnit& c_tu, const NodeEnum& cpp_enum,
     cast_to_c(c_tu, cpp_n, cpp_id, c_n, c_id, false, PointerKind::Pointer);
 
     // Enum conversion is always bitwise copy
-    opaquebytes_to_c_copy__trivial(c_tu, cpp_n, cpp_id, c_n, c_id);
+    to_c_copy__trivial(c_tu, cpp_n, cpp_id, c_n, c_id);
 }
 
 //------------------------------------------------------------------------------
@@ -1824,10 +1824,10 @@ void namespace_entry(TypeRegistry& type_registry, const NodePtr& cpp_node) {
 }
 
 //------------------------------------------------------------------------------
-void opaquebytes_to_c_copy__constructor(TranslationUnit& c_tu,
-                                        const NodeRecord& cpp_record,
-                                        const NodeRecord& c_record,
-                                        const NodePtr& copy_constructor_ptr) {
+void to_c_copy__constructor(TranslationUnit& c_tu,
+                            const NodeRecord& cpp_record,
+                            const NodeRecord& c_record,
+                            const NodePtr& copy_constructor_ptr) {
     const auto& copy_constructor =
         *static_cast<const NodeFunction*>(copy_constructor_ptr.get());
 
@@ -1907,11 +1907,10 @@ void record_conversions(TranslationUnit& c_tu,
     // Use copy constructor if its available, or fallback to bitwise copy
     // if it's possible.
     if (copy_constructor) {
-        opaquebytes_to_c_copy__constructor(c_tu, cpp_record, c_record,
-                                           copy_constructor);
+        to_c_copy__constructor(c_tu, cpp_record, c_record, copy_constructor);
     } else if (cpp_record.trivially_copyable) {
-        opaquebytes_to_c_copy__trivial(c_tu, cpp_record.name, cpp_record.id,
-                                       c_record.nice_name, c_record.id);
+        to_c_copy__trivial(c_tu, cpp_record.name, cpp_record.id,
+                           c_record.nice_name, c_record.id);
     }
 }
 
