@@ -581,6 +581,15 @@ void opaquebytes_record(NodeRecord& c_record) {
 }
 
 //------------------------------------------------------------------------------
+void opaqueptr_record(NodeRecord& c_record) {
+    auto data = NodePointerType::n(PointerKind::Pointer,
+                                   NodeBuiltinType::n("void", 0, "void", false),
+                                   false);
+
+    c_record.fields.push_back(Field{"data", std::move(data)});
+}
+
+//------------------------------------------------------------------------------
 Param self_param(const NodeRecord& c_record, bool const_) {
 
     auto record =
@@ -1916,10 +1925,9 @@ void record_fields(TypeRegistry& type_registry, TranslationUnit& c_tu,
         opaquebytes_record(c_record);
         return;
     case BindType::OpaquePtr:
-        // opaquebytes_record(c_record);
+        opaqueptr_record(c_record);
         return;
     case BindType::ValueType:
-        // opaquebytes_record(c_record);
         valuetype_record(type_registry, c_tu, cpp_record, c_record);
         return;
     }
