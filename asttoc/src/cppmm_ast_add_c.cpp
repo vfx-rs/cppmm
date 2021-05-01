@@ -1013,17 +1013,29 @@ NodeExprPtr opaqueptr_constructor_body(TypeRegistry& type_registry,
 }
 
 //------------------------------------------------------------------------------
+NodeExprPtr constructor_body(TypeRegistry& type_registry,
+                             TranslationUnit& c_tu,
+                             const NodeRecord& cpp_record,
+                             const NodeRecord& c_record,
+                             const NodeMethod& cpp_method) {
+    switch(bind_type(cpp_record))
+    {
+        case BindType::OpaquePtr:
+            return opaqueptr_constructor_body(type_registry, c_tu, cpp_record,
+                                              c_record, cpp_method);
+        case BindType::OpaqueBytes:
+        case BindType::ValueType:
+            return opaquebytes_constructor_body(type_registry, c_tu, cpp_record,
+                                                c_record, cpp_method);
+    }
+}
+
+//------------------------------------------------------------------------------
 NodeExprPtr opaqueptr_destructor_body(TypeRegistry& type_registry,
                                       TranslationUnit& c_tu,
                                       const NodeRecord& cpp_record,
                                       const NodeRecord& c_record,
                                       const NodeMethod& cpp_method) {
-    // Loop over the parameters, creating arguments for the method call
-    auto args = std::vector<NodeExprPtr>();
-    for (const auto& p : cpp_method.params) {
-        argument(type_registry, args, p);
-    }
-
     // Create the method call expression
     return NodeBlockExpr::n(
         std::vector<NodeExprPtr>({NodeDeleteExpr::n(cpp_record.name)}));
@@ -1062,12 +1074,12 @@ NodeExprPtr function_body(TypeRegistry& type_registry, TranslationUnit& c_tu,
 }
 
 //------------------------------------------------------------------------------
-NodeExprPtr opaquebytes_method_body(TypeRegistry& type_registry,
-                                    TranslationUnit& c_tu,
-                                    const NodeRecord& cpp_record,
-                                    const NodeRecord& c_record,
-                                    const NodeTypePtr& c_return,
-                                    const NodeMethod& cpp_method) {
+NodeExprPtr method_body(TypeRegistry& type_registry,
+                        TranslationUnit& c_tu,
+                        const NodeRecord& cpp_record,
+                        const NodeRecord& c_record,
+                        const NodeTypePtr& c_return,
+                        const NodeMethod& cpp_method) {
     // Create the reference to this
     auto this_ = this_reference(cpp_record, cpp_method.is_const);
 
@@ -1115,31 +1127,31 @@ NodeExprPtr opaquebytes_method_body(TypeRegistry& type_registry,
 }
 
 //------------------------------------------------------------------------------
-NodeExprPtr opaquebytes_destructor_body(TypeRegistry& type_registry,
-                                        TranslationUnit& c_tu,
-                                        const NodeRecord& cpp_record,
-                                        const NodeRecord& c_record,
-                                        const NodeTypePtr& c_return,
-                                        const NodeMethod& cpp_method)
+NodeExprPtr destructor_body(TypeRegistry& type_registry,
+                            TranslationUnit& c_tu,
+                            const NodeRecord& cpp_record,
+                            const NodeRecord& c_record,
+                            const NodeTypePtr& c_return,
+                            const NodeMethod& cpp_method)
 {
-    return opaquebytes_method_body(type_registry, c_tu, cpp_record,
-                                   c_record, c_return, cpp_method);
+    return method_body(type_registry, c_tu, cpp_record, c_record, c_return,
+                       cpp_method);
 }
 
 //------------------------------------------------------------------------------
-NodeExprPtr method_body(TypeRegistry& type_registry, TranslationUnit& c_tu,
-                        const NodeRecord& cpp_record,
-                        const NodeRecord& c_record, const NodeTypePtr& c_return,
-                        const NodeMethod& cpp_method) {
+NodeExprPtr record_method_body(TypeRegistry& type_registry, TranslationUnit& c_tu,
+                               const NodeRecord& cpp_record,
+                               const NodeRecord& c_record, const NodeTypePtr& c_return,
+                               const NodeMethod& cpp_method) {
     if (cpp_method.is_constructor) {
-        return opaquebytes_constructor_body(type_registry, c_tu, cpp_record,
-                                            c_record, cpp_method);
+        return constructor_body(type_registry, c_tu, cpp_record,
+                                c_record, cpp_method);
     } else if(cpp_method.is_destructor){
-        return opaquebytes_destructor_body(type_registry, c_tu, cpp_record,
-                                           c_record, c_return, cpp_method);
+        return destructor_body(type_registry, c_tu, cpp_record,
+                               c_record, c_return, cpp_method);
     } else {
-        return opaquebytes_method_body(type_registry, c_tu, cpp_record,
-                                       c_record, c_return, cpp_method);
+        return method_body(type_registry, c_tu, cpp_record,
+                           c_record, c_return, cpp_method);
     }
 }
 
@@ -1212,9 +1224,9 @@ void record_method(TypeRegistry& type_registry, TranslationUnit& c_tu,
     }
 
     // Function body
-    auto c_function_body = method_body(type_registry, c_tu, cpp_record,
-                                       c_record, c_return_for_method,
-                                       cpp_method);
+    auto c_function_body = record_method_body(type_registry, c_tu, cpp_record,
+                                             c_record, c_return_for_method,
+                                             cpp_method);
 
     auto short_name = find_function_short_name(cpp_method);
 
