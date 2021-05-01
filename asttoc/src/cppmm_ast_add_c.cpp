@@ -1115,6 +1115,18 @@ NodeExprPtr opaquebytes_method_body(TypeRegistry& type_registry,
 }
 
 //------------------------------------------------------------------------------
+NodeExprPtr opaquebytes_destructor_body(TypeRegistry& type_registry,
+                                        TranslationUnit& c_tu,
+                                        const NodeRecord& cpp_record,
+                                        const NodeRecord& c_record,
+                                        const NodeTypePtr& c_return,
+                                        const NodeMethod& cpp_method)
+{
+    return opaquebytes_method_body(type_registry, c_tu, cpp_record,
+                                   c_record, c_return, cpp_method);
+}
+
+//------------------------------------------------------------------------------
 NodeExprPtr method_body(TypeRegistry& type_registry, TranslationUnit& c_tu,
                         const NodeRecord& cpp_record,
                         const NodeRecord& c_record, const NodeTypePtr& c_return,
@@ -1122,6 +1134,9 @@ NodeExprPtr method_body(TypeRegistry& type_registry, TranslationUnit& c_tu,
     if (cpp_method.is_constructor) {
         return opaquebytes_constructor_body(type_registry, c_tu, cpp_record,
                                             c_record, cpp_method);
+    } else if(cpp_method.is_destructor){
+        return opaquebytes_destructor_body(type_registry, c_tu, cpp_record,
+                                           c_record, c_return, cpp_method);
     } else {
         return opaquebytes_method_body(type_registry, c_tu, cpp_record,
                                        c_record, c_return, cpp_method);
@@ -1142,15 +1157,13 @@ std::string find_function_short_name(const NodeFunction& cpp_function) {
 }
 
 //------------------------------------------------------------------------------
-void opaquebytes_method(TypeRegistry& type_registry, TranslationUnit& c_tu,
-                        const NodeRecord& cpp_record,
-                        const NodeRecord& c_record,
-                        const NodeMethod& cpp_method,
-                        NodePtr& copy_constructor) {
+void record_method(TypeRegistry& type_registry, TranslationUnit& c_tu,
+                   const NodeRecord& cpp_record,
+                   const NodeRecord& c_record,
+                   const NodeMethod& cpp_method,
+                   NodePtr& copy_constructor) {
     // Skip ignored methods
     if (!should_wrap(cpp_record, cpp_method)) {
-        // std::cerr << "ignoring method decl: " << cpp_method.name <<
-        // std::endl;
         return;
     }
 
@@ -1245,16 +1258,17 @@ void opaquebytes_method(TypeRegistry& type_registry, TranslationUnit& c_tu,
 }
 
 //------------------------------------------------------------------------------
-void opaquebytes_methods(TypeRegistry& type_registry, TranslationUnit& c_tu,
-                         const NodeRecord& cpp_record,
-                         const NodeRecord& c_record,
-                         NodePtr& copy_constructor) {
+void record_methods(TypeRegistry& type_registry, TranslationUnit& c_tu,
+                    const NodeRecord& cpp_record,
+                    const NodeRecord& c_record,
+                    NodePtr& copy_constructor) {
     for (const auto& m : cpp_record.methods) {
-        opaquebytes_method(type_registry, c_tu, cpp_record, c_record, m,
-                           copy_constructor);
+        record_method(type_registry, c_tu, cpp_record, c_record, m,
+                      copy_constructor);
     }
 }
 
+/*
 //------------------------------------------------------------------------------
 void opaqueptr_method(TypeRegistry& type_registry, TranslationUnit& c_tu,
                       const NodeRecord& cpp_record, const NodeRecord& c_record,
@@ -1368,6 +1382,7 @@ void opaqueptr_methods(TypeRegistry& type_registry, TranslationUnit& c_tu,
         opaqueptr_method(type_registry, c_tu, cpp_record, c_record, m);
     }
 }
+*/
 
 //------------------------------------------------------------------------------
 void record_entry(NodeId& record_id, TypeRegistry& type_registry,
@@ -1844,10 +1859,10 @@ void opaquebytes_to_c_copy__constructor(TranslationUnit& c_tu,
 }
 
 //------------------------------------------------------------------------------
-void opaquebytes_conversions(TranslationUnit& c_tu,
-                             const NodeRecord& cpp_record,
-                             const NodeRecord& c_record,
-                             const NodePtr& copy_constructor) {
+void record_conversions(TranslationUnit& c_tu,
+                        const NodeRecord& cpp_record,
+                        const NodeRecord& c_record,
+                        const NodePtr& copy_constructor) {
     const auto& c_n = c_record.nice_name;
     const auto& c_id = c_record.id;
     const auto& cpp_n = cpp_record.name;
@@ -1947,20 +1962,13 @@ void record_detail(TypeRegistry& type_registry, TranslationUnit& c_tu,
     // Record
     record_fields(type_registry, c_tu, cpp_record, c_record);
 
-    if (bind_type(cpp_record) == BindType::OpaquePtr) {
-        opaqueptr_methods(type_registry, c_tu, cpp_record, c_record);
+    // Methods
+    NodePtr copy_constructor;
+    record_methods(type_registry, c_tu, cpp_record, c_record,
+                   copy_constructor);
 
-        // Conversions
-        opaqueptr_conversions(c_tu, cpp_record, c_record);
-    } else {
-        // Methods
-        NodePtr copy_constructor;
-        opaquebytes_methods(type_registry, c_tu, cpp_record, c_record,
-                            copy_constructor);
-
-        // Conversions
-        opaquebytes_conversions(c_tu, cpp_record, c_record, copy_constructor);
-    }
+    // Conversions
+    record_conversions(c_tu, cpp_record, c_record, copy_constructor);
 }
 
 //------------------------------------------------------------------------------
