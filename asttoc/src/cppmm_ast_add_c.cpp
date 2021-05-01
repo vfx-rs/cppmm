@@ -994,22 +994,15 @@ NodeExprPtr opaqueptr_constructor_body(TypeRegistry& type_registry,
     // included
     c_tu.source_includes.insert("#include <new>");
 
-    // to_c
-    auto to_c_args = std::vector<NodeExprPtr>{
-        NodeVarRefExpr::n("this_"),
-
-        NodeNewExpr::n(
-            NodeFunctionCallExpr::n(
-                cpp_record.name, args, std::vector<NodeTypePtr>{}
-            )
-        )
-    };
-
     // Create the method call expression
-    return NodeBlockExpr::n(
-        std::vector<NodeExprPtr>({
-            NodeFunctionCallExpr::n("to_c", to_c_args, std::vector<NodeTypePtr>{})
-        }));
+    return NodeBlockExpr::n(std::vector<NodeExprPtr>({
+        NodeAssignExpr::n(
+            NodeVarRefExpr::n("this->data"),
+            NodeNewExpr::n(
+                NodeFunctionCallExpr::n(cpp_record.name, args,
+                                        std::vector<NodeTypePtr>{}))
+        )
+    }));
 }
 
 //------------------------------------------------------------------------------
@@ -1040,7 +1033,12 @@ NodeExprPtr opaqueptr_destructor_body(TypeRegistry& type_registry,
     return NodeBlockExpr::n(
         std::vector<NodeExprPtr>({
             NodeDeleteExpr::n(
-                NodeVarRefExpr::n(cpp_record.name)
+                NodeFunctionCallExpr::n("to_cpp",
+                    std::vector<NodeExprPtr>{
+                        NodeVarRefExpr::n("this_")
+                    },
+                    std::vector<NodeTypePtr>{}
+                )
             )
         })
     );
