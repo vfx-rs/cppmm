@@ -1134,8 +1134,16 @@ NodeExprPtr destructor_body(TypeRegistry& type_registry,
                             const NodeTypePtr& c_return,
                             const NodeMethod& cpp_method)
 {
-    return method_body(type_registry, c_tu, cpp_record, c_record, c_return,
-                       cpp_method);
+    switch(bind_type(cpp_record))
+    {
+        case BindType::OpaquePtr:
+            return opaqueptr_destructor_body(type_registry, c_tu, cpp_record,
+                                             c_record, cpp_method);
+        case BindType::OpaqueBytes:
+        case BindType::ValueType:
+            return method_body(type_registry, c_tu, cpp_record, c_record,
+                               c_return, cpp_method);
+    }
 }
 
 //------------------------------------------------------------------------------
