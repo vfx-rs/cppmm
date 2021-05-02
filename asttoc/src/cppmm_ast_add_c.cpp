@@ -1879,12 +1879,19 @@ void to_c_copy__constructor(TranslationUnit& c_tu,
         }
     ));
 
+    auto lhs = NodePointerType::n(PointerKind::Pointer, std::move(c_return),
+                                  false);
+
+    auto is_opaqueptr = bind_type(cpp_record) == BindType::OpaquePtr;
+    if (is_opaqueptr)
+    {
+        lhs = NodePointerType::n(PointerKind::Pointer, std::move(lhs), false);
+    }
+
     // Add the new function to the translation unit
     std::vector<std::string> attrs;
     std::vector<Param> params = {
-        Param("lhs", NodePointerType::n(PointerKind::Pointer,
-                                        std::move(c_return),
-                                        false), 0),
+        Param("lhs", lhs, 0),
         Param("rhs", rhs, 1),
     };
     auto c_function =
