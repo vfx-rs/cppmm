@@ -869,20 +869,20 @@ NodeExprPtr convert_to(const TypeRegistry& type_registry, const NodeTypePtr& t,
 }
 
 //------------------------------------------------------------------------------
-NodeExprPtr convert_builtin_from(const NodeTypePtr& from_ptr,
-                                 const NodeTypePtr& to_ptr,
-                                 const NodeExprPtr& rhs,
-                                 const NodeExprPtr& lhs) {
+NodeExprPtr convert_return_builtin(const NodeTypePtr& from_ptr,
+                                   const NodeTypePtr& to_ptr,
+                                   const NodeExprPtr& rhs,
+                                   const NodeExprPtr& lhs) {
     // TODO LT: Be smarter
     return NodeAssignExpr::n(NodeDerefExpr::n(NodeExprPtr(lhs)),
                              NodeExprPtr(rhs));
 }
 
 //------------------------------------------------------------------------------
-NodeExprPtr convert_record_from(const NodeTypePtr& from_ptr,
-                                const NodeTypePtr& to_ptr,
-                                const NodeExprPtr& rhs,
-                                const NodeExprPtr& lhs) {
+NodeExprPtr convert_return_record(const NodeTypePtr& from_ptr,
+                                  const NodeTypePtr& to_ptr,
+                                  const NodeExprPtr& rhs,
+                                  const NodeExprPtr& lhs) {
     return NodeFunctionCallExpr::n("to_c_copy",
                                    std::vector<NodeExprPtr>({lhs, rhs}),
                                    std::vector<NodeTypePtr>{}
@@ -890,10 +890,10 @@ NodeExprPtr convert_record_from(const NodeTypePtr& from_ptr,
 }
 
 //------------------------------------------------------------------------------
-NodeExprPtr convert_pointer_from(const NodeTypePtr& from_ptr,
-                                 const NodeTypePtr& to_ptr,
-                                 const NodeExprPtr& rhs,
-                                 const NodeExprPtr& lhs
+NodeExprPtr convert_return_pointer(const NodeTypePtr& from_ptr,
+                                   const NodeTypePtr& to_ptr,
+                                   const NodeExprPtr& rhs,
+                                   const NodeExprPtr& lhs
                                 ) {
     auto from = static_cast<const NodePointerType*>(from_ptr.get());
 
@@ -938,15 +938,15 @@ NodeExprPtr convert_pointer_from(const NodeTypePtr& from_ptr,
 }
 
 //------------------------------------------------------------------------------
-NodeExprPtr convert_from(const NodeTypePtr& from, const NodeTypePtr& to,
-                         const NodeExprPtr& rhs, const NodeExprPtr& lhs) {
+NodeExprPtr convert_return(const NodeTypePtr& from, const NodeTypePtr& to,
+                           const NodeExprPtr& rhs, const NodeExprPtr& lhs) {
     switch (to->kind) {
     case NodeKind::BuiltinType:
-        return convert_builtin_from(from, to, rhs, lhs);
+        return convert_return_builtin(from, to, rhs, lhs);
     case NodeKind::RecordType:
-        return convert_record_from(from, to, rhs, lhs);
+        return convert_return_record(from, to, rhs, lhs);
     case NodeKind::PointerType:
-        return convert_pointer_from(from, to, rhs, lhs);
+        return convert_return_pointer(from, to, rhs, lhs);
     default:
         break;
     }
@@ -1080,8 +1080,8 @@ NodeExprPtr function_body(TypeRegistry& type_registry, TranslationUnit& c_tu,
     }
 
     return NodeBlockExpr::n(std::vector<NodeExprPtr>({
-        convert_from(cpp_function.return_type, c_return, function_call,
-                     NodeVarRefExpr::n("return_"))}));
+        convert_return(cpp_function.return_type, c_return, function_call,
+                       NodeVarRefExpr::n("return_"))}));
 }
 
 //------------------------------------------------------------------------------
@@ -1130,8 +1130,8 @@ NodeExprPtr method_body(TypeRegistry& type_registry,
     }
 
     return NodeBlockExpr::n(std::vector<NodeExprPtr>({
-                        convert_from(cpp_method.return_type, c_return,
-                                     method_call, NodeVarRefExpr::n("return_")
+                        convert_return(cpp_method.return_type, c_return,
+                                       method_call, NodeVarRefExpr::n("return_")
                         ),
                     NodeReturnExpr::n(NodeVarRefExpr::n("0"))
     }));
