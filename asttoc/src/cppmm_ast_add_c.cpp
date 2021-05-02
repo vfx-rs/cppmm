@@ -314,11 +314,16 @@ std::string compute_qualified_nice_name(const TypeRegistry& type_registry,
     return result;
 }
 
-NodeTypePtr convert_type(TranslationUnit& c_tu, TypeRegistry& type_registry,
+struct ConvertType {
+    NodeTypePtr type;
+    bool is_opaqueptr;
+};
+
+ConvertType convert_type(TranslationUnit& c_tu, TypeRegistry& type_registry,
                          const NodeTypePtr& t, bool in_reference);
 
 //------------------------------------------------------------------------------
-NodeTypePtr convert_builtin_type(TranslationUnit& c_tu,
+ConvertType convert_builtin_type(TranslationUnit& c_tu,
                                  TypeRegistry& type_registry,
                                  const NodeTypePtr& t, bool _in_refererence) {
     // TODO LT: Do mapping of c++ builtins to c builtins
@@ -327,7 +332,8 @@ NodeTypePtr convert_builtin_type(TranslationUnit& c_tu,
     }
 
     // For now just copy everything one to one.
-    return NodeBuiltinType::n(t->name, 0, t->type_name, t->const_);
+    return ConvertType{ NodeBuiltinType::n(t->name, 0, t->type_name, t->const_),
+                        false};
 }
 
 //------------------------------------------------------------------------------
@@ -394,7 +400,7 @@ void add_function_pointer_typedef_declaration(TranslationUnit& c_tu,
 }
 
 //------------------------------------------------------------------------------
-NodeTypePtr convert_record_type(TranslationUnit& c_tu,
+ConvertType convert_record_type(TranslationUnit& c_tu,
                                 TypeRegistry& type_registry,
                                 const NodeTypePtr& t, bool in_reference) {
     const auto& cpp_record_type = *static_cast<const NodeRecordType*>(t.get());
@@ -402,7 +408,7 @@ NodeTypePtr convert_record_type(TranslationUnit& c_tu,
     const auto& node_ptr = type_registry.find_record_c(cpp_record_type.record);
     if (!node_ptr) {
         SPDLOG_ERROR("Found unsupported type: {}", t->type_name);
-        return NodeTypePtr();
+        return ConvertType{NodeTypePtr(), false};
     }
 
     // Add the header file or forward declaration needed for this type
@@ -413,11 +419,11 @@ NodeTypePtr convert_record_type(TranslationUnit& c_tu,
 
     auto nrt =
         NodeRecordType::n(t->name, 0, record.nice_name, record.id, t->const_);
-    return nrt;
+    return ConvertType{nrt, false};
 }
 
 //------------------------------------------------------------------------------
-NodeTypePtr convert_enum_type(TranslationUnit& c_tu,
+ConvertType convert_enum_type(TranslationUnit& c_tu,
                               TypeRegistry& type_registry, const NodeTypePtr& t,
                               bool in_reference) {
     const auto& cpp_enum_type = *static_cast<const NodeEnumType*>(t.get());
@@ -425,7 +431,7 @@ NodeTypePtr convert_enum_type(TranslationUnit& c_tu,
     const auto& node_ptr = type_registry.find_enum_c(cpp_enum_type.enm);
     if (!node_ptr) {
         SPDLOG_ERROR("Found unsupported type: {}", t->type_name);
-        return NodeTypePtr();
+        return ConvertType{NodeTypePtr(), false};
     }
 
     // Add the header file or forward declaration needed for this type
@@ -434,48 +440,53 @@ NodeTypePtr convert_enum_type(TranslationUnit& c_tu,
 
     const auto& enum_ = *static_cast<const NodeTypedef*>(node_ptr.get());
 
-    return NodeRecordType::n(t->name, 0, enum_.name, enum_.id, t->const_);
+    return ConvertType{ NodeRecordType::n(t->name, 0, enum_.name, enum_.id, t->const_),
+                        false};
 }
 
 //------------------------------------------------------------------------------
-NodeTypePtr convert_array_type(TranslationUnit& c_tu,
+ConvertType convert_array_type(TranslationUnit& c_tu,
                                TypeRegistry& type_registry,
                                const NodeTypePtr& t, bool in_reference) {
     auto a = static_cast<const NodeArrayType*>(t.get());
 
     auto element_type =
-        convert_type(c_tu, type_registry, a->element_type, in_reference);
+        convert_type(c_tu, type_registry, a->element_type, in_reference).type;
 
     // If we can't convert, then dont bother with this type either
     if (!element_type) {
-        return NodeTypePtr();
+        return ConvertType{NodeTypePtr(), false};
     }
 
-    return NodeArrayType::n("", 0, "", std::move(element_type), a->size,
-                            a->const_);
+    return ConvertType{
+            NodeArrayType::n("", 0, "", std::move(element_type), a->size,
+                            a->const_),
+            false
+    };
 }
 
 //------------------------------------------------------------------------------
-NodeTypePtr convert_pointer_type(TranslationUnit& c_tu,
+ConvertType convert_pointer_type(TranslationUnit& c_tu,
                                  TypeRegistry& type_registry,
                                  const NodeTypePtr& t, bool in_reference) {
     auto p = static_cast<const NodePointerType*>(t.get());
 
     auto pointee_type =
-        convert_type(c_tu, type_registry, p->pointee_type, true);
+        convert_type(c_tu, type_registry, p->pointee_type, true).type;
 
     // If we can't convert, then dont bother with this type either
     if (!pointee_type) {
-        return NodeTypePtr();
+        return ConvertType{NodeTypePtr(), false};
     }
 
     // For now just copy everything one to one.
-    return NodePointerType::n(PointerKind::Pointer, std::move(pointee_type),
-                              p->const_);
+    return ConvertType{
+                NodePointerType::n(PointerKind::Pointer, std::move(pointee_type),
+                              p->const_), false};
 }
 
 //------------------------------------------------------------------------------
-NodeTypePtr convert_function_proto_type(TranslationUnit& c_tu,
+ConvertType convert_function_proto_type(TranslationUnit& c_tu,
                                         TypeRegistry& type_registry,
                                         const NodeTypePtr& t,
                                         bool in_reference) {
@@ -486,7 +497,7 @@ NodeTypePtr convert_function_proto_type(TranslationUnit& c_tu,
     if (!node_ptr) {
         SPDLOG_ERROR("Found unsupported type \"{}\" for id {}", t->type_name,
                      fpt->function_pointer_typedef);
-        return NodeTypePtr();
+        return ConvertType{NodeTypePtr(), false};
     }
 
     // Add the header file or forward declaration needed for this type
@@ -498,19 +509,21 @@ NodeTypePtr convert_function_proto_type(TranslationUnit& c_tu,
     SPDLOG_TRACE("GOT C FPT {}", c_fpt->name);
 
     auto return_type =
-        convert_type(c_tu, type_registry, fpt->return_type, false);
+        convert_type(c_tu, type_registry, fpt->return_type, false).type;
 
     std::vector<NodeTypePtr> params;
     for (const auto& p : fpt->params) {
-        params.push_back(convert_type(c_tu, type_registry, p, false));
+        params.push_back(convert_type(c_tu, type_registry, p, false).type);
     }
 
-    return NodeFunctionProtoType::n(return_type, std::move(params),
-                                    c_fpt->nice_name, c_fpt->id);
+    return ConvertType{
+                NodeFunctionProtoType::n(return_type, std::move(params),
+                                    c_fpt->nice_name, c_fpt->id),
+                false};
 }
 
 //------------------------------------------------------------------------------
-NodeTypePtr convert_type(TranslationUnit& c_tu, TypeRegistry& type_registry,
+ConvertType convert_type(TranslationUnit& c_tu, TypeRegistry& type_registry,
                          const NodeTypePtr& t, bool in_reference = false) {
     if (t->kind == NodeKind::PointerType) {
         const NodePointerType* p = static_cast<const NodePointerType*>(t.get());
@@ -554,7 +567,7 @@ NodeTypePtr convert_type(TranslationUnit& c_tu, TypeRegistry& type_registry,
 //------------------------------------------------------------------------------
 bool parameter(TranslationUnit& c_tu, TypeRegistry& type_registry,
                std::vector<Param>& params, const Param& param) {
-    auto param_type = convert_type(c_tu, type_registry, param.type);
+    auto param_type = convert_type(c_tu, type_registry, param.type).type;
     if (!param_type) {
         return false;
     }
@@ -1199,7 +1212,7 @@ void record_method(TypeRegistry& type_registry, TranslationUnit& c_tu,
     }
 
     // Convert return type
-    auto c_return = convert_type(c_tu, type_registry, cpp_method.return_type);
+    auto c_return = convert_type(c_tu, type_registry, cpp_method.return_type).type;
     if (!c_return) {
         SPDLOG_ERROR("Skipping method {} due to unrecognised return type {}",
                      cpp_method.name, cpp_method.return_type->type_name);
@@ -1756,7 +1769,7 @@ void function_detail(TypeRegistry& type_registry, TranslationUnit& c_tu,
     }
 
     // Convert return type
-    auto c_return = convert_type(c_tu, type_registry, cpp_function.return_type);
+    auto c_return = convert_type(c_tu, type_registry, cpp_function.return_type).type;
     if (!c_return) {
         SPDLOG_ERROR("Skipping function {} due to unrecognised return type {}",
                      cpp_function.name, cpp_function.return_type->type_name);
@@ -1970,7 +1983,7 @@ void opaqueptr_conversions(TranslationUnit& c_tu, const NodeRecord& cpp_record,
 void valuetype_fields(TypeRegistry& type_registry, TranslationUnit& c_tu,
                       const NodeRecord& cpp_record, NodeRecord& c_record) {
     for (const auto& field : cpp_record.fields) {
-        auto c_field_type = convert_type(c_tu, type_registry, field.type);
+        auto c_field_type = convert_type(c_tu, type_registry, field.type).type;
         if (!c_field_type) {
             panic("Unsupported type for field {} of record {}", field.name,
                   c_record.name);
