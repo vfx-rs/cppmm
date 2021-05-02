@@ -417,9 +417,11 @@ ConvertType convert_record_type(TranslationUnit& c_tu,
 
     const auto& record = *static_cast<const NodeRecord*>(node_ptr.get());
 
+    auto is_opaqueptr = bind_type(record) == BindType::OpaquePtr;
+
     auto nrt =
         NodeRecordType::n(t->name, 0, record.nice_name, record.id, t->const_);
-    return ConvertType{nrt, false};
+    return ConvertType{nrt, is_opaqueptr};
 }
 
 //------------------------------------------------------------------------------
@@ -615,7 +617,7 @@ Param this_param(const NodeRecord& cpp_record, const NodeRecord& c_record,
 
     // If we're an opaqueptr then we want a poiner to pointer
     auto is_opaqueptr = bind_type(cpp_record) == BindType::OpaquePtr;
-    if (is_opaqueptr)
+    if (is_opaqueptr && constructor)
     {
         pointer = NodePointerType::n(PointerKind::Pointer, std::move(pointer),
                                      false);
@@ -996,7 +998,9 @@ NodeExprPtr opaquebytes_constructor_body(TypeRegistry& type_registry,
     return NodeBlockExpr::n(std::vector<NodeExprPtr>({NodePlacementNewExpr::n(
         NodeVarRefExpr::n(THIS_),
         NodeFunctionCallExpr::n(cpp_record.name, args,
-                                std::vector<NodeTypePtr>{}))}));
+                                std::vector<NodeTypePtr>{})),
+        NodeReturnExpr::n(NodeVarRefExpr::n("0")),
+    }));
 }
 
 //------------------------------------------------------------------------------
@@ -1015,14 +1019,25 @@ NodeExprPtr opaqueptr_constructor_body(TypeRegistry& type_registry,
     // included
     c_tu.source_includes.insert("#include <new>");
 
+    // Build the expression to alloc
+    auto lhs = NodeVarRefExpr::n("this_");
+    auto rhs = NodeNewExpr::n(
+                NodeFunctionCallExpr::n(cpp_record.name, args,
+                                        std::vector<NodeTypePtr>{}));
+
+    auto to_c = NodeFunctionCallExpr::n(
+        "to_c",
+        std::vector<NodeExprPtr>({
+                                  lhs,
+                                  rhs
+                                }),
+        std::vector<NodeTypePtr>{}
+    );
+
     // Create the method call expression
     return NodeBlockExpr::n(std::vector<NodeExprPtr>({
-        NodeAssignExpr::n(
-            NodeDerefExpr::n(NodeVarRefExpr::n("this_")),
-            NodeNewExpr::n(
-                NodeFunctionCallExpr::n(cpp_record.name, args,
-                                        std::vector<NodeTypePtr>{}))
-        )
+        to_c,
+        NodeReturnExpr::n(NodeVarRefExpr::n("0")),
     }));
 }
 
@@ -1060,7 +1075,8 @@ NodeExprPtr opaqueptr_destructor_body(TypeRegistry& type_registry,
                     },
                     std::vector<NodeTypePtr>{}
                 )
-            )
+            ),
+            NodeReturnExpr::n(NodeVarRefExpr::n("0")),
         })
     );
 }
@@ -1212,7 +1228,9 @@ void record_method(TypeRegistry& type_registry, TranslationUnit& c_tu,
     }
 
     // Convert return type
-    auto c_return = convert_type(c_tu, type_registry, cpp_method.return_type).type;
+    auto converted_return = convert_type(c_tu, type_registry,
+                                         cpp_method.return_type);
+    auto c_return = converted_return.type;
     if (!c_return) {
         SPDLOG_ERROR("Skipping method {} due to unrecognised return type {}",
                      cpp_method.name, cpp_method.return_type->type_name);
@@ -1240,6 +1258,16 @@ void record_method(TypeRegistry& type_registry, TranslationUnit& c_tu,
         auto return_pointer =
             NodePointerType::n(PointerKind::Pointer, std::move(c_return),
                                false);
+
+        // If we're returning an opaqueptr then wrap it up in an extra pointer
+        if (converted_return.is_opaqueptr)
+        {
+            return_pointer =
+                NodePointerType::n(PointerKind::Pointer,
+                                   std::move(return_pointer),
+                                   false);
+        }
+
         c_params.push_back(Param(std::string("return_"),
                                  std::move(return_pointer),
                                  c_params.size()));
@@ -1578,6 +1606,16 @@ void cast_to_c(TranslationUnit& c_tu, const std::string& cpp_record_name,
             std::move(cast_expr)),
     }));
 
+    // opaquebytes need an additional pointer
+    auto lhs = NodePointerType::n(PointerKind::Pointer, c_return, false);
+    #if 0
+    auto is_opaqueptr = bind_type == BindType::OpaquePtr;
+    if (is_opaqueptr)
+    {
+        lhs = NodePointerType::n(PointerKind::Pointer, std::move(lhs), false);
+    }
+    #endif
+
     // Function name
     auto function_name = prefix;
     function_name += "to_c";
@@ -1585,7 +1623,7 @@ void cast_to_c(TranslationUnit& c_tu, const std::string& cpp_record_name,
     // Add the new function to the translation unit
     std::vector<std::string> attrs;
     std::vector<Param> params =
-        {Param("lhs", NodePointerType::n(PointerKind::Pointer, c_return, false), 0),
+        {Param("lhs", lhs, 0),
          Param("rhs", rhs, 1)
     };
     auto void_t = NodeBuiltinType::n("void", 0, "void", false);
@@ -1683,10 +1721,10 @@ void enum_conversions(TranslationUnit& c_tu, const NodeEnum& cpp_enum,
     cast_to_cpp(c_tu, cpp_n, cpp_id, c_n, c_id, false, pointer, b, p);
 
     // Conversions for going from cpp to c
-    cast_to_c(c_tu, cpp_n, cpp_id, c_n, c_id, true, ref, b, p);
-    cast_to_c(c_tu, cpp_n, cpp_id, c_n, c_id, true, pointer, b, p);
-    cast_to_c(c_tu, cpp_n, cpp_id, c_n, c_id, false, ref, b, p);
-    cast_to_c(c_tu, cpp_n, cpp_id, c_n, c_id, false, pointer, b, p);
+    cast_to_c(c_tu, cpp_n, cpp_id, c_n, c_id, true, ref, b);
+    cast_to_c(c_tu, cpp_n, cpp_id, c_n, c_id, true, pointer, b);
+    cast_to_c(c_tu, cpp_n, cpp_id, c_n, c_id, false, ref, b);
+    cast_to_c(c_tu, cpp_n, cpp_id, c_n, c_id, false, pointer, b);
 
     // Enum conversion is always bitwise copy
     to_c_copy__trivial(c_tu, cpp_n, cpp_id, c_n, c_id);
@@ -1769,7 +1807,8 @@ void function_detail(TypeRegistry& type_registry, TranslationUnit& c_tu,
     }
 
     // Convert return type
-    auto c_return = convert_type(c_tu, type_registry, cpp_function.return_type).type;
+    auto converted_return = convert_type(c_tu, type_registry, cpp_function.return_type);
+    auto c_return = converted_return.type;
     if (!c_return) {
         SPDLOG_ERROR("Skipping function {} due to unrecognised return type {}",
                      cpp_function.name, cpp_function.return_type->type_name);
@@ -1792,6 +1831,16 @@ void function_detail(TypeRegistry& type_registry, TranslationUnit& c_tu,
         auto return_pointer =
             NodePointerType::n(PointerKind::Pointer, std::move(c_return),
                                false);
+
+        // If we're returning an opaqueptr then wrap it up in an extra pointer
+        if (converted_return.is_opaqueptr)
+        {
+            return_pointer =
+                NodePointerType::n(PointerKind::Pointer,
+                                   std::move(return_pointer),
+                                   false);
+        }
+
         c_params.push_back(Param(std::string("return_"),
                                  std::move(return_pointer),
                                  c_params.size()));
