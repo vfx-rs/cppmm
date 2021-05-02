@@ -594,10 +594,19 @@ Param this_param(const NodeRecord& cpp_record, const NodeRecord& c_record,
     auto record =
         NodeRecordType::n("", 0, c_record.nice_name, c_record.id, const_);
 
+
     auto pointer = NodePointerType::n(
         PointerKind::Pointer, std::move(record),
         false // TODO LT: Maybe references should be const pointers
     );
+
+    // If we're an opaqueptr then we want a poiner to pointer
+    auto is_opaqueptr = bind_type(cpp_record) == BindType::OpaquePtr;
+    if (is_opaqueptr)
+    {
+        pointer = NodePointerType::n(PointerKind::Pointer, std::move(pointer),
+                                     false);
+    }
 
     return Param(THIS_, std::move(pointer), 0);
 }
@@ -996,7 +1005,7 @@ NodeExprPtr opaqueptr_constructor_body(TypeRegistry& type_registry,
     // Create the method call expression
     return NodeBlockExpr::n(std::vector<NodeExprPtr>({
         NodeAssignExpr::n(
-            NodeDerefExpr::n(NodeVarRefExpr::n("this")),
+            NodeDerefExpr::n(NodeVarRefExpr::n("this_")),
             NodeNewExpr::n(
                 NodeFunctionCallExpr::n(cpp_record.name, args,
                                         std::vector<NodeTypePtr>{}))
