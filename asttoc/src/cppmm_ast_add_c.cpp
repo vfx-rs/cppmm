@@ -582,11 +582,9 @@ void opaquebytes_record(NodeRecord& c_record) {
 
 //------------------------------------------------------------------------------
 void opaqueptr_record(NodeRecord& c_record) {
-    auto data = NodePointerType::n(PointerKind::Pointer,
-                                   NodeBuiltinType::n("void", 0, "void", false),
-                                   false);
+    auto unused = NodeBuiltinType::n("char", 0, "char", false);
 
-    c_record.fields.push_back(Field{"data", std::move(data)});
+    c_record.fields.push_back(Field{"_unused", std::move(data)});
 }
 
 //------------------------------------------------------------------------------
