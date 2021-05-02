@@ -1468,6 +1468,7 @@ void function_pointer_typedef_entry(NodeId& fpt_id, TypeRegistry& type_registry,
 void cast_to_cpp(TranslationUnit& c_tu, const std::string& cpp_record_name,
                  NodeId cpp_record_id, const std::string& c_record_name,
                  NodeId c_record_id, bool const_, PointerKind pointer_kind,
+                 BindType bind_type,
                  const std::string& prefix = std::string()) {
     auto rhs = NodePointerType::n(
         PointerKind::Pointer,
@@ -1477,6 +1478,11 @@ void cast_to_cpp(TranslationUnit& c_tu, const std::string& cpp_record_name,
         pointer_kind,
         NodeRecordType::n("", 0, cpp_record_name, cpp_record_id, const_),
         false);
+
+    // Data reference
+    auto data_reference =
+        (bind_type == BindType::OpaquePtr) ?
+            NodeVarRefExpr::n("rhs->data") : NodeVarRefExpr::n("rhs");
 
     // Cast type
     NodeExprPtr cast_expr = NodeCastExpr::n(
@@ -1518,6 +1524,7 @@ void cast_to_cpp(TranslationUnit& c_tu, const std::string& cpp_record_name,
 void cast_to_c(TranslationUnit& c_tu, const std::string& cpp_record_name,
                NodeId cpp_record_id, const std::string& c_record_name,
                NodeId c_record_id, bool const_, PointerKind pointer_kind,
+               BindType bind_type,
                const std::string& prefix = std::string()) {
     auto rhs = NodePointerType::n(
         pointer_kind,
@@ -1643,19 +1650,21 @@ void enum_conversions(TranslationUnit& c_tu, const NodeEnum& cpp_enum,
     auto p = c_n;
     p += "_";
 
+    auto b = BindType::ValueType;
+    auto ref = PointerKind::Reference;
+    auto pointer = PointerKind::Pointer;
+
     // Conversions for going from c to cpp
-    cast_to_cpp(c_tu, cpp_n, cpp_id, c_n, c_id, true, PointerKind::Reference,
-                p);
-    cast_to_cpp(c_tu, cpp_n, cpp_id, c_n, c_id, false, PointerKind::Reference,
-                p);
-    cast_to_cpp(c_tu, cpp_n, cpp_id, c_n, c_id, true, PointerKind::Pointer, p);
-    cast_to_cpp(c_tu, cpp_n, cpp_id, c_n, c_id, false, PointerKind::Pointer, p);
+    cast_to_cpp(c_tu, cpp_n, cpp_id, c_n, c_id, true, ref, b, p);
+    cast_to_cpp(c_tu, cpp_n, cpp_id, c_n, c_id, false, ref, b, p);
+    cast_to_cpp(c_tu, cpp_n, cpp_id, c_n, c_id, true, pointer, b, p);
+    cast_to_cpp(c_tu, cpp_n, cpp_id, c_n, c_id, false, pointer, b, p);
 
     // Conversions for going from cpp to c
-    cast_to_c(c_tu, cpp_n, cpp_id, c_n, c_id, true, PointerKind::Reference);
-    cast_to_c(c_tu, cpp_n, cpp_id, c_n, c_id, true, PointerKind::Pointer);
-    cast_to_c(c_tu, cpp_n, cpp_id, c_n, c_id, false, PointerKind::Reference);
-    cast_to_c(c_tu, cpp_n, cpp_id, c_n, c_id, false, PointerKind::Pointer);
+    cast_to_c(c_tu, cpp_n, cpp_id, c_n, c_id, true, ref, b, p);
+    cast_to_c(c_tu, cpp_n, cpp_id, c_n, c_id, true, pointer, b, p);
+    cast_to_c(c_tu, cpp_n, cpp_id, c_n, c_id, false, ref, b, p);
+    cast_to_c(c_tu, cpp_n, cpp_id, c_n, c_id, false, pointer, b, p);
 
     // Enum conversion is always bitwise copy
     to_c_copy__trivial(c_tu, cpp_n, cpp_id, c_n, c_id);
@@ -1891,17 +1900,21 @@ void record_conversions(TranslationUnit& c_tu,
     const auto& cpp_n = cpp_record.name;
     const auto& cpp_id = cpp_record.id;
 
+    auto b = bind_type(cpp_record);
+    auto ref = PointerKind::Reference;
+    auto pointer = PointerKind::Pointer;
+
     // Conversions for going from cpp to c
-    cast_to_cpp(c_tu, cpp_n, cpp_id, c_n, c_id, true, PointerKind::Reference);
-    cast_to_cpp(c_tu, cpp_n, cpp_id, c_n, c_id, false, PointerKind::Reference);
-    cast_to_cpp(c_tu, cpp_n, cpp_id, c_n, c_id, true, PointerKind::Pointer);
-    cast_to_cpp(c_tu, cpp_n, cpp_id, c_n, c_id, false, PointerKind::Pointer);
+    cast_to_cpp(c_tu, cpp_n, cpp_id, c_n, c_id, true, ref, b);
+    cast_to_cpp(c_tu, cpp_n, cpp_id, c_n, c_id, false, ref, b);
+    cast_to_cpp(c_tu, cpp_n, cpp_id, c_n, c_id, true, pointer, b);
+    cast_to_cpp(c_tu, cpp_n, cpp_id, c_n, c_id, false, pointer, b);
 
     // Conversions for going from c to cpp
-    cast_to_c(c_tu, cpp_n, cpp_id, c_n, c_id, true, PointerKind::Reference);
-    cast_to_c(c_tu, cpp_n, cpp_id, c_n, c_id, true, PointerKind::Pointer);
-    cast_to_c(c_tu, cpp_n, cpp_id, c_n, c_id, false, PointerKind::Reference);
-    cast_to_c(c_tu, cpp_n, cpp_id, c_n, c_id, false, PointerKind::Pointer);
+    cast_to_c(c_tu, cpp_n, cpp_id, c_n, c_id, true, ref, b);
+    cast_to_c(c_tu, cpp_n, cpp_id, c_n, c_id, true, pointer, b);
+    cast_to_c(c_tu, cpp_n, cpp_id, c_n, c_id, false, ref, b);
+    cast_to_c(c_tu, cpp_n, cpp_id, c_n, c_id, false, pointer, b);
 
     // Copy conversions.
     // Use copy constructor if its available, or fallback to bitwise copy
@@ -1914,6 +1927,7 @@ void record_conversions(TranslationUnit& c_tu,
     }
 }
 
+/*
 //------------------------------------------------------------------------------
 void opaqueptr_conversions(TranslationUnit& c_tu, const NodeRecord& cpp_record,
                            const NodeRecord& c_record) {
@@ -1934,6 +1948,7 @@ void opaqueptr_conversions(TranslationUnit& c_tu, const NodeRecord& cpp_record,
     cast_to_c(c_tu, cpp_n, cpp_id, c_n, c_id, false, PointerKind::Reference);
     cast_to_c(c_tu, cpp_n, cpp_id, c_n, c_id, false, PointerKind::Pointer);
 }
+*/
 
 //------------------------------------------------------------------------------
 void valuetype_fields(TypeRegistry& type_registry, TranslationUnit& c_tu,
