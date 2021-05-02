@@ -995,7 +995,7 @@ NodeExprPtr opaqueptr_constructor_body(TypeRegistry& type_registry,
     // Create the method call expression
     return NodeBlockExpr::n(std::vector<NodeExprPtr>({
         NodeAssignExpr::n(
-            NodeVarRefExpr::n("this->data"),
+            NodeDerefExpr::n(NodeVarRefExpr::n("this")),
             NodeNewExpr::n(
                 NodeFunctionCallExpr::n(cpp_record.name, args,
                                         std::vector<NodeTypePtr>{}))
