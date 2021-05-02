@@ -561,7 +561,7 @@ struct NodeNewExpr : public NodeExpr {
 struct NodeDeleteExpr : public NodeExpr {
     NodeExprPtr pointer;
 
-    NodeDeleteExpr(NodeExprPtr && pointer)
+    NodeDeleteExpr(NodeExprPtr&& pointer)
         : NodeExpr(NodeKind::DeleteExpr), pointer(pointer) {}
 
     // A static method for creating this as a shared pointer

@@ -332,8 +332,8 @@ ConvertType convert_builtin_type(TranslationUnit& c_tu,
     }
 
     // For now just copy everything one to one.
-    return ConvertType{ NodeBuiltinType::n(t->name, 0, t->type_name, t->const_),
-                        false};
+    return ConvertType{NodeBuiltinType::n(t->name, 0, t->type_name, t->const_),
+                       false};
 }
 
 //------------------------------------------------------------------------------
@@ -442,8 +442,8 @@ ConvertType convert_enum_type(TranslationUnit& c_tu,
 
     const auto& enum_ = *static_cast<const NodeTypedef*>(node_ptr.get());
 
-    return ConvertType{ NodeRecordType::n(t->name, 0, enum_.name, enum_.id, t->const_),
-                        false};
+    return ConvertType{
+        NodeRecordType::n(t->name, 0, enum_.name, enum_.id, t->const_), false};
 }
 
 //------------------------------------------------------------------------------
@@ -460,11 +460,9 @@ ConvertType convert_array_type(TranslationUnit& c_tu,
         return ConvertType{NodeTypePtr(), false};
     }
 
-    return ConvertType{
-            NodeArrayType::n("", 0, "", std::move(element_type), a->size,
-                            a->const_),
-            false
-    };
+    return ConvertType{NodeArrayType::n("", 0, "", std::move(element_type),
+                                        a->size, a->const_),
+                       false};
 }
 
 //------------------------------------------------------------------------------
@@ -482,9 +480,9 @@ ConvertType convert_pointer_type(TranslationUnit& c_tu,
     }
 
     // For now just copy everything one to one.
-    return ConvertType{
-                NodePointerType::n(PointerKind::Pointer, std::move(pointee_type),
-                              p->const_), false};
+    return ConvertType{NodePointerType::n(PointerKind::Pointer,
+                                          std::move(pointee_type), p->const_),
+                       false};
 }
 
 //------------------------------------------------------------------------------
@@ -518,10 +516,9 @@ ConvertType convert_function_proto_type(TranslationUnit& c_tu,
         params.push_back(convert_type(c_tu, type_registry, p, false).type);
     }
 
-    return ConvertType{
-                NodeFunctionProtoType::n(return_type, std::move(params),
-                                    c_fpt->nice_name, c_fpt->id),
-                false};
+    return ConvertType{NodeFunctionProtoType::n(return_type, std::move(params),
+                                                c_fpt->nice_name, c_fpt->id),
+                       false};
 }
 
 //------------------------------------------------------------------------------
@@ -609,7 +606,6 @@ Param this_param(const NodeRecord& cpp_record, const NodeRecord& c_record,
     auto record =
         NodeRecordType::n("", 0, c_record.nice_name, c_record.id, const_);
 
-
     auto pointer = NodePointerType::n(
         PointerKind::Pointer, std::move(record),
         false // TODO LT: Maybe references should be const pointers
@@ -617,10 +613,9 @@ Param this_param(const NodeRecord& cpp_record, const NodeRecord& c_record,
 
     // If we're an opaqueptr then we want a poiner to pointer
     auto is_opaqueptr = bind_type(cpp_record) == BindType::OpaquePtr;
-    if (is_opaqueptr && constructor)
-    {
-        pointer = NodePointerType::n(PointerKind::Pointer, std::move(pointer),
-                                     false);
+    if (is_opaqueptr && constructor) {
+        pointer =
+            NodePointerType::n(PointerKind::Pointer, std::move(pointer), false);
     }
 
     return Param(THIS_, std::move(pointer), 0);
@@ -650,7 +645,7 @@ bool should_wrap(const NodeRecord& cpp_record, const NodeMethod& cpp_method) {
     // Skip static methods for now
     if (cpp_method.is_static) // TODO LT: Bring in support for static methods
     {
-        //SPDLOG_WARN("Skipping static {}", cpp_method.name);
+        // SPDLOG_WARN("Skipping static {}", cpp_method.name);
         return false;
     }
 
@@ -900,16 +895,14 @@ NodeExprPtr convert_return_record(const NodeTypePtr& from_ptr,
                                   const NodeExprPtr& lhs) {
     return NodeFunctionCallExpr::n("to_c_copy",
                                    std::vector<NodeExprPtr>({lhs, rhs}),
-                                   std::vector<NodeTypePtr>{}
-    );
+                                   std::vector<NodeTypePtr>{});
 }
 
 //------------------------------------------------------------------------------
 NodeExprPtr convert_return_pointer(const NodeTypePtr& from_ptr,
                                    const NodeTypePtr& to_ptr,
                                    const NodeExprPtr& rhs,
-                                   const NodeExprPtr& lhs
-                                ) {
+                                   const NodeExprPtr& lhs) {
     auto from = static_cast<const NodePointerType*>(from_ptr.get());
 
     // If we're returning a pointer to a builtin type, then just return the
@@ -919,7 +912,8 @@ NodeExprPtr convert_return_pointer(const NodeTypePtr& from_ptr,
     if (from->pointee_type->kind == NodeKind::BuiltinType) {
         switch (from->pointer_kind) {
         case PointerKind::Pointer:
-            return NodeAssignExpr::n(NodeDerefExpr::n(NodeExprPtr(lhs)), NodeExprPtr(rhs));
+            return NodeAssignExpr::n(NodeDerefExpr::n(NodeExprPtr(lhs)),
+                                     NodeExprPtr(rhs));
         case PointerKind::RValueReference: // TODO LT: Add support for rvalue
                                            // reference
         case PointerKind::Reference: {
@@ -937,12 +931,8 @@ NodeExprPtr convert_return_pointer(const NodeTypePtr& from_ptr,
     case PointerKind::Pointer:
     case PointerKind::Reference: {
         return NodeFunctionCallExpr::n("to_c",
-                                       std::vector<NodeExprPtr>({
-                                            lhs,
-                                            rhs
-                                       }),
-                                       std::vector<NodeTypePtr>{}
-        );
+                                       std::vector<NodeExprPtr>({lhs, rhs}),
+                                       std::vector<NodeTypePtr>{});
     }
     default:
         break;
@@ -995,10 +985,11 @@ NodeExprPtr opaquebytes_constructor_body(TypeRegistry& type_registry,
     c_tu.source_includes.insert("#include <new>");
 
     // Create the method call expression
-    return NodeBlockExpr::n(std::vector<NodeExprPtr>({NodePlacementNewExpr::n(
-        NodeVarRefExpr::n(THIS_),
-        NodeFunctionCallExpr::n(cpp_record.name, args,
-                                std::vector<NodeTypePtr>{})),
+    return NodeBlockExpr::n(std::vector<NodeExprPtr>({
+        NodePlacementNewExpr::n(
+            NodeVarRefExpr::n(THIS_),
+            NodeFunctionCallExpr::n(cpp_record.name, args,
+                                    std::vector<NodeTypePtr>{})),
         NodeReturnExpr::n(NodeVarRefExpr::n("0")),
     }));
 }
@@ -1021,18 +1012,12 @@ NodeExprPtr opaqueptr_constructor_body(TypeRegistry& type_registry,
 
     // Build the expression to alloc
     auto lhs = NodeVarRefExpr::n("this_");
-    auto rhs = NodeNewExpr::n(
-                NodeFunctionCallExpr::n(cpp_record.name, args,
-                                        std::vector<NodeTypePtr>{}));
+    auto rhs = NodeNewExpr::n(NodeFunctionCallExpr::n(
+        cpp_record.name, args, std::vector<NodeTypePtr>{}));
 
-    auto to_c = NodeFunctionCallExpr::n(
-        "to_c",
-        std::vector<NodeExprPtr>({
-                                  lhs,
-                                  rhs
-                                }),
-        std::vector<NodeTypePtr>{}
-    );
+    auto to_c =
+        NodeFunctionCallExpr::n("to_c", std::vector<NodeExprPtr>({lhs, rhs}),
+                                std::vector<NodeTypePtr>{});
 
     // Create the method call expression
     return NodeBlockExpr::n(std::vector<NodeExprPtr>({
@@ -1042,20 +1027,18 @@ NodeExprPtr opaqueptr_constructor_body(TypeRegistry& type_registry,
 }
 
 //------------------------------------------------------------------------------
-NodeExprPtr constructor_body(TypeRegistry& type_registry,
-                             TranslationUnit& c_tu,
+NodeExprPtr constructor_body(TypeRegistry& type_registry, TranslationUnit& c_tu,
                              const NodeRecord& cpp_record,
                              const NodeRecord& c_record,
                              const NodeMethod& cpp_method) {
-    switch(bind_type(cpp_record))
-    {
-        case BindType::OpaquePtr:
-            return opaqueptr_constructor_body(type_registry, c_tu, cpp_record,
-                                              c_record, cpp_method);
-        case BindType::OpaqueBytes:
-        case BindType::ValueType:
-            return opaquebytes_constructor_body(type_registry, c_tu, cpp_record,
-                                                c_record, cpp_method);
+    switch (bind_type(cpp_record)) {
+    case BindType::OpaquePtr:
+        return opaqueptr_constructor_body(type_registry, c_tu, cpp_record,
+                                          c_record, cpp_method);
+    case BindType::OpaqueBytes:
+    case BindType::ValueType:
+        return opaquebytes_constructor_body(type_registry, c_tu, cpp_record,
+                                            c_record, cpp_method);
     }
 }
 
@@ -1066,19 +1049,12 @@ NodeExprPtr opaqueptr_destructor_body(TypeRegistry& type_registry,
                                       const NodeRecord& c_record,
                                       const NodeMethod& cpp_method) {
     // Create the method call expression
-    return NodeBlockExpr::n(
-        std::vector<NodeExprPtr>({
-            NodeDeleteExpr::n(
-                NodeFunctionCallExpr::n("to_cpp",
-                    std::vector<NodeExprPtr>{
-                        NodeVarRefExpr::n("this_")
-                    },
-                    std::vector<NodeTypePtr>{}
-                )
-            ),
-            NodeReturnExpr::n(NodeVarRefExpr::n("0")),
-        })
-    );
+    return NodeBlockExpr::n(std::vector<NodeExprPtr>({
+        NodeDeleteExpr::n(NodeFunctionCallExpr::n(
+            "to_cpp", std::vector<NodeExprPtr>{NodeVarRefExpr::n("this_")},
+            std::vector<NodeTypePtr>{})),
+        NodeReturnExpr::n(NodeVarRefExpr::n("0")),
+    }));
 }
 
 //------------------------------------------------------------------------------
@@ -1108,17 +1084,15 @@ NodeExprPtr function_body(TypeRegistry& type_registry, TranslationUnit& c_tu,
         return NodeBlockExpr::n(std::vector<NodeExprPtr>({function_call}));
     }
 
-    return NodeBlockExpr::n(std::vector<NodeExprPtr>({
-        convert_return(cpp_function.return_type, c_return, function_call,
-                       NodeVarRefExpr::n("return_"))}));
+    return NodeBlockExpr::n(std::vector<NodeExprPtr>(
+        {convert_return(cpp_function.return_type, c_return, function_call,
+                        NodeVarRefExpr::n("return_"))}));
 }
 
 //------------------------------------------------------------------------------
-NodeExprPtr method_body(TypeRegistry& type_registry,
-                        TranslationUnit& c_tu,
+NodeExprPtr method_body(TypeRegistry& type_registry, TranslationUnit& c_tu,
                         const NodeRecord& cpp_record,
-                        const NodeRecord& c_record,
-                        const NodeTypePtr& c_return,
+                        const NodeRecord& c_record, const NodeTypePtr& c_return,
                         const NodeMethod& cpp_method) {
     // Create the reference to this
     auto this_ = this_reference(cpp_record, cpp_method.is_const);
@@ -1150,56 +1124,47 @@ NodeExprPtr method_body(TypeRegistry& type_registry,
             "void";
 
     if (is_void) {
-        return NodeBlockExpr::n(
-                std::vector<NodeExprPtr>({
-                    method_call,
-                    NodeReturnExpr::n(NodeVarRefExpr::n("0"))
-                })
-        );
+        return NodeBlockExpr::n(std::vector<NodeExprPtr>(
+            {method_call, NodeReturnExpr::n(NodeVarRefExpr::n("0"))}));
     }
 
-    return NodeBlockExpr::n(std::vector<NodeExprPtr>({
-                        convert_return(cpp_method.return_type, c_return,
-                                       method_call, NodeVarRefExpr::n("return_")
-                        ),
-                    NodeReturnExpr::n(NodeVarRefExpr::n("0"))
-    }));
+    return NodeBlockExpr::n(std::vector<NodeExprPtr>(
+        {convert_return(cpp_method.return_type, c_return, method_call,
+                        NodeVarRefExpr::n("return_")),
+         NodeReturnExpr::n(NodeVarRefExpr::n("0"))}));
 }
 
 //------------------------------------------------------------------------------
-NodeExprPtr destructor_body(TypeRegistry& type_registry,
-                            TranslationUnit& c_tu,
+NodeExprPtr destructor_body(TypeRegistry& type_registry, TranslationUnit& c_tu,
                             const NodeRecord& cpp_record,
                             const NodeRecord& c_record,
                             const NodeTypePtr& c_return,
-                            const NodeMethod& cpp_method)
-{
-    switch(bind_type(cpp_record))
-    {
-        case BindType::OpaquePtr:
-            return opaqueptr_destructor_body(type_registry, c_tu, cpp_record,
-                                             c_record, cpp_method);
-        case BindType::OpaqueBytes:
-        case BindType::ValueType:
-            return method_body(type_registry, c_tu, cpp_record, c_record,
-                               c_return, cpp_method);
+                            const NodeMethod& cpp_method) {
+    switch (bind_type(cpp_record)) {
+    case BindType::OpaquePtr:
+        return opaqueptr_destructor_body(type_registry, c_tu, cpp_record,
+                                         c_record, cpp_method);
+    case BindType::OpaqueBytes:
+    case BindType::ValueType:
+        return method_body(type_registry, c_tu, cpp_record, c_record, c_return,
+                           cpp_method);
     }
 }
 
 //------------------------------------------------------------------------------
-NodeExprPtr record_method_body(TypeRegistry& type_registry, TranslationUnit& c_tu,
-                               const NodeRecord& cpp_record,
-                               const NodeRecord& c_record, const NodeTypePtr& c_return,
-                               const NodeMethod& cpp_method) {
+NodeExprPtr
+record_method_body(TypeRegistry& type_registry, TranslationUnit& c_tu,
+                   const NodeRecord& cpp_record, const NodeRecord& c_record,
+                   const NodeTypePtr& c_return, const NodeMethod& cpp_method) {
     if (cpp_method.is_constructor) {
-        return constructor_body(type_registry, c_tu, cpp_record,
-                                c_record, cpp_method);
-    } else if(cpp_method.is_destructor){
-        return destructor_body(type_registry, c_tu, cpp_record,
-                               c_record, c_return, cpp_method);
+        return constructor_body(type_registry, c_tu, cpp_record, c_record,
+                                cpp_method);
+    } else if (cpp_method.is_destructor) {
+        return destructor_body(type_registry, c_tu, cpp_record, c_record,
+                               c_return, cpp_method);
     } else {
-        return method_body(type_registry, c_tu, cpp_record,
-                           c_record, c_return, cpp_method);
+        return method_body(type_registry, c_tu, cpp_record, c_record, c_return,
+                           cpp_method);
     }
 }
 
@@ -1218,25 +1183,23 @@ std::string find_function_short_name(const NodeFunction& cpp_function) {
 
 //------------------------------------------------------------------------------
 void record_method(TypeRegistry& type_registry, TranslationUnit& c_tu,
-                   const NodeRecord& cpp_record,
-                   const NodeRecord& c_record,
-                   const NodeMethod& cpp_method,
-                   NodePtr& copy_constructor) {
+                   const NodeRecord& cpp_record, const NodeRecord& c_record,
+                   const NodeMethod& cpp_method, NodePtr& copy_constructor) {
     // Skip ignored methods
     if (!should_wrap(cpp_record, cpp_method)) {
         return;
     }
 
     // Convert return type
-    auto converted_return = convert_type(c_tu, type_registry,
-                                         cpp_method.return_type);
+    auto converted_return =
+        convert_type(c_tu, type_registry, cpp_method.return_type);
     auto c_return = converted_return.type;
     if (!c_return) {
         SPDLOG_ERROR("Skipping method {} due to unrecognised return type {}",
                      cpp_method.name, cpp_method.return_type->type_name);
         return;
     }
-   
+
     // The value of the return type cannot be const. If it's a pointer type
     // or reference the pointee type can be const, but the return value cannot.
     c_return->const_ = false;
@@ -1254,25 +1217,19 @@ void record_method(TypeRegistry& type_registry, TranslationUnit& c_tu,
         static_cast<const NodeBuiltinType*>(c_return.get())->type_name ==
             "void";
 
-    if(!c_return_is_void) {
-        auto return_pointer =
-            NodePointerType::n(PointerKind::Pointer, std::move(c_return),
-                               false);
+    if (!c_return_is_void) {
+        auto return_pointer = NodePointerType::n(PointerKind::Pointer,
+                                                 std::move(c_return), false);
 
         // If we're returning an opaqueptr then wrap it up in an extra pointer
-        if (converted_return.is_opaqueptr)
-        {
-            return_pointer =
-                NodePointerType::n(PointerKind::Pointer,
-                                   std::move(return_pointer),
-                                   false);
+        if (converted_return.is_opaqueptr) {
+            return_pointer = NodePointerType::n(
+                PointerKind::Pointer, std::move(return_pointer), false);
         }
 
         c_params.push_back(Param(std::string("return_"),
-                                 std::move(return_pointer),
-                                 c_params.size()));
+                                 std::move(return_pointer), c_params.size()));
     }
-
 
     // Add the other methods
     for (const auto& p : cpp_method.params) {
@@ -1285,9 +1242,9 @@ void record_method(TypeRegistry& type_registry, TranslationUnit& c_tu,
     }
 
     // Function body
-    auto c_function_body = record_method_body(type_registry, c_tu, cpp_record,
-                                             c_record, c_return_for_method,
-                                             cpp_method);
+    auto c_function_body =
+        record_method_body(type_registry, c_tu, cpp_record, c_record,
+                           c_return_for_method, cpp_method);
 
     auto short_name = find_function_short_name(cpp_method);
 
@@ -1324,7 +1281,7 @@ void record_method(TypeRegistry& type_registry, TranslationUnit& c_tu,
     //
     // TODO LT: Take the move constructor with priority
     if (cpp_method.is_copy_constructor) {
-        
+
         SPDLOG_WARN("Found copy constructor {}", cpp_method.name);
         copy_constructor = c_function;
     }
@@ -1332,8 +1289,7 @@ void record_method(TypeRegistry& type_registry, TranslationUnit& c_tu,
 
 //------------------------------------------------------------------------------
 void record_methods(TypeRegistry& type_registry, TranslationUnit& c_tu,
-                    const NodeRecord& cpp_record,
-                    const NodeRecord& c_record,
+                    const NodeRecord& cpp_record, const NodeRecord& c_record,
                     NodePtr& copy_constructor) {
     for (const auto& m : cpp_record.methods) {
         record_method(type_registry, c_tu, cpp_record, c_record, m,
@@ -1530,9 +1486,9 @@ void cast_to_cpp(TranslationUnit& c_tu, const std::string& cpp_record_name,
         false);
 
     // Data reference
-    auto data_reference =
-        (bind_type == BindType::OpaquePtr) ?
-            NodeVarRefExpr::n("rhs->data") : NodeVarRefExpr::n("rhs");
+    auto data_reference = (bind_type == BindType::OpaquePtr)
+                              ? NodeVarRefExpr::n("rhs->data")
+                              : NodeVarRefExpr::n("rhs");
 
     // Cast type
     NodeExprPtr cast_expr = NodeCastExpr::n(
@@ -1574,8 +1530,7 @@ void cast_to_cpp(TranslationUnit& c_tu, const std::string& cpp_record_name,
 void cast_to_c(TranslationUnit& c_tu, const std::string& cpp_record_name,
                NodeId cpp_record_id, const std::string& c_record_name,
                NodeId c_record_id, bool const_, PointerKind pointer_kind,
-               BindType bind_type,
-               const std::string& prefix = std::string()) {
+               BindType bind_type, const std::string& prefix = std::string()) {
     auto rhs = NodePointerType::n(
         pointer_kind,
         NodeRecordType::n("", 0, cpp_record_name, cpp_record_id, const_),
@@ -1601,20 +1556,19 @@ void cast_to_c(TranslationUnit& c_tu, const std::string& cpp_record_name,
 
     // Function body
     auto c_function_body = NodeBlockExpr::n(std::vector<NodeExprPtr>({
-        NodeAssignExpr::n(
-            NodeDerefExpr::n(NodeVarRefExpr::n("lhs")),
-            std::move(cast_expr)),
+        NodeAssignExpr::n(NodeDerefExpr::n(NodeVarRefExpr::n("lhs")),
+                          std::move(cast_expr)),
     }));
 
     // opaquebytes need an additional pointer
     auto lhs = NodePointerType::n(PointerKind::Pointer, c_return, false);
-    #if 0
+#if 0
     auto is_opaqueptr = bind_type == BindType::OpaquePtr;
     if (is_opaqueptr)
     {
         lhs = NodePointerType::n(PointerKind::Pointer, std::move(lhs), false);
     }
-    #endif
+#endif
 
     // Function name
     auto function_name = prefix;
@@ -1622,14 +1576,11 @@ void cast_to_c(TranslationUnit& c_tu, const std::string& cpp_record_name,
 
     // Add the new function to the translation unit
     std::vector<std::string> attrs;
-    std::vector<Param> params =
-        {Param("lhs", lhs, 0),
-         Param("rhs", rhs, 1)
-    };
+    std::vector<Param> params = {Param("lhs", lhs, 0), Param("rhs", rhs, 1)};
     auto void_t = NodeBuiltinType::n("void", 0, "void", false);
     auto c_function = NodeFunction::n(function_name, PLACEHOLDER_ID, attrs, "",
-                                      std::move(void_t), std::move(params),
-                                      "", "", std::vector<NodeTypePtr>{});
+                                      std::move(void_t), std::move(params), "",
+                                      "", std::vector<NodeTypePtr>{});
 
     c_function->body = c_function_body;
     c_function->private_ = true;
@@ -1641,8 +1592,7 @@ void cast_to_c(TranslationUnit& c_tu, const std::string& cpp_record_name,
 //------------------------------------------------------------------------------
 void to_c_copy__trivial(TranslationUnit& c_tu,
                         const std::string& cpp_record_name,
-                        NodeId cpp_record_id,
-                        const std::string& c_record_name,
+                        NodeId cpp_record_id, const std::string& c_record_name,
                         NodeId c_record_id,
                         const std::string& prefix = std::string()) {
     auto rhs = NodePointerType::n(
@@ -1656,25 +1606,18 @@ void to_c_copy__trivial(TranslationUnit& c_tu,
 
     // Function body
     auto c_function_body = NodeBlockExpr::n(std::vector<NodeExprPtr>(
-        {
-         // memcpy(&result, &rhs, sizeof(result))
+        {// memcpy(&result, &rhs, sizeof(result))
          NodeFunctionCallExpr::n(
              "memcpy",
              std::vector<NodeExprPtr>(
                  {NodeVarRefExpr::n("lhs"),
                   NodeRefExpr::n(NodeVarRefExpr::n("rhs")),
                   NodeFunctionCallExpr::n(
-                      "sizeof", std::vector<NodeExprPtr>(
-                                    {NodeDerefExpr::n(NodeVarRefExpr::n("lhs"))}
-                                ),
-                       std::vector<NodeTypePtr>{}
-                  )
-                 }
-            ),
-            std::vector<NodeTypePtr>{}
-         )
-        }
-    ));
+                      "sizeof",
+                      std::vector<NodeExprPtr>(
+                          {NodeDerefExpr::n(NodeVarRefExpr::n("lhs"))}),
+                      std::vector<NodeTypePtr>{})}),
+             std::vector<NodeTypePtr>{})}));
 
     // Function name
     auto function_name = prefix;
@@ -1683,9 +1626,9 @@ void to_c_copy__trivial(TranslationUnit& c_tu,
     // Add the new function to the translation unit
     std::vector<std::string> attrs;
     std::vector<Param> params = {
-        Param("lhs", NodePointerType::n(PointerKind::Pointer, c_return, false), 0),
-        Param("rhs", rhs, 1)
-    };
+        Param("lhs", NodePointerType::n(PointerKind::Pointer, c_return, false),
+              0),
+        Param("rhs", rhs, 1)};
     auto c_function =
         NodeFunction::n(function_name, PLACEHOLDER_ID, attrs, "",
                         NodeBuiltinType::n("void", 0, "void", false),
@@ -1807,7 +1750,8 @@ void function_detail(TypeRegistry& type_registry, TranslationUnit& c_tu,
     }
 
     // Convert return type
-    auto converted_return = convert_type(c_tu, type_registry, cpp_function.return_type);
+    auto converted_return =
+        convert_type(c_tu, type_registry, cpp_function.return_type);
     auto c_return = converted_return.type;
     if (!c_return) {
         SPDLOG_ERROR("Skipping function {} due to unrecognised return type {}",
@@ -1827,23 +1771,18 @@ void function_detail(TypeRegistry& type_registry, TranslationUnit& c_tu,
         static_cast<const NodeBuiltinType*>(c_return.get())->type_name ==
             "void";
 
-    if(!c_return_is_void) {
-        auto return_pointer =
-            NodePointerType::n(PointerKind::Pointer, std::move(c_return),
-                               false);
+    if (!c_return_is_void) {
+        auto return_pointer = NodePointerType::n(PointerKind::Pointer,
+                                                 std::move(c_return), false);
 
         // If we're returning an opaqueptr then wrap it up in an extra pointer
-        if (converted_return.is_opaqueptr)
-        {
-            return_pointer =
-                NodePointerType::n(PointerKind::Pointer,
-                                   std::move(return_pointer),
-                                   false);
+        if (converted_return.is_opaqueptr) {
+            return_pointer = NodePointerType::n(
+                PointerKind::Pointer, std::move(return_pointer), false);
         }
 
         c_params.push_back(Param(std::string("return_"),
-                                 std::move(return_pointer),
-                                 c_params.size()));
+                                 std::move(return_pointer), c_params.size()));
     }
 
     // Convert params
@@ -1880,12 +1819,10 @@ void function_detail(TypeRegistry& type_registry, TranslationUnit& c_tu,
 
     auto template_args = cpp_function.template_args;
 
-    auto c_function =
-        NodeFunction::n(function_name, PLACEHOLDER_ID, cpp_function.attrs, "",
-                        NodeBuiltinType::n("void", 0, "void", false),
-                        std::move(c_params),
-                        function_nice_name, cpp_function.comment,
-                        std::move(template_args));
+    auto c_function = NodeFunction::n(
+        function_name, PLACEHOLDER_ID, cpp_function.attrs, "",
+        NodeBuiltinType::n("void", 0, "void", false), std::move(c_params),
+        function_nice_name, cpp_function.comment, std::move(template_args));
 
     c_function->body = c_function_body;
     c_tu.decls.push_back(NodePtr(c_function));
@@ -1904,8 +1841,7 @@ void namespace_entry(TypeRegistry& type_registry, const NodePtr& cpp_node) {
 }
 
 //------------------------------------------------------------------------------
-void to_c_copy__constructor(TranslationUnit& c_tu,
-                            const NodeRecord& cpp_record,
+void to_c_copy__constructor(TranslationUnit& c_tu, const NodeRecord& cpp_record,
                             const NodeRecord& c_record,
                             const NodePtr& copy_constructor_ptr) {
     const auto& copy_constructor =
@@ -1919,34 +1855,29 @@ void to_c_copy__constructor(TranslationUnit& c_tu,
         NodeRecordType::n("", 0, c_record.nice_name, c_record.id, false);
 
     // Function body
-    auto c_function_body = NodeBlockExpr::n(std::vector<NodeExprPtr>(
-        {
-         // copy_constructor(&result, reinterpret_cast<const CTYPE *>(rhs))
-         NodeFunctionCallExpr::n(
-             copy_constructor.name,
-             std::vector<NodeExprPtr>(
-                 {NodeVarRefExpr::n("lhs"),
-                  NodeCastExpr::n(
-                      NodeRefExpr::n(NodeVarRefExpr::n("rhs")),
-                      NodePointerType::n(PointerKind::Pointer,
-                                         NodeRecordType::n("", 0,
-                                                           c_record.nice_name,
-                                                           c_record.id, true),
-                                         false),
-                      "reinterpret")
-                }),
+    auto c_function_body = NodeBlockExpr::n(std::vector<NodeExprPtr>({
+        // copy_constructor(&result, reinterpret_cast<const CTYPE *>(rhs))
+        NodeFunctionCallExpr::n(
+            copy_constructor.name,
+            std::vector<NodeExprPtr>(
+                {NodeVarRefExpr::n("lhs"),
+                 NodeCastExpr::n(
+                     NodeRefExpr::n(NodeVarRefExpr::n("rhs")),
+                     NodePointerType::n(PointerKind::Pointer,
+                                        NodeRecordType::n("", 0,
+                                                          c_record.nice_name,
+                                                          c_record.id, true),
+                                        false),
+                     "reinterpret")}),
 
-            std::vector<NodeTypePtr>{}
-          ),
-        }
-    ));
+            std::vector<NodeTypePtr>{}),
+    }));
 
-    auto lhs = NodePointerType::n(PointerKind::Pointer, std::move(c_return),
-                                  false);
+    auto lhs =
+        NodePointerType::n(PointerKind::Pointer, std::move(c_return), false);
 
     auto is_opaqueptr = bind_type(cpp_record) == BindType::OpaquePtr;
-    if (is_opaqueptr)
-    {
+    if (is_opaqueptr) {
         lhs = NodePointerType::n(PointerKind::Pointer, std::move(lhs), false);
     }
 
@@ -1969,8 +1900,7 @@ void to_c_copy__constructor(TranslationUnit& c_tu,
 }
 
 //------------------------------------------------------------------------------
-void record_conversions(TranslationUnit& c_tu,
-                        const NodeRecord& cpp_record,
+void record_conversions(TranslationUnit& c_tu, const NodeRecord& cpp_record,
                         const NodeRecord& c_record,
                         const NodePtr& copy_constructor) {
     const auto& c_n = c_record.nice_name;
@@ -2079,8 +2009,7 @@ void record_detail(TypeRegistry& type_registry, TranslationUnit& c_tu,
 
     // Methods
     NodePtr copy_constructor;
-    record_methods(type_registry, c_tu, cpp_record, c_record,
-                   copy_constructor);
+    record_methods(type_registry, c_tu, cpp_record, c_record, copy_constructor);
 
     // Conversions
     record_conversions(c_tu, cpp_record, c_record, copy_constructor);
