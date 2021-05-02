@@ -588,7 +588,8 @@ void opaqueptr_record(NodeRecord& c_record) {
 }
 
 //------------------------------------------------------------------------------
-Param this_param(const NodeRecord& c_record, bool const_, bool constructor) {
+Param this_param(const NodeRecord& cpp_record, const NodeRecord& c_record,
+                 bool const_, bool constructor) {
 
     auto record =
         NodeRecordType::n("", 0, c_record.nice_name, c_record.id, const_);
@@ -1204,7 +1205,7 @@ void record_method(TypeRegistry& type_registry, TranslationUnit& c_tu,
 
     // Convert params
     auto c_params = std::vector<Param>();
-    c_params.push_back(this_param(c_record, cpp_method.is_const,
+    c_params.push_back(this_param(cpp_record, c_record, cpp_method.is_const,
                                   cpp_method.is_constructor));
 
     // Return value
