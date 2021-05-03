@@ -559,10 +559,10 @@ struct NodeNewExpr : public NodeExpr {
 // NodeDeleteExpr
 //------------------------------------------------------------------------------
 struct NodeDeleteExpr : public NodeExpr {
-    std::string name;
+    NodeExprPtr pointer;
 
-    NodeDeleteExpr(std::string name)
-        : NodeExpr(NodeKind::DeleteExpr), name(name) {}
+    NodeDeleteExpr(NodeExprPtr&& pointer)
+        : NodeExpr(NodeKind::DeleteExpr), pointer(pointer) {}
 
     // A static method for creating this as a shared pointer
     using This = NodeDeleteExpr;

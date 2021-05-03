@@ -393,9 +393,8 @@ void write_expression_new(fmt::ostream& out, size_t depth,
                           const NodeExprPtr& node) {
     const auto& new_expr = *static_cast<const NodeNewExpr*>(node.get());
 
-    out.print("*this_ = to_c(new ");
+    out.print("new ");
     write_expression(out, depth, new_expr.constructor);
-    out.print(")");
 }
 
 //------------------------------------------------------------------------------
@@ -403,8 +402,8 @@ void write_expression_delete(fmt::ostream& out, size_t depth,
                              const NodeExprPtr& node) {
     const auto& delete_expr = *static_cast<const NodeDeleteExpr*>(node.get());
 
-    // FIXME (AL): handle args here
-    out.print("delete this_", delete_expr.name);
+    out.print("delete ");
+    write_expression(out, depth, delete_expr.pointer);
 }
 
 //------------------------------------------------------------------------------
