@@ -642,13 +642,6 @@ bool should_wrap_function(const NodeFunction& cpp_function) {
 
 //------------------------------------------------------------------------------
 bool should_wrap(const NodeRecord& cpp_record, const NodeMethod& cpp_method) {
-    // Skip static methods for now
-    if (cpp_method.is_static) // TODO LT: Bring in support for static methods
-    {
-        // SPDLOG_WARN("Skipping static {}", cpp_method.name);
-        return false;
-    }
-
     // Check this is not a constructor for an abstract type
     if (cpp_method.is_constructor && cpp_record.abstract) {
         SPDLOG_WARN("Skipping abstract constructor {}", cpp_method.name);
@@ -1285,7 +1278,6 @@ void record_method(TypeRegistry& type_registry, TranslationUnit& c_tu,
     // TODO LT: Take the move constructor with priority
     if (cpp_method.is_copy_constructor) {
 
-        SPDLOG_DEBUG("Found copy constructor {}", cpp_method.name);
         copy_constructor = c_function;
     }
 }
