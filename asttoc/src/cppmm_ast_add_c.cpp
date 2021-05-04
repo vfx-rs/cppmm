@@ -1177,11 +1177,21 @@ std::string find_function_short_name(const NodeFunction& cpp_function) {
 }
 
 //------------------------------------------------------------------------------
+void general_function(TypeRegistry& type_registry, TranslationUnit& c_tu,
+                      const NodeFunction& cpp_function);
+
+//------------------------------------------------------------------------------
 void record_method(TypeRegistry& type_registry, TranslationUnit& c_tu,
                    const NodeRecord& cpp_record, const NodeRecord& c_record,
                    const NodeMethod& cpp_method, NodePtr& copy_constructor) {
     // Skip ignored methods
     if (!should_wrap(cpp_record, cpp_method)) {
+        return;
+    }
+
+    // If the method is static, then delegate to the function wrapping method
+    if(cpp_method.is_static) {
+        general_function(type_registry, c_tu, cpp_method);
         return;
     }
 
@@ -1736,10 +1746,8 @@ void enum_entry(NodeId& new_id, TypeRegistry& type_registry,
 }
 
 //------------------------------------------------------------------------------
-void function_detail(TypeRegistry& type_registry, TranslationUnit& c_tu,
-                     const NodePtr& cpp_node) {
-    const NodeFunction& cpp_function =
-        *static_cast<const NodeFunction*>(cpp_node.get());
+void general_function(TypeRegistry& type_registry, TranslationUnit& c_tu,
+                      const NodeFunction& cpp_function) {
 
     // Skip ignored methods
     if (!should_wrap_function(cpp_function)) {
@@ -1824,6 +1832,15 @@ void function_detail(TypeRegistry& type_registry, TranslationUnit& c_tu,
 
     c_function->body = c_function_body;
     c_tu.decls.push_back(NodePtr(c_function));
+}
+
+//------------------------------------------------------------------------------
+void function_detail(TypeRegistry& type_registry, TranslationUnit& c_tu,
+                     const NodePtr& cpp_node) {
+    const NodeFunction& cpp_function =
+        *static_cast<const NodeFunction*>(cpp_node.get());
+
+    general_function(type_registry, c_tu, cpp_function);
 }
 
 //------------------------------------------------------------------------------
