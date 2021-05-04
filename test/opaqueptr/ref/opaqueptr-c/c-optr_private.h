@@ -2,6 +2,8 @@
 #include <c-optr.h>
 
 
+#include "opaqueptr-errors-private.h"
+
 #include <cstring>
 #include <optr.hpp>
 

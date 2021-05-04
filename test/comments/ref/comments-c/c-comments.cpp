@@ -10,6 +10,7 @@ unsigned int comments__Class_method(
         (to_cpp(this_)) -> method();
         return 0;
     } catch (std::exception& e) {
+        TLG_EXCEPTION_STRING = e.what();
         return -1;
     }
 }
@@ -19,6 +20,7 @@ unsigned int comments_function()
         comments::function();
         return 0;
     } catch (std::exception& e) {
+        TLG_EXCEPTION_STRING = e.what();
         return -1;
     }
 }

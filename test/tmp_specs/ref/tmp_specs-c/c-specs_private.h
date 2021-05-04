@@ -2,6 +2,8 @@
 #include <c-specs.h>
 
 
+#include "tmp_specs-errors-private.h"
+
 #include <cstring>
 #include <tmp_specs.hpp>
 

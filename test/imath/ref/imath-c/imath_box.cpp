@@ -12,6 +12,7 @@ unsigned int Imath_2_5__Box_Imath__Vec3_float___extendBy(
         (to_cpp(this_)) -> extendBy(to_cpp_ref(point));
         return 0;
     } catch (std::exception& e) {
+        TLG_EXCEPTION_STRING = e.what();
         return -1;
     }
 }
@@ -23,6 +24,7 @@ unsigned int Imath_2_5__Box_Imath__Vec3_float___extendBy_1(
         (to_cpp(this_)) -> extendBy(to_cpp_ref(box));
         return 0;
     } catch (std::exception& e) {
+        TLG_EXCEPTION_STRING = e.what();
         return -1;
     }
 }
@@ -34,6 +36,7 @@ unsigned int Imath_2_5__Box_Imath__Vec3_int___extendBy(
         (to_cpp(this_)) -> extendBy(to_cpp_ref(point));
         return 0;
     } catch (std::exception& e) {
+        TLG_EXCEPTION_STRING = e.what();
         return -1;
     }
 }
@@ -45,6 +48,7 @@ unsigned int Imath_2_5__Box_Imath__Vec3_int___extendBy_1(
         (to_cpp(this_)) -> extendBy(to_cpp_ref(box));
         return 0;
     } catch (std::exception& e) {
+        TLG_EXCEPTION_STRING = e.what();
         return -1;
     }
 }

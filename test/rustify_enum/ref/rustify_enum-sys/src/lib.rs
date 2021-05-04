@@ -35,6 +35,10 @@ impl fmt::Display for Error {
         Ok(())
     }
 }
+extern {
+    pub fn rustify_enum_get_exception_string() -> *const std::os::raw::c_char;
+}
+
 pub mod c_renum;
 
 pub use c_renum::rustify__Compression_e as rustify_Compression;

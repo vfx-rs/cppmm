@@ -4,6 +4,7 @@ set(CMAKE_CXX_STANDARD 14 CACHE STRING "")
 set(LIBNAME deep_namespace-c-0_1)
 add_library(${LIBNAME} SHARED
     c-dn.cpp
+deep_namespace-errors.cpp
 )
 target_include_directories(${LIBNAME} PRIVATE .)
 target_include_directories(${LIBNAME} PRIVATE /home/anders/code/cppmm/test/deep_namespace/include)

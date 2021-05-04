@@ -11,6 +11,7 @@ unsigned int Imath_2_5__Vec3_float__Vec3(
         new (this_) Imath_2_5::Vec3<float>();
         return 0;
     } catch (std::exception& e) {
+        TLG_EXCEPTION_STRING = e.what();
         return -1;
     }
 }
@@ -22,6 +23,7 @@ unsigned int Imath_2_5__Vec3_float__Vec3_1(
         new (this_) Imath_2_5::Vec3<float>(to_cpp_ref(rhs));
         return 0;
     } catch (std::exception& e) {
+        TLG_EXCEPTION_STRING = e.what();
         return -1;
     }
 }
@@ -35,6 +37,7 @@ unsigned int Imath_2_5__Vec3_float__setValue(
         (to_cpp(this_)) -> setValue<float>(a, b, c);
         return 0;
     } catch (std::exception& e) {
+        TLG_EXCEPTION_STRING = e.what();
         return -1;
     }
 }
@@ -47,6 +50,7 @@ unsigned int Imath_2_5__Vec3_float__dot(
         *(return_) = (to_cpp(this_)) -> dot(to_cpp_ref(v));
         return 0;
     } catch (std::exception& e) {
+        TLG_EXCEPTION_STRING = e.what();
         return -1;
     }
 }
@@ -59,6 +63,7 @@ unsigned int Imath_2_5__Vec3_float__cross(
         to_c_copy(return_, (to_cpp(this_)) -> cross(to_cpp_ref(v)));
         return 0;
     } catch (std::exception& e) {
+        TLG_EXCEPTION_STRING = e.what();
         return -1;
     }
 }
@@ -71,6 +76,7 @@ unsigned int Imath_2_5__Vec3_float__op_iadd(
         to_c(return_, (to_cpp(this_)) -> operator+=(to_cpp_ref(v)));
         return 0;
     } catch (std::exception& e) {
+        TLG_EXCEPTION_STRING = e.what();
         return -1;
     }
 }
@@ -82,6 +88,7 @@ unsigned int Imath_2_5__Vec3_float__length(
         *(return_) = (to_cpp(this_)) -> length();
         return 0;
     } catch (std::exception& e) {
+        TLG_EXCEPTION_STRING = e.what();
         return -1;
     }
 }
@@ -93,6 +100,7 @@ unsigned int Imath_2_5__Vec3_float__length2(
         *(return_) = (to_cpp(this_)) -> length2();
         return 0;
     } catch (std::exception& e) {
+        TLG_EXCEPTION_STRING = e.what();
         return -1;
     }
 }
@@ -104,6 +112,7 @@ unsigned int Imath_2_5__Vec3_float__normalize(
         to_c(return_, (to_cpp(this_)) -> normalize());
         return 0;
     } catch (std::exception& e) {
+        TLG_EXCEPTION_STRING = e.what();
         return -1;
     }
 }
@@ -115,6 +124,7 @@ unsigned int Imath_2_5__Vec3_float__normalized(
         to_c_copy(return_, (to_cpp(this_)) -> normalized());
         return 0;
     } catch (std::exception& e) {
+        TLG_EXCEPTION_STRING = e.what();
         return -1;
     }
 }
@@ -125,6 +135,7 @@ unsigned int Imath_2_5__Vec3_int__Vec3(
         new (this_) Imath_2_5::Vec3<int>();
         return 0;
     } catch (std::exception& e) {
+        TLG_EXCEPTION_STRING = e.what();
         return -1;
     }
 }
@@ -136,6 +147,7 @@ unsigned int Imath_2_5__Vec3_int__Vec3_1(
         new (this_) Imath_2_5::Vec3<int>(to_cpp_ref(rhs));
         return 0;
     } catch (std::exception& e) {
+        TLG_EXCEPTION_STRING = e.what();
         return -1;
     }
 }
@@ -148,6 +160,7 @@ unsigned int Imath_2_5__Vec3_int__dot(
         *(return_) = (to_cpp(this_)) -> dot(to_cpp_ref(v));
         return 0;
     } catch (std::exception& e) {
+        TLG_EXCEPTION_STRING = e.what();
         return -1;
     }
 }
@@ -160,6 +173,7 @@ unsigned int Imath_2_5__Vec3_int__cross(
         to_c_copy(return_, (to_cpp(this_)) -> cross(to_cpp_ref(v)));
         return 0;
     } catch (std::exception& e) {
+        TLG_EXCEPTION_STRING = e.what();
         return -1;
     }
 }
@@ -172,6 +186,7 @@ unsigned int Imath_2_5__Vec3_int__op_iadd(
         to_c(return_, (to_cpp(this_)) -> operator+=(to_cpp_ref(v)));
         return 0;
     } catch (std::exception& e) {
+        TLG_EXCEPTION_STRING = e.what();
         return -1;
     }
 }
@@ -183,6 +198,7 @@ unsigned int Imath_2_5__Vec3_int__length(
         *(return_) = (to_cpp(this_)) -> length();
         return 0;
     } catch (std::exception& e) {
+        TLG_EXCEPTION_STRING = e.what();
         return -1;
     }
 }
@@ -194,6 +210,7 @@ unsigned int Imath_2_5__Vec3_int__length2(
         *(return_) = (to_cpp(this_)) -> length2();
         return 0;
     } catch (std::exception& e) {
+        TLG_EXCEPTION_STRING = e.what();
         return -1;
     }
 }
@@ -205,6 +222,7 @@ unsigned int Imath_2_5__Vec3_int__normalize(
         to_c(return_, (to_cpp(this_)) -> normalize());
         return 0;
     } catch (std::exception& e) {
+        TLG_EXCEPTION_STRING = e.what();
         return -1;
     }
 }
@@ -216,6 +234,7 @@ unsigned int Imath_2_5__Vec3_int__normalized(
         to_c_copy(return_, (to_cpp(this_)) -> normalized());
         return 0;
     } catch (std::exception& e) {
+        TLG_EXCEPTION_STRING = e.what();
         return -1;
     }
 }

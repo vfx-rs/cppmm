@@ -2,6 +2,8 @@
 #include <std_string.h>
 
 
+#include "std-errors-private.h"
+
 #include <cstring>
 #include <string>
 #include <vector>

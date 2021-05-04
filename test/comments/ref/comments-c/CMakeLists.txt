@@ -4,6 +4,7 @@ set(CMAKE_CXX_STANDARD 14 CACHE STRING "")
 set(LIBNAME comments-c-0_1)
 add_library(${LIBNAME} SHARED
     c-comments.cpp
+comments-errors.cpp
 )
 target_include_directories(${LIBNAME} PRIVATE .)
 target_include_directories(${LIBNAME} PRIVATE /home/anders/code/cppmm/test/comments/include)

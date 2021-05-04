@@ -58,14 +58,14 @@ if os.path.isfile(test_file):
 result = subprocess.Popen(['cargo', 'test'], cwd=rustdir, stderr=subprocess.STDOUT, stdout=subprocess.PIPE, shell=False)
 (stdout, _) = result.communicate(None)
 
+# Remove cargo build stuff
+shutil.rmtree(os.path.join(rustdir, 'target'), ignore_errors=True)
+os.remove(os.path.join(rustdir, 'Cargo.lock'))
+
 if result.returncode != 0:
     print('cargo test failed')
     print(stdout)
     sys.exit(255)
-
-# Remove cargo build stuff
-shutil.rmtree(os.path.join(rustdir, 'target'), ignore_errors=True)
-os.remove(os.path.join(rustdir, 'Cargo.lock'))
 
 # diff entire directory with a crummy attempt to ignore paths
 ignore_regex = '-I\s*\"\/.*\/.*'

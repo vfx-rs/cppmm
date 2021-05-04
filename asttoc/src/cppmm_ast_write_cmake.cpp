@@ -54,7 +54,8 @@ const std::string compute_cmakefile_path(const std::string& filename) {
 //------------------------------------------------------------------------------
 void cmake(const char* project_name, const Root& root, size_t starting_point,
            const Libs& libs, const LibDirs& lib_dirs, int version_major,
-           int version_minor, int version_patch) {
+           int version_minor, int version_patch,
+           const char* base_project_name) {
     expect(starting_point < root.tus.size(),
            "starting point ({}) is out of range ({})", starting_point,
            root.tus.size());
@@ -90,6 +91,7 @@ void cmake(const char* project_name, const Root& root, size_t starting_point,
             include_paths.insert(i);
         }
     }
+    out.print("{}\n", fmt::format("{}-errors.cpp", base_project_name));
     out.print(")\n");
 
     // Add the include path of the output headers

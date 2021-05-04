@@ -11,6 +11,7 @@ unsigned int specs__Attribute_int__value(
         *(return_) = &((to_cpp(this_)) -> value());
         return 0;
     } catch (std::exception& e) {
+        TLG_EXCEPTION_STRING = e.what();
         return -1;
     }
 }
@@ -22,6 +23,7 @@ unsigned int specs__Attribute_float__value(
         *(return_) = &((to_cpp(this_)) -> value());
         return 0;
     } catch (std::exception& e) {
+        TLG_EXCEPTION_STRING = e.what();
         return -1;
     }
 }
@@ -34,6 +36,7 @@ unsigned int specs__Specs_findAttribute_int(
         to_c(return_, (to_cpp(this_)) -> findAttribute<specs::Attribute<int>>(name));
         return 0;
     } catch (std::exception& e) {
+        TLG_EXCEPTION_STRING = e.what();
         return -1;
     }
 }
@@ -46,6 +49,7 @@ unsigned int specs__Specs_findAttribute_float(
         to_c(return_, (to_cpp(this_)) -> findAttribute<specs::Attribute<float>>(name));
         return 0;
     } catch (std::exception& e) {
+        TLG_EXCEPTION_STRING = e.what();
         return -1;
     }
 }
@@ -58,6 +62,7 @@ unsigned int specs__Specs_findAttribute_int_const(
         to_c(return_, (to_cpp(this_)) -> findAttribute<specs::Attribute<int>>(name));
         return 0;
     } catch (std::exception& e) {
+        TLG_EXCEPTION_STRING = e.what();
         return -1;
     }
 }
@@ -70,6 +75,7 @@ unsigned int specs__Specs_findAttribute_float_const(
         to_c(return_, (to_cpp(this_)) -> findAttribute<specs::Attribute<float>>(name));
         return 0;
     } catch (std::exception& e) {
+        TLG_EXCEPTION_STRING = e.what();
         return -1;
     }
 }

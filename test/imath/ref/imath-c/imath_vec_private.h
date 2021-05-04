@@ -2,6 +2,8 @@
 #include <imath_vec.h>
 
 
+#include "imath-errors-private.h"
+
 #include <OpenEXR/ImathVec.h>
 #include <cstring>
 #include <vector>

@@ -11,6 +11,7 @@ unsigned int optr__PubCtor_ctor(
         to_c(this_, new optr::PubCtor());
         return 0;
     } catch (std::exception& e) {
+        TLG_EXCEPTION_STRING = e.what();
         return -1;
     }
 }
@@ -21,6 +22,7 @@ unsigned int optr__PubCtor_dtor(
         delete to_cpp(this_);
         return 0;
     } catch (std::exception& e) {
+        TLG_EXCEPTION_STRING = e.what();
         return -1;
     }
 }
@@ -31,6 +33,7 @@ unsigned int optr__PubCtor_doit(
         (to_cpp(this_)) -> doit();
         return 0;
     } catch (std::exception& e) {
+        TLG_EXCEPTION_STRING = e.what();
         return -1;
     }
 }
@@ -41,6 +44,7 @@ unsigned int optr__PrvCtor_doit(
         (to_cpp(this_)) -> doit();
         return 0;
     } catch (std::exception& e) {
+        TLG_EXCEPTION_STRING = e.what();
         return -1;
     }
 }

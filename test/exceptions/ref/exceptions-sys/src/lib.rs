@@ -52,6 +52,10 @@ impl fmt::Display for Error {
         }
     }
 }
+extern {
+    pub fn exceptions_get_exception_string() -> *const std::os::raw::c_char;
+}
+
 pub mod c_ex;
 pub use c_ex::ex__Struct_t as ex_Struct_t;
 

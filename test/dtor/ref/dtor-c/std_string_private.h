@@ -2,6 +2,8 @@
 #include <std_string.h>
 
 
+#include "dtor-errors-private.h"
+
 #include <cstring>
 #include <string>
 

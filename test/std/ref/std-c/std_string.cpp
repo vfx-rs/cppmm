@@ -14,6 +14,7 @@ unsigned int std____cxx11__basic_string_char__assign(
         to_c(return_, (to_cpp(this_)) -> assign(s, count));
         return 0;
     } catch (std::exception& e) {
+        TLG_EXCEPTION_STRING = e.what();
         return -1;
     }
 }
@@ -25,6 +26,7 @@ unsigned int std____cxx11__basic_string_char__c_str(
         *(return_) = (to_cpp(this_)) -> c_str();
         return 0;
     } catch (std::exception& e) {
+        TLG_EXCEPTION_STRING = e.what();
         return -1;
     }
 }
@@ -35,6 +37,7 @@ unsigned int std__vector_std__string__vector(
         to_c(this_, new std::vector<std::string>());
         return 0;
     } catch (std::exception& e) {
+        TLG_EXCEPTION_STRING = e.what();
         return -1;
     }
 }
@@ -45,6 +48,7 @@ unsigned int std__vector_std__string__dtor(
         delete to_cpp(this_);
         return 0;
     } catch (std::exception& e) {
+        TLG_EXCEPTION_STRING = e.what();
         return -1;
     }
 }

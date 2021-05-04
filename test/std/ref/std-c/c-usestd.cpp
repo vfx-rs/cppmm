@@ -11,6 +11,7 @@ unsigned int usestd_takes_string(
         usestd::takes_string(to_cpp_ref(s));
         return 0;
     } catch (std::exception& e) {
+        TLG_EXCEPTION_STRING = e.what();
         return -1;
     }
 }
@@ -21,6 +22,7 @@ unsigned int usestd_takes_vector_string(
         usestd::takes_vector_string(to_cpp_ref(v));
         return 0;
     } catch (std::exception& e) {
+        TLG_EXCEPTION_STRING = e.what();
         return -1;
     }
 }

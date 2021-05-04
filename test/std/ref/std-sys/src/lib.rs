@@ -35,6 +35,10 @@ impl fmt::Display for Error {
         Ok(())
     }
 }
+extern {
+    pub fn std_get_exception_string() -> *const std::os::raw::c_char;
+}
+
 pub mod c_usestd;
 
 pub use c_usestd::usestd_takes_string as usestd_takes_string;

@@ -2,6 +2,8 @@
 #include <c-array_params.h>
 
 
+#include "array_params-errors-private.h"
+
 #include <array_params.hpp>
 #include <cstring>
 

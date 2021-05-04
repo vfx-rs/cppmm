@@ -4,6 +4,7 @@ set(CMAKE_CXX_STANDARD 14 CACHE STRING "")
 set(LIBNAME function_pointers-c-0_1)
 add_library(${LIBNAME} SHARED
     c-fptr.cpp
+function_pointers-errors.cpp
 )
 target_include_directories(${LIBNAME} PRIVATE .)
 target_include_directories(${LIBNAME} PRIVATE /home/anders/code/cppmm/test/function_pointers/include)

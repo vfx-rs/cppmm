@@ -520,6 +520,10 @@ impl fmt::Display for Error {{
 )");
     }
 
+    out_lib.print("extern {{\n    pub fn {}_get_exception_string() -> *const "
+                  "std::os::raw::c_char;\n}}\n\n",
+                  project_name);
+
     const auto size = root.tus.size();
     for (size_t i = starting_point; i < size; ++i) {
         const auto& tu = root.tus[i];

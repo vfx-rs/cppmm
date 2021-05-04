@@ -11,6 +11,7 @@ unsigned int dtor__Struct_Struct(
         to_c(this_, new dtor::Struct());
         return 0;
     } catch (std::exception& e) {
+        TLG_EXCEPTION_STRING = e.what();
         return -1;
     }
 }
@@ -21,6 +22,7 @@ unsigned int dtor__Struct_dtor(
         delete to_cpp(this_);
         return 0;
     } catch (std::exception& e) {
+        TLG_EXCEPTION_STRING = e.what();
         return -1;
     }
 }

@@ -83,11 +83,14 @@ void generate(const char* input, const char* project_name, const char* output,
 
     // Save out only the c translation units
     std::string c_project_name = fmt::format("{}-c", project_name);
+    cppmm::write::cerrors(output_directory.c_str(), cpp_ast, starting_point,
+                          project_name);
     cppmm::write::c(c_project_name.c_str(), cpp_ast, starting_point);
 
     // Create a cmake file as well
     cppmm::write::cmake(c_project_name.c_str(), cpp_ast, starting_point, libs,
-                        lib_dirs, version_major, version_minor, version_patch);
+                        lib_dirs, version_major, version_minor, version_patch,
+                        project_name);
 
     std::string cwd = fs::current_path().string();
     std::string c_dir = pystring::os::path::abspath(output_directory, cwd);

@@ -2,6 +2,8 @@
 #include <c-renum.h>
 
 
+#include "rustify_enum-errors-private.h"
+
 #include <cstring>
 #include <renum.hpp>
 

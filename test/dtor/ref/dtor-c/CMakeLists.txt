@@ -5,6 +5,7 @@ set(LIBNAME dtor-c-0_1)
 add_library(${LIBNAME} SHARED
     c-dtor.cpp
     std_string.cpp
+dtor-errors.cpp
 )
 target_include_directories(${LIBNAME} PRIVATE .)
 target_include_directories(${LIBNAME} PRIVATE /home/anders/code/cppmm/test/dtor/include)

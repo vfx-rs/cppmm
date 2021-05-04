@@ -2,6 +2,8 @@
 #include <c-dtor.h>
 
 
+#include "dtor-errors-private.h"
+
 #include <cstring>
 #include <dtor.hpp>
 

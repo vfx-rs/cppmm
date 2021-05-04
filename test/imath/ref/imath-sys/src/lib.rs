@@ -35,6 +35,10 @@ impl fmt::Display for Error {
         Ok(())
     }
 }
+extern {
+    pub fn imath_get_exception_string() -> *const std::os::raw::c_char;
+}
+
 pub mod imath_vec;
 pub use imath_vec::Imath_2_5__Vec3_float__t as Imath_V3f_t;
 pub use imath_vec::Imath_2_5__Vec3_int__t as Imath_V3i_t;

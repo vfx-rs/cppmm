@@ -11,6 +11,7 @@ unsigned int std____cxx11__basic_string_char__ctor(
         to_c(this_, new std::__cxx11::basic_string<char>());
         return 0;
     } catch (std::exception& e) {
+        TLG_EXCEPTION_STRING = e.what();
         return -1;
     }
 }
@@ -22,6 +23,7 @@ unsigned int std____cxx11__basic_string_char__copy(
         to_c(this_, new std::__cxx11::basic_string<char>(to_cpp_ref(rhs)));
         return 0;
     } catch (std::exception& e) {
+        TLG_EXCEPTION_STRING = e.what();
         return -1;
     }
 }
@@ -32,6 +34,7 @@ unsigned int std____cxx11__basic_string_char__dtor(
         delete to_cpp(this_);
         return 0;
     } catch (std::exception& e) {
+        TLG_EXCEPTION_STRING = e.what();
         return -1;
     }
 }
@@ -45,6 +48,7 @@ unsigned int std____cxx11__basic_string_char__assign(
         to_c(return_, (to_cpp(this_)) -> assign(s, count));
         return 0;
     } catch (std::exception& e) {
+        TLG_EXCEPTION_STRING = e.what();
         return -1;
     }
 }
@@ -56,6 +60,7 @@ unsigned int std____cxx11__basic_string_char__c_str(
         *(return_) = (to_cpp(this_)) -> c_str();
         return 0;
     } catch (std::exception& e) {
+        TLG_EXCEPTION_STRING = e.what();
         return -1;
     }
 }

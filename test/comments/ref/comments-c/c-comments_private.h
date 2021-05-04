@@ -2,6 +2,8 @@
 #include <c-comments.h>
 
 
+#include "comments-errors-private.h"
+
 #include <comments.hpp>
 #include <cstring>
 

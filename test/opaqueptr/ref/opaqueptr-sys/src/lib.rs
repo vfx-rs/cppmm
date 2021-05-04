@@ -35,6 +35,10 @@ impl fmt::Display for Error {
         Ok(())
     }
 }
+extern {
+    pub fn opaqueptr_get_exception_string() -> *const std::os::raw::c_char;
+}
+
 pub mod c_optr;
 pub use c_optr::optr__PubCtor_t as optr_PubCtor_t;
 pub use c_optr::optr__PrvCtor_t as optr_PrvCtor_t;

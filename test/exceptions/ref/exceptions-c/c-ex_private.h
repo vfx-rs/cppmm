@@ -2,6 +2,8 @@
 #include <c-ex.h>
 
 
+#include "exceptions-errors-private.h"
+
 #include <cstring>
 #include <ex.hpp>
 

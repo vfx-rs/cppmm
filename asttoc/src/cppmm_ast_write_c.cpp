@@ -11,6 +11,9 @@
 
 #include <iostream>
 
+#include "filesystem.hpp"
+namespace fs = ghc::filesystem;
+
 #define SPDLOG_ACTIVE_LEVEL TRACE
 
 #include <spdlog/sinks/stdout_color_sinks.h>
@@ -516,11 +519,13 @@ void write_function_bdy(fmt::ostream& out, const NodePtr& node, Access access) {
         if (!function.private_) {
             for (const auto& e : function.exceptions) {
                 out.print("    }} catch ({}& e) {{\n"
+                          "        TLG_EXCEPTION_STRING = e.what();\n"
                           "        return {};\n",
                           e.cpp_name, e.error_code);
             }
 
             out.print("    }} catch (std::exception& e) {{\n"
+                      "        TLG_EXCEPTION_STRING = e.what();\n"
                       "        return -1;\n"
                       "    }}\n");
         }
@@ -732,5 +737,84 @@ void c(const char* project_name, const Root& root, size_t starting_point) {
         write_translation_unit(*tu);
     }
 }
+
+//------------------------------------------------------------------------------
+void write_error_header(const char* filename, const char* project_name) {
+    auto out = fmt::output_file(filename);
+
+    out.print(R"(#pragma once
+#ifdef __cplusplus
+extern "C" {{
+#endif
+
+const char* {}_get_exception_string();
+
+#ifdef __cplusplus
+}}
+#endif
+)",
+              project_name);
+}
+
+//------------------------------------------------------------------------------
+void write_error_header_private(const char* filename,
+                                const char* project_name) {
+    auto out = fmt::output_file(filename);
+
+    out.print(R"(#pragma once
+#include <string>
+extern thread_local std::string TLG_EXCEPTION_STRING;
+)",
+              project_name);
+}
+
+//------------------------------------------------------------------------------
+void write_error_source(const char* filename, const char* public_header,
+                        const char* private_header, const char* project_name) {
+    auto out = fmt::output_file(filename);
+
+    out.print(R"(#include "{0}"
+#include "{1}"
+
+thread_local std::string TLG_EXCEPTION_STRING;
+
+const char* {2}_get_exception_string() {{
+    return TLG_EXCEPTION_STRING.c_str();
+}}
+
+)",
+              public_header, private_header, project_name);
+}
+
+//------------------------------------------------------------------------------
+void cerrors(const char* output_dir, Root& root, size_t starting_point,
+             const char* project_name) {
+    auto basename = fmt::format("{}-errors", project_name);
+    auto header_fn = fs::path(basename).replace_extension(".h");
+    auto private_header_fn =
+        fs::path(fmt::format("{}-errors-private.h", project_name));
+    auto source_fn = fs::path(basename).replace_extension(".cpp");
+
+    auto header_path = fs::path(output_dir) / header_fn;
+    auto private_header_path = fs::path(output_dir) / private_header_fn;
+    auto source_path = fs::path(output_dir) / source_fn;
+
+    write_error_header(header_path.c_str(), project_name);
+    write_error_header_private(private_header_path.c_str(), project_name);
+    write_error_source(source_path.c_str(), header_path.c_str(),
+                       private_header_path.c_str(), project_name);
+
+    expect(starting_point < root.tus.size(),
+           "starting point ({}) is out of range ({})", starting_point,
+           root.tus.size());
+
+    const auto size = root.tus.size();
+    for (size_t i = starting_point; i < size; ++i) {
+        auto& tu = root.tus[i];
+        tu->private_includes.insert(
+            fmt::format("#include \"{}\"\n", private_header_fn.string()));
+    }
+}
+
 } // namespace write
 } // namespace cppmm

@@ -35,6 +35,10 @@ impl fmt::Display for Error {
         Ok(())
     }
 }
+extern {
+    pub fn comments_get_exception_string() -> *const std::os::raw::c_char;
+}
+
 pub mod c_comments;
 pub use c_comments::comments__Class_t as comments_Class_t;
 

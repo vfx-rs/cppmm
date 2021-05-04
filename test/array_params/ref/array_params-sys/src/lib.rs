@@ -35,6 +35,10 @@ impl fmt::Display for Error {
         Ok(())
     }
 }
+extern {
+    pub fn array_params_get_exception_string() -> *const std::os::raw::c_char;
+}
+
 pub mod c_array_params;
 pub use c_array_params::imath__Matrix44_float__t as imath_M44f_t;
 

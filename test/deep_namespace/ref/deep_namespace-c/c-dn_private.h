@@ -2,6 +2,8 @@
 #include <c-dn.h>
 
 
+#include "deep_namespace-errors-private.h"
+
 #include <cstring>
 #include <dn.hpp>
 

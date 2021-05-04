@@ -35,6 +35,10 @@ impl fmt::Display for Error {
         Ok(())
     }
 }
+extern {
+    pub fn dtor_get_exception_string() -> *const std::os::raw::c_char;
+}
+
 pub mod c_dtor;
 pub use c_dtor::dtor__Struct_t as dtor_Struct_t;
 

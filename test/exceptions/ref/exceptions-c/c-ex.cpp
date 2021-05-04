@@ -10,8 +10,10 @@ unsigned int ex__Struct_m1(
         (to_cpp(this_)) -> m1();
         return 0;
     } catch (std::runtime_error& e) {
+        TLG_EXCEPTION_STRING = e.what();
         return 1;
     } catch (std::exception& e) {
+        TLG_EXCEPTION_STRING = e.what();
         return -1;
     }
 }
@@ -24,10 +26,13 @@ unsigned int ex__Struct_m2(
         *(return_) = (to_cpp(this_)) -> m2(a);
         return 0;
     } catch (std::logic_error& e) {
+        TLG_EXCEPTION_STRING = e.what();
         return 2;
     } catch (std::runtime_error& e) {
+        TLG_EXCEPTION_STRING = e.what();
         return 1;
     } catch (std::exception& e) {
+        TLG_EXCEPTION_STRING = e.what();
         return -1;
     }
 }
@@ -39,8 +44,10 @@ unsigned int ex_f1(
         *(return_) = ex::f1(a);
         return 0;
     } catch (std::invalid_argument& e) {
+        TLG_EXCEPTION_STRING = e.what();
         return 3;
     } catch (std::exception& e) {
+        TLG_EXCEPTION_STRING = e.what();
         return -1;
     }
 }
@@ -50,8 +57,10 @@ unsigned int ex_f2()
         ex::f2();
         return 0;
     } catch (std::invalid_argument& e) {
+        TLG_EXCEPTION_STRING = e.what();
         return 3;
     } catch (std::exception& e) {
+        TLG_EXCEPTION_STRING = e.what();
         return -1;
     }
 }

@@ -2,6 +2,8 @@
 #include <imath_box.h>
 
 
+#include "imath-errors-private.h"
+
 #include <OpenEXR/ImathBox.h>
 #include <cstring>
 

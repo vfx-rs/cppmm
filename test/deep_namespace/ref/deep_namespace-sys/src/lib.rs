@@ -35,6 +35,10 @@ impl fmt::Display for Error {
         Ok(())
     }
 }
+extern {
+    pub fn deep_namespace_get_exception_string() -> *const std::os::raw::c_char;
+}
+
 pub mod c_dn;
 pub use c_dn::DN__v2_2__Class_t as DN_Class_t;
 pub use c_dn::DN__v2_2__Class__Struct_t as DN_Class_Struct_t;

@@ -35,6 +35,10 @@ impl fmt::Display for Error {
         Ok(())
     }
 }
+extern {
+    pub fn tmp_specs_get_exception_string() -> *const std::os::raw::c_char;
+}
+
 pub mod c_specs;
 pub use c_specs::specs__Attribute_int__t as specs_IntAttribute_t;
 pub use c_specs::specs__Attribute_float__t as specs_FloatAttribute_t;
