@@ -1178,7 +1178,8 @@ std::string find_function_short_name(const NodeFunction& cpp_function) {
 
 //------------------------------------------------------------------------------
 void general_function(TypeRegistry& type_registry, TranslationUnit& c_tu,
-                      const NodeFunction& cpp_function);
+                      const NodeFunction& cpp_function,
+                      const std::string & prefix=std::string());
 
 //------------------------------------------------------------------------------
 void record_method(TypeRegistry& type_registry, TranslationUnit& c_tu,
@@ -1189,9 +1190,13 @@ void record_method(TypeRegistry& type_registry, TranslationUnit& c_tu,
         return;
     }
 
+    // Compute the function prefix
+    std::string function_prefix = pystring::slice(c_record.name, 0, -2);
+
     // If the method is static, then delegate to the function wrapping method
     if(cpp_method.is_static) {
-        general_function(type_registry, c_tu, cpp_method);
+        general_function(type_registry, c_tu, cpp_method,
+                         function_prefix + "_");
         return;
     }
 
@@ -1256,7 +1261,6 @@ void record_method(TypeRegistry& type_registry, TranslationUnit& c_tu,
     // Build the new method name. We need to generate unique function names
     // that share a common suffix but with different prefixes
     // The full prefix we get by stripping the "_t" from the struct name
-    std::string function_prefix = pystring::slice(c_record.name, 0, -2);
     std::string function_suffix = compute_c_name(short_name);
     std::string function_name = function_prefix + "_" + function_suffix;
     function_name = type_registry.make_symbol_unique(function_name);
@@ -1747,7 +1751,8 @@ void enum_entry(NodeId& new_id, TypeRegistry& type_registry,
 
 //------------------------------------------------------------------------------
 void general_function(TypeRegistry& type_registry, TranslationUnit& c_tu,
-                      const NodeFunction& cpp_function) {
+                      const NodeFunction& cpp_function,
+                      const std::string& prefix) {
 
     // Skip ignored methods
     if (!should_wrap_function(cpp_function)) {
@@ -1804,11 +1809,11 @@ void general_function(TypeRegistry& type_registry, TranslationUnit& c_tu,
     auto c_function_body =
         function_body(type_registry, c_tu, c_return_for_function, cpp_function);
 
-    auto function_name = compute_c_name(
+    auto function_name = prefix + compute_c_name(
         compute_qualified_name(type_registry, cpp_function.namespaces,
                                find_function_short_name(cpp_function)));
 
-    auto function_nice_name = compute_c_name(
+    auto function_nice_name = prefix + compute_c_name(
         compute_qualified_nice_name(type_registry, cpp_function.namespaces,
                                     find_function_short_name(cpp_function)));
 
