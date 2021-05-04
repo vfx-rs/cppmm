@@ -642,13 +642,6 @@ bool should_wrap_function(const NodeFunction& cpp_function) {
 
 //------------------------------------------------------------------------------
 bool should_wrap(const NodeRecord& cpp_record, const NodeMethod& cpp_method) {
-    // Skip static methods for now
-    if (cpp_method.is_static) // TODO LT: Bring in support for static methods
-    {
-        // SPDLOG_WARN("Skipping static {}", cpp_method.name);
-        return false;
-    }
-
     // Check this is not a constructor for an abstract type
     if (cpp_method.is_constructor && cpp_record.abstract) {
         SPDLOG_WARN("Skipping abstract constructor {}", cpp_method.name);
@@ -1184,11 +1177,26 @@ std::string find_function_short_name(const NodeFunction& cpp_function) {
 }
 
 //------------------------------------------------------------------------------
+void general_function(TypeRegistry& type_registry, TranslationUnit& c_tu,
+                      const NodeFunction& cpp_function,
+                      const std::string & prefix=std::string());
+
+//------------------------------------------------------------------------------
 void record_method(TypeRegistry& type_registry, TranslationUnit& c_tu,
                    const NodeRecord& cpp_record, const NodeRecord& c_record,
                    const NodeMethod& cpp_method, NodePtr& copy_constructor) {
     // Skip ignored methods
     if (!should_wrap(cpp_record, cpp_method)) {
+        return;
+    }
+
+    // Compute the function prefix
+    std::string function_prefix = pystring::slice(c_record.name, 0, -2);
+
+    // If the method is static, then delegate to the function wrapping method
+    if(cpp_method.is_static) {
+        general_function(type_registry, c_tu, cpp_method,
+                         function_prefix + "_");
         return;
     }
 
@@ -1253,7 +1261,6 @@ void record_method(TypeRegistry& type_registry, TranslationUnit& c_tu,
     // Build the new method name. We need to generate unique function names
     // that share a common suffix but with different prefixes
     // The full prefix we get by stripping the "_t" from the struct name
-    std::string function_prefix = pystring::slice(c_record.name, 0, -2);
     std::string function_suffix = compute_c_name(short_name);
     std::string function_name = function_prefix + "_" + function_suffix;
     function_name = type_registry.make_symbol_unique(function_name);
@@ -1285,7 +1292,6 @@ void record_method(TypeRegistry& type_registry, TranslationUnit& c_tu,
     // TODO LT: Take the move constructor with priority
     if (cpp_method.is_copy_constructor) {
 
-        SPDLOG_DEBUG("Found copy constructor {}", cpp_method.name);
         copy_constructor = c_function;
     }
 }
@@ -1744,10 +1750,9 @@ void enum_entry(NodeId& new_id, TypeRegistry& type_registry,
 }
 
 //------------------------------------------------------------------------------
-void function_detail(TypeRegistry& type_registry, TranslationUnit& c_tu,
-                     const NodePtr& cpp_node) {
-    const NodeFunction& cpp_function =
-        *static_cast<const NodeFunction*>(cpp_node.get());
+void general_function(TypeRegistry& type_registry, TranslationUnit& c_tu,
+                      const NodeFunction& cpp_function,
+                      const std::string& prefix) {
 
     // Skip ignored methods
     if (!should_wrap_function(cpp_function)) {
@@ -1804,11 +1809,11 @@ void function_detail(TypeRegistry& type_registry, TranslationUnit& c_tu,
     auto c_function_body =
         function_body(type_registry, c_tu, c_return_for_function, cpp_function);
 
-    auto function_name = compute_c_name(
+    auto function_name = prefix + compute_c_name(
         compute_qualified_name(type_registry, cpp_function.namespaces,
                                find_function_short_name(cpp_function)));
 
-    auto function_nice_name = compute_c_name(
+    auto function_nice_name = prefix + compute_c_name(
         compute_qualified_nice_name(type_registry, cpp_function.namespaces,
                                     find_function_short_name(cpp_function)));
 
@@ -1832,6 +1837,15 @@ void function_detail(TypeRegistry& type_registry, TranslationUnit& c_tu,
 
     c_function->body = c_function_body;
     c_tu.decls.push_back(NodePtr(c_function));
+}
+
+//------------------------------------------------------------------------------
+void function_detail(TypeRegistry& type_registry, TranslationUnit& c_tu,
+                     const NodePtr& cpp_node) {
+    const NodeFunction& cpp_function =
+        *static_cast<const NodeFunction*>(cpp_node.get());
+
+    general_function(type_registry, c_tu, cpp_function);
 }
 
 //------------------------------------------------------------------------------
