@@ -42,6 +42,8 @@ bool WARN_UNMATCHED = false;
 namespace cppmm {
 
 std::unordered_map<uint64_t, NodeFunction*> function_map;
+std::unordered_map<std::string, unsigned int> EXCEPTION_MAP;
+unsigned int EXCEPTION_CODE = 1;
 
 /// Get the size and alignment for the given decl. Returns true if the info
 /// could be ascertained, false otherwise.
@@ -384,6 +386,31 @@ std::vector<QType> get_template_args(const FunctionDecl* fd) {
     return result;
 }
 
+std::vector<Exception> get_exceptions(const std::vector<std::string>& attrs) {
+    std::vector<std::string> toks;
+    toks.reserve(4);
+    std::vector<Exception> result;
+    for (const auto& a : attrs) {
+        ps::split(a, toks, "|");
+        if (toks.size() == 4 && toks[0] == "cppmm" && toks[1] == "throws") {
+            auto cpp_name = toks[2];
+            auto c_name = toks[3];
+            unsigned error_code = -1;
+            auto it = EXCEPTION_MAP.find(cpp_name);
+            if (it == EXCEPTION_MAP.end()) {
+                error_code = EXCEPTION_CODE++;
+                EXCEPTION_MAP[cpp_name] = error_code;
+            } else {
+                error_code = it->second;
+            }
+
+            result.push_back(Exception{cpp_name, c_name, error_code});
+        }
+    }
+
+    return result;
+}
+
 /// Create a new node for the given method decl and return it
 NodePtr process_method_decl(const CXXMethodDecl* cmd,
                             std::vector<std::string> attrs,
@@ -396,9 +423,12 @@ NodePtr process_method_decl(const CXXMethodDecl* cmd,
     std::vector<Param> params;
     process_function_parameters(cmd, return_qtype, params);
 
+    auto exceptions = get_exceptions(attrs);
+
     auto node_function = std::make_unique<NodeMethod>(
         method_name, 0, 0, std::move(attrs), method_short_name, return_qtype,
-        std::move(params), cmd->isStatic(), get_comment_base64(cmd));
+        std::move(params), cmd->isStatic(), get_comment_base64(cmd),
+        std::move(exceptions));
 
     NodeMethod* m = (NodeMethod*)node_function.get();
     m->is_user_provided = cmd->isUserProvided();
@@ -553,11 +583,13 @@ std::vector<NodePtr> process_methods(const CXXRecordDecl* crd, bool is_base,
                     QType return_qtype;
                     std::vector<Param> params;
                     process_function_parameters(fd, return_qtype, params);
+                    auto exceptions = get_exceptions(attrs);
 
                     auto node_function = std::make_unique<NodeMethod>(
                         function_name, -1, -1, std::move(attrs),
                         method_short_name, return_qtype, std::move(params),
-                        fd->isStatic(), get_comment_base64(ftd));
+                        fd->isStatic(), get_comment_base64(ftd),
+                        std::move(exceptions));
                     node_function->is_noexcept = is_noexcept(fd);
                     add_method_to_list(std::move(node_function), result);
                 }
@@ -597,6 +629,7 @@ bool method_in_list(NodeMethod* m, std::vector<NodePtr>& binding_methods,
                 m->params = b->params;
                 m->_function_id = b->_function_id;
                 b->in_library = true;
+                m->exceptions = b->exceptions;
                 return true;
             }
         }
@@ -969,6 +1002,8 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
                                    has_trivially_movable_attr(attrs);
             is_trivially_copyable = crd->isTriviallyCopyable() ||
                                     has_trivially_copyable_attr(attrs);
+            // we can't trivially move a type if we can't trivially copy it
+            is_trivially_movable &= is_trivially_copyable;
             is_abstract = crd->isAbstract();
         }
     }
@@ -1226,15 +1261,16 @@ void handle_binding_function(const FunctionDecl* fd) {
     QType return_qtype;
     std::vector<Param> params;
     process_function_parameters(fd, return_qtype, params);
+    auto exceptions = get_exceptions(attrs);
 
     const std::vector<NodeId> namespaces =
         get_namespaces(fd->getParent(), node_tu);
 
     auto it = binding_functions.find(function_qual_name);
-    auto node_function =
-        NodeFunction(function_qual_name, 0, node_tu->id, std::move(attrs),
-                     function_short_name, return_qtype, std::move(params),
-                     std::move(namespaces), get_comment_base64(fd));
+    auto node_function = NodeFunction(
+        function_qual_name, 0, node_tu->id, std::move(attrs),
+        function_short_name, return_qtype, std::move(params),
+        std::move(namespaces), get_comment_base64(fd), std::move(exceptions));
 
     SPDLOG_DEBUG("Adding binding function {}", node_function);
 
@@ -1353,7 +1389,7 @@ void handle_library_function(const FunctionDecl* fd) {
         get_namespaces(fd->getParent(), nullptr);
     auto node_function = NodeFunction(
         function_qual_name, 0, 0, {}, function_short_name, return_qtype,
-        std::move(params), std::move(namespaces), get_comment_base64(fd));
+        std::move(params), std::move(namespaces), get_comment_base64(fd), {});
     node_function.is_noexcept = is_noexcept(fd);
 
     // find a match in the overloads
@@ -1363,6 +1399,8 @@ void handle_library_function(const FunctionDecl* fd) {
             // we have a match. copy over the attributes and store this function
             node_function.attrs = binding_fn.attrs;
             node_function.context = binding_fn.context;
+            node_function.template_args = binding_fn.template_args;
+            node_function.exceptions = binding_fn.exceptions;
             auto fnptr =
                 std::make_unique<NodeFunction>(std::move(node_function));
             NodeId id = NODES.size();

@@ -2,13 +2,25 @@
 
 #include <std_string_private.h>
 
-void usestd_takes_string(
+#include <stdexcept>
+
+unsigned int usestd_takes_string(
     std___cxx11_string_t const * s)
 {
-    usestd::takes_string(to_cpp_ref(s));
+    try {
+        usestd::takes_string(to_cpp_ref(s));
+        return 0;
+    } catch (std::exception& e) {
+        return -1;
+    }
 }
-void usestd_takes_vector_string(
+unsigned int usestd_takes_vector_string(
     std_vector_string_t const * v)
 {
-    usestd::takes_vector_string(to_cpp_ref(v));
+    try {
+        usestd::takes_vector_string(to_cpp_ref(v));
+        return 0;
+    } catch (std::exception& e) {
+        return -1;
+    }
 }

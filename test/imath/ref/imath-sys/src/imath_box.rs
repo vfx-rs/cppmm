@@ -23,13 +23,13 @@ pub struct Imath_2_5__Box_Imath__Vec3_int___t {
 
 extern "C" {
 
-pub fn Imath_2_5__Box_Imath__Vec3_float___extendBy(this_: *mut Imath_Box3f_t, point: *const Imath_V3f_t) -> c_void;
+pub fn Imath_2_5__Box_Imath__Vec3_float___extendBy(this_: *mut Imath_Box3f_t, point: *const Imath_V3f_t) -> Exception;
 
-pub fn Imath_2_5__Box_Imath__Vec3_float___extendBy_1(this_: *mut Imath_Box3f_t, box_: *const Imath_Box3f_t) -> c_void;
+pub fn Imath_2_5__Box_Imath__Vec3_float___extendBy_1(this_: *mut Imath_Box3f_t, box_: *const Imath_Box3f_t) -> Exception;
 
-pub fn Imath_2_5__Box_Imath__Vec3_int___extendBy(this_: *mut Imath_Box3i_t, point: *const Imath_V3i_t) -> c_void;
+pub fn Imath_2_5__Box_Imath__Vec3_int___extendBy(this_: *mut Imath_Box3i_t, point: *const Imath_V3i_t) -> Exception;
 
-pub fn Imath_2_5__Box_Imath__Vec3_int___extendBy_1(this_: *mut Imath_Box3i_t, box_: *const Imath_Box3i_t) -> c_void;
+pub fn Imath_2_5__Box_Imath__Vec3_int___extendBy_1(this_: *mut Imath_Box3i_t, box_: *const Imath_Box3i_t) -> Exception;
 
 
 } // extern "C"

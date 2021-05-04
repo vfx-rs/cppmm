@@ -2,13 +2,23 @@
 
 #include <new>
 
-void std__vector_std__string__vector(
+unsigned int std__vector_std__string__vector(
     std_vector_string_t * * this_)
 {
-    *this_ = to_c(new std::vector<std::string>());
+    try {
+        to_c(this_, new std::vector<std::string>());
+        return 0;
+    } catch (std::exception& e) {
+        return -1;
+    }
 }
-void std__vector_std__string__dtor(
+unsigned int std__vector_std__string__dtor(
     std_vector_string_t * this_)
 {
-    delete this_;
+    try {
+        delete to_cpp(this_);
+        return 0;
+    } catch (std::exception& e) {
+        return -1;
+    }
 }

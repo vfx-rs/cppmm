@@ -2,23 +2,45 @@
 
 #include <new>
 
-void optr__PubCtor_ctor(
+#include <stdexcept>
+
+unsigned int optr__PubCtor_ctor(
     optr_PubCtor_t * * this_)
 {
-    *this_ = to_c(new optr::PubCtor());
+    try {
+        to_c(this_, new optr::PubCtor());
+        return 0;
+    } catch (std::exception& e) {
+        return -1;
+    }
 }
-void optr__PubCtor_dtor(
+unsigned int optr__PubCtor_dtor(
     optr_PubCtor_t * this_)
 {
-    delete this_;
+    try {
+        delete to_cpp(this_);
+        return 0;
+    } catch (std::exception& e) {
+        return -1;
+    }
 }
-void optr__PubCtor_doit(
+unsigned int optr__PubCtor_doit(
     optr_PubCtor_t * this_)
 {
-    (to_cpp(this_)) -> doit();
+    try {
+        (to_cpp(this_)) -> doit();
+        return 0;
+    } catch (std::exception& e) {
+        return -1;
+    }
 }
-void optr__PrvCtor_doit(
+unsigned int optr__PrvCtor_doit(
     optr_PrvCtor_t * this_)
 {
-    (to_cpp(this_)) -> doit();
+    try {
+        (to_cpp(this_)) -> doit();
+        return 0;
+    } catch (std::exception& e) {
+        return -1;
+    }
 }

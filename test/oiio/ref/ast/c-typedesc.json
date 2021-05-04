@@ -29,7 +29,7 @@
             "id": 2,
             "abstract": false,
             "trivially_copyable": false,
-            "trivially_movable": true,
+            "trivially_movable": false,
             "opaque_type": false,
             "size": 64,
             "align": 32,

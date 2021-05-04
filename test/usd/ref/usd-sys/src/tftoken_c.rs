@@ -50,54 +50,54 @@ pub struct pxrInternal_v0_20__pxrReserved____TfToken_t {
 extern "C" {
 
 /// Copy constructor.
-pub fn pxrInternal_v0_20__pxrReserved____TfToken_copy(this_: *mut *mut pxr_TfToken_t, rhs: *const pxr_TfToken_t) -> c_void;
+pub fn pxrInternal_v0_20__pxrReserved____TfToken_copy(this_: *mut *mut pxr_TfToken_t, rhs: *const pxr_TfToken_t) -> Exception;
 
 /// Copy assignment.
-pub fn pxrInternal_v0_20__pxrReserved____TfToken_assign(this_: *mut pxr_TfToken_t, rhs: *const pxr_TfToken_t) -> *mut pxr_TfToken_t;
+pub fn pxrInternal_v0_20__pxrReserved____TfToken_assign(this_: *mut pxr_TfToken_t, return_: *mut *mut pxr_TfToken_t, rhs: *const pxr_TfToken_t) -> Exception;
 
 /// Destructor.
-pub fn pxrInternal_v0_20__pxrReserved____TfToken_destruct(this_: *mut pxr_TfToken_t) -> c_void;
+pub fn pxrInternal_v0_20__pxrReserved____TfToken_destruct(this_: *mut pxr_TfToken_t) -> Exception;
 
 /// Acquire a token for the given string.
-pub fn pxrInternal_v0_20__pxrReserved____TfToken_from_string(this_: *mut *mut pxr_TfToken_t, s: *const c_char) -> c_void;
+pub fn pxrInternal_v0_20__pxrReserved____TfToken_from_string(this_: *mut *mut pxr_TfToken_t, s: *const c_char) -> Exception;
 
-pub fn pxrInternal_v0_20__pxrReserved____TfToken_Hash(this_: *const pxr_TfToken_t) -> c_ulong;
+pub fn pxrInternal_v0_20__pxrReserved____TfToken_Hash(this_: *const pxr_TfToken_t, return_: *mut c_ulong) -> Exception;
 
 /// Return the size of the string that this token represents.
-pub fn pxrInternal_v0_20__pxrReserved____TfToken_size(this_: *const pxr_TfToken_t) -> c_ulong;
+pub fn pxrInternal_v0_20__pxrReserved____TfToken_size(this_: *const pxr_TfToken_t, return_: *mut c_ulong) -> Exception;
 
 /// Return the text that this token represents.
 /// 
 /// \note The returned pointer value is not valid after this TfToken
 /// object has been destroyed.
-pub fn pxrInternal_v0_20__pxrReserved____TfToken_GetText(this_: *const pxr_TfToken_t) -> *const c_char;
+pub fn pxrInternal_v0_20__pxrReserved____TfToken_GetText(this_: *const pxr_TfToken_t, return_: *mut *const c_char) -> Exception;
 
 /// Synonym for GetText().
-pub fn pxrInternal_v0_20__pxrReserved____TfToken_data(this_: *const pxr_TfToken_t) -> *const c_char;
+pub fn pxrInternal_v0_20__pxrReserved____TfToken_data(this_: *const pxr_TfToken_t, return_: *mut *const c_char) -> Exception;
 
 /// Equality operator
-pub fn pxrInternal_v0_20__pxrReserved____TfToken__eq(this_: *const pxr_TfToken_t, o: *const pxr_TfToken_t) -> bool;
+pub fn pxrInternal_v0_20__pxrReserved____TfToken__eq(this_: *const pxr_TfToken_t, return_: *mut bool, o: *const pxr_TfToken_t) -> Exception;
 
 /// Equality operator
-pub fn pxrInternal_v0_20__pxrReserved____TfToken__ne(this_: *const pxr_TfToken_t, o: *const pxr_TfToken_t) -> bool;
+pub fn pxrInternal_v0_20__pxrReserved____TfToken__ne(this_: *const pxr_TfToken_t, return_: *mut bool, o: *const pxr_TfToken_t) -> Exception;
 
 /// Equality operator for \c char strings.  Not as fast as direct
 /// token to token equality testing
-pub fn pxrInternal_v0_20__pxrReserved____TfToken_eq_string(this_: *const pxr_TfToken_t, o: *const c_char) -> bool;
+pub fn pxrInternal_v0_20__pxrReserved____TfToken_eq_string(this_: *const pxr_TfToken_t, return_: *mut bool, o: *const c_char) -> Exception;
 
 /// Inequality operator for \c char strings.  Not as fast as direct
 /// token to token equality testing
-pub fn pxrInternal_v0_20__pxrReserved____TfToken_neq_string(this_: *const pxr_TfToken_t, o: *const c_char) -> bool;
+pub fn pxrInternal_v0_20__pxrReserved____TfToken_neq_string(this_: *const pxr_TfToken_t, return_: *mut bool, o: *const c_char) -> Exception;
 
 /// Less-than operator that compares tokenized strings lexicographically.
 /// Allows \c TfToken to be used in \c std::set
-pub fn pxrInternal_v0_20__pxrReserved____TfToken_operator_(this_: *const pxr_TfToken_t, r: *const pxr_TfToken_t) -> bool;
+pub fn pxrInternal_v0_20__pxrReserved____TfToken_operator_(this_: *const pxr_TfToken_t, return_: *mut bool, r: *const pxr_TfToken_t) -> Exception;
 
 /// Returns \c true iff this token contains the empty string \c ""
-pub fn pxrInternal_v0_20__pxrReserved____TfToken_IsEmpty(this_: *const pxr_TfToken_t) -> bool;
+pub fn pxrInternal_v0_20__pxrReserved____TfToken_IsEmpty(this_: *const pxr_TfToken_t, return_: *mut bool) -> Exception;
 
 /// Returns \c true iff this is an immortal token.
-pub fn pxrInternal_v0_20__pxrReserved____TfToken_IsImmortal(this_: *const pxr_TfToken_t) -> bool;
+pub fn pxrInternal_v0_20__pxrReserved____TfToken_IsImmortal(this_: *const pxr_TfToken_t, return_: *mut bool) -> Exception;
 
 
 } // extern "C"

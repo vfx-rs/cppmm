@@ -5,25 +5,17 @@
 use crate::*;
 use std::os::raw::*;
 
-#[repr(C, align(8))]
-#[derive(Clone)]
+#[repr(C)]
 pub struct dtor__Struct_t {
-    _inner: [u8; 48]
+    _unused: [u8; 0],
 }
-
-impl Default for dtor__Struct_t {
-    fn default() -> Self {
-        Self { _inner: [0u8; 48] }
-    }
-}
-
 
 
 extern "C" {
 
-pub fn dtor__Struct_Struct(this_: *mut dtor_Struct_t) -> c_void;
+pub fn dtor__Struct_Struct(this_: *mut *mut dtor_Struct_t) -> Exception;
 
-pub fn dtor__Struct_dtor(this_: *mut dtor_Struct_t) -> c_void;
+pub fn dtor__Struct_dtor(this_: *mut dtor_Struct_t) -> Exception;
 
 
 } // extern "C"

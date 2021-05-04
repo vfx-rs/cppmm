@@ -13,15 +13,15 @@ pub struct std____cxx11__basic_string_char__t {
 
 extern "C" {
 
-pub fn std____cxx11__basic_string_char__ctor(this_: *mut *mut std___cxx11_string_t) -> c_void;
+pub fn std____cxx11__basic_string_char__ctor(this_: *mut *mut std___cxx11_string_t) -> Exception;
 
-pub fn std____cxx11__basic_string_char__copy(this_: *mut *mut std___cxx11_string_t, rhs: *const std___cxx11_string_t) -> c_void;
+pub fn std____cxx11__basic_string_char__copy(this_: *mut *mut std___cxx11_string_t, rhs: *const std___cxx11_string_t) -> Exception;
 
-pub fn std____cxx11__basic_string_char__dtor(this_: *mut std___cxx11_string_t) -> c_void;
+pub fn std____cxx11__basic_string_char__dtor(this_: *mut std___cxx11_string_t) -> Exception;
 
-pub fn std____cxx11__basic_string_char__assign(this_: *mut std___cxx11_string_t, s: *const c_char, count: c_ulong) -> *mut std___cxx11_string_t;
+pub fn std____cxx11__basic_string_char__assign(this_: *mut std___cxx11_string_t, return_: *mut *mut std___cxx11_string_t, s: *const c_char, count: c_ulong) -> Exception;
 
-pub fn std____cxx11__basic_string_char__c_str(this_: *const std___cxx11_string_t) -> *const c_char;
+pub fn std____cxx11__basic_string_char__c_str(this_: *const std___cxx11_string_t, return_: *mut *const c_char) -> Exception;
 
 
 } // extern "C"

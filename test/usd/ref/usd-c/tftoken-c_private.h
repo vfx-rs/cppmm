@@ -2,6 +2,7 @@
 #include <tftoken-c.h>
 
 
+#include <cstring>
 #include <pxr/base/tf/token.h>
 
 
@@ -43,47 +44,58 @@ Allows \c TfToken to be used in \c std::set */
 inline pxrInternal_v0_20__pxrReserved__::TfToken const & to_cpp_ref(
     pxr_TfToken_t const * rhs)
 {
-    return *(reinterpret_cast<pxrInternal_v0_20__pxrReserved__::TfToken const * >(rhs));
+        return *(reinterpret_cast<pxrInternal_v0_20__pxrReserved__::TfToken const * >(rhs));
 }
 
 inline pxrInternal_v0_20__pxrReserved__::TfToken & to_cpp_ref(
     pxr_TfToken_t * rhs)
 {
-    return *(reinterpret_cast<pxrInternal_v0_20__pxrReserved__::TfToken * >(rhs));
+        return *(reinterpret_cast<pxrInternal_v0_20__pxrReserved__::TfToken * >(rhs));
 }
 
 inline pxrInternal_v0_20__pxrReserved__::TfToken const * to_cpp(
     pxr_TfToken_t const * rhs)
 {
-    return reinterpret_cast<pxrInternal_v0_20__pxrReserved__::TfToken const * >(rhs);
+        return reinterpret_cast<pxrInternal_v0_20__pxrReserved__::TfToken const * >(rhs);
 }
 
 inline pxrInternal_v0_20__pxrReserved__::TfToken * to_cpp(
     pxr_TfToken_t * rhs)
 {
-    return reinterpret_cast<pxrInternal_v0_20__pxrReserved__::TfToken * >(rhs);
+        return reinterpret_cast<pxrInternal_v0_20__pxrReserved__::TfToken * >(rhs);
 }
 
-inline pxr_TfToken_t const * to_c(
-    pxrInternal_v0_20__pxrReserved__::TfToken const & rhs)
+inline void to_c(
+    pxr_TfToken_t const * * lhs
+    , pxrInternal_v0_20__pxrReserved__::TfToken const & rhs)
 {
-    return reinterpret_cast<pxr_TfToken_t const * >(&(rhs));
+        *(lhs) = reinterpret_cast<pxr_TfToken_t const * >(&(rhs));
 }
 
-inline pxr_TfToken_t const * to_c(
-    pxrInternal_v0_20__pxrReserved__::TfToken const * rhs)
+inline void to_c(
+    pxr_TfToken_t const * * lhs
+    , pxrInternal_v0_20__pxrReserved__::TfToken const * rhs)
 {
-    return reinterpret_cast<pxr_TfToken_t const * >(rhs);
+        *(lhs) = reinterpret_cast<pxr_TfToken_t const * >(rhs);
 }
 
-inline pxr_TfToken_t * to_c(
-    pxrInternal_v0_20__pxrReserved__::TfToken & rhs)
+inline void to_c(
+    pxr_TfToken_t * * lhs
+    , pxrInternal_v0_20__pxrReserved__::TfToken & rhs)
 {
-    return reinterpret_cast<pxr_TfToken_t * >(&(rhs));
+        *(lhs) = reinterpret_cast<pxr_TfToken_t * >(&(rhs));
 }
 
-inline pxr_TfToken_t * to_c(
-    pxrInternal_v0_20__pxrReserved__::TfToken * rhs)
+inline void to_c(
+    pxr_TfToken_t * * lhs
+    , pxrInternal_v0_20__pxrReserved__::TfToken * rhs)
 {
-    return reinterpret_cast<pxr_TfToken_t * >(rhs);
+        *(lhs) = reinterpret_cast<pxr_TfToken_t * >(rhs);
+}
+
+inline void to_c_copy(
+    pxr_TfToken_t * * lhs
+    , pxrInternal_v0_20__pxrReserved__::TfToken const & rhs)
+{
+        pxrInternal_v0_20__pxrReserved____TfToken_copy(lhs, reinterpret_cast<pxr_TfToken_t const * >(&(rhs)));
 }

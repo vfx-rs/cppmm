@@ -1,0 +1,225 @@
+{
+    "kind": "TranslationUnit",
+    "filename": "/home/anders/code/cppmm/test/exceptions/bind/c-ex.cpp",
+    "source_includes": [
+        "#include <ex.hpp>",
+        "#include <cppmm_bind.hpp>"
+    ],
+    "include_paths": [
+        "/home/anders/code/cppmm/test/exceptions/include"
+    ],
+    "id": 2,
+    "decls": [
+        {
+            "kind": "Namespace",
+            "name": "ex",
+            "id": 3,
+            "short_name": "ex",
+            "alias": "ex",
+            "collapse": false
+        },
+        {
+            "kind": "Record",
+            "name": "ex::Struct",
+            "short_name": "Struct",
+            "namespaces": [
+                3
+            ],
+            "id": 4,
+            "abstract": false,
+            "trivially_copyable": true,
+            "trivially_movable": true,
+            "opaque_type": false,
+            "size": 8,
+            "align": 8,
+            "alias": "Struct",
+            "attributes": [
+                "cppmm|opaquebytes"
+            ],
+            "comment": "",
+            "fields": null,
+            "methods": [
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "m1",
+                    "qualified_name": "ex::Struct::m1",
+                    "in_binding": true,
+                    "in_library": false,
+                    "noexcept": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm|throws|std::runtime_error|STD_RUNTIME_ERROR"
+                    ],
+                    "comment": "",
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 0,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": null,
+                    "template_args": null,
+                    "exceptions": [
+                        {
+                            "cpp_name": "std::runtime_error",
+                            "c_name": "STD_RUNTIME_ERROR",
+                            "error_code": 1
+                        }
+                    ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "m2",
+                    "qualified_name": "ex::Struct::m2",
+                    "in_binding": true,
+                    "in_library": false,
+                    "noexcept": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm|throws|std::logic_error|STD_LOGIC_ERROR",
+                        "cppmm|throws|std::runtime_error|STD_RUNTIME_ERROR"
+                    ],
+                    "comment": "",
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 1,
+                        "type": "float",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "a",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 1,
+                                "type": "float",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ],
+                    "template_args": null,
+                    "exceptions": [
+                        {
+                            "cpp_name": "std::logic_error",
+                            "c_name": "STD_LOGIC_ERROR",
+                            "error_code": 2
+                        },
+                        {
+                            "cpp_name": "std::runtime_error",
+                            "c_name": "STD_RUNTIME_ERROR",
+                            "error_code": 1
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "kind": "Namespace",
+            "name": "cppmm_bind::ex",
+            "id": 8,
+            "short_name": "ex",
+            "alias": "ex",
+            "collapse": false
+        },
+        {
+            "kind": "Function",
+            "id": 9,
+            "short_name": "f1",
+            "qualified_name": "ex::f1",
+            "in_binding": false,
+            "in_library": false,
+            "noexcept": false,
+            "attributes": [
+                "cppmm|throws|std::invalid_argument|STD_INVALID_ARGUMENT"
+            ],
+            "comment": "",
+            "namespaces": [
+                3
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 1,
+                "type": "float",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "a",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 7,
+                        "type": "int",
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ],
+            "template_args": null,
+            "exceptions": [
+                {
+                    "cpp_name": "std::invalid_argument",
+                    "c_name": "STD_INVALID_ARGUMENT",
+                    "error_code": 3
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 10,
+            "short_name": "f2",
+            "qualified_name": "ex::f2",
+            "in_binding": false,
+            "in_library": false,
+            "noexcept": false,
+            "attributes": [
+                "cppmm|throws|std::invalid_argument|STD_INVALID_ARGUMENT"
+            ],
+            "comment": "",
+            "namespaces": [
+                3
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 0,
+                "type": "void",
+                "const": false
+            },
+            "params": null,
+            "template_args": null,
+            "exceptions": [
+                {
+                    "cpp_name": "std::invalid_argument",
+                    "c_name": "STD_INVALID_ARGUMENT",
+                    "error_code": 3
+                }
+            ]
+        }
+    ]
+}

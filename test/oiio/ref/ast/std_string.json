@@ -78,7 +78,8 @@
                         "const": false
                     },
                     "params": null,
-                    "template_args": null
+                    "template_args": null,
+                    "exceptions": null
                 },
                 {
                     "kind": "Method",
@@ -128,7 +129,8 @@
                             "attrs": []
                         }
                     ],
-                    "template_args": null
+                    "template_args": null,
+                    "exceptions": null
                 },
                 {
                     "kind": "Method",
@@ -195,7 +197,8 @@
                             "attrs": []
                         }
                     ],
-                    "template_args": null
+                    "template_args": null,
+                    "exceptions": null
                 },
                 {
                     "kind": "Method",
@@ -232,7 +235,8 @@
                         "const": false
                     },
                     "params": null,
-                    "template_args": null
+                    "template_args": null,
+                    "exceptions": null
                 }
             ]
         }

@@ -153,7 +153,8 @@
                         "const": false
                     },
                     "params": null,
-                    "template_args": null
+                    "template_args": null,
+                    "exceptions": null
                 },
                 {
                     "kind": "Method",
@@ -184,7 +185,8 @@
                         "const": false
                     },
                     "params": null,
-                    "template_args": null
+                    "template_args": null,
+                    "exceptions": null
                 },
                 {
                     "kind": "Method",
@@ -215,7 +217,8 @@
                         "const": false
                     },
                     "params": null,
-                    "template_args": null
+                    "template_args": null,
+                    "exceptions": null
                 },
                 {
                     "kind": "Method",
@@ -246,7 +249,8 @@
                         "const": false
                     },
                     "params": null,
-                    "template_args": null
+                    "template_args": null,
+                    "exceptions": null
                 },
                 {
                     "kind": "Method",
@@ -277,7 +281,8 @@
                         "const": false
                     },
                     "params": null,
-                    "template_args": null
+                    "template_args": null,
+                    "exceptions": null
                 },
                 {
                     "kind": "Method",
@@ -308,7 +313,8 @@
                         "const": false
                     },
                     "params": null,
-                    "template_args": null
+                    "template_args": null,
+                    "exceptions": null
                 },
                 {
                     "kind": "Method",
@@ -339,7 +345,8 @@
                         "const": false
                     },
                     "params": null,
-                    "template_args": null
+                    "template_args": null,
+                    "exceptions": null
                 },
                 {
                     "kind": "Method",
@@ -371,7 +378,8 @@
                         "const": false
                     },
                     "params": null,
-                    "template_args": null
+                    "template_args": null,
+                    "exceptions": null
                 }
             ]
         },
@@ -681,7 +689,8 @@
                             "attrs": []
                         }
                     ],
-                    "template_args": null
+                    "template_args": null,
+                    "exceptions": null
                 },
                 {
                     "kind": "Method",
@@ -760,7 +769,8 @@
                             "attrs": []
                         }
                     ],
-                    "template_args": null
+                    "template_args": null,
+                    "exceptions": null
                 },
                 {
                     "kind": "Method",
@@ -804,7 +814,8 @@
                             "attrs": []
                         }
                     ],
-                    "template_args": null
+                    "template_args": null,
+                    "exceptions": null
                 },
                 {
                     "kind": "Method",
@@ -835,7 +846,8 @@
                         "const": false
                     },
                     "params": null,
-                    "template_args": null
+                    "template_args": null,
+                    "exceptions": null
                 },
                 {
                     "kind": "Method",
@@ -866,7 +878,8 @@
                         "const": false
                     },
                     "params": null,
-                    "template_args": null
+                    "template_args": null,
+                    "exceptions": null
                 },
                 {
                     "kind": "Method",
@@ -922,7 +935,8 @@
                             "attrs": []
                         }
                     ],
-                    "template_args": null
+                    "template_args": null,
+                    "exceptions": null
                 },
                 {
                     "kind": "Method",
@@ -965,7 +979,8 @@
                             "attrs": []
                         }
                     ],
-                    "template_args": null
+                    "template_args": null,
+                    "exceptions": null
                 },
                 {
                     "kind": "Method",
@@ -1092,7 +1107,8 @@
                             "attrs": []
                         }
                     ],
-                    "template_args": null
+                    "template_args": null,
+                    "exceptions": null
                 },
                 {
                     "kind": "Method",
@@ -1165,7 +1181,8 @@
                             "attrs": []
                         }
                     ],
-                    "template_args": null
+                    "template_args": null,
+                    "exceptions": null
                 },
                 {
                     "kind": "Method",
@@ -1222,7 +1239,8 @@
                             "attrs": []
                         }
                     ],
-                    "template_args": null
+                    "template_args": null,
+                    "exceptions": null
                 },
                 {
                     "kind": "Method",
@@ -1272,7 +1290,8 @@
                             "attrs": []
                         }
                     ],
-                    "template_args": null
+                    "template_args": null,
+                    "exceptions": null
                 },
                 {
                     "kind": "Method",
@@ -1324,7 +1343,8 @@
                             "attrs": []
                         }
                     ],
-                    "template_args": null
+                    "template_args": null,
+                    "exceptions": null
                 },
                 {
                     "kind": "Method",
@@ -1376,7 +1396,8 @@
                             "attrs": []
                         }
                     ],
-                    "template_args": null
+                    "template_args": null,
+                    "exceptions": null
                 },
                 {
                     "kind": "Method",
@@ -1435,7 +1456,8 @@
                             "attrs": []
                         }
                     ],
-                    "template_args": null
+                    "template_args": null,
+                    "exceptions": null
                 }
             ]
         },
@@ -1486,7 +1508,7 @@
             "id": 119,
             "abstract": true,
             "trivially_copyable": false,
-            "trivially_movable": true,
+            "trivially_movable": false,
             "opaque_type": false,
             "size": 1984,
             "align": 64,
@@ -1582,7 +1604,8 @@
                             "attrs": []
                         }
                     ],
-                    "template_args": null
+                    "template_args": null,
+                    "exceptions": null
                 },
                 {
                     "kind": "Method",
@@ -1686,7 +1709,8 @@
                             "attrs": []
                         }
                     ],
-                    "template_args": null
+                    "template_args": null,
+                    "exceptions": null
                 },
                 {
                     "kind": "Method",
@@ -1723,7 +1747,8 @@
                         "const": false
                     },
                     "params": null,
-                    "template_args": null
+                    "template_args": null,
+                    "exceptions": null
                 },
                 {
                     "kind": "Method",
@@ -1755,7 +1780,8 @@
                         "const": false
                     },
                     "params": null,
-                    "template_args": null
+                    "template_args": null,
+                    "exceptions": null
                 }
             ]
         },
@@ -1817,7 +1843,8 @@
                     "attrs": []
                 }
             ],
-            "template_args": null
+            "template_args": null,
+            "exceptions": null
         },
         {
             "kind": "Function",
@@ -1877,7 +1904,8 @@
                     "attrs": []
                 }
             ],
-            "template_args": null
+            "template_args": null,
+            "exceptions": null
         },
         {
             "kind": "Function",
@@ -1941,7 +1969,8 @@
                     "attrs": []
                 }
             ],
-            "template_args": null
+            "template_args": null,
+            "exceptions": null
         }
     ]
 }

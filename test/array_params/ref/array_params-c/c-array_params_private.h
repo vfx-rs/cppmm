@@ -10,55 +10,58 @@
 inline imath::Matrix44<float> const & to_cpp_ref(
     imath_M44f_t const * rhs)
 {
-    return *(reinterpret_cast<imath::Matrix44<float> const * >(rhs));
+        return *(reinterpret_cast<imath::Matrix44<float> const * >(rhs));
 }
 
 inline imath::Matrix44<float> & to_cpp_ref(
     imath_M44f_t * rhs)
 {
-    return *(reinterpret_cast<imath::Matrix44<float> * >(rhs));
+        return *(reinterpret_cast<imath::Matrix44<float> * >(rhs));
 }
 
 inline imath::Matrix44<float> const * to_cpp(
     imath_M44f_t const * rhs)
 {
-    return reinterpret_cast<imath::Matrix44<float> const * >(rhs);
+        return reinterpret_cast<imath::Matrix44<float> const * >(rhs);
 }
 
 inline imath::Matrix44<float> * to_cpp(
     imath_M44f_t * rhs)
 {
-    return reinterpret_cast<imath::Matrix44<float> * >(rhs);
+        return reinterpret_cast<imath::Matrix44<float> * >(rhs);
 }
 
-inline imath_M44f_t const * to_c(
-    imath::Matrix44<float> const & rhs)
+inline void to_c(
+    imath_M44f_t const * * lhs
+    , imath::Matrix44<float> const & rhs)
 {
-    return reinterpret_cast<imath_M44f_t const * >(&(rhs));
+        *(lhs) = reinterpret_cast<imath_M44f_t const * >(&(rhs));
 }
 
-inline imath_M44f_t const * to_c(
-    imath::Matrix44<float> const * rhs)
+inline void to_c(
+    imath_M44f_t const * * lhs
+    , imath::Matrix44<float> const * rhs)
 {
-    return reinterpret_cast<imath_M44f_t const * >(rhs);
+        *(lhs) = reinterpret_cast<imath_M44f_t const * >(rhs);
 }
 
-inline imath_M44f_t * to_c(
-    imath::Matrix44<float> & rhs)
+inline void to_c(
+    imath_M44f_t * * lhs
+    , imath::Matrix44<float> & rhs)
 {
-    return reinterpret_cast<imath_M44f_t * >(&(rhs));
+        *(lhs) = reinterpret_cast<imath_M44f_t * >(&(rhs));
 }
 
-inline imath_M44f_t * to_c(
-    imath::Matrix44<float> * rhs)
+inline void to_c(
+    imath_M44f_t * * lhs
+    , imath::Matrix44<float> * rhs)
 {
-    return reinterpret_cast<imath_M44f_t * >(rhs);
+        *(lhs) = reinterpret_cast<imath_M44f_t * >(rhs);
 }
 
-inline imath_M44f_t to_c_copy(
-    imath::Matrix44<float> const & rhs)
+inline void to_c_copy(
+    imath_M44f_t * lhs
+    , imath::Matrix44<float> const & rhs)
 {
-    imath_M44f_t result;
-    memcpy(&(result), &(rhs), sizeof(result));
-    return result;
+        memcpy(lhs, &(rhs), sizeof(*(lhs)));
 }

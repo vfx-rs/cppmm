@@ -25,13 +25,13 @@ pub struct optr__Opaque_t {
 
 extern "C" {
 
-pub fn optr__PubCtor_ctor(this_: *mut *mut optr_PubCtor_t) -> c_void;
+pub fn optr__PubCtor_ctor(this_: *mut *mut optr_PubCtor_t) -> Exception;
 
-pub fn optr__PubCtor_dtor(this_: *mut optr_PubCtor_t) -> c_void;
+pub fn optr__PubCtor_dtor(this_: *mut optr_PubCtor_t) -> Exception;
 
-pub fn optr__PubCtor_doit(this_: *mut optr_PubCtor_t) -> c_void;
+pub fn optr__PubCtor_doit(this_: *mut optr_PubCtor_t) -> Exception;
 
-pub fn optr__PrvCtor_doit(this_: *mut optr_PrvCtor_t) -> c_void;
+pub fn optr__PrvCtor_doit(this_: *mut optr_PrvCtor_t) -> Exception;
 
 
 } // extern "C"

@@ -2,13 +2,25 @@
 
 #include <new>
 
-void dtor__Struct_Struct(
-    dtor_Struct_t * this_)
+#include <stdexcept>
+
+unsigned int dtor__Struct_Struct(
+    dtor_Struct_t * * this_)
 {
-    new (this_) dtor::Struct();
+    try {
+        to_c(this_, new dtor::Struct());
+        return 0;
+    } catch (std::exception& e) {
+        return -1;
+    }
 }
-void dtor__Struct_dtor(
+unsigned int dtor__Struct_dtor(
     dtor_Struct_t * this_)
 {
-    (to_cpp(this_)) -> dtor::Struct::~Struct();
+    try {
+        delete to_cpp(this_);
+        return 0;
+    } catch (std::exception& e) {
+        return -1;
+    }
 }

@@ -243,6 +243,12 @@ void NodeVar::write_json(json& o) const {
     write_attrs_json(o);
 }
 
+void Exception::write_json(json& o) const {
+    o["cpp_name"] = cpp_name;
+    o["c_name"] = c_name;
+    o["error_code"] = error_code;
+}
+
 void NodeFunction::write_json_attrs(json& o) const {
     NodeAttributeHolder::write_json_attrs(o);
     o["short_name"] = short_name;
@@ -285,6 +291,13 @@ void NodeFunction::write_json(json& o) const {
     write_attrs_json(o);
     o["namespaces"] = namespaces;
     write_parameters_json(o);
+
+    o["exceptions"] = {};
+    for (const auto& ex : exceptions) {
+        auto e = json::object();
+        ex.write_json(e);
+        o["exceptions"].push_back(e);
+    }
 }
 
 std::ostream& operator<<(std::ostream& os, const NodeFunction& f) {
@@ -317,6 +330,12 @@ void NodeMethod::write_json(json& o) const {
     write_json_attrs(o);
     write_attrs_json(o);
     write_parameters_json(o);
+    o["exceptions"] = {};
+    for (const auto& ex : exceptions) {
+        auto e = json::object();
+        ex.write_json(e);
+        o["exceptions"].push_back(e);
+    }
 }
 
 std::ostream& operator<<(std::ostream& os, const NodeMethod& f) {

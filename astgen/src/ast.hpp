@@ -277,6 +277,14 @@ struct NodeVar : public NodeAttributeHolder {
     virtual void write_json(json& o) const override;
 };
 
+struct Exception {
+    std::string cpp_name;
+    std::string c_name;
+    unsigned int error_code;
+
+    void write_json(json& o) const;
+};
+
 /// A function node
 struct NodeFunction : public NodeAttributeHolder {
     /// What you think of as the function name without any qualifications
@@ -298,17 +306,21 @@ struct NodeFunction : public NodeAttributeHolder {
     /// The template args (empty if this is not a template specialization)
     /// FIXME: need to support non-types as well
     std::vector<QType> template_args;
+    /// The set of exceptions this function might throw
+    std::vector<Exception> exceptions;
 
     uint64_t _function_id;
 
     NodeFunction(std::string qualified_name, NodeId id, NodeId context,
                  std::vector<std::string> attrs, std::string short_name,
                  QType return_type, std::vector<Param> params,
-                 std::vector<NodeId> namespaces, std::string comment)
+                 std::vector<NodeId> namespaces, std::string comment,
+                 std::vector<Exception> exceptions)
         : NodeAttributeHolder(qualified_name, id, context, NodeKind::Function,
                               std::move(attrs), std::move(comment)),
           short_name(std::move(short_name)), return_type(return_type),
-          params(std::move(params)), namespaces(std::move(namespaces)) {}
+          params(std::move(params)), namespaces(std::move(namespaces)),
+          exceptions(std::move(exceptions)) {}
 
     virtual void write_json_attrs(json& o) const override;
     virtual void write_parameters_json(json& o) const;
@@ -345,9 +357,10 @@ struct NodeMethod : public NodeFunction {
     NodeMethod(std::string qualified_name, NodeId id, NodeId context,
                std::vector<std::string> attrs, std::string short_name,
                QType return_type, std::vector<Param> params, bool is_static,
-               std::string comment)
+               std::string comment, std::vector<Exception> exceptions)
         : NodeFunction(qualified_name, id, context, attrs, short_name,
-                       return_type, params, {}, std::move(comment)),
+                       return_type, params, {}, std::move(comment),
+                       std::move(exceptions)),
           is_static(is_static) {
         node_kind = NodeKind::Method;
     }

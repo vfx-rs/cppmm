@@ -1,3 +1,27 @@
+#[repr(transparent)] 
+pub struct Exception(u32);
+
+impl Exception {
+    pub fn into_result(self) -> Result<(), Error> {
+        match self.0 {
+            0 => {
+                Ok(())
+            }
+
+            std::u32::MAX => {
+                panic!("Unhandled exception")
+            }
+            _ => {
+                panic!("Unexpected exception value")
+            }
+        }
+    }
+}
+
+#[derive(Debug, PartialEq, thiserror::Error)]
+pub enum Error {
+}
+
 pub mod tftoken_c;
 pub use tftoken_c::pxrInternal_v0_20__pxrReserved____TfToken_t as pxr_TfToken_t;
 

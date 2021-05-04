@@ -16,10 +16,10 @@ pub struct comments__Class_t {
 extern "C" {
 
 /// This method doesn't do anything interesting at all
-pub fn comments__Class_method(this_: *mut comments_Class_t) -> c_void;
+pub fn comments__Class_method(this_: *mut comments_Class_t) -> Exception;
 
 /// This is a free function that also does nothing interesting
-pub fn comments_function() -> c_void;
+pub fn comments_function() -> Exception;
 
 
 } // extern "C"

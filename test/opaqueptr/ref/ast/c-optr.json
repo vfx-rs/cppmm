@@ -28,7 +28,7 @@
             "id": 3,
             "abstract": false,
             "trivially_copyable": false,
-            "trivially_movable": true,
+            "trivially_movable": false,
             "opaque_type": false,
             "size": 8,
             "align": 8,
@@ -70,7 +70,8 @@
                         "const": false
                     },
                     "params": null,
-                    "template_args": null
+                    "template_args": null,
+                    "exceptions": null
                 },
                 {
                     "kind": "Method",
@@ -101,7 +102,8 @@
                         "const": false
                     },
                     "params": null,
-                    "template_args": null
+                    "template_args": null,
+                    "exceptions": null
                 },
                 {
                     "kind": "Method",
@@ -132,7 +134,8 @@
                         "const": false
                     },
                     "params": null,
-                    "template_args": null
+                    "template_args": null,
+                    "exceptions": null
                 }
             ]
         },
@@ -146,7 +149,7 @@
             "id": 7,
             "abstract": false,
             "trivially_copyable": false,
-            "trivially_movable": true,
+            "trivially_movable": false,
             "opaque_type": false,
             "size": 8,
             "align": 8,
@@ -184,7 +187,8 @@
                         "const": false
                     },
                     "params": null,
-                    "template_args": null
+                    "template_args": null,
+                    "exceptions": null
                 }
             ]
         },
@@ -198,7 +202,7 @@
             "id": 9,
             "abstract": false,
             "trivially_copyable": false,
-            "trivially_movable": true,
+            "trivially_movable": false,
             "opaque_type": false,
             "size": 8,
             "align": 8,

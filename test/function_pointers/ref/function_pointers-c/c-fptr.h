@@ -7,7 +7,7 @@ extern "C" {
 
 typedef _Bool  (*fptr_ProgressCallback_t)(void * , float );
 
-void fptr_takes_ages(
+unsigned int fptr_takes_ages(
     fptr_ProgressCallback_t cb
     , void * data);
 #ifdef __cplusplus

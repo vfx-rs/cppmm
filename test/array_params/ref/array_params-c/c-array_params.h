@@ -11,7 +11,7 @@ typedef imath__Matrix44_float__t imath_M44f_t;
 
 
 
-void imath__Matrix44_float__from_array(
+unsigned int imath__Matrix44_float__from_array(
     imath_M44f_t * this_
     , float const a[4][4]);
 #define imath_M44f_from_array imath__Matrix44_float__from_array

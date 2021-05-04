@@ -18,16 +18,10 @@ use std::os::raw::*;
 ///  and reasonably-lengthed arrays thereof.
 /// 
 /// //////////////////////////////////////////////////////////////////////////
-#[repr(C, align(4))]
-#[derive(Clone)]
+#[repr(C)]
 pub struct OpenImageIO_v2_2__TypeDesc_t {
-    pub basetype: c_uchar,
-    pub aggregate: c_uchar,
-    pub vecsemantics: c_uchar,
-    pub reserved: c_uchar,
-    pub arraylen: c_int,
+    _unused: [u8; 0],
 }
-
 
 /// BASETYPE is a simple enum describing the base data types that
 /// correspond (mostly) to the C/C++ built-in types.

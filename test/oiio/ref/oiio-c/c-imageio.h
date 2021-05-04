@@ -67,12 +67,14 @@ that the image is stored in a file organized into rectangular *tiles*
 of these dimensions. The default of 0 value for these fields indicates
 that the image is stored in scanline order, rather than as tiles. */
 typedef struct OpenImageIO_v2_2__ImageSpec_t_s {
+    char _unused;
 } __attribute__((aligned(8))) OpenImageIO_v2_2__ImageSpec_t;
 typedef OpenImageIO_v2_2__ImageSpec_t OIIO_ImageSpec_t;
 
 /** ImageInput abstracts the reading of an image file in a file
 format-agnostic manner. */
 typedef struct OpenImageIO_v2_2__ImageInput_t_s {
+    char _unused;
 } __attribute__((aligned(8))) OpenImageIO_v2_2__ImageInput_t;
 typedef OpenImageIO_v2_2__ImageInput_t OIIO_ImageInput_t;
 
@@ -98,46 +100,52 @@ typedef OpenImageIO_v2_2__ImageInput_t OIIO_ImageInput_t;
 
 /** Default constructor is an undefined region. Note that this is also
 interpreted as All(). */
-void OpenImageIO_v2_2__ROI_default(
+unsigned int OpenImageIO_v2_2__ROI_default(
     OIIO_ROI_t * this_);
 #define OIIO_ROI_default OpenImageIO_v2_2__ROI_default
 
 
 /** Is a region defined? */
-_Bool OpenImageIO_v2_2__ROI_defined(
-    OIIO_ROI_t const * this_);
+unsigned int OpenImageIO_v2_2__ROI_defined(
+    OIIO_ROI_t const * this_
+    , _Bool * return_);
 #define OIIO_ROI_defined OpenImageIO_v2_2__ROI_defined
 
 
 /** @{
  @name Spatial size functions.
  The width, height, and depth of the region. */
-int OpenImageIO_v2_2__ROI_width(
-    OIIO_ROI_t const * this_);
+unsigned int OpenImageIO_v2_2__ROI_width(
+    OIIO_ROI_t const * this_
+    , int * return_);
 #define OIIO_ROI_width OpenImageIO_v2_2__ROI_width
 
 
-int OpenImageIO_v2_2__ROI_height(
-    OIIO_ROI_t const * this_);
+unsigned int OpenImageIO_v2_2__ROI_height(
+    OIIO_ROI_t const * this_
+    , int * return_);
 #define OIIO_ROI_height OpenImageIO_v2_2__ROI_height
 
 
-int OpenImageIO_v2_2__ROI_depth(
-    OIIO_ROI_t const * this_);
+unsigned int OpenImageIO_v2_2__ROI_depth(
+    OIIO_ROI_t const * this_
+    , int * return_);
 #define OIIO_ROI_depth OpenImageIO_v2_2__ROI_depth
 
 
 /** Number of channels in the region.  Beware -- this defaults to a
 huge number, and to be meaningful you must consider
 std::min (imagebuf.nchannels(), roi.nchannels()). */
-int OpenImageIO_v2_2__ROI_nchannels(
-    OIIO_ROI_t const * this_);
+unsigned int OpenImageIO_v2_2__ROI_nchannels(
+    OIIO_ROI_t const * this_
+    , int * return_);
 #define OIIO_ROI_nchannels OpenImageIO_v2_2__ROI_nchannels
 
 
 /** Total number of pixels in the region. */
-unsigned long OpenImageIO_v2_2__ROI_npixels(
-    OIIO_ROI_t const * this_);
+unsigned int OpenImageIO_v2_2__ROI_npixels(
+    OIIO_ROI_t const * this_
+    , unsigned long * return_);
 #define OIIO_ROI_npixels OpenImageIO_v2_2__ROI_npixels
 
 
@@ -152,7 +160,7 @@ unsigned long OpenImageIO_v2_2__ROI_npixels(
 
 /** Constructor: given just the data format, set all other fields to
 something reasonable. */
-void OpenImageIO_v2_2__ImageSpec_ImageSpec(
+unsigned int OpenImageIO_v2_2__ImageSpec_ImageSpec(
     OIIO_ImageSpec_t * * this_
     , OIIO_TypeDesc_t format);
 #define OIIO_ImageSpec_ImageSpec OpenImageIO_v2_2__ImageSpec_ImageSpec
@@ -167,7 +175,7 @@ of a bigger image, the image is scanline-oriented (not tiled),
 channel names are "R", "G", "B"' and "A" (up to and including 4
 channels, beyond that they are named "channel *n*"), the fourth
 channel (if it exists) is assumed to be alpha. */
-void OpenImageIO_v2_2__ImageSpec_new_with_dimensions(
+unsigned int OpenImageIO_v2_2__ImageSpec_new_with_dimensions(
     OIIO_ImageSpec_t * * this_
     , int xres
     , int yres
@@ -178,7 +186,7 @@ void OpenImageIO_v2_2__ImageSpec_new_with_dimensions(
 
 /** Set the data format, and clear any per-channel format information
 in `channelformats`. */
-void OpenImageIO_v2_2__ImageSpec_set_format(
+unsigned int OpenImageIO_v2_2__ImageSpec_set_format(
     OIIO_ImageSpec_t * this_
     , OIIO_TypeDesc_t fmt);
 #define OIIO_ImageSpec_set_format OpenImageIO_v2_2__ImageSpec_set_format
@@ -188,7 +196,7 @@ void OpenImageIO_v2_2__ImageSpec_set_format(
 channels.  Specifically, channel names are set to "R", "G", "B,"
 and "A" (up to and including 4 channels, beyond that they are named
 "channel*n*". */
-void OpenImageIO_v2_2__ImageSpec_default_channel_names(
+unsigned int OpenImageIO_v2_2__ImageSpec_default_channel_names(
     OIIO_ImageSpec_t * this_);
 #define OIIO_ImageSpec_default_channel_names OpenImageIO_v2_2__ImageSpec_default_channel_names
 
@@ -196,8 +204,9 @@ void OpenImageIO_v2_2__ImageSpec_default_channel_names(
 /** Returns the number of bytes comprising each channel of each pixel
 (i.e., the size of a single value of the type described by the
 `format` field). */
-unsigned long OpenImageIO_v2_2__ImageSpec_channel_bytes(
-    OIIO_ImageSpec_t const * this_);
+unsigned int OpenImageIO_v2_2__ImageSpec_channel_bytes(
+    OIIO_ImageSpec_t const * this_
+    , unsigned long * return_);
 #define OIIO_ImageSpec_channel_bytes OpenImageIO_v2_2__ImageSpec_channel_bytes
 
 
@@ -206,8 +215,9 @@ channel.  If native is false (default), compute the size of one
 channel of `this->format`, but if native is true, compute the size
 of the channel in terms of the "native" data format of that
 channel as stored in the file. */
-unsigned long OpenImageIO_v2_2__ImageSpec_channel_bytes_for(
+unsigned int OpenImageIO_v2_2__ImageSpec_channel_bytes_for(
     OIIO_ImageSpec_t const * this_
+    , unsigned long * return_
     , int chan
     , _Bool native);
 #define OIIO_ImageSpec_channel_bytes_for OpenImageIO_v2_2__ImageSpec_channel_bytes_for
@@ -217,8 +227,9 @@ unsigned long OpenImageIO_v2_2__ImageSpec_channel_bytes_for(
 `pixel_bytes(native) * width` This will return
 `std::numeric_limits<imagesize_t>::max()` in the event of an
 overflow where it's not representable in an `imagesize_t`. */
-unsigned long OpenImageIO_v2_2__ImageSpec_scanline_bytes(
+unsigned int OpenImageIO_v2_2__ImageSpec_scanline_bytes(
     OIIO_ImageSpec_t const * this_
+    , unsigned long * return_
     , _Bool native);
 #define OIIO_ImageSpec_scanline_bytes OpenImageIO_v2_2__ImageSpec_scanline_bytes
 
@@ -231,21 +242,23 @@ statistics, one line for `SerialText`, `ImageSpec::SerialDetailed`
 (contains all metadata in original form), or
 `ImageSpec::SerialDetailedHuman` (contains all metadata, in many
 cases with human-readable explanation). */
-std___cxx11_string_t OpenImageIO_v2_2__ImageSpec_serialize(
+unsigned int OpenImageIO_v2_2__ImageSpec_serialize(
     OIIO_ImageSpec_t const * this_
+    , std___cxx11_string_t * * return_
     , OIIO_ImageSpec_SerialFormat format
     , OIIO_ImageSpec_SerialVerbose verbose);
 #define OIIO_ImageSpec_serialize OpenImageIO_v2_2__ImageSpec_serialize
 
 
-void OpenImageIO_v2_2__ImageSpec_copy(
+unsigned int OpenImageIO_v2_2__ImageSpec_copy(
     OIIO_ImageSpec_t * * this_
     , OIIO_ImageSpec_t const * other);
 #define OIIO_ImageSpec_copy OpenImageIO_v2_2__ImageSpec_copy
 
 
-OIIO_ImageSpec_t * OpenImageIO_v2_2__ImageSpec_assign(
+unsigned int OpenImageIO_v2_2__ImageSpec_assign(
     OIIO_ImageSpec_t * this_
+    , OIIO_ImageSpec_t * * return_
     , OIIO_ImageSpec_t const * other);
 #define OIIO_ImageSpec_assign OpenImageIO_v2_2__ImageSpec_assign
 
@@ -258,9 +271,11 @@ OIIO_ImageSpec_t * OpenImageIO_v2_2__ImageSpec_assign(
 
 
 
+
 /** Return the name of the format implemented by this class. */
-char const * OpenImageIO_v2_2__ImageInput_format_name(
-    OIIO_ImageInput_t const * this_);
+unsigned int OpenImageIO_v2_2__ImageInput_format_name(
+    OIIO_ImageInput_t const * this_
+    , char const * * return_);
 #define OIIO_ImageInput_format_name OpenImageIO_v2_2__ImageInput_format_name
 
 
@@ -268,8 +283,9 @@ char const * OpenImageIO_v2_2__ImageInput_format_name(
 method will return the error string (and clear any error flags).  If
 no error has occurred since the last time `geterror()` was called,
 it will return an empty string. */
-std___cxx11_string_t OpenImageIO_v2_2__ImageInput_geterror(
-    OIIO_ImageInput_t const * this_);
+unsigned int OpenImageIO_v2_2__ImageInput_geterror(
+    OIIO_ImageInput_t const * this_
+    , std___cxx11_string_t * * return_);
 #define OIIO_ImageInput_geterror OpenImageIO_v2_2__ImageInput_geterror
 
 
@@ -282,15 +298,17 @@ std___cxx11_string_t OpenImageIO_v2_2__ImageInput_geterror(
 
 
 /** Union of two regions, the smallest region containing both. */
-OIIO_ROI_t OpenImageIO_v2_2_roi_union(
-    OIIO_ROI_t const * A
+unsigned int OpenImageIO_v2_2_roi_union(
+    OIIO_ROI_t * return_
+    , OIIO_ROI_t const * A
     , OIIO_ROI_t const * B);
 #define OIIO_roi_union OpenImageIO_v2_2_roi_union
 
 
 /** Intersection of two regions. */
-OIIO_ROI_t OpenImageIO_v2_2_roi_intersection(
-    OIIO_ROI_t const * A
+unsigned int OpenImageIO_v2_2_roi_intersection(
+    OIIO_ROI_t * return_
+    , OIIO_ROI_t const * A
     , OIIO_ROI_t const * B);
 #define OIIO_roi_intersection OpenImageIO_v2_2_roi_intersection
 

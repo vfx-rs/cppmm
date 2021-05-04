@@ -49,6 +49,7 @@ const char* CONST = "const";
 const char* DECLS = "decls";
 const char* ENUM_C = "Enum";
 const char* ENUM_L = "enum";
+const char* EXCEPTIONS = "exceptions";
 const char* FIELDS = "fields";
 const char* FILENAME = "filename";
 const char* FUNCTION_C = "Function";
@@ -185,6 +186,21 @@ std::vector<std::string> read_attrs(const nln::json& json) {
 }
 
 //------------------------------------------------------------------------------
+std::vector<Exception> read_exceptions(const nln::json& json) {
+    auto result = std::vector<Exception>();
+    for (const auto& e : json[EXCEPTIONS]) {
+        auto cpp_name = e["cpp_name"].get<std::string>();
+        auto c_name = e["c_name"].get<std::string>();
+        auto error_code = e["error_code"].get<unsigned int>();
+        result.push_back(Exception{cpp_name, c_name, error_code});
+
+        // FIXME: will we ever multithread reading? This would be bad
+        EXCEPTION_MAP[error_code] = c_name;
+    }
+    return result;
+}
+
+//------------------------------------------------------------------------------
 std::string read_comment(const nln::json& json) {
     std::string comment;
     auto comment_ = json.find(COMMENT);
@@ -233,6 +249,8 @@ NodePtr read_function(const TranslationUnit::Ptr& tu, const nln::json& json) {
         namespaces.push_back(ns);
     }
 
+    auto exceptions = read_exceptions(json);
+
     auto template_args = std::vector<NodeTypePtr>();
     for (const auto& i : json[TEMPLATE_ARGS]) {
         auto typ = read_type(i[TYPE]);
@@ -242,10 +260,10 @@ NodePtr read_function(const TranslationUnit::Ptr& tu, const nln::json& json) {
 
     auto comment = read_comment(json);
 
-    auto result = NodeFunction::n(qualified_name, id, attrs, short_name,
-                                  std::move(return_type), std::move(params),
-                                  qualified_name, std::move(comment),
-                                  std::move(template_args));
+    auto result = NodeFunction::n(
+        qualified_name, id, attrs, short_name, std::move(return_type),
+        std::move(params), qualified_name, std::move(comment),
+        std::move(template_args), std::move(exceptions));
     result->namespaces = namespaces;
 
     return result;
@@ -268,7 +286,7 @@ NodeMethod read_method(const nln::json& json) {
     auto comment = read_comment(json);
 
     if (copy_constructor) {
-        SPDLOG_WARN("Reading copy {}", short_name);
+        SPDLOG_DEBUG("Reading copy {}", short_name);
     }
     /*
         if(constructor){
@@ -288,10 +306,13 @@ NodeMethod read_method(const nln::json& json) {
         template_args.push_back(typ);
     }
 
+    auto exceptions = read_exceptions(json);
+
     return NodeMethod(qualified_name, id, attrs, short_name,
                       std::move(return_type), std::move(params), static_,
                       constructor, copy_constructor, destructor, const_,
-                      std::move(comment), std::move(template_args));
+                      std::move(comment), std::move(template_args),
+                      std::move(exceptions));
 }
 
 //------------------------------------------------------------------------------

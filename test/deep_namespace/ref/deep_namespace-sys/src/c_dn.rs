@@ -27,9 +27,9 @@ pub const DN_Class_Enum_Three: DN__v2_2__Class__Enum_e = DN__v2_2__Class__Enum_e
 
 extern "C" {
 
-pub fn DN__v2_2__Class__Struct_structMethod(this_: *mut DN_Class_Struct_t) -> c_void;
+pub fn DN__v2_2__Class__Struct_structMethod(this_: *mut DN_Class_Struct_t) -> Exception;
 
-pub fn DN_v2_2_someFunction() -> c_void;
+pub fn DN_v2_2_someFunction() -> Exception;
 
 
 } // extern "C"

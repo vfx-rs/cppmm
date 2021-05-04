@@ -181,7 +181,7 @@ void write_function(fmt::ostream& out, const NodeFunction* node_function) {
 
     std::string ret = convert_type(node_function->return_type.get());
     if (ret != "void") {
-        out.print(" -> {};\n\n", ret);
+        out.print(" -> Exception;\n\n");
     } else {
         out.print(";\n\n");
     }
@@ -441,6 +441,84 @@ void write(const char* out_dir, const char* project_name, const char* c_dir,
     fs::path p_cargo_toml = fs::path(out_dir) / "Cargo.toml";
 
     auto out_lib = fmt::output_file(lib_rs.string());
+    out_lib.print(
+        R"(#[repr(transparent)] 
+pub struct Exception(u32);
+
+impl Exception {{
+    pub fn into_result(self) -> Result<(), Error> {{
+        match self.0 {{
+            0 => {{
+                Ok(())
+            }}
+)");
+
+    for (const auto& ex : EXCEPTION_MAP) {
+        out_lib.print(R"(            {} => {{
+                Err(Error::{})
+            }}
+)",
+                      ex.first, to_pascal_case(ex.second));
+    }
+
+    out_lib.print(R"(
+            std::u32::MAX => {{
+                panic!("Unhandled exception")
+            }}
+            _ => {{
+                panic!("Unexpected exception value")
+            }}
+        }}
+    }}
+}}
+)");
+
+    out_lib.print(R"(
+#[derive(Debug, PartialEq)]
+pub enum Error {{
+)");
+
+    for (const auto& ex : EXCEPTION_MAP) {
+        out_lib.print("    {},\n", to_pascal_case(ex.second));
+    }
+
+    out_lib.print("}}\n");
+
+    out_lib.print(R"(
+impl std::error::Error for Error {{
+    fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {{
+        None
+    }}
+}}
+
+use std::fmt;
+impl fmt::Display for Error {{
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {{
+)");
+
+    if (EXCEPTION_MAP.empty()) {
+        out_lib.print(R"(
+        Ok(())
+    }}
+}}
+)");
+    } else {
+
+        out_lib.print(R"(
+        match self {{
+    )");
+
+        for (const auto& ex : EXCEPTION_MAP) {
+            out_lib.print("                Error::{0} => write!(f, \"{0}\"),\n",
+                          to_pascal_case(ex.second));
+        }
+
+        out_lib.print(R"(
+        }}
+    }}
+}}
+)");
+    }
 
     const auto size = root.tus.size();
     for (size_t i = starting_point; i < size; ++i) {
@@ -478,7 +556,6 @@ edition = "2018"
 cmake = "0.1"
 
 [dependencies]
-
 )",
                     project_name, version_major, version_minor, version_patch);
 

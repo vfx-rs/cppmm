@@ -42,46 +42,50 @@ char* to \c TfToken is disabled (you must use the explicit \c TfToken
 constructors).  However, auto conversion from \c TfToken to \c string and
 \c char* is provided. */
 typedef struct pxrInternal_v0_20__pxrReserved____TfToken_t_s {
+    char _unused;
 } __attribute__((aligned(8))) pxrInternal_v0_20__pxrReserved____TfToken_t;
 typedef pxrInternal_v0_20__pxrReserved____TfToken_t pxr_TfToken_t;
 
 
 
 /** Copy constructor. */
-void pxrInternal_v0_20__pxrReserved____TfToken_copy(
+unsigned int pxrInternal_v0_20__pxrReserved____TfToken_copy(
     pxr_TfToken_t * * this_
     , pxr_TfToken_t const * rhs);
 #define pxr_TfToken_copy pxrInternal_v0_20__pxrReserved____TfToken_copy
 
 
 /** Copy assignment. */
-pxr_TfToken_t * pxrInternal_v0_20__pxrReserved____TfToken_assign(
+unsigned int pxrInternal_v0_20__pxrReserved____TfToken_assign(
     pxr_TfToken_t * this_
+    , pxr_TfToken_t * * return_
     , pxr_TfToken_t const * rhs);
 #define pxr_TfToken_assign pxrInternal_v0_20__pxrReserved____TfToken_assign
 
 
 /** Destructor. */
-void pxrInternal_v0_20__pxrReserved____TfToken_destruct(
+unsigned int pxrInternal_v0_20__pxrReserved____TfToken_destruct(
     pxr_TfToken_t * this_);
 #define pxr_TfToken_destruct pxrInternal_v0_20__pxrReserved____TfToken_destruct
 
 
 /** Acquire a token for the given string. */
-void pxrInternal_v0_20__pxrReserved____TfToken_from_string(
+unsigned int pxrInternal_v0_20__pxrReserved____TfToken_from_string(
     pxr_TfToken_t * * this_
     , char const * s);
 #define pxr_TfToken_from_string pxrInternal_v0_20__pxrReserved____TfToken_from_string
 
 
-unsigned long pxrInternal_v0_20__pxrReserved____TfToken_Hash(
-    pxr_TfToken_t const * this_);
+unsigned int pxrInternal_v0_20__pxrReserved____TfToken_Hash(
+    pxr_TfToken_t const * this_
+    , unsigned long * return_);
 #define pxr_TfToken_Hash pxrInternal_v0_20__pxrReserved____TfToken_Hash
 
 
 /** Return the size of the string that this token represents. */
-unsigned long pxrInternal_v0_20__pxrReserved____TfToken_size(
-    pxr_TfToken_t const * this_);
+unsigned int pxrInternal_v0_20__pxrReserved____TfToken_size(
+    pxr_TfToken_t const * this_
+    , unsigned long * return_);
 #define pxr_TfToken_size pxrInternal_v0_20__pxrReserved____TfToken_size
 
 
@@ -89,65 +93,75 @@ unsigned long pxrInternal_v0_20__pxrReserved____TfToken_size(
 
 \note The returned pointer value is not valid after this TfToken
 object has been destroyed. */
-char const * pxrInternal_v0_20__pxrReserved____TfToken_GetText(
-    pxr_TfToken_t const * this_);
+unsigned int pxrInternal_v0_20__pxrReserved____TfToken_GetText(
+    pxr_TfToken_t const * this_
+    , char const * * return_);
 #define pxr_TfToken_GetText pxrInternal_v0_20__pxrReserved____TfToken_GetText
 
 
 /** Synonym for GetText(). */
-char const * pxrInternal_v0_20__pxrReserved____TfToken_data(
-    pxr_TfToken_t const * this_);
+unsigned int pxrInternal_v0_20__pxrReserved____TfToken_data(
+    pxr_TfToken_t const * this_
+    , char const * * return_);
 #define pxr_TfToken_data pxrInternal_v0_20__pxrReserved____TfToken_data
 
 
 /** Equality operator */
-_Bool pxrInternal_v0_20__pxrReserved____TfToken__eq(
+unsigned int pxrInternal_v0_20__pxrReserved____TfToken__eq(
     pxr_TfToken_t const * this_
+    , _Bool * return_
     , pxr_TfToken_t const * o);
 #define pxr_TfToken__eq pxrInternal_v0_20__pxrReserved____TfToken__eq
 
 
 /** Equality operator */
-_Bool pxrInternal_v0_20__pxrReserved____TfToken__ne(
+unsigned int pxrInternal_v0_20__pxrReserved____TfToken__ne(
     pxr_TfToken_t const * this_
+    , _Bool * return_
     , pxr_TfToken_t const * o);
 #define pxr_TfToken__ne pxrInternal_v0_20__pxrReserved____TfToken__ne
 
 
 /** Equality operator for \c char strings.  Not as fast as direct
 token to token equality testing */
-_Bool pxrInternal_v0_20__pxrReserved____TfToken_eq_string(
+unsigned int pxrInternal_v0_20__pxrReserved____TfToken_eq_string(
     pxr_TfToken_t const * this_
+    , _Bool * return_
     , char const * o);
 #define pxr_TfToken_eq_string pxrInternal_v0_20__pxrReserved____TfToken_eq_string
 
 
 /** Inequality operator for \c char strings.  Not as fast as direct
 token to token equality testing */
-_Bool pxrInternal_v0_20__pxrReserved____TfToken_neq_string(
+unsigned int pxrInternal_v0_20__pxrReserved____TfToken_neq_string(
     pxr_TfToken_t const * this_
+    , _Bool * return_
     , char const * o);
 #define pxr_TfToken_neq_string pxrInternal_v0_20__pxrReserved____TfToken_neq_string
 
 
 /** Less-than operator that compares tokenized strings lexicographically.
 Allows \c TfToken to be used in \c std::set */
-_Bool pxrInternal_v0_20__pxrReserved____TfToken_operator_(
+unsigned int pxrInternal_v0_20__pxrReserved____TfToken_operator_(
     pxr_TfToken_t const * this_
+    , _Bool * return_
     , pxr_TfToken_t const * r);
 #define pxr_TfToken_operator_ pxrInternal_v0_20__pxrReserved____TfToken_operator_
 
 
 /** Returns \c true iff this token contains the empty string \c "" */
-_Bool pxrInternal_v0_20__pxrReserved____TfToken_IsEmpty(
-    pxr_TfToken_t const * this_);
+unsigned int pxrInternal_v0_20__pxrReserved____TfToken_IsEmpty(
+    pxr_TfToken_t const * this_
+    , _Bool * return_);
 #define pxr_TfToken_IsEmpty pxrInternal_v0_20__pxrReserved____TfToken_IsEmpty
 
 
 /** Returns \c true iff this is an immortal token. */
-_Bool pxrInternal_v0_20__pxrReserved____TfToken_IsImmortal(
-    pxr_TfToken_t const * this_);
+unsigned int pxrInternal_v0_20__pxrReserved____TfToken_IsImmortal(
+    pxr_TfToken_t const * this_
+    , _Bool * return_);
 #define pxr_TfToken_IsImmortal pxrInternal_v0_20__pxrReserved____TfToken_IsImmortal
+
 
 
 

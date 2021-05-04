@@ -1,9 +1,16 @@
 #include <c-fptr_private.h>
 
 
-void fptr_takes_ages(
+#include <stdexcept>
+
+unsigned int fptr_takes_ages(
     fptr_ProgressCallback_t cb
     , void * data)
 {
-    fptr::takes_ages(cb, data);
+    try {
+        fptr::takes_ages(cb, data);
+        return 0;
+    } catch (std::exception& e) {
+        return -1;
+    }
 }

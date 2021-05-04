@@ -1081,12 +1081,14 @@ NodeExprPtr function_body(TypeRegistry& type_registry, TranslationUnit& c_tu,
             "void";
 
     if (is_void) {
-        return NodeBlockExpr::n(std::vector<NodeExprPtr>({function_call}));
+        return NodeBlockExpr::n(std::vector<NodeExprPtr>(
+            {function_call, NodeReturnExpr::n(NodeVarRefExpr::n("0"))}));
     }
 
     return NodeBlockExpr::n(std::vector<NodeExprPtr>(
         {convert_return(cpp_function.return_type, c_return, function_call,
-                        NodeVarRefExpr::n("return_"))}));
+                        NodeVarRefExpr::n("return_")),
+         NodeReturnExpr::n(NodeVarRefExpr::n("0"))}));
 }
 
 //------------------------------------------------------------------------------
@@ -1271,7 +1273,8 @@ void record_method(TypeRegistry& type_registry, TranslationUnit& c_tu,
     auto c_function = NodeFunction::n(
         function_name, PLACEHOLDER_ID, cpp_method.attrs, "",
         std::move(error_return), std::move(c_params), function_nice_name,
-        cpp_method.comment, std::move(template_args));
+        cpp_method.comment, std::move(template_args),
+        std::move(cpp_method.exceptions));
 
     c_function->body = c_function_body;
     c_tu.decls.push_back(NodePtr(c_function));
@@ -1282,7 +1285,7 @@ void record_method(TypeRegistry& type_registry, TranslationUnit& c_tu,
     // TODO LT: Take the move constructor with priority
     if (cpp_method.is_copy_constructor) {
 
-        SPDLOG_WARN("Found copy constructor {}", cpp_method.name);
+        SPDLOG_DEBUG("Found copy constructor {}", cpp_method.name);
         copy_constructor = c_function;
     }
 }
@@ -1515,9 +1518,10 @@ void cast_to_cpp(TranslationUnit& c_tu, const std::string& cpp_record_name,
     if (pointer_kind == PointerKind::Reference) {
         function_name += "_ref";
     }
-    auto c_function = NodeFunction::n(function_name, PLACEHOLDER_ID, attrs, "",
-                                      std::move(cpp_return), std::move(params),
-                                      "", "", std::vector<NodeTypePtr>{});
+    auto c_function =
+        NodeFunction::n(function_name, PLACEHOLDER_ID, attrs, "",
+                        std::move(cpp_return), std::move(params), "", "",
+                        std::vector<NodeTypePtr>{}, std::vector<Exception>{});
 
     c_function->body = c_function_body;
     c_function->private_ = true;
@@ -1578,9 +1582,10 @@ void cast_to_c(TranslationUnit& c_tu, const std::string& cpp_record_name,
     std::vector<std::string> attrs;
     std::vector<Param> params = {Param("lhs", lhs, 0), Param("rhs", rhs, 1)};
     auto void_t = NodeBuiltinType::n("void", 0, "void", false);
-    auto c_function = NodeFunction::n(function_name, PLACEHOLDER_ID, attrs, "",
-                                      std::move(void_t), std::move(params), "",
-                                      "", std::vector<NodeTypePtr>{});
+    auto c_function =
+        NodeFunction::n(function_name, PLACEHOLDER_ID, attrs, "",
+                        std::move(void_t), std::move(params), "", "",
+                        std::vector<NodeTypePtr>{}, std::vector<Exception>{});
 
     c_function->body = c_function_body;
     c_function->private_ = true;
@@ -1629,10 +1634,10 @@ void to_c_copy__trivial(TranslationUnit& c_tu,
         Param("lhs", NodePointerType::n(PointerKind::Pointer, c_return, false),
               0),
         Param("rhs", rhs, 1)};
-    auto c_function =
-        NodeFunction::n(function_name, PLACEHOLDER_ID, attrs, "",
-                        NodeBuiltinType::n("void", 0, "void", false),
-                        std::move(params), "", "", std::vector<NodeTypePtr>{});
+    auto c_function = NodeFunction::n(
+        function_name, PLACEHOLDER_ID, attrs, "",
+        NodeBuiltinType::n("void", 0, "void", false), std::move(params), "", "",
+        std::vector<NodeTypePtr>{}, std::vector<Exception>{});
 
     c_function->body = c_function_body;
     c_function->private_ = true;
@@ -1821,8 +1826,9 @@ void function_detail(TypeRegistry& type_registry, TranslationUnit& c_tu,
 
     auto c_function = NodeFunction::n(
         function_name, PLACEHOLDER_ID, cpp_function.attrs, "",
-        NodeBuiltinType::n("void", 0, "void", false), std::move(c_params),
-        function_nice_name, cpp_function.comment, std::move(template_args));
+        NodeBuiltinType::n("unsigned int", 0, "unsigned int", false),
+        std::move(c_params), function_nice_name, cpp_function.comment,
+        std::move(template_args), std::move(cpp_function.exceptions));
 
     c_function->body = c_function_body;
     c_tu.decls.push_back(NodePtr(c_function));
@@ -1887,10 +1893,10 @@ void to_c_copy__constructor(TranslationUnit& c_tu, const NodeRecord& cpp_record,
         Param("lhs", lhs, 0),
         Param("rhs", rhs, 1),
     };
-    auto c_function =
-        NodeFunction::n("to_c_copy", PLACEHOLDER_ID, attrs, "",
-                        NodeBuiltinType::n("void", 0, "void", false),
-                        std::move(params), "", "", std::vector<NodeTypePtr>{});
+    auto c_function = NodeFunction::n(
+        "to_c_copy", PLACEHOLDER_ID, attrs, "",
+        NodeBuiltinType::n("void", 0, "void", false), std::move(params), "", "",
+        std::vector<NodeTypePtr>{}, std::vector<Exception>{});
 
     c_function->body = c_function_body;
     c_function->private_ = true;

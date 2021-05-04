@@ -3,173 +3,336 @@
 #include <new>
 #include <std_string_private.h>
 
-void OpenImageIO_v2_2__Filesystem__IOProxy_delete(
+unsigned int OpenImageIO_v2_2__Filesystem__IOProxy_delete(
     OIIO_Filesystem_IOProxy_t * this_)
 {
-    delete this_;
+    try {
+        delete to_cpp(this_);
+        return 0;
+    } catch (std::exception& e) {
+        return -1;
+    }
 }
-char const * OpenImageIO_v2_2__Filesystem__IOProxy_proxytype(
-    OIIO_Filesystem_IOProxy_t const * this_)
+unsigned int OpenImageIO_v2_2__Filesystem__IOProxy_proxytype(
+    OIIO_Filesystem_IOProxy_t const * this_
+    , char const * * return_)
 {
-    return (to_cpp(this_)) -> proxytype();
+    try {
+        *(return_) = (to_cpp(this_)) -> proxytype();
+        return 0;
+    } catch (std::exception& e) {
+        return -1;
+    }
 }
-void OpenImageIO_v2_2__Filesystem__IOProxy_close(
+unsigned int OpenImageIO_v2_2__Filesystem__IOProxy_close(
     OIIO_Filesystem_IOProxy_t * this_)
 {
-    (to_cpp(this_)) -> close();
+    try {
+        (to_cpp(this_)) -> close();
+        return 0;
+    } catch (std::exception& e) {
+        return -1;
+    }
 }
-_Bool OpenImageIO_v2_2__Filesystem__IOProxy_opened(
-    OIIO_Filesystem_IOProxy_t const * this_)
+unsigned int OpenImageIO_v2_2__Filesystem__IOProxy_opened(
+    OIIO_Filesystem_IOProxy_t const * this_
+    , _Bool * return_)
 {
-    return (to_cpp(this_)) -> opened();
+    try {
+        *(return_) = (to_cpp(this_)) -> opened();
+        return 0;
+    } catch (std::exception& e) {
+        return -1;
+    }
 }
-long OpenImageIO_v2_2__Filesystem__IOProxy_tell(
-    OIIO_Filesystem_IOProxy_t * this_)
-{
-    return (to_cpp(this_)) -> tell();
-}
-_Bool OpenImageIO_v2_2__Filesystem__IOProxy_seek(
+unsigned int OpenImageIO_v2_2__Filesystem__IOProxy_tell(
     OIIO_Filesystem_IOProxy_t * this_
+    , long * return_)
+{
+    try {
+        *(return_) = (to_cpp(this_)) -> tell();
+        return 0;
+    } catch (std::exception& e) {
+        return -1;
+    }
+}
+unsigned int OpenImageIO_v2_2__Filesystem__IOProxy_seek(
+    OIIO_Filesystem_IOProxy_t * this_
+    , _Bool * return_
     , long offset)
 {
-    return (to_cpp(this_)) -> seek(offset);
+    try {
+        *(return_) = (to_cpp(this_)) -> seek(offset);
+        return 0;
+    } catch (std::exception& e) {
+        return -1;
+    }
 }
-unsigned long OpenImageIO_v2_2__Filesystem__IOProxy_read(
+unsigned int OpenImageIO_v2_2__Filesystem__IOProxy_read(
     OIIO_Filesystem_IOProxy_t * this_
+    , unsigned long * return_
     , void * buf
     , unsigned long size)
 {
-    return (to_cpp(this_)) -> read(buf, size);
+    try {
+        *(return_) = (to_cpp(this_)) -> read(buf, size);
+        return 0;
+    } catch (std::exception& e) {
+        return -1;
+    }
 }
-unsigned long OpenImageIO_v2_2__Filesystem__IOProxy_write(
+unsigned int OpenImageIO_v2_2__Filesystem__IOProxy_write(
     OIIO_Filesystem_IOProxy_t * this_
+    , unsigned long * return_
     , void const * buf
     , unsigned long size)
 {
-    return (to_cpp(this_)) -> write(buf, size);
+    try {
+        *(return_) = (to_cpp(this_)) -> write(buf, size);
+        return 0;
+    } catch (std::exception& e) {
+        return -1;
+    }
 }
-unsigned long OpenImageIO_v2_2__Filesystem__IOProxy_pread(
+unsigned int OpenImageIO_v2_2__Filesystem__IOProxy_pread(
     OIIO_Filesystem_IOProxy_t * this_
+    , unsigned long * return_
     , void * buf
     , unsigned long size
     , long offset)
 {
-    return (to_cpp(this_)) -> pread(buf, size, offset);
+    try {
+        *(return_) = (to_cpp(this_)) -> pread(buf, size, offset);
+        return 0;
+    } catch (std::exception& e) {
+        return -1;
+    }
 }
-unsigned long OpenImageIO_v2_2__Filesystem__IOProxy_pwrite(
+unsigned int OpenImageIO_v2_2__Filesystem__IOProxy_pwrite(
     OIIO_Filesystem_IOProxy_t * this_
+    , unsigned long * return_
     , void const * buf
     , unsigned long size
     , long offset)
 {
-    return (to_cpp(this_)) -> pwrite(buf, size, offset);
+    try {
+        *(return_) = (to_cpp(this_)) -> pwrite(buf, size, offset);
+        return 0;
+    } catch (std::exception& e) {
+        return -1;
+    }
 }
-std___cxx11_string_t const * OpenImageIO_v2_2__Filesystem__IOProxy_filename(
-    OIIO_Filesystem_IOProxy_t const * this_)
+unsigned int OpenImageIO_v2_2__Filesystem__IOProxy_filename(
+    OIIO_Filesystem_IOProxy_t const * this_
+    , std___cxx11_string_t const * * return_)
 {
-    return to_c((to_cpp(this_)) -> filename());
+    try {
+        to_c(return_, (to_cpp(this_)) -> filename());
+        return 0;
+    } catch (std::exception& e) {
+        return -1;
+    }
 }
-_Bool OpenImageIO_v2_2__Filesystem__IOProxy_seek_1(
+unsigned int OpenImageIO_v2_2__Filesystem__IOProxy_seek_1(
     OIIO_Filesystem_IOProxy_t * this_
+    , _Bool * return_
     , long offset
     , int origin)
 {
-    return (to_cpp(this_)) -> seek(offset, origin);
+    try {
+        *(return_) = (to_cpp(this_)) -> seek(offset, origin);
+        return 0;
+    } catch (std::exception& e) {
+        return -1;
+    }
 }
-char const * OpenImageIO_v2_2__Filesystem__IOMemReader_proxytype(
-    OIIO_Filesystem_IOMemReader_t const * this_)
+unsigned int OpenImageIO_v2_2__Filesystem__IOMemReader_proxytype(
+    OIIO_Filesystem_IOMemReader_t const * this_
+    , char const * * return_)
 {
-    return (to_cpp(this_)) -> proxytype();
+    try {
+        *(return_) = (to_cpp(this_)) -> proxytype();
+        return 0;
+    } catch (std::exception& e) {
+        return -1;
+    }
 }
-void OpenImageIO_v2_2__Filesystem__IOMemReader_close(
+unsigned int OpenImageIO_v2_2__Filesystem__IOMemReader_close(
     OIIO_Filesystem_IOMemReader_t * this_)
 {
-    (to_cpp(this_)) -> close();
+    try {
+        (to_cpp(this_)) -> close();
+        return 0;
+    } catch (std::exception& e) {
+        return -1;
+    }
 }
-_Bool OpenImageIO_v2_2__Filesystem__IOMemReader_opened(
-    OIIO_Filesystem_IOMemReader_t const * this_)
+unsigned int OpenImageIO_v2_2__Filesystem__IOMemReader_opened(
+    OIIO_Filesystem_IOMemReader_t const * this_
+    , _Bool * return_)
 {
-    return (to_cpp(this_)) -> opened();
+    try {
+        *(return_) = (to_cpp(this_)) -> opened();
+        return 0;
+    } catch (std::exception& e) {
+        return -1;
+    }
 }
-long OpenImageIO_v2_2__Filesystem__IOMemReader_tell(
-    OIIO_Filesystem_IOMemReader_t * this_)
-{
-    return (to_cpp(this_)) -> tell();
-}
-_Bool OpenImageIO_v2_2__Filesystem__IOMemReader_seek(
+unsigned int OpenImageIO_v2_2__Filesystem__IOMemReader_tell(
     OIIO_Filesystem_IOMemReader_t * this_
+    , long * return_)
+{
+    try {
+        *(return_) = (to_cpp(this_)) -> tell();
+        return 0;
+    } catch (std::exception& e) {
+        return -1;
+    }
+}
+unsigned int OpenImageIO_v2_2__Filesystem__IOMemReader_seek(
+    OIIO_Filesystem_IOMemReader_t * this_
+    , _Bool * return_
     , long offset)
 {
-    return (to_cpp(this_)) -> seek(offset);
+    try {
+        *(return_) = (to_cpp(this_)) -> seek(offset);
+        return 0;
+    } catch (std::exception& e) {
+        return -1;
+    }
 }
-unsigned long OpenImageIO_v2_2__Filesystem__IOMemReader_read(
+unsigned int OpenImageIO_v2_2__Filesystem__IOMemReader_read(
     OIIO_Filesystem_IOMemReader_t * this_
+    , unsigned long * return_
     , void * buf
     , unsigned long size)
 {
-    return (to_cpp(this_)) -> read(buf, size);
+    try {
+        *(return_) = (to_cpp(this_)) -> read(buf, size);
+        return 0;
+    } catch (std::exception& e) {
+        return -1;
+    }
 }
-unsigned long OpenImageIO_v2_2__Filesystem__IOMemReader_write(
+unsigned int OpenImageIO_v2_2__Filesystem__IOMemReader_write(
     OIIO_Filesystem_IOMemReader_t * this_
+    , unsigned long * return_
     , void const * buf
     , unsigned long size)
 {
-    return (to_cpp(this_)) -> write(buf, size);
+    try {
+        *(return_) = (to_cpp(this_)) -> write(buf, size);
+        return 0;
+    } catch (std::exception& e) {
+        return -1;
+    }
 }
-unsigned long OpenImageIO_v2_2__Filesystem__IOMemReader_pread(
+unsigned int OpenImageIO_v2_2__Filesystem__IOMemReader_pread(
     OIIO_Filesystem_IOMemReader_t * this_
+    , unsigned long * return_
     , void * buf
     , unsigned long size
     , long offset)
 {
-    return (to_cpp(this_)) -> pread(buf, size, offset);
+    try {
+        *(return_) = (to_cpp(this_)) -> pread(buf, size, offset);
+        return 0;
+    } catch (std::exception& e) {
+        return -1;
+    }
 }
-unsigned long OpenImageIO_v2_2__Filesystem__IOMemReader_pwrite(
+unsigned int OpenImageIO_v2_2__Filesystem__IOMemReader_pwrite(
     OIIO_Filesystem_IOMemReader_t * this_
+    , unsigned long * return_
     , void const * buf
     , unsigned long size
     , long offset)
 {
-    return (to_cpp(this_)) -> pwrite(buf, size, offset);
+    try {
+        *(return_) = (to_cpp(this_)) -> pwrite(buf, size, offset);
+        return 0;
+    } catch (std::exception& e) {
+        return -1;
+    }
 }
-_Bool OpenImageIO_v2_2__Filesystem__IOMemReader_seek_1(
+unsigned int OpenImageIO_v2_2__Filesystem__IOMemReader_seek_1(
     OIIO_Filesystem_IOMemReader_t * this_
+    , _Bool * return_
     , long offset
     , int origin)
 {
-    return (to_cpp(this_)) -> seek(offset, origin);
+    try {
+        *(return_) = (to_cpp(this_)) -> seek(offset, origin);
+        return 0;
+    } catch (std::exception& e) {
+        return -1;
+    }
 }
-void OpenImageIO_v2_2__Filesystem__IOMemReader_new(
+unsigned int OpenImageIO_v2_2__Filesystem__IOMemReader_new(
     OIIO_Filesystem_IOMemReader_t * * this_
     , void * buf
     , unsigned long size)
 {
-    *this_ = to_c(new OpenImageIO_v2_2::Filesystem::IOMemReader(buf, size));
+    try {
+        to_c(this_, new OpenImageIO_v2_2::Filesystem::IOMemReader(buf, size));
+        return 0;
+    } catch (std::exception& e) {
+        return -1;
+    }
 }
-void OpenImageIO_v2_2__Filesystem__IOMemReader_delete(
+unsigned int OpenImageIO_v2_2__Filesystem__IOMemReader_delete(
     OIIO_Filesystem_IOMemReader_t * this_)
 {
-    delete this_;
+    try {
+        delete to_cpp(this_);
+        return 0;
+    } catch (std::exception& e) {
+        return -1;
+    }
 }
-std___cxx11_string_t OpenImageIO_v2_2_Filesystem_filename(
-    std___cxx11_string_t const * filepath)
+unsigned int OpenImageIO_v2_2_Filesystem_filename(
+    std___cxx11_string_t * * return_
+    , std___cxx11_string_t const * filepath)
 {
-    return to_c_copy(OpenImageIO_v2_2::Filesystem::filename(to_cpp_ref(filepath)));
+    try {
+        to_c_copy(return_, OpenImageIO_v2_2::Filesystem::filename(to_cpp_ref(filepath)));
+        return 0;
+    } catch (std::exception& e) {
+        return -1;
+    }
 }
-std___cxx11_string_t OpenImageIO_v2_2_Filesystem_extension(
-    std___cxx11_string_t const * filepath
+unsigned int OpenImageIO_v2_2_Filesystem_extension(
+    std___cxx11_string_t * * return_
+    , std___cxx11_string_t const * filepath
     , _Bool include_dot)
 {
-    return to_c_copy(OpenImageIO_v2_2::Filesystem::extension(to_cpp_ref(filepath), include_dot));
+    try {
+        to_c_copy(return_, OpenImageIO_v2_2::Filesystem::extension(to_cpp_ref(filepath), include_dot));
+        return 0;
+    } catch (std::exception& e) {
+        return -1;
+    }
 }
-std___cxx11_string_t OpenImageIO_v2_2_Filesystem_parent_path(
-    std___cxx11_string_t const * filepath)
+unsigned int OpenImageIO_v2_2_Filesystem_parent_path(
+    std___cxx11_string_t * * return_
+    , std___cxx11_string_t const * filepath)
 {
-    return to_c_copy(OpenImageIO_v2_2::Filesystem::parent_path(to_cpp_ref(filepath)));
+    try {
+        to_c_copy(return_, OpenImageIO_v2_2::Filesystem::parent_path(to_cpp_ref(filepath)));
+        return 0;
+    } catch (std::exception& e) {
+        return -1;
+    }
 }
-std___cxx11_string_t OpenImageIO_v2_2_Filesystem_replace_extension(
-    std___cxx11_string_t const * filepath
+unsigned int OpenImageIO_v2_2_Filesystem_replace_extension(
+    std___cxx11_string_t * * return_
+    , std___cxx11_string_t const * filepath
     , std___cxx11_string_t const * new_extension)
 {
-    return to_c_copy(OpenImageIO_v2_2::Filesystem::replace_extension(to_cpp_ref(filepath), to_cpp_ref(new_extension)));
+    try {
+        to_c_copy(return_, OpenImageIO_v2_2::Filesystem::replace_extension(to_cpp_ref(filepath), to_cpp_ref(new_extension)));
+        return 0;
+    } catch (std::exception& e) {
+        return -1;
+    }
 }

@@ -83,7 +83,8 @@
                         "const": false
                     },
                     "params": null,
-                    "template_args": null
+                    "template_args": null,
+                    "exceptions": null
                 }
             ]
         },
@@ -152,7 +153,8 @@
                         "const": false
                     },
                     "params": null,
-                    "template_args": null
+                    "template_args": null,
+                    "exceptions": null
                 }
             ]
         },
@@ -242,7 +244,8 @@
                                 "const": false
                             }
                         }
-                    ]
+                    ],
+                    "exceptions": null
                 },
                 {
                     "kind": "Method",
@@ -311,7 +314,8 @@
                                 "const": false
                             }
                         }
-                    ]
+                    ],
+                    "exceptions": null
                 },
                 {
                     "kind": "Method",
@@ -380,7 +384,8 @@
                                 "const": false
                             }
                         }
-                    ]
+                    ],
+                    "exceptions": null
                 },
                 {
                     "kind": "Method",
@@ -449,7 +454,8 @@
                                 "const": false
                             }
                         }
-                    ]
+                    ],
+                    "exceptions": null
                 }
             ]
         }

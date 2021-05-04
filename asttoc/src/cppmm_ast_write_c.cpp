@@ -504,7 +504,27 @@ void write_function_bdy(fmt::ostream& out, const NodePtr& node, Access access) {
         write_params(out, function);
         out.print(")\n");
         out.print("{{\n");
-        write_expression(out, 1, function.body);
+
+        // FIXME AL: taking a shortcut here. We need to express this in terms
+        // of expression nodes, but let's get it working first
+        if (!function.private_) {
+            out.print("    try {{\n");
+        }
+
+        write_expression(out, 2, function.body);
+
+        if (!function.private_) {
+            for (const auto& e : function.exceptions) {
+                out.print("    }} catch ({}& e) {{\n"
+                          "        return {};\n",
+                          e.cpp_name, e.error_code);
+            }
+
+            out.print("    }} catch (std::exception& e) {{\n"
+                      "        return -1;\n"
+                      "    }}\n");
+        }
+
         out.print("}}\n");
     }
 }
@@ -682,6 +702,8 @@ void write_source(const TranslationUnit& tu) {
 
     // Write out the source includes
     write_source_includes(out, tu);
+
+    out.print("#include <stdexcept>\n\n");
 
     // Write out the function definitions
     for (const auto& node : tu.decls) {

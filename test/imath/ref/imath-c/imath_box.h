@@ -24,13 +24,13 @@ typedef Imath_2_5__Box_Imath__Vec3_int___t Imath_Box3i_t;
 
 
 
-void Imath_2_5__Box_Imath__Vec3_float___extendBy(
+unsigned int Imath_2_5__Box_Imath__Vec3_float___extendBy(
     Imath_Box3f_t * this_
     , Imath_V3f_t const * point);
 #define Imath_Box3f_extendBy Imath_2_5__Box_Imath__Vec3_float___extendBy
 
 
-void Imath_2_5__Box_Imath__Vec3_float___extendBy_1(
+unsigned int Imath_2_5__Box_Imath__Vec3_float___extendBy_1(
     Imath_Box3f_t * this_
     , Imath_Box3f_t const * box);
 #define Imath_Box3f_extendBy_1 Imath_2_5__Box_Imath__Vec3_float___extendBy_1
@@ -45,13 +45,13 @@ void Imath_2_5__Box_Imath__Vec3_float___extendBy_1(
 
 
 
-void Imath_2_5__Box_Imath__Vec3_int___extendBy(
+unsigned int Imath_2_5__Box_Imath__Vec3_int___extendBy(
     Imath_Box3i_t * this_
     , Imath_V3i_t const * point);
 #define Imath_Box3i_extendBy Imath_2_5__Box_Imath__Vec3_int___extendBy
 
 
-void Imath_2_5__Box_Imath__Vec3_int___extendBy_1(
+unsigned int Imath_2_5__Box_Imath__Vec3_int___extendBy_1(
     Imath_Box3i_t * this_
     , Imath_Box3i_t const * box);
 #define Imath_Box3i_extendBy_1 Imath_2_5__Box_Imath__Vec3_int___extendBy_1

@@ -13,9 +13,9 @@ pub struct std__vector_std__string__t {
 
 extern "C" {
 
-pub fn std__vector_std__string__vector(this_: *mut *mut std_vector_string_t) -> c_void;
+pub fn std__vector_std__string__vector(this_: *mut *mut std_vector_string_t) -> Exception;
 
-pub fn std__vector_std__string__dtor(this_: *mut std_vector_string_t) -> c_void;
+pub fn std__vector_std__string__dtor(this_: *mut std_vector_string_t) -> Exception;
 
 
 } // extern "C"

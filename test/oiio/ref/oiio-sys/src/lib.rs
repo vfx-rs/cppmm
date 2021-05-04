@@ -1,3 +1,27 @@
+#[repr(transparent)] 
+pub struct Exception(u32);
+
+impl Exception {
+    pub fn into_result(self) -> Result<(), Error> {
+        match self.0 {
+            0 => {
+                Ok(())
+            }
+
+            std::u32::MAX => {
+                panic!("Unhandled exception")
+            }
+            _ => {
+                panic!("Unexpected exception value")
+            }
+        }
+    }
+}
+
+#[derive(Debug, PartialEq, thiserror::Error)]
+pub enum Error {
+}
+
 pub mod std_vector;
 pub use std_vector::std__vector_std__string__t as std_vector_string_t;
 

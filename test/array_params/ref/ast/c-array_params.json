@@ -121,7 +121,8 @@
                             "attrs": []
                         }
                     ],
-                    "template_args": null
+                    "template_args": null,
+                    "exceptions": null
                 }
             ]
         }

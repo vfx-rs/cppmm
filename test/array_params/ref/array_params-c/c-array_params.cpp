@@ -2,9 +2,16 @@
 
 #include <new>
 
-void imath__Matrix44_float__from_array(
+#include <stdexcept>
+
+unsigned int imath__Matrix44_float__from_array(
     imath_M44f_t * this_
     , float const a[4][4])
 {
-    new (this_) imath::Matrix44<float>(a);
+    try {
+        new (this_) imath::Matrix44<float>(a);
+        return 0;
+    } catch (std::exception& e) {
+        return -1;
+    }
 }

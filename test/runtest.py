@@ -55,12 +55,17 @@ test_file = os.path.join(os.path.dirname(binding_dir), 'test.rs')
 if os.path.isfile(test_file):
     shutil.copyfile(test_file, os.path.join(rust_src_dir, 'test.rs'))
 
-result = subprocess.Popen(['cargo', 'test'], cwd=rustdir, stderr=subprocess.STDOUT, stdout=subprocess.PIPE, shell=True)
+result = subprocess.Popen(['cargo', 'test'], cwd=rustdir, stderr=subprocess.STDOUT, stdout=subprocess.PIPE, shell=False)
 (stdout, _) = result.communicate(None)
+
+if result.returncode != 0:
+    print('cargo test failed')
+    print(stdout)
+    sys.exit(255)
 
 # Remove cargo build stuff
 shutil.rmtree(os.path.join(rustdir, 'target'), ignore_errors=True)
-shutil.rmtree(os.path.join(rustdir, 'Cargo.lock'), ignore_errors=True)
+os.remove(os.path.join(rustdir, 'Cargo.lock'))
 
 # diff entire directory with a crummy attempt to ignore paths
 ignore_regex = '-I\s*\"\/.*\/.*'
@@ -71,7 +76,3 @@ if result.returncode != 0:
     print(stdout)
     sys.exit(255)
 
-if result.returncode != 0:
-    print('cargo test failed')
-    print(stdout)
-    sys.exit(255)

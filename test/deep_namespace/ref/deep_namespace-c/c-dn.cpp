@@ -1,12 +1,24 @@
 #include <c-dn_private.h>
 
 
-void DN__v2_2__Class__Struct_structMethod(
+#include <stdexcept>
+
+unsigned int DN__v2_2__Class__Struct_structMethod(
     DN_Class_Struct_t * this_)
 {
-    (to_cpp(this_)) -> structMethod();
+    try {
+        (to_cpp(this_)) -> structMethod();
+        return 0;
+    } catch (std::exception& e) {
+        return -1;
+    }
 }
-void DN_v2_2_someFunction()
+unsigned int DN_v2_2_someFunction()
 {
-    DN::v2_2::someFunction();
+    try {
+        DN::v2_2::someFunction();
+        return 0;
+    } catch (std::exception& e) {
+        return -1;
+    }
 }

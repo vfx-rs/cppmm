@@ -82,31 +82,31 @@ extern "C" {
 
 /// Default constructor is an undefined region. Note that this is also
 /// interpreted as All().
-pub fn OpenImageIO_v2_2__ROI_default(this_: *mut OIIO_ROI_t) -> c_void;
+pub fn OpenImageIO_v2_2__ROI_default(this_: *mut OIIO_ROI_t) -> Exception;
 
 /// Is a region defined?
-pub fn OpenImageIO_v2_2__ROI_defined(this_: *const OIIO_ROI_t) -> bool;
+pub fn OpenImageIO_v2_2__ROI_defined(this_: *const OIIO_ROI_t, return_: *mut bool) -> Exception;
 
 /// @{
 ///  @name Spatial size functions.
 ///  The width, height, and depth of the region.
-pub fn OpenImageIO_v2_2__ROI_width(this_: *const OIIO_ROI_t) -> c_int;
+pub fn OpenImageIO_v2_2__ROI_width(this_: *const OIIO_ROI_t, return_: *mut c_int) -> Exception;
 
-pub fn OpenImageIO_v2_2__ROI_height(this_: *const OIIO_ROI_t) -> c_int;
+pub fn OpenImageIO_v2_2__ROI_height(this_: *const OIIO_ROI_t, return_: *mut c_int) -> Exception;
 
-pub fn OpenImageIO_v2_2__ROI_depth(this_: *const OIIO_ROI_t) -> c_int;
+pub fn OpenImageIO_v2_2__ROI_depth(this_: *const OIIO_ROI_t, return_: *mut c_int) -> Exception;
 
 /// Number of channels in the region.  Beware -- this defaults to a
 /// huge number, and to be meaningful you must consider
 /// std::min (imagebuf.nchannels(), roi.nchannels()).
-pub fn OpenImageIO_v2_2__ROI_nchannels(this_: *const OIIO_ROI_t) -> c_int;
+pub fn OpenImageIO_v2_2__ROI_nchannels(this_: *const OIIO_ROI_t, return_: *mut c_int) -> Exception;
 
 /// Total number of pixels in the region.
-pub fn OpenImageIO_v2_2__ROI_npixels(this_: *const OIIO_ROI_t) -> c_ulong;
+pub fn OpenImageIO_v2_2__ROI_npixels(this_: *const OIIO_ROI_t, return_: *mut c_ulong) -> Exception;
 
 /// Constructor: given just the data format, set all other fields to
 /// something reasonable.
-pub fn OpenImageIO_v2_2__ImageSpec_ImageSpec(this_: *mut *mut OIIO_ImageSpec_t, format: OIIO_TypeDesc_t) -> c_void;
+pub fn OpenImageIO_v2_2__ImageSpec_ImageSpec(this_: *mut *mut OIIO_ImageSpec_t, format: OIIO_TypeDesc_t) -> Exception;
 
 /// Constructs an `ImageSpec` with the given x and y resolution, number
 /// of channels, and pixel data format.
@@ -117,35 +117,35 @@ pub fn OpenImageIO_v2_2__ImageSpec_ImageSpec(this_: *mut *mut OIIO_ImageSpec_t, 
 /// channel names are "R", "G", "B"' and "A" (up to and including 4
 /// channels, beyond that they are named "channel *n*"), the fourth
 /// channel (if it exists) is assumed to be alpha.
-pub fn OpenImageIO_v2_2__ImageSpec_new_with_dimensions(this_: *mut *mut OIIO_ImageSpec_t, xres: c_int, yres: c_int, nchans: c_int, fmt: OIIO_TypeDesc_t) -> c_void;
+pub fn OpenImageIO_v2_2__ImageSpec_new_with_dimensions(this_: *mut *mut OIIO_ImageSpec_t, xres: c_int, yres: c_int, nchans: c_int, fmt: OIIO_TypeDesc_t) -> Exception;
 
 /// Set the data format, and clear any per-channel format information
 /// in `channelformats`.
-pub fn OpenImageIO_v2_2__ImageSpec_set_format(this_: *mut OIIO_ImageSpec_t, fmt: OIIO_TypeDesc_t) -> c_void;
+pub fn OpenImageIO_v2_2__ImageSpec_set_format(this_: *mut OIIO_ImageSpec_t, fmt: OIIO_TypeDesc_t) -> Exception;
 
 /// Sets the `channelnames` to reasonable defaults for the number of
 /// channels.  Specifically, channel names are set to "R", "G", "B,"
 /// and "A" (up to and including 4 channels, beyond that they are named
 /// "channel*n*".
-pub fn OpenImageIO_v2_2__ImageSpec_default_channel_names(this_: *mut OIIO_ImageSpec_t) -> c_void;
+pub fn OpenImageIO_v2_2__ImageSpec_default_channel_names(this_: *mut OIIO_ImageSpec_t) -> Exception;
 
 /// Returns the number of bytes comprising each channel of each pixel
 /// (i.e., the size of a single value of the type described by the
 /// `format` field).
-pub fn OpenImageIO_v2_2__ImageSpec_channel_bytes(this_: *const OIIO_ImageSpec_t) -> c_ulong;
+pub fn OpenImageIO_v2_2__ImageSpec_channel_bytes(this_: *const OIIO_ImageSpec_t, return_: *mut c_ulong) -> Exception;
 
 /// Return the number of bytes needed for the single specified
 /// channel.  If native is false (default), compute the size of one
 /// channel of `this->format`, but if native is true, compute the size
 /// of the channel in terms of the "native" data format of that
 /// channel as stored in the file.
-pub fn OpenImageIO_v2_2__ImageSpec_channel_bytes_for(this_: *const OIIO_ImageSpec_t, chan: c_int, native: bool) -> c_ulong;
+pub fn OpenImageIO_v2_2__ImageSpec_channel_bytes_for(this_: *const OIIO_ImageSpec_t, return_: *mut c_ulong, chan: c_int, native: bool) -> Exception;
 
 /// Returns the number of bytes comprising each scanline, i.e.,
 /// `pixel_bytes(native) * width` This will return
 /// `std::numeric_limits<imagesize_t>::max()` in the event of an
 /// overflow where it's not representable in an `imagesize_t`.
-pub fn OpenImageIO_v2_2__ImageSpec_scanline_bytes(this_: *const OIIO_ImageSpec_t, native: bool) -> c_ulong;
+pub fn OpenImageIO_v2_2__ImageSpec_scanline_bytes(this_: *const OIIO_ImageSpec_t, return_: *mut c_ulong, native: bool) -> Exception;
 
 /// Returns, as a string, a serialized version of the `ImageSpec`. The
 /// `format` may be either `ImageSpec::SerialText` or
@@ -155,26 +155,26 @@ pub fn OpenImageIO_v2_2__ImageSpec_scanline_bytes(this_: *const OIIO_ImageSpec_t
 /// (contains all metadata in original form), or
 /// `ImageSpec::SerialDetailedHuman` (contains all metadata, in many
 /// cases with human-readable explanation).
-pub fn OpenImageIO_v2_2__ImageSpec_serialize(this_: *const OIIO_ImageSpec_t, format: OIIO_ImageSpec_SerialFormat, verbose: OIIO_ImageSpec_SerialVerbose) -> std___cxx11_string_t;
+pub fn OpenImageIO_v2_2__ImageSpec_serialize(this_: *const OIIO_ImageSpec_t, return_: *mut *mut std___cxx11_string_t, format: OIIO_ImageSpec_SerialFormat, verbose: OIIO_ImageSpec_SerialVerbose) -> Exception;
 
-pub fn OpenImageIO_v2_2__ImageSpec_copy(this_: *mut *mut OIIO_ImageSpec_t, other: *const OIIO_ImageSpec_t) -> c_void;
+pub fn OpenImageIO_v2_2__ImageSpec_copy(this_: *mut *mut OIIO_ImageSpec_t, other: *const OIIO_ImageSpec_t) -> Exception;
 
-pub fn OpenImageIO_v2_2__ImageSpec_assign(this_: *mut OIIO_ImageSpec_t, other: *const OIIO_ImageSpec_t) -> *mut OIIO_ImageSpec_t;
+pub fn OpenImageIO_v2_2__ImageSpec_assign(this_: *mut OIIO_ImageSpec_t, return_: *mut *mut OIIO_ImageSpec_t, other: *const OIIO_ImageSpec_t) -> Exception;
 
 /// Return the name of the format implemented by this class.
-pub fn OpenImageIO_v2_2__ImageInput_format_name(this_: *const OIIO_ImageInput_t) -> *const c_char;
+pub fn OpenImageIO_v2_2__ImageInput_format_name(this_: *const OIIO_ImageInput_t, return_: *mut *const c_char) -> Exception;
 
 /// If any of the API routines returned false indicating an error, this
 /// method will return the error string (and clear any error flags).  If
 /// no error has occurred since the last time `geterror()` was called,
 /// it will return an empty string.
-pub fn OpenImageIO_v2_2__ImageInput_geterror(this_: *const OIIO_ImageInput_t) -> std___cxx11_string_t;
+pub fn OpenImageIO_v2_2__ImageInput_geterror(this_: *const OIIO_ImageInput_t, return_: *mut *mut std___cxx11_string_t) -> Exception;
 
 /// Union of two regions, the smallest region containing both.
-pub fn OpenImageIO_v2_2_roi_union(a: *const OIIO_ROI_t, b: *const OIIO_ROI_t) -> OIIO_ROI_t;
+pub fn OpenImageIO_v2_2_roi_union(return_: *mut OIIO_ROI_t, a: *const OIIO_ROI_t, b: *const OIIO_ROI_t) -> Exception;
 
 /// Intersection of two regions.
-pub fn OpenImageIO_v2_2_roi_intersection(a: *const OIIO_ROI_t, b: *const OIIO_ROI_t) -> OIIO_ROI_t;
+pub fn OpenImageIO_v2_2_roi_intersection(return_: *mut OIIO_ROI_t, a: *const OIIO_ROI_t, b: *const OIIO_ROI_t) -> Exception;
 
 
 } // extern "C"

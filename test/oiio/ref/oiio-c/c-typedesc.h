@@ -79,11 +79,7 @@ typedef unsigned int OIIO_TypeDesc_VECSEMANTICS;
 
 ////////////////////////////////////////////////////////////////////////// */
 typedef struct OpenImageIO_v2_2__TypeDesc_t_s {
-    unsigned char basetype;
-    unsigned char aggregate;
-    unsigned char vecsemantics;
-    unsigned char reserved;
-    int arraylen;
+    char _unused;
 } __attribute__((aligned(4))) OpenImageIO_v2_2__TypeDesc_t;
 typedef OpenImageIO_v2_2__TypeDesc_t OIIO_TypeDesc_t;
 
