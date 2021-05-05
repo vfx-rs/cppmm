@@ -5,7 +5,7 @@
 #include <stdexcept>
 
 unsigned int usestd_takes_string(
-    std___cxx11_string_t const * s)
+    std_string_t const * s)
 {
     try {
         usestd::takes_string(to_cpp_ref(s));

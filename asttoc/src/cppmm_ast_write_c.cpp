@@ -801,8 +801,8 @@ void cerrors(const char* output_dir, Root& root, size_t starting_point,
 
     write_error_header(header_path.c_str(), project_name);
     write_error_header_private(private_header_path.c_str(), project_name);
-    write_error_source(source_path.c_str(), header_path.c_str(),
-                       private_header_path.c_str(), project_name);
+    write_error_source(source_path.c_str(), header_fn.c_str(),
+                       private_header_fn.c_str(), project_name);
 
     expect(starting_point < root.tus.size(),
            "starting point ({}) is out of range ({})", starting_point,

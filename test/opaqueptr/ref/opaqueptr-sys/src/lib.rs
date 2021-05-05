@@ -9,10 +9,12 @@ impl Exception {
             }
 
             std::u32::MAX => {
-                panic!("Unhandled exception")
+                let s = unsafe { std::ffi::CStr::from_ptr(opaqueptr_get_exception_string()).to_string_lossy().to_string()};
+                panic!("Unhandled exception: {}", s)
             }
             _ => {
-                panic!("Unexpected exception value")
+                let s = unsafe { std::ffi::CStr::from_ptr(opaqueptr_get_exception_string()).to_string_lossy().to_string()};
+                panic!("Unexpected exception value: {} - {}", self.0, s)
             }
         }
     }

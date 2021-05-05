@@ -8,20 +8,25 @@ impl Exception {
                 Ok(())
             }
             1 => {
-                Err(Error::StdRuntimeError)
+                let s = unsafe { std::ffi::CStr::from_ptr(exceptions_get_exception_string()).to_string_lossy().to_string()};
+                Err(Error::StdRuntimeError(s))
             }
             2 => {
-                Err(Error::StdLogicError)
+                let s = unsafe { std::ffi::CStr::from_ptr(exceptions_get_exception_string()).to_string_lossy().to_string()};
+                Err(Error::StdLogicError(s))
             }
             3 => {
-                Err(Error::StdInvalidArgument)
+                let s = unsafe { std::ffi::CStr::from_ptr(exceptions_get_exception_string()).to_string_lossy().to_string()};
+                Err(Error::StdInvalidArgument(s))
             }
 
             std::u32::MAX => {
-                panic!("Unhandled exception")
+                let s = unsafe { std::ffi::CStr::from_ptr(exceptions_get_exception_string()).to_string_lossy().to_string()};
+                panic!("Unhandled exception: {}", s)
             }
             _ => {
-                panic!("Unexpected exception value")
+                let s = unsafe { std::ffi::CStr::from_ptr(exceptions_get_exception_string()).to_string_lossy().to_string()};
+                panic!("Unexpected exception value: {} - {}", self.0, s)
             }
         }
     }
@@ -29,9 +34,9 @@ impl Exception {
 
 #[derive(Debug, PartialEq)]
 pub enum Error {
-    StdRuntimeError,
-    StdLogicError,
-    StdInvalidArgument,
+    StdRuntimeError(String),
+    StdLogicError(String),
+    StdInvalidArgument(String),
 }
 
 impl std::error::Error for Error {
@@ -45,9 +50,9 @@ impl fmt::Display for Error {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
 
         match self {
-                    Error::StdRuntimeError => write!(f, "StdRuntimeError"),
-                Error::StdLogicError => write!(f, "StdLogicError"),
-                Error::StdInvalidArgument => write!(f, "StdInvalidArgument"),
+                    Error::StdRuntimeError(s) => write!(f, "StdRuntimeError: {}", s),
+                Error::StdLogicError(s) => write!(f, "StdLogicError: {}", s),
+                Error::StdInvalidArgument(s) => write!(f, "StdInvalidArgument: {}", s),
 
         }
     }

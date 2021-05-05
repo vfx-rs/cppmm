@@ -7,9 +7,15 @@ namespace cppmm_bind {
 
 namespace std {
 
+#ifdef _GLIBCXX_USE_CXX11_ABI
+namespace std = ::std::__cxx11;
+#else
+namespace std = ::std;
+#endif
+
 class basic_string {
 public:
-    using BoundType = ::std::string;
+    using BoundType = std::basic_string<char>;
 
     // We can't match against the constructor without specifying an allocator
     // parameter, but we definitely don't want to be passing that from C so
@@ -25,6 +31,9 @@ public:
 } CPPMM_OPAQUEBYTES;
 
 using string = ::std::string;
+} // namespace std
+
+namespace std {
 
 template <class T> class vector {
 public:

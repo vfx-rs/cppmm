@@ -9,7 +9,7 @@ use std::os::raw::*;
 
 extern "C" {
 
-pub fn usestd_takes_string(s: *const std___cxx11_string_t) -> Exception;
+pub fn usestd_takes_string(s: *const std_string_t) -> Exception;
 
 pub fn usestd_takes_vector_string(v: *const std_vector_string_t) -> Exception;
 

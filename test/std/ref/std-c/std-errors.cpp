@@ -1,5 +1,5 @@
-#include "/home/anders/code/cppmm/build/test/std/output/std-c/std-errors.h"
-#include "/home/anders/code/cppmm/build/test/std/output/std-c/std-errors-private.h"
+#include "std-errors.h"
+#include "std-errors-private.h"
 
 thread_local std::string TLG_EXCEPTION_STRING;
 

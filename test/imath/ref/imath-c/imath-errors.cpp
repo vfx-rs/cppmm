@@ -1,5 +1,5 @@
-#include "/home/anders/code/cppmm/build/test/imath/output/imath-c/imath-errors.h"
-#include "/home/anders/code/cppmm/build/test/imath/output/imath-c/imath-errors-private.h"
+#include "imath-errors.h"
+#include "imath-errors-private.h"
 
 thread_local std::string TLG_EXCEPTION_STRING;
 

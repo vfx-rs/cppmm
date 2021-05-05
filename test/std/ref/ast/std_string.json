@@ -16,8 +16,8 @@
             "name": "std::__cxx11",
             "id": 9,
             "short_name": "__cxx11",
-            "alias": "__cxx11",
-            "collapse": false
+            "alias": "std",
+            "collapse": true
         },
         {
             "kind": "Namespace",

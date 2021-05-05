@@ -5,8 +5,8 @@
 #include <stdexcept>
 
 unsigned int std____cxx11__basic_string_char__assign(
-    std___cxx11_string_t * this_
-    , std___cxx11_string_t * * return_
+    std_string_t * this_
+    , std_string_t * * return_
     , char const * s
     , unsigned long count)
 {
@@ -19,7 +19,7 @@ unsigned int std____cxx11__basic_string_char__assign(
     }
 }
 unsigned int std____cxx11__basic_string_char__c_str(
-    std___cxx11_string_t const * this_
+    std_string_t const * this_
     , char const * * return_)
 {
     try {

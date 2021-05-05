@@ -7,7 +7,7 @@ extern "C" {
 typedef struct std____cxx11__basic_string_char__t_s {
     char _unused;
 } __attribute__((aligned(8))) std____cxx11__basic_string_char__t;
-typedef std____cxx11__basic_string_char__t std___cxx11_string_t;
+typedef std____cxx11__basic_string_char__t std_string_t;
 
 typedef struct std__vector_std__string__t_s {
     char _unused;
@@ -17,17 +17,17 @@ typedef std__vector_std__string__t std_vector_string_t;
 
 
 unsigned int std____cxx11__basic_string_char__assign(
-    std___cxx11_string_t * this_
-    , std___cxx11_string_t * * return_
+    std_string_t * this_
+    , std_string_t * * return_
     , char const * s
     , unsigned long count);
-#define std___cxx11_string_assign std____cxx11__basic_string_char__assign
+#define std_string_assign std____cxx11__basic_string_char__assign
 
 
 unsigned int std____cxx11__basic_string_char__c_str(
-    std___cxx11_string_t const * this_
+    std_string_t const * this_
     , char const * * return_);
-#define std___cxx11_string_c_str std____cxx11__basic_string_char__c_str
+#define std_string_c_str std____cxx11__basic_string_char__c_str
 
 
 

@@ -1,5 +1,5 @@
-#include "/home/anders/code/cppmm/build/test/opaqueptr/output/opaqueptr-c/opaqueptr-errors.h"
-#include "/home/anders/code/cppmm/build/test/opaqueptr/output/opaqueptr-c/opaqueptr-errors-private.h"
+#include "opaqueptr-errors.h"
+#include "opaqueptr-errors-private.h"
 
 thread_local std::string TLG_EXCEPTION_STRING;
 

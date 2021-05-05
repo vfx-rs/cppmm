@@ -17,9 +17,9 @@ pub struct std__vector_std__string__t {
 
 extern "C" {
 
-pub fn std____cxx11__basic_string_char__assign(this_: *mut std___cxx11_string_t, return_: *mut *mut std___cxx11_string_t, s: *const c_char, count: c_ulong) -> Exception;
+pub fn std____cxx11__basic_string_char__assign(this_: *mut std_string_t, return_: *mut *mut std_string_t, s: *const c_char, count: c_ulong) -> Exception;
 
-pub fn std____cxx11__basic_string_char__c_str(this_: *const std___cxx11_string_t, return_: *mut *const c_char) -> Exception;
+pub fn std____cxx11__basic_string_char__c_str(this_: *const std_string_t, return_: *mut *const c_char) -> Exception;
 
 pub fn std__vector_std__string__vector(this_: *mut *mut std_vector_string_t) -> Exception;
 

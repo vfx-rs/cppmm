@@ -1,5 +1,5 @@
-#include "/home/anders/code/cppmm/build/test/dtor/output/dtor-c/dtor-errors.h"
-#include "/home/anders/code/cppmm/build/test/dtor/output/dtor-c/dtor-errors-private.h"
+#include "dtor-errors.h"
+#include "dtor-errors-private.h"
 
 thread_local std::string TLG_EXCEPTION_STRING;
 

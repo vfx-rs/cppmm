@@ -455,23 +455,27 @@ impl Exception {{
 
     for (const auto& ex : EXCEPTION_MAP) {
         out_lib.print(R"(            {} => {{
-                Err(Error::{})
+                let s = unsafe {{ std::ffi::CStr::from_ptr({}_get_exception_string()).to_string_lossy().to_string()}};
+                Err(Error::{}(s))
             }}
 )",
-                      ex.first, to_pascal_case(ex.second));
+                      ex.first, project_name, to_pascal_case(ex.second));
     }
 
     out_lib.print(R"(
             std::u32::MAX => {{
-                panic!("Unhandled exception")
+                let s = unsafe {{ std::ffi::CStr::from_ptr({0}_get_exception_string()).to_string_lossy().to_string()}};
+                panic!("Unhandled exception: {{}}", s)
             }}
             _ => {{
-                panic!("Unexpected exception value")
+                let s = unsafe {{ std::ffi::CStr::from_ptr({0}_get_exception_string()).to_string_lossy().to_string()}};
+                panic!("Unexpected exception value: {{}} - {{}}", self.0, s)
             }}
         }}
     }}
 }}
-)");
+)",
+                  project_name);
 
     out_lib.print(R"(
 #[derive(Debug, PartialEq)]
@@ -479,7 +483,7 @@ pub enum Error {{
 )");
 
     for (const auto& ex : EXCEPTION_MAP) {
-        out_lib.print("    {},\n", to_pascal_case(ex.second));
+        out_lib.print("    {}(String),\n", to_pascal_case(ex.second));
     }
 
     out_lib.print("}}\n");
@@ -509,7 +513,8 @@ impl fmt::Display for Error {{
     )");
 
         for (const auto& ex : EXCEPTION_MAP) {
-            out_lib.print("                Error::{0} => write!(f, \"{0}\"),\n",
+            out_lib.print("                Error::{0}(s) => write!(f, \"{0}: "
+                          "{{}}\", s),\n",
                           to_pascal_case(ex.second));
         }
 

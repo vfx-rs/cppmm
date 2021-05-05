@@ -10,33 +10,23 @@ fn it_works() {
     unsafe {
         assert_eq!(
             ex_Struct_m1(&mut s).into_result(),
-            Err(Error::StdRuntimeError)
+            Err(Error::StdRuntimeError(String::from(
+                "It's runtime, this is an error!"
+            )))
         );
-        assert_eq!(
-            "It's runtime, this is an error!",
-            std::ffi::CStr::from_ptr(exceptions_get_exception_string())
-                .to_str()
-                .unwrap()
-        );
+
         assert_eq!(
             ex_Struct_m2(&mut s, &mut r, -1.0f32).into_result(),
-            Err(Error::StdRuntimeError)
+            Err(Error::StdRuntimeError(String::from(
+                "It's runtime, this is an error!"
+            )))
         );
-        assert_eq!(
-            "It's runtime, this is an error!",
-            std::ffi::CStr::from_ptr(exceptions_get_exception_string())
-                .to_str()
-                .unwrap()
-        );
+
         assert_eq!(
             ex_Struct_m2(&mut s, &mut r, 1.0f32).into_result(),
-            Err(Error::StdLogicError)
-        );
-        assert_eq!(
-            "Your logic is bad. And you should feel bad",
-            std::ffi::CStr::from_ptr(exceptions_get_exception_string())
-                .to_str()
-                .unwrap()
+            Err(Error::StdLogicError(String::from(
+                "Your logic is bad. And you should feel bad"
+            )))
         );
     }
 }
