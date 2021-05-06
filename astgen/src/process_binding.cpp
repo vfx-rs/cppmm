@@ -360,9 +360,9 @@ bool match_parameters(const NodeFunction* a, const NodeFunction* b) {
             Node* n_a = NODES.at(a->params[i].qty.ty).get();
             Node* n_b = NODES.at(b->params[i].qty.ty).get();
             SPDLOG_TRACE("        match failed because param {} does "
-                         "not match. {} {} != {} {}",
-                         i, a->params[i].qty.ty, n_a->qualified_name,
-                         b->params[i].qty.ty, n_b->qualified_name);
+                         "not match. \n{} ({}) != \n{} ({})",
+                         i, n_a->qualified_name, a->params[i].qty.ty,
+                         n_b->qualified_name, b->params[i].qty.ty);
             return false;
         }
     }
@@ -475,8 +475,8 @@ NodePtr process_method_decl(const CXXMethodDecl* cmd,
 /// that their return types and parameters are the same and they have the
 /// same short (not qualified) name
 bool match_function(const NodeFunction* a, const NodeFunction* b) {
-    SPDLOG_TRACE("        matching {} with {}", a->qualified_name,
-                 b->qualified_name);
+    SPDLOG_TRACE("        matching:\n        {}\n    with\n        {}\n", *a,
+                 *b);
     if (a->short_name != b->short_name) {
         return false;
     }
@@ -1648,12 +1648,11 @@ void ProcessBindingConsumer::HandleTranslationUnit(ASTContext& context) {
     // add a matcher for each function we found in the binding
     for (const auto& kv : binding_functions) {
         for (const auto& fn : kv.second) {
-            SPDLOG_DEBUG("Adding matcher for function {}", fn.short_name);
+            SPDLOG_DEBUG("Adding matcher for function {}", fn);
             DeclarationMatcher function_decl_matcher =
                 functionDecl(
                     hasName(fn.short_name),
-                    unless(hasAncestor(namespaceDecl(hasName("cppmm_bind")))),
-                    unless(hasAncestor(recordDecl())))
+                    unless(hasAncestor(namespaceDecl(hasName("cppmm_bind")))))
                     .bind("libraryFunctionDecl");
             _library_finder.addMatcher(function_decl_matcher,
                                        &_library_handler);

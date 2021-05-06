@@ -1,0 +1,491 @@
+{
+    "kind": "TranslationUnit",
+    "filename": "/home/anders/code/cppmm/test/std/bind/std_set.cpp",
+    "source_includes": [
+        "#include <set>",
+        "#include <string>",
+        "#include <cppmm_bind.hpp>"
+    ],
+    "include_paths": [
+        "/home/anders/code/cppmm/test/std/include"
+    ],
+    "id": 46,
+    "decls": [
+        {
+            "kind": "Namespace",
+            "name": "std",
+            "id": 10,
+            "short_name": "std",
+            "alias": "std",
+            "collapse": false
+        },
+        {
+            "kind": "Record",
+            "name": "std::_Rb_tree_node_base",
+            "short_name": "_Rb_tree_node_base",
+            "namespaces": [
+                10
+            ],
+            "id": 47,
+            "abstract": false,
+            "trivially_copyable": true,
+            "trivially_movable": true,
+            "opaque_type": false,
+            "size": 256,
+            "align": 64,
+            "alias": "_Rb_tree_node_base",
+            "attributes": [
+                "cppmm|opaqueptr",
+                "cppmm|ignore_unbound"
+            ],
+            "comment": "",
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "_M_color",
+                    "type": {
+                        "kind": "EnumType",
+                        "id": 53,
+                        "type": "std::_Rb_tree_color",
+                        "enum": -1,
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_M_parent",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 49,
+                        "type": "struct std::_Rb_tree_node_base *",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 48,
+                            "type": "std::_Rb_tree_node_base",
+                            "record": 47,
+                            "const": false
+                        },
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_M_left",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 49,
+                        "type": "struct std::_Rb_tree_node_base *",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 48,
+                            "type": "std::_Rb_tree_node_base",
+                            "record": 47,
+                            "const": false
+                        },
+                        "const": false
+                    }
+                },
+                {
+                    "kind": "Field",
+                    "name": "_M_right",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 49,
+                        "type": "struct std::_Rb_tree_node_base *",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 48,
+                            "type": "std::_Rb_tree_node_base",
+                            "record": 47,
+                            "const": false
+                        },
+                        "const": false
+                    }
+                }
+            ],
+            "methods": null
+        },
+        {
+            "kind": "Namespace",
+            "name": "cppmm_bind::std",
+            "id": 55,
+            "short_name": "std",
+            "alias": "std",
+            "collapse": false
+        },
+        {
+            "kind": "Record",
+            "name": "std::set<std::string>",
+            "short_name": "set",
+            "namespaces": [
+                10
+            ],
+            "id": 57,
+            "abstract": false,
+            "trivially_copyable": false,
+            "trivially_movable": false,
+            "opaque_type": false,
+            "size": 384,
+            "align": 64,
+            "alias": "set_string",
+            "attributes": [
+                "cppmm|opaquebytes",
+                "cppmm|ignore_unbound"
+            ],
+            "comment": "",
+            "fields": null,
+            "methods": [
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "set",
+                    "qualified_name": "std::set<std::__cxx11::basic_string<char>, std::less<std::__cxx11::basic_string<char> >, std::allocator<std::__cxx11::basic_string<char> > >::set",
+                    "in_binding": true,
+                    "in_library": false,
+                    "noexcept": false,
+                    "static": false,
+                    "user_provided": false,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": true,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm|rename|ctor"
+                    ],
+                    "comment": "",
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 0,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": null,
+                    "template_args": null,
+                    "exceptions": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "~set",
+                    "qualified_name": "std::set<std::__cxx11::basic_string<char>, std::less<std::__cxx11::basic_string<char> >, std::allocator<std::__cxx11::basic_string<char> > >::~set",
+                    "in_binding": true,
+                    "in_library": false,
+                    "noexcept": false,
+                    "static": false,
+                    "user_provided": false,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": true,
+                    "attributes": null,
+                    "comment": "",
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 0,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": null,
+                    "template_args": null,
+                    "exceptions": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "cbegin",
+                    "qualified_name": "std::set<std::__cxx11::basic_string<char>, std::less<std::__cxx11::basic_string<char> >, std::allocator<std::__cxx11::basic_string<char> > >::cbegin",
+                    "in_binding": true,
+                    "in_library": false,
+                    "noexcept": true,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "comment": "",
+                    "return": {
+                        "kind": "RecordType",
+                        "id": 56,
+                        "type": "std::_Rb_tree_const_iterator<std::__cxx11::basic_string<char> >",
+                        "record": 73,
+                        "const": false
+                    },
+                    "params": null,
+                    "template_args": null,
+                    "exceptions": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "cend",
+                    "qualified_name": "std::set<std::__cxx11::basic_string<char>, std::less<std::__cxx11::basic_string<char> >, std::allocator<std::__cxx11::basic_string<char> > >::cend",
+                    "in_binding": true,
+                    "in_library": false,
+                    "noexcept": true,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "comment": "",
+                    "return": {
+                        "kind": "RecordType",
+                        "id": 56,
+                        "type": "std::_Rb_tree_const_iterator<std::__cxx11::basic_string<char> >",
+                        "record": 73,
+                        "const": false
+                    },
+                    "params": null,
+                    "template_args": null,
+                    "exceptions": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "size",
+                    "qualified_name": "std::set<std::__cxx11::basic_string<char>, std::less<std::__cxx11::basic_string<char> >, std::allocator<std::__cxx11::basic_string<char> > >::size",
+                    "in_binding": true,
+                    "in_library": false,
+                    "noexcept": true,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "comment": "",
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 3,
+                        "type": "unsigned long",
+                        "const": false
+                    },
+                    "params": null,
+                    "template_args": null,
+                    "exceptions": null
+                }
+            ]
+        },
+        {
+            "kind": "Record",
+            "name": "std::_Rb_tree_const_iterator<std::__cxx11::basic_string<char> >",
+            "short_name": "_Rb_tree_const_iterator",
+            "namespaces": [
+                10
+            ],
+            "id": 73,
+            "abstract": false,
+            "trivially_copyable": true,
+            "trivially_movable": true,
+            "opaque_type": false,
+            "size": 64,
+            "align": 64,
+            "alias": "set_string_iterator",
+            "attributes": [
+                "cppmm|valuetype",
+                "cppmm|ignore_unbound"
+            ],
+            "comment": "",
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "_M_node",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 50,
+                        "type": "const struct std::_Rb_tree_node_base *",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 48,
+                            "type": "std::_Rb_tree_node_base",
+                            "record": 47,
+                            "const": true
+                        },
+                        "const": false
+                    }
+                }
+            ],
+            "methods": [
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "operator*",
+                    "qualified_name": "std::_Rb_tree_const_iterator<std::__cxx11::basic_string<char> >::operator*",
+                    "in_binding": true,
+                    "in_library": false,
+                    "noexcept": true,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": true,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm|rename|deref"
+                    ],
+                    "comment": "",
+                    "return": {
+                        "kind": "Reference",
+                        "id": 12,
+                        "type": "const class std::__cxx11::basic_string<char> &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 6,
+                            "type": "std::__cxx11::basic_string<char>",
+                            "record": 11,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "params": null,
+                    "template_args": null,
+                    "exceptions": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "operator++",
+                    "qualified_name": "std::_Rb_tree_const_iterator<std::__cxx11::basic_string<char> >::operator++",
+                    "in_binding": true,
+                    "in_library": false,
+                    "noexcept": true,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": true,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm|rename|inc"
+                    ],
+                    "comment": "",
+                    "return": {
+                        "kind": "Reference",
+                        "id": 72,
+                        "type": "struct std::_Rb_tree_const_iterator<class std::__cxx11::basic_string<char> > &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 56,
+                            "type": "std::_Rb_tree_const_iterator<std::__cxx11::basic_string<char> >",
+                            "record": 73,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "params": null,
+                    "template_args": null,
+                    "exceptions": null
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 91,
+            "short_name": "operator==",
+            "qualified_name": "std::operator==",
+            "in_binding": false,
+            "in_library": false,
+            "noexcept": true,
+            "attributes": [
+                "cppmm|rename|set_string_const_iterator_eq"
+            ],
+            "comment": "",
+            "namespaces": [
+                10
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 20,
+                "type": "_Bool",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "__x",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 76,
+                        "type": "const struct std::_Rb_tree_const_iterator<class std::__cxx11::basic_string<char> > &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 56,
+                            "type": "std::_Rb_tree_const_iterator<std::__cxx11::basic_string<char> >",
+                            "record": 73,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "__y",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 76,
+                        "type": "const struct std::_Rb_tree_const_iterator<class std::__cxx11::basic_string<char> > &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 56,
+                            "type": "std::_Rb_tree_const_iterator<std::__cxx11::basic_string<char> >",
+                            "record": 73,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ],
+            "template_args": null,
+            "exceptions": null
+        }
+    ]
+}

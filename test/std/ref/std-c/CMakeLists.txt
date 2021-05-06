@@ -4,6 +4,7 @@ set(CMAKE_CXX_STANDARD 14 CACHE STRING "")
 set(LIBNAME std-c-0_1)
 add_library(${LIBNAME} SHARED
     c-usestd.cpp
+    std_set.cpp
     std_string.cpp
 std-errors.cpp
 )

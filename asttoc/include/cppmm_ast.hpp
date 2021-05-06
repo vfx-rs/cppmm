@@ -50,6 +50,7 @@ enum class NodeKind : uint32_t {
     Record,
     Typedef,
     FunctionPointerTypedef,
+    InfixOperatorExpr,
     Sentinal, // A sentinal entry to keep track of how many there are
 };
 
@@ -359,6 +360,26 @@ struct NodeFunctionCallExpr
 
     // A static method for creating this as a shared pointer
     using This = NodeFunctionCallExpr;
+    template <typename... Args> static std::shared_ptr<This> n(Args&&... args) {
+        return std::make_shared<This>(std::forward<Args>(args)...);
+    }
+};
+
+//------------------------------------------------------------------------------
+// NodeInfixOperatorExpr
+//------------------------------------------------------------------------------
+struct NodeInfixOperatorExpr : public NodeExpr { // TODO LT: Added by Anders.
+                                                 // specialization for e.g. '=='
+    std::vector<NodeExprPtr> args;
+    std::vector<NodeTypePtr> template_args;
+
+    NodeInfixOperatorExpr(std::string name, std::vector<NodeExprPtr> args,
+                          std::vector<NodeTypePtr> template_args,
+                          NodeKind kind = NodeKind::InfixOperatorExpr)
+        : NodeExpr(kind, name), args(args), template_args(template_args) {}
+
+    // A static method for creating this as a shared pointer
+    using This = NodeInfixOperatorExpr;
     template <typename... Args> static std::shared_ptr<This> n(Args&&... args) {
         return std::make_shared<This>(std::forward<Args>(args)...);
     }

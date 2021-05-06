@@ -45,6 +45,19 @@ pub mod c_usestd;
 
 pub use c_usestd::usestd_takes_string as usestd_takes_string;
 pub use c_usestd::usestd_takes_vector_string as usestd_takes_vector_string;
+pub mod std_set;
+pub use std_set::std___Rb_tree_node_base_t as std__Rb_tree_node_base_t;
+pub use std_set::std__set_std__string__t as std_set_string_t;
+pub use std_set::std___Rb_tree_const_iterator_std____cxx11__basic_string_char___t as std_set_string_iterator_t;
+
+pub use std_set::std__set_std__string__ctor as std_set_string_ctor;
+pub use std_set::std__set_std__string__dtor as std_set_string_dtor;
+pub use std_set::std__set_std__string__cbegin as std_set_string_cbegin;
+pub use std_set::std__set_std__string__cend as std_set_string_cend;
+pub use std_set::std__set_std__string__size as std_set_string_size;
+pub use std_set::std___Rb_tree_const_iterator_std____cxx11__basic_string_char___deref as std_set_string_iterator_deref;
+pub use std_set::std___Rb_tree_const_iterator_std____cxx11__basic_string_char___inc as std_set_string_iterator_inc;
+pub use std_set::std_set_string_const_iterator_eq as std_set_string_const_iterator_eq;
 pub mod std_string;
 pub use std_string::std____cxx11__basic_string_char__t as std_string_t;
 pub use std_string::std__vector_std__string__t as std_vector_string_t;

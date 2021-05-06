@@ -1064,24 +1064,45 @@ NodeExprPtr function_body(TypeRegistry& type_registry, TranslationUnit& c_tu,
     auto cpp_function_name = cpp_function.name;
 
     // Create the function call expression
-    auto function_call = NodeFunctionCallExpr::n(cpp_function_name, args,
-                                                 cpp_function.template_args);
+    if (cpp_function.short_name.find("operator") == 0 &&
+        cpp_function.params.size() == 2) {
+        cpp_function_name = cpp_function.short_name.substr(8);
+        auto function_call = NodeInfixOperatorExpr::n(
+            cpp_function_name, args, cpp_function.template_args);
+        // Convert the result
+        auto is_void =
+            c_return->kind == NodeKind::BuiltinType &&
+            static_cast<const NodeBuiltinType*>(c_return.get())->type_name ==
+                "void";
 
-    // Convert the result
-    auto is_void =
-        c_return->kind == NodeKind::BuiltinType &&
-        static_cast<const NodeBuiltinType*>(c_return.get())->type_name ==
-            "void";
+        if (is_void) {
+            return NodeBlockExpr::n(std::vector<NodeExprPtr>(
+                {function_call, NodeReturnExpr::n(NodeVarRefExpr::n("0"))}));
+        }
 
-    if (is_void) {
         return NodeBlockExpr::n(std::vector<NodeExprPtr>(
-            {function_call, NodeReturnExpr::n(NodeVarRefExpr::n("0"))}));
-    }
+            {convert_return(cpp_function.return_type, c_return, function_call,
+                            NodeVarRefExpr::n("return_")),
+             NodeReturnExpr::n(NodeVarRefExpr::n("0"))}));
+    } else {
+        auto function_call = NodeFunctionCallExpr::n(
+            cpp_function_name, args, cpp_function.template_args);
+        // Convert the result
+        auto is_void =
+            c_return->kind == NodeKind::BuiltinType &&
+            static_cast<const NodeBuiltinType*>(c_return.get())->type_name ==
+                "void";
 
-    return NodeBlockExpr::n(std::vector<NodeExprPtr>(
-        {convert_return(cpp_function.return_type, c_return, function_call,
-                        NodeVarRefExpr::n("return_")),
-         NodeReturnExpr::n(NodeVarRefExpr::n("0"))}));
+        if (is_void) {
+            return NodeBlockExpr::n(std::vector<NodeExprPtr>(
+                {function_call, NodeReturnExpr::n(NodeVarRefExpr::n("0"))}));
+        }
+
+        return NodeBlockExpr::n(std::vector<NodeExprPtr>(
+            {convert_return(cpp_function.return_type, c_return, function_call,
+                            NodeVarRefExpr::n("return_")),
+             NodeReturnExpr::n(NodeVarRefExpr::n("0"))}));
+    }
 }
 
 //------------------------------------------------------------------------------
@@ -1179,7 +1200,7 @@ std::string find_function_short_name(const NodeFunction& cpp_function) {
 //------------------------------------------------------------------------------
 void general_function(TypeRegistry& type_registry, TranslationUnit& c_tu,
                       const NodeFunction& cpp_function,
-                      const std::string & prefix=std::string());
+                      const std::string& prefix = std::string());
 
 //------------------------------------------------------------------------------
 void record_method(TypeRegistry& type_registry, TranslationUnit& c_tu,
@@ -1194,7 +1215,7 @@ void record_method(TypeRegistry& type_registry, TranslationUnit& c_tu,
     std::string function_prefix = pystring::slice(c_record.name, 0, -2);
 
     // If the method is static, then delegate to the function wrapping method
-    if(cpp_method.is_static) {
+    if (cpp_method.is_static) {
         general_function(type_registry, c_tu, cpp_method,
                          function_prefix + "_");
         return;
@@ -1809,13 +1830,14 @@ void general_function(TypeRegistry& type_registry, TranslationUnit& c_tu,
     auto c_function_body =
         function_body(type_registry, c_tu, c_return_for_function, cpp_function);
 
-    auto function_name = prefix + compute_c_name(
-        compute_qualified_name(type_registry, cpp_function.namespaces,
-                               find_function_short_name(cpp_function)));
+    auto function_name = prefix + compute_c_name(compute_qualified_name(
+                                      type_registry, cpp_function.namespaces,
+                                      find_function_short_name(cpp_function)));
 
-    auto function_nice_name = prefix + compute_c_name(
-        compute_qualified_nice_name(type_registry, cpp_function.namespaces,
-                                    find_function_short_name(cpp_function)));
+    auto function_nice_name =
+        prefix + compute_c_name(compute_qualified_nice_name(
+                     type_registry, cpp_function.namespaces,
+                     find_function_short_name(cpp_function)));
 
     // Build the new method name
     if (function_name == function_nice_name) {

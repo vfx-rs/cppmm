@@ -328,6 +328,25 @@ void write_expression_function_call(fmt::ostream& out, size_t depth,
 }
 
 //------------------------------------------------------------------------------
+void write_expression_infix_operator(fmt::ostream& out, size_t depth,
+                                     const NodeExprPtr& node) {
+    const auto& function_call =
+        *static_cast<const NodeInfixOperatorExpr*>(node.get());
+
+    // we know we only have an infix op when there's 2 arguments
+    // start
+    out.print("(");
+
+    // First argument
+    write_expression(out, depth, function_call.args[0]);
+    out.print(" {} ", function_call.name);
+    write_expression(out, depth, function_call.args[1]);
+
+    // start
+    out.print(")");
+}
+
+//------------------------------------------------------------------------------
 void write_expression_method_call(fmt::ostream& out, size_t depth,
                                   const NodeExprPtr& node) {
     const auto& method_call =
@@ -485,6 +504,8 @@ void write_expression(fmt::ostream& out, size_t depth,
         return write_expression_block(out, depth, node);
     case NodeKind::AssignExpr:
         return write_expression_assign(out, depth, node);
+    case NodeKind::InfixOperatorExpr:
+        return write_expression_infix_operator(out, depth, node);
     default:
         break;
     }
