@@ -832,7 +832,7 @@ enum class BindType : uint32_t {
 inline BindType bind_type(const NodeRecord& cpp_record) {
     BindType bind_type = BindType::OpaquePtr;
 
-    if (cpp_record.trivially_movable && !cpp_record.opaque_type) {
+    if (!cpp_record.opaque_type) {
         for (auto i : cpp_record.attrs) {
             if (i == "cppmm|opaquebytes") {
                 return BindType::OpaqueBytes;

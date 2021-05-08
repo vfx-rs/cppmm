@@ -936,6 +936,11 @@ bool has_opaquetype_attr(const std::vector<std::string>& attrs) {
            attrs.end();
 }
 
+bool has_opaquebytes_attr(const std::vector<std::string>& attrs) {
+    return std::find(attrs.begin(), attrs.end(), "cppmm|opaquebytes") !=
+           attrs.end();
+}
+
 /// Create a new NodeRecord for the given record decl and store it in the AST.
 /// `crd` must represent a "concrete" record - i.e. it must not be dependent
 /// on any template parameters. This is done in the binding file by explicitly
@@ -1004,6 +1009,14 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
                                     has_trivially_copyable_attr(attrs);
             // we can't trivially move a type if we can't trivially copy it
             is_trivially_movable &= is_trivially_copyable;
+            if (!is_trivially_movable && has_opaquebytes_attr(attrs)) {
+                SPDLOG_WARN(
+                    "Record {} is marked as opaquebytes, but is not trivially "
+                    "movable or copyable. You must ensure that the memory "
+                    "representation of the bound struct is never moved or very "
+                    "bad things will happen.",
+                    record_name);
+            }
             is_abstract = crd->isAbstract();
         }
     }
