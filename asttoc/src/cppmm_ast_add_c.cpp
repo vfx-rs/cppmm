@@ -1200,7 +1200,40 @@ std::string find_function_short_name(const NodeFunction& cpp_function) {
 //------------------------------------------------------------------------------
 void general_function(TypeRegistry& type_registry, TranslationUnit& c_tu,
                       const NodeFunction& cpp_function,
-                      const std::string& prefix = std::string());
+                      const NodeRecord * cpp_record,
+                      const NodeRecord * c_record);
+
+//------------------------------------------------------------------------------
+// FunctionNames
+//------------------------------------------------------------------------------
+struct FunctionNames {
+    std::string long_name;
+    std::string nice_name;
+};
+
+//------------------------------------------------------------------------------
+FunctionNames compute_function_names(TypeRegistry& type_registry,
+                                     const NodeRecord& cpp_record,
+                                     const NodeRecord& c_record,
+                                     const NodeFunction& cpp_function) {
+    auto short_name = find_function_short_name(cpp_function);
+
+    // Build the new method name. We need to generate unique function names
+    // that share a common suffix but with different prefixes
+    // The full prefix we get by stripping the "_t" from the struct name
+    std::string function_prefix = pystring::slice(c_record.name, 0, -2);
+    std::string function_suffix = compute_c_name(short_name);
+    std::string function_name = function_prefix + "_" + function_suffix;
+    function_name = type_registry.make_symbol_unique(function_name);
+
+    // now strip the uniquified suffix from the function name and stick on the
+    // nice prefix
+    function_suffix = function_name.substr(function_prefix.size() + 1);
+    std::string function_nice_name =
+        pystring::slice(c_record.nice_name, 0, -2) + "_" + function_suffix;
+
+    return FunctionNames{function_name, function_nice_name};
+}
 
 //------------------------------------------------------------------------------
 void record_method(TypeRegistry& type_registry, TranslationUnit& c_tu,
@@ -1211,13 +1244,10 @@ void record_method(TypeRegistry& type_registry, TranslationUnit& c_tu,
         return;
     }
 
-    // Compute the function prefix
-    std::string function_prefix = pystring::slice(c_record.name, 0, -2);
-
     // If the method is static, then delegate to the function wrapping method
     if (cpp_method.is_static) {
-        general_function(type_registry, c_tu, cpp_method,
-                         function_prefix + "_");
+        general_function(type_registry, c_tu, cpp_method, &cpp_record,
+                         &c_record);
         return;
     }
 
@@ -1277,20 +1307,8 @@ void record_method(TypeRegistry& type_registry, TranslationUnit& c_tu,
         record_method_body(type_registry, c_tu, cpp_record, c_record,
                            c_return_for_method, cpp_method);
 
-    auto short_name = find_function_short_name(cpp_method);
-
-    // Build the new method name. We need to generate unique function names
-    // that share a common suffix but with different prefixes
-    // The full prefix we get by stripping the "_t" from the struct name
-    std::string function_suffix = compute_c_name(short_name);
-    std::string function_name = function_prefix + "_" + function_suffix;
-    function_name = type_registry.make_symbol_unique(function_name);
-
-    // now strip the uniquified suffix from the function name and stick on the
-    // nice prefix
-    function_suffix = function_name.substr(function_prefix.size() + 1);
-    std::string function_nice_name =
-        pystring::slice(c_record.nice_name, 0, -2) + "_" + function_suffix;
+    auto names =
+        compute_function_names(type_registry, cpp_record, c_record, cpp_method);
 
     auto template_args = cpp_method.template_args;
 
@@ -1299,8 +1317,8 @@ void record_method(TypeRegistry& type_registry, TranslationUnit& c_tu,
                                            std::string("unsigned int"), false);
 
     auto c_function = NodeFunction::n(
-        function_name, PLACEHOLDER_ID, cpp_method.attrs, "",
-        std::move(error_return), std::move(c_params), function_nice_name,
+        names.long_name, PLACEHOLDER_ID, cpp_method.attrs, "",
+        std::move(error_return), std::move(c_params), names.nice_name,
         cpp_method.comment, std::move(template_args),
         std::move(cpp_method.exceptions));
 
@@ -1773,7 +1791,8 @@ void enum_entry(NodeId& new_id, TypeRegistry& type_registry,
 //------------------------------------------------------------------------------
 void general_function(TypeRegistry& type_registry, TranslationUnit& c_tu,
                       const NodeFunction& cpp_function,
-                      const std::string& prefix) {
+                      const NodeRecord * cpp_record = nullptr,
+                      const NodeRecord * c_record = nullptr) {
 
     // Skip ignored methods
     if (!should_wrap_function(cpp_function)) {
@@ -1830,14 +1849,29 @@ void general_function(TypeRegistry& type_registry, TranslationUnit& c_tu,
     auto c_function_body =
         function_body(type_registry, c_tu, c_return_for_function, cpp_function);
 
-    auto function_name = prefix + compute_c_name(compute_qualified_name(
-                                      type_registry, cpp_function.namespaces,
-                                      find_function_short_name(cpp_function)));
+    // Function name
+    std::string function_name;
+    std::string function_nice_name;
 
-    auto function_nice_name =
-        prefix + compute_c_name(compute_qualified_nice_name(
-                     type_registry, cpp_function.namespaces,
-                     find_function_short_name(cpp_function)));
+    if( c_record == nullptr )
+    {
+        function_name = compute_c_name(
+            compute_qualified_name( type_registry, cpp_function.namespaces,
+                                    find_function_short_name(cpp_function))
+        );
+
+        function_nice_name =
+            compute_c_name(compute_qualified_nice_name(
+                           type_registry, cpp_function.namespaces,
+                           find_function_short_name(cpp_function)));
+    } else {
+        auto names =
+            compute_function_names(type_registry, *cpp_record, *c_record,
+                                   cpp_function);
+        function_name = names.long_name;
+        function_nice_name = names.nice_name;
+    }
+
 
     // Build the new method name
     if (function_name == function_nice_name) {
