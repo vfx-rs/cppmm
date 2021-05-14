@@ -1242,11 +1242,13 @@ FunctionNames compute_function_names(TypeRegistry& type_registry,
 }
 
 //------------------------------------------------------------------------------
-void record_sizeof(TypeRegistry& type_registry, TranslationUnit& c_tu,
-                   const NodeRecord& cpp_record, const NodeRecord& c_record) {
+void record_memory(TypeRegistry& type_registry, TranslationUnit& c_tu,
+                   const NodeRecord& cpp_record, const NodeRecord& c_record,
+                   const char* memory_operator) {
 
     auto sizeof_ = NodeFunctionCallExpr::n(
-        "sizeof", std::vector<NodeExprPtr>{NodeVarRefExpr::n(cpp_record.name)},
+        memory_operator,
+        std::vector<NodeExprPtr>{NodeVarRefExpr::n(cpp_record.name)},
         std::vector<NodeTypePtr>{});
 
     auto body = NodeBlockExpr::n(
@@ -1254,7 +1256,8 @@ void record_sizeof(TypeRegistry& type_registry, TranslationUnit& c_tu,
 
     auto return_ = NodeBuiltinType::n("", 0, "unsigned int", false);
 
-    auto names = compute_function_names(type_registry, c_record, "sizeof");
+    auto names =
+        compute_function_names(type_registry, c_record, memory_operator);
 
     auto c_function = NodeFunction::n(
         names.long_name, PLACEHOLDER_ID, std::vector<std::string>(), "",
@@ -1264,6 +1267,20 @@ void record_sizeof(TypeRegistry& type_registry, TranslationUnit& c_tu,
     c_function->body = body;
 
     c_tu.decls.push_back(NodePtr(c_function));
+}
+
+//------------------------------------------------------------------------------
+void record_sizeof(TypeRegistry& type_registry, TranslationUnit& c_tu,
+                   const NodeRecord& cpp_record, const NodeRecord& c_record) {
+
+    record_memory(type_registry, c_tu, cpp_record, c_record, "sizeof");
+}
+
+//------------------------------------------------------------------------------
+void record_alignof(TypeRegistry& type_registry, TranslationUnit& c_tu,
+                    const NodeRecord& cpp_record, const NodeRecord& c_record) {
+
+    record_memory(type_registry, c_tu, cpp_record, c_record, "alignof");
 }
 
 //------------------------------------------------------------------------------
@@ -2111,6 +2128,7 @@ void record_detail(TypeRegistry& type_registry, TranslationUnit& c_tu,
 
     // Sizeof and Alignoff
     record_sizeof(type_registry, c_tu, cpp_record, c_record);
+    record_alignof(type_registry, c_tu, cpp_record, c_record);
 
     // Methods
     NodePtr copy_constructor;
