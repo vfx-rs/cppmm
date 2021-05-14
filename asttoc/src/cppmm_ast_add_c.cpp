@@ -1200,8 +1200,7 @@ std::string find_function_short_name(const NodeFunction& cpp_function) {
 //------------------------------------------------------------------------------
 void general_function(TypeRegistry& type_registry, TranslationUnit& c_tu,
                       const NodeFunction& cpp_function,
-                      const NodeRecord * cpp_record,
-                      const NodeRecord * c_record);
+                      const NodeRecord* cpp_record, const NodeRecord* c_record);
 
 //------------------------------------------------------------------------------
 // FunctionNames
@@ -1213,15 +1212,12 @@ struct FunctionNames {
 
 //------------------------------------------------------------------------------
 FunctionNames compute_function_names(TypeRegistry& type_registry,
-                                     const NodeRecord& cpp_record,
-                                     const NodeRecord& c_record,
-                                     const NodeFunction& cpp_function) {
-    auto short_name = find_function_short_name(cpp_function);
-
+                                     const NodeRecord& record,
+                                     const std::string& short_name) {
     // Build the new method name. We need to generate unique function names
     // that share a common suffix but with different prefixes
     // The full prefix we get by stripping the "_t" from the struct name
-    std::string function_prefix = pystring::slice(c_record.name, 0, -2);
+    std::string function_prefix = pystring::slice(record.name, 0, -2);
     std::string function_suffix = compute_c_name(short_name);
     std::string function_name = function_prefix + "_" + function_suffix;
     function_name = type_registry.make_symbol_unique(function_name);
@@ -1230,9 +1226,61 @@ FunctionNames compute_function_names(TypeRegistry& type_registry,
     // nice prefix
     function_suffix = function_name.substr(function_prefix.size() + 1);
     std::string function_nice_name =
-        pystring::slice(c_record.nice_name, 0, -2) + "_" + function_suffix;
+        pystring::slice(record.nice_name, 0, -2) + "_" + function_suffix;
 
     return FunctionNames{function_name, function_nice_name};
+}
+
+//------------------------------------------------------------------------------
+FunctionNames compute_function_names(TypeRegistry& type_registry,
+                                     const NodeRecord& cpp_record,
+                                     const NodeRecord& c_record,
+                                     const NodeFunction& cpp_function) {
+    auto short_name = find_function_short_name(cpp_function);
+
+    return compute_function_names(type_registry, c_record, short_name);
+}
+
+//------------------------------------------------------------------------------
+void record_memory(TypeRegistry& type_registry, TranslationUnit& c_tu,
+                   const NodeRecord& cpp_record, const NodeRecord& c_record,
+                   const char* memory_operator) {
+
+    auto sizeof_ = NodeFunctionCallExpr::n(
+        memory_operator,
+        std::vector<NodeExprPtr>{NodeVarRefExpr::n(cpp_record.name)},
+        std::vector<NodeTypePtr>{});
+
+    auto body = NodeBlockExpr::n(
+        std::vector<NodeExprPtr>({NodeReturnExpr::n(sizeof_)}));
+
+    auto return_ = NodeBuiltinType::n("", 0, "unsigned int", false);
+
+    auto names =
+        compute_function_names(type_registry, c_record, memory_operator);
+
+    auto c_function = NodeFunction::n(
+        names.long_name, PLACEHOLDER_ID, std::vector<std::string>(), "",
+        std::move(return_), std::vector<Param>(), names.nice_name,
+        "returns the size of this type in bytes", std::vector<NodeTypePtr>(),
+        std::vector<Exception>());
+    c_function->body = body;
+
+    c_tu.decls.push_back(NodePtr(c_function));
+}
+
+//------------------------------------------------------------------------------
+void record_sizeof(TypeRegistry& type_registry, TranslationUnit& c_tu,
+                   const NodeRecord& cpp_record, const NodeRecord& c_record) {
+
+    record_memory(type_registry, c_tu, cpp_record, c_record, "sizeof");
+}
+
+//------------------------------------------------------------------------------
+void record_alignof(TypeRegistry& type_registry, TranslationUnit& c_tu,
+                    const NodeRecord& cpp_record, const NodeRecord& c_record) {
+
+    record_memory(type_registry, c_tu, cpp_record, c_record, "alignof");
 }
 
 //------------------------------------------------------------------------------
@@ -1791,8 +1839,8 @@ void enum_entry(NodeId& new_id, TypeRegistry& type_registry,
 //------------------------------------------------------------------------------
 void general_function(TypeRegistry& type_registry, TranslationUnit& c_tu,
                       const NodeFunction& cpp_function,
-                      const NodeRecord * cpp_record = nullptr,
-                      const NodeRecord * c_record = nullptr) {
+                      const NodeRecord* cpp_record = nullptr,
+                      const NodeRecord* c_record = nullptr) {
 
     // Skip ignored methods
     if (!should_wrap_function(cpp_function)) {
@@ -1853,25 +1901,20 @@ void general_function(TypeRegistry& type_registry, TranslationUnit& c_tu,
     std::string function_name;
     std::string function_nice_name;
 
-    if( c_record == nullptr )
-    {
+    if (c_record == nullptr) {
         function_name = compute_c_name(
-            compute_qualified_name( type_registry, cpp_function.namespaces,
-                                    find_function_short_name(cpp_function))
-        );
+            compute_qualified_name(type_registry, cpp_function.namespaces,
+                                   find_function_short_name(cpp_function)));
 
-        function_nice_name =
-            compute_c_name(compute_qualified_nice_name(
-                           type_registry, cpp_function.namespaces,
-                           find_function_short_name(cpp_function)));
+        function_nice_name = compute_c_name(compute_qualified_nice_name(
+            type_registry, cpp_function.namespaces,
+            find_function_short_name(cpp_function)));
     } else {
-        auto names =
-            compute_function_names(type_registry, *cpp_record, *c_record,
-                                   cpp_function);
+        auto names = compute_function_names(type_registry, *cpp_record,
+                                            *c_record, cpp_function);
         function_name = names.long_name;
         function_nice_name = names.nice_name;
     }
-
 
     // Build the new method name
     if (function_name == function_nice_name) {
@@ -2082,6 +2125,10 @@ void record_detail(TypeRegistry& type_registry, TranslationUnit& c_tu,
 
     // Record
     record_fields(type_registry, c_tu, cpp_record, c_record);
+
+    // Sizeof and Alignoff
+    record_sizeof(type_registry, c_tu, cpp_record, c_record);
+    record_alignof(type_registry, c_tu, cpp_record, c_record);
 
     // Methods
     NodePtr copy_constructor;
