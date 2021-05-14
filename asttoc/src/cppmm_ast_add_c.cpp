@@ -1213,7 +1213,7 @@ struct FunctionNames {
 //------------------------------------------------------------------------------
 FunctionNames compute_function_names(TypeRegistry& type_registry,
                                      const NodeRecord& record,
-                                     const std::string & short_name) {
+                                     const std::string& short_name) {
     // Build the new method name. We need to generate unique function names
     // that share a common suffix but with different prefixes
     // The full prefix we get by stripping the "_t" from the struct name
@@ -1242,30 +1242,28 @@ FunctionNames compute_function_names(TypeRegistry& type_registry,
 }
 
 //------------------------------------------------------------------------------
-NodePtr build_sizeof(TypeRegistry& type_registry, TranslationUnit& c_tu,
-                     const NodeRecord& cpp_record,
-                     const NodeRecord& c_record) {
+void record_sizeof(TypeRegistry& type_registry, TranslationUnit& c_tu,
+                   const NodeRecord& cpp_record, const NodeRecord& c_record) {
 
     auto sizeof_ = NodeFunctionCallExpr::n(
-        "sizeof",
-        std::vector<NodeExprPtr>{NodeVarRefExpr::n(cpp_record.name)},
+        "sizeof", std::vector<NodeExprPtr>{NodeVarRefExpr::n(cpp_record.name)},
         std::vector<NodeTypePtr>{});
 
     auto body = NodeBlockExpr::n(
         std::vector<NodeExprPtr>({NodeReturnExpr::n(sizeof_)}));
 
-    auto return_ = NodeBuiltinType::n("", 0, "long unsigned int", false);
+    auto return_ = NodeBuiltinType::n("", 0, "unsigned int", false);
 
-    auto names =
-        compute_function_names(type_registry, c_record, "sizeof");
+    auto names = compute_function_names(type_registry, c_record, "sizeof");
 
     auto c_function = NodeFunction::n(
         names.long_name, PLACEHOLDER_ID, std::vector<std::string>(), "",
         std::move(return_), std::vector<Param>(), names.nice_name,
         "returns the size of this type in bytes", std::vector<NodeTypePtr>(),
         std::vector<Exception>());
+    c_function->body = body;
 
-    return c_function;
+    c_tu.decls.push_back(NodePtr(c_function));
 }
 
 //------------------------------------------------------------------------------
@@ -2110,6 +2108,9 @@ void record_detail(TypeRegistry& type_registry, TranslationUnit& c_tu,
 
     // Record
     record_fields(type_registry, c_tu, cpp_record, c_record);
+
+    // Sizeof and Alignoff
+    record_sizeof(type_registry, c_tu, cpp_record, c_record);
 
     // Methods
     NodePtr copy_constructor;
