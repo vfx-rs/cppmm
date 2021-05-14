@@ -1257,7 +1257,7 @@ NodePtr build_sizeof(TypeRegistry& type_registry, TranslationUnit& c_tu,
     auto return_ = NodeBuiltinType::n("", 0, "long unsigned int", false);
 
     auto names =
-        compute_function_names(type_registry, c_record, "_sizeof");
+        compute_function_names(type_registry, c_record, "sizeof");
 
     auto c_function = NodeFunction::n(
         names.long_name, PLACEHOLDER_ID, std::vector<std::string>(), "",
