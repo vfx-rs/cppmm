@@ -64,6 +64,8 @@ extern {
 pub mod c_ex;
 pub use c_ex::ex__Struct_t as ex_Struct_t;
 
+pub use c_ex::ex__Struct_sizeof as ex_Struct_sizeof;
+pub use c_ex::ex__Struct_alignof as ex_Struct_alignof;
 pub use c_ex::ex__Struct_m1 as ex_Struct_m1;
 pub use c_ex::ex__Struct_m2 as ex_Struct_m2;
 pub use c_ex::ex_f1 as ex_f1;

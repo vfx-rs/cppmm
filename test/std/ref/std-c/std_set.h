@@ -14,7 +14,7 @@ typedef struct std___Rb_tree_node_base_t_s {
 typedef std___Rb_tree_node_base_t std__Rb_tree_node_base_t;
 
 typedef struct std__set_std__string__t_s {
-    char _unused;
+    char data[48];
 } __attribute__((aligned(8))) std__set_std__string__t;
 typedef std__set_std__string__t std_set_string_t;
 
@@ -34,8 +34,18 @@ typedef std___Rb_tree_const_iterator_std____cxx11__basic_string_char___t std_set
 
 
 
+/** returns the size of this type in bytes */
+unsigned int std__set_std__string__sizeof();
+#define std_set_string_sizeof std__set_std__string__sizeof
+
+
+/** returns the size of this type in bytes */
+unsigned int std__set_std__string__alignof();
+#define std_set_string_alignof std__set_std__string__alignof
+
+
 unsigned int std__set_std__string__ctor(
-    std_set_string_t * * this_);
+    std_set_string_t * this_);
 #define std_set_string_ctor std__set_std__string__ctor
 
 

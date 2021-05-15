@@ -34,7 +34,7 @@
             "align": 64,
             "alias": "Struct",
             "attributes": [
-                "cppmm|opaquebytes"
+                "cppmm|opaqueptr"
             ],
             "comment": "",
             "fields": [

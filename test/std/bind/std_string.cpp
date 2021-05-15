@@ -7,8 +7,10 @@ namespace cppmm_bind {
 
 namespace std {
 
-#ifdef _GLIBCXX_USE_CXX11_ABI
+#if defined(_GLIBCXX_USE_CXX11_ABI)
 namespace std = ::std::__cxx11;
+#elif defined(_LIBCPP_VERSION)
+namespace std = ::std::_LIBCPP_ABI_NAMESPACE;
 #else
 namespace std = ::std;
 #endif

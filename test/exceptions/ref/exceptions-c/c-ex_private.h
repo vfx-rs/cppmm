@@ -8,6 +8,10 @@
 #include <ex.hpp>
 
 
+/** returns the size of this type in bytes */
+
+/** returns the size of this type in bytes */
+
 
 
 inline ex::Struct const & to_cpp_ref(

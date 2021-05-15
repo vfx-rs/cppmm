@@ -5,23 +5,51 @@
 use crate::*;
 use std::os::raw::*;
 
-#[repr(C)]
+#[repr(C, align(8))]
+#[derive(Clone)]
 pub struct std____cxx11__basic_string_char__t {
-    _unused: [u8; 0],
+    _inner: [u8; 32]
 }
-#[repr(C)]
+
+impl Default for std____cxx11__basic_string_char__t {
+    fn default() -> Self {
+        Self { _inner: [0u8; 32] }
+    }
+}
+
+#[repr(C, align(8))]
+#[derive(Clone)]
 pub struct std__vector_std__string__t {
-    _unused: [u8; 0],
+    _inner: [u8; 24]
 }
+
+impl Default for std__vector_std__string__t {
+    fn default() -> Self {
+        Self { _inner: [0u8; 24] }
+    }
+}
+
 
 
 extern "C" {
+
+/// returns the size of this type in bytes
+pub fn std____cxx11__basic_string_char__sizeof() -> usize;
+
+/// returns the size of this type in bytes
+pub fn std____cxx11__basic_string_char__alignof() -> usize;
 
 pub fn std____cxx11__basic_string_char__assign(this_: *mut std_string_t, return_: *mut *mut std_string_t, s: *const c_char, count: c_ulong) -> Exception;
 
 pub fn std____cxx11__basic_string_char__c_str(this_: *const std_string_t, return_: *mut *const c_char) -> Exception;
 
-pub fn std__vector_std__string__vector(this_: *mut *mut std_vector_string_t) -> Exception;
+/// returns the size of this type in bytes
+pub fn std__vector_std__string__sizeof() -> usize;
+
+/// returns the size of this type in bytes
+pub fn std__vector_std__string__alignof() -> usize;
+
+pub fn std__vector_std__string__vector(this_: *mut std_vector_string_t) -> Exception;
 
 pub fn std__vector_std__string__dtor(this_: *mut std_vector_string_t) -> Exception;
 

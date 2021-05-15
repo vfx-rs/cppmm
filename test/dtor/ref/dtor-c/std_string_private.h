@@ -8,6 +8,10 @@
 #include <string>
 
 
+/** returns the size of this type in bytes */
+
+/** returns the size of this type in bytes */
+
 
 
 
@@ -66,7 +70,7 @@ inline void to_c(
 }
 
 inline void to_c_copy(
-    std___cxx11_string_t * * lhs
+    std___cxx11_string_t * lhs
     , std::__cxx11::basic_string<char> const & rhs)
 {
         std____cxx11__basic_string_char__copy(lhs, reinterpret_cast<std___cxx11_string_t const * >(&(rhs)));

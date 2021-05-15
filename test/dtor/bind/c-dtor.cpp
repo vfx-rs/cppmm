@@ -10,7 +10,7 @@ struct Struct {
     using BoundType = ::dtor::Struct;
     Struct();
     ~Struct();
-} CPPMM_OPAQUEBYTES;
+} CPPMM_OPAQUEPTR;
 
 } // namespace dtor
 

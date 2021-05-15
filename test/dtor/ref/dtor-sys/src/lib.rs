@@ -49,6 +49,8 @@ pub use c_dtor::dtor__Struct_dtor as dtor_Struct_dtor;
 pub mod std_string;
 pub use std_string::std____cxx11__basic_string_char__t as std___cxx11_string_t;
 
+pub use std_string::std____cxx11__basic_string_char__sizeof as std___cxx11_string_sizeof;
+pub use std_string::std____cxx11__basic_string_char__alignof as std___cxx11_string_alignof;
 pub use std_string::std____cxx11__basic_string_char__ctor as std___cxx11_string_ctor;
 pub use std_string::std____cxx11__basic_string_char__copy as std___cxx11_string_copy;
 pub use std_string::std____cxx11__basic_string_char__dtor as std___cxx11_string_dtor;

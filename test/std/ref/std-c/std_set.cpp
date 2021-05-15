@@ -5,11 +5,19 @@
 
 #include <stdexcept>
 
+unsigned int std__set_std__string__sizeof()
+{
+        return sizeof(std::set<std::string>);
+}
+unsigned int std__set_std__string__alignof()
+{
+        return alignof(std::set<std::string>);
+}
 unsigned int std__set_std__string__ctor(
-    std_set_string_t * * this_)
+    std_set_string_t * this_)
 {
     try {
-        to_c(this_, new std::set<std::string>());
+        new (this_) std::set<std::string>();
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -20,7 +28,7 @@ unsigned int std__set_std__string__dtor(
     std_set_string_t * this_)
 {
     try {
-        delete to_cpp(this_);
+        (to_cpp(this_)) -> std::set<std::__cxx11::basic_string<char>, std::less<std::__cxx11::basic_string<char> >, std::allocator<std::__cxx11::basic_string<char> > >::~set();
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();

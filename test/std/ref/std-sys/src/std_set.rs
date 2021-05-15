@@ -9,10 +9,18 @@ use std::os::raw::*;
 pub struct std___Rb_tree_node_base_t {
     _unused: [u8; 0],
 }
-#[repr(C)]
+#[repr(C, align(8))]
+#[derive(Clone)]
 pub struct std__set_std__string__t {
-    _unused: [u8; 0],
+    _inner: [u8; 48]
 }
+
+impl Default for std__set_std__string__t {
+    fn default() -> Self {
+        Self { _inner: [0u8; 48] }
+    }
+}
+
 #[repr(C, align(8))]
 #[derive(Clone)]
 pub struct std___Rb_tree_const_iterator_std____cxx11__basic_string_char___t {
@@ -23,7 +31,13 @@ pub struct std___Rb_tree_const_iterator_std____cxx11__basic_string_char___t {
 
 extern "C" {
 
-pub fn std__set_std__string__ctor(this_: *mut *mut std_set_string_t) -> Exception;
+/// returns the size of this type in bytes
+pub fn std__set_std__string__sizeof() -> usize;
+
+/// returns the size of this type in bytes
+pub fn std__set_std__string__alignof() -> usize;
+
+pub fn std__set_std__string__ctor(this_: *mut std_set_string_t) -> Exception;
 
 pub fn std__set_std__string__dtor(this_: *mut std_set_string_t) -> Exception;
 

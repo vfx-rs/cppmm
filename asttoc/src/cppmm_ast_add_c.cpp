@@ -1028,8 +1028,7 @@ NodeExprPtr constructor_body(TypeRegistry& type_registry, TranslationUnit& c_tu,
     case BindType::OpaquePtr:
         return opaqueptr_constructor_body(type_registry, c_tu, cpp_record,
                                           c_record, cpp_method);
-    case BindType::OpaqueBytes:
-    case BindType::ValueType:
+    default:
         return opaquebytes_constructor_body(type_registry, c_tu, cpp_record,
                                             c_record, cpp_method);
     }
@@ -1160,8 +1159,7 @@ NodeExprPtr destructor_body(TypeRegistry& type_registry, TranslationUnit& c_tu,
     case BindType::OpaquePtr:
         return opaqueptr_destructor_body(type_registry, c_tu, cpp_record,
                                          c_record, cpp_method);
-    case BindType::OpaqueBytes:
-    case BindType::ValueType:
+    default:
         return method_body(type_registry, c_tu, cpp_record, c_record, c_return,
                            cpp_method);
     }
@@ -1260,10 +1258,10 @@ void record_memory(TypeRegistry& type_registry, TranslationUnit& c_tu,
         compute_function_names(type_registry, c_record, memory_operator);
 
     auto c_function = NodeFunction::n(
-        names.long_name, PLACEHOLDER_ID, std::vector<std::string>(), "",
-        std::move(return_), std::vector<Param>(), names.nice_name,
-        "returns the size of this type in bytes", std::vector<NodeTypePtr>(),
-        std::vector<Exception>());
+        names.long_name, PLACEHOLDER_ID, std::vector<std::string>(),
+        memory_operator, std::move(return_), std::vector<Param>(),
+        names.nice_name, "returns the size of this type in bytes",
+        std::vector<NodeTypePtr>(), std::vector<Exception>());
     c_function->body = body;
 
     c_tu.decls.push_back(NodePtr(c_function));
@@ -2127,8 +2125,10 @@ void record_detail(TypeRegistry& type_registry, TranslationUnit& c_tu,
     record_fields(type_registry, c_tu, cpp_record, c_record);
 
     // Sizeof and Alignoff
-    record_sizeof(type_registry, c_tu, cpp_record, c_record);
-    record_alignof(type_registry, c_tu, cpp_record, c_record);
+    if (bind_type(cpp_record) == BindType::OpaqueBytes) {
+        record_sizeof(type_registry, c_tu, cpp_record, c_record);
+        record_alignof(type_registry, c_tu, cpp_record, c_record);
+    }
 
     // Methods
     NodePtr copy_constructor;

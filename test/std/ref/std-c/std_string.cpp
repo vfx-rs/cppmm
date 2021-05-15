@@ -4,6 +4,14 @@
 
 #include <stdexcept>
 
+unsigned int std____cxx11__basic_string_char__sizeof()
+{
+        return sizeof(std::__cxx11::basic_string<char>);
+}
+unsigned int std____cxx11__basic_string_char__alignof()
+{
+        return alignof(std::__cxx11::basic_string<char>);
+}
 unsigned int std____cxx11__basic_string_char__assign(
     std_string_t * this_
     , std_string_t * * return_
@@ -30,11 +38,19 @@ unsigned int std____cxx11__basic_string_char__c_str(
         return -1;
     }
 }
+unsigned int std__vector_std__string__sizeof()
+{
+        return sizeof(std::vector<std::string>);
+}
+unsigned int std__vector_std__string__alignof()
+{
+        return alignof(std::vector<std::string>);
+}
 unsigned int std__vector_std__string__vector(
-    std_vector_string_t * * this_)
+    std_vector_string_t * this_)
 {
     try {
-        to_c(this_, new std::vector<std::string>());
+        new (this_) std::vector<std::string>();
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -45,7 +61,7 @@ unsigned int std__vector_std__string__dtor(
     std_vector_string_t * this_)
 {
     try {
-        delete to_cpp(this_);
+        (to_cpp(this_)) -> std::vector<std::__cxx11::basic_string<char>, std::allocator<std::__cxx11::basic_string<char> > >::~vector();
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();

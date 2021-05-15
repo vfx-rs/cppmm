@@ -3,6 +3,14 @@
 
 #include <stdexcept>
 
+unsigned int ex__Struct_sizeof()
+{
+        return sizeof(ex::Struct);
+}
+unsigned int ex__Struct_alignof()
+{
+        return alignof(ex::Struct);
+}
 unsigned int ex__Struct_m1(
     ex_Struct_t * this_)
 {

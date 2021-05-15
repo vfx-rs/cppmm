@@ -179,11 +179,16 @@ void write_function(fmt::ostream& out, const NodeFunction* node_function) {
     out.print("pub fn {}({})", node_function->name,
               pystring::join(", ", params));
 
-    std::string ret = convert_type(node_function->return_type.get());
-    if (ret != "void") {
-        out.print(" -> Exception;\n\n");
+    if (node_function->short_name == "sizeof" ||
+        node_function->short_name == "alignof") {
+        out.print(" -> usize;\n\n");
     } else {
-        out.print(";\n\n");
+        std::string ret = convert_type(node_function->return_type.get());
+        if (ret != "void") {
+            out.print(" -> Exception;\n\n");
+        } else {
+            out.print(";\n\n");
+        }
     }
 }
 

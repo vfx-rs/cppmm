@@ -5,17 +5,31 @@
 use crate::*;
 use std::os::raw::*;
 
-#[repr(C)]
+#[repr(C, align(8))]
+#[derive(Clone)]
 pub struct std____cxx11__basic_string_char__t {
-    _unused: [u8; 0],
+    _inner: [u8; 32]
 }
+
+impl Default for std____cxx11__basic_string_char__t {
+    fn default() -> Self {
+        Self { _inner: [0u8; 32] }
+    }
+}
+
 
 
 extern "C" {
 
-pub fn std____cxx11__basic_string_char__ctor(this_: *mut *mut std___cxx11_string_t) -> Exception;
+/// returns the size of this type in bytes
+pub fn std____cxx11__basic_string_char__sizeof() -> usize;
 
-pub fn std____cxx11__basic_string_char__copy(this_: *mut *mut std___cxx11_string_t, rhs: *const std___cxx11_string_t) -> Exception;
+/// returns the size of this type in bytes
+pub fn std____cxx11__basic_string_char__alignof() -> usize;
+
+pub fn std____cxx11__basic_string_char__ctor(this_: *mut std___cxx11_string_t) -> Exception;
+
+pub fn std____cxx11__basic_string_char__copy(this_: *mut std___cxx11_string_t, rhs: *const std___cxx11_string_t) -> Exception;
 
 pub fn std____cxx11__basic_string_char__dtor(this_: *mut std___cxx11_string_t) -> Exception;
 

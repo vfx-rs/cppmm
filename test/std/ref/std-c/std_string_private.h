@@ -9,6 +9,10 @@
 #include <vector>
 
 
+/** returns the size of this type in bytes */
+
+/** returns the size of this type in bytes */
+
 
 
 inline std::__cxx11::basic_string<char> const & to_cpp_ref(
@@ -62,6 +66,10 @@ inline void to_c(
 {
         *(lhs) = reinterpret_cast<std_string_t * >(rhs);
 }
+
+/** returns the size of this type in bytes */
+
+/** returns the size of this type in bytes */
 
 
 

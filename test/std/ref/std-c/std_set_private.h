@@ -68,6 +68,10 @@ inline void to_c_copy(
         memcpy(lhs, &(rhs), sizeof(*(lhs)));
 }
 
+/** returns the size of this type in bytes */
+
+/** returns the size of this type in bytes */
+
 
 
 

@@ -50,6 +50,8 @@ pub use std_set::std___Rb_tree_node_base_t as std__Rb_tree_node_base_t;
 pub use std_set::std__set_std__string__t as std_set_string_t;
 pub use std_set::std___Rb_tree_const_iterator_std____cxx11__basic_string_char___t as std_set_string_iterator_t;
 
+pub use std_set::std__set_std__string__sizeof as std_set_string_sizeof;
+pub use std_set::std__set_std__string__alignof as std_set_string_alignof;
 pub use std_set::std__set_std__string__ctor as std_set_string_ctor;
 pub use std_set::std__set_std__string__dtor as std_set_string_dtor;
 pub use std_set::std__set_std__string__cbegin as std_set_string_cbegin;
@@ -62,8 +64,12 @@ pub mod std_string;
 pub use std_string::std____cxx11__basic_string_char__t as std_string_t;
 pub use std_string::std__vector_std__string__t as std_vector_string_t;
 
+pub use std_string::std____cxx11__basic_string_char__sizeof as std_string_sizeof;
+pub use std_string::std____cxx11__basic_string_char__alignof as std_string_alignof;
 pub use std_string::std____cxx11__basic_string_char__assign as std_string_assign;
 pub use std_string::std____cxx11__basic_string_char__c_str as std_string_c_str;
+pub use std_string::std__vector_std__string__sizeof as std_vector_string_sizeof;
+pub use std_string::std__vector_std__string__alignof as std_vector_string_alignof;
 pub use std_string::std__vector_std__string__vector as std_vector_string_vector;
 pub use std_string::std__vector_std__string__dtor as std_vector_string_dtor;
 
