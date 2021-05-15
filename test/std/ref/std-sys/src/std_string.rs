@@ -17,6 +17,17 @@ impl Default for std____cxx11__basic_string_char__t {
     }
 }
 
+impl std____cxx11__basic_string_char__t {
+    pub fn layout() -> std::alloc::Layout {
+        unsafe {
+            std::alloc::Layout::from_size_align(
+                std____cxx11__basic_string_char__sizeof(),
+                std____cxx11__basic_string_char__alignof(),
+            ).unwrap()
+        }
+    }
+}
+
 #[repr(C, align(8))]
 #[derive(Clone)]
 pub struct std__vector_std__string__t {
@@ -26,6 +37,17 @@ pub struct std__vector_std__string__t {
 impl Default for std__vector_std__string__t {
     fn default() -> Self {
         Self { _inner: [0u8; 24] }
+    }
+}
+
+impl std__vector_std__string__t {
+    pub fn layout() -> std::alloc::Layout {
+        unsafe {
+            std::alloc::Layout::from_size_align(
+                std__vector_std__string__sizeof(),
+                std__vector_std__string__alignof(),
+            ).unwrap()
+        }
     }
 }
 

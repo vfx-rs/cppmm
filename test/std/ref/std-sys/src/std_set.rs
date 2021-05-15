@@ -21,6 +21,17 @@ impl Default for std__set_std__string__t {
     }
 }
 
+impl std__set_std__string__t {
+    pub fn layout() -> std::alloc::Layout {
+        unsafe {
+            std::alloc::Layout::from_size_align(
+                std__set_std__string__sizeof(),
+                std__set_std__string__alignof(),
+            ).unwrap()
+        }
+    }
+}
+
 #[repr(C, align(8))]
 #[derive(Clone)]
 pub struct std___Rb_tree_const_iterator_std____cxx11__basic_string_char___t {

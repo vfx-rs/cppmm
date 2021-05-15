@@ -17,6 +17,17 @@ impl Default for std____cxx11__basic_string_char__t {
     }
 }
 
+impl std____cxx11__basic_string_char__t {
+    pub fn layout() -> std::alloc::Layout {
+        unsafe {
+            std::alloc::Layout::from_size_align(
+                std____cxx11__basic_string_char__sizeof(),
+                std____cxx11__basic_string_char__alignof(),
+            ).unwrap()
+        }
+    }
+}
+
 
 
 extern "C" {

@@ -17,6 +17,17 @@ impl Default for ex__Struct_t {
     }
 }
 
+impl ex__Struct_t {
+    pub fn layout() -> std::alloc::Layout {
+        unsafe {
+            std::alloc::Layout::from_size_align(
+                ex__Struct_sizeof(),
+                ex__Struct_alignof(),
+            ).unwrap()
+        }
+    }
+}
+
 
 
 extern "C" {

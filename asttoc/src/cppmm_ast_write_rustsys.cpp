@@ -221,6 +221,21 @@ impl Default for {} {{
 }}
 )",
                   node_record->name, node_record->size / 8);
+
+        out.print(R"(
+impl {0} {{
+    pub fn layout() -> std::alloc::Layout {{
+        unsafe {{
+            std::alloc::Layout::from_size_align(
+                {1}_sizeof(),
+                {1}_alignof(),
+            ).unwrap()
+        }}
+    }}
+}}
+)",
+                  node_record->name, pystring::slice(node_record->name, 0, -2));
+
     } else { // BindType::ValueType
         out.print("#[repr(C, align({}))]\n", node_record->align / 8);
         out.print("#[derive(Clone)]\n");
