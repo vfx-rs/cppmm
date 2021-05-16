@@ -84,6 +84,10 @@ std::unordered_map<std::string, std::pair<std::string, bool>> NAMESPACE_ALIASES;
 /// Function prototype typedefs
 std::unordered_map<std::string, std::string> FPT_TYPEDEFS;
 
+static bool is_stl_version_namespace(const std::string & name) {
+    return name == "std::__1";
+}
+
 void Node::write_json_attrs(json& o) const {
     if (id >= 0) {
         o["id"] = id;
@@ -102,9 +106,12 @@ void NodeTranslationUnit::write_json(json& o) const {
     o["decls"] = {};
     for (NodeId id : children) {
         const Node* node = NODES.at(id).get();
-        auto child = json::object();
-        node->write_json(child);
-        o["decls"].emplace_back(std::move(child));
+        if(!is_stl_version_namespace(node->qualified_name))
+        {
+            auto child = json::object();
+            node->write_json(child);
+            o["decls"].emplace_back(std::move(child));
+        }
     }
 }
 
