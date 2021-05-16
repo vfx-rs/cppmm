@@ -66,6 +66,10 @@ bool get_abi_info(const TypeDecl* td, ASTContext& ctx, uint32_t& size,
     return false;
 }
 
+bool is_stl_version_namespace(const std::string & name) {
+    return name == "std::__1";
+}
+
 QType process_qtype(const QualType& qt);
 
 /// Create a new NodeFunctionProtoType from the given FunctionProtoType and
@@ -651,6 +655,7 @@ std::vector<NodeId> get_namespaces(const clang::DeclContext* parent,
                 static_cast<const clang::NamespaceDecl*>(parent);
 
             auto qualified_name = ns->getQualifiedNameAsString();
+
             auto short_name = ns->getNameAsString();
             if (short_name == "cppmm_bind") {
                 break;
@@ -691,7 +696,10 @@ std::vector<NodeId> get_namespaces(const clang::DeclContext* parent,
                              node_tu->qualified_name);
                 node_tu->children.push_back(id);
             }
-            result.push_back(id);
+
+            if(!is_stl_version_namespace(qualified_name)) {
+                result.push_back(id);
+            }
 
             parent = parent->getParent();
         } else if (parent->isRecord()) {
