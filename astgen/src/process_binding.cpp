@@ -28,6 +28,7 @@ namespace fs = ghc::filesystem;
 
 #include "ast.hpp"
 #include "ast_utils.hpp"
+#include "stl_prune.hpp"
 
 using namespace clang;
 using namespace clang::ast_matchers;
@@ -656,6 +657,7 @@ std::vector<NodeId> get_namespaces(const clang::DeclContext* parent,
                 static_cast<const clang::NamespaceDecl*>(parent);
 
             auto qualified_name = ns->getQualifiedNameAsString();
+
             auto short_name = ns->getNameAsString();
             if (short_name == "cppmm_bind") {
                 break;
@@ -696,7 +698,10 @@ std::vector<NodeId> get_namespaces(const clang::DeclContext* parent,
                              node_tu->qualified_name);
                 node_tu->children.push_back(id);
             }
-            result.push_back(id);
+
+            if (!is_stl_version_namespace(qualified_name)) {
+                result.push_back(id);
+            }
 
             parent = parent->getParent();
         } else if (parent->isRecord()) {

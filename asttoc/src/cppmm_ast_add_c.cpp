@@ -1183,7 +1183,8 @@ record_method_body(TypeRegistry& type_registry, TranslationUnit& c_tu,
 }
 
 //------------------------------------------------------------------------------
-std::string find_function_short_name(const NodeFunction& cpp_function) {
+std::string find_function_short_name(const NodeFunction& cpp_function,
+                                     bool is_constructor) {
     auto prefix = std::string("cppmm|rename|");
     for (auto& a : cpp_function.attrs) {
         if (pystring::startswith(a, prefix)) {
@@ -1192,7 +1193,14 @@ std::string find_function_short_name(const NodeFunction& cpp_function) {
         }
     }
 
-    return cpp_function.short_name;
+    if(is_constructor)
+    {
+        return std::string("ctor");
+    }
+    else
+    {
+        return cpp_function.short_name;
+    }
 }
 
 //------------------------------------------------------------------------------
@@ -1233,8 +1241,9 @@ FunctionNames compute_function_names(TypeRegistry& type_registry,
 FunctionNames compute_function_names(TypeRegistry& type_registry,
                                      const NodeRecord& cpp_record,
                                      const NodeRecord& c_record,
-                                     const NodeFunction& cpp_function) {
-    auto short_name = find_function_short_name(cpp_function);
+                                     const NodeFunction& cpp_function,
+                                     bool is_constructor) {
+    auto short_name = find_function_short_name(cpp_function, is_constructor);
 
     return compute_function_names(type_registry, c_record, short_name);
 }
@@ -1354,7 +1363,8 @@ void record_method(TypeRegistry& type_registry, TranslationUnit& c_tu,
                            c_return_for_method, cpp_method);
 
     auto names =
-        compute_function_names(type_registry, cpp_record, c_record, cpp_method);
+        compute_function_names(type_registry, cpp_record, c_record, cpp_method,
+                               cpp_method.is_constructor);
 
     auto template_args = cpp_method.template_args;
 
@@ -1902,14 +1912,15 @@ void general_function(TypeRegistry& type_registry, TranslationUnit& c_tu,
     if (c_record == nullptr) {
         function_name = compute_c_name(
             compute_qualified_name(type_registry, cpp_function.namespaces,
-                                   find_function_short_name(cpp_function)));
+                                   find_function_short_name(cpp_function, false)
+                                   ));
 
         function_nice_name = compute_c_name(compute_qualified_nice_name(
             type_registry, cpp_function.namespaces,
-            find_function_short_name(cpp_function)));
+            find_function_short_name(cpp_function, false)));
     } else {
         auto names = compute_function_names(type_registry, *cpp_record,
-                                            *c_record, cpp_function);
+                                            *c_record, cpp_function, false);
         function_name = names.long_name;
         function_nice_name = names.nice_name;
     }

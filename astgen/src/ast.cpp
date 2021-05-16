@@ -1,5 +1,7 @@
 #include "ast.hpp"
 
+#include "stl_prune.hpp"
+
 #include <iomanip>
 
 #define SPDLOG_ACTIVE_LEVEL TRACE
@@ -98,9 +100,11 @@ void NodeTranslationUnit::write_json(json& o) const {
     o["decls"] = {};
     for (NodeId id : children) {
         const Node* node = NODES.at(id).get();
-        auto child = json::object();
-        node->write_json(child);
-        o["decls"].emplace_back(std::move(child));
+        if (!is_stl_version_namespace(node->qualified_name)) {
+            auto child = json::object();
+            node->write_json(child);
+            o["decls"].emplace_back(std::move(child));
+        }
     }
 }
 
@@ -117,7 +121,7 @@ void NodeNamespace::write_json_attrs(json& o) const {
 
 void NodeNamespace::write_json(json& o) const {
     o["kind"] = "Namespace";
-    o["name"] = qualified_name;
+    o["name"] = prune_stl(qualified_name);
     write_json_attrs(o);
 }
 
@@ -235,7 +239,7 @@ void NodeVar::write_json_attrs(json& o) const {
 
 void NodeVar::write_json(json& o) const {
     o["kind"] = "Var";
-    o["qualified_name"] = qualified_name;
+    o["qualified_name"] = prune_stl(qualified_name);
     o["short_name"] = short_name;
     o["type"] = {};
     qtype.write_json(o["type"]);
@@ -252,7 +256,7 @@ void Exception::write_json(json& o) const {
 void NodeFunction::write_json_attrs(json& o) const {
     NodeAttributeHolder::write_json_attrs(o);
     o["short_name"] = short_name;
-    o["qualified_name"] = qualified_name;
+    o["qualified_name"] = prune_stl(qualified_name);
     o["in_binding"] = in_binding;
     o["in_library"] = in_library;
     o["noexcept"] = is_noexcept;
@@ -406,7 +410,7 @@ void NodeRecord::write_json_attrs(json& o) const {
 
 void NodeRecord::write_json(json& o) const {
     o["kind"] = "Record";
-    o["name"] = qualified_name;
+    o["name"] = prune_stl(qualified_name);
     o["short_name"] = short_name;
     o["namespaces"] = namespaces;
     write_json_attrs(o);
@@ -438,7 +442,7 @@ void NodeEnum::write_json_attrs(json& o) const {
 
 void NodeEnum::write_json(json& o) const {
     o["kind"] = "Enum";
-    o["name"] = qualified_name;
+    o["name"] = prune_stl(qualified_name);
     o["short_name"] = short_name;
     o["namespaces"] = namespaces;
     write_json_attrs(o);
@@ -456,7 +460,7 @@ void NodeFunctionPointerTypedef::write_json_attrs(json& o) const {
 
 void NodeFunctionPointerTypedef::write_json(json& o) const {
     o["kind"] = "FunctionPointerTypedef";
-    o["name"] = qualified_name;
+    o["name"] = prune_stl(qualified_name);
     o["alias"] = alias;
     o["namespaces"] = namespaces;
 
