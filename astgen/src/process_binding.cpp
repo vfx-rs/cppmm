@@ -396,10 +396,10 @@ std::vector<Exception> get_exceptions(const std::vector<std::string>& attrs) {
             auto cpp_name = toks[2];
             auto c_name = toks[3];
             unsigned error_code = -1;
-            auto it = EXCEPTION_MAP.find(cpp_name);
+            auto it = EXCEPTION_MAP.find(c_name);
             if (it == EXCEPTION_MAP.end()) {
                 error_code = EXCEPTION_CODE++;
-                EXCEPTION_MAP[cpp_name] = error_code;
+                EXCEPTION_MAP[c_name] = error_code;
             } else {
                 error_code = it->second;
             }
