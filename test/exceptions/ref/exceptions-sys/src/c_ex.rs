@@ -42,6 +42,10 @@ pub fn ex__Struct_m1(this_: *mut ex_Struct_t) -> Exception;
 
 pub fn ex__Struct_m2(this_: *mut ex_Struct_t, return_: *mut c_float, a: c_float) -> Exception;
 
+pub fn ex__Struct_m3(this_: *const ex_Struct_t, return_: *mut c_float, a: c_int) -> Exception;
+
+pub fn ex__Struct_m4(this_: *const ex_Struct_t, return_: *mut c_float, a: c_int) -> Exception;
+
 pub fn ex_f1(return_: *mut c_float, a: c_int) -> Exception;
 
 pub fn ex_f2() -> Exception;

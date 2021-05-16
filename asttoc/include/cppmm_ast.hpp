@@ -620,19 +620,20 @@ struct NodeFunction : public NodeAttributeHolder {
     std::vector<NodeId> namespaces;
     std::vector<NodeTypePtr> template_args;
     std::vector<Exception> exceptions;
+    bool is_noexcept = false;
 
     NodeFunction(std::string qualified_name, NodeId id,
                  std::vector<std::string> attrs, std::string short_name,
                  NodeTypePtr&& return_type, std::vector<Param>&& params,
                  std::string nice_name, std::string comment,
                  std::vector<NodeTypePtr>&& template_args,
-                 std::vector<Exception> exceptions)
+                 std::vector<Exception> exceptions, bool is_noexcept)
         : NodeAttributeHolder(qualified_name, id, NodeKind::Function, attrs,
                               std::move(comment)),
           short_name(short_name), return_type(std::move(return_type)),
           params(std::move(params)), nice_name(std::move(nice_name)),
           template_args(std::move(template_args)),
-          exceptions(std::move(exceptions)) {}
+          exceptions(std::move(exceptions)), is_noexcept(is_noexcept) {}
 
     // A static method for creating this as a shared pointer
     using This = NodeFunction;
@@ -657,11 +658,11 @@ struct NodeMethod : public NodeFunction {
                bool is_static, bool is_constructor, bool is_copy_constructor,
                bool is_destructor, bool is_const, std::string comment,
                std::vector<NodeTypePtr>&& template_args,
-               std::vector<Exception> exceptions)
-        : NodeFunction(qualified_name, id, attrs, short_name,
-                       std::move(return_type), std::move(params),
-                       qualified_name, std::move(comment),
-                       std::move(template_args), std::move(exceptions)),
+               std::vector<Exception> exceptions, bool is_noexcept)
+        : NodeFunction(
+              qualified_name, id, attrs, short_name, std::move(return_type),
+              std::move(params), qualified_name, std::move(comment),
+              std::move(template_args), std::move(exceptions), is_noexcept),
           is_static(is_static), is_constructor(is_constructor),
           is_copy_constructor(is_copy_constructor),
           is_destructor(is_destructor), is_const(is_const) {

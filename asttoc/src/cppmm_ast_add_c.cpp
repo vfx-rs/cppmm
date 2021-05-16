@@ -1261,7 +1261,7 @@ void record_memory(TypeRegistry& type_registry, TranslationUnit& c_tu,
         names.long_name, PLACEHOLDER_ID, std::vector<std::string>(),
         memory_operator, std::move(return_), std::vector<Param>(),
         names.nice_name, "returns the size of this type in bytes",
-        std::vector<NodeTypePtr>(), std::vector<Exception>());
+        std::vector<NodeTypePtr>(), std::vector<Exception>(), true);
     c_function->body = body;
 
     c_tu.decls.push_back(NodePtr(c_function));
@@ -1366,7 +1366,7 @@ void record_method(TypeRegistry& type_registry, TranslationUnit& c_tu,
         names.long_name, PLACEHOLDER_ID, cpp_method.attrs, "",
         std::move(error_return), std::move(c_params), names.nice_name,
         cpp_method.comment, std::move(template_args),
-        std::move(cpp_method.exceptions));
+        std::move(cpp_method.exceptions), cpp_method.is_noexcept);
 
     c_function->body = c_function_body;
     c_tu.decls.push_back(NodePtr(c_function));
@@ -1609,10 +1609,10 @@ void cast_to_cpp(TranslationUnit& c_tu, const std::string& cpp_record_name,
     if (pointer_kind == PointerKind::Reference) {
         function_name += "_ref";
     }
-    auto c_function =
-        NodeFunction::n(function_name, PLACEHOLDER_ID, attrs, "",
-                        std::move(cpp_return), std::move(params), "", "",
-                        std::vector<NodeTypePtr>{}, std::vector<Exception>{});
+    auto c_function = NodeFunction::n(function_name, PLACEHOLDER_ID, attrs, "",
+                                      std::move(cpp_return), std::move(params),
+                                      "", "", std::vector<NodeTypePtr>{},
+                                      std::vector<Exception>{}, false);
 
     c_function->body = c_function_body;
     c_function->private_ = true;
@@ -1673,10 +1673,10 @@ void cast_to_c(TranslationUnit& c_tu, const std::string& cpp_record_name,
     std::vector<std::string> attrs;
     std::vector<Param> params = {Param("lhs", lhs, 0), Param("rhs", rhs, 1)};
     auto void_t = NodeBuiltinType::n("void", 0, "void", false);
-    auto c_function =
-        NodeFunction::n(function_name, PLACEHOLDER_ID, attrs, "",
-                        std::move(void_t), std::move(params), "", "",
-                        std::vector<NodeTypePtr>{}, std::vector<Exception>{});
+    auto c_function = NodeFunction::n(function_name, PLACEHOLDER_ID, attrs, "",
+                                      std::move(void_t), std::move(params), "",
+                                      "", std::vector<NodeTypePtr>{},
+                                      std::vector<Exception>{}, false);
 
     c_function->body = c_function_body;
     c_function->private_ = true;
@@ -1728,7 +1728,7 @@ void to_c_copy__trivial(TranslationUnit& c_tu,
     auto c_function = NodeFunction::n(
         function_name, PLACEHOLDER_ID, attrs, "",
         NodeBuiltinType::n("void", 0, "void", false), std::move(params), "", "",
-        std::vector<NodeTypePtr>{}, std::vector<Exception>{});
+        std::vector<NodeTypePtr>{}, std::vector<Exception>{}, false);
 
     c_function->body = c_function_body;
     c_function->private_ = true;
@@ -1930,7 +1930,8 @@ void general_function(TypeRegistry& type_registry, TranslationUnit& c_tu,
         function_name, PLACEHOLDER_ID, cpp_function.attrs, "",
         NodeBuiltinType::n("unsigned int", 0, "unsigned int", false),
         std::move(c_params), function_nice_name, cpp_function.comment,
-        std::move(template_args), std::move(cpp_function.exceptions));
+        std::move(template_args), std::move(cpp_function.exceptions),
+        cpp_function.is_noexcept);
 
     c_function->body = c_function_body;
     c_tu.decls.push_back(NodePtr(c_function));
@@ -2007,7 +2008,7 @@ void to_c_copy__constructor(TranslationUnit& c_tu, const NodeRecord& cpp_record,
     auto c_function = NodeFunction::n(
         "to_c_copy", PLACEHOLDER_ID, attrs, "",
         NodeBuiltinType::n("void", 0, "void", false), std::move(params), "", "",
-        std::vector<NodeTypePtr>{}, std::vector<Exception>{});
+        std::vector<NodeTypePtr>{}, std::vector<Exception>{}, false);
 
     c_function->body = c_function_body;
     c_function->private_ = true;

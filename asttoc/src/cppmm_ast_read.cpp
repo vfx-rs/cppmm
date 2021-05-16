@@ -81,6 +81,7 @@ const char* FUNCTION_POINTER_TYPEDEF_C = "FunctionPointerTypedef";
 const char* FUNCTION_POINTER_TYPEDEF_L = "function_pointer_typedef";
 const char* TEMPLATE_ARGS = "template_args";
 const char* OPAQUE_TYPE = "opaque_type";
+const char* NOEXCEPT = "noexcept";
 } // namespace
 
 //------------------------------------------------------------------------------
@@ -250,6 +251,7 @@ NodePtr read_function(const TranslationUnit::Ptr& tu, const nln::json& json) {
     }
 
     auto exceptions = read_exceptions(json);
+    auto is_noexcept = json[NOEXCEPT].get<bool>();
 
     auto template_args = std::vector<NodeTypePtr>();
     for (const auto& i : json[TEMPLATE_ARGS]) {
@@ -263,7 +265,7 @@ NodePtr read_function(const TranslationUnit::Ptr& tu, const nln::json& json) {
     auto result = NodeFunction::n(
         qualified_name, id, attrs, short_name, std::move(return_type),
         std::move(params), qualified_name, std::move(comment),
-        std::move(template_args), std::move(exceptions));
+        std::move(template_args), std::move(exceptions), is_noexcept);
     result->namespaces = namespaces;
 
     return result;
@@ -307,12 +309,13 @@ NodeMethod read_method(const nln::json& json) {
     }
 
     auto exceptions = read_exceptions(json);
+    auto is_noexcept = json[NOEXCEPT].get<bool>();
 
     return NodeMethod(qualified_name, id, attrs, short_name,
                       std::move(return_type), std::move(params), static_,
                       constructor, copy_constructor, destructor, const_,
                       std::move(comment), std::move(template_args),
-                      std::move(exceptions));
+                      std::move(exceptions), is_noexcept);
 }
 
 //------------------------------------------------------------------------------

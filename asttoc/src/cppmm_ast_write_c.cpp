@@ -532,14 +532,14 @@ void write_function_bdy(fmt::ostream& out, const NodePtr& node, Access access) {
         // FIXME AL: taking a shortcut here. We need to express this in terms
         // of expression nodes, but let's get it working first
         if (!function.private_ && function.short_name != "sizeof" &&
-            function.short_name != "alignof") {
+            function.short_name != "alignof" && !function.is_noexcept) {
             out.print("    try {{\n");
         }
 
         write_expression(out, 2, function.body);
 
         if (!function.private_ && function.short_name != "sizeof" &&
-            function.short_name != "alignof") {
+            function.short_name != "alignof" && !function.is_noexcept) {
             for (const auto& e : function.exceptions) {
                 out.print("    }} catch ({}& e) {{\n"
                           "        TLG_EXCEPTION_STRING = e.what();\n"

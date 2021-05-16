@@ -205,6 +205,7 @@ int main(int argc_, const char** argv_) {
 #define CPPMM_TRIVIALLY_MOVABLE __attribute__((annotate("cppmm|trivially_movable")))
 
 #define CPPMM_THROWS(EX, VAR) __attribute__((annotate("cppmm|throws|" #EX "|" #VAR)))
+#define CPPMM_NOEXCEPT __attribute__((annotate("cppmm|noexcept")))
 
 #define CPPMM_ENUM_PREFIX(x) __attribute__((annotate("cppmm|enum_prefix|" #x)))
 #define CPPMM_ENUM_SUFFIX(x) __attribute__((annotate("cppmm|enum_suffix|" #x)))

@@ -33,6 +33,20 @@ unsigned int ex__Struct_m2(
 #define ex_Struct_m2 ex__Struct_m2
 
 
+unsigned int ex__Struct_m3(
+    ex_Struct_t const * this_
+    , float * return_
+    , int a);
+#define ex_Struct_m3 ex__Struct_m3
+
+
+unsigned int ex__Struct_m4(
+    ex_Struct_t const * this_
+    , float * return_
+    , int a);
+#define ex_Struct_m4 ex__Struct_m4
+
+
 
 
 

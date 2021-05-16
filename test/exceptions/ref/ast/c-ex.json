@@ -8,12 +8,12 @@
     "include_paths": [
         "/home/anders/code/cppmm/test/exceptions/include"
     ],
-    "id": 2,
+    "id": 3,
     "decls": [
         {
             "kind": "Namespace",
             "name": "ex",
-            "id": 3,
+            "id": 4,
             "short_name": "ex",
             "alias": "ex",
             "collapse": false
@@ -23,9 +23,9 @@
             "name": "ex::Struct",
             "short_name": "Struct",
             "namespaces": [
-                3
+                4
             ],
-            "id": 4,
+            "id": 5,
             "abstract": false,
             "trivially_copyable": true,
             "trivially_movable": true,
@@ -136,20 +136,110 @@
                             "error_code": 1
                         }
                     ]
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "m3",
+                    "qualified_name": "ex::Struct::m3",
+                    "in_binding": true,
+                    "in_library": false,
+                    "noexcept": true,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "comment": "",
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 1,
+                        "type": "float",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "a",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 2,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ],
+                    "template_args": null,
+                    "exceptions": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "m4",
+                    "qualified_name": "ex::Struct::m4",
+                    "in_binding": true,
+                    "in_library": false,
+                    "noexcept": true,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm|noexcept"
+                    ],
+                    "comment": "",
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 1,
+                        "type": "float",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "a",
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 2,
+                                "type": "int",
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ],
+                    "template_args": null,
+                    "exceptions": null
                 }
             ]
         },
         {
             "kind": "Namespace",
             "name": "cppmm_bind::ex",
-            "id": 8,
+            "id": 10,
             "short_name": "ex",
             "alias": "ex",
             "collapse": false
         },
         {
             "kind": "Function",
-            "id": 9,
+            "id": 11,
             "short_name": "f1",
             "qualified_name": "ex::f1",
             "in_binding": false,
@@ -160,7 +250,7 @@
             ],
             "comment": "",
             "namespaces": [
-                3
+                4
             ],
             "return": {
                 "kind": "BuiltinType",
@@ -174,7 +264,7 @@
                     "name": "a",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 7,
+                        "id": 2,
                         "type": "int",
                         "const": false
                     },
@@ -192,7 +282,7 @@
         },
         {
             "kind": "Function",
-            "id": 10,
+            "id": 12,
             "short_name": "f2",
             "qualified_name": "ex::f2",
             "in_binding": false,
@@ -203,7 +293,7 @@
             ],
             "comment": "",
             "namespaces": [
-                3
+                4
             ],
             "return": {
                 "kind": "BuiltinType",

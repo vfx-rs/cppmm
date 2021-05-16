@@ -30,13 +30,8 @@ unsigned int std____cxx11__basic_string_char__c_str(
     std_string_t const * this_
     , char const * * return_)
 {
-    try {
         *(return_) = (to_cpp(this_)) -> c_str();
         return 0;
-    } catch (std::exception& e) {
-        TLG_EXCEPTION_STRING = e.what();
-        return -1;
-    }
 }
 unsigned int std__vector_std__string__sizeof()
 {
@@ -60,11 +55,6 @@ unsigned int std__vector_std__string__vector(
 unsigned int std__vector_std__string__dtor(
     std_vector_string_t * this_)
 {
-    try {
         (to_cpp(this_)) -> std::vector<std::__cxx11::basic_string<char>, std::allocator<std::__cxx11::basic_string<char> > >::~vector();
         return 0;
-    } catch (std::exception& e) {
-        TLG_EXCEPTION_STRING = e.what();
-        return -1;
-    }
 }

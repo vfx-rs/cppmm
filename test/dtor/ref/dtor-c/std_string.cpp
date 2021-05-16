@@ -15,13 +15,8 @@ unsigned int std____cxx11__basic_string_char__alignof()
 unsigned int std____cxx11__basic_string_char__ctor(
     std___cxx11_string_t * this_)
 {
-    try {
         new (this_) std::__cxx11::basic_string<char>();
         return 0;
-    } catch (std::exception& e) {
-        TLG_EXCEPTION_STRING = e.what();
-        return -1;
-    }
 }
 unsigned int std____cxx11__basic_string_char__copy(
     std___cxx11_string_t * this_
@@ -64,11 +59,6 @@ unsigned int std____cxx11__basic_string_char__c_str(
     std___cxx11_string_t const * this_
     , char const * * return_)
 {
-    try {
         *(return_) = (to_cpp(this_)) -> c_str();
         return 0;
-    } catch (std::exception& e) {
-        TLG_EXCEPTION_STRING = e.what();
-        return -1;
-    }
 }

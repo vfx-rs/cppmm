@@ -411,6 +411,11 @@ std::vector<Exception> get_exceptions(const std::vector<std::string>& attrs) {
     return result;
 }
 
+bool has_noexcept_attr(const std::vector<std::string>& attrs) {
+    return std::find(attrs.begin(), attrs.end(), "cppmm|noexcept") !=
+           attrs.end();
+}
+
 /// Create a new node for the given method decl and return it
 NodePtr process_method_decl(const CXXMethodDecl* cmd,
                             std::vector<std::string> attrs,
@@ -1046,6 +1051,7 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
                 !mptr->is_deleted) {
                 mptr->attrs = std::move(attrs);
                 mptr->in_binding = true;
+                mptr->is_noexcept |= has_noexcept_attr(mptr->attrs);
             } else {
                 // TODO: decide what we really want to do here.
                 // For now, ignoring unmatched methods makes dev easier by

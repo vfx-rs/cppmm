@@ -12,6 +12,8 @@ struct Struct {
     void m1() CPPMM_THROWS(std::runtime_error, STD_RUNTIME_ERROR);
     float m2(float a) CPPMM_THROWS(std::logic_error, STD_LOGIC_ERROR)
         CPPMM_THROWS(std::runtime_error, STD_RUNTIME_ERROR);
+    float m3(int a) const;
+    float m4(int a) const CPPMM_NOEXCEPT;
 } CPPMM_OPAQUEBYTES;
 
 float f1(int a) CPPMM_THROWS(std::invalid_argument, STD_INVALID_ARGUMENT);

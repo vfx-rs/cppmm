@@ -17,6 +17,9 @@ struct Struct {
         }
     }
 
+    float m3(int a) const noexcept { return 1.0f; }
+    float m4(int a) const { return 1.0f; }
+
 private:
     bool _first = true;
 };
