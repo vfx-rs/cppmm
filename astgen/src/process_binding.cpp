@@ -28,6 +28,7 @@ namespace fs = ghc::filesystem;
 
 #include "ast.hpp"
 #include "ast_utils.hpp"
+#include "stl_prune.hpp"
 
 using namespace clang;
 using namespace clang::ast_matchers;
@@ -64,10 +65,6 @@ bool get_abi_info(const TypeDecl* td, ASTContext& ctx, uint32_t& size,
     }
 
     return false;
-}
-
-bool is_stl_version_namespace(const std::string & name) {
-    return name == "std::__1";
 }
 
 QType process_qtype(const QualType& qt);
@@ -697,7 +694,7 @@ std::vector<NodeId> get_namespaces(const clang::DeclContext* parent,
                 node_tu->children.push_back(id);
             }
 
-            if(!is_stl_version_namespace(qualified_name)) {
+            if (!is_stl_version_namespace(qualified_name)) {
                 result.push_back(id);
             }
 

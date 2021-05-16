@@ -1,5 +1,7 @@
 #include "ast.hpp"
 
+#include "stl_prune.hpp"
+
 #include <iomanip>
 
 #define SPDLOG_ACTIVE_LEVEL TRACE
@@ -13,10 +15,6 @@ namespace fs = ghc::filesystem;
 #include "pystring.h"
 
 namespace cppmm {
-
-static std::string prune_stl(const std::string & str) {
-    return pystring::replace(str, "std::__1", "std");
-}
 
 std::ostream& operator<<(std::ostream& os, NodeKind k) {
     switch (k) {
@@ -84,10 +82,6 @@ std::unordered_map<std::string, std::pair<std::string, bool>> NAMESPACE_ALIASES;
 /// Function prototype typedefs
 std::unordered_map<std::string, std::string> FPT_TYPEDEFS;
 
-static bool is_stl_version_namespace(const std::string & name) {
-    return name == "std::__1";
-}
-
 void Node::write_json_attrs(json& o) const {
     if (id >= 0) {
         o["id"] = id;
@@ -106,8 +100,7 @@ void NodeTranslationUnit::write_json(json& o) const {
     o["decls"] = {};
     for (NodeId id : children) {
         const Node* node = NODES.at(id).get();
-        if(!is_stl_version_namespace(node->qualified_name))
-        {
+        if (!is_stl_version_namespace(node->qualified_name)) {
             auto child = json::object();
             node->write_json(child);
             o["decls"].emplace_back(std::move(child));
