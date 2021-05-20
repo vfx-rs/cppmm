@@ -1191,7 +1191,7 @@ record_method_body(TypeRegistry& type_registry, TranslationUnit& c_tu,
 
 //------------------------------------------------------------------------------
 std::string find_function_short_name(const NodeFunction& cpp_function,
-                                     MethodType method_type){
+                                     MethodType method_type) {
     auto prefix = std::string("cppmm|rename|");
     for (auto& a : cpp_function.attrs) {
         if (pystring::startswith(a, prefix)) {
@@ -1201,14 +1201,14 @@ std::string find_function_short_name(const NodeFunction& cpp_function,
     }
 
     switch (method_type) {
-        case MethodType::Constructor:
-            return std::string("ctor");
-        case MethodType::CopyConstructor:
-            return std::string("copy");
-        case MethodType::MoveConstructor:
-            return std::string("move");
-        default:
-            return cpp_function.short_name;
+    case MethodType::Constructor:
+        return std::string("ctor");
+    case MethodType::CopyConstructor:
+        return std::string("copy");
+    case MethodType::MoveConstructor:
+        return std::string("move");
+    default:
+        return cpp_function.short_name;
     }
 }
 
@@ -1372,19 +1372,18 @@ void record_method(TypeRegistry& type_registry, TranslationUnit& c_tu,
                            c_return_for_method, cpp_method);
 
     auto method_type = MethodType::None;
-    if(cpp_method.is_constructor) {
+    if (cpp_method.is_constructor) {
         method_type = MethodType::Constructor;
     }
-    if(cpp_method.is_copy_constructor) {
+    if (cpp_method.is_copy_constructor) {
         method_type = MethodType::CopyConstructor;
     }
-    if(cpp_method.is_move_constructor) {
+    if (cpp_method.is_move_constructor) {
         method_type = MethodType::MoveConstructor;
     }
 
-    auto names =
-        compute_function_names(type_registry, cpp_record, c_record, cpp_method,
-                               method_type);
+    auto names = compute_function_names(type_registry, cpp_record, c_record,
+                                        cpp_method, method_type);
 
     auto template_args = cpp_method.template_args;
 
@@ -1930,17 +1929,17 @@ void general_function(TypeRegistry& type_registry, TranslationUnit& c_tu,
     std::string function_nice_name;
 
     if (c_record == nullptr) {
-        function_name = compute_c_name(
-            compute_qualified_name(type_registry, cpp_function.namespaces,
-                                   find_function_short_name(cpp_function, MethodType::None)
-                                   ));
+        function_name = compute_c_name(compute_qualified_name(
+            type_registry, cpp_function.namespaces,
+            find_function_short_name(cpp_function, MethodType::None)));
 
         function_nice_name = compute_c_name(compute_qualified_nice_name(
             type_registry, cpp_function.namespaces,
             find_function_short_name(cpp_function, MethodType::None)));
     } else {
-        auto names = compute_function_names(type_registry, *cpp_record,
-                                            *c_record, cpp_function, MethodType::None);
+        auto names =
+            compute_function_names(type_registry, *cpp_record, *c_record,
+                                   cpp_function, MethodType::None);
         function_name = names.long_name;
         function_nice_name = names.nice_name;
     }

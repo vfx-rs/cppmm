@@ -313,11 +313,11 @@ NodeMethod read_method(const nln::json& json) {
     auto exceptions = read_exceptions(json);
     auto is_noexcept = json[NOEXCEPT].get<bool>();
 
-    return NodeMethod(qualified_name, id, attrs, short_name,
-                      std::move(return_type), std::move(params), static_,
-                      constructor, copy_constructor, move_constructor, destructor, const_,
-                      std::move(comment), std::move(template_args),
-                      std::move(exceptions), is_noexcept);
+    return NodeMethod(
+        qualified_name, id, attrs, short_name, std::move(return_type),
+        std::move(params), static_, constructor, copy_constructor,
+        move_constructor, destructor, const_, std::move(comment),
+        std::move(template_args), std::move(exceptions), is_noexcept);
 }
 
 //------------------------------------------------------------------------------

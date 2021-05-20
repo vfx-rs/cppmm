@@ -657,9 +657,8 @@ struct NodeMethod : public NodeFunction {
                std::vector<std::string> attrs, std::string short_name,
                NodeTypePtr&& return_type, std::vector<Param>&& params,
                bool is_static, bool is_constructor, bool is_copy_constructor,
-               bool is_move_constructor,
-               bool is_destructor, bool is_const, std::string comment,
-               std::vector<NodeTypePtr>&& template_args,
+               bool is_move_constructor, bool is_destructor, bool is_const,
+               std::string comment, std::vector<NodeTypePtr>&& template_args,
                std::vector<Exception> exceptions, bool is_noexcept)
         : NodeFunction(
               qualified_name, id, attrs, short_name, std::move(return_type),
