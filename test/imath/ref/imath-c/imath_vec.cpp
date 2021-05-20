@@ -4,7 +4,7 @@
 
 #include <stdexcept>
 
-unsigned int Imath_2_5__Vec3_float__Vec3(
+unsigned int Imath_2_5__Vec3_float__ctor(
     Imath_V3f_t * this_)
 {
     try {
@@ -15,7 +15,7 @@ unsigned int Imath_2_5__Vec3_float__Vec3(
         return -1;
     }
 }
-unsigned int Imath_2_5__Vec3_float__Vec3_1(
+unsigned int Imath_2_5__Vec3_float__ctor_1(
     Imath_V3f_t * this_
     , Imath_V3f_t const * rhs)
 {
@@ -128,7 +128,7 @@ unsigned int Imath_2_5__Vec3_float__normalized(
         return -1;
     }
 }
-unsigned int Imath_2_5__Vec3_int__Vec3(
+unsigned int Imath_2_5__Vec3_int__ctor(
     Imath_V3i_t * this_)
 {
     try {
@@ -139,7 +139,7 @@ unsigned int Imath_2_5__Vec3_int__Vec3(
         return -1;
     }
 }
-unsigned int Imath_2_5__Vec3_int__Vec3_1(
+unsigned int Imath_2_5__Vec3_int__ctor_1(
     Imath_V3i_t * this_
     , Imath_V3i_t const * rhs)
 {

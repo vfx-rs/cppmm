@@ -13,7 +13,7 @@ pub struct dtor__Struct_t {
 
 extern "C" {
 
-pub fn dtor__Struct_Struct(this_: *mut *mut dtor_Struct_t) -> Exception;
+pub fn dtor__Struct_ctor(this_: *mut *mut dtor_Struct_t) -> Exception;
 
 pub fn dtor__Struct_dtor(this_: *mut dtor_Struct_t) -> Exception;
 

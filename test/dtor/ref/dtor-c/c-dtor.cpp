@@ -4,7 +4,7 @@
 
 #include <stdexcept>
 
-unsigned int dtor__Struct_Struct(
+unsigned int dtor__Struct_ctor(
     dtor_Struct_t * * this_)
 {
     try {

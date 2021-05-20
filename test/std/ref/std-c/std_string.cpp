@@ -41,7 +41,7 @@ unsigned int std__vector_std__string__alignof()
 {
         return alignof(std::vector<std::string>);
 }
-unsigned int std__vector_std__string__vector(
+unsigned int std__vector_std__string__ctor(
     std_vector_string_t * this_)
 {
     try {

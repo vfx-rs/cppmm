@@ -58,9 +58,9 @@ unsigned int std__vector_std__string__alignof();
 #define std_vector_string_alignof std__vector_std__string__alignof
 
 
-unsigned int std__vector_std__string__vector(
+unsigned int std__vector_std__string__ctor(
     std_vector_string_t * this_);
-#define std_vector_string_vector std__vector_std__string__vector
+#define std_vector_string_ctor std__vector_std__string__ctor
 
 
 unsigned int std__vector_std__string__dtor(

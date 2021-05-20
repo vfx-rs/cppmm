@@ -6,7 +6,7 @@ pub struct Struct(pub *mut dtor_Struct_t);
 
 unsafe fn get_struct() -> Struct {
     let mut ptr = std::ptr::null_mut();
-    dtor_Struct_Struct(&mut ptr);
+    dtor_Struct_ctor(&mut ptr);
     Struct(ptr)
 }
 

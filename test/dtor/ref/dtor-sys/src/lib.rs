@@ -44,7 +44,7 @@ extern {
 pub mod c_dtor;
 pub use c_dtor::dtor__Struct_t as dtor_Struct_t;
 
-pub use c_dtor::dtor__Struct_Struct as dtor_Struct_Struct;
+pub use c_dtor::dtor__Struct_ctor as dtor_Struct_ctor;
 pub use c_dtor::dtor__Struct_dtor as dtor_Struct_dtor;
 pub mod std_string;
 pub use std_string::std____cxx11__basic_string_char__t as std___cxx11_string_t;

@@ -25,9 +25,9 @@ pub struct Imath_2_5__Vec3_int__t {
 
 extern "C" {
 
-pub fn Imath_2_5__Vec3_float__Vec3(this_: *mut Imath_V3f_t) -> Exception;
+pub fn Imath_2_5__Vec3_float__ctor(this_: *mut Imath_V3f_t) -> Exception;
 
-pub fn Imath_2_5__Vec3_float__Vec3_1(this_: *mut Imath_V3f_t, rhs: *const Imath_V3f_t) -> Exception;
+pub fn Imath_2_5__Vec3_float__ctor_1(this_: *mut Imath_V3f_t, rhs: *const Imath_V3f_t) -> Exception;
 
 pub fn Imath_2_5__Vec3_float__setValue(this_: *mut Imath_V3f_t, a: c_float, b: c_float, c: c_float) -> Exception;
 
@@ -45,9 +45,9 @@ pub fn Imath_2_5__Vec3_float__normalize(this_: *mut Imath_V3f_t, return_: *mut *
 
 pub fn Imath_2_5__Vec3_float__normalized(this_: *const Imath_V3f_t, return_: *mut Imath_V3f_t) -> Exception;
 
-pub fn Imath_2_5__Vec3_int__Vec3(this_: *mut Imath_V3i_t) -> Exception;
+pub fn Imath_2_5__Vec3_int__ctor(this_: *mut Imath_V3i_t) -> Exception;
 
-pub fn Imath_2_5__Vec3_int__Vec3_1(this_: *mut Imath_V3i_t, rhs: *const Imath_V3i_t) -> Exception;
+pub fn Imath_2_5__Vec3_int__ctor_1(this_: *mut Imath_V3i_t, rhs: *const Imath_V3i_t) -> Exception;
 
 pub fn Imath_2_5__Vec3_int__dot(this_: *const Imath_V3i_t, return_: *mut c_int, v: *const Imath_V3i_t) -> Exception;
 

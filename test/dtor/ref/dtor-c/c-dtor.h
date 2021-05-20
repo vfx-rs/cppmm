@@ -11,9 +11,9 @@ typedef dtor__Struct_t dtor_Struct_t;
 
 
 
-unsigned int dtor__Struct_Struct(
+unsigned int dtor__Struct_ctor(
     dtor_Struct_t * * this_);
-#define dtor_Struct_Struct dtor__Struct_Struct
+#define dtor_Struct_ctor dtor__Struct_ctor
 
 
 unsigned int dtor__Struct_dtor(

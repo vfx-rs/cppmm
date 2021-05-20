@@ -71,7 +71,7 @@ pub fn std__vector_std__string__sizeof() -> usize;
 /// returns the size of this type in bytes
 pub fn std__vector_std__string__alignof() -> usize;
 
-pub fn std__vector_std__string__vector(this_: *mut std_vector_string_t) -> Exception;
+pub fn std__vector_std__string__ctor(this_: *mut std_vector_string_t) -> Exception;
 
 pub fn std__vector_std__string__dtor(this_: *mut std_vector_string_t) -> Exception;
 
