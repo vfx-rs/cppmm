@@ -1378,11 +1378,9 @@ void record_method(TypeRegistry& type_registry, TranslationUnit& c_tu,
     if(cpp_method.is_copy_constructor) {
         method_type = MethodType::CopyConstructor;
     }
-/*
     if(cpp_method.is_move_constructor) {
         method_type = MethodType::MoveConstructor;
     }
-*/
 
     auto names =
         compute_function_names(type_registry, cpp_record, c_record, cpp_method,
