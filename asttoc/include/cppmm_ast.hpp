@@ -650,14 +650,15 @@ struct NodeMethod : public NodeFunction {
     bool is_destructor;
     bool is_constructor;
     bool is_copy_constructor;
+    bool is_move_constructor;
     bool is_const;
 
     NodeMethod(std::string qualified_name, NodeId id,
                std::vector<std::string> attrs, std::string short_name,
                NodeTypePtr&& return_type, std::vector<Param>&& params,
                bool is_static, bool is_constructor, bool is_copy_constructor,
-               bool is_destructor, bool is_const, std::string comment,
-               std::vector<NodeTypePtr>&& template_args,
+               bool is_move_constructor, bool is_destructor, bool is_const,
+               std::string comment, std::vector<NodeTypePtr>&& template_args,
                std::vector<Exception> exceptions, bool is_noexcept)
         : NodeFunction(
               qualified_name, id, attrs, short_name, std::move(return_type),
@@ -665,6 +666,7 @@ struct NodeMethod : public NodeFunction {
               std::move(template_args), std::move(exceptions), is_noexcept),
           is_static(is_static), is_constructor(is_constructor),
           is_copy_constructor(is_copy_constructor),
+          is_move_constructor(is_move_constructor),
           is_destructor(is_destructor), is_const(is_const) {
         kind = NodeKind::Method;
     }
