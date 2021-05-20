@@ -29,6 +29,13 @@
 namespace cppmm {
 namespace transform {
 
+enum class MethodType : uint32_t {
+    None = 0,
+    Constructor = 1,
+    CopyConstructor = 2,
+    MoveConstructor = 3,
+};
+
 static const char* THIS_ = "this_";
 
 //------------------------------------------------------------------------------
@@ -1184,7 +1191,7 @@ record_method_body(TypeRegistry& type_registry, TranslationUnit& c_tu,
 
 //------------------------------------------------------------------------------
 std::string find_function_short_name(const NodeFunction& cpp_function,
-                                     bool is_constructor) {
+                                     MethodType method_type){
     auto prefix = std::string("cppmm|rename|");
     for (auto& a : cpp_function.attrs) {
         if (pystring::startswith(a, prefix)) {
@@ -1193,13 +1200,15 @@ std::string find_function_short_name(const NodeFunction& cpp_function,
         }
     }
 
-    if(is_constructor)
-    {
-        return std::string("ctor");
-    }
-    else
-    {
-        return cpp_function.short_name;
+    switch (method_type) {
+        case MethodType::Constructor:
+            return std::string("ctor");
+        case MethodType::CopyConstructor:
+            return std::string("copy");
+        case MethodType::MoveConstructor:
+            return std::string("move");
+        default:
+            return cpp_function.short_name;
     }
 }
 
@@ -1242,8 +1251,8 @@ FunctionNames compute_function_names(TypeRegistry& type_registry,
                                      const NodeRecord& cpp_record,
                                      const NodeRecord& c_record,
                                      const NodeFunction& cpp_function,
-                                     bool is_constructor) {
-    auto short_name = find_function_short_name(cpp_function, is_constructor);
+                                     MethodType method_type) {
+    auto short_name = find_function_short_name(cpp_function, method_type);
 
     return compute_function_names(type_registry, c_record, short_name);
 }
@@ -1362,9 +1371,22 @@ void record_method(TypeRegistry& type_registry, TranslationUnit& c_tu,
         record_method_body(type_registry, c_tu, cpp_record, c_record,
                            c_return_for_method, cpp_method);
 
+    auto method_type = MethodType::None;
+    if(cpp_method.is_constructor) {
+        method_type = MethodType::Constructor;
+    }
+    if(cpp_method.is_copy_constructor) {
+        method_type = MethodType::CopyConstructor;
+    }
+/*
+    if(cpp_method.is_move_constructor) {
+        method_type = MethodType::MoveConstructor;
+    }
+*/
+
     auto names =
         compute_function_names(type_registry, cpp_record, c_record, cpp_method,
-                               cpp_method.is_constructor);
+                               method_type);
 
     auto template_args = cpp_method.template_args;
 
@@ -1912,15 +1934,15 @@ void general_function(TypeRegistry& type_registry, TranslationUnit& c_tu,
     if (c_record == nullptr) {
         function_name = compute_c_name(
             compute_qualified_name(type_registry, cpp_function.namespaces,
-                                   find_function_short_name(cpp_function, false)
+                                   find_function_short_name(cpp_function, MethodType::None)
                                    ));
 
         function_nice_name = compute_c_name(compute_qualified_nice_name(
             type_registry, cpp_function.namespaces,
-            find_function_short_name(cpp_function, false)));
+            find_function_short_name(cpp_function, MethodType::None)));
     } else {
         auto names = compute_function_names(type_registry, *cpp_record,
-                                            *c_record, cpp_function, false);
+                                            *c_record, cpp_function, MethodType::None);
         function_name = names.long_name;
         function_nice_name = names.nice_name;
     }
