@@ -45,6 +45,7 @@ const char* COLLAPSE = "collapse";
 const char* COMMENT = "comment";
 const char* CONSTRUCTOR = "constructor";
 const char* COPY_CONSTRUCTOR = "copy_constructor";
+const char* MOVE_CONSTRUCTOR = "move_constructor";
 const char* CONST = "const";
 const char* DECLS = "decls";
 const char* ENUM_C = "Enum";
@@ -283,6 +284,7 @@ NodeMethod read_method(const nln::json& json) {
     auto constructor = json[CONSTRUCTOR].get<bool>();
     auto destructor = json[DESTRUCTOR].get<bool>();
     auto copy_constructor = json[COPY_CONSTRUCTOR].get<bool>();
+    auto move_constructor = json[MOVE_CONSTRUCTOR].get<bool>();
     auto return_type = read_type(json[RETURN]);
     auto const_ = json[CONST].get<bool>();
     auto comment = read_comment(json);
