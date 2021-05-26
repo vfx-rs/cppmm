@@ -384,7 +384,7 @@ NodePtr read_record(const TranslationUnit::Ptr& tu, const nln::json& json) {
         static const char FORCE_NAME[] = "cppmm|force_name|";
         if(pystring::startswith(a, FORCE_NAME)){
             const auto fn_len = sizeof(FORCE_NAME);
-            qual_name = pystring::slice(a, fn_len, -2);
+            qual_name = pystring::slice(a, fn_len, -1);
         }
     }
 
