@@ -6,6 +6,7 @@
 #include "base64.hpp"
 #include "filesystem.hpp"
 #include "json.hh"
+#include "pystring.h"
 
 #include <iostream>
 #include <memory>
@@ -377,6 +378,15 @@ NodePtr read_record(const TranslationUnit::Ptr& tu, const nln::json& json) {
 
     // Pull out the attributes
     std::vector<std::string> attrs = read_attrs(json);
+
+    // Force override the qualified name of the record on file read
+    for(auto a: attrs){
+        static const char FORCE_NAME[] = "cppmm|force_name|";
+        if(pystring::startswith(a, FORCE_NAME)){
+            const auto fn_len = sizeof(FORCE_NAME);
+            qual_name = pystring::slice(a, fn_len, -1);
+        }
+    }
 
     // Read the comment
     auto comment = read_comment(json);

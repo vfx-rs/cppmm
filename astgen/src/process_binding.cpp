@@ -906,6 +906,8 @@ void handle_typealias_decl(const TypeAliasDecl* tad, const CXXRecordDecl* crd) {
         return;
     }
 
+    auto attrs = get_attrs(tad);
+
     // First of all, make sure we have already processed the Record that this
     // alias refers to. I *think* this should always have happened, but not sure
     // yet
@@ -914,10 +916,17 @@ void handle_typealias_decl(const TypeAliasDecl* tad, const CXXRecordDecl* crd) {
         SPDLOG_DEBUG("Storing alias {} for {}", alias_name,
                      record_qualified_name);
         pending_aliases[mangled_name] = alias_name;
+
+        // TODO LT: Add pending_attrs
     } else {
         NodeId id_rec = it->second;
         NodeRecord* node_rec = (NodeRecord*)NODES[id_rec].get();
         node_rec->alias = alias_name;
+
+        // Add the typedef attributes to the node record.
+        for(auto i: attrs) {
+            node_rec->attrs.push_back(i);
+        }
     }
 }
 
