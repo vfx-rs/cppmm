@@ -236,16 +236,20 @@ void write_function_pointer_typedef(fmt::ostream& out, const NodePtr& node) {
 }
 
 //------------------------------------------------------------------------------
-void write_function_dcl(fmt::ostream& out, const NodePtr& node, Access access) {
+void write_function_dcl(fmt::ostream& out, const NodePtr& node, Access access,
+                        bool& wrote_anything) {
     const NodeFunction& function =
         *static_cast<const NodeFunction*>(node.get());
 
-    if (!function.comment.empty()) {
-        auto comment = function.comment;
-        out.print("/** {} */\n", comment);
-    }
     const bool private_ = (access == Access::Private);
     if (private_ == function.private_) {
+        wrote_anything = true;
+
+        if (!function.comment.empty()) {
+            auto comment = function.comment;
+            out.print("/** {} */\n", comment);
+        }
+
         out.print("{}(", convert_param(function.return_type, function.name));
         write_params(out, function);
         out.print(");\n");
@@ -254,13 +258,14 @@ void write_function_dcl(fmt::ostream& out, const NodePtr& node, Access access) {
 
 //------------------------------------------------------------------------------
 void write_function_define(fmt::ostream& out, const NodePtr& node,
-                           Access access) {
+                           Access access, bool& wrote_anything) {
     const NodeFunction& function =
         *static_cast<const NodeFunction*>(node.get());
 
     const bool private_ = (access == Access::Private);
     if (private_ == function.private_ && function.nice_name != "" &&
         function.name != function.nice_name) {
+        wrote_anything = true;
         out.print("#define {} {}\n\n", function.nice_name, function.name);
     }
 }
@@ -514,12 +519,15 @@ void write_expression(fmt::ostream& out, size_t depth,
 }
 
 //------------------------------------------------------------------------------
-void write_function_bdy(fmt::ostream& out, const NodePtr& node, Access access) {
+void write_function_bdy(fmt::ostream& out, const NodePtr& node, Access access,
+                        bool& wrote_anything) {
     const NodeFunction& function =
         *static_cast<const NodeFunction*>(node.get());
 
     const bool private_ = (access == Access::Private);
     if (private_ == function.private_) {
+        wrote_anything = true;
+
         if (function.inline_) {
             out.print("inline ");
         }
@@ -558,31 +566,36 @@ void write_function_bdy(fmt::ostream& out, const NodePtr& node, Access access) {
 }
 
 //------------------------------------------------------------------------------
-void write_function(fmt::ostream& out, const NodePtr& node, Access access,
+bool write_function(fmt::ostream& out, const NodePtr& node, Access access,
                     Place place) {
     const NodeFunction& function =
         *static_cast<const NodeFunction*>(node.get());
 
+    auto wrote_any = false;
     if (function.inline_) {
         switch (place) {
         case Place::Header:
-            write_function_bdy(out, node, access);
-            write_function_define(out, node, access);
-            return;
+            write_function_bdy(out, node, access, wrote_any);
+            write_function_define(out, node, access, wrote_any);
+            break;
         default:
-            return;
+            break;
         }
     } else {
         switch (place) {
         case Place::Header:
-            write_function_dcl(out, node, access);
-            write_function_define(out, node, access);
-            return;
+            write_function_dcl(out, node, access, wrote_any);
+            write_function_define(out, node, access, wrote_any);
+            break;
         case Place::Source:
-            write_function_bdy(out, node, access);
-            return;
+            write_function_bdy(out, node, access, wrote_any);
+            break;
+        default:
+            break;
         }
     }
+
+    return wrote_any;
 }
 
 //------------------------------------------------------------------------------
@@ -640,8 +653,9 @@ void write_private_header(const TranslationUnit& tu) {
     // Then all the private functions
     for (const auto& node : tu.decls) {
         if (node->kind == NodeKind::Function) {
-            out.print("\n");
-            write_function(out, node, Access::Private, Place::Header);
+            if (write_function(out, node, Access::Private, Place::Header)) {
+                out.print("\n");
+            }
         }
     }
 }
@@ -710,13 +724,12 @@ void write_header(const TranslationUnit& tu) {
         out.print("\n");
     }
 
-    wrote_any = false;
     // Then all the public functions
     for (const auto& node : tu.decls) {
         if (node->kind == NodeKind::Function) {
-            out.print("\n");
-            write_function(out, node, Access::Public, Place::Header);
-            wrote_any = true;
+            if (write_function(out, node, Access::Public, Place::Header)) {
+                out.print("\n");
+            }
         }
     }
 
@@ -736,7 +749,9 @@ void write_source(const TranslationUnit& tu) {
     // Write out the function definitions
     for (const auto& node : tu.decls) {
         if (node->kind == NodeKind::Function) {
-            write_function(out, node, Access::Public, Place::Source);
+            if (write_function(out, node, Access::Public, Place::Source)) {
+                out.print("\n");
+            }
         }
     }
 }
