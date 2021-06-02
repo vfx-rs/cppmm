@@ -7,15 +7,6 @@
 #include <cstring>
 #include <ex.hpp>
 
-
-/** returns the size of this type in bytes */
-
-/** returns the size of this type in bytes */
-
-
-
-
-
 inline ex::Struct const & to_cpp_ref(
     ex_Struct_t const * rhs)
 {
@@ -74,5 +65,4 @@ inline void to_c_copy(
 {
         memcpy(lhs, &(rhs), sizeof(*(lhs)));
 }
-
 

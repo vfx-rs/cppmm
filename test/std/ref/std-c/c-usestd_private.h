@@ -7,5 +7,3 @@
 #include <cstring>
 #include <usestd.hpp>
 
-
-

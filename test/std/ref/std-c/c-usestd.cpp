@@ -15,6 +15,7 @@ unsigned int usestd_takes_string(
         return -1;
     }
 }
+
 unsigned int usestd_takes_vector_string(
     std_vector_string_t const * v)
 {
@@ -26,3 +27,4 @@ unsigned int usestd_takes_vector_string(
         return -1;
     }
 }
+

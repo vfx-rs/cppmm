@@ -16,3 +16,4 @@ unsigned int imath__Matrix44_float__from_array(
         return -1;
     }
 }
+

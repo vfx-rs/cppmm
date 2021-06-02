@@ -32,10 +32,8 @@ impl ex__Struct_t {
 
 extern "C" {
 
-/// returns the size of this type in bytes
 pub fn ex__Struct_sizeof() -> usize;
 
-/// returns the size of this type in bytes
 pub fn ex__Struct_alignof() -> usize;
 
 pub fn ex__Struct_m1(this_: *mut ex_Struct_t) -> Exception;

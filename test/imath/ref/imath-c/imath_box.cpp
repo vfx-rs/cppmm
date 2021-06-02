@@ -16,6 +16,7 @@ unsigned int Imath_2_5__Box_Imath__Vec3_float___extendBy(
         return -1;
     }
 }
+
 unsigned int Imath_2_5__Box_Imath__Vec3_float___extendBy_1(
     Imath_Box3f_t * this_
     , Imath_Box3f_t const * box)
@@ -28,6 +29,7 @@ unsigned int Imath_2_5__Box_Imath__Vec3_float___extendBy_1(
         return -1;
     }
 }
+
 unsigned int Imath_2_5__Box_Imath__Vec3_int___extendBy(
     Imath_Box3i_t * this_
     , Imath_V3i_t const * point)
@@ -40,6 +42,7 @@ unsigned int Imath_2_5__Box_Imath__Vec3_int___extendBy(
         return -1;
     }
 }
+
 unsigned int Imath_2_5__Box_Imath__Vec3_int___extendBy_1(
     Imath_Box3i_t * this_
     , Imath_Box3i_t const * box)
@@ -52,3 +55,4 @@ unsigned int Imath_2_5__Box_Imath__Vec3_int___extendBy_1(
         return -1;
     }
 }
+

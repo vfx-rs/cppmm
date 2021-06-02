@@ -7,9 +7,6 @@
 #include <cstring>
 #include <dtor.hpp>
 
-
-
-
 inline dtor::Struct const & to_cpp_ref(
     dtor_Struct_t const * rhs)
 {
@@ -61,3 +58,4 @@ inline void to_c(
 {
         *(lhs) = reinterpret_cast<dtor_Struct_t * >(rhs);
 }
+

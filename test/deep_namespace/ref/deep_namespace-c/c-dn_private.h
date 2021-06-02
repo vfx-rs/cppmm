@@ -7,7 +7,6 @@
 #include <cstring>
 #include <dn.hpp>
 
-
 inline DN::v2_2::Class::Enum const & DN_Class_Enum_to_cpp_ref(
     DN_Class_Enum const * rhs)
 {
@@ -125,7 +124,6 @@ inline void to_c_copy(
 {
         memcpy(lhs, &(rhs), sizeof(*(lhs)));
 }
-
 
 inline DN::v2_2::Class::Struct const & to_cpp_ref(
     DN_Class_Struct_t const * rhs)

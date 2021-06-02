@@ -8,17 +8,6 @@
 #include <cstring>
 #include <vector>
 
-
-
-
-
-
-
-
-
-
-
-
 inline Imath_2_5::Vec3<float> const & to_cpp_ref(
     Imath_V3f_t const * rhs)
 {
@@ -78,15 +67,6 @@ inline void to_c_copy(
         memcpy(lhs, &(rhs), sizeof(*(lhs)));
 }
 
-
-
-
-
-
-
-
-
-
 inline Imath_2_5::Vec3<int> const & to_cpp_ref(
     Imath_V3i_t const * rhs)
 {
@@ -145,3 +125,4 @@ inline void to_c_copy(
 {
         memcpy(lhs, &(rhs), sizeof(*(lhs)));
 }
+

@@ -9,10 +9,12 @@ unsigned int std__set_std__string__sizeof()
 {
         return sizeof(std::set<std::string>);
 }
+
 unsigned int std__set_std__string__alignof()
 {
         return alignof(std::set<std::string>);
 }
+
 unsigned int std__set_std__string__ctor(
     std_set_string_t * this_)
 {
@@ -24,6 +26,7 @@ unsigned int std__set_std__string__ctor(
         return -1;
     }
 }
+
 unsigned int std__set_std__string__dtor(
     std_set_string_t * this_)
 {
@@ -35,6 +38,7 @@ unsigned int std__set_std__string__dtor(
         return -1;
     }
 }
+
 unsigned int std__set_std__string__cbegin(
     std_set_string_t const * this_
     , std_set_string_iterator_t * return_)
@@ -42,6 +46,7 @@ unsigned int std__set_std__string__cbegin(
         to_c_copy(return_, (to_cpp(this_)) -> cbegin());
         return 0;
 }
+
 unsigned int std__set_std__string__cend(
     std_set_string_t const * this_
     , std_set_string_iterator_t * return_)
@@ -49,6 +54,7 @@ unsigned int std__set_std__string__cend(
         to_c_copy(return_, (to_cpp(this_)) -> cend());
         return 0;
 }
+
 unsigned int std__set_std__string__size(
     std_set_string_t const * this_
     , unsigned long * return_)
@@ -56,6 +62,7 @@ unsigned int std__set_std__string__size(
         *(return_) = (to_cpp(this_)) -> size();
         return 0;
 }
+
 unsigned int std___Rb_tree_const_iterator_std____cxx11__basic_string_char___deref(
     std_set_string_iterator_t const * this_
     , std_string_t const * * return_)
@@ -63,6 +70,7 @@ unsigned int std___Rb_tree_const_iterator_std____cxx11__basic_string_char___dere
         to_c(return_, (to_cpp(this_)) -> operator*());
         return 0;
 }
+
 unsigned int std___Rb_tree_const_iterator_std____cxx11__basic_string_char___inc(
     std_set_string_iterator_t * this_
     , std_set_string_iterator_t * * return_)
@@ -70,6 +78,7 @@ unsigned int std___Rb_tree_const_iterator_std____cxx11__basic_string_char___inc(
         to_c(return_, (to_cpp(this_)) -> operator++());
         return 0;
 }
+
 unsigned int std_set_string_const_iterator_eq(
     _Bool * return_
     , std_set_string_iterator_t const * __x
@@ -78,3 +87,4 @@ unsigned int std_set_string_const_iterator_eq(
         *(return_) = (to_cpp_ref(__x) == to_cpp_ref(__y));
         return 0;
 }
+

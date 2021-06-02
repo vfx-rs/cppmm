@@ -10,7 +10,6 @@ typedef struct ex__Struct_t_s {
 typedef ex__Struct_t ex_Struct_t;
 
 
-
 /** returns the size of this type in bytes */
 unsigned int ex__Struct_sizeof();
 #define ex_Struct_sizeof ex__Struct_sizeof
@@ -47,20 +46,12 @@ unsigned int ex__Struct_m4(
 #define ex_Struct_m4 ex__Struct_m4
 
 
-
-
-
-
-
-
-
-
-
 unsigned int ex_f1(
     float * return_
     , int a);
 
 unsigned int ex_f2();
+
 #ifdef __cplusplus
 }
 #endif

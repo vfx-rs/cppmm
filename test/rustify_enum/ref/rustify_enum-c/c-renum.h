@@ -34,33 +34,6 @@ enum rustify__RgbaChannels_e {
 };
 typedef unsigned int rustify_RgbaChannels;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #ifdef __cplusplus
 }
 #endif

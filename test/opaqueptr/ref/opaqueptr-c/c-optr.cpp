@@ -15,6 +15,7 @@ unsigned int optr__PubCtor_ctor(
         return -1;
     }
 }
+
 unsigned int optr__PubCtor_dtor(
     optr_PubCtor_t * this_)
 {
@@ -26,6 +27,7 @@ unsigned int optr__PubCtor_dtor(
         return -1;
     }
 }
+
 unsigned int optr__PubCtor_doit(
     optr_PubCtor_t * this_)
 {
@@ -37,6 +39,7 @@ unsigned int optr__PubCtor_doit(
         return -1;
     }
 }
+
 unsigned int optr__PrvCtor_doit(
     optr_PrvCtor_t * this_)
 {
@@ -48,3 +51,4 @@ unsigned int optr__PrvCtor_doit(
         return -1;
     }
 }
+

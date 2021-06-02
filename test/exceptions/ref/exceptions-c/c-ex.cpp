@@ -7,10 +7,12 @@ unsigned int ex__Struct_sizeof()
 {
         return sizeof(ex::Struct);
 }
+
 unsigned int ex__Struct_alignof()
 {
         return alignof(ex::Struct);
 }
+
 unsigned int ex__Struct_m1(
     ex_Struct_t * this_)
 {
@@ -25,6 +27,7 @@ unsigned int ex__Struct_m1(
         return -1;
     }
 }
+
 unsigned int ex__Struct_m2(
     ex_Struct_t * this_
     , float * return_
@@ -44,6 +47,7 @@ unsigned int ex__Struct_m2(
         return -1;
     }
 }
+
 unsigned int ex__Struct_m3(
     ex_Struct_t const * this_
     , float * return_
@@ -52,6 +56,7 @@ unsigned int ex__Struct_m3(
         *(return_) = (to_cpp(this_)) -> m3(a);
         return 0;
 }
+
 unsigned int ex__Struct_m4(
     ex_Struct_t const * this_
     , float * return_
@@ -60,6 +65,7 @@ unsigned int ex__Struct_m4(
         *(return_) = (to_cpp(this_)) -> m4(a);
         return 0;
 }
+
 unsigned int ex_f1(
     float * return_
     , int a)
@@ -75,6 +81,7 @@ unsigned int ex_f1(
         return -1;
     }
 }
+
 unsigned int ex_f2()
 {
     try {
@@ -88,3 +95,4 @@ unsigned int ex_f2()
         return -1;
     }
 }
+

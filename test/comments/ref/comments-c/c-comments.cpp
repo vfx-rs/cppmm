@@ -14,6 +14,7 @@ unsigned int comments__Class_method(
         return -1;
     }
 }
+
 unsigned int comments_function()
 {
     try {
@@ -24,3 +25,4 @@ unsigned int comments_function()
         return -1;
     }
 }
+

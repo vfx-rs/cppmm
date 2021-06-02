@@ -24,16 +24,6 @@ typedef struct std___Rb_tree_const_iterator_std____cxx11__basic_string_char___t_
 typedef std___Rb_tree_const_iterator_std____cxx11__basic_string_char___t std_set_string_iterator_t;
 
 
-
-
-
-
-
-
-
-
-
-
 /** returns the size of this type in bytes */
 unsigned int std__set_std__string__sizeof();
 #define std_set_string_sizeof std__set_std__string__sizeof
@@ -72,14 +62,6 @@ unsigned int std__set_std__string__size(
 #define std_set_string_size std__set_std__string__size
 
 
-
-
-
-
-
-
-
-
 unsigned int std___Rb_tree_const_iterator_std____cxx11__basic_string_char___deref(
     std_set_string_iterator_t const * this_
     , std_string_t const * * return_);
@@ -92,19 +74,11 @@ unsigned int std___Rb_tree_const_iterator_std____cxx11__basic_string_char___inc(
 #define std_set_string_iterator_inc std___Rb_tree_const_iterator_std____cxx11__basic_string_char___inc
 
 
-
-
-
-
-
-
-
-
-
 unsigned int std_set_string_const_iterator_eq(
     _Bool * return_
     , std_set_string_iterator_t const * __x
     , std_set_string_iterator_t const * __y);
+
 #ifdef __cplusplus
 }
 #endif

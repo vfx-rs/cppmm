@@ -55,20 +55,16 @@ impl std__vector_std__string__t {
 
 extern "C" {
 
-/// returns the size of this type in bytes
 pub fn std____cxx11__basic_string_char__sizeof() -> usize;
 
-/// returns the size of this type in bytes
 pub fn std____cxx11__basic_string_char__alignof() -> usize;
 
 pub fn std____cxx11__basic_string_char__assign(this_: *mut std_string_t, return_: *mut *mut std_string_t, s: *const c_char, count: c_ulong) -> Exception;
 
 pub fn std____cxx11__basic_string_char__c_str(this_: *const std_string_t, return_: *mut *const c_char) -> Exception;
 
-/// returns the size of this type in bytes
 pub fn std__vector_std__string__sizeof() -> usize;
 
-/// returns the size of this type in bytes
 pub fn std__vector_std__string__alignof() -> usize;
 
 pub fn std__vector_std__string__ctor(this_: *mut std_vector_string_t) -> Exception;

@@ -12,24 +12,15 @@ typedef struct comments__Class_t_s {
 typedef comments__Class_t comments_Class_t;
 
 
-
 /** This method doesn't do anything interesting at all */
 unsigned int comments__Class_method(
     comments_Class_t * this_);
 #define comments_Class_method comments__Class_method
 
 
-
-
-
-
-
-
-
-
-
 /** This is a free function that also does nothing interesting */
 unsigned int comments_function();
+
 #ifdef __cplusplus
 }
 #endif

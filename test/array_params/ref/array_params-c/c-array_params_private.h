@@ -7,8 +7,6 @@
 #include <array_params.hpp>
 #include <cstring>
 
-
-
 inline imath::Matrix44<float> const & to_cpp_ref(
     imath_M44f_t const * rhs)
 {
@@ -67,3 +65,4 @@ inline void to_c_copy(
 {
         memcpy(lhs, &(rhs), sizeof(*(lhs)));
 }
+

@@ -7,8 +7,6 @@
 #include <cstring>
 #include <tmp_specs.hpp>
 
-
-
 inline specs::Attribute<int> const & to_cpp_ref(
     specs_IntAttribute_t const * rhs)
 {
@@ -67,7 +65,6 @@ inline void to_c_copy(
 {
         memcpy(lhs, &(rhs), sizeof(*(lhs)));
 }
-
 
 inline specs::Attribute<float> const & to_cpp_ref(
     specs_FloatAttribute_t const * rhs)
@@ -128,10 +125,6 @@ inline void to_c_copy(
         memcpy(lhs, &(rhs), sizeof(*(lhs)));
 }
 
-
-
-
-
 inline specs::Specs const & to_cpp_ref(
     specs_Specs_t const * rhs)
 {
@@ -190,3 +183,4 @@ inline void to_c_copy(
 {
         memcpy(lhs, &(rhs), sizeof(*(lhs)));
 }
+

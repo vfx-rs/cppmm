@@ -32,10 +32,8 @@ impl std____cxx11__basic_string_char__t {
 
 extern "C" {
 
-/// returns the size of this type in bytes
 pub fn std____cxx11__basic_string_char__sizeof() -> usize;
 
-/// returns the size of this type in bytes
 pub fn std____cxx11__basic_string_char__alignof() -> usize;
 
 pub fn std____cxx11__basic_string_char__ctor(this_: *mut std___cxx11_string_t) -> Exception;

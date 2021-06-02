@@ -8,7 +8,6 @@
 #include <set>
 #include <string>
 
-
 inline std::_Rb_tree_node_base const & to_cpp_ref(
     std__Rb_tree_node_base_t const * rhs)
 {
@@ -68,15 +67,6 @@ inline void to_c_copy(
         memcpy(lhs, &(rhs), sizeof(*(lhs)));
 }
 
-/** returns the size of this type in bytes */
-
-/** returns the size of this type in bytes */
-
-
-
-
-
-
 inline std::set<std::string> const & to_cpp_ref(
     std_set_string_t const * rhs)
 {
@@ -128,8 +118,6 @@ inline void to_c(
 {
         *(lhs) = reinterpret_cast<std_set_string_t * >(rhs);
 }
-
-
 
 inline std::_Rb_tree_const_iterator<std::__cxx11::basic_string<char> > const & to_cpp_ref(
     std_set_string_iterator_t const * rhs)

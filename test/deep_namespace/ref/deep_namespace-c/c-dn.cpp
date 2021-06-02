@@ -14,6 +14,7 @@ unsigned int DN__v2_2__Class__Struct_structMethod(
         return -1;
     }
 }
+
 unsigned int DN_v2_2_someFunction()
 {
     try {
@@ -24,3 +25,4 @@ unsigned int DN_v2_2_someFunction()
         return -1;
     }
 }
+

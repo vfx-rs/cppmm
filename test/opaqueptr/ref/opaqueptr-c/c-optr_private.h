@@ -7,10 +7,6 @@
 #include <cstring>
 #include <optr.hpp>
 
-
-
-
-
 inline optr::PubCtor const & to_cpp_ref(
     optr_PubCtor_t const * rhs)
 {
@@ -62,7 +58,6 @@ inline void to_c(
 {
         *(lhs) = reinterpret_cast<optr_PubCtor_t * >(rhs);
 }
-
 
 inline optr::PrvCtor const & to_cpp_ref(
     optr_PrvCtor_t const * rhs)
@@ -219,3 +214,4 @@ inline void to_c(
 {
         *(lhs) = reinterpret_cast<optr_Opaque_t * >(rhs);
 }
+

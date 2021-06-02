@@ -15,7 +15,6 @@ typedef struct std__vector_std__string__t_s {
 typedef std__vector_std__string__t std_vector_string_t;
 
 
-
 /** returns the size of this type in bytes */
 unsigned int std____cxx11__basic_string_char__sizeof();
 #define std_string_sizeof std____cxx11__basic_string_char__sizeof
@@ -40,14 +39,6 @@ unsigned int std____cxx11__basic_string_char__c_str(
 #define std_string_c_str std____cxx11__basic_string_char__c_str
 
 
-
-
-
-
-
-
-
-
 /** returns the size of this type in bytes */
 unsigned int std__vector_std__string__sizeof();
 #define std_vector_string_sizeof std__vector_std__string__sizeof
@@ -66,13 +57,6 @@ unsigned int std__vector_std__string__ctor(
 unsigned int std__vector_std__string__dtor(
     std_vector_string_t * this_);
 #define std_vector_string_dtor std__vector_std__string__dtor
-
-
-
-
-
-
-
 
 
 #ifdef __cplusplus

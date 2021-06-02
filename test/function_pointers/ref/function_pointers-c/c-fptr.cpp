@@ -15,3 +15,4 @@ unsigned int fptr_takes_ages(
         return -1;
     }
 }
+

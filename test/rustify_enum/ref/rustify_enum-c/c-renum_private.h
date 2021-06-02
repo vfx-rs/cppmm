@@ -7,7 +7,6 @@
 #include <cstring>
 #include <renum.hpp>
 
-
 inline rustify::Compression const & rustify_Compression_to_cpp_ref(
     rustify_Compression const * rhs)
 {
@@ -184,3 +183,4 @@ inline void to_c_copy(
 {
         memcpy(lhs, &(rhs), sizeof(*(lhs)));
 }
+

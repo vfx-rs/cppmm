@@ -8,16 +8,19 @@ unsigned int std____cxx11__basic_string_char__sizeof()
 {
         return sizeof(std::__cxx11::basic_string<char>);
 }
+
 unsigned int std____cxx11__basic_string_char__alignof()
 {
         return alignof(std::__cxx11::basic_string<char>);
 }
+
 unsigned int std____cxx11__basic_string_char__ctor(
     std___cxx11_string_t * this_)
 {
         new (this_) std::__cxx11::basic_string<char>();
         return 0;
 }
+
 unsigned int std____cxx11__basic_string_char__copy(
     std___cxx11_string_t * this_
     , std___cxx11_string_t const * rhs)
@@ -30,6 +33,7 @@ unsigned int std____cxx11__basic_string_char__copy(
         return -1;
     }
 }
+
 unsigned int std____cxx11__basic_string_char__dtor(
     std___cxx11_string_t * this_)
 {
@@ -41,6 +45,7 @@ unsigned int std____cxx11__basic_string_char__dtor(
         return -1;
     }
 }
+
 unsigned int std____cxx11__basic_string_char__assign(
     std___cxx11_string_t * this_
     , std___cxx11_string_t * * return_
@@ -55,6 +60,7 @@ unsigned int std____cxx11__basic_string_char__assign(
         return -1;
     }
 }
+
 unsigned int std____cxx11__basic_string_char__c_str(
     std___cxx11_string_t const * this_
     , char const * * return_)
@@ -62,3 +68,4 @@ unsigned int std____cxx11__basic_string_char__c_str(
         *(return_) = (to_cpp(this_)) -> c_str();
         return 0;
 }
+

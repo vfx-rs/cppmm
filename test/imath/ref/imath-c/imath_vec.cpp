@@ -15,6 +15,7 @@ unsigned int Imath_2_5__Vec3_float__ctor(
         return -1;
     }
 }
+
 unsigned int Imath_2_5__Vec3_float__ctor_1(
     Imath_V3f_t * this_
     , Imath_V3f_t const * rhs)
@@ -27,6 +28,7 @@ unsigned int Imath_2_5__Vec3_float__ctor_1(
         return -1;
     }
 }
+
 unsigned int Imath_2_5__Vec3_float__setValue(
     Imath_V3f_t * this_
     , float a
@@ -41,6 +43,7 @@ unsigned int Imath_2_5__Vec3_float__setValue(
         return -1;
     }
 }
+
 unsigned int Imath_2_5__Vec3_float__dot(
     Imath_V3f_t const * this_
     , float * return_
@@ -54,6 +57,7 @@ unsigned int Imath_2_5__Vec3_float__dot(
         return -1;
     }
 }
+
 unsigned int Imath_2_5__Vec3_float__cross(
     Imath_V3f_t const * this_
     , Imath_V3f_t * return_
@@ -67,6 +71,7 @@ unsigned int Imath_2_5__Vec3_float__cross(
         return -1;
     }
 }
+
 unsigned int Imath_2_5__Vec3_float__op_iadd(
     Imath_V3f_t * this_
     , Imath_V3f_t const * * return_
@@ -80,6 +85,7 @@ unsigned int Imath_2_5__Vec3_float__op_iadd(
         return -1;
     }
 }
+
 unsigned int Imath_2_5__Vec3_float__length(
     Imath_V3f_t const * this_
     , float * return_)
@@ -92,6 +98,7 @@ unsigned int Imath_2_5__Vec3_float__length(
         return -1;
     }
 }
+
 unsigned int Imath_2_5__Vec3_float__length2(
     Imath_V3f_t const * this_
     , float * return_)
@@ -104,6 +111,7 @@ unsigned int Imath_2_5__Vec3_float__length2(
         return -1;
     }
 }
+
 unsigned int Imath_2_5__Vec3_float__normalize(
     Imath_V3f_t * this_
     , Imath_V3f_t const * * return_)
@@ -116,6 +124,7 @@ unsigned int Imath_2_5__Vec3_float__normalize(
         return -1;
     }
 }
+
 unsigned int Imath_2_5__Vec3_float__normalized(
     Imath_V3f_t const * this_
     , Imath_V3f_t * return_)
@@ -128,6 +137,7 @@ unsigned int Imath_2_5__Vec3_float__normalized(
         return -1;
     }
 }
+
 unsigned int Imath_2_5__Vec3_int__ctor(
     Imath_V3i_t * this_)
 {
@@ -139,6 +149,7 @@ unsigned int Imath_2_5__Vec3_int__ctor(
         return -1;
     }
 }
+
 unsigned int Imath_2_5__Vec3_int__ctor_1(
     Imath_V3i_t * this_
     , Imath_V3i_t const * rhs)
@@ -151,6 +162,7 @@ unsigned int Imath_2_5__Vec3_int__ctor_1(
         return -1;
     }
 }
+
 unsigned int Imath_2_5__Vec3_int__dot(
     Imath_V3i_t const * this_
     , int * return_
@@ -164,6 +176,7 @@ unsigned int Imath_2_5__Vec3_int__dot(
         return -1;
     }
 }
+
 unsigned int Imath_2_5__Vec3_int__cross(
     Imath_V3i_t const * this_
     , Imath_V3i_t * return_
@@ -177,6 +190,7 @@ unsigned int Imath_2_5__Vec3_int__cross(
         return -1;
     }
 }
+
 unsigned int Imath_2_5__Vec3_int__op_iadd(
     Imath_V3i_t * this_
     , Imath_V3i_t const * * return_
@@ -190,6 +204,7 @@ unsigned int Imath_2_5__Vec3_int__op_iadd(
         return -1;
     }
 }
+
 unsigned int Imath_2_5__Vec3_int__length(
     Imath_V3i_t const * this_
     , int * return_)
@@ -202,6 +217,7 @@ unsigned int Imath_2_5__Vec3_int__length(
         return -1;
     }
 }
+
 unsigned int Imath_2_5__Vec3_int__length2(
     Imath_V3i_t const * this_
     , int * return_)
@@ -214,6 +230,7 @@ unsigned int Imath_2_5__Vec3_int__length2(
         return -1;
     }
 }
+
 unsigned int Imath_2_5__Vec3_int__normalize(
     Imath_V3i_t * this_
     , Imath_V3i_t const * * return_)
@@ -226,6 +243,7 @@ unsigned int Imath_2_5__Vec3_int__normalize(
         return -1;
     }
 }
+
 unsigned int Imath_2_5__Vec3_int__normalized(
     Imath_V3i_t const * this_
     , Imath_V3i_t * return_)
@@ -238,3 +256,4 @@ unsigned int Imath_2_5__Vec3_int__normalized(
         return -1;
     }
 }
+

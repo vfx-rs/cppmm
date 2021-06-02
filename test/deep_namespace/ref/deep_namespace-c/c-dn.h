@@ -23,41 +23,14 @@ typedef struct DN__v2_2__Class__Struct_t_s {
 typedef DN__v2_2__Class__Struct_t DN_Class_Struct_t;
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 unsigned int DN__v2_2__Class__Struct_structMethod(
     DN_Class_Struct_t * this_);
 #define DN_Class_Struct_structMethod DN__v2_2__Class__Struct_structMethod
 
 
-
-
-
-
-
-
-
-
-
 unsigned int DN_v2_2_someFunction();
 #define DN_someFunction DN_v2_2_someFunction
+
 
 #ifdef __cplusplus
 }

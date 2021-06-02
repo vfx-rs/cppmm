@@ -10,7 +10,6 @@ typedef struct std____cxx11__basic_string_char__t_s {
 typedef std____cxx11__basic_string_char__t std___cxx11_string_t;
 
 
-
 /** returns the size of this type in bytes */
 unsigned int std____cxx11__basic_string_char__sizeof();
 #define std___cxx11_string_sizeof std____cxx11__basic_string_char__sizeof
@@ -49,14 +48,6 @@ unsigned int std____cxx11__basic_string_char__c_str(
     std___cxx11_string_t const * this_
     , char const * * return_);
 #define std___cxx11_string_c_str std____cxx11__basic_string_char__c_str
-
-
-
-
-
-
-
-
 
 
 #ifdef __cplusplus

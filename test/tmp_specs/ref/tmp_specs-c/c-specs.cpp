@@ -15,6 +15,7 @@ unsigned int specs__Attribute_int__value(
         return -1;
     }
 }
+
 unsigned int specs__Attribute_float__value(
     specs_FloatAttribute_t * this_
     , float const * * return_)
@@ -27,6 +28,7 @@ unsigned int specs__Attribute_float__value(
         return -1;
     }
 }
+
 unsigned int specs__Specs_findAttribute_int(
     specs_Specs_t * this_
     , specs_IntAttribute_t * * return_
@@ -40,6 +42,7 @@ unsigned int specs__Specs_findAttribute_int(
         return -1;
     }
 }
+
 unsigned int specs__Specs_findAttribute_float(
     specs_Specs_t * this_
     , specs_FloatAttribute_t * * return_
@@ -53,6 +56,7 @@ unsigned int specs__Specs_findAttribute_float(
         return -1;
     }
 }
+
 unsigned int specs__Specs_findAttribute_int_const(
     specs_Specs_t const * this_
     , specs_IntAttribute_t const * * return_
@@ -66,6 +70,7 @@ unsigned int specs__Specs_findAttribute_int_const(
         return -1;
     }
 }
+
 unsigned int specs__Specs_findAttribute_float_const(
     specs_Specs_t const * this_
     , specs_FloatAttribute_t const * * return_
@@ -79,3 +84,4 @@ unsigned int specs__Specs_findAttribute_float_const(
         return -1;
     }
 }
+

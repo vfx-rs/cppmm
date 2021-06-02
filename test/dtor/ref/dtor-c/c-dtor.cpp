@@ -15,6 +15,7 @@ unsigned int dtor__Struct_ctor(
         return -1;
     }
 }
+
 unsigned int dtor__Struct_dtor(
     dtor_Struct_t * this_)
 {
@@ -26,3 +27,4 @@ unsigned int dtor__Struct_dtor(
         return -1;
     }
 }
+

@@ -23,7 +23,6 @@ typedef struct optr__Opaque_t_s optr__Opaque_t;
 typedef optr__Opaque_t optr_Opaque_t;
 
 
-
 unsigned int optr__PubCtor_ctor(
     optr_PubCtor_t * * this_);
 #define optr_PubCtor_ctor optr__PubCtor_ctor
@@ -39,40 +38,9 @@ unsigned int optr__PubCtor_doit(
 #define optr_PubCtor_doit optr__PubCtor_doit
 
 
-
-
-
-
-
-
-
-
 unsigned int optr__PrvCtor_doit(
     optr_PrvCtor_t * this_);
 #define optr_PrvCtor_doit optr__PrvCtor_doit
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 #ifdef __cplusplus

@@ -42,10 +42,8 @@ pub struct std___Rb_tree_const_iterator_std____cxx11__basic_string_char___t {
 
 extern "C" {
 
-/// returns the size of this type in bytes
 pub fn std__set_std__string__sizeof() -> usize;
 
-/// returns the size of this type in bytes
 pub fn std__set_std__string__alignof() -> usize;
 
 pub fn std__set_std__string__ctor(this_: *mut std_set_string_t) -> Exception;

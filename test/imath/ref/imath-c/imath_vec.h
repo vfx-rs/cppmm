@@ -19,7 +19,6 @@ typedef struct Imath_2_5__Vec3_int__t_s {
 typedef Imath_2_5__Vec3_int__t Imath_V3i_t;
 
 
-
 unsigned int Imath_2_5__Vec3_float__ctor(
     Imath_V3f_t * this_);
 #define Imath_V3f_ctor Imath_2_5__Vec3_float__ctor
@@ -84,15 +83,6 @@ unsigned int Imath_2_5__Vec3_float__normalized(
 #define Imath_V3f_normalized Imath_2_5__Vec3_float__normalized
 
 
-
-
-
-
-
-
-
-
-
 unsigned int Imath_2_5__Vec3_int__ctor(
     Imath_V3i_t * this_);
 #define Imath_V3i_ctor Imath_2_5__Vec3_int__ctor
@@ -147,14 +137,6 @@ unsigned int Imath_2_5__Vec3_int__normalized(
     Imath_V3i_t const * this_
     , Imath_V3i_t * return_);
 #define Imath_V3i_normalized Imath_2_5__Vec3_int__normalized
-
-
-
-
-
-
-
-
 
 
 #ifdef __cplusplus

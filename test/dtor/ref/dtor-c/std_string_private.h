@@ -7,16 +7,6 @@
 #include <cstring>
 #include <string>
 
-
-/** returns the size of this type in bytes */
-
-/** returns the size of this type in bytes */
-
-
-
-
-
-
 inline std::__cxx11::basic_string<char> const & to_cpp_ref(
     std___cxx11_string_t const * rhs)
 {
@@ -75,3 +65,4 @@ inline void to_c_copy(
 {
         std____cxx11__basic_string_char__copy(lhs, reinterpret_cast<std___cxx11_string_t const * >(&(rhs)));
 }
+

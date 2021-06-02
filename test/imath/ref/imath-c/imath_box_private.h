@@ -7,9 +7,6 @@
 #include <OpenEXR/ImathBox.h>
 #include <cstring>
 
-
-
-
 inline Imath_2_5::Box<Imath::Vec3<float> > const & to_cpp_ref(
     Imath_Box3f_t const * rhs)
 {
@@ -69,8 +66,6 @@ inline void to_c_copy(
         memcpy(lhs, &(rhs), sizeof(*(lhs)));
 }
 
-
-
 inline Imath_2_5::Box<Imath::Vec3<int> > const & to_cpp_ref(
     Imath_Box3i_t const * rhs)
 {
@@ -129,3 +124,4 @@ inline void to_c_copy(
 {
         memcpy(lhs, &(rhs), sizeof(*(lhs)));
 }
+

@@ -7,4 +7,3 @@
 #include <cstring>
 #include <fptr.hpp>
 
-

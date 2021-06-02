@@ -7,9 +7,6 @@
 #include <comments.hpp>
 #include <cstring>
 
-
-/** This method doesn't do anything interesting at all */
-
 inline comments::Class const & to_cpp_ref(
     comments_Class_t const * rhs)
 {
@@ -69,4 +66,3 @@ inline void to_c_copy(
         memcpy(lhs, &(rhs), sizeof(*(lhs)));
 }
 
-/** This is a free function that also does nothing interesting */
