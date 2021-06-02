@@ -171,11 +171,12 @@ void write_function(fmt::ostream& out, const NodeFunction* node_function) {
 
     std::vector<std::string> params = convert_params(node_function->params);
 
-    if (!node_function->comment.empty()) {
-        auto comment =
-            pystring::replace(node_function->comment, "\n", "\n/// ");
-        out.print("/// {}\n", comment);
-    }
+    // disable this until we can sanitize any formatting that will break rustdoc
+    // if (!node_function->comment.empty()) {
+    //     auto comment =
+    //         pystring::replace(node_function->comment, "\n", "\n/// ");
+    //     out.print("/// {}\n", comment);
+    // }
     out.print("pub fn {}({})", node_function->name,
               pystring::join(", ", params));
 
