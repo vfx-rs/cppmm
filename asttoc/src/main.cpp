@@ -150,8 +150,8 @@ int main(int argc, char** argv) {
     }
 
     // create the c and rust directories
-    fs::path c_dir = out_dir / fmt::format("{}-c", project_name);
     fs::path rust_dir = out_dir / fmt::format("{}-sys", project_name);
+    fs::path c_dir = rust_dir / fmt::format("{}-c", project_name);
 
     // attempt to create the output directory if it doesn't exist
     if (!fs::is_directory(c_dir) && !fs::create_directories(c_dir)) {
