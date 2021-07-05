@@ -1,6 +1,6 @@
 
 fn main() {
-    let dst = cmake::Config::new("/home/anders/code/cppmm/build/test/exceptions/output/exceptions-c").build();
+    let dst = cmake::Config::new("/home/anders/code/cppmm/build/test/exceptions/output/exceptions-sys/exceptions-c").build();
     println!("cargo:rustc-link-search=native={}", dst.display());
     println!("cargo:rustc-link-lib=dylib=exceptions-c-0_1");
 

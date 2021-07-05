@@ -1,6 +1,6 @@
 
 fn main() {
-    let dst = cmake::Config::new("/home/anders/code/cppmm/build/test/imath/output/imath-c").build();
+    let dst = cmake::Config::new("/home/anders/code/cppmm/build/test/imath/output/imath-sys/imath-c").build();
     println!("cargo:rustc-link-search=native={}", dst.display());
     println!("cargo:rustc-link-lib=dylib=imath-c-0_1");
 
