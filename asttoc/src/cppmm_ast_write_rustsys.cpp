@@ -194,10 +194,10 @@ void write_function(fmt::ostream& out, const NodeFunction* node_function) {
 }
 
 void write_record(fmt::ostream& out, const NodeRecord* node_record) {
-    if (!node_record->comment.empty()) {
-        auto comment = pystring::replace(node_record->comment, "\n", "\n/// ");
-        out.print("/// {}\n", comment);
-    }
+    // if (!node_record->comment.empty()) {
+    //     auto comment = pystring::replace(node_record->comment, "\n", "\n///
+    //     "); out.print("/// {}\n", comment);
+    // }
 
     BindType bt = bind_type(*node_record);
 
@@ -305,10 +305,10 @@ void write_enum(fmt::ostream& out, const NodeEnum* node_enum) {
     bool rustify = has_rustify_enum_attr(node_enum);
     std::string pub = "pub ";
 
-    if (!node_enum->comment.empty()) {
-        auto comment = pystring::replace(node_enum->comment, "\n", "\n/// ");
-        out.print("/// {}\n", comment);
-    }
+    // if (!node_enum->comment.empty()) {
+    //     auto comment = pystring::replace(node_enum->comment, "\n", "\n/// ");
+    //     out.print("/// {}\n", comment);
+    // }
     out.print("#[repr(transparent)]\n#[derive(Debug, Copy, Clone, PartialEq, "
               "Eq)]\n{0}struct "
               "{1}({0}{2});\n",
@@ -584,6 +584,7 @@ edition = "2018"
 
 [build-dependencies]
 cmake = "0.1"
+regex = "^1.5"
 
 [dependencies]
 )",

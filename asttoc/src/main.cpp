@@ -45,6 +45,14 @@ static cl::list<std::string>
     opt_lib_dir("L", cl::desc("Directories you can find libraries in."),
                 cl::ZeroOrMore);
 
+static cl::list<std::string>
+    opt_find_package("fp", cl::desc("Packages to find under CMAKE_PREFIX_PATH"),
+                     cl::ZeroOrMore);
+
+static cl::list<std::string>
+    opt_target_link_libraries("tll", cl::desc("Targets to link to"),
+                              cl::ZeroOrMore);
+
 static cl::opt<int> opt_verbosity(
     "v", cl::desc("Verbosity. 0=errors, 1=warnings, 2=info, 3=debug, 4=trace"),
     cl::init(1));
@@ -69,8 +77,10 @@ template <typename T> std::vector<std::string> to_vector(const T& t) {
 
 void generate(const char* input, const char* project_name, const char* output,
               const char* rust_output, const cppmm::Libs& libs,
-              const cppmm::LibDirs& lib_dirs, int version_major,
-              int version_minor, int version_patch) {
+              const cppmm::LibDirs& lib_dirs,
+              const std::vector<std::string>& find_packages,
+              const std::vector<std::string>& target_link_libraries,
+              int version_major, int version_minor, int version_patch) {
     const std::string input_directory = input;
     const std::string output_directory = output;
 
@@ -88,9 +98,16 @@ void generate(const char* input, const char* project_name, const char* output,
     cppmm::write::c(c_project_name.c_str(), cpp_ast, starting_point);
 
     // Create a cmake file as well
-    cppmm::write::cmake(c_project_name.c_str(), cpp_ast, starting_point, libs,
-                        lib_dirs, version_major, version_minor, version_patch,
-                        project_name);
+    if (find_packages.empty() && target_link_libraries.empty()) {
+        cppmm::write::cmake(c_project_name.c_str(), cpp_ast, starting_point,
+                            libs, lib_dirs, version_major, version_minor,
+                            version_patch, project_name);
+    } else {
+        cppmm::write::cmake_modern(c_project_name.c_str(), cpp_ast,
+                                   starting_point, find_packages,
+                                   target_link_libraries, version_major,
+                                   version_minor, version_patch, project_name);
+    }
 
     std::string cwd = fs::current_path().string();
     std::string c_dir = pystring::os::path::abspath(output_directory, cwd);
@@ -176,9 +193,12 @@ int main(int argc, char** argv) {
 
     auto libs = to_vector(opt_lib);
     auto lib_dirs = to_vector(opt_lib_dir);
+    auto find_packages = to_vector(opt_find_package);
+    auto target_link_libraries = to_vector(opt_target_link_libraries);
     generate(opt_in_dir.c_str(), project_name.c_str(), c_dir.c_str(),
-             rust_dir.c_str(), libs, lib_dirs, opt_version_major,
-             opt_version_minor, opt_version_patch);
+             rust_dir.c_str(), libs, lib_dirs, find_packages,
+             target_link_libraries, opt_version_major, opt_version_minor,
+             opt_version_patch);
 
     return 0;
 }
