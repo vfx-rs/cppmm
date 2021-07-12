@@ -1,14 +1,13 @@
-#include <c-dtor_private.h>
+#include "c-comments_private.h"
 
-#include <new>
 
 #include <stdexcept>
 
-unsigned int dtor__Struct_ctor(
-    dtor_Struct_t * * this_)
+unsigned int comments__Class_method(
+    comments_Class_t * this_)
 {
     try {
-        to_c(this_, new dtor::Struct());
+        (to_cpp(this_)) -> method();
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -16,11 +15,10 @@ unsigned int dtor__Struct_ctor(
     }
 }
 
-unsigned int dtor__Struct_dtor(
-    dtor_Struct_t * this_)
+unsigned int comments_function()
 {
     try {
-        delete to_cpp(this_);
+        comments::function();
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();

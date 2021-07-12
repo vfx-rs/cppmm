@@ -1,13 +1,14 @@
-#include <c-dn_private.h>
+#include "c-dtor_private.h"
 
+#include <new>
 
 #include <stdexcept>
 
-unsigned int DN__v2_2__Class__Struct_structMethod(
-    DN_Class_Struct_t * this_)
+unsigned int dtor__Struct_ctor(
+    dtor_Struct_t * * this_)
 {
     try {
-        (to_cpp(this_)) -> structMethod();
+        to_c(this_, new dtor::Struct());
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -15,10 +16,11 @@ unsigned int DN__v2_2__Class__Struct_structMethod(
     }
 }
 
-unsigned int DN_v2_2_someFunction()
+unsigned int dtor__Struct_dtor(
+    dtor_Struct_t * this_)
 {
     try {
-        DN::v2_2::someFunction();
+        delete to_cpp(this_);
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();

@@ -1,4 +1,4 @@
-#include <std_string_private.h>
+#include "std_string_private.h"
 
 #include <new>
 
@@ -62,7 +62,7 @@ unsigned int std__vector_std__string__ctor(
 unsigned int std__vector_std__string__dtor(
     std_vector_string_t * this_)
 {
-        (to_cpp(this_)) -> std::vector<std::__cxx11::basic_string<char>, std::allocator<std::__cxx11::basic_string<char> > >::~vector();
+        (to_cpp(this_)) -> std::vector<std::__cxx11::basic_string<char>, std::allocator<std::__cxx11::basic_string<char>>>::~vector();
         return 0;
 }
 

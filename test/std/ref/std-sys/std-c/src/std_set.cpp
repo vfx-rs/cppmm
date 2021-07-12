@@ -1,7 +1,7 @@
-#include <std_set_private.h>
+#include "std_set_private.h"
 
+#include "std_string_private.h"
 #include <new>
-#include <std_string_private.h>
 
 #include <stdexcept>
 
@@ -31,7 +31,7 @@ unsigned int std__set_std__string__dtor(
     std_set_string_t * this_)
 {
     try {
-        (to_cpp(this_)) -> std::set<std::__cxx11::basic_string<char>, std::less<std::__cxx11::basic_string<char> >, std::allocator<std::__cxx11::basic_string<char> > >::~set();
+        (to_cpp(this_)) -> std::set<std::__cxx11::basic_string<char>, std::less<std::__cxx11::basic_string<char>>, std::allocator<std::__cxx11::basic_string<char>>>::~set();
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();

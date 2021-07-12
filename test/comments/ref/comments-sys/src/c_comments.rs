@@ -5,8 +5,6 @@
 use crate::*;
 use std::os::raw::*;
 
-/// A test class to make sure we can
-/// grab comments to be injected into C and Rust
 #[repr(C)]
 pub struct comments__Class_t {
     _unused: [u8; 0],

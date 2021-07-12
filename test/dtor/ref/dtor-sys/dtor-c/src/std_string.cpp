@@ -1,4 +1,4 @@
-#include <std_string_private.h>
+#include "std_string_private.h"
 
 #include <new>
 
@@ -38,7 +38,7 @@ unsigned int std____cxx11__basic_string_char__dtor(
     std___cxx11_string_t * this_)
 {
     try {
-        (to_cpp(this_)) -> std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::~basic_string();
+        (to_cpp(this_)) -> std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char>>::~basic_string();
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();

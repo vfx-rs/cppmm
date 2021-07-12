@@ -1,6 +1,6 @@
-#include <imath_box_private.h>
+#include "imath_box_private.h"
 
-#include <imath_vec_private.h>
+#include "imath_vec_private.h"
 
 #include <stdexcept>
 

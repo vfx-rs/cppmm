@@ -624,8 +624,13 @@ void write_source_includes(fmt::ostream& out, const TranslationUnit& tu) {
 
 //------------------------------------------------------------------------------
 void write_private_header(const TranslationUnit& tu) {
-    auto out =
-        fmt::output_file(compute_c_header_path(tu.filename, "_private.h"));
+    std::string head, tail;
+    pystring::os::path::split(head, tail, tu.filename);
+    std::string basename, ext;
+    pystring::os::path::splitext(basename, ext, tail);
+    std::string filename =
+        pystring::os::path::join({head, "src", basename + "_private.h"});
+    auto out = fmt::output_file(filename);
 
     out.print("#pragma once\n");
 
@@ -662,7 +667,13 @@ void write_private_header(const TranslationUnit& tu) {
 
 //------------------------------------------------------------------------------
 void write_header(const TranslationUnit& tu) {
-    auto out = fmt::output_file(compute_c_header_path(tu.filename, ".h"));
+    std::string head, tail;
+    pystring::os::path::split(head, tail, tu.filename);
+    std::string basename, ext;
+    pystring::os::path::splitext(basename, ext, tail);
+    std::string filename =
+        pystring::os::path::join({head, "include", basename + ".h"});
+    auto out = fmt::output_file(filename);
 
     out.print("#pragma once\n");
 
@@ -739,7 +750,10 @@ void write_header(const TranslationUnit& tu) {
 
 //------------------------------------------------------------------------------
 void write_source(const TranslationUnit& tu) {
-    auto out = fmt::output_file(tu.filename);
+    std::string head, tail;
+    pystring::os::path::split(head, tail, tu.filename);
+    std::string filename = pystring::os::path::join({head, "src", tail});
+    auto out = fmt::output_file(filename);
 
     // Write out the source includes
     write_source_includes(out, tu);
@@ -758,6 +772,7 @@ void write_source(const TranslationUnit& tu) {
 
 //------------------------------------------------------------------------------
 void write_translation_unit(const TranslationUnit& tu) {
+    SPDLOG_WARN("writing TU {}", tu.filename);
     write_header(tu);
     write_private_header(tu);
     write_source(tu);
@@ -833,9 +848,9 @@ void cerrors(const char* output_dir, Root& root, size_t starting_point,
         fs::path(fmt::format("{}-errors-private.h", project_name));
     auto source_fn = fs::path(basename).replace_extension(".cpp");
 
-    auto header_path = fs::path(output_dir) / header_fn;
-    auto private_header_path = fs::path(output_dir) / private_header_fn;
-    auto source_path = fs::path(output_dir) / source_fn;
+    auto header_path = fs::path(output_dir) / "include" / header_fn;
+    auto private_header_path = fs::path(output_dir) / "src" / private_header_fn;
+    auto source_path = fs::path(output_dir) / "src" / source_fn;
 
     write_error_header(header_path.c_str(), project_name);
     write_error_header_private(private_header_path.c_str(), project_name);

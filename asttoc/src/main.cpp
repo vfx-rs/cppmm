@@ -91,6 +91,20 @@ void generate(const char* input, const char* project_name, const char* output,
     auto starting_point = cpp_ast.tus.size();
     cppmm::transform::add_c(output_directory, cpp_ast);
 
+    // make the source and include directories
+    auto src_dir = fs::path(output_directory) / "src";
+    if (!fs::is_directory(src_dir) && !fs::create_directories(src_dir)) {
+        SPDLOG_CRITICAL("Could not create output directory \"{}\"",
+                        src_dir.string());
+    }
+
+    auto include_dir = fs::path(output_directory) / "include";
+    if (!fs::is_directory(include_dir) &&
+        !fs::create_directories(include_dir)) {
+        SPDLOG_CRITICAL("Could not create output directory \"{}\"",
+                        include_dir.string());
+    }
+
     // Save out only the c translation units
     std::string c_project_name = fmt::format("{}-c", project_name);
     cppmm::write::cerrors(output_directory.c_str(), cpp_ast, starting_point,

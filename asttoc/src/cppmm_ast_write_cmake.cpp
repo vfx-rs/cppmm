@@ -79,10 +79,12 @@ void cmake(const char* project_name, const Root& root, size_t starting_point,
     for (size_t i = starting_point; i < size; ++i) {
         const auto& tu = root.tus[i];
 
-        // For now we assume the output source code is in the same
-        // folder as the CMakeLists.txt file
+        // Source files are in a 'src' subdirectory
         indent(out, 1);
-        out.print("{}\n", fs::path(tu->filename).filename().c_str());
+        std::string head, tail;
+        pystring::os::path::split(head, tail, tu->filename);
+        std::string filename = pystring::os::path::join("src", tail);
+        out.print("{}\n", filename);
 
         // Add all the include paths
         for (auto& i : tu->include_paths) {
@@ -90,7 +92,7 @@ void cmake(const char* project_name, const Root& root, size_t starting_point,
         }
     }
     indent(out, 1);
-    out.print("{}\n", fmt::format("{}-errors.cpp", base_project_name));
+    out.print("{}\n", fmt::format("src/{}-errors.cpp", base_project_name));
     out.print(")\n");
 
     out.print("set(LIBNAME {}-{}_{})\n", project_name, version_major,
@@ -99,7 +101,8 @@ void cmake(const char* project_name, const Root& root, size_t starting_point,
     out.print("add_library(${{LIBNAME}}-shared SHARED ${{SOURCES}})\n");
 
     // Add the include path of the output headers
-    include_paths.insert(compute_out_include_path("./"));
+    // include_paths.insert(compute_out_include_path("./"));
+    include_paths.insert("include");
 
     // Include directories
     for (auto& include_path : include_paths) {

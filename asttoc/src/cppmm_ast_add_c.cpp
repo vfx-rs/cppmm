@@ -1377,8 +1377,7 @@ void record_method(TypeRegistry& type_registry, TranslationUnit& c_tu,
     }
     if (cpp_method.is_copy_constructor) {
         method_type = MethodType::CopyConstructor;
-    }
-    else if (cpp_method.is_move_constructor) {
+    } else if (cpp_method.is_move_constructor) {
         method_type = MethodType::MoveConstructor;
     }
 
@@ -2193,6 +2192,13 @@ std::string header_file_include(std::string header_filename) {
     return result;
 }
 
+std::string private_header_file_include(std::string header_filename) {
+    std::string result = "#include \"";
+    result += header_filename;
+    result += "\"";
+    return result;
+}
+
 //------------------------------------------------------------------------------
 void translation_unit_entries(NodeId& new_id, TypeRegistry& type_registry,
                               const std::string& output_directory, Root& root,
@@ -2213,7 +2219,7 @@ void translation_unit_entries(NodeId& new_id, TypeRegistry& type_registry,
     auto c_tu = TranslationUnit::new_(std::get<Source>(filepaths));
     c_tu->header_filename = header_file_include(std::get<Header>(filepaths));
     c_tu->private_header_filename =
-        header_file_include(std::get<PrivateHeader>(filepaths));
+        private_header_file_include(std::get<PrivateHeader>(filepaths));
     c_tu->include_paths = cpp_tu->include_paths;
     c_tu->private_includes.insert("#include <cstring>");
 

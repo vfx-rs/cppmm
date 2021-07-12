@@ -1,13 +1,13 @@
-#include <c-comments_private.h>
+#include "c-dn_private.h"
 
 
 #include <stdexcept>
 
-unsigned int comments__Class_method(
-    comments_Class_t * this_)
+unsigned int DN__v2_2__Class__Struct_structMethod(
+    DN_Class_Struct_t * this_)
 {
     try {
-        (to_cpp(this_)) -> method();
+        (to_cpp(this_)) -> structMethod();
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -15,10 +15,10 @@ unsigned int comments__Class_method(
     }
 }
 
-unsigned int comments_function()
+unsigned int DN_v2_2_someFunction()
 {
     try {
-        comments::function();
+        DN::v2_2::someFunction();
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
