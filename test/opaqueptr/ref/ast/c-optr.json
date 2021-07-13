@@ -1,6 +1,6 @@
 {
     "kind": "TranslationUnit",
-    "filename": "/home/anders/code/cppmm/test/opaqueptr/bind/c-optr.cpp",
+    "filename": "c-optr.cpp",
     "source_includes": [
         "#include <optr.hpp>",
         "#include <cppmm_bind.hpp>"

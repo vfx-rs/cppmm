@@ -1,6 +1,6 @@
 {
     "kind": "TranslationUnit",
-    "filename": "/home/anders/code/cppmm/test/std/bind/c-usestd.cpp",
+    "filename": "c-usestd.cpp",
     "source_includes": [
         "#include <usestd.hpp>"
     ],

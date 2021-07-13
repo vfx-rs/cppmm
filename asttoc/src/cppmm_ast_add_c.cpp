@@ -7,7 +7,9 @@
 #include <iostream>
 #include <unordered_map>
 
+#include "filesystem.hpp"
 #include <cstdlib> // for exit function
+namespace fs = ghc::filesystem;
 
 #define SPDLOG_ACTIVE_LEVEL TRACE
 
@@ -172,14 +174,11 @@ std::tuple<std::string, std::string, std::string>
 compute_c_filepath(const std::string& outdir, const std::string& cpp_filepath) {
     std::string root;
     std::string _ext;
-    pystring::os::path::splitext(root, _ext,
-                                 pystring::os::path::basename(cpp_filepath));
-
-    const auto abs_root = pystring::os::path::join(outdir, root);
+    pystring::os::path::splitext(root, _ext, cpp_filepath);
 
     return {
         root + ".h",
-        abs_root + ".cpp",
+        root + ".cpp",
         root + "_private.h",
     };
 }
@@ -2194,7 +2193,7 @@ std::string header_file_include(std::string header_filename) {
 
 std::string private_header_file_include(std::string header_filename) {
     std::string result = "#include \"";
-    result += header_filename;
+    result += fs::path(header_filename).filename().string();
     result += "\"";
     return result;
 }

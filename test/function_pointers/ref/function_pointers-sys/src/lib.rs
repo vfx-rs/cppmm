@@ -41,9 +41,9 @@ extern {
     pub fn function_pointers_get_exception_string() -> *const std::os::raw::c_char;
 }
 
-pub mod c_fptr;
 
 pub use c_fptr::fptr_takes_ages as fptr_takes_ages;
+pub mod c_fptr;
 
 
 #[cfg(test)]

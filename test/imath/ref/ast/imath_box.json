@@ -1,6 +1,6 @@
 {
     "kind": "TranslationUnit",
-    "filename": "/home/anders/code/cppmm/test/imath/bind/imath_box.cpp",
+    "filename": "imath_box.cpp",
     "source_includes": [
         "#include <OpenEXR/ImathBox.h>",
         "#include <cppmm_bind.hpp>"

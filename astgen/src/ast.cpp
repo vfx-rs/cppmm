@@ -481,14 +481,22 @@ void NodeFunctionPointerTypedef::write_json(json& o) const {
 /// Write out the AST to json output files. Each NodeTranslationUnit which
 /// is a child of the ROOT is written to its own json file and all decls in
 /// that TU are written recursively
-void write_tus(std::string output_dir) {
+void write_tus(std::string output_dir, const std::string& src_path) {
     for (const auto& id : ROOT) {
         NodeTranslationUnit* tu = (NodeTranslationUnit*)NODES.at(id).get();
+        SPDLOG_DEBUG("Writing TU {}", tu->qualified_name);
         auto tu_path = fs::path(tu->qualified_name);
-        auto stem = tu_path.stem();
-        auto parent = tu_path.parent_path();
-        auto out_path = output_dir / stem;
-        out_path += fs::path(".json");
+        auto prox = fs::proximate(tu_path, src_path);
+        SPDLOG_DEBUG("prox: {}", prox.string());
+        // auto stem = tu_path.stem();
+        // auto parent = tu_path.parent_path();
+        // auto out_path = output_dir / stem;
+        auto out_path = output_dir / prox;
+        // replace TU path with proximate path
+        tu->qualified_name = prox;
+        out_path.replace_extension(".json");
+        SPDLOG_DEBUG("out_path: {}", out_path);
+        fs::create_directories(out_path.parent_path());
         std::ofstream os;
         os.open(out_path.string(), std::ios::out | std::ios::trunc);
         auto j = json::object();

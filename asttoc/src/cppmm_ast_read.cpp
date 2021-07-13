@@ -380,9 +380,9 @@ NodePtr read_record(const TranslationUnit::Ptr& tu, const nln::json& json) {
     std::vector<std::string> attrs = read_attrs(json);
 
     // Force override the qualified name of the record on file read
-    for(auto a: attrs){
+    for (auto a : attrs) {
         static const char FORCE_NAME[] = "cppmm|force_name|";
-        if(pystring::startswith(a, FORCE_NAME)){
+        if (pystring::startswith(a, FORCE_NAME)) {
             const auto fn_len = sizeof(FORCE_NAME);
             qual_name = pystring::slice(a, fn_len, -1);
         }
@@ -577,7 +577,7 @@ Root json(const std::string& input_directory) {
 
     std::vector<TranslationUnit::Ptr> tus;
 
-    for (const auto& p : fs::directory_iterator(input_directory)) {
+    for (const auto& p : fs::recursive_directory_iterator(input_directory)) {
         if (p.path().extension() == ".json") {
             // Open the json file
             std::ifstream input_file;

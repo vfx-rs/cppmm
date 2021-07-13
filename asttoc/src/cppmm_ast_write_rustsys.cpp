@@ -376,10 +376,11 @@ void write_enum(fmt::ostream& out, const NodeEnum* node_enum) {
 void write_translation_unit(const char* out_dir, fmt::ostream& out_lib,
                             const TranslationUnit& tu) {
     fs::path rust_src = fs::path(out_dir) / "src";
-    fs::path tu_stem = fs::path(tu.filename).stem();
+    fs::path tu_stem = fs::path(tu.filename).replace_extension("");
     std::string mod_name = pystring::replace(tu_stem.string(), "-", "_");
 
     fs::path rust_mod = rust_src / (mod_name + ".rs");
+    fs::create_directories(rust_mod.parent_path());
     auto out = fmt::output_file(rust_mod.string());
 
     std::vector<NodeFunction*> node_functions;
@@ -396,7 +397,11 @@ void write_translation_unit(const char* out_dir, fmt::ostream& out_lib,
         }
     }
 
-    out_lib.print("pub mod {};\n", mod_name);
+    // out_lib.print("pub mod {};\n", mod_name);
+    std::string new_mod_name = "";
+    for (const auto& p : tu_stem) {
+        new_mod_name += pystring::replace(p.string(), "-", "_") + "::";
+    }
 
     out.print("#![allow(non_snake_case)]\n");
     out.print("#![allow(non_camel_case_types)]\n");
@@ -410,7 +415,7 @@ void write_translation_unit(const char* out_dir, fmt::ostream& out_lib,
         write_record(out, n);
         out.print("\n");
 
-        out_lib.print("pub use {}::{} as {};\n", mod_name, n->name,
+        out_lib.print("pub use {}{} as {};\n", new_mod_name, n->name,
                       n->nice_name);
     }
 
@@ -420,14 +425,14 @@ void write_translation_unit(const char* out_dir, fmt::ostream& out_lib,
     for (const auto* n : node_enums) {
         write_enum(out, n);
         out.print("\n");
-        out_lib.print("pub use {}::{} as {};\n", mod_name, n->name,
+        out_lib.print("pub use {}{} as {};\n", new_mod_name, n->name,
                       n->nice_name);
         for (const auto& p : n->variants) {
-            out_lib.print("pub use {}::{};\n", mod_name, p.first);
+            out_lib.print("pub use {}{};\n", new_mod_name, p.first);
         }
 
         if (has_rustify_enum_attr(n)) {
-            out_lib.print("pub use {}::{};\n", mod_name, n->short_name);
+            out_lib.print("pub use {}{};\n", new_mod_name, n->short_name);
         }
     }
 
@@ -440,11 +445,30 @@ void write_translation_unit(const char* out_dir, fmt::ostream& out_lib,
             continue;
         }
         write_function(out, n);
-        out_lib.print("pub use {}::{} as {};\n", mod_name, n->name,
+        out_lib.print("pub use {}{} as {};\n", new_mod_name, n->name,
                       n->nice_name);
     }
 
     out.print("\n}} // extern \"C\"\n");
+}
+
+void write_modules(fs::path dir) {
+    auto out_mod = fmt::output_file((dir / "mod.rs").string());
+
+    for (const auto& entry : fs::directory_iterator(dir)) {
+        if (entry.is_regular_file() &&
+            entry.path().filename().extension() == ".rs" &&
+            entry.path().filename() != "mod.rs") {
+            SPDLOG_DEBUG("got regular file {}", entry.path().string());
+            out_mod.print(
+                "pub mod {};\n",
+                entry.path().filename().replace_extension("").string());
+        } else if (entry.is_directory()) {
+            out_mod.print("pub mod {0};\npub use {0}::*;\n",
+                          entry.path().filename().string());
+            write_modules(entry.path());
+        }
+    }
 }
 
 void write(const char* out_dir, const char* project_name, const char* c_dir,
@@ -554,6 +578,22 @@ impl fmt::Display for Error {{
     for (size_t i = starting_point; i < size; ++i) {
         const auto& tu = root.tus[i];
         write_translation_unit(out_dir, out_lib, *tu);
+    }
+
+    // now recurse through the src directory and write the mod files
+    for (const auto& entry : fs::directory_iterator(rust_src)) {
+        if (entry.is_regular_file() &&
+            entry.path().filename().extension() == ".rs" &&
+            entry.path().filename() != "lib.rs" &&
+            entry.path().filename() != "test.rs") {
+            SPDLOG_DEBUG("got regular file {}", entry.path().string());
+            out_lib.print(
+                "pub mod {};\n",
+                entry.path().filename().replace_extension("").string());
+        } else if (entry.is_directory()) {
+            out_lib.print("pub mod {};\n", entry.path().filename().string());
+            write_modules(entry.path());
+        }
     }
 
     // write the test import and an empty test file

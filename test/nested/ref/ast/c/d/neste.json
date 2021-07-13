@@ -1,0 +1,88 @@
+{
+    "kind": "TranslationUnit",
+    "filename": "c/d/neste.cpp",
+    "source_includes": [
+        "#include <c/d/neste.hpp>",
+        "#include <cppmm_bind.hpp>"
+    ],
+    "include_paths": [
+        "/home/anders/code/cppmm/test/nested/include"
+    ],
+    "id": 9,
+    "decls": [
+        {
+            "kind": "Namespace",
+            "name": "nest",
+            "id": 2,
+            "short_name": "nest",
+            "alias": "nest",
+            "collapse": false
+        },
+        {
+            "kind": "Record",
+            "name": "nest::NestCDE",
+            "short_name": "NestCDE",
+            "namespaces": [
+                2
+            ],
+            "id": 10,
+            "abstract": false,
+            "trivially_copyable": true,
+            "trivially_movable": true,
+            "opaque_type": false,
+            "size": 32,
+            "align": 32,
+            "alias": "NestCDE",
+            "attributes": [
+                "cppmm|valuetype"
+            ],
+            "comment": "",
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "cd",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 5,
+                        "type": "int",
+                        "const": false
+                    }
+                }
+            ],
+            "methods": [
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "do_something",
+                    "qualified_name": "nest::NestCDE::do_something",
+                    "in_binding": true,
+                    "in_library": false,
+                    "noexcept": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "comment": "",
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 0,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": null,
+                    "template_args": null,
+                    "exceptions": null
+                }
+            ]
+        }
+    ]
+}

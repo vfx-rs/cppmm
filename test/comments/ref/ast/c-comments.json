@@ -1,6 +1,6 @@
 {
     "kind": "TranslationUnit",
-    "filename": "/home/anders/code/cppmm/test/comments/bind/c-comments.cpp",
+    "filename": "c-comments.cpp",
     "source_includes": [
         "#include <comments.hpp>",
         "#include <cppmm_bind.hpp>"

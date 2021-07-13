@@ -47,23 +47,18 @@ const std::string compute_out_include_path(const std::string& filename) {
     return fs::path(filename).parent_path();
 }
 
-const std::string compute_cmakefile_path(const std::string& filename) {
-    return fs::path(filename).parent_path() / "CMakeLists.txt";
-}
-
 //------------------------------------------------------------------------------
 void cmake(const char* project_name, const Root& root, size_t starting_point,
            const Libs& libs, const LibDirs& lib_dirs, int version_major,
-           int version_minor, int version_patch,
-           const char* base_project_name) {
+           int version_minor, int version_patch, const char* base_project_name,
+           const char* output_directory) {
     expect(starting_point < root.tus.size(),
            "starting point ({}) is out of range ({})", starting_point,
            root.tus.size());
 
-    auto cmakefile_path =
-        compute_cmakefile_path(root.tus[starting_point]->filename);
+    auto cmakefile_path = fs::path(output_directory) / "CMakeLists.txt";
 
-    auto out = fmt::output_file(cmakefile_path);
+    auto out = fmt::output_file(cmakefile_path.c_str());
 
     // Minimum version
     out.print("cmake_minimum_required(VERSION 3.5)\n");
@@ -81,9 +76,7 @@ void cmake(const char* project_name, const Root& root, size_t starting_point,
 
         // Source files are in a 'src' subdirectory
         indent(out, 1);
-        std::string head, tail;
-        pystring::os::path::split(head, tail, tu->filename);
-        std::string filename = pystring::os::path::join("src", tail);
+        std::string filename = pystring::os::path::join("src", tu->filename);
         out.print("{}\n", filename);
 
         // Add all the include paths
@@ -103,6 +96,7 @@ void cmake(const char* project_name, const Root& root, size_t starting_point,
     // Add the include path of the output headers
     // include_paths.insert(compute_out_include_path("./"));
     include_paths.insert("include");
+    include_paths.insert("src");
 
     // Include directories
     for (auto& include_path : include_paths) {
@@ -138,15 +132,14 @@ void cmake_modern(const char* project_name, const Root& root,
                   const std::vector<std::string>& find_packages,
                   const std::vector<std::string>& target_link_libraries,
                   int version_major, int version_minor, int version_patch,
-                  const char* base_project_name) {
+                  const char* base_project_name, const char* output_directory) {
     expect(starting_point < root.tus.size(),
            "starting point ({}) is out of range ({})", starting_point,
            root.tus.size());
 
-    auto cmakefile_path =
-        compute_cmakefile_path(root.tus[starting_point]->filename);
+    auto cmakefile_path = fs::path(output_directory) / "CMakeLists.txt";
 
-    auto out = fmt::output_file(cmakefile_path);
+    auto out = fmt::output_file(cmakefile_path.c_str());
 
     // Minimum version
     out.print("cmake_minimum_required(VERSION 3.5)\n");
@@ -162,10 +155,10 @@ void cmake_modern(const char* project_name, const Root& root,
     for (size_t i = starting_point; i < size; ++i) {
         const auto& tu = root.tus[i];
 
-        // For now we assume the output source code is in the same
-        // folder as the CMakeLists.txt file
+        // Source files are in a 'src' subdirectory
         indent(out, 1);
-        out.print("{}\n", fs::path(tu->filename).filename().c_str());
+        std::string filename = pystring::os::path::join("src", tu->filename);
+        out.print("{}\n", filename);
 
         // Add all the include paths
         for (auto& i : tu->include_paths) {
@@ -182,7 +175,9 @@ void cmake_modern(const char* project_name, const Root& root,
     out.print("add_library(${{LIBNAME}}-shared SHARED ${{SOURCES}})\n");
 
     // Add the include path of the output headers
-    include_paths.insert(compute_out_include_path("./"));
+    // include_paths.insert(compute_out_include_path("./src"));
+    include_paths.insert("include");
+    include_paths.insert("src");
 
     // Include directories
     for (auto& include_path : include_paths) {

@@ -1,6 +1,6 @@
 {
     "kind": "TranslationUnit",
-    "filename": "/home/anders/code/cppmm/test/dtor/bind/std_string.cpp",
+    "filename": "std_string.cpp",
     "source_includes": [
         "#include <string>",
         "#include <cppmm_bind.hpp>"

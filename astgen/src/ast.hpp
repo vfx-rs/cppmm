@@ -485,7 +485,7 @@ struct NodeFunctionPointerTypedef : public NodeAttributeHolder {
 /// Write out the AST to json output files. Each NodeTranslationUnit which
 /// is a child of the ROOT is written to its own json file and all decls in
 /// that TU are written recursively
-void write_tus(std::string output_dir);
+void write_tus(std::string output_dir, const std::string& src_path);
 
 /// Find the node corresponding to the given TU filename, creating one if
 /// none exists

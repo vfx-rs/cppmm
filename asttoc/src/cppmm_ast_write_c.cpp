@@ -623,14 +623,12 @@ void write_source_includes(fmt::ostream& out, const TranslationUnit& tu) {
 }
 
 //------------------------------------------------------------------------------
-void write_private_header(const TranslationUnit& tu) {
-    std::string head, tail;
-    pystring::os::path::split(head, tail, tu.filename);
+void write_private_header(const TranslationUnit& tu, fs::path base_dir) {
     std::string basename, ext;
-    pystring::os::path::splitext(basename, ext, tail);
-    std::string filename =
-        pystring::os::path::join({head, "src", basename + "_private.h"});
-    auto out = fmt::output_file(filename);
+    pystring::os::path::splitext(basename, ext, tu.filename);
+    fs::path filename = base_dir / "src" / (basename + "_private.h");
+    fs::create_directories(filename.parent_path());
+    auto out = fmt::output_file(filename.string());
 
     out.print("#pragma once\n");
 
@@ -666,14 +664,12 @@ void write_private_header(const TranslationUnit& tu) {
 }
 
 //------------------------------------------------------------------------------
-void write_header(const TranslationUnit& tu) {
-    std::string head, tail;
-    pystring::os::path::split(head, tail, tu.filename);
+void write_header(const TranslationUnit& tu, fs::path base_dir) {
     std::string basename, ext;
-    pystring::os::path::splitext(basename, ext, tail);
-    std::string filename =
-        pystring::os::path::join({head, "include", basename + ".h"});
-    auto out = fmt::output_file(filename);
+    pystring::os::path::splitext(basename, ext, tu.filename);
+    fs::path filename = base_dir / "include" / (basename + ".h");
+    fs::create_directories(filename.parent_path());
+    auto out = fmt::output_file(filename.string());
 
     out.print("#pragma once\n");
 
@@ -749,11 +745,10 @@ void write_header(const TranslationUnit& tu) {
 }
 
 //------------------------------------------------------------------------------
-void write_source(const TranslationUnit& tu) {
-    std::string head, tail;
-    pystring::os::path::split(head, tail, tu.filename);
-    std::string filename = pystring::os::path::join({head, "src", tail});
-    auto out = fmt::output_file(filename);
+void write_source(const TranslationUnit& tu, fs::path base_dir) {
+    fs::path filename = base_dir / "src" / tu.filename;
+    fs::create_directories(filename.parent_path());
+    auto out = fmt::output_file(filename.string());
 
     // Write out the source includes
     write_source_includes(out, tu);
@@ -771,23 +766,25 @@ void write_source(const TranslationUnit& tu) {
 }
 
 //------------------------------------------------------------------------------
-void write_translation_unit(const TranslationUnit& tu) {
+void write_translation_unit(const TranslationUnit& tu, fs::path base_dir) {
     SPDLOG_WARN("writing TU {}", tu.filename);
-    write_header(tu);
-    write_private_header(tu);
-    write_source(tu);
+    write_header(tu, base_dir);
+    write_private_header(tu, base_dir);
+    write_source(tu, base_dir);
 }
 
 //------------------------------------------------------------------------------
-void c(const char* project_name, const Root& root, size_t starting_point) {
+void c(const char* project_name, const Root& root, size_t starting_point,
+       const char* output_dir) {
     expect(starting_point < root.tus.size(),
            "starting point ({}) is out of range ({})", starting_point,
            root.tus.size());
 
+    auto base_dir = fs::path(output_dir);
     const auto size = root.tus.size();
     for (size_t i = starting_point; i < size; ++i) {
         const auto& tu = root.tus[i];
-        write_translation_unit(*tu);
+        write_translation_unit(*tu, base_dir);
     }
 }
 

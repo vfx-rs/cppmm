@@ -109,18 +109,20 @@ void generate(const char* input, const char* project_name, const char* output,
     std::string c_project_name = fmt::format("{}-c", project_name);
     cppmm::write::cerrors(output_directory.c_str(), cpp_ast, starting_point,
                           project_name);
-    cppmm::write::c(c_project_name.c_str(), cpp_ast, starting_point);
+    cppmm::write::c(c_project_name.c_str(), cpp_ast, starting_point,
+                    output_directory.c_str());
 
     // Create a cmake file as well
     if (find_packages.empty() && target_link_libraries.empty()) {
         cppmm::write::cmake(c_project_name.c_str(), cpp_ast, starting_point,
                             libs, lib_dirs, version_major, version_minor,
-                            version_patch, project_name);
+                            version_patch, project_name,
+                            output_directory.c_str());
     } else {
-        cppmm::write::cmake_modern(c_project_name.c_str(), cpp_ast,
-                                   starting_point, find_packages,
-                                   target_link_libraries, version_major,
-                                   version_minor, version_patch, project_name);
+        cppmm::write::cmake_modern(
+            c_project_name.c_str(), cpp_ast, starting_point, find_packages,
+            target_link_libraries, version_major, version_minor, version_patch,
+            project_name, output_directory.c_str());
     }
 
     std::string cwd = fs::current_path().string();

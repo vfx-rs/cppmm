@@ -1,6 +1,6 @@
 {
     "kind": "TranslationUnit",
-    "filename": "/home/anders/code/cppmm/test/imath/bind/imath_vec.cpp",
+    "filename": "imath_vec.cpp",
     "source_includes": [
         "#include <OpenEXR/ImathVec.h>",
         "#include <vector>",

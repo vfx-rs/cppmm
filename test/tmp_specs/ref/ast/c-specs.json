@@ -1,6 +1,6 @@
 {
     "kind": "TranslationUnit",
-    "filename": "/home/anders/code/cppmm/test/tmp_specs/bind/c-specs.cpp",
+    "filename": "c-specs.cpp",
     "source_includes": [
         "#include <tmp_specs.hpp>",
         "#include <cppmm_bind.hpp>"

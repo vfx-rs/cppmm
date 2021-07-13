@@ -1,6 +1,6 @@
 {
     "kind": "TranslationUnit",
-    "filename": "/home/anders/code/cppmm/test/array_params/bind/c-array_params.cpp",
+    "filename": "c-array_params.cpp",
     "source_includes": [
         "#include <array_params.hpp>",
         "#include <cppmm_bind.hpp>"

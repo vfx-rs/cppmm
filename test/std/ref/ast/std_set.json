@@ -1,6 +1,6 @@
 {
     "kind": "TranslationUnit",
-    "filename": "/home/anders/code/cppmm/test/std/bind/std_set.cpp",
+    "filename": "std_set.cpp",
     "source_includes": [
         "#include <set>",
         "#include <string>",

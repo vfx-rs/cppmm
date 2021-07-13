@@ -12,4 +12,6 @@ target_include_directories(${LIBNAME} PRIVATE /home/anders/code/cppmm/test/array
 target_include_directories(${LIBNAME}-shared PRIVATE /home/anders/code/cppmm/test/array_params/include)
 target_include_directories(${LIBNAME} PRIVATE include)
 target_include_directories(${LIBNAME}-shared PRIVATE include)
+target_include_directories(${LIBNAME} PRIVATE src)
+target_include_directories(${LIBNAME}-shared PRIVATE src)
 install(TARGETS ${LIBNAME} DESTINATION ${CMAKE_INSTALL_PREFIX})

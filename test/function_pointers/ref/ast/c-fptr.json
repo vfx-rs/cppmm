@@ -1,6 +1,6 @@
 {
     "kind": "TranslationUnit",
-    "filename": "/home/anders/code/cppmm/test/function_pointers/bind/c-fptr.cpp",
+    "filename": "c-fptr.cpp",
     "source_includes": [
         "#include <fptr.hpp>",
         "#include <cppmm_bind.hpp>"

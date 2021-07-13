@@ -41,7 +41,6 @@ extern {
     pub fn imath_get_exception_string() -> *const std::os::raw::c_char;
 }
 
-pub mod imath_vec;
 pub use imath_vec::Imath_2_5__Vec3_float__t as Imath_V3f_t;
 pub use imath_vec::Imath_2_5__Vec3_int__t as Imath_V3i_t;
 
@@ -64,7 +63,6 @@ pub use imath_vec::Imath_2_5__Vec3_int__length as Imath_V3i_length;
 pub use imath_vec::Imath_2_5__Vec3_int__length2 as Imath_V3i_length2;
 pub use imath_vec::Imath_2_5__Vec3_int__normalize as Imath_V3i_normalize;
 pub use imath_vec::Imath_2_5__Vec3_int__normalized as Imath_V3i_normalized;
-pub mod imath_box;
 pub use imath_box::Imath_2_5__Box_Imath__Vec3_float___t as Imath_Box3f_t;
 pub use imath_box::Imath_2_5__Box_Imath__Vec3_int___t as Imath_Box3i_t;
 
@@ -72,6 +70,8 @@ pub use imath_box::Imath_2_5__Box_Imath__Vec3_float___extendBy as Imath_Box3f_ex
 pub use imath_box::Imath_2_5__Box_Imath__Vec3_float___extendBy_1 as Imath_Box3f_extendBy_1;
 pub use imath_box::Imath_2_5__Box_Imath__Vec3_int___extendBy as Imath_Box3i_extendBy;
 pub use imath_box::Imath_2_5__Box_Imath__Vec3_int___extendBy_1 as Imath_Box3i_extendBy_1;
+pub mod imath_box;
+pub mod imath_vec;
 
 
 #[cfg(test)]
