@@ -767,7 +767,6 @@ void write_source(const TranslationUnit& tu, fs::path base_dir) {
 
 //------------------------------------------------------------------------------
 void write_translation_unit(const TranslationUnit& tu, fs::path base_dir) {
-    SPDLOG_WARN("writing TU {}", tu.filename);
     write_header(tu, base_dir);
     write_private_header(tu, base_dir);
     write_source(tu, base_dir);
