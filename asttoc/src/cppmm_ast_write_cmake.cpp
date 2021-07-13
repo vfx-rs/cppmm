@@ -166,7 +166,7 @@ void cmake_modern(const char* project_name, const Root& root,
         }
     }
     indent(out, 1);
-    out.print("{}\n", fmt::format("{}-errors.cpp", base_project_name));
+    out.print("src/{}\n", fmt::format("{}-errors.cpp", base_project_name));
     out.print(")\n");
 
     out.print("set(LIBNAME {}-{}_{})\n", project_name, version_major,
