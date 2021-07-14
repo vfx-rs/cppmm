@@ -158,6 +158,7 @@ public:
             std::string result = symbol;
             result += "_";
             result += std::to_string(++item->second);
+            SPDLOG_INFO("Renaming symbol {} to {}", symbol, result);
             return result;
         }
     }
