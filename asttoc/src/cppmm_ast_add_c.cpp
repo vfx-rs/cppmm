@@ -1935,6 +1935,15 @@ void general_function(TypeRegistry& type_registry, TranslationUnit& c_tu,
         function_nice_name = compute_c_name(compute_qualified_nice_name(
             type_registry, cpp_function.namespaces,
             find_function_short_name(cpp_function, MethodType::None)));
+
+        if (function_name == function_nice_name) {
+            function_name = function_nice_name =
+                type_registry.make_symbol_unique(function_name);
+        } else {
+            function_name = type_registry.make_symbol_unique(function_name);
+            function_nice_name =
+                type_registry.make_symbol_unique(function_nice_name);
+        }
     } else {
         auto names =
             compute_function_names(type_registry, *cpp_record, *c_record,
@@ -1944,14 +1953,6 @@ void general_function(TypeRegistry& type_registry, TranslationUnit& c_tu,
     }
 
     // Build the new method name
-    if (function_name == function_nice_name) {
-        function_name = function_nice_name =
-            type_registry.make_symbol_unique(function_name);
-    } else {
-        function_name = type_registry.make_symbol_unique(function_name);
-        function_nice_name =
-            type_registry.make_symbol_unique(function_nice_name);
-    }
 
     auto template_args = cpp_function.template_args;
 
