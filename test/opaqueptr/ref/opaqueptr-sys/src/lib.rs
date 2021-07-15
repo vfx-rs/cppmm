@@ -41,7 +41,6 @@ extern {
     pub fn opaqueptr_get_exception_string() -> *const std::os::raw::c_char;
 }
 
-pub mod c_optr;
 pub use c_optr::optr__PubCtor_t as optr_PubCtor_t;
 pub use c_optr::optr__PrvCtor_t as optr_PrvCtor_t;
 pub use c_optr::optr__AllPrv_t as optr_AllPrv_t;
@@ -51,6 +50,7 @@ pub use c_optr::optr__PubCtor_ctor as optr_PubCtor_ctor;
 pub use c_optr::optr__PubCtor_dtor as optr_PubCtor_dtor;
 pub use c_optr::optr__PubCtor_doit as optr_PubCtor_doit;
 pub use c_optr::optr__PrvCtor_doit as optr_PrvCtor_doit;
+pub mod c_optr;
 
 
 #[cfg(test)]

@@ -1,6 +1,6 @@
 {
     "kind": "TranslationUnit",
-    "filename": "/home/anders/code/cppmm/test/rustify_enum/bind/c-renum.cpp",
+    "filename": "c-renum.cpp",
     "source_includes": [
         "#include <renum.hpp>",
         "#include <cppmm_bind.hpp>"

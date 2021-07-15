@@ -1,6 +1,6 @@
 {
     "kind": "TranslationUnit",
-    "filename": "/home/anders/code/cppmm/test/imath/bind/imath_vec.cpp",
+    "filename": "imath_vec.cpp",
     "source_includes": [
         "#include <OpenEXR/ImathVec.h>",
         "#include <vector>",
@@ -9,7 +9,7 @@
     "include_paths": [
         "/home/anders/packages/openexr/2.5.5/include"
     ],
-    "id": 22,
+    "id": 24,
     "decls": [
         {
             "kind": "Namespace",
@@ -26,7 +26,7 @@
             "namespaces": [
                 6
             ],
-            "id": 23,
+            "id": 25,
             "abstract": false,
             "trivially_copyable": true,
             "trivially_movable": true,
@@ -46,7 +46,7 @@
                     "name": "x",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 21,
+                        "id": 23,
                         "type": "float",
                         "const": false
                     }
@@ -56,7 +56,7 @@
                     "name": "y",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 21,
+                        "id": 23,
                         "type": "float",
                         "const": false
                     }
@@ -66,7 +66,7 @@
                     "name": "z",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 21,
+                        "id": 23,
                         "type": "float",
                         "const": false
                     }
@@ -145,7 +145,7 @@
                                     "kind": "RecordType",
                                     "id": 1,
                                     "type": "Imath_2_5::Vec3<float>",
-                                    "record": 23,
+                                    "record": 25,
                                     "const": true
                                 },
                                 "const": false
@@ -158,7 +158,7 @@
                             "index": 0,
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 21,
+                                "id": 23,
                                 "type": "float",
                                 "const": false
                             }
@@ -200,7 +200,7 @@
                             "name": "a",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 21,
+                                "id": 23,
                                 "type": "float",
                                 "const": false
                             },
@@ -211,7 +211,7 @@
                             "name": "b",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 21,
+                                "id": 23,
                                 "type": "float",
                                 "const": false
                             },
@@ -222,7 +222,7 @@
                             "name": "c",
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 21,
+                                "id": 23,
                                 "type": "float",
                                 "const": false
                             },
@@ -234,7 +234,7 @@
                             "index": 0,
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 21,
+                                "id": 23,
                                 "type": "float",
                                 "const": false
                             }
@@ -266,7 +266,7 @@
                     "comment": "",
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 21,
+                        "id": 23,
                         "type": "float",
                         "const": false
                     },
@@ -282,7 +282,7 @@
                                     "kind": "RecordType",
                                     "id": 1,
                                     "type": "Imath_2_5::Vec3<float>",
-                                    "record": 23,
+                                    "record": 25,
                                     "const": true
                                 },
                                 "const": false
@@ -319,7 +319,7 @@
                         "kind": "RecordType",
                         "id": 1,
                         "type": "Imath_2_5::Vec3<float>",
-                        "record": 23,
+                        "record": 25,
                         "const": false
                     },
                     "params": [
@@ -334,7 +334,7 @@
                                     "kind": "RecordType",
                                     "id": 1,
                                     "type": "Imath_2_5::Vec3<float>",
-                                    "record": 23,
+                                    "record": 25,
                                     "const": true
                                 },
                                 "const": false
@@ -377,7 +377,7 @@
                             "kind": "RecordType",
                             "id": 1,
                             "type": "Imath_2_5::Vec3<float>",
-                            "record": 23,
+                            "record": 25,
                             "const": true
                         },
                         "const": false
@@ -394,7 +394,7 @@
                                     "kind": "RecordType",
                                     "id": 1,
                                     "type": "Imath_2_5::Vec3<float>",
-                                    "record": 23,
+                                    "record": 25,
                                     "const": true
                                 },
                                 "const": false
@@ -429,7 +429,7 @@
                     "comment": "",
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 21,
+                        "id": 23,
                         "type": "float",
                         "const": false
                     },
@@ -461,7 +461,7 @@
                     "comment": "",
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 21,
+                        "id": 23,
                         "type": "float",
                         "const": false
                     },
@@ -499,7 +499,7 @@
                             "kind": "RecordType",
                             "id": 1,
                             "type": "Imath_2_5::Vec3<float>",
-                            "record": 23,
+                            "record": 25,
                             "const": true
                         },
                         "const": false
@@ -534,7 +534,7 @@
                         "kind": "RecordType",
                         "id": 1,
                         "type": "Imath_2_5::Vec3<float>",
-                        "record": 23,
+                        "record": 25,
                         "const": false
                     },
                     "params": null,
@@ -550,7 +550,7 @@
             "namespaces": [
                 6
             ],
-            "id": 39,
+            "id": 41,
             "abstract": false,
             "trivially_copyable": true,
             "trivially_movable": true,
@@ -570,7 +570,7 @@
                     "name": "x",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 25,
+                        "id": 27,
                         "type": "int",
                         "const": false
                     }
@@ -580,7 +580,7 @@
                     "name": "y",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 25,
+                        "id": 27,
                         "type": "int",
                         "const": false
                     }
@@ -590,7 +590,7 @@
                     "name": "z",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 25,
+                        "id": 27,
                         "type": "int",
                         "const": false
                     }
@@ -663,13 +663,13 @@
                             "name": "rhs",
                             "type": {
                                 "kind": "Reference",
-                                "id": 14,
+                                "id": 15,
                                 "type": "const class Imath_2_5::Vec3<int> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 13,
+                                    "id": 14,
                                     "type": "Imath_2_5::Vec3<int>",
-                                    "record": 39,
+                                    "record": 41,
                                     "const": true
                                 },
                                 "const": false
@@ -682,7 +682,7 @@
                             "index": 0,
                             "type": {
                                 "kind": "BuiltinType",
-                                "id": 25,
+                                "id": 27,
                                 "type": "int",
                                 "const": false
                             }
@@ -714,7 +714,7 @@
                     "comment": "",
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 25,
+                        "id": 27,
                         "type": "int",
                         "const": false
                     },
@@ -724,13 +724,13 @@
                             "name": "v",
                             "type": {
                                 "kind": "Reference",
-                                "id": 14,
+                                "id": 15,
                                 "type": "const class Imath_2_5::Vec3<int> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 13,
+                                    "id": 14,
                                     "type": "Imath_2_5::Vec3<int>",
-                                    "record": 39,
+                                    "record": 41,
                                     "const": true
                                 },
                                 "const": false
@@ -765,9 +765,9 @@
                     "comment": "",
                     "return": {
                         "kind": "RecordType",
-                        "id": 13,
+                        "id": 14,
                         "type": "Imath_2_5::Vec3<int>",
-                        "record": 39,
+                        "record": 41,
                         "const": false
                     },
                     "params": [
@@ -776,13 +776,13 @@
                             "name": "v",
                             "type": {
                                 "kind": "Reference",
-                                "id": 14,
+                                "id": 15,
                                 "type": "const class Imath_2_5::Vec3<int> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 13,
+                                    "id": 14,
                                     "type": "Imath_2_5::Vec3<int>",
-                                    "record": 39,
+                                    "record": 41,
                                     "const": true
                                 },
                                 "const": false
@@ -819,13 +819,13 @@
                     "comment": "",
                     "return": {
                         "kind": "Reference",
-                        "id": 14,
+                        "id": 15,
                         "type": "const class Imath_2_5::Vec3<int> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 13,
+                            "id": 14,
                             "type": "Imath_2_5::Vec3<int>",
-                            "record": 39,
+                            "record": 41,
                             "const": true
                         },
                         "const": false
@@ -836,13 +836,13 @@
                             "name": "v",
                             "type": {
                                 "kind": "Reference",
-                                "id": 14,
+                                "id": 15,
                                 "type": "const class Imath_2_5::Vec3<int> &",
                                 "pointee": {
                                     "kind": "RecordType",
-                                    "id": 13,
+                                    "id": 14,
                                     "type": "Imath_2_5::Vec3<int>",
-                                    "record": 39,
+                                    "record": 41,
                                     "const": true
                                 },
                                 "const": false
@@ -877,7 +877,7 @@
                     "comment": "",
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 25,
+                        "id": 27,
                         "type": "int",
                         "const": false
                     },
@@ -909,7 +909,7 @@
                     "comment": "",
                     "return": {
                         "kind": "BuiltinType",
-                        "id": 25,
+                        "id": 27,
                         "type": "int",
                         "const": false
                     },
@@ -941,13 +941,13 @@
                     "comment": "",
                     "return": {
                         "kind": "Reference",
-                        "id": 14,
+                        "id": 15,
                         "type": "const class Imath_2_5::Vec3<int> &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 13,
+                            "id": 14,
                             "type": "Imath_2_5::Vec3<int>",
-                            "record": 39,
+                            "record": 41,
                             "const": true
                         },
                         "const": false
@@ -980,9 +980,9 @@
                     "comment": "",
                     "return": {
                         "kind": "RecordType",
-                        "id": 13,
+                        "id": 14,
                         "type": "Imath_2_5::Vec3<int>",
-                        "record": 39,
+                        "record": 41,
                         "const": false
                     },
                     "params": null,

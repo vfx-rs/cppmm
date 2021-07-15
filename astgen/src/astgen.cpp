@@ -173,10 +173,12 @@ int main(int argc_, const char** argv_) {
     if (src_path.size() == 1 && fs::is_directory(src_path[0])) {
         // we've been supplied a single directory to start from, find all the
         // cpp files under it to use as binding files
-        for (const auto& entry : fs::directory_iterator(src_path[0])) {
+        for (const auto& entry :
+             fs::recursive_directory_iterator(src_path[0])) {
             if (entry.path().extension() == ".cpp") {
                 dir_paths.push_back(
-                    ps::os::path::abspath(entry.path().string(), cwd));
+                    // ps::os::path::abspath(entry.path().string(), cwd)
+                    entry.path().string());
                 SPDLOG_DEBUG("Found binding file {}", entry.path().string());
             }
         }
@@ -255,6 +257,7 @@ int main(int argc_, const char** argv_) {
     // generated bindings
     for (const auto& src : dir_paths) {
         const auto src_path = ps::os::path::join(cwd, src);
+        SPDLOG_DEBUG("joining {} and {} to get {}", cwd, src, src_path);
         cppmm::SOURCE_INCLUDES[src_path] = parse_file_includes(src_path);
     }
 
@@ -270,7 +273,7 @@ int main(int argc_, const char** argv_) {
     }
 
     // Write out the binding AST per translation unit
-    cppmm::write_tus(output_dir);
+    cppmm::write_tus(output_dir, src_path[0]);
 
     return result;
 }

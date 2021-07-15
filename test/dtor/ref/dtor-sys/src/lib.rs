@@ -41,12 +41,10 @@ extern {
     pub fn dtor_get_exception_string() -> *const std::os::raw::c_char;
 }
 
-pub mod c_dtor;
 pub use c_dtor::dtor__Struct_t as dtor_Struct_t;
 
 pub use c_dtor::dtor__Struct_ctor as dtor_Struct_ctor;
 pub use c_dtor::dtor__Struct_dtor as dtor_Struct_dtor;
-pub mod std_string;
 pub use std_string::std____cxx11__basic_string_char__t as std___cxx11_string_t;
 
 pub use std_string::std____cxx11__basic_string_char__sizeof as std___cxx11_string_sizeof;
@@ -56,6 +54,8 @@ pub use std_string::std____cxx11__basic_string_char__copy as std___cxx11_string_
 pub use std_string::std____cxx11__basic_string_char__dtor as std___cxx11_string_dtor;
 pub use std_string::std____cxx11__basic_string_char__assign as std___cxx11_string_assign;
 pub use std_string::std____cxx11__basic_string_char__c_str as std___cxx11_string_c_str;
+pub mod c_dtor;
+pub mod std_string;
 
 
 #[cfg(test)]

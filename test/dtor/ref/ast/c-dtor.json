@@ -1,6 +1,6 @@
 {
     "kind": "TranslationUnit",
-    "filename": "/home/anders/code/cppmm/test/dtor/bind/c-dtor.cpp",
+    "filename": "c-dtor.cpp",
     "source_includes": [
         "#include <dtor.hpp>",
         "#include <cppmm_bind.hpp>"

@@ -61,7 +61,6 @@ extern {
     pub fn exceptions_get_exception_string() -> *const std::os::raw::c_char;
 }
 
-pub mod c_ex;
 pub use c_ex::ex__Struct_t as ex_Struct_t;
 
 pub use c_ex::ex__Struct_sizeof as ex_Struct_sizeof;
@@ -72,6 +71,7 @@ pub use c_ex::ex__Struct_m3 as ex_Struct_m3;
 pub use c_ex::ex__Struct_m4 as ex_Struct_m4;
 pub use c_ex::ex_f1 as ex_f1;
 pub use c_ex::ex_f2 as ex_f2;
+pub mod c_ex;
 
 
 #[cfg(test)]

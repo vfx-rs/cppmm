@@ -1,6 +1,6 @@
 {
     "kind": "TranslationUnit",
-    "filename": "/home/anders/code/cppmm/test/exceptions/bind/c-ex.cpp",
+    "filename": "c-ex.cpp",
     "source_includes": [
         "#include <ex.hpp>",
         "#include <cppmm_bind.hpp>"

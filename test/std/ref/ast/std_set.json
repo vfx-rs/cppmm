@@ -1,6 +1,6 @@
 {
     "kind": "TranslationUnit",
-    "filename": "/home/anders/code/cppmm/test/std/bind/std_set.cpp",
+    "filename": "std_set.cpp",
     "source_includes": [
         "#include <set>",
         "#include <string>",
@@ -45,7 +45,7 @@
                     "name": "_M_color",
                     "type": {
                         "kind": "EnumType",
-                        "id": 53,
+                        "id": 54,
                         "type": "std::_Rb_tree_color",
                         "enum": -1,
                         "const": false
@@ -108,7 +108,7 @@
         {
             "kind": "Namespace",
             "name": "cppmm_bind::std",
-            "id": 55,
+            "id": 56,
             "short_name": "std",
             "alias": "std",
             "collapse": false
@@ -120,7 +120,7 @@
             "namespaces": [
                 10
             ],
-            "id": 57,
+            "id": 58,
             "abstract": false,
             "trivially_copyable": false,
             "trivially_movable": false,
@@ -139,7 +139,7 @@
                     "kind": "Method",
                     "id": 0,
                     "short_name": "set",
-                    "qualified_name": "std::set<std::__cxx11::basic_string<char>, std::less<std::__cxx11::basic_string<char> >, std::allocator<std::__cxx11::basic_string<char> > >::set",
+                    "qualified_name": "std::set<std::__cxx11::basic_string<char>, std::less<std::__cxx11::basic_string<char>>, std::allocator<std::__cxx11::basic_string<char>>>::set",
                     "in_binding": true,
                     "in_library": false,
                     "noexcept": false,
@@ -173,7 +173,7 @@
                     "kind": "Method",
                     "id": 0,
                     "short_name": "~set",
-                    "qualified_name": "std::set<std::__cxx11::basic_string<char>, std::less<std::__cxx11::basic_string<char> >, std::allocator<std::__cxx11::basic_string<char> > >::~set",
+                    "qualified_name": "std::set<std::__cxx11::basic_string<char>, std::less<std::__cxx11::basic_string<char>>, std::allocator<std::__cxx11::basic_string<char>>>::~set",
                     "in_binding": true,
                     "in_library": false,
                     "noexcept": false,
@@ -205,7 +205,7 @@
                     "kind": "Method",
                     "id": 0,
                     "short_name": "cbegin",
-                    "qualified_name": "std::set<std::__cxx11::basic_string<char>, std::less<std::__cxx11::basic_string<char> >, std::allocator<std::__cxx11::basic_string<char> > >::cbegin",
+                    "qualified_name": "std::set<std::__cxx11::basic_string<char>, std::less<std::__cxx11::basic_string<char>>, std::allocator<std::__cxx11::basic_string<char>>>::cbegin",
                     "in_binding": true,
                     "in_library": false,
                     "noexcept": true,
@@ -225,9 +225,9 @@
                     "comment": "",
                     "return": {
                         "kind": "RecordType",
-                        "id": 56,
+                        "id": 57,
                         "type": "std::_Rb_tree_const_iterator<std::__cxx11::basic_string<char> >",
-                        "record": 73,
+                        "record": 74,
                         "const": false
                     },
                     "params": null,
@@ -238,7 +238,7 @@
                     "kind": "Method",
                     "id": 0,
                     "short_name": "cend",
-                    "qualified_name": "std::set<std::__cxx11::basic_string<char>, std::less<std::__cxx11::basic_string<char> >, std::allocator<std::__cxx11::basic_string<char> > >::cend",
+                    "qualified_name": "std::set<std::__cxx11::basic_string<char>, std::less<std::__cxx11::basic_string<char>>, std::allocator<std::__cxx11::basic_string<char>>>::cend",
                     "in_binding": true,
                     "in_library": false,
                     "noexcept": true,
@@ -258,9 +258,9 @@
                     "comment": "",
                     "return": {
                         "kind": "RecordType",
-                        "id": 56,
+                        "id": 57,
                         "type": "std::_Rb_tree_const_iterator<std::__cxx11::basic_string<char> >",
-                        "record": 73,
+                        "record": 74,
                         "const": false
                     },
                     "params": null,
@@ -271,7 +271,7 @@
                     "kind": "Method",
                     "id": 0,
                     "short_name": "size",
-                    "qualified_name": "std::set<std::__cxx11::basic_string<char>, std::less<std::__cxx11::basic_string<char> >, std::allocator<std::__cxx11::basic_string<char> > >::size",
+                    "qualified_name": "std::set<std::__cxx11::basic_string<char>, std::less<std::__cxx11::basic_string<char>>, std::allocator<std::__cxx11::basic_string<char>>>::size",
                     "in_binding": true,
                     "in_library": false,
                     "noexcept": true,
@@ -308,7 +308,7 @@
             "namespaces": [
                 10
             ],
-            "id": 73,
+            "id": 74,
             "abstract": false,
             "trivially_copyable": true,
             "trivially_movable": true,
@@ -345,7 +345,7 @@
                     "kind": "Method",
                     "id": 0,
                     "short_name": "operator*",
-                    "qualified_name": "std::_Rb_tree_const_iterator<std::__cxx11::basic_string<char> >::operator*",
+                    "qualified_name": "std::_Rb_tree_const_iterator<std::__cxx11::basic_string<char>>::operator*",
                     "in_binding": true,
                     "in_library": false,
                     "noexcept": true,
@@ -386,7 +386,7 @@
                     "kind": "Method",
                     "id": 0,
                     "short_name": "operator++",
-                    "qualified_name": "std::_Rb_tree_const_iterator<std::__cxx11::basic_string<char> >::operator++",
+                    "qualified_name": "std::_Rb_tree_const_iterator<std::__cxx11::basic_string<char>>::operator++",
                     "in_binding": true,
                     "in_library": false,
                     "noexcept": true,
@@ -408,13 +408,13 @@
                     "comment": "",
                     "return": {
                         "kind": "Reference",
-                        "id": 72,
+                        "id": 73,
                         "type": "struct std::_Rb_tree_const_iterator<class std::__cxx11::basic_string<char> > &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 56,
+                            "id": 57,
                             "type": "std::_Rb_tree_const_iterator<std::__cxx11::basic_string<char> >",
-                            "record": 73,
+                            "record": 74,
                             "const": false
                         },
                         "const": false
@@ -427,7 +427,7 @@
         },
         {
             "kind": "Function",
-            "id": 91,
+            "id": 92,
             "short_name": "operator==",
             "qualified_name": "std::operator==",
             "in_binding": false,
@@ -452,13 +452,13 @@
                     "name": "__x",
                     "type": {
                         "kind": "Reference",
-                        "id": 76,
+                        "id": 77,
                         "type": "const struct std::_Rb_tree_const_iterator<class std::__cxx11::basic_string<char> > &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 56,
+                            "id": 57,
                             "type": "std::_Rb_tree_const_iterator<std::__cxx11::basic_string<char> >",
-                            "record": 73,
+                            "record": 74,
                             "const": true
                         },
                         "const": false
@@ -470,13 +470,13 @@
                     "name": "__y",
                     "type": {
                         "kind": "Reference",
-                        "id": 76,
+                        "id": 77,
                         "type": "const struct std::_Rb_tree_const_iterator<class std::__cxx11::basic_string<char> > &",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 56,
+                            "id": 57,
                             "type": "std::_Rb_tree_const_iterator<std::__cxx11::basic_string<char> >",
-                            "record": 73,
+                            "record": 74,
                             "const": true
                         },
                         "const": false

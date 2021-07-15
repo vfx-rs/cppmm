@@ -7,7 +7,9 @@
 #include <iostream>
 #include <unordered_map>
 
+#include "filesystem.hpp"
 #include <cstdlib> // for exit function
+namespace fs = ghc::filesystem;
 
 #define SPDLOG_ACTIVE_LEVEL TRACE
 
@@ -156,6 +158,7 @@ public:
             std::string result = symbol;
             result += "_";
             result += std::to_string(++item->second);
+            SPDLOG_INFO("Renaming symbol {} to {}", symbol, result);
             return result;
         }
     }
@@ -172,14 +175,11 @@ std::tuple<std::string, std::string, std::string>
 compute_c_filepath(const std::string& outdir, const std::string& cpp_filepath) {
     std::string root;
     std::string _ext;
-    pystring::os::path::splitext(root, _ext,
-                                 pystring::os::path::basename(cpp_filepath));
-
-    const auto abs_root = pystring::os::path::join(outdir, root);
+    pystring::os::path::splitext(root, _ext, cpp_filepath);
 
     return {
         root + ".h",
-        abs_root + ".cpp",
+        root + ".cpp",
         root + "_private.h",
     };
 }
@@ -1377,8 +1377,7 @@ void record_method(TypeRegistry& type_registry, TranslationUnit& c_tu,
     }
     if (cpp_method.is_copy_constructor) {
         method_type = MethodType::CopyConstructor;
-    }
-    else if (cpp_method.is_move_constructor) {
+    } else if (cpp_method.is_move_constructor) {
         method_type = MethodType::MoveConstructor;
     }
 
@@ -1936,6 +1935,15 @@ void general_function(TypeRegistry& type_registry, TranslationUnit& c_tu,
         function_nice_name = compute_c_name(compute_qualified_nice_name(
             type_registry, cpp_function.namespaces,
             find_function_short_name(cpp_function, MethodType::None)));
+
+        if (function_name == function_nice_name) {
+            function_name = function_nice_name =
+                type_registry.make_symbol_unique(function_name);
+        } else {
+            function_name = type_registry.make_symbol_unique(function_name);
+            function_nice_name =
+                type_registry.make_symbol_unique(function_nice_name);
+        }
     } else {
         auto names =
             compute_function_names(type_registry, *cpp_record, *c_record,
@@ -1945,14 +1953,6 @@ void general_function(TypeRegistry& type_registry, TranslationUnit& c_tu,
     }
 
     // Build the new method name
-    if (function_name == function_nice_name) {
-        function_name = function_nice_name =
-            type_registry.make_symbol_unique(function_name);
-    } else {
-        function_name = type_registry.make_symbol_unique(function_name);
-        function_nice_name =
-            type_registry.make_symbol_unique(function_nice_name);
-    }
 
     auto template_args = cpp_function.template_args;
 
@@ -2193,6 +2193,13 @@ std::string header_file_include(std::string header_filename) {
     return result;
 }
 
+std::string private_header_file_include(std::string header_filename) {
+    std::string result = "#include \"";
+    result += fs::path(header_filename).filename().string();
+    result += "\"";
+    return result;
+}
+
 //------------------------------------------------------------------------------
 void translation_unit_entries(NodeId& new_id, TypeRegistry& type_registry,
                               const std::string& output_directory, Root& root,
@@ -2213,7 +2220,7 @@ void translation_unit_entries(NodeId& new_id, TypeRegistry& type_registry,
     auto c_tu = TranslationUnit::new_(std::get<Source>(filepaths));
     c_tu->header_filename = header_file_include(std::get<Header>(filepaths));
     c_tu->private_header_filename =
-        header_file_include(std::get<PrivateHeader>(filepaths));
+        private_header_file_include(std::get<PrivateHeader>(filepaths));
     c_tu->include_paths = cpp_tu->include_paths;
     c_tu->private_includes.insert("#include <cstring>");
 

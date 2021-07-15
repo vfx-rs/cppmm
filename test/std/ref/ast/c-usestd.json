@@ -1,18 +1,18 @@
 {
     "kind": "TranslationUnit",
-    "filename": "/home/anders/code/cppmm/test/std/bind/c-usestd.cpp",
+    "filename": "c-usestd.cpp",
     "source_includes": [
         "#include <usestd.hpp>"
     ],
     "include_paths": [
         "/home/anders/code/cppmm/test/std/include"
     ],
-    "id": 95,
+    "id": 96,
     "decls": [
         {
             "kind": "Namespace",
             "name": "cppmm_bind::usestd",
-            "id": 96,
+            "id": 97,
             "short_name": "usestd",
             "alias": "usestd",
             "collapse": false
@@ -20,14 +20,14 @@
         {
             "kind": "Namespace",
             "name": "usestd",
-            "id": 100,
+            "id": 101,
             "short_name": "usestd",
             "alias": "usestd",
             "collapse": false
         },
         {
             "kind": "Function",
-            "id": 101,
+            "id": 102,
             "short_name": "takes_string",
             "qualified_name": "usestd::takes_string",
             "in_binding": false,
@@ -36,7 +36,7 @@
             "attributes": null,
             "comment": "",
             "namespaces": [
-                100
+                101
             ],
             "return": {
                 "kind": "BuiltinType",
@@ -69,7 +69,7 @@
         },
         {
             "kind": "Function",
-            "id": 102,
+            "id": 103,
             "short_name": "takes_vector_string",
             "qualified_name": "usestd::takes_vector_string",
             "in_binding": false,
@@ -78,7 +78,7 @@
             "attributes": null,
             "comment": "",
             "namespaces": [
-                100
+                101
             ],
             "return": {
                 "kind": "BuiltinType",
@@ -92,7 +92,7 @@
                     "name": "v",
                     "type": {
                         "kind": "Reference",
-                        "id": 97,
+                        "id": 98,
                         "type": "const class std::vector<class std::__cxx11::basic_string<char>, class std::allocator<class std::__cxx11::basic_string<char> > > &",
                         "pointee": {
                             "kind": "RecordType",

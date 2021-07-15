@@ -1,6 +1,6 @@
 {
     "kind": "TranslationUnit",
-    "filename": "/home/anders/code/cppmm/test/deep_namespace/bind/c-dn.cpp",
+    "filename": "c-dn.cpp",
     "source_includes": [
         "#include <cppmm_bind.hpp>",
         "#include <dn.hpp>"

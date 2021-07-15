@@ -41,7 +41,6 @@ extern {
     pub fn tmp_specs_get_exception_string() -> *const std::os::raw::c_char;
 }
 
-pub mod c_specs;
 pub use c_specs::specs__Attribute_int__t as specs_IntAttribute_t;
 pub use c_specs::specs__Attribute_float__t as specs_FloatAttribute_t;
 pub use c_specs::specs__Specs_t as specs_Specs_t;
@@ -52,6 +51,7 @@ pub use c_specs::specs__Specs_findAttribute_int as specs_Specs_findAttribute_int
 pub use c_specs::specs__Specs_findAttribute_float as specs_Specs_findAttribute_float;
 pub use c_specs::specs__Specs_findAttribute_int_const as specs_Specs_findAttribute_int_const;
 pub use c_specs::specs__Specs_findAttribute_float_const as specs_Specs_findAttribute_float_const;
+pub mod c_specs;
 
 
 #[cfg(test)]
