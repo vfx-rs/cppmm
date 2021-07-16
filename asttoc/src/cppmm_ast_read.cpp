@@ -421,6 +421,9 @@ NodePtr read_record(const TranslationUnit::Ptr& tu, const nln::json& json) {
         result->fields.push_back(std::move(read_field(i)));
     }
 
+    // put this record in the global map so we find it later
+    RECORD_MAP[id] = result;
+
     // Return the result
     return result;
 }
