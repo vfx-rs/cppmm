@@ -924,7 +924,7 @@ void handle_typealias_decl(const TypeAliasDecl* tad, const CXXRecordDecl* crd) {
         node_rec->alias = alias_name;
 
         // Add the typedef attributes to the node record.
-        for(auto i: attrs) {
+        for (auto i : attrs) {
             node_rec->attrs.push_back(i);
         }
     }
@@ -953,6 +953,41 @@ bool has_opaquetype_attr(const std::vector<std::string>& attrs) {
 bool has_opaquebytes_attr(const std::vector<std::string>& attrs) {
     return std::find(attrs.begin(), attrs.end(), "cppmm|opaquebytes") !=
            attrs.end();
+}
+
+bool is_public_copy_ctor(const Decl* cmd) {
+    if (const CXXConstructorDecl* cd = dyn_cast<CXXConstructorDecl>(cmd)) {
+        SPDLOG_DEBUG("ctor {}", cd->getQualifiedNameAsString());
+        SPDLOG_DEBUG("    is copy: {}", cd->isCopyConstructor());
+        SPDLOG_DEBUG("    is public: {}", cd->getAccess() == AS_public);
+        SPDLOG_DEBUG("    is deleted: {}", cd->isDeleted());
+        return cd->isCopyConstructor() && cd->getAccess() == AS_public &&
+               !cd->isDeleted();
+    } else {
+        return false;
+    }
+}
+
+bool is_public_move_ctor(const Decl* cmd) {
+    if (const CXXConstructorDecl* cd = dyn_cast<CXXConstructorDecl>(cmd)) {
+        SPDLOG_DEBUG("ctor {}", cd->getQualifiedNameAsString());
+        SPDLOG_DEBUG("    is move: {}", cd->isMoveConstructor());
+        SPDLOG_DEBUG("    is public: {}", cd->getAccess() == AS_public);
+        SPDLOG_DEBUG("    is deleted: {}", cd->isDeleted());
+        return cd->isMoveConstructor() && cd->getAccess() == AS_public &&
+               !cd->isDeleted();
+    } else {
+        return false;
+    }
+}
+
+void has_public_copy_move_ctor(const CXXRecordDecl* crd,
+                               bool& has_public_copy_ctor,
+                               bool& has_public_move_ctor) {
+    for (const Decl* d : crd->decls()) {
+        has_public_copy_ctor |= is_public_copy_ctor(d);
+        has_public_move_ctor |= is_public_move_ctor(d);
+    }
 }
 
 /// Create a new NodeRecord for the given record decl and store it in the AST.
@@ -1035,13 +1070,18 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
         }
     }
 
+    bool has_public_copy_ctor = false;
+    bool has_public_move_ctor = false;
+    has_public_copy_move_ctor(crd, has_public_copy_ctor, has_public_move_ctor);
+
     // Add the new Record node
     NodeId new_id = NODES.size();
     auto node_record = std::make_unique<NodeRecord>(
         record_name, new_id, node_tu->id, std::move(attrs),
         std::move(short_name), std::move(namespaces), RecordKind::OpaquePtr,
         is_abstract, is_trivially_copyable, is_trivially_movable, is_opaquetype,
-        size, align, get_comment_base64(crd));
+        size, align, get_comment_base64(crd), has_public_copy_ctor,
+        has_public_move_ctor);
 
     auto* node_record_ptr = node_record.get();
     NODES.emplace_back(std::move(node_record));
@@ -1062,9 +1102,7 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
                 mptr->in_binding = true;
                 mptr->is_noexcept |= has_noexcept_attr(mptr->attrs);
             } else {
-                // TODO: decide what we really want to do here.
-                // For now, ignoring unmatched methods makes dev easier by
-                // cutting out noise
+                // no matching method, skip
                 continue;
             }
 
