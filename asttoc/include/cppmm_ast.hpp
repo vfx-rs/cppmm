@@ -704,6 +704,8 @@ struct NodeRecord : public NodeAttributeHolder {
     bool abstract;
     bool trivially_copyable;
     bool trivially_movable;
+    bool has_public_copy_ctor;
+    bool has_public_move_ctor;
     bool opaque_type;
 
     std::string nice_name;
@@ -713,13 +715,16 @@ struct NodeRecord : public NodeAttributeHolder {
                uint32_t align, const std::string& alias,
                const std::vector<NodeId>& namespaces, bool abstract,
                bool trivially_copyable, bool trivially_movable,
-               bool opaque_type, std::string comment)
+               bool opaque_type, std::string comment, bool has_public_copy_ctor,
+               bool has_public_move_ctor)
         : NodeAttributeHolder(qualified_name, id, NodeKind::Record, attrs,
                               std::move(comment)),
           tu(tu), size(size), align(align), force_alignment(false),
           alias(alias), namespaces(namespaces), abstract(abstract),
           trivially_copyable(trivially_copyable),
-          trivially_movable(trivially_movable), opaque_type(opaque_type) {}
+          trivially_movable(trivially_movable), opaque_type(opaque_type),
+          has_public_copy_ctor(has_public_copy_ctor),
+          has_public_move_ctor(has_public_move_ctor) {}
 
     // A static method for creating this as a shared pointer
     using This = NodeRecord;

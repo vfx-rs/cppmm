@@ -1551,7 +1551,8 @@ void record_entry(NodeId& record_id, TypeRegistry& type_registry,
         c_tu, c_record_name, record_id++, cpp_record.attrs, cpp_record.size,
         cpp_record.align, cpp_record.alias, cpp_record.namespaces, false,
         cpp_record.trivially_copyable, cpp_record.trivially_movable,
-        cpp_record.opaque_type, cpp_record.comment);
+        cpp_record.opaque_type, cpp_record.comment,
+        cpp_record.has_public_copy_ctor, cpp_record.has_public_move_ctor);
 
     c_record->nice_name = nice_name;
 

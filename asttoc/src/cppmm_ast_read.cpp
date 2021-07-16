@@ -84,6 +84,8 @@ const char* FUNCTION_POINTER_TYPEDEF_L = "function_pointer_typedef";
 const char* TEMPLATE_ARGS = "template_args";
 const char* OPAQUE_TYPE = "opaque_type";
 const char* NOEXCEPT = "noexcept";
+const char* HAS_PUBLIC_COPY_CTOR = "has_public_copy_ctor";
+const char* HAS_PUBLIC_MOVE_CTOR = "has_public_move_ctor";
 } // namespace
 
 //------------------------------------------------------------------------------
@@ -358,6 +360,18 @@ NodePtr read_record(const TranslationUnit::Ptr& tu, const nln::json& json) {
         trivially_movable = trivially_movable_a->get<bool>();
     }
 
+    auto has_public_copy_ctor = false;
+    auto has_public_copy_ctor_a = json.find(HAS_PUBLIC_COPY_CTOR);
+    if (has_public_copy_ctor_a != json.end()) {
+        has_public_copy_ctor = has_public_copy_ctor_a->get<bool>();
+    }
+
+    auto has_public_move_ctor = false;
+    auto has_public_move_ctor_a = json.find(HAS_PUBLIC_MOVE_CTOR);
+    if (has_public_move_ctor_a != json.end()) {
+        has_public_move_ctor = has_public_move_ctor_a->get<bool>();
+    }
+
     auto opaque_type = false;
     auto opaque_type_a = json.find(OPAQUE_TYPE);
     if (opaque_type_a != json.end()) {
@@ -394,7 +408,8 @@ NodePtr read_record(const TranslationUnit::Ptr& tu, const nln::json& json) {
     // Instantiate the translation unit
     auto result = NodeRecord::n(
         tu, qual_name, id, attrs, size, align, name, namespaces, abstract,
-        trivially_copyable, trivially_movable, opaque_type, std::move(comment));
+        trivially_copyable, trivially_movable, opaque_type, std::move(comment),
+        has_public_copy_ctor, has_public_move_ctor);
 
     // Pull out the methods
     for (const auto& i : json[METHODS]) {
