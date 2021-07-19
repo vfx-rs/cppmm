@@ -1,0 +1,194 @@
+{
+    "kind": "TranslationUnit",
+    "filename": "uptr.cpp",
+    "source_includes": [
+        "#include <memory>",
+        "#include <foo.hpp>",
+        "#include <cppmm_bind.hpp>"
+    ],
+    "include_paths": [
+        "/home/anders/code/cppmm/test/uniqueptr/include"
+    ],
+    "id": 11,
+    "decls": [
+        {
+            "kind": "Namespace",
+            "name": "std",
+            "id": 12,
+            "short_name": "std",
+            "alias": "std",
+            "collapse": false
+        },
+        {
+            "kind": "Record",
+            "name": "std::unique_ptr<foo::Foo>",
+            "short_name": "unique_ptr",
+            "namespaces": [
+                12
+            ],
+            "id": 13,
+            "abstract": false,
+            "trivially_copyable": false,
+            "trivially_movable": false,
+            "has_public_copy_ctor": false,
+            "has_public_move_ctor": true,
+            "opaque_type": false,
+            "size": 64,
+            "align": 64,
+            "alias": "FooPtr",
+            "attributes": [
+                "cppmm|opaqueptr"
+            ],
+            "comment": "",
+            "fields": null,
+            "methods": [
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "unique_ptr",
+                    "qualified_name": "std::unique_ptr<foo::Foo, std::default_delete<foo::Foo>>::unique_ptr",
+                    "in_binding": true,
+                    "in_library": false,
+                    "noexcept": true,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": true,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm|rename|ctor"
+                    ],
+                    "comment": "",
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 0,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "p",
+                            "type": {
+                                "kind": "Pointer",
+                                "id": 10,
+                                "type": "struct foo::Foo *",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 5,
+                                    "type": "foo::Foo",
+                                    "record": 4,
+                                    "const": false
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ],
+                    "template_args": [
+                        {
+                            "index": 0,
+                            "type": {
+                                "kind": "RecordType",
+                                "id": 14,
+                                "type": "std::default_delete<foo::Foo>",
+                                "record": -1,
+                                "const": false
+                            }
+                        },
+                        {
+                            "index": 1,
+                            "type": {
+                                "kind": "BuiltinType",
+                                "id": 0,
+                                "type": "void",
+                                "const": false
+                            }
+                        }
+                    ],
+                    "exceptions": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "~unique_ptr",
+                    "qualified_name": "std::unique_ptr<foo::Foo, std::default_delete<foo::Foo>>::~unique_ptr",
+                    "in_binding": true,
+                    "in_library": false,
+                    "noexcept": true,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": true,
+                    "attributes": [
+                        "cppmm|rename|dtor"
+                    ],
+                    "comment": "",
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 0,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": null,
+                    "template_args": null,
+                    "exceptions": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "get",
+                    "qualified_name": "std::unique_ptr<foo::Foo, std::default_delete<foo::Foo>>::get",
+                    "in_binding": true,
+                    "in_library": false,
+                    "noexcept": true,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "comment": "",
+                    "return": {
+                        "kind": "Pointer",
+                        "id": 10,
+                        "type": "struct foo::Foo *",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 5,
+                            "type": "foo::Foo",
+                            "record": 4,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "params": null,
+                    "template_args": null,
+                    "exceptions": null
+                }
+            ]
+        }
+    ]
+}

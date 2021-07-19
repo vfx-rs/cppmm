@@ -1,0 +1,142 @@
+{
+    "kind": "TranslationUnit",
+    "filename": "foo.cpp",
+    "source_includes": [
+        "#include <foo.hpp>",
+        "#include <cppmm_bind.hpp>"
+    ],
+    "include_paths": [
+        "/home/anders/code/cppmm/test/uniqueptr/include"
+    ],
+    "id": 2,
+    "decls": [
+        {
+            "kind": "Namespace",
+            "name": "foo",
+            "id": 3,
+            "short_name": "foo",
+            "alias": "foo",
+            "collapse": false
+        },
+        {
+            "kind": "Record",
+            "name": "foo::Foo",
+            "short_name": "Foo",
+            "namespaces": [
+                3
+            ],
+            "id": 4,
+            "abstract": false,
+            "trivially_copyable": false,
+            "trivially_movable": false,
+            "has_public_copy_ctor": true,
+            "has_public_move_ctor": false,
+            "opaque_type": false,
+            "size": 8,
+            "align": 8,
+            "alias": "Foo",
+            "attributes": null,
+            "comment": "",
+            "fields": null,
+            "methods": [
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "Foo",
+                    "qualified_name": "foo::Foo::Foo",
+                    "in_binding": true,
+                    "in_library": false,
+                    "noexcept": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": true,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "comment": "",
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 0,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": null,
+                    "template_args": null,
+                    "exceptions": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "~Foo",
+                    "qualified_name": "foo::Foo::~Foo",
+                    "in_binding": true,
+                    "in_library": false,
+                    "noexcept": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": true,
+                    "attributes": null,
+                    "comment": "",
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 0,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": null,
+                    "template_args": null,
+                    "exceptions": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "create",
+                    "qualified_name": "foo::Foo::create",
+                    "in_binding": true,
+                    "in_library": false,
+                    "noexcept": false,
+                    "static": true,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "comment": "",
+                    "return": {
+                        "kind": "RecordType",
+                        "id": 1,
+                        "type": "std::unique_ptr<foo::Foo, std::default_delete<foo::Foo> >",
+                        "record": 13,
+                        "const": false
+                    },
+                    "params": null,
+                    "template_args": null,
+                    "exceptions": null
+                }
+            ]
+        }
+    ]
+}

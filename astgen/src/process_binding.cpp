@@ -471,7 +471,7 @@ NodePtr process_method_decl(const CXXMethodDecl* cmd,
         }
     }
 
-    SPDLOG_TRACE("Processed method {}", *m);
+    SPDLOG_DEBUG("Processed method {}", *m);
 
     return node_function;
 }
@@ -1285,11 +1285,13 @@ void handle_binding_function(const FunctionDecl* fd) {
     SPDLOG_DEBUG("GOt FD {}", fd->getQualifiedNameAsString());
     if (fd->getTemplatedKind() == 1) {
         // ignore template functions in the binding
+        SPDLOG_DEBUG("    Ignoring templated function");
         return;
     }
 
     if (const auto* cmd = dyn_cast<CXXMethodDecl>(fd)) {
         // don't do out-of-line method declarations
+        SPDLOG_DEBUG("    Ignoring out-of-line method declaration");
 
         // auto attrs = get_attrs(fd);
         // SPDLOG_DEBUG("    attrs: {}", ps::join(", ", attrs));

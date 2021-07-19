@@ -1111,26 +1111,34 @@ NodeExprPtr function_body(TypeRegistry& type_registry, TranslationUnit& c_tu,
                 static_cast<NodeRecordType*>(cpp_function.return_type.get())
                     ->record;
             const auto* node_record = RECORD_MAP[id].get();
-            if (node_record->has_public_move_ctor &&
-                !node_record->has_public_copy_ctor) {
+            if (node_record->is_move_only) {
+                if (bind_type(*node_record) == BindType::OpaquePtr) {
+                    return NodeBlockExpr::n(std::vector<NodeExprPtr>{
+                        NodePlacementNewExpr::n(
+                            NodeDerefExpr::n(NodeVarRefExpr::n("return_")),
 
-                // auto exprs = std::vector<NodeExprPtr>();
+                            NodeFunctionCallExpr::n(
+                                node_record->name,
+                                std::vector<NodeExprPtr>{
+                                    NodeMoveExpr::n(function_call)},
+                                std::vector<NodeTypePtr>{}
 
-                // exprs.push_back();
+                                )),
+                        NodeReturnExpr::n(NodeVarRefExpr::n("0"))});
+                } else {
+                    return NodeBlockExpr::n(std::vector<NodeExprPtr>{
+                        NodePlacementNewExpr::n(
+                            NodeVarRefExpr::n("return_"),
 
-                // move only
-                return NodeBlockExpr::n(std::vector<NodeExprPtr>{
-                    NodePlacementNewExpr::n(
-                        NodeVarRefExpr::n("return_"),
+                            NodeFunctionCallExpr::n(
+                                node_record->name,
+                                std::vector<NodeExprPtr>{
+                                    NodeMoveExpr::n(function_call)},
+                                std::vector<NodeTypePtr>{}
 
-                        NodeFunctionCallExpr::n(
-                            node_record->name,
-                            std::vector<NodeExprPtr>{
-                                NodeMoveExpr::n(function_call)},
-                            std::vector<NodeTypePtr>{}
-
-                            )),
-                    NodeReturnExpr::n(NodeVarRefExpr::n("0"))});
+                                )),
+                        NodeReturnExpr::n(NodeVarRefExpr::n("0"))});
+                }
             }
         }
 
@@ -1957,18 +1965,16 @@ void general_function(TypeRegistry& type_registry, TranslationUnit& c_tu,
                                                  std::move(c_return), false);
 
         // If we're returning an opaqueptr then wrap it up in an extra pointer
-        // ... unless it's a move-only type in which case we want to
-        // placement new straight into the object
         if (converted_return.is_opaqueptr) {
             NodeId id =
                 static_cast<NodeRecordType*>(cpp_function.return_type.get())
                     ->record;
             const auto* return_record = RECORD_MAP[id].get();
 
-            if (!return_record->is_move_only) {
-                return_pointer = NodePointerType::n(
-                    PointerKind::Pointer, std::move(return_pointer), false);
-            }
+            // if (!return_record->is_move_only) {
+            return_pointer = NodePointerType::n(
+                PointerKind::Pointer, std::move(return_pointer), false);
+            // }
         }
 
         c_params.push_back(Param(std::string("return_"),
