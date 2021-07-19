@@ -260,7 +260,7 @@ NodePtr read_function(const TranslationUnit::Ptr& tu, const nln::json& json) {
     auto template_args = std::vector<NodeTypePtr>();
     for (const auto& i : json[TEMPLATE_ARGS]) {
         auto typ = read_type(i[TYPE]);
-        SPDLOG_DEBUG("Read template arg type {}", typ->type_name);
+        // SPDLOG_DEBUG("Read template arg type {}", typ->type_name);
         template_args.push_back(typ);
     }
 
@@ -292,15 +292,6 @@ NodeMethod read_method(const nln::json& json) {
     auto const_ = json[CONST].get<bool>();
     auto comment = read_comment(json);
 
-    if (copy_constructor) {
-        SPDLOG_DEBUG("Reading copy {}", short_name);
-    }
-    /*
-        if(constructor){
-            SPDLOG_WARN("Reading constructor {}", short_name);
-        }
-    */
-
     auto params = std::vector<Param>();
     for (const auto& i : json[PARAMS]) {
         params.push_back(read_param(i));
@@ -309,7 +300,7 @@ NodeMethod read_method(const nln::json& json) {
     auto template_args = std::vector<NodeTypePtr>();
     for (const auto& i : json[TEMPLATE_ARGS]) {
         auto typ = read_type(i[TYPE]);
-        SPDLOG_DEBUG("Read template arg type {}", typ->type_name);
+        // SPDLOG_DEBUG("Read template arg type {}", typ->type_name);
         template_args.push_back(typ);
     }
 

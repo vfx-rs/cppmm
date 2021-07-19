@@ -480,13 +480,17 @@ NodePtr process_method_decl(const CXXMethodDecl* cmd,
 /// that their return types and parameters are the same and they have the
 /// same short (not qualified) name
 bool match_function(const NodeFunction* a, const NodeFunction* b) {
-    SPDLOG_TRACE("        matching:\n        {}\n    with\n        {}\n", *a,
-                 *b);
+    SPDLOG_TRACE("        matching:\n     [lib] {}\n    with\n     [bin] {}",
+                 *a, *b);
     if (a->short_name != b->short_name) {
         return false;
     }
 
-    return match_parameters(a, b);
+    bool matched = match_parameters(a, b);
+    if (matched) {
+        SPDLOG_TRACE("    MATCHED");
+    }
+    return matched;
 }
 
 /// Determine if two methods are equivalent. In addition to function equivalence
@@ -639,7 +643,7 @@ bool method_in_list(NodeMethod* m, std::vector<NodePtr>& binding_methods,
             }
         }
     }
-    SPDLOG_TRACE("Method {} did not match", m->qualified_name);
+    SPDLOG_DEBUG("Method {} did not match", m->qualified_name);
     return false;
 }
 
@@ -1094,6 +1098,11 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
         // grab all the methods that are specified in the binding
         std::vector<NodePtr> methods = process_methods(crd, false, nullptr);
         SPDLOG_TRACE("record {} has {} methods", record_name, methods.size());
+        for (NodePtr& method : methods) {
+            NodeMethod* mptr = (NodeMethod*)method.get();
+            SPDLOG_TRACE("    {}", *mptr);
+        }
+
         for (NodePtr& method : methods) {
             NodeMethod* mptr = (NodeMethod*)method.get();
             if (method_in_list(mptr, binding_methods, attrs) &&

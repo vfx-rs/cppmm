@@ -1060,7 +1060,7 @@ NodeExprPtr opaqueptr_destructor_body(TypeRegistry& type_registry,
 NodeExprPtr function_body(TypeRegistry& type_registry, TranslationUnit& c_tu,
                           const NodeTypePtr& c_return,
                           const NodeFunction& cpp_function) {
-    SPDLOG_DEBUG("function_body {}", cpp_function.name);
+    // SPDLOG_DEBUG("function_body {}", cpp_function.name);
     // Loop over the parameters, creating arguments for the function call
     auto args = std::vector<NodeExprPtr>();
     for (const auto& p : cpp_function.params) {
@@ -1106,7 +1106,7 @@ NodeExprPtr function_body(TypeRegistry& type_registry, TranslationUnit& c_tu,
         }
 
         if (cpp_function.return_type->kind == NodeKind::RecordType) {
-            SPDLOG_DEBUG("Return type is record");
+            // SPDLOG_DEBUG("Return type is record");
             auto id =
                 static_cast<NodeRecordType*>(cpp_function.return_type.get())
                     ->record;
@@ -1154,7 +1154,7 @@ NodeExprPtr method_body(TypeRegistry& type_registry, TranslationUnit& c_tu,
                         const NodeRecord& cpp_record,
                         const NodeRecord& c_record, const NodeTypePtr& c_return,
                         const NodeMethod& cpp_method) {
-    SPDLOG_DEBUG("method_body {}", cpp_method.name);
+    // SPDLOG_DEBUG("method_body {}", cpp_method.name);
     // Create the reference to this
     auto this_ = this_reference(cpp_record, cpp_method.is_const);
 
