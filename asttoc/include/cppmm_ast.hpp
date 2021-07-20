@@ -52,6 +52,7 @@ enum class NodeKind : uint32_t {
     FunctionPointerTypedef,
     InfixOperatorExpr,
     MoveExpr,
+    ArrowExpr,
     Sentinal, // A sentinal entry to keep track of how many there are
 };
 
@@ -493,6 +494,24 @@ struct NodeDerefExpr : public NodeExpr { // TODO LT: Added by luke = *()
 };
 
 //------------------------------------------------------------------------------
+// NodeArrowExpr
+//------------------------------------------------------------------------------
+struct NodeArrowExpr : public NodeExpr { // TODO LT: Added by anders = ()->()
+    NodeExprPtr pointer;
+    NodeExprPtr pointee;
+
+    NodeArrowExpr(NodeExprPtr&& pointer, NodeExprPtr&& pointee)
+        : NodeExpr(NodeKind::ArrowExpr), pointer(std::move(pointer)),
+          pointee(std::move(pointee)) {}
+
+    // A static method for creating this as a shared pointer
+    using This = NodeArrowExpr;
+    template <typename... Args> static std::shared_ptr<This> n(Args&&... args) {
+        return std::make_shared<This>(std::forward<Args>(args)...);
+    }
+};
+
+//------------------------------------------------------------------------------
 // NodeReturnExpr
 //------------------------------------------------------------------------------
 struct NodeReturnExpr : public NodeExpr { // TODO LT: Added by luke = *()
@@ -669,13 +688,16 @@ struct NodeMethod : public NodeFunction {
     bool is_copy_constructor;
     bool is_move_constructor;
     bool is_const;
+    bool is_getter;
+    bool is_setter;
 
     NodeMethod(std::string qualified_name, NodeId id,
                std::vector<std::string> attrs, std::string short_name,
                NodeTypePtr&& return_type, std::vector<Param>&& params,
                bool is_static, bool is_constructor, bool is_copy_constructor,
                bool is_move_constructor, bool is_destructor, bool is_const,
-               std::string comment, std::vector<NodeTypePtr>&& template_args,
+               bool is_getter, bool is_setter, std::string comment,
+               std::vector<NodeTypePtr>&& template_args,
                std::vector<Exception> exceptions, bool is_noexcept)
         : NodeFunction(
               qualified_name, id, attrs, short_name, std::move(return_type),
@@ -684,7 +706,8 @@ struct NodeMethod : public NodeFunction {
           is_static(is_static), is_constructor(is_constructor),
           is_copy_constructor(is_copy_constructor),
           is_move_constructor(is_move_constructor),
-          is_destructor(is_destructor), is_const(is_const) {
+          is_destructor(is_destructor), is_const(is_const),
+          is_getter(is_getter), is_setter(is_setter) {
         kind = NodeKind::Method;
     }
 
@@ -701,6 +724,7 @@ struct NodeMethod : public NodeFunction {
 struct Field {
     std::string name;
     NodeTypePtr type;
+    std::vector<std::string> attrs;
 };
 
 //------------------------------------------------------------------------------
@@ -873,5 +897,6 @@ inline BindType bind_type(const NodeRecord& cpp_record) {
 }
 
 extern std::map<NodeId, std::shared_ptr<NodeRecord>> RECORD_MAP;
+extern std::map<NodeId, std::shared_ptr<NodeType>> TYPE_MAP;
 
 } // namespace cppmm

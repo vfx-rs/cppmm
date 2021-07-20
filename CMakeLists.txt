@@ -4,7 +4,7 @@ project(cppmm)
 include(GNUInstallDirs)
 
 set(CPPMM_MAJOR_VERSION 0)
-set(CPPMM_MINOR_VERSION 6)
+set(CPPMM_MINOR_VERSION 7)
 set(CPPMM_PATCH_VERSION 0)
 set(CPPMM_VERSION "${CPPMM_MAJOR_VERSION}.${CPPMM_MINOR_VERSION}.${CPPMM_PATCH_VERSION}")
 
@@ -55,3 +55,4 @@ add_subdirectory(test/opaqueptr)
 add_subdirectory(test/exceptions)
 add_subdirectory(test/nested)
 add_subdirectory(test/uniqueptr)
+add_subdirectory(test/property)

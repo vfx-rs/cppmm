@@ -375,6 +375,7 @@ std::ostream& operator<<(std::ostream& os, const NodeMethod& f);
 struct Field {
     std::string name;
     QType qtype;
+    std::vector<std::string> attrs;
 };
 
 /// A record is a class or struct declaration containing fields and methods

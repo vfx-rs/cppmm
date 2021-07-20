@@ -184,8 +184,11 @@ Param read_param(const nln::json& json) {
 //------------------------------------------------------------------------------
 std::vector<std::string> read_attrs(const nln::json& json) {
     auto attrs = std::vector<std::string>();
-    for (const auto& i : json[ATTRIBUTES]) {
-        attrs.push_back(i.get<std::string>());
+    auto attrs_it = json.find(ATTRIBUTES);
+    if (attrs_it != json.end()) {
+        for (const auto& i : *(attrs_it)) {
+            attrs.push_back(i.get<std::string>());
+        }
     }
     return attrs;
 }
@@ -310,16 +313,14 @@ NodeMethod read_method(const nln::json& json) {
     return NodeMethod(
         qualified_name, id, attrs, short_name, std::move(return_type),
         std::move(params), static_, constructor, copy_constructor,
-        move_constructor, destructor, const_, std::move(comment),
+        move_constructor, destructor, const_, false, false, std::move(comment),
         std::move(template_args), std::move(exceptions), is_noexcept);
 }
 
 //------------------------------------------------------------------------------
 Field read_field(const nln::json& json) {
-    return Field{
-        std::move(json[NAME].get<std::string>()),
-        std::move(read_type(json[TYPE])),
-    };
+    return Field{std::move(json[NAME].get<std::string>()),
+                 std::move(read_type(json[TYPE])), read_attrs(json)};
 }
 
 //------------------------------------------------------------------------------

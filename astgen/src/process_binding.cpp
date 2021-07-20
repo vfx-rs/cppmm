@@ -892,7 +892,12 @@ void process_fields(const CXXRecordDecl* crd, NodeRecord* node_record_ptr) {
                              field_name, crd->getQualifiedNameAsString());
             }
 
-            node_record_ptr->fields.push_back(Field{field_name, qtype.ty});
+            auto attrs = get_attrs(fd);
+            Field f;
+            f.name = field_name;
+            f.qtype = qtype;
+            f.attrs = attrs;
+            node_record_ptr->fields.emplace_back(f);
         }
     }
 }
@@ -992,6 +997,24 @@ void has_public_copy_move_ctor(const CXXRecordDecl* crd,
         has_public_copy_ctor |= is_public_copy_ctor(d);
         has_public_move_ctor |= is_public_move_ctor(d);
     }
+}
+
+std::vector<std::string> get_properties(const std::vector<std::string>& attrs) {
+    std::vector<std::string> props;
+    for (const auto& attr : attrs) {
+        if (attr.find("cppmm|properties|") != 0) {
+            continue;
+        }
+
+        std::string props_str = attr.substr(17, std::string::npos);
+        std::vector<std::string> props_toks;
+        ps::split(props_str, props_toks, ";");
+        for (const auto& p : props_toks) {
+            props.push_back(ps::strip(p));
+        }
+    }
+
+    return props;
 }
 
 /// Create a new NodeRecord for the given record decl and store it in the AST.
@@ -1151,6 +1174,16 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
         // process remaining children
         // first process (recursively) the fields from this decl and all bases
         process_fields(crd, node_record_ptr);
+        auto props = get_properties(node_record_ptr->attrs);
+
+        // now tag the fields themselves if they've been marked as properties
+        for (auto& field : node_record_ptr->fields) {
+            for (const auto& p : props) {
+                if (p == field.name) {
+                    field.attrs.push_back("cppmm|property");
+                }
+            }
+        }
 
         // now get other child decls
         for (const Decl* d : crd->decls()) {
