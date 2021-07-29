@@ -2249,8 +2249,10 @@ void create_property(const Field& field, TypeRegistry& type_registry,
     NodeTypePtr return_type_get = NodePointerType::n(
         PointerKind::Reference, std::move(return_type_get_inner), false);
 
+    NodeTypePtr val_type_set_inner = std::shared_ptr<NodeType>(field.type);
+    val_type_set_inner->const_ = true;
     NodeTypePtr val_type_set = NodePointerType::n(
-        PointerKind::Reference, std::shared_ptr<NodeType>(field.type), false);
+        PointerKind::Reference, std::move(val_type_set_inner), false);
     Param param_set(std::string("value"), std::move(val_type_set), 0);
 
     NodeMethod method_get(
