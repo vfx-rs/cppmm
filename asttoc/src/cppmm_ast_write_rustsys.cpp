@@ -116,7 +116,7 @@ std::string convert_function_pointer_type(const NodeFunctionProtoType* t) {
     for (const auto& p : t->params) {
         params.push_back(convert_type(p.get()));
     }
-    return fmt::format("extern fn({}) -> {}", pystring::join(", ", params),
+    return fmt::format("Option<extern fn({}) -> {}>", pystring::join(", ", params),
                        return_type);
 }
 
