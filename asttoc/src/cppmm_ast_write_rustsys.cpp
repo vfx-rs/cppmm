@@ -459,7 +459,7 @@ void write_modules(fs::path dir) {
         if (entry.is_regular_file() &&
             entry.path().filename().extension() == ".rs" &&
             entry.path().filename() != "mod.rs") {
-            SPDLOG_DEBUG("got regular file {}", entry.path().string());
+            // SPDLOG_DEBUG("got regular file {}", entry.path().string());
             out_mod.print(
                 "pub mod {};\n",
                 entry.path().filename().replace_extension("").string());
@@ -586,7 +586,7 @@ impl fmt::Display for Error {{
             entry.path().filename().extension() == ".rs" &&
             entry.path().filename() != "lib.rs" &&
             entry.path().filename() != "test.rs") {
-            SPDLOG_DEBUG("got regular file {}", entry.path().string());
+            // SPDLOG_DEBUG("got regular file {}", entry.path().string());
             out_lib.print(
                 "pub mod {};\n",
                 entry.path().filename().replace_extension("").string());

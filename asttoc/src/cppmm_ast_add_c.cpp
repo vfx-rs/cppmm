@@ -1060,6 +1060,7 @@ NodeExprPtr opaqueptr_destructor_body(TypeRegistry& type_registry,
 NodeExprPtr function_body(TypeRegistry& type_registry, TranslationUnit& c_tu,
                           const NodeTypePtr& c_return,
                           const NodeFunction& cpp_function) {
+    // SPDLOG_DEBUG("function_body {}", cpp_function.name);
     // Loop over the parameters, creating arguments for the function call
     auto args = std::vector<NodeExprPtr>();
     for (const auto& p : cpp_function.params) {
@@ -1104,18 +1105,56 @@ NodeExprPtr function_body(TypeRegistry& type_registry, TranslationUnit& c_tu,
                 {function_call, NodeReturnExpr::n(NodeVarRefExpr::n("0"))}));
         }
 
+        if (cpp_function.return_type->kind == NodeKind::RecordType) {
+            // SPDLOG_DEBUG("Return type is record");
+            auto id =
+                static_cast<NodeRecordType*>(cpp_function.return_type.get())
+                    ->record;
+            const auto* node_record = RECORD_MAP[id].get();
+            if (node_record->is_move_only) {
+                if (bind_type(*node_record) == BindType::OpaquePtr) {
+                    return NodeBlockExpr::n(std::vector<NodeExprPtr>{
+                        NodePlacementNewExpr::n(
+                            NodeDerefExpr::n(NodeVarRefExpr::n("return_")),
+
+                            NodeFunctionCallExpr::n(
+                                node_record->name,
+                                std::vector<NodeExprPtr>{
+                                    NodeMoveExpr::n(function_call)},
+                                std::vector<NodeTypePtr>{}
+
+                                )),
+                        NodeReturnExpr::n(NodeVarRefExpr::n("0"))});
+                } else {
+                    return NodeBlockExpr::n(std::vector<NodeExprPtr>{
+                        NodePlacementNewExpr::n(
+                            NodeVarRefExpr::n("return_"),
+
+                            NodeFunctionCallExpr::n(
+                                node_record->name,
+                                std::vector<NodeExprPtr>{
+                                    NodeMoveExpr::n(function_call)},
+                                std::vector<NodeTypePtr>{}
+
+                                )),
+                        NodeReturnExpr::n(NodeVarRefExpr::n("0"))});
+                }
+            }
+        }
+
         return NodeBlockExpr::n(std::vector<NodeExprPtr>(
             {convert_return(cpp_function.return_type, c_return, function_call,
                             NodeVarRefExpr::n("return_")),
              NodeReturnExpr::n(NodeVarRefExpr::n("0"))}));
     }
-}
+} // namespace generate
 
 //------------------------------------------------------------------------------
 NodeExprPtr method_body(TypeRegistry& type_registry, TranslationUnit& c_tu,
                         const NodeRecord& cpp_record,
                         const NodeRecord& c_record, const NodeTypePtr& c_return,
                         const NodeMethod& cpp_method) {
+    // SPDLOG_DEBUG("method_body {}", cpp_method.name);
     // Create the reference to this
     auto this_ = this_reference(cpp_record, cpp_method.is_const);
 
@@ -1149,6 +1188,31 @@ NodeExprPtr method_body(TypeRegistry& type_registry, TranslationUnit& c_tu,
         return NodeBlockExpr::n(std::vector<NodeExprPtr>(
             {method_call, NodeReturnExpr::n(NodeVarRefExpr::n("0"))}));
     }
+
+    /*
+    if (cpp_function.return_type->kind == NodeKind::RecordType) {
+        SPDLOG_DEBUG("Method Return type is record");
+        auto id = static_cast<NodeRecordType*>(cpp_function.return_type.get())
+                      ->record;
+        const auto* node_record = RECORD_MAP[id].get();
+        if (node_record->has_public_move_ctor &&
+            !node_record->has_public_copy_ctor) {
+
+            // move only
+            return NodeBlockExpr::n(std::vector<NodeExprPtr>{
+                NodePlacementNewExpr::n(
+                    NodeVarRefExpr::n("return_"),
+
+                    NodeFunctionCallExpr::n(node_record->name,
+                                            std::vector<NodeExprPtr>{
+                                                NodeMoveExpr::n(function_call)},
+                                            std::vector<NodeTypePtr>{}
+
+                                            )),
+                NodeReturnExpr::n(NodeVarRefExpr::n("0"))});
+        }
+    }
+    */
 
     return NodeBlockExpr::n(std::vector<NodeExprPtr>(
         {convert_return(cpp_method.return_type, c_return, method_call,
@@ -1551,7 +1615,8 @@ void record_entry(NodeId& record_id, TypeRegistry& type_registry,
         c_tu, c_record_name, record_id++, cpp_record.attrs, cpp_record.size,
         cpp_record.align, cpp_record.alias, cpp_record.namespaces, false,
         cpp_record.trivially_copyable, cpp_record.trivially_movable,
-        cpp_record.opaque_type, cpp_record.comment);
+        cpp_record.opaque_type, cpp_record.comment,
+        cpp_record.has_public_copy_ctor, cpp_record.has_public_move_ctor);
 
     c_record->nice_name = nice_name;
 
@@ -1901,8 +1966,15 @@ void general_function(TypeRegistry& type_registry, TranslationUnit& c_tu,
 
         // If we're returning an opaqueptr then wrap it up in an extra pointer
         if (converted_return.is_opaqueptr) {
+            NodeId id =
+                static_cast<NodeRecordType*>(cpp_function.return_type.get())
+                    ->record;
+            const auto* return_record = RECORD_MAP[id].get();
+
+            // if (!return_record->is_move_only) {
             return_pointer = NodePointerType::n(
                 PointerKind::Pointer, std::move(return_pointer), false);
+            // }
         }
 
         c_params.push_back(Param(std::string("return_"),
@@ -2048,6 +2120,46 @@ void to_c_copy__constructor(TranslationUnit& c_tu, const NodeRecord& cpp_record,
 }
 
 //------------------------------------------------------------------------------
+void to_c_move(TranslationUnit& c_tu, const NodeRecord& cpp_record,
+               const NodeRecord& c_record) {
+    auto rhs = NodeRecordType::n("", 0, cpp_record.name, cpp_record.id, false);
+
+    auto c_return =
+        NodeRecordType::n("", 0, c_record.nice_name, c_record.id, false);
+
+    auto c_function_body =
+        NodeBlockExpr::n(std::vector<NodeExprPtr>{NodePlacementNewExpr::n(
+            NodeVarRefExpr::n("lhs"),
+
+            NodeFunctionCallExpr::n(cpp_record.name,
+                                    std::vector<NodeExprPtr>{NodeMoveExpr::n(
+                                        NodeVarRefExpr::n("rhs"))},
+                                    std::vector<NodeTypePtr>{}
+
+                                    ))});
+
+    auto lhs =
+        NodePointerType::n(PointerKind::Pointer, std::move(c_return), false);
+
+    // Add the new function to the translation unit
+    std::vector<std::string> attrs;
+    std::vector<Param> params = {
+        Param("lhs", lhs, 0),
+        Param("rhs", rhs, 1),
+    };
+    auto c_function = NodeFunction::n(
+        "to_c_move", PLACEHOLDER_ID, attrs, "",
+        NodeBuiltinType::n("void", 0, "void", false), std::move(params), "", "",
+        std::vector<NodeTypePtr>{}, std::vector<Exception>{}, false);
+
+    c_function->body = c_function_body;
+    c_function->private_ = true;
+    c_function->inline_ = true;
+
+    c_tu.decls.push_back(std::move(c_function));
+}
+
+//------------------------------------------------------------------------------
 void record_conversions(TranslationUnit& c_tu, const NodeRecord& cpp_record,
                         const NodeRecord& c_record,
                         const NodePtr& copy_constructor) {
@@ -2080,6 +2192,8 @@ void record_conversions(TranslationUnit& c_tu, const NodeRecord& cpp_record,
     } else if (cpp_record.trivially_copyable) {
         to_c_copy__trivial(c_tu, cpp_record.name, cpp_record.id,
                            c_record.nice_name, c_record.id);
+    } else if (cpp_record.has_public_move_ctor) {
+        to_c_move(c_tu, cpp_record, c_record);
     }
 }
 

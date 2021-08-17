@@ -84,6 +84,8 @@ const char* FUNCTION_POINTER_TYPEDEF_L = "function_pointer_typedef";
 const char* TEMPLATE_ARGS = "template_args";
 const char* OPAQUE_TYPE = "opaque_type";
 const char* NOEXCEPT = "noexcept";
+const char* HAS_PUBLIC_COPY_CTOR = "has_public_copy_ctor";
+const char* HAS_PUBLIC_MOVE_CTOR = "has_public_move_ctor";
 } // namespace
 
 //------------------------------------------------------------------------------
@@ -258,7 +260,7 @@ NodePtr read_function(const TranslationUnit::Ptr& tu, const nln::json& json) {
     auto template_args = std::vector<NodeTypePtr>();
     for (const auto& i : json[TEMPLATE_ARGS]) {
         auto typ = read_type(i[TYPE]);
-        SPDLOG_DEBUG("Read template arg type {}", typ->type_name);
+        // SPDLOG_DEBUG("Read template arg type {}", typ->type_name);
         template_args.push_back(typ);
     }
 
@@ -290,15 +292,6 @@ NodeMethod read_method(const nln::json& json) {
     auto const_ = json[CONST].get<bool>();
     auto comment = read_comment(json);
 
-    if (copy_constructor) {
-        SPDLOG_DEBUG("Reading copy {}", short_name);
-    }
-    /*
-        if(constructor){
-            SPDLOG_WARN("Reading constructor {}", short_name);
-        }
-    */
-
     auto params = std::vector<Param>();
     for (const auto& i : json[PARAMS]) {
         params.push_back(read_param(i));
@@ -307,7 +300,7 @@ NodeMethod read_method(const nln::json& json) {
     auto template_args = std::vector<NodeTypePtr>();
     for (const auto& i : json[TEMPLATE_ARGS]) {
         auto typ = read_type(i[TYPE]);
-        SPDLOG_DEBUG("Read template arg type {}", typ->type_name);
+        // SPDLOG_DEBUG("Read template arg type {}", typ->type_name);
         template_args.push_back(typ);
     }
 
@@ -358,6 +351,18 @@ NodePtr read_record(const TranslationUnit::Ptr& tu, const nln::json& json) {
         trivially_movable = trivially_movable_a->get<bool>();
     }
 
+    auto has_public_copy_ctor = false;
+    auto has_public_copy_ctor_a = json.find(HAS_PUBLIC_COPY_CTOR);
+    if (has_public_copy_ctor_a != json.end()) {
+        has_public_copy_ctor = has_public_copy_ctor_a->get<bool>();
+    }
+
+    auto has_public_move_ctor = false;
+    auto has_public_move_ctor_a = json.find(HAS_PUBLIC_MOVE_CTOR);
+    if (has_public_move_ctor_a != json.end()) {
+        has_public_move_ctor = has_public_move_ctor_a->get<bool>();
+    }
+
     auto opaque_type = false;
     auto opaque_type_a = json.find(OPAQUE_TYPE);
     if (opaque_type_a != json.end()) {
@@ -394,7 +399,8 @@ NodePtr read_record(const TranslationUnit::Ptr& tu, const nln::json& json) {
     // Instantiate the translation unit
     auto result = NodeRecord::n(
         tu, qual_name, id, attrs, size, align, name, namespaces, abstract,
-        trivially_copyable, trivially_movable, opaque_type, std::move(comment));
+        trivially_copyable, trivially_movable, opaque_type, std::move(comment),
+        has_public_copy_ctor, has_public_move_ctor);
 
     // Pull out the methods
     for (const auto& i : json[METHODS]) {
@@ -405,6 +411,9 @@ NodePtr read_record(const TranslationUnit::Ptr& tu, const nln::json& json) {
     for (const auto& i : json[FIELDS]) {
         result->fields.push_back(std::move(read_field(i)));
     }
+
+    // put this record in the global map so we find it later
+    RECORD_MAP[id] = result;
 
     // Return the result
     return result;

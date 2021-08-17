@@ -51,6 +51,7 @@ enum class NodeKind : uint32_t {
     Typedef,
     FunctionPointerTypedef,
     InfixOperatorExpr,
+    MoveExpr,
     Sentinal, // A sentinal entry to keep track of how many there are
 };
 
@@ -508,6 +509,22 @@ struct NodeReturnExpr : public NodeExpr { // TODO LT: Added by luke = *()
 };
 
 //------------------------------------------------------------------------------
+// NodeMoveExpr
+//------------------------------------------------------------------------------
+struct NodeMoveExpr : public NodeExpr {
+    NodeExprPtr inner;
+
+    NodeMoveExpr(NodeExprPtr&& inner)
+        : NodeExpr(NodeKind::MoveExpr), inner(std::move(inner)) {}
+
+    // A static method for creating this as a shared pointer
+    using This = NodeMoveExpr;
+    template <typename... Args> static std::shared_ptr<This> n(Args&&... args) {
+        return std::make_shared<This>(std::forward<Args>(args)...);
+    }
+};
+
+//------------------------------------------------------------------------------
 // NodeCastExpr
 //------------------------------------------------------------------------------
 struct NodeCastExpr : public NodeExpr { // TODO LT: Added by luke
@@ -704,6 +721,9 @@ struct NodeRecord : public NodeAttributeHolder {
     bool abstract;
     bool trivially_copyable;
     bool trivially_movable;
+    bool has_public_copy_ctor;
+    bool has_public_move_ctor;
+    bool is_move_only;
     bool opaque_type;
 
     std::string nice_name;
@@ -713,13 +733,17 @@ struct NodeRecord : public NodeAttributeHolder {
                uint32_t align, const std::string& alias,
                const std::vector<NodeId>& namespaces, bool abstract,
                bool trivially_copyable, bool trivially_movable,
-               bool opaque_type, std::string comment)
+               bool opaque_type, std::string comment, bool has_public_copy_ctor,
+               bool has_public_move_ctor)
         : NodeAttributeHolder(qualified_name, id, NodeKind::Record, attrs,
                               std::move(comment)),
           tu(tu), size(size), align(align), force_alignment(false),
           alias(alias), namespaces(namespaces), abstract(abstract),
           trivially_copyable(trivially_copyable),
-          trivially_movable(trivially_movable), opaque_type(opaque_type) {}
+          trivially_movable(trivially_movable), opaque_type(opaque_type),
+          has_public_copy_ctor(has_public_copy_ctor),
+          has_public_move_ctor(has_public_move_ctor),
+          is_move_only(has_public_move_ctor && !has_public_copy_ctor) {}
 
     // A static method for creating this as a shared pointer
     using This = NodeRecord;
@@ -847,5 +871,7 @@ inline BindType bind_type(const NodeRecord& cpp_record) {
 
     return bind_type;
 }
+
+extern std::map<NodeId, std::shared_ptr<NodeRecord>> RECORD_MAP;
 
 } // namespace cppmm

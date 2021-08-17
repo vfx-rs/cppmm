@@ -352,6 +352,16 @@ void write_expression_infix_operator(fmt::ostream& out, size_t depth,
 }
 
 //------------------------------------------------------------------------------
+void write_expression_move(fmt::ostream& out, size_t depth,
+                           const NodeExprPtr& node) {
+    const auto& move_expr = *static_cast<const NodeMoveExpr*>(node.get());
+
+    out.print("std::move(");
+    write_expression(out, depth, move_expr.inner);
+    out.print(")");
+}
+
+//------------------------------------------------------------------------------
 void write_expression_method_call(fmt::ostream& out, size_t depth,
                                   const NodeExprPtr& node) {
     const auto& method_call =
@@ -511,6 +521,8 @@ void write_expression(fmt::ostream& out, size_t depth,
         return write_expression_assign(out, depth, node);
     case NodeKind::InfixOperatorExpr:
         return write_expression_infix_operator(out, depth, node);
+    case NodeKind::MoveExpr:
+        return write_expression_move(out, depth, node);
     default:
         break;
     }
