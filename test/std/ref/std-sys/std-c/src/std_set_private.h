@@ -119,6 +119,13 @@ inline void to_c(
         *(lhs) = reinterpret_cast<std_set_string_t * >(rhs);
 }
 
+inline void to_c_move(
+    std_set_string_t * lhs
+    , std::set<std::string> rhs)
+{
+        new (lhs) std::set<std::string>(std::move(rhs));
+}
+
 inline std::_Rb_tree_const_iterator<std::__cxx11::basic_string<char> > const & to_cpp_ref(
     std_set_string_iterator_t const * rhs)
 {

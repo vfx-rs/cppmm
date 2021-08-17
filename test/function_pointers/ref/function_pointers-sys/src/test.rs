@@ -17,7 +17,7 @@ fn it_works() {
     let mut cb = Box::new(CallbackData { pc: Vec::new() });
     unsafe {
         fptr_takes_ages(
-            callback,
+            Some(callback),
             (&mut *cb) as *mut CallbackData as *mut c_void,
         );
     }

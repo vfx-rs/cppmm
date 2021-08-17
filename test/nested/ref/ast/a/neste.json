@@ -29,6 +29,8 @@
             "abstract": false,
             "trivially_copyable": true,
             "trivially_movable": true,
+            "has_public_copy_ctor": false,
+            "has_public_move_ctor": false,
             "opaque_type": false,
             "size": 32,
             "align": 32,
@@ -46,7 +48,8 @@
                         "id": 5,
                         "type": "int",
                         "const": false
-                    }
+                    },
+                    "attributes": []
                 }
             ],
             "methods": [

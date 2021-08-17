@@ -39,6 +39,8 @@
             "abstract": false,
             "trivially_copyable": false,
             "trivially_movable": false,
+            "has_public_copy_ctor": true,
+            "has_public_move_ctor": true,
             "opaque_type": false,
             "size": 256,
             "align": 64,
@@ -249,6 +251,8 @@
             "abstract": false,
             "trivially_copyable": false,
             "trivially_movable": false,
+            "has_public_copy_ctor": true,
+            "has_public_move_ctor": true,
             "opaque_type": false,
             "size": 192,
             "align": 64,
@@ -267,7 +271,8 @@
                         "type": "std::_Vector_base<std::__cxx11::basic_string<char>, std::allocator<std::__cxx11::basic_string<char> > >::_Vector_impl",
                         "record": -1,
                         "const": false
-                    }
+                    },
+                    "attributes": []
                 }
             ],
             "methods": [

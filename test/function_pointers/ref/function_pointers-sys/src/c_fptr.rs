@@ -9,7 +9,7 @@ use std::os::raw::*;
 
 extern "C" {
 
-pub fn fptr_takes_ages(cb: extern fn(*mut c_void, c_float) -> bool, data: *mut c_void) -> Exception;
+pub fn fptr_takes_ages(cb: Option<extern fn(*mut c_void, c_float) -> bool>, data: *mut c_void) -> Exception;
 
 
 } // extern "C"
