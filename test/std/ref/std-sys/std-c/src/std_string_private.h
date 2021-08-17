@@ -60,6 +60,13 @@ inline void to_c(
         *(lhs) = reinterpret_cast<std_string_t * >(rhs);
 }
 
+inline void to_c_move(
+    std_string_t * lhs
+    , std::__cxx11::basic_string<char> rhs)
+{
+        new (lhs) std::__cxx11::basic_string<char>(std::move(rhs));
+}
+
 inline std::vector<std::string> const & to_cpp_ref(
     std_vector_string_t const * rhs)
 {
@@ -110,5 +117,12 @@ inline void to_c(
     , std::vector<std::string> * rhs)
 {
         *(lhs) = reinterpret_cast<std_vector_string_t * >(rhs);
+}
+
+inline void to_c_move(
+    std_vector_string_t * lhs
+    , std::vector<std::string> rhs)
+{
+        new (lhs) std::vector<std::string>(std::move(rhs));
 }
 

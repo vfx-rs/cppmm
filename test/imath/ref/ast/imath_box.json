@@ -29,6 +29,8 @@
             "abstract": false,
             "trivially_copyable": true,
             "trivially_movable": true,
+            "has_public_copy_ctor": true,
+            "has_public_move_ctor": true,
             "opaque_type": false,
             "size": 192,
             "align": 32,
@@ -49,7 +51,8 @@
                         "type": "Imath_2_5::Vec3<float>",
                         "record": 25,
                         "const": false
-                    }
+                    },
+                    "attributes": []
                 },
                 {
                     "kind": "Field",
@@ -60,7 +63,8 @@
                         "type": "Imath_2_5::Vec3<float>",
                         "record": 25,
                         "const": false
-                    }
+                    },
+                    "attributes": []
                 }
             ],
             "methods": [
@@ -179,6 +183,8 @@
             "abstract": false,
             "trivially_copyable": true,
             "trivially_movable": true,
+            "has_public_copy_ctor": true,
+            "has_public_move_ctor": true,
             "opaque_type": false,
             "size": 192,
             "align": 32,
@@ -199,7 +205,8 @@
                         "type": "Imath_2_5::Vec3<int>",
                         "record": 41,
                         "const": false
-                    }
+                    },
+                    "attributes": []
                 },
                 {
                     "kind": "Field",
@@ -210,7 +217,8 @@
                         "type": "Imath_2_5::Vec3<int>",
                         "record": 41,
                         "const": false
-                    }
+                    },
+                    "attributes": []
                 }
             ],
             "methods": [

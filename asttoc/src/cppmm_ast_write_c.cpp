@@ -393,6 +393,17 @@ void write_expression_deref(fmt::ostream& out, size_t depth,
 }
 
 //------------------------------------------------------------------------------
+void write_expression_arrow(fmt::ostream& out, size_t depth,
+                            const NodeExprPtr& node) {
+    const auto& arrow = *static_cast<const NodeArrowExpr*>(node.get());
+
+    out.print("(");
+    write_expression(out, depth, arrow.pointer);
+    out.print(")->");
+    write_expression(out, depth, arrow.pointee);
+}
+
+//------------------------------------------------------------------------------
 void write_expression_ref(fmt::ostream& out, size_t depth,
                           const NodeExprPtr& node) {
     const auto& ref = *static_cast<const NodeRefExpr*>(node.get());
@@ -501,6 +512,8 @@ void write_expression(fmt::ostream& out, size_t depth,
         return write_expression_var_ref(out, depth, node);
     case NodeKind::DerefExpr:
         return write_expression_deref(out, depth, node);
+    case NodeKind::ArrowExpr:
+        return write_expression_arrow(out, depth, node);
     case NodeKind::RefExpr:
         return write_expression_ref(out, depth, node);
     case NodeKind::CastExpr:

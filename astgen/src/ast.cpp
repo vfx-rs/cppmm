@@ -420,6 +420,7 @@ void NodeRecord::write_json(json& o) const {
         f["kind"] = "Field";
         f["name"] = field.name;
         f["type"] = json::object();
+        f["attributes"] = field.attrs;
         field.qtype.write_json(f["type"]);
         o["fields"].emplace_back(f);
     }

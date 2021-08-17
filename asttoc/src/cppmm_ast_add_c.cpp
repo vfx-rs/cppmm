@@ -596,14 +596,14 @@ void opaquebytes_record(NodeRecord& c_record) {
         size_in_bytes, is_const);
 
     c_record.force_alignment = true;
-    c_record.fields.push_back(Field{"data", std::move(array_type)});
+    c_record.fields.push_back(Field{"data", std::move(array_type), {}});
 }
 
 //------------------------------------------------------------------------------
 void opaqueptr_record(NodeRecord& c_record) {
     auto unused = NodeBuiltinType::n("char", 0, "char", false);
 
-    c_record.fields.push_back(Field{"_unused", std::move(unused)});
+    c_record.fields.push_back(Field{"_unused", std::move(unused), {}});
 }
 
 //------------------------------------------------------------------------------
@@ -1170,13 +1170,22 @@ NodeExprPtr method_body(TypeRegistry& type_registry, TranslationUnit& c_tu,
         cpp_method_name = cpp_method.name;
     }
 
-    for (const auto& a : cpp_method.template_args) {
-        SPDLOG_DEBUG("template args: {}", a->type_name);
-    }
-
     // Create the method call expression
-    auto method_call = NodeMethodCallExpr::n(std::move(this_), cpp_method_name,
-                                             args, cpp_method.template_args);
+    std::shared_ptr<NodeExpr> method_call;
+    if (cpp_method.is_getter) {
+        method_call = NodeArrowExpr::n(
+            std::move(this_),
+            NodeVarRefExpr::n(cpp_method_name.substr(4, std::string::npos)));
+    } else if (cpp_method.is_setter) {
+        method_call = NodeAssignExpr::n(
+            NodeArrowExpr::n(std::move(this_),
+                             NodeVarRefExpr::n(
+                                 cpp_method_name.substr(4, std::string::npos))),
+            args[0]);
+    } else {
+        method_call = NodeMethodCallExpr::n(std::move(this_), cpp_method_name,
+                                            args, cpp_method.template_args);
+    }
 
     // Convert the result
     auto is_void =
@@ -1188,31 +1197,6 @@ NodeExprPtr method_body(TypeRegistry& type_registry, TranslationUnit& c_tu,
         return NodeBlockExpr::n(std::vector<NodeExprPtr>(
             {method_call, NodeReturnExpr::n(NodeVarRefExpr::n("0"))}));
     }
-
-    /*
-    if (cpp_function.return_type->kind == NodeKind::RecordType) {
-        SPDLOG_DEBUG("Method Return type is record");
-        auto id = static_cast<NodeRecordType*>(cpp_function.return_type.get())
-                      ->record;
-        const auto* node_record = RECORD_MAP[id].get();
-        if (node_record->has_public_move_ctor &&
-            !node_record->has_public_copy_ctor) {
-
-            // move only
-            return NodeBlockExpr::n(std::vector<NodeExprPtr>{
-                NodePlacementNewExpr::n(
-                    NodeVarRefExpr::n("return_"),
-
-                    NodeFunctionCallExpr::n(node_record->name,
-                                            std::vector<NodeExprPtr>{
-                                                NodeMoveExpr::n(function_call)},
-                                            std::vector<NodeTypePtr>{}
-
-                                            )),
-                NodeReturnExpr::n(NodeVarRefExpr::n("0"))});
-        }
-    }
-    */
 
     return NodeBlockExpr::n(std::vector<NodeExprPtr>(
         {convert_return(cpp_method.return_type, c_return, method_call,
@@ -2229,7 +2213,7 @@ void valuetype_fields(TypeRegistry& type_registry, TranslationUnit& c_tu,
             panic("Unsupported type for field {} of record {}", field.name,
                   c_record.name);
         }
-        c_record.fields.push_back(Field{field.name, c_field_type});
+        c_record.fields.push_back(Field{field.name, c_field_type, field.attrs});
     }
 }
 
@@ -2256,9 +2240,91 @@ void record_fields(TypeRegistry& type_registry, TranslationUnit& c_tu,
 }
 
 //------------------------------------------------------------------------------
+void create_property(const Field& field, TypeRegistry& type_registry,
+                     TranslationUnit& c_tu, NodeRecord& cpp_record,
+                     NodeRecord& c_record) {
+    std::string method_name_get = std::string("get_") + field.name;
+    NodeTypePtr return_type_get_inner = std::shared_ptr<NodeType>(field.type);
+    return_type_get_inner->const_ = true;
+    NodeTypePtr return_type_get = NodePointerType::n(
+        PointerKind::Reference, std::move(return_type_get_inner), false);
+
+    NodeTypePtr val_type_set_inner = std::shared_ptr<NodeType>(field.type);
+    val_type_set_inner->const_ = true;
+    NodeTypePtr val_type_set = NodePointerType::n(
+        PointerKind::Reference, std::move(val_type_set_inner), false);
+    Param param_set(std::string("value"), std::move(val_type_set), 0);
+
+    NodeMethod method_get(
+        cpp_record.name + "::" + method_name_get + "()", /// qualified_name
+        -1,                                              // id
+        std::vector<std::string>{},                      // attrs
+        method_name_get,                                 // short_name
+        std::move(return_type_get),                      // return type
+        std::vector<Param>{},                            // params
+        false,                                           // is_static
+        false,                                           // is_constructor
+        false,                                           // is_copy_constructor
+        false,                                           // is_move_constructor
+        false,                                           // is_destructor
+        true,                                            // is_const
+        true,                                            // is_getter
+        false,                                           // is_setter
+        // method_name_get,                                 // nice_name
+        "",                         // comment
+        std::vector<NodeTypePtr>{}, // template_args
+        std::vector<Exception>{},   // exceptions
+        true                        // is_noexcept
+    );
+
+    cpp_record.methods.push_back(method_get);
+
+    std::string method_name_set = std::string("set_") + field.name;
+    NodeMethod method_set(
+        cpp_record.name + "::" + method_name_set + "()", /// qualified_name
+        -1,                                              // id
+        std::vector<std::string>{},                      // attrs
+        method_name_set,                                 // short_name
+        NodeBuiltinType::n("", -1, "void", false),       // return_type
+        std::vector<Param>{param_set},                   // params
+        false,                                           // is_static
+        false,                                           // is_constructor
+        false,                                           // is_copy_constructor
+        false,                                           // is_move_constructor
+        false,                                           // is_destructor
+        false,                                           // is_const
+        false,                                           // is_getter
+        true,                                            // is_setter
+        // method_name_get,                                 // nice_name
+        "",                         // comment
+        std::vector<NodeTypePtr>{}, // template_args
+        std::vector<Exception>{},   // exceptions
+        true                        // is_noexcept
+    );
+
+    cpp_record.methods.push_back(method_set);
+}
+
+//------------------------------------------------------------------------------
+void record_properties(TypeRegistry& type_registry, TranslationUnit& c_tu,
+                       NodeRecord& cpp_record, NodeRecord& c_record) {
+    SPDLOG_DEBUG("record_properties");
+    for (const auto& field : cpp_record.fields) {
+        SPDLOG_DEBUG("field {}", field.name);
+        for (const auto& attr : field.attrs) {
+            SPDLOG_DEBUG("attr {}", attr);
+            if (attr.find("cppmm|property") == 0) {
+                create_property(field, type_registry, c_tu, cpp_record,
+                                c_record);
+            }
+        }
+    }
+}
+
+//------------------------------------------------------------------------------
 void record_detail(TypeRegistry& type_registry, TranslationUnit& c_tu,
-                   const NodePtr& cpp_node) {
-    const auto& cpp_record = *static_cast<NodeRecord*>(cpp_node.get());
+                   NodePtr& cpp_node) {
+    auto& cpp_record = *static_cast<NodeRecord*>(cpp_node.get());
 
     // Most simple record implementation is the opaque bytes.
     // Least safe and most restrictive in use, but easiest to implement.
@@ -2274,6 +2340,9 @@ void record_detail(TypeRegistry& type_registry, TranslationUnit& c_tu,
         record_sizeof(type_registry, c_tu, cpp_record, c_record);
         record_alignof(type_registry, c_tu, cpp_record, c_record);
     }
+
+    // Properties (getters/setters for fields)
+    record_properties(type_registry, c_tu, cpp_record, c_record);
 
     // Methods
     NodePtr copy_constructor;
@@ -2398,7 +2467,7 @@ void translation_unit_details(TypeRegistry& type_registry, Root& root,
     auto& c_tu = *root.tus[cpp_tu_size + cpp_tu];
 
     // cpp methods -> c functions
-    for (const auto& node : root.tus[cpp_tu]->decls) {
+    for (auto& node : root.tus[cpp_tu]->decls) {
         switch (node->kind) {
         case NodeKind::Record:
             generate::record_detail(type_registry, c_tu, node);

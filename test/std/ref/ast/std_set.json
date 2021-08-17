@@ -30,6 +30,8 @@
             "abstract": false,
             "trivially_copyable": true,
             "trivially_movable": true,
+            "has_public_copy_ctor": true,
+            "has_public_move_ctor": true,
             "opaque_type": false,
             "size": 256,
             "align": 64,
@@ -49,7 +51,8 @@
                         "type": "std::_Rb_tree_color",
                         "enum": -1,
                         "const": false
-                    }
+                    },
+                    "attributes": []
                 },
                 {
                     "kind": "Field",
@@ -66,7 +69,8 @@
                             "const": false
                         },
                         "const": false
-                    }
+                    },
+                    "attributes": []
                 },
                 {
                     "kind": "Field",
@@ -83,7 +87,8 @@
                             "const": false
                         },
                         "const": false
-                    }
+                    },
+                    "attributes": []
                 },
                 {
                     "kind": "Field",
@@ -100,7 +105,8 @@
                             "const": false
                         },
                         "const": false
-                    }
+                    },
+                    "attributes": []
                 }
             ],
             "methods": null
@@ -124,6 +130,8 @@
             "abstract": false,
             "trivially_copyable": false,
             "trivially_movable": false,
+            "has_public_copy_ctor": true,
+            "has_public_move_ctor": true,
             "opaque_type": false,
             "size": 384,
             "align": 64,
@@ -312,6 +320,8 @@
             "abstract": false,
             "trivially_copyable": true,
             "trivially_movable": true,
+            "has_public_copy_ctor": true,
+            "has_public_move_ctor": true,
             "opaque_type": false,
             "size": 64,
             "align": 64,
@@ -337,7 +347,8 @@
                             "const": true
                         },
                         "const": false
-                    }
+                    },
+                    "attributes": []
                 }
             ],
             "methods": [

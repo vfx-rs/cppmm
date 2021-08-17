@@ -35,5 +35,16 @@ enum RgbaChannels {
     RGBA_CHANNELS_ALL,
 } CPPMM_ENUM_PREFIX(RGBA_) CPPMM_RUSTIFY_ENUM;
 
+class Foo {
+    using BoundType = ::rustify::Foo;
+
+public:
+    CPPMM_RUSTIFY_ENUM
+    enum Bar {
+        Baz = 0,
+        Qux = 1,
+    };
+};
+
 } // namespace rustify
 } // namespace cppmm_bind

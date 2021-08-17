@@ -30,6 +30,8 @@
             "abstract": false,
             "trivially_copyable": true,
             "trivially_movable": true,
+            "has_public_copy_ctor": true,
+            "has_public_move_ctor": false,
             "opaque_type": false,
             "size": 96,
             "align": 32,
@@ -49,7 +51,8 @@
                         "id": 23,
                         "type": "float",
                         "const": false
-                    }
+                    },
+                    "attributes": []
                 },
                 {
                     "kind": "Field",
@@ -59,7 +62,8 @@
                         "id": 23,
                         "type": "float",
                         "const": false
-                    }
+                    },
+                    "attributes": []
                 },
                 {
                     "kind": "Field",
@@ -69,7 +73,8 @@
                         "id": 23,
                         "type": "float",
                         "const": false
-                    }
+                    },
+                    "attributes": []
                 }
             ],
             "methods": [
@@ -554,6 +559,8 @@
             "abstract": false,
             "trivially_copyable": true,
             "trivially_movable": true,
+            "has_public_copy_ctor": true,
+            "has_public_move_ctor": false,
             "opaque_type": false,
             "size": 96,
             "align": 32,
@@ -573,7 +580,8 @@
                         "id": 27,
                         "type": "int",
                         "const": false
-                    }
+                    },
+                    "attributes": []
                 },
                 {
                     "kind": "Field",
@@ -583,7 +591,8 @@
                         "id": 27,
                         "type": "int",
                         "const": false
-                    }
+                    },
+                    "attributes": []
                 },
                 {
                     "kind": "Field",
@@ -593,7 +602,8 @@
                         "id": 27,
                         "type": "int",
                         "const": false
-                    }
+                    },
+                    "attributes": []
                 }
             ],
             "methods": [

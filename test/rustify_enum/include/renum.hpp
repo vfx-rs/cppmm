@@ -31,4 +31,12 @@ enum RgbaChannels {
     RGBA_CHANNELS_ALL,
 };
 
+class Foo {
+public:
+    enum Bar {
+        Baz = 0,
+        Qux = 1,
+    };
+};
+
 } // namespace rustify
