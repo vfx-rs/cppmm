@@ -157,13 +157,14 @@ QType process_qtype(const QualType& qt) {
         const std::string pointer_type_name =
             qt.getCanonicalType().getAsString();
         const std::string pointer_type_node_name = "TYPE:" + pointer_type_name;
-
+        
         auto it = NODE_MAP.find(pointer_type_name);
         NodeId id;
         if (it == NODE_MAP.end()) {
             // need to create the pointer type, create the pointee type first
             QType pointee_qtype =
-                process_qtype(qt->getPointeeType().getCanonicalType());
+                process_qtype(qt->getPointeeType());
+
             // now create the pointer type
             id = NODES.size();
             auto node_pointer_type = std::make_unique<NodePointerType>(
@@ -200,6 +201,32 @@ QType process_qtype(const QualType& qt) {
             // std::string mangled_name = os.str();
             std::string mangled_name = mangle_decl(crd);
             type_node_name = "TYPE:" + mangled_name;
+        }
+
+        // FIXME: hack to work around unsigned long being different sizes on 
+        // windows and *nix
+        if (qt->isBuiltinType() && type_name == "unsigned long") {
+            const auto* tdt = qt->getAs<TypedefType>();
+            if (tdt && tdt->getDecl()->getNameAsString() == "uint64_t") {
+                type_name = "uint64_t";
+                type_node_name = "TYPE:uint64_t";
+            } else if (tdt && tdt->getDecl()->getNameAsString() == "size_t") {
+                type_name = "size_t";
+                type_node_name = "TYPE:size_t";
+            } else if (tdt && tdt->getDecl()->getNameAsString() == "size_type") {
+                // FIXME: Nasty hack here to get e.g. std::string::size_type
+                // will this bite us?
+                type_name = "size_t";
+                type_node_name = "TYPE:size_t";
+            } else if (tdt) {
+                SPDLOG_WARN("Unhandled unsigned long typedef {}", tdt->getDecl()->getNameAsString());
+            }
+        } else if (qt->isBuiltinType() && type_name == "long") {
+            const auto* tdt = qt->getAs<TypedefType>();
+            if (tdt && tdt->getDecl()->getNameAsString() == "int64_t") {
+                type_name = "int64_t";
+                type_node_name = "TYPE:int64_t";
+            }
         }
 
         // see if we've proessed this type already

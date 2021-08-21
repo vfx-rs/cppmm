@@ -300,7 +300,7 @@
                     "return": {
                         "kind": "BuiltinType",
                         "id": 3,
-                        "type": "unsigned long",
+                        "type": "size_t",
                         "const": false
                     },
                     "params": null,

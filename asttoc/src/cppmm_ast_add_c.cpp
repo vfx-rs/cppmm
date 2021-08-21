@@ -336,6 +336,10 @@ ConvertType convert_builtin_type(TranslationUnit& c_tu,
     // TODO LT: Do mapping of c++ builtins to c builtins
     if (t->type_name == "_Bool") {
         c_tu.header_includes.insert("#include <stdbool.h>");
+    } else if (t->type_name == "uint64_t" || t->type_name == "int64_t") {
+        c_tu.header_includes.insert("#include <stdint.h>");
+    } else if (t->type_name == "size_t") {
+        c_tu.header_includes.insert("#include <stddef.h>");
     }
 
     // For now just copy everything one to one.
@@ -1060,7 +1064,7 @@ NodeExprPtr opaqueptr_destructor_body(TypeRegistry& type_registry,
 NodeExprPtr function_body(TypeRegistry& type_registry, TranslationUnit& c_tu,
                           const NodeTypePtr& c_return,
                           const NodeFunction& cpp_function) {
-    // SPDLOG_DEBUG("function_body {}", cpp_function.name);
+    SPDLOG_DEBUG("function_body {}", cpp_function.name);
     // Loop over the parameters, creating arguments for the function call
     auto args = std::vector<NodeExprPtr>();
     for (const auto& p : cpp_function.params) {
@@ -1358,7 +1362,14 @@ void record_method(TypeRegistry& type_registry, TranslationUnit& c_tu,
 
     // If the method is static, then delegate to the function wrapping method
     if (cpp_method.is_static) {
-        general_function(type_registry, c_tu, cpp_method, &cpp_record,
+        SPDLOG_DEBUG("static method {}", cpp_method.name);
+
+        // recreate the method name by jamming the short name and the record
+        // name together as if the record is a template class we may well have
+        // bad std namespace gunk in there.
+        auto method = cpp_method;
+        method.name = cpp_record.name + "::" + method.short_name;
+        general_function(type_registry, c_tu, method, &cpp_record,
                          &c_record);
         return;
     }

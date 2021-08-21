@@ -1,4 +1,6 @@
 #pragma once
+#include "std-api-export.h"
+
 
 #ifdef __cplusplus
 extern "C" {
@@ -9,10 +11,10 @@ typedef std____cxx11__basic_string_char__t std_string_t;
 typedef struct std__vector_std__string__t_s std__vector_std__string__t;
 typedef std__vector_std__string__t std_vector_string_t;
 
-unsigned int usestd_takes_string(
+STD_CPPMM_API unsigned int usestd_takes_string(
     std_string_t const * s);
 
-unsigned int usestd_takes_vector_string(
+STD_CPPMM_API unsigned int usestd_takes_vector_string(
     std_vector_string_t const * v);
 
 #ifdef __cplusplus

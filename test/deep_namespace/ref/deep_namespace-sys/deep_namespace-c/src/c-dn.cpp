@@ -3,7 +3,7 @@
 
 #include <stdexcept>
 
-unsigned int DN__v2_2__Class__Struct_structMethod(
+DEEP_NAMESPACE_CPPMM_API unsigned int DN__v2_2__Class__Struct_structMethod(
     DN_Class_Struct_t * this_)
 {
     try {
@@ -15,7 +15,7 @@ unsigned int DN__v2_2__Class__Struct_structMethod(
     }
 }
 
-unsigned int DN_v2_2_someFunction()
+DEEP_NAMESPACE_CPPMM_API unsigned int DN_v2_2_someFunction()
 {
     try {
         DN::v2_2::someFunction();

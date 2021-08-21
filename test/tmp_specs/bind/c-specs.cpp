@@ -11,12 +11,18 @@ template <typename T> struct Attribute {
     T t;
 
     const T& value();
-};
+    static void do_something(T& v);
+
+    Attribute();
+
+} CPPMM_OPAQUEPTR;
 
 template class Attribute<int>;
 template class Attribute<float>;
+template class Attribute<std::string>;
 using IntAttribute = ::specs::Attribute<int>;
 using FloatAttribute = ::specs::Attribute<float>;
+using StringAttribute = ::specs::Attribute<std::string>;
 
 struct Specs {
     using BoundType = ::specs::Specs;
@@ -52,6 +58,7 @@ const ::specs::Attribute<float>* (Specs::*findAttribute_float_const)(
 
 template class ::specs::Attribute<int>;
 template class ::specs::Attribute<float>;
+template class ::specs::Attribute<std::string>;
 
 extern template ::specs::IntAttribute*
 specs::Specs::findAttribute(const char* name);

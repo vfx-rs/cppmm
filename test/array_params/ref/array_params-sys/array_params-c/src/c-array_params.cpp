@@ -4,7 +4,7 @@
 
 #include <stdexcept>
 
-unsigned int imath__Matrix44_float__from_array(
+ARRAY_PARAMS_CPPMM_API unsigned int imath__Matrix44_float__from_array(
     imath_M44f_t * this_
     , float const a[4][4])
 {

@@ -3,7 +3,7 @@
 
 thread_local std::string TLG_EXCEPTION_STRING;
 
-const char* deep_namespace_get_exception_string() {
+const char* DEEP_NAMESPACE_CPPMM_API deep_namespace_get_exception_string() {
     return TLG_EXCEPTION_STRING.c_str();
 }
 

@@ -4,21 +4,21 @@
 
 #include <stdexcept>
 
-unsigned int std____cxx11__basic_string_char__sizeof()
+STD_CPPMM_API unsigned int std____cxx11__basic_string_char__sizeof()
 {
         return sizeof(std::__cxx11::basic_string<char>);
 }
 
-unsigned int std____cxx11__basic_string_char__alignof()
+STD_CPPMM_API unsigned int std____cxx11__basic_string_char__alignof()
 {
         return alignof(std::__cxx11::basic_string<char>);
 }
 
-unsigned int std____cxx11__basic_string_char__assign(
+STD_CPPMM_API unsigned int std____cxx11__basic_string_char__assign(
     std_string_t * this_
     , std_string_t * * return_
     , char const * s
-    , unsigned long count)
+    , size_t count)
 {
     try {
         to_c(return_, (to_cpp(this_)) -> assign(s, count));
@@ -29,7 +29,7 @@ unsigned int std____cxx11__basic_string_char__assign(
     }
 }
 
-unsigned int std____cxx11__basic_string_char__c_str(
+STD_CPPMM_API unsigned int std____cxx11__basic_string_char__c_str(
     std_string_t const * this_
     , char const * * return_)
 {
@@ -37,17 +37,17 @@ unsigned int std____cxx11__basic_string_char__c_str(
         return 0;
 }
 
-unsigned int std__vector_std__string__sizeof()
+STD_CPPMM_API unsigned int std__vector_std__string__sizeof()
 {
         return sizeof(std::vector<std::string>);
 }
 
-unsigned int std__vector_std__string__alignof()
+STD_CPPMM_API unsigned int std__vector_std__string__alignof()
 {
         return alignof(std::vector<std::string>);
 }
 
-unsigned int std__vector_std__string__ctor(
+STD_CPPMM_API unsigned int std__vector_std__string__ctor(
     std_vector_string_t * this_)
 {
     try {
@@ -59,7 +59,7 @@ unsigned int std__vector_std__string__ctor(
     }
 }
 
-unsigned int std__vector_std__string__dtor(
+STD_CPPMM_API unsigned int std__vector_std__string__dtor(
     std_vector_string_t * this_)
 {
         (to_cpp(this_)) -> std::vector<std::__cxx11::basic_string<char>, std::allocator<std::__cxx11::basic_string<char>>>::~vector();

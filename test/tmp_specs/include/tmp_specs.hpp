@@ -1,10 +1,14 @@
 #pragma once
 
+#include <string>
+
 namespace specs {
 
 template <typename T> struct Attribute {
     T t;
     const T& value();
+    static void do_something(T& v){}
+    Attribute(){}
 };
 
 using IntAttribute = Attribute<int>;

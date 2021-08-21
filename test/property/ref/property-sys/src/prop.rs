@@ -17,6 +17,8 @@ pub struct prop__Foo_t {
 
 extern "C" {
 
+pub fn prop__Foo_bum() -> Exception;
+
 pub fn prop__Foo_get_a(this_: *const prop_Foo_t, return_: *mut *const c_int) -> Exception;
 
 pub fn prop__Foo_set_a(this_: *mut prop_Foo_t, value: *const c_int) -> Exception;
@@ -28,6 +30,12 @@ pub fn prop__Foo_set_b(this_: *mut prop_Foo_t, value: *const c_float) -> Excepti
 pub fn prop__Foo_get_bar(this_: *const prop_Foo_t, return_: *mut *const prop_Bar_t) -> Exception;
 
 pub fn prop__Foo_set_bar(this_: *mut prop_Foo_t, value: *const prop_Bar_t) -> Exception;
+
+pub fn prop__Foo_get_u(this_: *const prop_Foo_t, return_: *mut *const u64) -> Exception;
+
+pub fn prop__Foo_set_u(this_: *mut prop_Foo_t, value: *const u64) -> Exception;
+
+pub fn prop_fuz(return_: *mut u64, a: *mut u64, b: *mut u64, c: u64) -> Exception;
 
 
 } // extern "C"

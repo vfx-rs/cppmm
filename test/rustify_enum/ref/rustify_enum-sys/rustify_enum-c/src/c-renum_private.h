@@ -7,6 +7,65 @@
 #include <cstring>
 #include <renum.hpp>
 
+inline rustify::Foo::Bar const & rustify_Foo_Bar_to_cpp_ref(
+    rustify_Foo_Bar const * rhs)
+{
+        return *(reinterpret_cast<rustify::Foo::Bar const * >(rhs));
+}
+
+inline rustify::Foo::Bar & rustify_Foo_Bar_to_cpp_ref(
+    rustify_Foo_Bar * rhs)
+{
+        return *(reinterpret_cast<rustify::Foo::Bar * >(rhs));
+}
+
+inline rustify::Foo::Bar const * rustify_Foo_Bar_to_cpp(
+    rustify_Foo_Bar const * rhs)
+{
+        return reinterpret_cast<rustify::Foo::Bar const * >(rhs);
+}
+
+inline rustify::Foo::Bar * rustify_Foo_Bar_to_cpp(
+    rustify_Foo_Bar * rhs)
+{
+        return reinterpret_cast<rustify::Foo::Bar * >(rhs);
+}
+
+inline void to_c(
+    rustify_Foo_Bar const * * lhs
+    , rustify::Foo::Bar const & rhs)
+{
+        *(lhs) = reinterpret_cast<rustify_Foo_Bar const * >(&(rhs));
+}
+
+inline void to_c(
+    rustify_Foo_Bar const * * lhs
+    , rustify::Foo::Bar const * rhs)
+{
+        *(lhs) = reinterpret_cast<rustify_Foo_Bar const * >(rhs);
+}
+
+inline void to_c(
+    rustify_Foo_Bar * * lhs
+    , rustify::Foo::Bar & rhs)
+{
+        *(lhs) = reinterpret_cast<rustify_Foo_Bar * >(&(rhs));
+}
+
+inline void to_c(
+    rustify_Foo_Bar * * lhs
+    , rustify::Foo::Bar * rhs)
+{
+        *(lhs) = reinterpret_cast<rustify_Foo_Bar * >(rhs);
+}
+
+inline void to_c_copy(
+    rustify_Foo_Bar * lhs
+    , rustify::Foo::Bar const & rhs)
+{
+        memcpy(lhs, &(rhs), sizeof(*(lhs)));
+}
+
 inline rustify::Compression const & rustify_Compression_to_cpp_ref(
     rustify_Compression const * rhs)
 {
@@ -180,6 +239,65 @@ inline void to_c(
 inline void to_c_copy(
     rustify_RgbaChannels * lhs
     , rustify::RgbaChannels const & rhs)
+{
+        memcpy(lhs, &(rhs), sizeof(*(lhs)));
+}
+
+inline rustify::Foo const & to_cpp_ref(
+    rustify_Foo_t const * rhs)
+{
+        return *(reinterpret_cast<rustify::Foo const * >(rhs));
+}
+
+inline rustify::Foo & to_cpp_ref(
+    rustify_Foo_t * rhs)
+{
+        return *(reinterpret_cast<rustify::Foo * >(rhs));
+}
+
+inline rustify::Foo const * to_cpp(
+    rustify_Foo_t const * rhs)
+{
+        return reinterpret_cast<rustify::Foo const * >(rhs);
+}
+
+inline rustify::Foo * to_cpp(
+    rustify_Foo_t * rhs)
+{
+        return reinterpret_cast<rustify::Foo * >(rhs);
+}
+
+inline void to_c(
+    rustify_Foo_t const * * lhs
+    , rustify::Foo const & rhs)
+{
+        *(lhs) = reinterpret_cast<rustify_Foo_t const * >(&(rhs));
+}
+
+inline void to_c(
+    rustify_Foo_t const * * lhs
+    , rustify::Foo const * rhs)
+{
+        *(lhs) = reinterpret_cast<rustify_Foo_t const * >(rhs);
+}
+
+inline void to_c(
+    rustify_Foo_t * * lhs
+    , rustify::Foo & rhs)
+{
+        *(lhs) = reinterpret_cast<rustify_Foo_t * >(&(rhs));
+}
+
+inline void to_c(
+    rustify_Foo_t * * lhs
+    , rustify::Foo * rhs)
+{
+        *(lhs) = reinterpret_cast<rustify_Foo_t * >(rhs);
+}
+
+inline void to_c_copy(
+    rustify_Foo_t * lhs
+    , rustify::Foo const & rhs)
 {
         memcpy(lhs, &(rhs), sizeof(*(lhs)));
 }

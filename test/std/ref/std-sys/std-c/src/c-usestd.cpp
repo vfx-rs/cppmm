@@ -4,7 +4,7 @@
 
 #include <stdexcept>
 
-unsigned int usestd_takes_string(
+STD_CPPMM_API unsigned int usestd_takes_string(
     std_string_t const * s)
 {
     try {
@@ -16,7 +16,7 @@ unsigned int usestd_takes_string(
     }
 }
 
-unsigned int usestd_takes_vector_string(
+STD_CPPMM_API unsigned int usestd_takes_vector_string(
     std_vector_string_t const * v)
 {
     try {

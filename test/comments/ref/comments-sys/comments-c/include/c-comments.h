@@ -1,4 +1,6 @@
 #pragma once
+#include "comments-api-export.h"
+
 
 #ifdef __cplusplus
 extern "C" {
@@ -8,18 +10,18 @@ extern "C" {
 grab comments to be injected into C and Rust */
 typedef struct comments__Class_t_s {
     char _unused;
-} __attribute__((aligned(1))) comments__Class_t;
+} COMMENTS_CPPMM_ALIGN(1) comments__Class_t;
 typedef comments__Class_t comments_Class_t;
 
 
 /** This method doesn't do anything interesting at all */
-unsigned int comments__Class_method(
+COMMENTS_CPPMM_API unsigned int comments__Class_method(
     comments_Class_t * this_);
 #define comments_Class_method comments__Class_method
 
 
 /** This is a free function that also does nothing interesting */
-unsigned int comments_function();
+COMMENTS_CPPMM_API unsigned int comments_function();
 
 #ifdef __cplusplus
 }

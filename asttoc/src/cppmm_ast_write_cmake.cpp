@@ -51,7 +51,7 @@ const std::string compute_out_include_path(const std::string& filename) {
 void cmake(const char* project_name, const Root& root, size_t starting_point,
            const Libs& libs, const LibDirs& lib_dirs, int version_major,
            int version_minor, int version_patch, const char* base_project_name,
-           const char* output_directory) {
+           const char* output_directory, const std::string& api_prefix) {
     expect(starting_point < root.tus.size(),
            "starting point ({}) is out of range ({})", starting_point,
            root.tus.size());
@@ -93,6 +93,20 @@ void cmake(const char* project_name, const Root& root, size_t starting_point,
     out.print("add_library(${{LIBNAME}} STATIC ${{SOURCES}})\n");
     out.print("add_library(${{LIBNAME}}-shared SHARED ${{SOURCES}})\n");
 
+    // hide symbols by default
+    out.print("\nset_target_properties(${{LIBNAME}} PROPERTIES CXX_VISIBILITY_PRESET hidden)\n");
+    out.print("set_target_properties(${{LIBNAME}}-shared PROPERTIES CXX_VISIBILITY_PRESET hidden)\n\n");
+
+    // tell it we're building hte library not linking against it
+    out.print("target_compile_definitions(${{LIBNAME}} PRIVATE {}_CPPMM_BUILD_EXPORT)\n", api_prefix);
+    out.print("target_compile_definitions(${{LIBNAME}}-shared PRIVATE {}_CPPMM_BUILD_EXPORT)\n", api_prefix);
+
+    // Windows...
+    out.print("if (WIN32)\n");
+    out.print("target_compile_definitions(${{LIBNAME}} PRIVATE _Bool=bool)\n");
+    out.print("target_compile_definitions(${{LIBNAME}}-shared PRIVATE _Bool=bool)\n");
+    out.print("endif()\n");
+
     // Add the include path of the output headers
     // include_paths.insert(compute_out_include_path("./"));
     include_paths.insert("include");
@@ -132,7 +146,7 @@ void cmake_modern(const char* project_name, const Root& root,
                   const std::vector<std::string>& find_packages,
                   const std::vector<std::string>& target_link_libraries,
                   int version_major, int version_minor, int version_patch,
-                  const char* base_project_name, const char* output_directory) {
+                  const char* base_project_name, const char* output_directory, const std::string& api_prefix) {
     expect(starting_point < root.tus.size(),
            "starting point ({}) is out of range ({})", starting_point,
            root.tus.size());
@@ -173,6 +187,21 @@ void cmake_modern(const char* project_name, const Root& root,
               version_minor);
     out.print("add_library(${{LIBNAME}} STATIC ${{SOURCES}})\n");
     out.print("add_library(${{LIBNAME}}-shared SHARED ${{SOURCES}})\n");
+
+
+    // hide symbols by default
+    out.print("\nset_target_properties(${{LIBNAME}} PROPERTIES CXX_VISIBILITY_PRESET hidden)\n");
+    out.print("set_target_properties(${{LIBNAME}}-shared PROPERTIES CXX_VISIBILITY_PRESET hidden)\n\n");
+
+    // tell it we're building hte library not linking against it
+    out.print("\ntarget_compile_definitions(${{LIBNAME}} PRIVATE {}_CPPMM_BUILD_EXPORT)\n", api_prefix);
+    out.print("\ntarget_compile_definitions(${{LIBNAME}}-shared PRIVATE {}_CPPMM_BUILD_EXPORT)\n", api_prefix);
+
+    // Windows...
+    out.print("if (WIN32)\n");
+    out.print("target_compile_definitions(${{LIBNAME}} PRIVATE _Bool=bool)\n");
+    out.print("target_compile_definitions(${{LIBNAME}}-shared PRIVATE _Bool=bool)\n");
+    out.print("endif()\n");
 
     // Add the include path of the output headers
     // include_paths.insert(compute_out_include_path("./src"));

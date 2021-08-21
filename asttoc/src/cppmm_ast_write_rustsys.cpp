@@ -61,6 +61,10 @@ std::string convert_builtin_type(const NodeBuiltinType* t) {
         return "c_double";
     } else if (t->type_name == "void") {
         return "c_void";
+    } else if (t->type_name == "uint64_t") {
+        return "u64";
+    } else if (t->type_name == "int64_t") {
+        return "i64";
     }
     panic("Unhandled builtin {}", t->type_name);
     return t->type_name;

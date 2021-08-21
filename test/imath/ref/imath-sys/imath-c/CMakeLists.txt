@@ -9,6 +9,16 @@ set(SOURCES
 set(LIBNAME imath-c-0_1)
 add_library(${LIBNAME} STATIC ${SOURCES})
 add_library(${LIBNAME}-shared SHARED ${SOURCES})
+
+set_target_properties(${LIBNAME} PROPERTIES CXX_VISIBILITY_PRESET hidden)
+set_target_properties(${LIBNAME}-shared PROPERTIES CXX_VISIBILITY_PRESET hidden)
+
+target_compile_definitions(${LIBNAME} PRIVATE IMATH_CPPMM_BUILD_EXPORT)
+target_compile_definitions(${LIBNAME}-shared PRIVATE IMATH_CPPMM_BUILD_EXPORT)
+if (WIN32)
+target_compile_definitions(${LIBNAME} PRIVATE _Bool=bool)
+target_compile_definitions(${LIBNAME}-shared PRIVATE _Bool=bool)
+endif()
 target_include_directories(${LIBNAME} PRIVATE /home/anders/packages/openexr/2.5.5/include)
 target_include_directories(${LIBNAME}-shared PRIVATE /home/anders/packages/openexr/2.5.5/include)
 target_include_directories(${LIBNAME} PRIVATE include)

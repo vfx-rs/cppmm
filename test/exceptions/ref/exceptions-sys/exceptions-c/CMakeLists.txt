@@ -8,6 +8,16 @@ set(SOURCES
 set(LIBNAME exceptions-c-0_1)
 add_library(${LIBNAME} STATIC ${SOURCES})
 add_library(${LIBNAME}-shared SHARED ${SOURCES})
+
+set_target_properties(${LIBNAME} PROPERTIES CXX_VISIBILITY_PRESET hidden)
+set_target_properties(${LIBNAME}-shared PROPERTIES CXX_VISIBILITY_PRESET hidden)
+
+target_compile_definitions(${LIBNAME} PRIVATE EXCEPTIONS_CPPMM_BUILD_EXPORT)
+target_compile_definitions(${LIBNAME}-shared PRIVATE EXCEPTIONS_CPPMM_BUILD_EXPORT)
+if (WIN32)
+target_compile_definitions(${LIBNAME} PRIVATE _Bool=bool)
+target_compile_definitions(${LIBNAME}-shared PRIVATE _Bool=bool)
+endif()
 target_include_directories(${LIBNAME} PRIVATE /home/anders/code/cppmm/test/exceptions/include)
 target_include_directories(${LIBNAME}-shared PRIVATE /home/anders/code/cppmm/test/exceptions/include)
 target_include_directories(${LIBNAME} PRIVATE include)

@@ -3,7 +3,7 @@
 
 thread_local std::string TLG_EXCEPTION_STRING;
 
-const char* std_get_exception_string() {
+const char* STD_CPPMM_API std_get_exception_string() {
     return TLG_EXCEPTION_STRING.c_str();
 }
 

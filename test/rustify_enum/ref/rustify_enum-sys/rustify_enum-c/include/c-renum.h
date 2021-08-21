@@ -1,9 +1,16 @@
 #pragma once
+#include "rustify_enum-api-export.h"
+
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
+enum rustify__Foo__Bar_e {
+    rustify_Foo_Bar_Baz = 0,
+    rustify_Foo_Bar_Qux = 1,
+};
+typedef unsigned int rustify_Foo_Bar;
 enum rustify__Compression_e {
     rustify_Compression_NO_COMPRESSION = 0,
     rustify_Compression_RLE_COMPRESSION = 1,
@@ -33,6 +40,12 @@ enum rustify__RgbaChannels_e {
     rustify_RgbaChannels_RGBA_CHANNELS_ALL = 4,
 };
 typedef unsigned int rustify_RgbaChannels;
+
+typedef struct rustify__Foo_t_s {
+    char _unused;
+} RUSTIFY_ENUM_CPPMM_ALIGN(1) rustify__Foo_t;
+typedef rustify__Foo_t rustify_Foo_t;
+
 
 #ifdef __cplusplus
 }

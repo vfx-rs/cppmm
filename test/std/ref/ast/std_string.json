@@ -103,7 +103,7 @@
                             "type": {
                                 "kind": "BuiltinType",
                                 "id": 3,
-                                "type": "unsigned long",
+                                "type": "size_t",
                                 "const": false
                             },
                             "attrs": []
@@ -191,7 +191,7 @@
                             "type": {
                                 "kind": "BuiltinType",
                                 "id": 3,
-                                "type": "unsigned long",
+                                "type": "size_t",
                                 "const": false
                             },
                             "attrs": []

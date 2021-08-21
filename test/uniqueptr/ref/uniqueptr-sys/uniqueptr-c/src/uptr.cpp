@@ -5,7 +5,7 @@
 
 #include <stdexcept>
 
-unsigned int std__unique_ptr_foo__Foo__ctor(
+UNIQUEPTR_CPPMM_API unsigned int std__unique_ptr_foo__Foo__ctor(
     std_FooPtr_t * * this_
     , foo_Foo_t * p)
 {
@@ -13,14 +13,14 @@ unsigned int std__unique_ptr_foo__Foo__ctor(
         return 0;
 }
 
-unsigned int std__unique_ptr_foo__Foo__dtor(
+UNIQUEPTR_CPPMM_API unsigned int std__unique_ptr_foo__Foo__dtor(
     std_FooPtr_t * this_)
 {
         delete to_cpp(this_);
         return 0;
 }
 
-unsigned int std__unique_ptr_foo__Foo__get(
+UNIQUEPTR_CPPMM_API unsigned int std__unique_ptr_foo__Foo__get(
     std_FooPtr_t const * this_
     , foo_Foo_t * * return_)
 {

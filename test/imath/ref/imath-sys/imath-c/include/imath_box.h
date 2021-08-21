@@ -1,4 +1,6 @@
 #pragma once
+#include "imath-api-export.h"
+
 #include <imath_vec.h>
 
 #ifdef __cplusplus
@@ -13,35 +15,35 @@ typedef Imath_2_5__Vec3_int__t Imath_V3i_t;
 typedef struct Imath_2_5__Box_Imath__Vec3_float___t_s {
     Imath_V3f_t min;
     Imath_V3f_t max;
-} __attribute__((aligned(4))) Imath_2_5__Box_Imath__Vec3_float___t;
+} IMATH_CPPMM_ALIGN(4) Imath_2_5__Box_Imath__Vec3_float___t;
 typedef Imath_2_5__Box_Imath__Vec3_float___t Imath_Box3f_t;
 
 typedef struct Imath_2_5__Box_Imath__Vec3_int___t_s {
     Imath_V3i_t min;
     Imath_V3i_t max;
-} __attribute__((aligned(4))) Imath_2_5__Box_Imath__Vec3_int___t;
+} IMATH_CPPMM_ALIGN(4) Imath_2_5__Box_Imath__Vec3_int___t;
 typedef Imath_2_5__Box_Imath__Vec3_int___t Imath_Box3i_t;
 
 
-unsigned int Imath_2_5__Box_Imath__Vec3_float___extendBy(
+IMATH_CPPMM_API unsigned int Imath_2_5__Box_Imath__Vec3_float___extendBy(
     Imath_Box3f_t * this_
     , Imath_V3f_t const * point);
 #define Imath_Box3f_extendBy Imath_2_5__Box_Imath__Vec3_float___extendBy
 
 
-unsigned int Imath_2_5__Box_Imath__Vec3_float___extendBy_1(
+IMATH_CPPMM_API unsigned int Imath_2_5__Box_Imath__Vec3_float___extendBy_1(
     Imath_Box3f_t * this_
     , Imath_Box3f_t const * box);
 #define Imath_Box3f_extendBy_1 Imath_2_5__Box_Imath__Vec3_float___extendBy_1
 
 
-unsigned int Imath_2_5__Box_Imath__Vec3_int___extendBy(
+IMATH_CPPMM_API unsigned int Imath_2_5__Box_Imath__Vec3_int___extendBy(
     Imath_Box3i_t * this_
     , Imath_V3i_t const * point);
 #define Imath_Box3i_extendBy Imath_2_5__Box_Imath__Vec3_int___extendBy
 
 
-unsigned int Imath_2_5__Box_Imath__Vec3_int___extendBy_1(
+IMATH_CPPMM_API unsigned int Imath_2_5__Box_Imath__Vec3_int___extendBy_1(
     Imath_Box3i_t * this_
     , Imath_Box3i_t const * box);
 #define Imath_Box3i_extendBy_1 Imath_2_5__Box_Imath__Vec3_int___extendBy_1
