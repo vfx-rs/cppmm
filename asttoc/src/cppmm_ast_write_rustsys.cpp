@@ -629,6 +629,7 @@ edition = "2018"
 [build-dependencies]
 cmake = "0.1"
 regex = "^1.5"
+quick-xml = "0.22"
 
 [dependencies]
 )",

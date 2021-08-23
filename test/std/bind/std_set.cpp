@@ -47,8 +47,8 @@ public:
 // explicit instantiation
 template class set<::std::string>;
 
-using set_string = ::std::set<::std::string>;
-using set_string_iterator = ::std::set<::std::string>::const_iterator;
+using set_string CPPMM_FORCE_NAME("std::set<std::string>") = ::std::set<::std::string>;
+using set_string_iterator CPPMM_FORCE_NAME("std::set<std::string>::const_iterator") = ::std::set<::std::string>::const_iterator;
 
 } // namespace std
 

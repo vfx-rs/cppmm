@@ -155,6 +155,12 @@ void write_record(fmt::ostream& out, const NodePtr& node,
 
     if (record.opaque_type) {
         out.print("typedef struct {0}_s {0};\n", record.name);
+    } else if (bind_type(record) == BindType::OpaqueBytes) {
+        out.print("typedef struct {}_s {{\n", record.name);
+        out.print("    char data[%SIZE{}%];\n", record.cpp_name);
+        out.print("}} {}_CPPMM_ALIGN(%ALIGN{}%) {};\n", api_prefix,
+                  record.cpp_name, 
+                  record.name);
     } else {
         out.print("typedef struct {}_s {{\n", record.name);
         write_fields(out, record);
@@ -709,11 +715,59 @@ void write_private_header(const TranslationUnit& tu, fs::path base_dir,
 }
 
 //------------------------------------------------------------------------------
+void write_abi_generator_for_tu(const TranslationUnit& tu, fs::path base_dir) {
+    std::string basename, ext;
+    pystring::os::path::splitext(basename, ext, tu.filename);
+    std::string safename = pystring::replace(basename, "-", "_");
+
+    fs::path filename = base_dir / "abigen" / (basename + ".cpp");
+    fs::create_directories(filename.parent_path());
+    auto out = fmt::output_file(filename.string());
+
+    // Write all the includes needed in the header file
+    for (const auto& i: tu.cpp_includes) {
+        out.print("{}\n", i);
+    }
+
+    out.print("#include \"{}.hpp\"\n\n", basename);
+
+    out.print("void abi_gen_{}(std::ostream& os) {{\n", safename);
+
+    for (const auto& node : tu.decls) {
+        if (node->kind == NodeKind::Record) {
+            if (!node->private_) {
+                const NodeRecord& record = *static_cast<const NodeRecord*>(node.get());
+                if (bind_type(record) != BindType::OpaquePtr) {
+                    out.print("\tos << \"{0}\" << \"|\" << sizeof({0}) << \"|\" << alignof({0}) << \"\\n\";\n", record.cpp_name);
+                }
+            }
+        }
+    }
+
+    out.print("}}\n");
+    
+    out.close();
+
+    // now write the header... sigh
+    filename = base_dir / "abigen" / (basename + ".hpp");
+    fs::create_directories(filename.parent_path());
+    auto header_out = fmt::output_file(filename.string());
+
+    header_out.print("#pragma once\n#include <ostream>\n\n");
+
+    header_out.print("void abi_gen_{}(std::ostream& os);\n", safename);
+
+    header_out.close();
+}
+
+//------------------------------------------------------------------------------
 void write_header(const TranslationUnit& tu, fs::path base_dir,
                   const std::string& api_prefix) {
     std::string basename, ext;
     pystring::os::path::splitext(basename, ext, tu.filename);
-    fs::path filename = base_dir / "include" / (basename + ".h");
+    // we first write the header to an input folder, which will be read later 
+    // in the build to fill out the ABI information for the current compiler
+    fs::path filename = base_dir / "include.in" / (basename + ".h");
     fs::create_directories(filename.parent_path());
     auto out = fmt::output_file(filename.string());
 
@@ -820,6 +874,7 @@ void write_translation_unit(const TranslationUnit& tu, fs::path base_dir,
     write_header(tu, base_dir, api_prefix);
     write_private_header(tu, base_dir, api_prefix);
     write_source(tu, base_dir, api_prefix);
+    write_abi_generator_for_tu(tu, base_dir);
 }
 
 //------------------------------------------------------------------------------
@@ -835,6 +890,36 @@ void c(const char* project_name, const Root& root, size_t starting_point,
         const auto& tu = root.tus[i];
         write_translation_unit(*tu, base_dir, api_prefix);
     }
+
+    // write abi generator main
+    fs::path filename = base_dir / "abigen" / "abigen.cpp";
+    fs::create_directories(filename.parent_path());
+    auto out = fmt::output_file(filename.string());
+
+    out.print("#include <fstream>\n\n");
+
+    for (size_t i = starting_point; i < size; ++i) {
+        const auto& tu = root.tus[i];
+        std::string basename, ext;
+        pystring::os::path::splitext(basename, ext, tu->filename);
+        out.print("#include \"{}.hpp\"\n", basename);
+    }
+
+    out.print("\n");
+
+    out.print("int main() {{\n");
+    out.print("    std::ofstream os(\"abigen.txt\");\n\n");
+    
+    for (size_t i = starting_point; i < size; ++i) {
+        const auto& tu = root.tus[i];
+        std::string basename, ext;
+        pystring::os::path::splitext(basename, ext, tu->filename);
+        basename = pystring::replace(basename, "-", "_");
+        out.print("    abi_gen_{}(os);\n", basename);
+    }
+
+    out.print("}}\n");
+    out.close();
 }
 
 //------------------------------------------------------------------------------

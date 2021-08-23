@@ -97,6 +97,7 @@ struct TranslationUnit {
     std::set<std::string> source_includes;
     std::set<std::string> private_includes;
     std::set<std::string> header_includes;
+    std::set<std::string> cpp_includes;
 
     std::vector<std::string> include_paths;
 
@@ -751,6 +752,7 @@ struct NodeRecord : public NodeAttributeHolder {
     bool opaque_type;
 
     std::string nice_name;
+    std::string cpp_name;
 
     NodeRecord(const TranslationUnit::Ptr& tu, std::string qualified_name,
                NodeId id, std::vector<std::string> attrs, uint32_t size,

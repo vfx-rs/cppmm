@@ -298,6 +298,21 @@ std::string compute_qualified_name(const TypeRegistry& type_registry,
 }
 
 //------------------------------------------------------------------------------
+std::string compute_qualified_cpp_name(const TypeRegistry& type_registry,
+                                   const std::vector<NodeId>& namespaces,
+                                   const std::string& alias) {
+    std::string result;
+    for (const auto& ns : namespaces) {
+        result += type_registry.find_namespace(ns);
+        result += "::";
+    }
+
+    result += alias;
+
+    return result;
+}
+
+//------------------------------------------------------------------------------
 std::string compute_qualified_nice_name(const TypeRegistry& type_registry,
                                         const std::vector<NodeId>& namespaces,
                                         const std::string& alias) {
@@ -1614,6 +1629,7 @@ void record_entry(NodeId& record_id, TypeRegistry& type_registry,
         cpp_record.has_public_copy_ctor, cpp_record.has_public_move_ctor);
 
     c_record->nice_name = nice_name;
+    c_record->cpp_name = cpp_record.name;
 
     // Add the cpp and c record to the registry
     type_registry.add(cpp_node->id, cpp_node, c_record);
@@ -2425,6 +2441,7 @@ void translation_unit_entries(NodeId& new_id, TypeRegistry& type_registry,
         auto use_include = pystring::find(i, cppmm_bind_h) == -1;
         if (use_include) {
             c_tu->private_includes.insert(i);
+            c_tu->cpp_includes.insert(i);
         }
     }
 

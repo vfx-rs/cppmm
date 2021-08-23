@@ -9,6 +9,7 @@
 
 #include <fmt/os.h>
 
+#include <fstream>
 #include <iostream>
 #include <set>
 
@@ -45,6 +46,86 @@ static void indent(fmt::ostream& out, const size_t depth) {
 
 const std::string compute_out_include_path(const std::string& filename) {
     return fs::path(filename).parent_path();
+}
+
+void write_abigen_cmake(fs::path output_directory, const std::set<std::string>& include_paths, const std::vector<std::string>& target_link_libraries) {
+    auto cmakefile_path = output_directory / "CMakeLists.txt";
+    auto out = fmt::output_file(cmakefile_path.c_str());
+    
+
+    out.print("file(GLOB ABIGEN_SOURCE *.cpp)\n");
+    out.print("add_executable(abigen ${{ABIGEN_SOURCE}})\n");
+
+    for (const auto& i: include_paths) {
+        out.print("target_include_directories(abigen PRIVATE {})\n", i);
+    }
+
+    for (const auto& l: target_link_libraries) {
+        out.print("target_link_libraries(abigen PRIVATE {})\n", l);
+    }
+
+
+    fs::path py_path = output_directory / "insert_abi.py";
+    std::ofstream out_py(py_path.c_str());
+
+    out_py << R"(
+import os
+import sys
+import re
+
+in_path = sys.argv[1]
+out_path = sys.argv[2]
+abi_path = sys.argv[3]
+
+abi = {}
+with open(abi_path) as f:
+    for l in f.readlines():
+        name, size, align = l[:-1].split('|')
+        abi[name] = (size, align)
+
+print(abi)
+
+re_size = re.compile('%SIZE(.+)%')
+re_align = re.compile('%ALIGN(.+)%')
+
+def size_repl(m):
+    s = m.group(1)
+    size, _ = abi[s]
+    return size
+
+def align_repl(m):
+    s = m.group(1)
+    _, align = abi[s]
+    return align
+
+for root, dirs, files in os.walk(in_path):
+    print('root', root)
+    print('dirs', dirs)
+    for file in files:
+        full_path = os.path.join(root, file)
+        rel_path = os.path.relpath(full_path, in_path)
+        rel_head = os.path.split(rel_path)[0]
+
+        new_head = os.path.join(out_path, rel_head)
+
+        if not os.path.exists(new_head):
+            os.makedirs(new_head)
+        
+        new_fn = os.path.join(new_head, file)
+
+        # Now read in the file contents replace all the markers, and write it 
+        # out to the actual include directory
+        # print('reading %s' % full_path)
+        with open(full_path) as f_in:
+            txt_in = f_in.read()
+
+            txt_in = re_size.sub(size_repl, txt_in)
+            txt_in = re_align.sub(align_repl, txt_in)
+            
+            # print('writing %s' % new_fn)
+            with open(new_fn, 'w') as f_out:
+                f_out.write(txt_in)
+)";
 }
 
 //------------------------------------------------------------------------------
@@ -84,6 +165,9 @@ void cmake(const char* project_name, const Root& root, size_t starting_point,
             include_paths.insert(i);
         }
     }
+    
+    auto abigen_include_paths = include_paths;
+
     indent(out, 1);
     out.print("{}\n", fmt::format("src/{}-errors.cpp", base_project_name));
     out.print(")\n");
@@ -137,7 +221,27 @@ void cmake(const char* project_name, const Root& root, size_t starting_point,
 
     // add install command for rust cmake
     out.print(
-        "install(TARGETS ${{LIBNAME}} DESTINATION ${{CMAKE_INSTALL_PREFIX}})");
+        "install(TARGETS ${{LIBNAME}} DESTINATION ${{CMAKE_INSTALL_PREFIX}})\n");
+    out.print(
+        "install(TARGETS ${{LIBNAME}}-shared DESTINATION ${{CMAKE_INSTALL_PREFIX}})\n");
+
+    out.print(R"(
+add_subdirectory(abigen)
+add_custom_command(OUTPUT include
+    COMMAND abigen
+    COMMAND python ARGS ${{CMAKE_CURRENT_SOURCE_DIR}}/abigen/insert_abi.py ${{CMAKE_CURRENT_SOURCE_DIR}}/include.in ${{CMAKE_CURRENT_SOURCE_DIR}}/include ${{CMAKE_CURRENT_BINARY_DIR}}/abigen.txt
+)
+
+add_custom_target(run_abigen
+    DEPENDS include
+)
+
+add_dependencies(${{LIBNAME}} run_abigen)
+add_dependencies(${{LIBNAME}}-shared run_abigen)
+
+)");
+
+    write_abigen_cmake(fs::path(output_directory) / "abigen", abigen_include_paths, libs);
 }
 
 //------------------------------------------------------------------------------
@@ -179,6 +283,9 @@ void cmake_modern(const char* project_name, const Root& root,
             include_paths.insert(i);
         }
     }
+    
+    auto abigen_include_paths = include_paths;
+
     indent(out, 1);
     out.print("src/{}\n", fmt::format("{}-errors.cpp", base_project_name));
     out.print(")\n");
@@ -229,7 +336,27 @@ void cmake_modern(const char* project_name, const Root& root,
 
     // add install command for rust cmake
     out.print(
-        "install(TARGETS ${{LIBNAME}} DESTINATION ${{CMAKE_INSTALL_PREFIX}})");
+        "install(TARGETS ${{LIBNAME}} DESTINATION ${{CMAKE_INSTALL_PREFIX}})\n");
+    out.print(
+        "install(TARGETS ${{LIBNAME}}-shared DESTINATION ${{CMAKE_INSTALL_PREFIX}})\n");
+
+    out.print(R"(
+add_subdirectory(abigen)
+add_custom_command(OUTPUT include
+    COMMAND abigen
+    COMMAND python ARGS ${{CMAKE_CURRENT_SOURCE_DIR}}/abigen/insert_abi.py ${{CMAKE_CURRENT_SOURCE_DIR}}/include.in ${{CMAKE_CURRENT_SOURCE_DIR}}/include ${{CMAKE_CURRENT_BINARY_DIR}}/abigen.txt
+)
+
+add_custom_target(run_abigen
+    DEPENDS include
+)
+
+add_dependencies(${{LIBNAME}} run_abigen)
+add_dependencies(${{LIBNAME}}-shared run_abigen)
+
+)");
+
+    write_abigen_cmake(fs::path(output_directory) / "abigen", abigen_include_paths, target_link_libraries);
 }
 
 } // namespace write
