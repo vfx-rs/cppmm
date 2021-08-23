@@ -935,7 +935,7 @@ void write_error_header(const char* filename, const char* project_name,
 extern "C" {{
 #endif
 
-const char* {0}_CPPMM_API {1}_get_exception_string();
+{0}_CPPMM_API const char* {1}_get_exception_string();
 
 #ifdef __cplusplus
 }}
@@ -967,7 +967,7 @@ void write_error_source(const char* filename, const char* public_header,
 
 thread_local std::string TLG_EXCEPTION_STRING;
 
-const char* {3}_CPPMM_API {2}_get_exception_string() {{
+{3}_CPPMM_API const char* {2}_get_exception_string() {{
     return TLG_EXCEPTION_STRING.c_str();
 }}
 
