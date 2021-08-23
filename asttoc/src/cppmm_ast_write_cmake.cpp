@@ -116,15 +116,17 @@ for root, dirs, files in os.walk(in_path):
         # Now read in the file contents replace all the markers, and write it 
         # out to the actual include directory
         # print('reading %s' % full_path)
+        txt_in = ''
+        print('cargo:warning=editing file %s' % full_path)
         with open(full_path) as f_in:
             txt_in = f_in.read()
 
             txt_in = re_size.sub(size_repl, txt_in)
             txt_in = re_align.sub(align_repl, txt_in)
             
-            # print('writing %s' % new_fn)
-            with open(new_fn, 'w') as f_out:
-                f_out.write(txt_in)
+        # print('writing %s' % new_fn)
+        with open(new_fn, 'w') as f_out:
+            f_out.write(txt_in)
 )";
 }
 

@@ -212,20 +212,20 @@ void write_record(fmt::ostream& out, const NodeRecord* node_record) {
         out.print("}}");
 
     } else if (bt == BindType::OpaqueBytes) {
-        out.print("#[repr(C, align({}))]\n", node_record->align / 8);
+        out.print("#[repr(C, align(%ALIGN{}%))]\n", node_record->cpp_name);
         out.print("#[derive(Clone)]\n");
         out.print("pub struct {} {{\n", node_record->name);
-        out.print("    _inner: [u8; {}]\n", node_record->size / 8);
+        out.print("    _inner: [u8; %SIZE{}%]\n", node_record->cpp_name);
         out.print("}}\n");
 
         out.print(R"(
 impl Default for {} {{
     fn default() -> Self {{
-        Self {{ _inner: [0u8; {}] }}
+        Self {{ _inner: [0u8; %SIZE{}%] }}
     }}
 }}
 )",
-                  node_record->name, node_record->size / 8);
+                  node_record->name, node_record->cpp_name);
 
         out.print(R"(
 impl {0} {{
@@ -486,6 +486,8 @@ void write(const char* out_dir, const char* project_name, const char* c_dir,
            root.tus.size());
 
     fs::path rust_src = fs::path(out_dir) / "src";
+    fs::path rust_src_out = fs::path(out_dir) / "src";
+    fs::create_directories(rust_src);
     fs::path lib_rs = rust_src / "lib.rs";
     fs::path p_cargo_toml = fs::path(out_dir) / "Cargo.toml";
 
@@ -641,9 +643,19 @@ quick-xml = "0.22"
     auto build_rs = fmt::output_file((fs::path(out_dir) / "build.rs").string());
     build_rs.print(R"#(
 fn main() {{
-    let dst = cmake::Config::new("{}").build();
+    let dst = cmake::Config::new("{0}").build();
     println!("cargo:rustc-link-search=native={{}}", dst.display());
-    println!("cargo:rustc-link-lib=dylib={}-c-{}_{}");
+    println!("cargo:rustc-link-lib=dylib={1}-c-{2}_{3}");
+
+    let output = std::process::Command::new("python")
+        .args(&["{1}-c/abigen/insert_abi.py", "src", "src", &format!("{{}}/build/abigen.txt", std::env::var("OUT_DIR").unwrap())])
+        .output().expect("couldn't do the thing");
+
+    if !output.status.success() {{
+        panic!("failed");
+    }}
+
+
 )#",
                    c_dir, project_name, version_major, version_minor);
 

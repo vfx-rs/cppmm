@@ -60,7 +60,10 @@ result = subprocess.Popen(['cargo', 'test'], cwd=rustdir, stderr=subprocess.STDO
 
 # Remove cargo build stuff
 shutil.rmtree(os.path.join(rustdir, 'target'), ignore_errors=True)
-os.remove(os.path.join(rustdir, 'Cargo.lock'))
+try:
+    os.remove(os.path.join(rustdir, 'Cargo.lock'))
+except:
+    pass
 
 if result.returncode != 0:
     print('cargo test failed')
