@@ -65,6 +65,8 @@ std::string convert_builtin_type(const NodeBuiltinType* t) {
         return "u64";
     } else if (t->type_name == "int64_t") {
         return "i64";
+    } else if (t->type_name == "ptrdiff_t") {
+        return "i64";
     }
     panic("Unhandled builtin {}", t->type_name);
     return t->type_name;

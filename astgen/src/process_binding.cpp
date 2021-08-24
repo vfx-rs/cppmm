@@ -219,13 +219,20 @@ QType process_qtype(const QualType& qt) {
                 type_name = "size_t";
                 type_node_name = "TYPE:size_t";
             } else if (tdt) {
-                SPDLOG_WARN("Unhandled unsigned long typedef {}", tdt->getDecl()->getNameAsString());
+                /* SPDLOG_WARN("Unhandled unsigned long typedef {}", tdt->getDecl()->getNameAsString()); */
+                // If we're some other typedef of unsigned long, try desugaring
+                // recursively until we get to a typedef we can handle
+                QualType ds_type = tdt->desugar();
+                return process_qtype(ds_type);
             }
         } else if (qt->isBuiltinType() && type_name == "long") {
             const auto* tdt = qt->getAs<TypedefType>();
             if (tdt && tdt->getDecl()->getNameAsString() == "int64_t") {
                 type_name = "int64_t";
                 type_node_name = "TYPE:int64_t";
+            } else if (tdt && tdt->getDecl()->getNameAsString() == "ptrdiff_t") {
+                type_name = "ptrdiff_t";
+                type_node_name = "TYPE:ptrdiff_t";
             }
         }
 

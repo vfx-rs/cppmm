@@ -353,7 +353,7 @@ ConvertType convert_builtin_type(TranslationUnit& c_tu,
         c_tu.header_includes.insert("#include <stdbool.h>");
     } else if (t->type_name == "uint64_t" || t->type_name == "int64_t") {
         c_tu.header_includes.insert("#include <stdint.h>");
-    } else if (t->type_name == "size_t") {
+    } else if (t->type_name == "size_t" || t->type_name == "ptrdiff_t") {
         c_tu.header_includes.insert("#include <stddef.h>");
     }
 
