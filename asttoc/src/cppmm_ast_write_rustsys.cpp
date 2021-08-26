@@ -199,13 +199,22 @@ void write_function(fmt::ostream& out, const NodeFunction* node_function) {
     }
 }
 
-void write_record(fmt::ostream& out, const NodeRecord* node_record) {
-    // if (!node_record->comment.empty()) {
-    //     auto comment = pystring::replace(node_record->comment, "\n", "\n///
-    //     "); out.print("/// {}\n", comment);
-    // }
+std::string get_derive_attr(const NodeRecord* node_record) {
+    for (const auto& a : node_record->attrs) {
+        if (pystring::find(a, "cppmm|derive|") == 0) {
+            return a.substr(14, a.size() - 15);
+        }
+    }
+    return "";
+}
 
+void write_record(fmt::ostream& out, const NodeRecord* node_record) {
     BindType bt = bind_type(*node_record);
+
+    std::string derive = get_derive_attr(node_record);
+    if (derive.empty()) {
+        derive = "Clone";
+    }
 
     if (bt == BindType::OpaquePtr) {
         out.print("#[repr(C)]\n");
@@ -215,7 +224,7 @@ void write_record(fmt::ostream& out, const NodeRecord* node_record) {
 
     } else if (bt == BindType::OpaqueBytes) {
         out.print("#[repr(C, align(%ALIGN{}%))]\n", node_record->cpp_name);
-        out.print("#[derive(Clone)]\n");
+        out.print("#[derive({})]\n", derive);
         out.print("pub struct {} {{\n", node_record->name);
         out.print("    _inner: [u8; %SIZE{}%]\n", node_record->cpp_name);
         out.print("}}\n");
@@ -245,7 +254,7 @@ impl {0} {{
 
     } else { // BindType::ValueType
         out.print("#[repr(C, align({}))]\n", node_record->align / 8);
-        out.print("#[derive(Clone)]\n");
+        out.print("#[derive({})]\n", derive);
         out.print("pub struct {} {{\n", node_record->name);
         std::vector<std::string> fields = convert_fields(node_record->fields);
         out.print("    {},\n", pystring::join(",\n    ", fields));
