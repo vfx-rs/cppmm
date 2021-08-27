@@ -48,22 +48,22 @@ const std::string compute_out_include_path(const std::string& filename) {
     return fs::path(filename).parent_path();
 }
 
-void write_abigen_cmake(fs::path output_directory, const std::set<std::string>& include_paths, const std::vector<std::string>& target_link_libraries) {
+void write_abigen_cmake(fs::path output_directory,
+                        const std::set<std::string>& include_paths,
+                        const std::vector<std::string>& target_link_libraries) {
     auto cmakefile_path = output_directory / "CMakeLists.txt";
     auto out = fmt::output_file(cmakefile_path.c_str());
-    
 
     out.print("file(GLOB ABIGEN_SOURCE *.cpp)\n");
     out.print("add_executable(abigen ${{ABIGEN_SOURCE}})\n");
 
-    for (const auto& i: include_paths) {
+    for (const auto& i : include_paths) {
         out.print("target_include_directories(abigen PRIVATE {})\n", i);
     }
 
-    for (const auto& l: target_link_libraries) {
+    for (const auto& l : target_link_libraries) {
         out.print("target_link_libraries(abigen PRIVATE {})\n", l);
     }
-
 
     fs::path py_path = output_directory / "insert_abi.py";
     std::ofstream out_py(py_path.c_str());
@@ -152,6 +152,7 @@ void cmake(const char* project_name, const Root& root, size_t starting_point,
 
     const auto size = root.tus.size();
     out.print("set(SOURCES\n");
+    std::string first_header = "";
     for (size_t i = starting_point; i < size; ++i) {
         const auto& tu = root.tus[i];
 
@@ -160,17 +161,38 @@ void cmake(const char* project_name, const Root& root, size_t starting_point,
         std::string filename = pystring::os::path::join("src", tu->filename);
         out.print("{}\n", filename);
 
+        if (i == starting_point) {
+            std::string ext;
+            pystring::os::path::splitext(first_header, ext, tu->filename);
+            first_header += ".h";
+            indent(out, 1);
+            out.print("{}\n",
+                      pystring::os::path::join("include", first_header));
+        }
+
         // Add all the include paths
         for (auto& i : tu->include_paths) {
             include_paths.insert(i);
         }
     }
-    
-    auto abigen_include_paths = include_paths;
 
     indent(out, 1);
     out.print("{}\n", fmt::format("src/{}-errors.cpp", base_project_name));
     out.print(")\n");
+
+    auto abigen_include_paths = include_paths;
+    write_abigen_cmake(fs::path(output_directory) / "abigen",
+                       abigen_include_paths, {});
+
+    out.print(R"(
+add_subdirectory(abigen)
+add_custom_command(OUTPUT ${{CMAKE_CURRENT_SOURCE_DIR}}/include/{0}
+    DEPENDS ${{CMAKE_CURRENT_SOURCE_DIR}}/include.in/{0} 
+    COMMAND abigen
+    COMMAND python ARGS ${{CMAKE_CURRENT_SOURCE_DIR}}/abigen/insert_abi.py ${{CMAKE_CURRENT_SOURCE_DIR}}/include.in ${{CMAKE_CURRENT_SOURCE_DIR}}/include ${{CMAKE_CURRENT_BINARY_DIR}}/abigen.txt
+)
+)",
+              first_header);
 
     out.print("set(LIBNAME {}-{}_{})\n", project_name, version_major,
               version_minor);
@@ -178,17 +200,24 @@ void cmake(const char* project_name, const Root& root, size_t starting_point,
     out.print("add_library(${{LIBNAME}}-shared SHARED ${{SOURCES}})\n");
 
     // hide symbols by default
-    out.print("\nset_target_properties(${{LIBNAME}} PROPERTIES CXX_VISIBILITY_PRESET hidden)\n");
-    out.print("set_target_properties(${{LIBNAME}}-shared PROPERTIES CXX_VISIBILITY_PRESET hidden)\n\n");
+    out.print("\nset_target_properties(${{LIBNAME}} PROPERTIES "
+              "CXX_VISIBILITY_PRESET hidden)\n");
+    out.print("set_target_properties(${{LIBNAME}}-shared PROPERTIES "
+              "CXX_VISIBILITY_PRESET hidden)\n\n");
 
     // tell it we're building hte library not linking against it
-    out.print("target_compile_definitions(${{LIBNAME}} PRIVATE {}_CPPMM_BUILD_EXPORT)\n", api_prefix);
-    out.print("target_compile_definitions(${{LIBNAME}}-shared PRIVATE {}_CPPMM_BUILD_EXPORT)\n", api_prefix);
+    out.print("target_compile_definitions(${{LIBNAME}} PRIVATE "
+              "{}_CPPMM_BUILD_EXPORT)\n",
+              api_prefix);
+    out.print("target_compile_definitions(${{LIBNAME}}-shared PRIVATE "
+              "{}_CPPMM_BUILD_EXPORT)\n",
+              api_prefix);
 
     // Windows...
     out.print("if (WIN32)\n");
     out.print("target_compile_definitions(${{LIBNAME}} PRIVATE _Bool=bool)\n");
-    out.print("target_compile_definitions(${{LIBNAME}}-shared PRIVATE _Bool=bool)\n");
+    out.print(
+        "target_compile_definitions(${{LIBNAME}}-shared PRIVATE _Bool=bool)\n");
     out.print("endif()\n");
 
     // Add the include path of the output headers
@@ -220,28 +249,10 @@ void cmake(const char* project_name, const Root& root, size_t starting_point,
     }
 
     // add install command for rust cmake
-    out.print(
-        "install(TARGETS ${{LIBNAME}} DESTINATION ${{CMAKE_INSTALL_PREFIX}})\n");
-    out.print(
-        "install(TARGETS ${{LIBNAME}}-shared DESTINATION ${{CMAKE_INSTALL_PREFIX}})\n");
-
-    out.print(R"(
-add_subdirectory(abigen)
-add_custom_command(OUTPUT include
-    COMMAND abigen
-    COMMAND python ARGS ${{CMAKE_CURRENT_SOURCE_DIR}}/abigen/insert_abi.py ${{CMAKE_CURRENT_SOURCE_DIR}}/include.in ${{CMAKE_CURRENT_SOURCE_DIR}}/include ${{CMAKE_CURRENT_BINARY_DIR}}/abigen.txt
-)
-
-add_custom_target(run_abigen
-    DEPENDS include
-)
-
-add_dependencies(${{LIBNAME}} run_abigen)
-add_dependencies(${{LIBNAME}}-shared run_abigen)
-
-)");
-
-    write_abigen_cmake(fs::path(output_directory) / "abigen", abigen_include_paths, libs);
+    out.print("install(TARGETS ${{LIBNAME}} DESTINATION "
+              "${{CMAKE_INSTALL_PREFIX}})\n");
+    out.print("install(TARGETS ${{LIBNAME}}-shared DESTINATION "
+              "${{CMAKE_INSTALL_PREFIX}})\n");
 }
 
 //------------------------------------------------------------------------------
@@ -250,7 +261,8 @@ void cmake_modern(const char* project_name, const Root& root,
                   const std::vector<std::string>& find_packages,
                   const std::vector<std::string>& target_link_libraries,
                   int version_major, int version_minor, int version_patch,
-                  const char* base_project_name, const char* output_directory, const std::string& api_prefix) {
+                  const char* base_project_name, const char* output_directory,
+                  const std::string& api_prefix) {
     expect(starting_point < root.tus.size(),
            "starting point ({}) is out of range ({})", starting_point,
            root.tus.size());
@@ -270,6 +282,7 @@ void cmake_modern(const char* project_name, const Root& root,
 
     const auto size = root.tus.size();
     out.print("set(SOURCES\n");
+    std::string first_header = "";
     for (size_t i = starting_point; i < size; ++i) {
         const auto& tu = root.tus[i];
 
@@ -278,36 +291,68 @@ void cmake_modern(const char* project_name, const Root& root,
         std::string filename = pystring::os::path::join("src", tu->filename);
         out.print("{}\n", filename);
 
+        if (i == starting_point) {
+            std::string ext;
+            pystring::os::path::splitext(first_header, ext, tu->filename);
+            first_header += ".h";
+            indent(out, 1);
+            out.print("{}\n",
+                      pystring::os::path::join("include", first_header));
+        }
+
         // Add all the include paths
         for (auto& i : tu->include_paths) {
             include_paths.insert(i);
         }
     }
-    
-    auto abigen_include_paths = include_paths;
 
     indent(out, 1);
     out.print("src/{}\n", fmt::format("{}-errors.cpp", base_project_name));
     out.print(")\n");
+
+    // Add the libraries
+    for (const auto& pkg : find_packages) {
+        out.print("find_package({} REQUIRED)\n", pkg);
+    }
+
+    auto abigen_include_paths = include_paths;
+    write_abigen_cmake(fs::path(output_directory) / "abigen",
+                       abigen_include_paths, target_link_libraries);
+
+    out.print(R"(
+add_subdirectory(abigen)
+add_custom_command(OUTPUT ${{CMAKE_CURRENT_SOURCE_DIR}}/include/{0}
+    DEPENDS ${{CMAKE_CURRENT_SOURCE_DIR}}/include.in/{0} 
+    COMMAND abigen
+    COMMAND python ARGS ${{CMAKE_CURRENT_SOURCE_DIR}}/abigen/insert_abi.py ${{CMAKE_CURRENT_SOURCE_DIR}}/include.in ${{CMAKE_CURRENT_SOURCE_DIR}}/include ${{CMAKE_CURRENT_BINARY_DIR}}/abigen.txt
+)
+)",
+              first_header);
 
     out.print("set(LIBNAME {}-{}_{})\n", project_name, version_major,
               version_minor);
     out.print("add_library(${{LIBNAME}} STATIC ${{SOURCES}})\n");
     out.print("add_library(${{LIBNAME}}-shared SHARED ${{SOURCES}})\n");
 
-
     // hide symbols by default
-    out.print("\nset_target_properties(${{LIBNAME}} PROPERTIES CXX_VISIBILITY_PRESET hidden)\n");
-    out.print("set_target_properties(${{LIBNAME}}-shared PROPERTIES CXX_VISIBILITY_PRESET hidden)\n\n");
+    out.print("\nset_target_properties(${{LIBNAME}} PROPERTIES "
+              "CXX_VISIBILITY_PRESET hidden)\n");
+    out.print("set_target_properties(${{LIBNAME}}-shared PROPERTIES "
+              "CXX_VISIBILITY_PRESET hidden)\n\n");
 
     // tell it we're building hte library not linking against it
-    out.print("\ntarget_compile_definitions(${{LIBNAME}} PRIVATE {}_CPPMM_BUILD_EXPORT)\n", api_prefix);
-    out.print("\ntarget_compile_definitions(${{LIBNAME}}-shared PRIVATE {}_CPPMM_BUILD_EXPORT)\n", api_prefix);
+    out.print("\ntarget_compile_definitions(${{LIBNAME}} PRIVATE "
+              "{}_CPPMM_BUILD_EXPORT)\n",
+              api_prefix);
+    out.print("\ntarget_compile_definitions(${{LIBNAME}}-shared PRIVATE "
+              "{}_CPPMM_BUILD_EXPORT)\n",
+              api_prefix);
 
     // Windows...
     out.print("if (WIN32)\n");
     out.print("target_compile_definitions(${{LIBNAME}} PRIVATE _Bool=bool)\n");
-    out.print("target_compile_definitions(${{LIBNAME}}-shared PRIVATE _Bool=bool)\n");
+    out.print(
+        "target_compile_definitions(${{LIBNAME}}-shared PRIVATE _Bool=bool)\n");
     out.print("endif()\n");
 
     // Add the include path of the output headers
@@ -324,39 +369,16 @@ void cmake_modern(const char* project_name, const Root& root,
             include_path);
     }
 
-    // Add the libraries
-    for (const auto& pkg : find_packages) {
-        out.print("find_package({} REQUIRED)\n", pkg);
-    }
-
     for (auto& lib : target_link_libraries) {
         out.print("target_link_libraries(${{LIBNAME}} {})\n", lib);
         out.print("target_link_libraries(${{LIBNAME}}-shared {})\n", lib);
     }
 
     // add install command for rust cmake
-    out.print(
-        "install(TARGETS ${{LIBNAME}} DESTINATION ${{CMAKE_INSTALL_PREFIX}})\n");
-    out.print(
-        "install(TARGETS ${{LIBNAME}}-shared DESTINATION ${{CMAKE_INSTALL_PREFIX}})\n");
-
-    out.print(R"(
-add_subdirectory(abigen)
-add_custom_command(OUTPUT include
-    COMMAND abigen
-    COMMAND python ARGS ${{CMAKE_CURRENT_SOURCE_DIR}}/abigen/insert_abi.py ${{CMAKE_CURRENT_SOURCE_DIR}}/include.in ${{CMAKE_CURRENT_SOURCE_DIR}}/include ${{CMAKE_CURRENT_BINARY_DIR}}/abigen.txt
-)
-
-add_custom_target(run_abigen
-    DEPENDS include
-)
-
-add_dependencies(${{LIBNAME}} run_abigen)
-add_dependencies(${{LIBNAME}}-shared run_abigen)
-
-)");
-
-    write_abigen_cmake(fs::path(output_directory) / "abigen", abigen_include_paths, target_link_libraries);
+    out.print("install(TARGETS ${{LIBNAME}} DESTINATION "
+              "${{CMAKE_INSTALL_PREFIX}})\n");
+    out.print("install(TARGETS ${{LIBNAME}}-shared DESTINATION "
+              "${{CMAKE_INSTALL_PREFIX}})\n");
 }
 
 } // namespace write
