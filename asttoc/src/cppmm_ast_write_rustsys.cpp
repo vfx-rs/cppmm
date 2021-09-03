@@ -208,7 +208,7 @@ std::string get_derive_attr(const NodeRecord* node_record) {
     return "";
 }
 
-void write_record(fmt::ostream& out, const NodeRecord* node_record) {
+void write_record(fmt::ostream& out, const NodeRecord* node_record, fmt::ostream& out_cppmmabi_in) {
     BindType bt = bind_type(*node_record);
 
     std::string derive = get_derive_attr(node_record);
@@ -223,13 +223,21 @@ void write_record(fmt::ostream& out, const NodeRecord* node_record) {
         out.print("}}");
 
     } else if (bt == BindType::OpaqueBytes) {
-        out.print("#[repr(C, align(%ALIGN{}%))]\n", node_record->cpp_name);
-        out.print("#[derive({})]\n", derive);
-        out.print("pub struct {} {{\n", node_record->name);
-        out.print("    _inner: [u8; %SIZE{}%]\n", node_record->cpp_name);
-        out.print("}}\n");
+/*         out_cppmmabi_in.print("pub const {}_SIZE: usize = %SIZE{}%;\n", node_record->name, node_record->cpp_name); */
+/*         out_cppmmabi_in.print("pub const {}_ALIGN: usize = %ALIGN{}%;\n\n", node_record->name, node_record->cpp_name); */
+/*  */
+/*         out.print("#[repr(C, align(cppmmabi::{}_ALIGN))]\n", node_record->name); */
+/*         out.print("#[derive({})]\n", derive); */
+/*         out.print("pub struct {} {{\n", node_record->name); */
+/*         out.print("    _inner: [u8; cppmmabi::{}_SIZE]\n", node_record->name); */
 
-        out.print(R"(
+        out_cppmmabi_in.print("#[repr(C, align(%ALIGN{}%))]\n", node_record->cpp_name);
+        out_cppmmabi_in.print("#[derive({})]\n", derive);
+        out_cppmmabi_in.print("pub struct {} {{\n", node_record->name);
+        out_cppmmabi_in.print("    _inner: [u8; %SIZE{}%]\n", node_record->cpp_name);
+        out_cppmmabi_in.print("}}\n");
+
+        out_cppmmabi_in.print(R"(
 impl Default for {} {{
     fn default() -> Self {{
         Self {{ _inner: [0u8; %SIZE{}%] }}
@@ -389,7 +397,7 @@ void write_enum(fmt::ostream& out, const NodeEnum* node_enum) {
 }
 
 void write_translation_unit(const char* out_dir, fmt::ostream& out_lib,
-                            const TranslationUnit& tu) {
+                            const TranslationUnit& tu, fmt::ostream& out_cppmmabi_in) {
     fs::path rust_src = fs::path(out_dir) / "src";
     fs::path tu_stem = fs::path(tu.filename).replace_extension("");
     std::string mod_name = pystring::replace(tu_stem.string(), "-", "_");
@@ -424,10 +432,11 @@ void write_translation_unit(const char* out_dir, fmt::ostream& out_lib,
     out.print("#![allow(unused_imports)]\n");
 
     out.print("use crate::*;\n");
+    out.print("pub use crate::cppmmabi::*;\n");
     out.print("use std::os::raw::*;\n\n");
 
     for (const auto* n : node_records) {
-        write_record(out, n);
+        write_record(out, n, out_cppmmabi_in);
         out.print("\n");
 
         out_lib.print("pub use {}{} as {};\n", new_mod_name, n->name,
@@ -591,10 +600,24 @@ impl fmt::Display for Error {{
                   "std::os::raw::c_char;\n}}\n\n",
                   project_name);
 
+    // write the abi module
+    auto p_cppmmabi = rust_src / "cppmmabi.rs";
+    auto out_cppmmabi = fmt::output_file(p_cppmmabi.string());
+    out_cppmmabi.print(
+            R"(
+include!(concat!(env!("OUT_DIR"), "/cppmm_abi_out/", "cppmmabi.rs"));
+            )"
+    );
+
+    // write the source abi info for the generator
+    auto p_cppmmabi_in = fs::path(out_dir) / "cppmm_abi_in" / "cppmmabi.rs";
+    fs::create_directories(fs::path(out_dir) / "cppmm_abi_in");
+    auto out_cppmmabi_in = fmt::output_file(p_cppmmabi_in.string());
+
     const auto size = root.tus.size();
     for (size_t i = starting_point; i < size; ++i) {
         const auto& tu = root.tus[i];
-        write_translation_unit(out_dir, out_lib, *tu);
+        write_translation_unit(out_dir, out_lib, *tu, out_cppmmabi_in);
     }
 
     // now recurse through the src directory and write the mod files
@@ -658,11 +681,18 @@ fn main() {{
     println!("cargo:rustc-link-search=native={{}}", dst.display());
     println!("cargo:rustc-link-lib=dylib={1}-c-{2}_{3}");
 
+    let out_dir = std::env::var("OUT_DIR").unwrap();
     let output = std::process::Command::new("python")
-        .args(&["{1}-c/abigen/insert_abi.py", "src", "src", &format!("{{}}/build/abigen.txt", std::env::var("OUT_DIR").unwrap())])
+        .args(&["{1}-c/abigen/insert_abi.py", 
+            "src/cppmm_abi_in", 
+            &format!("{{}}/cppmm_abi_out", out_dir), 
+            &format!("{{}}/build/abigen.txt", out_dir)])
         .output().expect("couldn't do the thing");
 
     if !output.status.success() {{
+        for line in std::str::from_utf8(&output.stderr).lines() {{
+            println!("cargo:warning={{}}", line);
+        }}
         panic!("failed");
     }}
 
