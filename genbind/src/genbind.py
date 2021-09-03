@@ -12,6 +12,7 @@ Options:
     -p <nsp>, --namespace-public <nsp>    The target library's public #define for the namespace (e.g. Imf)
     -a <arg>..., --clang-arg <arg>...     Arguments to pass to Clang, e.g. the include path to the library. Can be repeated
     -o <path>, --output-path <path>       Directory under which to write the output binding files. Will be created if it does not exist
+    -r <path>, --relative-to <path>       Path to which the input headers are relative, and from which the hierarchy will be preserved in the bindings
     -f, --format                          Run clang-format on the output binding file
 """
 
@@ -62,12 +63,17 @@ if __name__ == '__main__':
     if '--output-path' in args:
         options += ['-o', args['--output-path']]
         output_path = os.path.abspath(args['--output-path'])
+    if '--relative-to' in args:
+        options += ['-o', args['--relative-to']]
     if '--clang-arg' in args:
         options.append('--')
         for a in args['--clang-arg']:
             options += a.split()
 
+    i = 1
     for header in headers:
+        print('{}/{}'.format(i, len(headers)))
+        i += 1
         cmd = [binary, header] + options
         if verbosity > 2:
             print('')
@@ -80,9 +86,9 @@ if __name__ == '__main__':
 
     if '--format' in args:
         for cpp_file in glob.iglob(os.path.join(output_path, '*.cpp')):
-            cmd = ['clang-format', '-i', os.path.abspath(cpp_file)]
-        try:
-            subprocess.run(cmd, check=True)
-        except CalledProcessError as e:
-            print(f'ERROR: Failed to format {cpp_file}')
+            fmtcmd = ['clang-format', '-i', os.path.abspath(cpp_file)]
+            try:
+                subprocess.run(fmtcmd, check=True)
+            except CalledProcessError as e:
+                print(f'ERROR: Failed to format {cpp_file}')
 

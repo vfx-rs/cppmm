@@ -2,8 +2,10 @@
 #include <cstring>
 #include <fstream>
 #include <iostream>
+#include <sstream>
 #include <unistd.h>
 #include <unordered_map>
+#include <sstream>
 
 #include "clang/AST/ASTContext.h"
 #include "clang/AST/Decl.h"
@@ -489,6 +491,14 @@ struct NodeVar : public NodeAttributeHolder {
     }
 };
 
+void write_comment(std::ostream& os, const std::string& s, int depth) {
+    std::stringstream ss(s);
+    std::string line;
+    while (std::getline(ss, line)) {
+        os << indent{depth} << "/// " << line << "\n";
+    }
+}
+
 /// A function node
 struct NodeFunction : public NodeAttributeHolder {
     /// What you think of as the function name without any qualifications
@@ -501,7 +511,11 @@ struct NodeFunction : public NodeAttributeHolder {
     bool in_binding = false;
     /// Is this function declared in the library? NOT USED
     bool in_library = false;
+    // template parameters
     std::vector<std::string> template_parameters;
+    /// Comment on the decl
+    std::string comment;
+
     static NodeKind _kind;
     virtual NodeKind node_kind() const override { return _kind; }
 
@@ -514,6 +528,8 @@ struct NodeFunction : public NodeAttributeHolder {
           template_parameters(std::move(template_parameters)) {}
 
     virtual void write(std::ostream& os, int depth) const override {
+        write_comment(os, comment, depth);
+
         if (template_parameters.size() != 0) {
             os << indent{depth};
             bool first = true;
@@ -584,6 +600,8 @@ struct NodeMethod : public NodeFunction {
           is_static(is_static) {}
 
     virtual void write(std::ostream& os, int depth) const override {
+        write_comment(os, comment, depth);
+
         if (template_parameters.size() != 0) {
             os << indent{depth};
             bool first = true;
@@ -727,6 +745,8 @@ struct NodeRecord : public NodeAttributeHolder {
     /// Any template parameters. If this is empty, this is not a template class
     std::vector<std::string> template_parameters;
     std::set<NodeId> children;
+    /// Comment on the decl
+    std::string comment;
 
     static NodeKind _kind;
     virtual NodeKind node_kind() const override { return _kind; }
@@ -740,6 +760,8 @@ struct NodeRecord : public NodeAttributeHolder {
           template_parameters(std::move(template_parameters)) {}
 
     virtual void write(std::ostream& os, int depth) const override {
+        write_comment(os, comment, depth);
+
         if (template_parameters.size() > 0) {
             os << indent{depth} << "template <class ";
             os << ps::join(", class ", template_parameters);
@@ -770,11 +792,11 @@ struct NodeRecord : public NodeAttributeHolder {
 
         // if the record is abstract, or has no public constructors then
         // it has to be opaqueptr. Otherwise we'll assume opaquebytes
-        if (is_abstract || !has_public_ctor) {
-            os << " CPPMM_OPAQUEPTR";
-        } else {
-            os << " CPPMM_OPAQUEBYTES";
-        }
+        /* if (is_abstract || !has_public_ctor) { */
+        os << " CPPMM_OPAQUEPTR";
+        /* } else { */
+        /* os << " CPPMM_OPAQUEBYTES"; */
+        /* } */
 
         os << "; // struct " << short_name << "\n";
 
@@ -826,6 +848,23 @@ void NodeTranslationUnit::write(std::ostream& os, int depth) const {
                << ">;\n";
         }
     }
+}
+
+std::string get_comment(const clang::Decl* decl) {
+    ASTContext& ctx = decl->getASTContext();
+    SourceManager& sm = ctx.getSourceManager();
+
+    const RawComment* rc = ctx.getRawCommentForDeclNoCache(decl);
+    if (rc) {
+        // Found comment!
+        SourceRange range = rc->getSourceRange();
+
+        PresumedLoc startPos = sm.getPresumedLoc(range.getBegin());
+        PresumedLoc endPos = sm.getPresumedLoc(range.getEnd());
+
+        return rc->getFormattedText(sm, sm.getDiagnostics());
+    }
+    return "";
 }
 
 void write_namespaces(std::ostream& os, const std::vector<NodeId>& namespaces) {
@@ -1104,8 +1143,9 @@ std::vector<NodeId> get_namespaces(NodeId child,
 
 // Get the canonical definition from a crd
 const CXXRecordDecl* get_canonical_def_from_crd(const CXXRecordDecl* crd) {
-    if ((crd = crd->getCanonicalDecl())) {
-        return crd->getDefinition();
+    if (const CXXRecordDecl* can = crd->getCanonicalDecl()) {
+        /* SPDLOG_INFO("Got can {} from crd {}", can->getQualifiedNameAsString(), crd->getQualifiedNameAsString()); */
+        return can->getDefinition();
     }
     return nullptr;
 }
@@ -1271,6 +1311,38 @@ QType process_qtype(
         // FIXME: we might want to stores types in a completely separate data
         // structure
         std::string type_node_name = "TYPE:" + type_name;
+
+
+        if (qt->isBuiltinType() && type_name == "unsigned long") {
+            const auto* tdt = qt->getAs<TypedefType>();
+            if (tdt && tdt->getDecl()->getNameAsString() == "uint64_t") {
+                type_name = "uint64_t";
+                type_node_name = "TYPE:uint64_t";
+            } else if (tdt && tdt->getDecl()->getNameAsString() == "size_t") {
+                type_name = "size_t";
+                type_node_name = "TYPE:size_t";
+            } else if (tdt && tdt->getDecl()->getNameAsString() == "size_type") {
+                // FIXME: Nasty hack here to get e.g. std::string::size_type
+                // will this bite us?
+                type_name = "size_t";
+                type_node_name = "TYPE:size_t";
+            } else if (tdt) {
+                /* SPDLOG_WARN("Unhandled unsigned long typedef {}", tdt->getDecl()->getNameAsString()); */
+                // If we're some other typedef of unsigned long, try desugaring
+                // recursively until we get to a typedef we can handle
+                QualType ds_type = tdt->desugar();
+                return process_qtype(ds_type, {});
+            }
+        } else if (qt->isBuiltinType() && type_name == "long") {
+            const auto* tdt = qt->getAs<TypedefType>();
+            if (tdt && tdt->getDecl()->getNameAsString() == "int64_t") {
+                type_name = "int64_t";
+                type_node_name = "TYPE:int64_t";
+            } else if (tdt && tdt->getDecl()->getNameAsString() == "ptrdiff_t") {
+                type_name = "ptrdiff_t";
+                type_node_name = "TYPE:ptrdiff_t";
+            }
+        }
 
         // see if we've proessed this type already
         auto it = NODE_MAP.find(type_node_name);
@@ -1491,6 +1563,8 @@ NodePtr process_method_decl(
 
     m->is_specialization = is_specialization;
 
+    m->comment = get_comment(cmd);
+
     SPDLOG_DEBUG("Processed method {}", m->qualified_name);
 
     return node_function;
@@ -1651,6 +1725,8 @@ void process_crd(const CXXRecordDecl* crd,
         node_rec->namespaces = std::move(namespaces);
 
         node_rec->is_abstract = crd->isAbstract();
+
+        node_rec->comment = get_comment(crd);
 
         std::vector<NodePtr> method_ptrs;
         std::vector<std::vector<std::string>> template_parameters_stack;
@@ -1815,6 +1891,7 @@ void process_fd(const FunctionDecl* fd) {
         auto node_fn = std::make_unique<NodeFunction>(
             qname, id, 0, std::vector<std::string>{}, short_name, return_qtype,
             std::move(params), template_parameters);
+        node_fn->comment = get_comment(fd);
         auto* node_fn_ptr = node_fn.get();
         NODES.emplace_back(std::move(node_fn));
         NODE_MAP[qname] = id;
@@ -2057,6 +2134,11 @@ static cl::opt<std::string> opt_output_directory(
     cl::desc(
         "Directory under which output project directories will be written"));
 
+static cl::opt<std::string> opt_relative_to(
+    "r",
+    cl::desc(
+        "Path to which the target headers are relative, and from which the hierarchy will be preserved in the bindings"));
+
 static cl::list<std::string>
     opt_rename_namespace("n", cl::desc("Rename namespace <to>=<from>"));
 static cl::opt<std::string> opt_rust_sys_directory(
@@ -2176,6 +2258,11 @@ int main(int argc_, const char** argv_) {
         output_dir = opt_output_directory;
     }
 
+    std::string relative_dir = "";
+    if (opt_relative_to != "") {
+        relative_dir = opt_relative_to;
+    }
+
     if (!fs::exists(output_dir) && !fs::create_directories(output_dir)) {
         SPDLOG_ERROR("Could not create output directory '{}'", output_dir);
         return -2;
@@ -2196,7 +2283,7 @@ int main(int argc_, const char** argv_) {
     }
 
     for (int i = 0; i < vtu.size(); ++i) {
-        SPDLOG_INFO("Processing {}", header_paths[i]);
+        SPDLOG_INFO("Processing {} ({}/{})", header_paths[i], i+1, vtu.size());
         cppmm::CURRENT_FILENAME = header_paths[i];
         ClangTool Tool(compdb, ArrayRef<std::string>(vtu_paths[i]));
         Tool.mapVirtualFile(vtu_paths[i], vtu[i]);
@@ -2236,15 +2323,16 @@ int main(int argc_, const char** argv_) {
             }
 
             // generate output filename by snake_casing the header filename
-            auto filename = to_snake_case(fs::path(node_tu->qualified_name)
-                                              .filename()
+            auto filename = to_snake_case(fs::path(relative_header)
                                               .replace_extension(".cpp")
                                               .string());
+
             auto output_path = output_dir / fs::path(filename);
+            SPDLOG_INFO("Writing {}", output_path.string());
+            fs::create_directories(output_path.parent_path());
             std::ofstream of;
             of.open(output_path);
             // write output file
-            SPDLOG_INFO("Writing {}", output_path.string());
             node_tu->write(of, 0);
             of.close();
         }
