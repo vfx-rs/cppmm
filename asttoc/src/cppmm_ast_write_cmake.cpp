@@ -108,8 +108,17 @@ for root, dirs, files in os.walk(in_path):
 
         new_head = os.path.join(out_path, rel_head)
 
+        # This doesn't always work, for... reasons, so need to handle the file 
+        # exists error
         if not os.path.exists(new_head):
-            os.makedirs(new_head)
+            import errno
+            try:
+                os.makedirs(new_head)
+            except OSError as e:
+                if e.errno == errno.EEXIST:
+                    pass
+                else:
+                    raise
         
         new_fn = os.path.join(new_head, file)
 
@@ -189,7 +198,11 @@ add_subdirectory(abigen)
 add_custom_command(OUTPUT ${{CMAKE_CURRENT_SOURCE_DIR}}/include/{0}
     DEPENDS ${{CMAKE_CURRENT_SOURCE_DIR}}/include.in/{0} 
     COMMAND abigen
-    COMMAND python ARGS ${{CMAKE_CURRENT_SOURCE_DIR}}/abigen/insert_abi.py ${{CMAKE_CURRENT_SOURCE_DIR}}/include.in ${{CMAKE_CURRENT_SOURCE_DIR}}/include ${{CMAKE_CURRENT_BINARY_DIR}}/abigen.txt
+    COMMAND python ARGS 
+        ${{CMAKE_CURRENT_SOURCE_DIR}}/abigen/insert_abi.py 
+        ${{CMAKE_CURRENT_SOURCE_DIR}}/include.in 
+        ${{CMAKE_CURRENT_BINARY_DIR}}/include 
+        ${{CMAKE_CURRENT_BINARY_DIR}}/abigen.txt
 )
 )",
               first_header);
@@ -223,6 +236,7 @@ add_custom_command(OUTPUT ${{CMAKE_CURRENT_SOURCE_DIR}}/include/{0}
     // Add the include path of the output headers
     // include_paths.insert(compute_out_include_path("./"));
     include_paths.insert("include");
+    include_paths.insert("${CMAKE_CURRENT_BINARY_DIR}/include");
     include_paths.insert("src");
 
     // Include directories
@@ -324,7 +338,11 @@ add_subdirectory(abigen)
 add_custom_command(OUTPUT ${{CMAKE_CURRENT_SOURCE_DIR}}/include/{0}
     DEPENDS ${{CMAKE_CURRENT_SOURCE_DIR}}/include.in/{0} 
     COMMAND abigen
-    COMMAND python ARGS ${{CMAKE_CURRENT_SOURCE_DIR}}/abigen/insert_abi.py ${{CMAKE_CURRENT_SOURCE_DIR}}/include.in ${{CMAKE_CURRENT_SOURCE_DIR}}/include ${{CMAKE_CURRENT_BINARY_DIR}}/abigen.txt
+    COMMAND python ARGS 
+        ${{CMAKE_CURRENT_SOURCE_DIR}}/abigen/insert_abi.py 
+        ${{CMAKE_CURRENT_SOURCE_DIR}}/include.in 
+        ${{CMAKE_CURRENT_BINARY_DIR}}/include 
+        ${{CMAKE_CURRENT_BINARY_DIR}}/abigen.txt
 )
 )",
               first_header);
@@ -358,6 +376,7 @@ add_custom_command(OUTPUT ${{CMAKE_CURRENT_SOURCE_DIR}}/include/{0}
     // Add the include path of the output headers
     // include_paths.insert(compute_out_include_path("./src"));
     include_paths.insert("include");
+    include_paths.insert("${CMAKE_CURRENT_BINARY_DIR}/include");
     include_paths.insert("src");
 
     // Include directories
