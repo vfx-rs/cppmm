@@ -46,7 +46,8 @@
             "align": 64,
             "alias": "string",
             "attributes": [
-                "cppmm|opaquebytes"
+                "cppmm|opaquebytes",
+                "cppmm|force_name|\"std::string\""
             ],
             "comment": "",
             "fields": null,

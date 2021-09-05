@@ -54,6 +54,7 @@ pub use prop::prop__Foo_set_bar as prop_Foo_set_bar;
 pub use prop::prop__Foo_get_u as prop_Foo_get_u;
 pub use prop::prop__Foo_set_u as prop_Foo_set_u;
 pub use prop::prop_fuz as prop_fuz;
+pub mod cppmmabi;
 pub mod prop;
 
 

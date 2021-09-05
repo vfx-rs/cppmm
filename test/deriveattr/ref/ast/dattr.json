@@ -1,0 +1,59 @@
+{
+    "kind": "TranslationUnit",
+    "filename": "dattr.cpp",
+    "source_includes": [
+        "#include <dattr.hpp>",
+        "#include <cppmm_bind.hpp>"
+    ],
+    "include_paths": [
+        "/home/anders/code/cppmm/test/deriveattr/include"
+    ],
+    "id": 0,
+    "decls": [
+        {
+            "kind": "Namespace",
+            "name": "foo",
+            "id": 1,
+            "short_name": "foo",
+            "alias": "foo",
+            "collapse": false
+        },
+        {
+            "kind": "Record",
+            "name": "foo::Foo",
+            "short_name": "Foo",
+            "namespaces": [
+                1
+            ],
+            "id": 2,
+            "abstract": false,
+            "trivially_copyable": true,
+            "trivially_movable": true,
+            "has_public_copy_ctor": false,
+            "has_public_move_ctor": false,
+            "opaque_type": false,
+            "size": 32,
+            "align": 32,
+            "alias": "Foo",
+            "attributes": [
+                "cppmm|valuetype",
+                "cppmm|derive|\"Copy, Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Hash\""
+            ],
+            "comment": "",
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "bar",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 3,
+                        "type": "int",
+                        "const": false
+                    },
+                    "attributes": []
+                }
+            ],
+            "methods": null
+        }
+    ]
+}

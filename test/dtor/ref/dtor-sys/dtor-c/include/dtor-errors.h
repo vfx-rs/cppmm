@@ -6,7 +6,7 @@
 extern "C" {
 #endif
 
-const char* DTOR_CPPMM_API dtor_get_exception_string();
+DTOR_CPPMM_API const char* dtor_get_exception_string();
 
 #ifdef __cplusplus
 }

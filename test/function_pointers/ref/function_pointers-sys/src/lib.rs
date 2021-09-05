@@ -43,6 +43,7 @@ extern {
 
 
 pub use c_fptr::fptr_takes_ages as fptr_takes_ages;
+pub mod cppmmabi;
 pub mod c_fptr;
 
 

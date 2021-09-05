@@ -6,7 +6,7 @@
 extern "C" {
 #endif
 
-const char* NESTED_CPPMM_API nested_get_exception_string();
+NESTED_CPPMM_API const char* nested_get_exception_string();
 
 #ifdef __cplusplus
 }

@@ -6,7 +6,7 @@
 extern "C" {
 #endif
 
-const char* ARRAY_PARAMS_CPPMM_API array_params_get_exception_string();
+ARRAY_PARAMS_CPPMM_API const char* array_params_get_exception_string();
 
 #ifdef __cplusplus
 }

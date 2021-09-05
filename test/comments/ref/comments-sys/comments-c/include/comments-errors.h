@@ -6,7 +6,7 @@
 extern "C" {
 #endif
 
-const char* COMMENTS_CPPMM_API comments_get_exception_string();
+COMMENTS_CPPMM_API const char* comments_get_exception_string();
 
 #ifdef __cplusplus
 }

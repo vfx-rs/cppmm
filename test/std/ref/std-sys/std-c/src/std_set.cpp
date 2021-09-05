@@ -63,7 +63,7 @@ STD_CPPMM_API unsigned int std__set_std__string__size(
         return 0;
 }
 
-STD_CPPMM_API unsigned int std___Rb_tree_const_iterator_std____cxx11__basic_string_char___deref(
+STD_CPPMM_API unsigned int std__set_std__string___const_iterator_deref(
     std_set_string_iterator_t const * this_
     , std_string_t const * * return_)
 {
@@ -71,7 +71,7 @@ STD_CPPMM_API unsigned int std___Rb_tree_const_iterator_std____cxx11__basic_stri
         return 0;
 }
 
-STD_CPPMM_API unsigned int std___Rb_tree_const_iterator_std____cxx11__basic_string_char___inc(
+STD_CPPMM_API unsigned int std__set_std__string___const_iterator_inc(
     std_set_string_iterator_t * this_
     , std_set_string_iterator_t * * return_)
 {

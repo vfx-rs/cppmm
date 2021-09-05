@@ -6,7 +6,7 @@
 extern "C" {
 #endif
 
-const char* OPAQUEPTR_CPPMM_API opaqueptr_get_exception_string();
+OPAQUEPTR_CPPMM_API const char* opaqueptr_get_exception_string();
 
 #ifdef __cplusplus
 }

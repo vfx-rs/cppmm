@@ -71,6 +71,7 @@ pub use std_string::std__vector_std__string__sizeof as std_vector_string_sizeof;
 pub use std_string::std__vector_std__string__alignof as std_vector_string_alignof;
 pub use std_string::std__vector_std__string__ctor as std_vector_string_ctor;
 pub use std_string::std__vector_std__string__dtor as std_vector_string_dtor;
+pub mod cppmmabi;
 pub mod std_string;
 pub mod c_specs;
 

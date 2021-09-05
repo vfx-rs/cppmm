@@ -3,42 +3,21 @@
 #![allow(non_upper_case_globals)]
 #![allow(unused_imports)]
 use crate::*;
+pub use crate::cppmmabi::*;
 use std::os::raw::*;
 
-#[repr(C, align(8))]
-#[derive(Clone)]
-pub struct std____cxx11__basic_string_char__t {
-    _inner: [u8; 32]
-}
 
-impl Default for std____cxx11__basic_string_char__t {
-    fn default() -> Self {
-        Self { _inner: [0u8; 32] }
-    }
-}
-
-impl std____cxx11__basic_string_char__t {
+impl std__string_t {
     pub fn layout() -> std::alloc::Layout {
         unsafe {
             std::alloc::Layout::from_size_align(
-                std____cxx11__basic_string_char__sizeof(),
-                std____cxx11__basic_string_char__alignof(),
+                std__string_sizeof(),
+                std__string_alignof(),
             ).unwrap()
         }
     }
 }
 
-#[repr(C, align(8))]
-#[derive(Clone)]
-pub struct std__vector_std__string__t {
-    _inner: [u8; 24]
-}
-
-impl Default for std__vector_std__string__t {
-    fn default() -> Self {
-        Self { _inner: [0u8; 24] }
-    }
-}
 
 impl std__vector_std__string__t {
     pub fn layout() -> std::alloc::Layout {
@@ -55,13 +34,13 @@ impl std__vector_std__string__t {
 
 extern "C" {
 
-pub fn std____cxx11__basic_string_char__sizeof() -> usize;
+pub fn std__string_sizeof() -> usize;
 
-pub fn std____cxx11__basic_string_char__alignof() -> usize;
+pub fn std__string_alignof() -> usize;
 
-pub fn std____cxx11__basic_string_char__assign(this_: *mut std_string_t, return_: *mut *mut std_string_t, s: *const c_char, count: usize) -> Exception;
+pub fn std__string_assign(this_: *mut std_string_t, return_: *mut *mut std_string_t, s: *const c_char, count: usize) -> Exception;
 
-pub fn std____cxx11__basic_string_char__c_str(this_: *const std_string_t, return_: *mut *const c_char) -> Exception;
+pub fn std__string_c_str(this_: *const std_string_t, return_: *mut *const c_char) -> Exception;
 
 pub fn std__vector_std__string__sizeof() -> usize;
 

@@ -3,8 +3,20 @@ project(dtor-c VERSION 0.1.0)
 set(CMAKE_CXX_STANDARD 14 CACHE STRING "")
 set(SOURCES
     src/c-dtor.cpp
+    include/c-dtor.h
     src/std_string.cpp
     src/dtor-errors.cpp
+)
+
+add_subdirectory(abigen)
+add_custom_command(OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/include/c-dtor.h
+    DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/include.in/c-dtor.h 
+    COMMAND abigen
+    COMMAND python ARGS 
+        ${CMAKE_CURRENT_SOURCE_DIR}/abigen/insert_abi.py 
+        ${CMAKE_CURRENT_SOURCE_DIR}/include.in 
+        ${CMAKE_CURRENT_BINARY_DIR}/include 
+        ${CMAKE_CURRENT_BINARY_DIR}/abigen.txt
 )
 set(LIBNAME dtor-c-0_1)
 add_library(${LIBNAME} STATIC ${SOURCES})
@@ -19,6 +31,8 @@ if (WIN32)
 target_compile_definitions(${LIBNAME} PRIVATE _Bool=bool)
 target_compile_definitions(${LIBNAME}-shared PRIVATE _Bool=bool)
 endif()
+target_include_directories(${LIBNAME} PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/include)
+target_include_directories(${LIBNAME}-shared PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/include)
 target_include_directories(${LIBNAME} PRIVATE /home/anders/code/cppmm/test/dtor/include)
 target_include_directories(${LIBNAME}-shared PRIVATE /home/anders/code/cppmm/test/dtor/include)
 target_include_directories(${LIBNAME} PRIVATE include)
@@ -26,3 +40,4 @@ target_include_directories(${LIBNAME}-shared PRIVATE include)
 target_include_directories(${LIBNAME} PRIVATE src)
 target_include_directories(${LIBNAME}-shared PRIVATE src)
 install(TARGETS ${LIBNAME} DESTINATION ${CMAKE_INSTALL_PREFIX})
+install(TARGETS ${LIBNAME}-shared DESTINATION ${CMAKE_INSTALL_PREFIX})

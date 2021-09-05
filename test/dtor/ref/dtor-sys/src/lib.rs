@@ -54,6 +54,7 @@ pub use std_string::std____cxx11__basic_string_char__copy as std___cxx11_string_
 pub use std_string::std____cxx11__basic_string_char__dtor as std___cxx11_string_dtor;
 pub use std_string::std____cxx11__basic_string_char__assign as std___cxx11_string_assign;
 pub use std_string::std____cxx11__basic_string_char__c_str as std___cxx11_string_c_str;
+pub mod cppmmabi;
 pub mod c_dtor;
 pub mod std_string;
 

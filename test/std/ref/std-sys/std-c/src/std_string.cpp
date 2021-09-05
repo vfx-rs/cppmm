@@ -4,17 +4,17 @@
 
 #include <stdexcept>
 
-STD_CPPMM_API unsigned int std____cxx11__basic_string_char__sizeof()
+STD_CPPMM_API unsigned int std__string_sizeof()
 {
-        return sizeof(std::__cxx11::basic_string<char>);
+        return sizeof(std::string);
 }
 
-STD_CPPMM_API unsigned int std____cxx11__basic_string_char__alignof()
+STD_CPPMM_API unsigned int std__string_alignof()
 {
-        return alignof(std::__cxx11::basic_string<char>);
+        return alignof(std::string);
 }
 
-STD_CPPMM_API unsigned int std____cxx11__basic_string_char__assign(
+STD_CPPMM_API unsigned int std__string_assign(
     std_string_t * this_
     , std_string_t * * return_
     , char const * s
@@ -29,7 +29,7 @@ STD_CPPMM_API unsigned int std____cxx11__basic_string_char__assign(
     }
 }
 
-STD_CPPMM_API unsigned int std____cxx11__basic_string_char__c_str(
+STD_CPPMM_API unsigned int std__string_c_str(
     std_string_t const * this_
     , char const * * return_)
 {

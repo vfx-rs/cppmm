@@ -3,22 +3,12 @@
 #![allow(non_upper_case_globals)]
 #![allow(unused_imports)]
 use crate::*;
+pub use crate::cppmmabi::*;
 use std::os::raw::*;
 
 #[repr(C)]
 pub struct std___Rb_tree_node_base_t {
     _unused: [u8; 0],
-}
-#[repr(C, align(8))]
-#[derive(Clone)]
-pub struct std__set_std__string__t {
-    _inner: [u8; 48]
-}
-
-impl Default for std__set_std__string__t {
-    fn default() -> Self {
-        Self { _inner: [0u8; 48] }
-    }
 }
 
 impl std__set_std__string__t {
@@ -34,7 +24,7 @@ impl std__set_std__string__t {
 
 #[repr(C, align(8))]
 #[derive(Clone)]
-pub struct std___Rb_tree_const_iterator_std____cxx11__basic_string_char___t {
+pub struct std__set_std__string___const_iterator_t {
     pub _m_node: *const std__Rb_tree_node_base_t,
 }
 
@@ -56,9 +46,9 @@ pub fn std__set_std__string__cend(this_: *const std_set_string_t, return_: *mut 
 
 pub fn std__set_std__string__size(this_: *const std_set_string_t, return_: *mut usize) -> Exception;
 
-pub fn std___Rb_tree_const_iterator_std____cxx11__basic_string_char___deref(this_: *const std_set_string_iterator_t, return_: *mut *const std_string_t) -> Exception;
+pub fn std__set_std__string___const_iterator_deref(this_: *const std_set_string_iterator_t, return_: *mut *const std_string_t) -> Exception;
 
-pub fn std___Rb_tree_const_iterator_std____cxx11__basic_string_char___inc(this_: *mut std_set_string_iterator_t, return_: *mut *mut std_set_string_iterator_t) -> Exception;
+pub fn std__set_std__string___const_iterator_inc(this_: *mut std_set_string_iterator_t, return_: *mut *mut std_set_string_iterator_t) -> Exception;
 
 pub fn std_set_string_const_iterator_eq(return_: *mut bool, __x: *const std_set_string_iterator_t, __y: *const std_set_string_iterator_t) -> Exception;
 

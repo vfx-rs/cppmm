@@ -126,61 +126,61 @@ inline void to_c_move(
         new (lhs) std::set<std::string>(std::move(rhs));
 }
 
-inline std::_Rb_tree_const_iterator<std::__cxx11::basic_string<char> > const & to_cpp_ref(
+inline std::set<std::string>::const_iterator const & to_cpp_ref(
     std_set_string_iterator_t const * rhs)
 {
-        return *(reinterpret_cast<std::_Rb_tree_const_iterator<std::__cxx11::basic_string<char> > const * >(rhs));
+        return *(reinterpret_cast<std::set<std::string>::const_iterator const * >(rhs));
 }
 
-inline std::_Rb_tree_const_iterator<std::__cxx11::basic_string<char> > & to_cpp_ref(
+inline std::set<std::string>::const_iterator & to_cpp_ref(
     std_set_string_iterator_t * rhs)
 {
-        return *(reinterpret_cast<std::_Rb_tree_const_iterator<std::__cxx11::basic_string<char> > * >(rhs));
+        return *(reinterpret_cast<std::set<std::string>::const_iterator * >(rhs));
 }
 
-inline std::_Rb_tree_const_iterator<std::__cxx11::basic_string<char> > const * to_cpp(
+inline std::set<std::string>::const_iterator const * to_cpp(
     std_set_string_iterator_t const * rhs)
 {
-        return reinterpret_cast<std::_Rb_tree_const_iterator<std::__cxx11::basic_string<char> > const * >(rhs);
+        return reinterpret_cast<std::set<std::string>::const_iterator const * >(rhs);
 }
 
-inline std::_Rb_tree_const_iterator<std::__cxx11::basic_string<char> > * to_cpp(
+inline std::set<std::string>::const_iterator * to_cpp(
     std_set_string_iterator_t * rhs)
 {
-        return reinterpret_cast<std::_Rb_tree_const_iterator<std::__cxx11::basic_string<char> > * >(rhs);
+        return reinterpret_cast<std::set<std::string>::const_iterator * >(rhs);
 }
 
 inline void to_c(
     std_set_string_iterator_t const * * lhs
-    , std::_Rb_tree_const_iterator<std::__cxx11::basic_string<char> > const & rhs)
+    , std::set<std::string>::const_iterator const & rhs)
 {
         *(lhs) = reinterpret_cast<std_set_string_iterator_t const * >(&(rhs));
 }
 
 inline void to_c(
     std_set_string_iterator_t const * * lhs
-    , std::_Rb_tree_const_iterator<std::__cxx11::basic_string<char> > const * rhs)
+    , std::set<std::string>::const_iterator const * rhs)
 {
         *(lhs) = reinterpret_cast<std_set_string_iterator_t const * >(rhs);
 }
 
 inline void to_c(
     std_set_string_iterator_t * * lhs
-    , std::_Rb_tree_const_iterator<std::__cxx11::basic_string<char> > & rhs)
+    , std::set<std::string>::const_iterator & rhs)
 {
         *(lhs) = reinterpret_cast<std_set_string_iterator_t * >(&(rhs));
 }
 
 inline void to_c(
     std_set_string_iterator_t * * lhs
-    , std::_Rb_tree_const_iterator<std::__cxx11::basic_string<char> > * rhs)
+    , std::set<std::string>::const_iterator * rhs)
 {
         *(lhs) = reinterpret_cast<std_set_string_iterator_t * >(rhs);
 }
 
 inline void to_c_copy(
     std_set_string_iterator_t * lhs
-    , std::_Rb_tree_const_iterator<std::__cxx11::basic_string<char> > const & rhs)
+    , std::set<std::string>::const_iterator const & rhs)
 {
         memcpy(lhs, &(rhs), sizeof(*(lhs)));
 }

@@ -1,0 +1,83 @@
+{
+    "kind": "TranslationUnit",
+    "filename": "obyte.cpp",
+    "source_includes": [
+        "#include <obyte.hpp>",
+        "#include <cppmm_bind.hpp>"
+    ],
+    "include_paths": [
+        "/home/anders/code/cppmm/test/opaquebytes/include"
+    ],
+    "id": 0,
+    "decls": [
+        {
+            "kind": "Namespace",
+            "name": "obyte",
+            "id": 1,
+            "short_name": "obyte",
+            "alias": "obyte",
+            "collapse": false
+        },
+        {
+            "kind": "Record",
+            "name": "obyte::Foo",
+            "short_name": "Foo",
+            "namespaces": [
+                1
+            ],
+            "id": 2,
+            "abstract": false,
+            "trivially_copyable": false,
+            "trivially_movable": false,
+            "has_public_copy_ctor": true,
+            "has_public_move_ctor": true,
+            "opaque_type": false,
+            "size": 832,
+            "align": 64,
+            "alias": "Foo",
+            "attributes": [
+                "cppmm|opaquebytes"
+            ],
+            "comment": "",
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "a",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 8,
+                        "type": "std::__cxx11::basic_string<char>",
+                        "record": -1,
+                        "const": false
+                    },
+                    "attributes": []
+                },
+                {
+                    "kind": "Field",
+                    "name": "b",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 9,
+                        "type": "std::vector<int, std::allocator<int> >",
+                        "record": -1,
+                        "const": false
+                    },
+                    "attributes": []
+                },
+                {
+                    "kind": "Field",
+                    "name": "c",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 10,
+                        "type": "std::map<int, int, std::less<int>, std::allocator<std::pair<const int, int> > >",
+                        "record": -1,
+                        "const": false
+                    },
+                    "attributes": []
+                }
+            ],
+            "methods": null
+        }
+    ]
+}

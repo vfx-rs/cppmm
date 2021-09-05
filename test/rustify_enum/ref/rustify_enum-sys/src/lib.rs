@@ -72,6 +72,7 @@ pub use c_renum::rustify_RgbaChannels_RGBA_CHANNELS_B;
 pub use c_renum::rustify_RgbaChannels_RGBA_CHANNELS_A;
 pub use c_renum::rustify_RgbaChannels_RGBA_CHANNELS_ALL;
 pub use c_renum::RgbaChannels;
+pub mod cppmmabi;
 pub mod c_renum;
 
 

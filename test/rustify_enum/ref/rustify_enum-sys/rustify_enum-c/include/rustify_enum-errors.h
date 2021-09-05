@@ -6,7 +6,7 @@
 extern "C" {
 #endif
 
-const char* RUSTIFY_ENUM_CPPMM_API rustify_enum_get_exception_string();
+RUSTIFY_ENUM_CPPMM_API const char* rustify_enum_get_exception_string();
 
 #ifdef __cplusplus
 }

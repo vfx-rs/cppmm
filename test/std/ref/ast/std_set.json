@@ -138,7 +138,8 @@
             "alias": "set_string",
             "attributes": [
                 "cppmm|opaquebytes",
-                "cppmm|ignore_unbound"
+                "cppmm|ignore_unbound",
+                "cppmm|force_name|\"std::set<std::string>\""
             ],
             "comment": "",
             "fields": null,
@@ -328,7 +329,8 @@
             "alias": "set_string_iterator",
             "attributes": [
                 "cppmm|valuetype",
-                "cppmm|ignore_unbound"
+                "cppmm|ignore_unbound",
+                "cppmm|force_name|\"std::set<std::string>::const_iterator\""
             ],
             "comment": "",
             "fields": [

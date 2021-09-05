@@ -6,7 +6,7 @@
 extern "C" {
 #endif
 
-const char* DEEP_NAMESPACE_CPPMM_API deep_namespace_get_exception_string();
+DEEP_NAMESPACE_CPPMM_API const char* deep_namespace_get_exception_string();
 
 #ifdef __cplusplus
 }

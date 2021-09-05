@@ -6,7 +6,7 @@
 extern "C" {
 #endif
 
-const char* PROPERTY_CPPMM_API property_get_exception_string();
+PROPERTY_CPPMM_API const char* property_get_exception_string();
 
 #ifdef __cplusplus
 }

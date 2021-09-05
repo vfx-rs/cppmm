@@ -6,7 +6,7 @@
 extern "C" {
 #endif
 
-const char* IMATH_CPPMM_API imath_get_exception_string();
+IMATH_CPPMM_API const char* imath_get_exception_string();
 
 #ifdef __cplusplus
 }

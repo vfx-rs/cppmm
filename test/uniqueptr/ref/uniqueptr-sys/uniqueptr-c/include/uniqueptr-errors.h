@@ -6,7 +6,7 @@
 extern "C" {
 #endif
 
-const char* UNIQUEPTR_CPPMM_API uniqueptr_get_exception_string();
+UNIQUEPTR_CPPMM_API const char* uniqueptr_get_exception_string();
 
 #ifdef __cplusplus
 }
