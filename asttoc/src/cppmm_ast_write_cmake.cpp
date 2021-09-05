@@ -54,12 +54,14 @@ void write_abigen_cmake(fs::path output_directory,
     auto cmakefile_path = output_directory / "CMakeLists.txt";
     auto out = fmt::output_file(cmakefile_path.c_str());
 
-    out.print("file(GLOB ABIGEN_SOURCE *.cpp)\n");
+    out.print("file(GLOB_RECURSE ABIGEN_SOURCE *.cpp)\n");
     out.print("add_executable(abigen ${{ABIGEN_SOURCE}})\n");
 
     for (const auto& i : include_paths) {
         out.print("target_include_directories(abigen PRIVATE {})\n", i);
     }
+
+    out.print("target_include_directories(abigen PRIVATE ${{CMAKE_CURRENT_SOURCE_DIR}}/..)\n");
 
     for (const auto& l : target_link_libraries) {
         out.print("target_link_libraries(abigen PRIVATE {})\n", l);

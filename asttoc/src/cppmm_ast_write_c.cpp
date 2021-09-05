@@ -719,6 +719,8 @@ void write_abi_generator_for_tu(const TranslationUnit& tu, fs::path base_dir) {
     std::string basename, ext;
     pystring::os::path::splitext(basename, ext, tu.filename);
     std::string safename = pystring::replace(basename, "-", "_");
+    safename = pystring::replace(safename, "\\", "_");
+    safename = pystring::replace(safename, "/", "_");
 
     fs::path filename = base_dir / "abigen" / (basename + ".cpp");
     fs::create_directories(filename.parent_path());
@@ -729,7 +731,7 @@ void write_abi_generator_for_tu(const TranslationUnit& tu, fs::path base_dir) {
         out.print("{}\n", i);
     }
 
-    out.print("#include \"{}.hpp\"\n\n", basename);
+    out.print("#include <abigen/{}.hpp>\n\n", basename);
 
     out.print("void abi_gen_{}(std::ostream& os) {{\n", safename);
 
@@ -915,6 +917,8 @@ void c(const char* project_name, const Root& root, size_t starting_point,
         std::string basename, ext;
         pystring::os::path::splitext(basename, ext, tu->filename);
         basename = pystring::replace(basename, "-", "_");
+        basename = pystring::replace(basename, "\\", "_");
+        basename = pystring::replace(basename, "/", "_");
         out.print("    abi_gen_{}(os);\n", basename);
     }
 

@@ -875,7 +875,7 @@ struct NodeTypedefNameDecl : public NodeAttributeHolder {
     virtual void write(std::ostream& os, int depth) const override {
         os << indent{depth + 1} << "using " << short_name << " = ";
         write_namespaces(os, namespaces);
-        os << short_name;
+        os << short_name << ";\n";
     }
 };
 
@@ -2163,9 +2163,8 @@ void GenBindingCallback::run(const MatchFinder::MatchResult& result) {
         const auto& loc = tnd->getLocation();
         std::string filename = sm.getFilename(loc).str();
         if (filename == cppmm::CURRENT_FILENAME) {
-            // Don't actually need to do this 
-            /* SPDLOG_INFO("Got TND {}", tnd->getQualifiedNameAsString()); */
-            /* cppmm::process_tnd(tnd); */
+            SPDLOG_INFO("Got TND {}", tnd->getQualifiedNameAsString());
+            cppmm::process_tnd(tnd);
         }
     }
 }
