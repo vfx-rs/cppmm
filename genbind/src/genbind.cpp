@@ -2,13 +2,14 @@
 #include <cstring>
 #include <fstream>
 #include <iostream>
+#include <memory>
 #include <sstream>
 #include <unistd.h>
 #include <unordered_map>
-#include <sstream>
 
 #include "clang/AST/ASTContext.h"
 #include "clang/AST/Decl.h"
+#include "clang/AST/DeclBase.h"
 #include "clang/AST/DeclCXX.h"
 #include "clang/AST/DeclTemplate.h"
 #include "clang/AST/Type.h"
@@ -69,6 +70,8 @@ enum class NodeKind : uint32_t {
     ConstantArrayType,
     Var,
     TemplateTypeParmType,
+    TypedefNameDecl,
+    TypedefType,
 };
 
 std::ostream& operator<<(std::ostream& os, NodeKind k) {
@@ -422,6 +425,33 @@ struct NodeFunctionProtoType : public NodeType {
 
     virtual void write(std::ostream& os, int depth) const override {
         os << indent{depth} << type_name;
+    }
+};
+
+struct NodeTypedefType : public NodeType {
+    std::string short_name;
+    std::vector<std::string> namespaces;
+
+    static NodeKind _kind;
+    virtual NodeKind node_kind() const override { return _kind; }
+
+    NodeTypedefType(std::string qualified_name, NodeId id, NodeId context,
+                          std::string type_name, std::string short_name, std::vector<std::string> namespaces)
+        : NodeType(qualified_name, id, context, type_name),
+          short_name(short_name), namespaces(namespaces) {}
+
+    virtual void write(std::ostream& os, int depth) const override {
+        os << indent{depth};
+        for (const auto& ns: namespaces) {
+            if (ns == TARGET_NAMESPACE) {
+                os << TARGET_NAMESPACE_PUBLIC;
+            } else {
+                os << ns;
+            }
+
+            os << "::";
+        }
+        os << short_name;
     }
 };
 
@@ -822,6 +852,33 @@ struct NodeRecord : public NodeAttributeHolder {
     }
 };
 
+/// A record is a class or struct declaration containing fields and methods
+struct NodeTypedefNameDecl : public NodeAttributeHolder {
+    /// The 'leaf' of the qualified name
+    std::string short_name;
+    /// The full path of namespaces leading to this decl
+    std::vector<NodeId> namespaces;
+    /// The underlying type name
+    std::string underlying_type;
+
+    static NodeKind _kind;
+    virtual NodeKind node_kind() const override { return _kind; }
+
+    NodeTypedefNameDecl(std::string qualified_name, NodeId id, NodeId context,
+                        std::vector<std::string> attrs, std::string short_name,
+                        std::vector<NodeId> namespaces,
+                        std::string underlying_type)
+        : NodeAttributeHolder(qualified_name, id, context, attrs),
+          short_name(std::move(short_name)), namespaces(std::move(namespaces)),
+          underlying_type(underlying_type) {}
+
+    virtual void write(std::ostream& os, int depth) const override {
+        os << indent{depth + 1} << "using " << short_name << " = ";
+        write_namespaces(os, namespaces);
+        os << short_name;
+    }
+};
+
 void NodeTranslationUnit::write(std::ostream& os, int depth) const {
     os << "#include <" << source_includes[0] << ">\n";
     os << "#include <cppmm_bind.hpp>\n\n";
@@ -1019,6 +1076,8 @@ NodeKind NodeEnum::_kind = NodeKind::Enum;
 NodeKind NodeConstantArrayType::_kind = NodeKind::ConstantArrayType;
 NodeKind NodeVar::_kind = NodeKind::Var;
 NodeKind NodeTemplateTypeParmType::_kind = NodeKind::TemplateTypeParmType;
+NodeKind NodeTypedefNameDecl::_kind = NodeKind::TypedefNameDecl;
+NodeKind NodeTypedefType::_kind = NodeKind::TypedefType;
 
 /// Strip the type kinds off the front of a type name in the given string
 std::string strip_name_kinds(std::string s) {
@@ -1057,6 +1116,28 @@ NodeTranslationUnit* get_translation_unit(const std::string& filename) {
     NODES.emplace_back(std::move(node));
     NODE_MAP[filename] = id;
     return node_ptr;
+}
+
+bool is_in_target_namespace(const DeclContext* ctx) {
+    auto* parent = ctx;
+    while (parent) {
+        if (parent->isNamespace()) {
+            const clang::NamespaceDecl* ns =
+                static_cast<const clang::NamespaceDecl*>(parent);
+
+            auto qualified_name = ns->getQualifiedNameAsString();
+            SPDLOG_INFO("Parent is namespace {}", qualified_name);
+            auto short_name = ns->getNameAsString();
+
+            if (short_name == TARGET_NAMESPACE) {
+                return true;
+            }
+        }
+
+        parent = parent->getParent();
+    }
+
+    return false;
 }
 
 /// Get the full set of namespaces (including parent records) that lead to
@@ -1141,10 +1222,51 @@ std::vector<NodeId> get_namespaces(NodeId child,
     return result;
 }
 
+// Get just the names of the enclosing namespaces, without doing any TU creation
+std::vector<std::string> get_namespace_names(const clang::DeclContext* parent) {
+    std::vector<std::string> result;
+
+    while (parent) {
+        if (parent->isNamespace()) {
+            const clang::NamespaceDecl* ns =
+                static_cast<const clang::NamespaceDecl*>(parent);
+
+            auto qualified_name = ns->getQualifiedNameAsString();
+            auto short_name = ns->getNameAsString();
+
+            result.push_back(short_name);
+
+            parent = parent->getParent();
+        } else if (parent->isRecord()) {
+            // Parent is a Record type. We should have created the record
+            // already by the time we get here...
+            const clang::CXXRecordDecl* crd =
+                static_cast<const clang::CXXRecordDecl*>(parent);
+
+            auto short_name = crd->getNameAsString();
+            result.push_back(short_name);
+
+            parent = parent->getParent();
+        } else if (parent->isTranslationUnit()) {
+            break;
+        } else if (parent->isExternCContext()) {
+            parent = parent->getParent();
+        } else {
+            SPDLOG_CRITICAL("Unhandled parent kind {}",
+                            parent->getDeclKindName());
+            exit(17);
+        }
+    }
+
+    std::reverse(result.begin(), result.end());
+    return result;
+}
+
 // Get the canonical definition from a crd
 const CXXRecordDecl* get_canonical_def_from_crd(const CXXRecordDecl* crd) {
     if (const CXXRecordDecl* can = crd->getCanonicalDecl()) {
-        /* SPDLOG_INFO("Got can {} from crd {}", can->getQualifiedNameAsString(), crd->getQualifiedNameAsString()); */
+        /* SPDLOG_INFO("Got can {} from crd {}",
+         * can->getQualifiedNameAsString(), crd->getQualifiedNameAsString()); */
         return can->getDefinition();
     }
     return nullptr;
@@ -1234,7 +1356,7 @@ QType process_qtype(
         if (it == NODE_MAP.end()) {
             // need to create the pointer type, create the pointee type first
             QType pointee_qtype = process_qtype(
-                qt->getPointeeType().getCanonicalType(), template_parameters);
+                qt->getPointeeType(), template_parameters);
             // now create the pointer type
             id = NODES.size();
             auto node_pointer_type = std::make_unique<NodePointerType>(
@@ -1248,6 +1370,28 @@ QType process_qtype(
         }
 
         return QType{id, qt.isConstQualified()};
+    } else if (const auto* tdt = qt->getAs<TypedefType>()) {
+        const TypedefNameDecl* tnd = tdt->getDecl();
+
+        const std::string qualified_name = tnd->getQualifiedNameAsString();
+        const std::string short_name = tnd->getNameAsString();
+        std::vector<std::string> namespaces = get_namespace_names(tnd->getDeclContext());
+
+        const std::string type_node_name = "TYPE:" + qualified_name;
+        auto it = NODE_MAP.find(type_node_name);
+        NodeId id;
+        if (it == NODE_MAP.end()) {
+            id = NODES.size();
+            auto node_type = std::make_unique<NodeTypedefType>(
+                type_node_name, id, 0, qualified_name, short_name, namespaces);
+            NODES.emplace_back(std::move(node_type));
+            NODE_MAP[type_node_name] = id;
+        } else {
+            id = it->second;
+        }
+
+        return QType{id, qt.isConstQualified()};
+
     } else if (qt->isConstantArrayType()) {
         // e.g. float[3]
         const std::string type_name = qt.getCanonicalType().getAsString();
@@ -1312,7 +1456,6 @@ QType process_qtype(
         // structure
         std::string type_node_name = "TYPE:" + type_name;
 
-
         if (qt->isBuiltinType() && type_name == "unsigned long") {
             const auto* tdt = qt->getAs<TypedefType>();
             if (tdt && tdt->getDecl()->getNameAsString() == "uint64_t") {
@@ -1321,13 +1464,15 @@ QType process_qtype(
             } else if (tdt && tdt->getDecl()->getNameAsString() == "size_t") {
                 type_name = "size_t";
                 type_node_name = "TYPE:size_t";
-            } else if (tdt && tdt->getDecl()->getNameAsString() == "size_type") {
+            } else if (tdt &&
+                       tdt->getDecl()->getNameAsString() == "size_type") {
                 // FIXME: Nasty hack here to get e.g. std::string::size_type
                 // will this bite us?
                 type_name = "size_t";
                 type_node_name = "TYPE:size_t";
             } else if (tdt) {
-                /* SPDLOG_WARN("Unhandled unsigned long typedef {}", tdt->getDecl()->getNameAsString()); */
+                /* SPDLOG_WARN("Unhandled unsigned long typedef {}",
+                 * tdt->getDecl()->getNameAsString()); */
                 // If we're some other typedef of unsigned long, try desugaring
                 // recursively until we get to a typedef we can handle
                 QualType ds_type = tdt->desugar();
@@ -1338,7 +1483,8 @@ QType process_qtype(
             if (tdt && tdt->getDecl()->getNameAsString() == "int64_t") {
                 type_name = "int64_t";
                 type_node_name = "TYPE:int64_t";
-            } else if (tdt && tdt->getDecl()->getNameAsString() == "ptrdiff_t") {
+            } else if (tdt &&
+                       tdt->getDecl()->getNameAsString() == "ptrdiff_t") {
                 type_name = "ptrdiff_t";
                 type_node_name = "TYPE:ptrdiff_t";
             }
@@ -1689,6 +1835,44 @@ bool is_in_valid_context(const DeclContext* parent) {
     return false;
 }
 
+void process_tnd(const TypedefNameDecl* tnd) {
+    ASTContext& ctx = tnd->getASTContext();
+    SourceManager& sm = ctx.getSourceManager();
+    const auto& loc = tnd->getLocation();
+    std::string filename = sm.getFilename(loc).str();
+
+    auto qualified_name = tnd->getQualifiedNameAsString();
+    auto short_name = tnd->getNameAsString();
+    SPDLOG_DEBUG("process {} at {}:{}", qualified_name, filename,
+                 sm.getExpansionLineNumber(loc));
+
+    if (!is_in_valid_context(tnd->getDeclContext())) {
+        SPDLOG_DEBUG("{} is not in a valid context. skipping", qualified_name);
+        return;
+    }
+
+    auto* node_tu = get_translation_unit(filename);
+    node_tu->source_includes.push_back(filename);
+
+    auto it = NODE_MAP.find(qualified_name);
+    if (it == NODE_MAP.end()) {
+        NodeId id = NODES.size();
+
+        auto node_tnd = std::make_unique<NodeTypedefNameDecl>(
+            qualified_name, id, 0, std::vector<std::string>{},
+            std::move(short_name), std::vector<NodeId>{}, tnd->getUnderlyingType().getAsString());
+
+        NODES.emplace_back(std::move(node_tnd));
+        SPDLOG_TRACE("Inserting NodeTypedefNameDecl {} with id {}",
+                     qualified_name, id);
+        NODE_MAP[qualified_name] = id;
+
+        auto namespaces = get_namespaces(id, tnd->getDeclContext(), node_tu);
+        auto* node_rec = node_cast<NodeTypedefNameDecl>(NODES[id].get());
+        node_rec->namespaces = std::move(namespaces);
+    }
+}
+
 void process_crd(const CXXRecordDecl* crd,
                  std::vector<std::string> template_parameters) {
     ASTContext& ctx = crd->getASTContext();
@@ -1972,6 +2156,17 @@ void GenBindingCallback::run(const MatchFinder::MatchResult& result) {
         if (filename == cppmm::CURRENT_FILENAME) {
             cppmm::handle_ctd(ctd);
         }
+    } else if (const TypedefNameDecl* tnd =
+                   result.Nodes.getNodeAs<TypedefNameDecl>("typedefNameDecl")) {
+        ASTContext& ctx = tnd->getASTContext();
+        SourceManager& sm = ctx.getSourceManager();
+        const auto& loc = tnd->getLocation();
+        std::string filename = sm.getFilename(loc).str();
+        if (filename == cppmm::CURRENT_FILENAME) {
+            // Don't actually need to do this 
+            /* SPDLOG_INFO("Got TND {}", tnd->getQualifiedNameAsString()); */
+            /* cppmm::process_tnd(tnd); */
+        }
     }
 }
 
@@ -2031,6 +2226,11 @@ GenBindingConsumer::GenBindingConsumer(ASTContext* context) {
                 .bind("functionDecl");
         _match_finder.addMatcher(function_decl_matcher, &_handler);
 
+        DeclarationMatcher typedef_decl_matcher =
+            typedefNameDecl(
+                hasDeclContext(namedDecl(hasName(cppmm::TARGET_NAMESPACE))))
+                .bind("typedefNameDecl");
+        _match_finder.addMatcher(typedef_decl_matcher, &_handler);
     } else {
 
         DeclarationMatcher record_decl_matcher =
@@ -2050,15 +2250,11 @@ GenBindingConsumer::GenBindingConsumer(ASTContext* context) {
                                       hasAncestor(classTemplateDecl()))))
                 .bind("functionDecl");
         _match_finder.addMatcher(function_decl_matcher, &_handler);
-    }
 
-    // // match all typedef declrations in the cppmm_bind namespace
-    // DeclarationMatcher typedef_decl_matcher =
-    //     typeAliasDecl(hasAncestor(namespaceDecl(hasName("cppmm_bind"))),
-    //                   unless(hasAncestor(recordDecl())),
-    //                   unless(isImplicit()))
-    //         .bind("typeAliasDecl");
-    // _match_finder.addMatcher(typedef_decl_matcher, &_handler);
+        DeclarationMatcher typedef_decl_matcher =
+            typedefNameDecl().bind("typedefNameDecl");
+        _match_finder.addMatcher(typedef_decl_matcher, &_handler);
+    }
 
     // // match all variable declrations in the cppmm_bind namespace
     // DeclarationMatcher var_decl_matcher =
@@ -2135,9 +2331,8 @@ static cl::opt<std::string> opt_output_directory(
         "Directory under which output project directories will be written"));
 
 static cl::opt<std::string> opt_relative_to(
-    "r",
-    cl::desc(
-        "Path to which the target headers are relative, and from which the hierarchy will be preserved in the bindings"));
+    "r", cl::desc("Path to which the target headers are relative, and from "
+                  "which the hierarchy will be preserved in the bindings"));
 
 static cl::list<std::string>
     opt_rename_namespace("n", cl::desc("Rename namespace <to>=<from>"));
@@ -2244,6 +2439,10 @@ int main(int argc_, const char** argv_) {
     std::vector<std::string> vtu;
     std::vector<std::string> vtu_paths;
 
+    cppmm::TARGET_NAMESPACE = opt_namespace;
+    cppmm::TARGET_NAMESPACE_INTERNAL = opt_namespace_internal;
+    cppmm::TARGET_NAMESPACE_PUBLIC = opt_namespace_public;
+
     auto header_path = ps::os::path::abspath(src_path[0], cwd);
     header_paths.push_back(header_path);
     SPDLOG_DEBUG("Found header file {}", header_path);
@@ -2283,7 +2482,8 @@ int main(int argc_, const char** argv_) {
     }
 
     for (int i = 0; i < vtu.size(); ++i) {
-        SPDLOG_INFO("Processing {} ({}/{})", header_paths[i], i+1, vtu.size());
+        SPDLOG_INFO("Processing {} ({}/{})", header_paths[i], i + 1,
+                    vtu.size());
         cppmm::CURRENT_FILENAME = header_paths[i];
         ClangTool Tool(compdb, ArrayRef<std::string>(vtu_paths[i]));
         Tool.mapVirtualFile(vtu_paths[i], vtu[i]);
@@ -2296,10 +2496,6 @@ int main(int argc_, const char** argv_) {
             newFrontendActionFactory<GenBindingAction>();
         int result = Tool.run(process_binding_action.get());
     }
-
-    cppmm::TARGET_NAMESPACE = opt_namespace;
-    cppmm::TARGET_NAMESPACE_INTERNAL = opt_namespace_internal;
-    cppmm::TARGET_NAMESPACE_PUBLIC = opt_namespace_public;
 
     using namespace cppmm;
     SPDLOG_DEBUG("output path is {}", output_dir);
@@ -2323,9 +2519,8 @@ int main(int argc_, const char** argv_) {
             }
 
             // generate output filename by snake_casing the header filename
-            auto filename = to_snake_case(fs::path(relative_header)
-                                              .replace_extension(".cpp")
-                                              .string());
+            auto filename = to_snake_case(
+                fs::path(relative_header).replace_extension(".cpp").string());
 
             auto output_path = output_dir / fs::path(filename);
             SPDLOG_INFO("Writing {}", output_path.string());
