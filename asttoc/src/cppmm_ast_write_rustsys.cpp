@@ -223,14 +223,6 @@ void write_record(fmt::ostream& out, const NodeRecord* node_record, fmt::ostream
         out.print("}}");
 
     } else if (bt == BindType::OpaqueBytes) {
-/*         out_cppmmabi_in.print("pub const {}_SIZE: usize = %SIZE{}%;\n", node_record->name, node_record->cpp_name); */
-/*         out_cppmmabi_in.print("pub const {}_ALIGN: usize = %ALIGN{}%;\n\n", node_record->name, node_record->cpp_name); */
-/*  */
-/*         out.print("#[repr(C, align(cppmmabi::{}_ALIGN))]\n", node_record->name); */
-/*         out.print("#[derive({})]\n", derive); */
-/*         out.print("pub struct {} {{\n", node_record->name); */
-/*         out.print("    _inner: [u8; cppmmabi::{}_SIZE]\n", node_record->name); */
-
         out_cppmmabi_in.print("#[repr(C, align(%ALIGN{}%))]\n", node_record->cpp_name);
         out_cppmmabi_in.print("#[derive({})]\n", derive);
         out_cppmmabi_in.print("pub struct {} {{\n", node_record->name);

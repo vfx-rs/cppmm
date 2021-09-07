@@ -202,6 +202,9 @@ std::string remap_special_methods(const std::string& name) {
     if (name == "operator==") {
         return std::string("_eq");
     }
+    if (name == "operator!") {
+        return std::string("_neg");
+    }
     if (name == "operator!=") {
         return std::string("_ne");
     }
@@ -225,6 +228,30 @@ std::string remap_special_methods(const std::string& name) {
     }
     if (name == "operator^") {
         return std::string("_op_xor");
+    }
+    if (name == "operator|") {
+        return std::string("_op_bit_or");
+    }
+    if (name == "operator&") {
+        return std::string("_op_bit_and");
+    }
+    if (name == "operator|=") {
+        return std::string("_op_bit_or_assign");
+    }
+    if (name == "operator&=") {
+        return std::string("_op_bit_and_assign");
+    }
+    if (name == "operator||") {
+        return std::string("_op_or");
+    }
+    if (name == "operator&&") {
+        return std::string("_op_and");
+    }
+    if (name == "operator||=") {
+        return std::string("_op_or_assign");
+    }
+    if (name == "operator&&=") {
+        return std::string("_op_and_assign");
     }
     if (name == "operator%") {
         return std::string("_op_mod");
@@ -299,8 +326,8 @@ std::string compute_qualified_name(const TypeRegistry& type_registry,
 
 //------------------------------------------------------------------------------
 std::string compute_qualified_cpp_name(const TypeRegistry& type_registry,
-                                   const std::vector<NodeId>& namespaces,
-                                   const std::string& alias) {
+                                       const std::vector<NodeId>& namespaces,
+                                       const std::string& alias) {
     std::string result;
     for (const auto& ns : namespaces) {
         result += type_registry.find_namespace(ns);
@@ -1384,8 +1411,7 @@ void record_method(TypeRegistry& type_registry, TranslationUnit& c_tu,
         // bad std namespace gunk in there.
         auto method = cpp_method;
         method.name = cpp_record.name + "::" + method.short_name;
-        general_function(type_registry, c_tu, method, &cpp_record,
-                         &c_record);
+        general_function(type_registry, c_tu, method, &cpp_record, &c_record);
         return;
     }
 
@@ -2405,7 +2431,7 @@ std::string header_file_include(std::string header_filename) {
 
 std::string private_header_file_include(std::string header_filename) {
     std::string result = "#include \"";
-    result += fs::path(header_filename).filename().string();
+    result += fs::path(header_filename).string();
     result += "\"";
     return result;
 }

@@ -676,7 +676,7 @@ void write_private_header(const TranslationUnit& tu, fs::path base_dir,
                           const std::string& api_prefix) {
     std::string basename, ext;
     pystring::os::path::splitext(basename, ext, tu.filename);
-    fs::path filename = base_dir / "src" / (basename + "_private.h");
+    fs::path filename = base_dir / "private" / (basename + "_private.h");
     fs::create_directories(filename.parent_path());
     auto out = fmt::output_file(filename.string());
 
@@ -951,6 +951,7 @@ extern "C" {{
 //------------------------------------------------------------------------------
 void write_error_header_private(const char* filename,
                                 const char* project_name) {
+    fs::create_directories(fs::path(filename).parent_path());
     auto out = fmt::output_file(filename);
 
     out.print(R"(#pragma once
@@ -989,7 +990,7 @@ void cerrors(const char* output_dir, Root& root, size_t starting_point,
     auto source_fn = fs::path(basename).replace_extension(".cpp");
 
     auto header_path = fs::path(output_dir) / "include" / header_fn;
-    auto private_header_path = fs::path(output_dir) / "src" / private_header_fn;
+    auto private_header_path = fs::path(output_dir) / "private" / private_header_fn;
     auto source_path = fs::path(output_dir) / "src" / source_fn;
 
     write_error_header(header_path.c_str(), project_name, api_prefix);

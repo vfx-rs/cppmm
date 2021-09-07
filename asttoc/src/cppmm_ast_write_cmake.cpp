@@ -240,6 +240,7 @@ add_custom_command(OUTPUT ${{CMAKE_CURRENT_SOURCE_DIR}}/include/{0}
     include_paths.insert("include");
     include_paths.insert("${CMAKE_CURRENT_BINARY_DIR}/include");
     include_paths.insert("src");
+    include_paths.insert("private");
 
     // Include directories
     for (auto& include_path : include_paths) {
@@ -380,6 +381,7 @@ add_custom_command(OUTPUT ${{CMAKE_CURRENT_SOURCE_DIR}}/include/{0}
     include_paths.insert("include");
     include_paths.insert("${CMAKE_CURRENT_BINARY_DIR}/include");
     include_paths.insert("src");
+    include_paths.insert("private");
 
     // Include directories
     for (auto& include_path : include_paths) {
