@@ -450,6 +450,11 @@ bool has_noexcept_attr(const std::vector<std::string>& attrs) {
            attrs.end();
 }
 
+bool has_manual_attr(const std::vector<std::string>& attrs) {
+    return std::find(attrs.begin(), attrs.end(), "cppmm|manual") !=
+           attrs.end();
+}
+
 /// Create a new node for the given method decl and return it
 NodePtr process_method_decl(const CXXMethodDecl* cmd,
                             std::vector<std::string> attrs,
@@ -1182,6 +1187,22 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
             node_record_ptr->methods.push_back(id);
         }
 
+        // now iterate over the binding methods and see if there's any manual
+        // ones we want to stick in
+        for (NodePtr& method : binding_methods) {
+            NodeMethod* mptr = (NodeMethod*)method.get();
+            if (has_manual_attr(mptr->attrs)) {
+                mptr->in_binding = true;           
+                mptr->is_noexcept |= has_noexcept_attr(mptr->attrs);
+                function_map[mptr->_function_id] = mptr;
+
+                NodeId id = NODES.size();
+                NODE_MAP[method->qualified_name] = id;
+                NODES.emplace_back(std::move(method));
+                node_record_ptr->methods.push_back(id);
+            }
+        }
+
         if (WARN_UNMATCHED && !ignore_unbound) {
             for (const auto& n : methods) {
                 const auto* m = (NodeMethod*)n.get();
@@ -1196,7 +1217,7 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
             for (const auto& n : binding_methods) {
                 const auto* m = (NodeMethod*)n.get();
                 if (m && m->is_user_provided && !m->in_library &&
-                    !m->is_deleted) {
+                    !m->is_deleted && !has_manual_attr(m->attrs)) {
                     SPDLOG_WARN("[{}]({}) - \n"
                                 "{} is declared in the binding but not present "
                                 "in the library",
