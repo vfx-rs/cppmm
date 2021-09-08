@@ -3,8 +3,19 @@
 #![allow(non_upper_case_globals)]
 #![allow(unused_imports)]
 use crate::*;
+pub use crate::cppmmabi::*;
 use std::os::raw::*;
 
+#[repr(C)]
+pub struct rustify__Foo_t {
+    _unused: [u8; 0],
+}
+
+#[repr(transparent)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+pub struct rustify__Foo__Bar_e(pub u32);
+pub const rustify_Foo_Bar_Baz: rustify__Foo__Bar_e = rustify__Foo__Bar_e(0);
+pub const rustify_Foo_Bar_Qux: rustify__Foo__Bar_e = rustify__Foo__Bar_e(1);
 
 #[repr(transparent)]
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]

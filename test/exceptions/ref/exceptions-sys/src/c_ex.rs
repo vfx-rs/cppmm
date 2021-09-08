@@ -3,19 +3,9 @@
 #![allow(non_upper_case_globals)]
 #![allow(unused_imports)]
 use crate::*;
+pub use crate::cppmmabi::*;
 use std::os::raw::*;
 
-#[repr(C, align(1))]
-#[derive(Clone)]
-pub struct ex__Struct_t {
-    _inner: [u8; 1]
-}
-
-impl Default for ex__Struct_t {
-    fn default() -> Self {
-        Self { _inner: [0u8; 1] }
-    }
-}
 
 impl ex__Struct_t {
     pub fn layout() -> std::alloc::Layout {

@@ -50,6 +50,7 @@ pub use c_dn::DN_Class_Enum_Two;
 pub use c_dn::DN_Class_Enum_Three;
 pub use c_dn::DN__v2_2__Class__Struct_structMethod as DN_Class_Struct_structMethod;
 pub use c_dn::DN_v2_2_someFunction as DN_someFunction;
+pub mod cppmmabi;
 pub mod c_dn;
 
 

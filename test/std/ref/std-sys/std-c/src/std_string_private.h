@@ -8,63 +8,63 @@
 #include <string>
 #include <vector>
 
-inline std::__cxx11::basic_string<char> const & to_cpp_ref(
+inline std::string const & to_cpp_ref(
     std_string_t const * rhs)
 {
-        return *(reinterpret_cast<std::__cxx11::basic_string<char> const * >(rhs));
+        return *(reinterpret_cast<std::string const * >(rhs));
 }
 
-inline std::__cxx11::basic_string<char> & to_cpp_ref(
+inline std::string & to_cpp_ref(
     std_string_t * rhs)
 {
-        return *(reinterpret_cast<std::__cxx11::basic_string<char> * >(rhs));
+        return *(reinterpret_cast<std::string * >(rhs));
 }
 
-inline std::__cxx11::basic_string<char> const * to_cpp(
+inline std::string const * to_cpp(
     std_string_t const * rhs)
 {
-        return reinterpret_cast<std::__cxx11::basic_string<char> const * >(rhs);
+        return reinterpret_cast<std::string const * >(rhs);
 }
 
-inline std::__cxx11::basic_string<char> * to_cpp(
+inline std::string * to_cpp(
     std_string_t * rhs)
 {
-        return reinterpret_cast<std::__cxx11::basic_string<char> * >(rhs);
+        return reinterpret_cast<std::string * >(rhs);
 }
 
 inline void to_c(
     std_string_t const * * lhs
-    , std::__cxx11::basic_string<char> const & rhs)
+    , std::string const & rhs)
 {
         *(lhs) = reinterpret_cast<std_string_t const * >(&(rhs));
 }
 
 inline void to_c(
     std_string_t const * * lhs
-    , std::__cxx11::basic_string<char> const * rhs)
+    , std::string const * rhs)
 {
         *(lhs) = reinterpret_cast<std_string_t const * >(rhs);
 }
 
 inline void to_c(
     std_string_t * * lhs
-    , std::__cxx11::basic_string<char> & rhs)
+    , std::string & rhs)
 {
         *(lhs) = reinterpret_cast<std_string_t * >(&(rhs));
 }
 
 inline void to_c(
     std_string_t * * lhs
-    , std::__cxx11::basic_string<char> * rhs)
+    , std::string * rhs)
 {
         *(lhs) = reinterpret_cast<std_string_t * >(rhs);
 }
 
 inline void to_c_move(
     std_string_t * lhs
-    , std::__cxx11::basic_string<char> rhs)
+    , std::string rhs)
 {
-        new (lhs) std::__cxx11::basic_string<char>(std::move(rhs));
+        new (lhs) std::string(std::move(rhs));
 }
 
 inline std::vector<std::string> const & to_cpp_ref(

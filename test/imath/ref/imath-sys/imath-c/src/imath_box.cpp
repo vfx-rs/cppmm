@@ -4,7 +4,7 @@
 
 #include <stdexcept>
 
-unsigned int Imath_2_5__Box_Imath__Vec3_float___extendBy(
+IMATH_CPPMM_API unsigned int Imath_2_5__Box_Imath__Vec3_float___extendBy(
     Imath_Box3f_t * this_
     , Imath_V3f_t const * point)
 {
@@ -17,7 +17,7 @@ unsigned int Imath_2_5__Box_Imath__Vec3_float___extendBy(
     }
 }
 
-unsigned int Imath_2_5__Box_Imath__Vec3_float___extendBy_1(
+IMATH_CPPMM_API unsigned int Imath_2_5__Box_Imath__Vec3_float___extendBy_1(
     Imath_Box3f_t * this_
     , Imath_Box3f_t const * box)
 {
@@ -30,7 +30,7 @@ unsigned int Imath_2_5__Box_Imath__Vec3_float___extendBy_1(
     }
 }
 
-unsigned int Imath_2_5__Box_Imath__Vec3_int___extendBy(
+IMATH_CPPMM_API unsigned int Imath_2_5__Box_Imath__Vec3_int___extendBy(
     Imath_Box3i_t * this_
     , Imath_V3i_t const * point)
 {
@@ -43,7 +43,7 @@ unsigned int Imath_2_5__Box_Imath__Vec3_int___extendBy(
     }
 }
 
-unsigned int Imath_2_5__Box_Imath__Vec3_int___extendBy_1(
+IMATH_CPPMM_API unsigned int Imath_2_5__Box_Imath__Vec3_int___extendBy_1(
     Imath_Box3i_t * this_
     , Imath_Box3i_t const * box)
 {

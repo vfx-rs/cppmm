@@ -61,6 +61,12 @@ std::string convert_builtin_type(const NodeBuiltinType* t) {
         return "c_double";
     } else if (t->type_name == "void") {
         return "c_void";
+    } else if (t->type_name == "uint64_t") {
+        return "u64";
+    } else if (t->type_name == "int64_t") {
+        return "i64";
+    } else if (t->type_name == "ptrdiff_t") {
+        return "i64";
     }
     panic("Unhandled builtin {}", t->type_name);
     return t->type_name;
@@ -193,13 +199,22 @@ void write_function(fmt::ostream& out, const NodeFunction* node_function) {
     }
 }
 
-void write_record(fmt::ostream& out, const NodeRecord* node_record) {
-    // if (!node_record->comment.empty()) {
-    //     auto comment = pystring::replace(node_record->comment, "\n", "\n///
-    //     "); out.print("/// {}\n", comment);
-    // }
+std::string get_derive_attr(const NodeRecord* node_record) {
+    for (const auto& a : node_record->attrs) {
+        if (pystring::find(a, "cppmm|derive|") == 0) {
+            return a.substr(14, a.size() - 15);
+        }
+    }
+    return "";
+}
 
+void write_record(fmt::ostream& out, const NodeRecord* node_record, fmt::ostream& out_cppmmabi_in) {
     BindType bt = bind_type(*node_record);
+
+    std::string derive = get_derive_attr(node_record);
+    if (derive.empty()) {
+        derive = "Clone";
+    }
 
     if (bt == BindType::OpaquePtr) {
         out.print("#[repr(C)]\n");
@@ -208,20 +223,20 @@ void write_record(fmt::ostream& out, const NodeRecord* node_record) {
         out.print("}}");
 
     } else if (bt == BindType::OpaqueBytes) {
-        out.print("#[repr(C, align({}))]\n", node_record->align / 8);
-        out.print("#[derive(Clone)]\n");
-        out.print("pub struct {} {{\n", node_record->name);
-        out.print("    _inner: [u8; {}]\n", node_record->size / 8);
-        out.print("}}\n");
+        out_cppmmabi_in.print("#[repr(C, align(%ALIGN{}%))]\n", node_record->cpp_name);
+        out_cppmmabi_in.print("#[derive({})]\n", derive);
+        out_cppmmabi_in.print("pub struct {} {{\n", node_record->name);
+        out_cppmmabi_in.print("    _inner: [u8; %SIZE{}%]\n", node_record->cpp_name);
+        out_cppmmabi_in.print("}}\n");
 
-        out.print(R"(
+        out_cppmmabi_in.print(R"(
 impl Default for {} {{
     fn default() -> Self {{
-        Self {{ _inner: [0u8; {}] }}
+        Self {{ _inner: [0u8; %SIZE{}%] }}
     }}
 }}
 )",
-                  node_record->name, node_record->size / 8);
+                  node_record->name, node_record->cpp_name);
 
         out.print(R"(
 impl {0} {{
@@ -239,7 +254,7 @@ impl {0} {{
 
     } else { // BindType::ValueType
         out.print("#[repr(C, align({}))]\n", node_record->align / 8);
-        out.print("#[derive(Clone)]\n");
+        out.print("#[derive({})]\n", derive);
         out.print("pub struct {} {{\n", node_record->name);
         std::vector<std::string> fields = convert_fields(node_record->fields);
         out.print("    {},\n", pystring::join(",\n    ", fields));
@@ -374,7 +389,7 @@ void write_enum(fmt::ostream& out, const NodeEnum* node_enum) {
 }
 
 void write_translation_unit(const char* out_dir, fmt::ostream& out_lib,
-                            const TranslationUnit& tu) {
+                            const TranslationUnit& tu, fmt::ostream& out_cppmmabi_in) {
     fs::path rust_src = fs::path(out_dir) / "src";
     fs::path tu_stem = fs::path(tu.filename).replace_extension("");
     std::string mod_name = pystring::replace(tu_stem.string(), "-", "_");
@@ -409,10 +424,11 @@ void write_translation_unit(const char* out_dir, fmt::ostream& out_lib,
     out.print("#![allow(unused_imports)]\n");
 
     out.print("use crate::*;\n");
+    out.print("pub use crate::cppmmabi::*;\n");
     out.print("use std::os::raw::*;\n\n");
 
     for (const auto* n : node_records) {
-        write_record(out, n);
+        write_record(out, n, out_cppmmabi_in);
         out.print("\n");
 
         out_lib.print("pub use {}{} as {};\n", new_mod_name, n->name,
@@ -482,6 +498,8 @@ void write(const char* out_dir, const char* project_name, const char* c_dir,
            root.tus.size());
 
     fs::path rust_src = fs::path(out_dir) / "src";
+    fs::path rust_src_out = fs::path(out_dir) / "src";
+    fs::create_directories(rust_src);
     fs::path lib_rs = rust_src / "lib.rs";
     fs::path p_cargo_toml = fs::path(out_dir) / "Cargo.toml";
 
@@ -574,10 +592,24 @@ impl fmt::Display for Error {{
                   "std::os::raw::c_char;\n}}\n\n",
                   project_name);
 
+    // write the abi module
+    auto p_cppmmabi = rust_src / "cppmmabi.rs";
+    auto out_cppmmabi = fmt::output_file(p_cppmmabi.string());
+    out_cppmmabi.print(
+            R"(
+include!(concat!(env!("OUT_DIR"), "/cppmm_abi_out/", "cppmmabi.rs"));
+            )"
+    );
+
+    // write the source abi info for the generator
+    auto p_cppmmabi_in = fs::path(out_dir) / "cppmm_abi_in" / "cppmmabi.rs";
+    fs::create_directories(fs::path(out_dir) / "cppmm_abi_in");
+    auto out_cppmmabi_in = fmt::output_file(p_cppmmabi_in.string());
+
     const auto size = root.tus.size();
     for (size_t i = starting_point; i < size; ++i) {
         const auto& tu = root.tus[i];
-        write_translation_unit(out_dir, out_lib, *tu);
+        write_translation_unit(out_dir, out_lib, *tu, out_cppmmabi_in);
     }
 
     // now recurse through the src directory and write the mod files
@@ -625,6 +657,7 @@ edition = "2018"
 [build-dependencies]
 cmake = "0.1"
 regex = "^1.5"
+quick-xml = "0.22"
 
 [dependencies]
 )",
@@ -636,9 +669,26 @@ regex = "^1.5"
     auto build_rs = fmt::output_file((fs::path(out_dir) / "build.rs").string());
     build_rs.print(R"#(
 fn main() {{
-    let dst = cmake::Config::new("{}").build();
+    let dst = cmake::Config::new("{0}").build();
     println!("cargo:rustc-link-search=native={{}}", dst.display());
-    println!("cargo:rustc-link-lib=dylib={}-c-{}_{}");
+    println!("cargo:rustc-link-lib=dylib={1}-c-{2}_{3}");
+
+    let out_dir = std::env::var("OUT_DIR").unwrap();
+    let output = std::process::Command::new("python")
+        .args(&["{1}-c/abigen/insert_abi.py", 
+            "cppmm_abi_in", 
+            &format!("{{}}/cppmm_abi_out", out_dir), 
+            &format!("{{}}/build/abigen.txt", out_dir)])
+        .output().expect("couldn't do the thing");
+
+    if !output.status.success() {{
+        for line in std::str::from_utf8(&output.stderr).unwrap().lines() {{
+            println!("cargo:warning={{}}", line);
+        }}
+        panic!("failed");
+    }}
+
+
 )#",
                    c_dir, project_name, version_major, version_minor);
 

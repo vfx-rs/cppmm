@@ -16,13 +16,13 @@ namespace write {
 void cmake(const char* project_name, const Root& root, size_t starting_point,
            const Libs& libs, const LibDirs& lib_dirs, int version_major,
            int version_minor, int version_patch, const char* base_project_name,
-           const char* output_directory);
+           const char* output_directory, const std::string& api_prefix);
 
 void cmake_modern(const char* project_name, const Root& root,
                   size_t starting_point,
                   const std::vector<std::string>& find_packages,
                   const std::vector<std::string>& target_link_libraries,
                   int version_major, int version_minor, int version_patch,
-                  const char* base_project_name, const char* output_directory);
+                  const char* base_project_name, const char* output_directory, const std::string& api_prefix);
 } // namespace write
 } // namespace cppmm

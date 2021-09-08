@@ -71,6 +71,7 @@ pub use imath_box::Imath_2_5__Box_Imath__Vec3_float___extendBy_1 as Imath_Box3f_
 pub use imath_box::Imath_2_5__Box_Imath__Vec3_int___extendBy as Imath_Box3i_extendBy;
 pub use imath_box::Imath_2_5__Box_Imath__Vec3_int___extendBy_1 as Imath_Box3i_extendBy_1;
 pub mod imath_box;
+pub mod cppmmabi;
 pub mod imath_vec;
 
 

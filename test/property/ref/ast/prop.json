@@ -61,18 +61,18 @@
             "namespaces": [
                 1
             ],
-            "id": 4,
+            "id": 5,
             "abstract": false,
             "trivially_copyable": true,
             "trivially_movable": true,
             "has_public_copy_ctor": false,
             "has_public_move_ctor": false,
             "opaque_type": false,
-            "size": 128,
-            "align": 32,
+            "size": 192,
+            "align": 64,
             "alias": "Foo",
             "attributes": [
-                "cppmm|properties|a; b; bar"
+                "cppmm|properties|a; b; bar; u"
             ],
             "comment": "",
             "fields": [
@@ -94,7 +94,7 @@
                     "name": "b",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 5,
+                        "id": 7,
                         "type": "float",
                         "const": false
                     },
@@ -107,7 +107,7 @@
                     "name": "c",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 5,
+                        "id": 7,
                         "type": "float",
                         "const": false
                     },
@@ -118,7 +118,7 @@
                     "name": "bar",
                     "type": {
                         "kind": "RecordType",
-                        "id": 6,
+                        "id": 8,
                         "type": "prop::Bar",
                         "record": 2,
                         "const": false
@@ -126,9 +126,132 @@
                     "attributes": [
                         "cppmm|property"
                     ]
+                },
+                {
+                    "kind": "Field",
+                    "name": "u",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "uint64_t",
+                        "const": false
+                    },
+                    "attributes": [
+                        "cppmm|property"
+                    ]
                 }
             ],
-            "methods": null
+            "methods": [
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "bum",
+                    "qualified_name": "prop::Foo::bum",
+                    "in_binding": true,
+                    "in_library": false,
+                    "noexcept": false,
+                    "static": true,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "comment": "",
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 4,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": null,
+                    "template_args": null,
+                    "exceptions": null
+                }
+            ]
+        },
+        {
+            "kind": "Namespace",
+            "name": "cppmm_bind::prop",
+            "id": 12,
+            "short_name": "prop",
+            "alias": "prop",
+            "collapse": false
+        },
+        {
+            "kind": "Function",
+            "id": 13,
+            "short_name": "fuz",
+            "qualified_name": "prop::fuz",
+            "in_binding": false,
+            "in_library": false,
+            "noexcept": false,
+            "attributes": null,
+            "comment": "",
+            "namespaces": [
+                1
+            ],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 9,
+                "type": "uint64_t",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "a",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 10,
+                        "type": "unsigned long &",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 9,
+                            "type": "uint64_t",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 1,
+                    "name": "b",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 11,
+                        "type": "unsigned long *",
+                        "pointee": {
+                            "kind": "BuiltinType",
+                            "id": 9,
+                            "type": "uint64_t",
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                },
+                {
+                    "index": 2,
+                    "name": "c",
+                    "type": {
+                        "kind": "BuiltinType",
+                        "id": 9,
+                        "type": "uint64_t",
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ],
+            "template_args": null,
+            "exceptions": null
         }
     ]
 }

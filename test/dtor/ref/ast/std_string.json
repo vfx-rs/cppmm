@@ -231,7 +231,7 @@
                             "type": {
                                 "kind": "BuiltinType",
                                 "id": 6,
-                                "type": "unsigned long",
+                                "type": "size_t",
                                 "const": false
                             },
                             "attrs": []

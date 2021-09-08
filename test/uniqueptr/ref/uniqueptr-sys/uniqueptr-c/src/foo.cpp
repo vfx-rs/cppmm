@@ -5,7 +5,7 @@
 
 #include <stdexcept>
 
-unsigned int foo__Foo_ctor(
+UNIQUEPTR_CPPMM_API unsigned int foo__Foo_ctor(
     foo_Foo_t * * this_)
 {
     try {
@@ -17,7 +17,7 @@ unsigned int foo__Foo_ctor(
     }
 }
 
-unsigned int foo__Foo_dtor(
+UNIQUEPTR_CPPMM_API unsigned int foo__Foo_dtor(
     foo_Foo_t * this_)
 {
     try {
@@ -29,7 +29,7 @@ unsigned int foo__Foo_dtor(
     }
 }
 
-unsigned int foo__Foo_create(
+UNIQUEPTR_CPPMM_API unsigned int foo__Foo_create(
     std_FooPtr_t * * return_)
 {
     try {

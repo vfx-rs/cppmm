@@ -36,7 +36,7 @@ public:
 
 } CPPMM_OPAQUEBYTES;
 
-using string = ::std::string;
+using string CPPMM_FORCE_NAME("std::string") = ::std::string;
 } // namespace std
 
 namespace std {

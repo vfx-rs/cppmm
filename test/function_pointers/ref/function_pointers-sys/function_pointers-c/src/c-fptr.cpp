@@ -3,7 +3,7 @@
 
 #include <stdexcept>
 
-unsigned int fptr_takes_ages(
+FUNCTION_POINTERS_CPPMM_API unsigned int fptr_takes_ages(
     fptr_ProgressCallback_t cb
     , void * data)
 {

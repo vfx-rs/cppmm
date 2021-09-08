@@ -4,7 +4,7 @@
 
 #include <stdexcept>
 
-unsigned int optr__PubCtor_ctor(
+OPAQUEPTR_CPPMM_API unsigned int optr__PubCtor_ctor(
     optr_PubCtor_t * * this_)
 {
     try {
@@ -16,7 +16,7 @@ unsigned int optr__PubCtor_ctor(
     }
 }
 
-unsigned int optr__PubCtor_dtor(
+OPAQUEPTR_CPPMM_API unsigned int optr__PubCtor_dtor(
     optr_PubCtor_t * this_)
 {
     try {
@@ -28,7 +28,7 @@ unsigned int optr__PubCtor_dtor(
     }
 }
 
-unsigned int optr__PubCtor_doit(
+OPAQUEPTR_CPPMM_API unsigned int optr__PubCtor_doit(
     optr_PubCtor_t * this_)
 {
     try {
@@ -40,7 +40,7 @@ unsigned int optr__PubCtor_doit(
     }
 }
 
-unsigned int optr__PrvCtor_doit(
+OPAQUEPTR_CPPMM_API unsigned int optr__PrvCtor_doit(
     optr_PrvCtor_t * this_)
 {
     try {

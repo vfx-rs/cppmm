@@ -3,7 +3,7 @@
 
 #include <stdexcept>
 
-unsigned int comments__Class_method(
+COMMENTS_CPPMM_API unsigned int comments__Class_method(
     comments_Class_t * this_)
 {
     try {
@@ -15,7 +15,7 @@ unsigned int comments__Class_method(
     }
 }
 
-unsigned int comments_function()
+COMMENTS_CPPMM_API unsigned int comments_function()
 {
     try {
         comments::function();

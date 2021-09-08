@@ -41,7 +41,11 @@ extern {
     pub fn rustify_enum_get_exception_string() -> *const std::os::raw::c_char;
 }
 
+pub use c_renum::rustify__Foo_t as rustify_Foo_t;
 
+pub use c_renum::rustify__Foo__Bar_e as rustify_Foo_Bar;
+pub use c_renum::rustify_Foo_Bar_Baz;
+pub use c_renum::rustify_Foo_Bar_Qux;
 pub use c_renum::rustify__Compression_e as rustify_Compression;
 pub use c_renum::rustify_Compression_NO_COMPRESSION;
 pub use c_renum::rustify_Compression_RLE_COMPRESSION;
@@ -68,6 +72,7 @@ pub use c_renum::rustify_RgbaChannels_RGBA_CHANNELS_B;
 pub use c_renum::rustify_RgbaChannels_RGBA_CHANNELS_A;
 pub use c_renum::rustify_RgbaChannels_RGBA_CHANNELS_ALL;
 pub use c_renum::RgbaChannels;
+pub mod cppmmabi;
 pub mod c_renum;
 
 

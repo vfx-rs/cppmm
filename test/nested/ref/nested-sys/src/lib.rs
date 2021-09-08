@@ -51,6 +51,7 @@ pub use c::d::neste::nest__NestCDE_t as nest_NestCDE_t;
 
 pub use c::d::neste::nest__NestCDE_do_something as nest_NestCDE_do_something;
 pub mod a;
+pub mod cppmmabi;
 pub mod b;
 pub mod c;
 

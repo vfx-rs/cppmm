@@ -141,7 +141,8 @@ void write_fields(fmt::ostream& out, const NodeRecord& record) {
 }
 
 //------------------------------------------------------------------------------
-void write_record(fmt::ostream& out, const NodePtr& node) {
+void write_record(fmt::ostream& out, const NodePtr& node,
+                  const std::string& api_prefix) {
     const NodeRecord& record = *static_cast<const NodeRecord*>(node.get());
 
     constexpr auto sizeof_byte = 8;
@@ -154,10 +155,16 @@ void write_record(fmt::ostream& out, const NodePtr& node) {
 
     if (record.opaque_type) {
         out.print("typedef struct {0}_s {0};\n", record.name);
+    } else if (bind_type(record) == BindType::OpaqueBytes) {
+        out.print("typedef struct {}_s {{\n", record.name);
+        out.print("    char data[%SIZE{}%];\n", record.cpp_name);
+        out.print("}} {}_CPPMM_ALIGN(%ALIGN{}%) {};\n", api_prefix,
+                  record.cpp_name, 
+                  record.name);
     } else {
         out.print("typedef struct {}_s {{\n", record.name);
         write_fields(out, record);
-        out.print("}} __attribute__((aligned({}))) {};\n",
+        out.print("}} {}_CPPMM_ALIGN({}) {};\n", api_prefix,
                   align_in_bytes, // TODO LT: Only force alignment if 'align'
                                   // attribute is on it.
                   record.name);
@@ -237,7 +244,7 @@ void write_function_pointer_typedef(fmt::ostream& out, const NodePtr& node) {
 
 //------------------------------------------------------------------------------
 void write_function_dcl(fmt::ostream& out, const NodePtr& node, Access access,
-                        bool& wrote_anything) {
+                        bool& wrote_anything, const std::string& api_prefix) {
     const NodeFunction& function =
         *static_cast<const NodeFunction*>(node.get());
 
@@ -248,6 +255,10 @@ void write_function_dcl(fmt::ostream& out, const NodePtr& node, Access access,
         if (!function.comment.empty()) {
             auto comment = function.comment;
             out.print("/** {} */\n", comment);
+        }
+
+        if (access == Access::Public) {
+            out.print("{}_CPPMM_API ", api_prefix);
         }
 
         out.print("{}(", convert_param(function.return_type, function.name));
@@ -545,7 +556,7 @@ void write_expression(fmt::ostream& out, size_t depth,
 
 //------------------------------------------------------------------------------
 void write_function_bdy(fmt::ostream& out, const NodePtr& node, Access access,
-                        bool& wrote_anything) {
+                        bool& wrote_anything, const std::string& api_prefix) {
     const NodeFunction& function =
         *static_cast<const NodeFunction*>(node.get());
 
@@ -557,7 +568,11 @@ void write_function_bdy(fmt::ostream& out, const NodePtr& node, Access access,
             out.print("inline ");
         }
 
+        if (!private_) {
+            out.print("{}_CPPMM_API ", api_prefix);
+        }
         out.print("{}(", convert_param(function.return_type, function.name));
+
         write_params(out, function);
         out.print(")\n");
         out.print("{{\n");
@@ -573,17 +588,26 @@ void write_function_bdy(fmt::ostream& out, const NodePtr& node, Access access,
 
         if (!function.private_ && function.short_name != "sizeof" &&
             function.short_name != "alignof" && !function.is_noexcept) {
+            bool did_std = false;
             for (const auto& e : function.exceptions) {
                 out.print("    }} catch ({}& e) {{\n"
                           "        TLG_EXCEPTION_STRING = e.what();\n"
                           "        return {};\n",
                           e.cpp_name, e.error_code);
+
+                if (e.cpp_name == "std::exception") {
+                    did_std = true;
+                }
             }
 
-            out.print("    }} catch (std::exception& e) {{\n"
-                      "        TLG_EXCEPTION_STRING = e.what();\n"
-                      "        return -1;\n"
-                      "    }}\n");
+            if (!did_std) {
+                out.print("    }} catch (std::exception& e) {{\n"
+                          "        TLG_EXCEPTION_STRING = e.what();\n"
+                          "        return -1;\n"
+                          "    }}\n");
+            } else {
+                out.print("    }}\n");
+            }
         }
 
         out.print("}}\n");
@@ -592,7 +616,7 @@ void write_function_bdy(fmt::ostream& out, const NodePtr& node, Access access,
 
 //------------------------------------------------------------------------------
 bool write_function(fmt::ostream& out, const NodePtr& node, Access access,
-                    Place place) {
+                    Place place, const std::string& api_prefix) {
     const NodeFunction& function =
         *static_cast<const NodeFunction*>(node.get());
 
@@ -600,7 +624,7 @@ bool write_function(fmt::ostream& out, const NodePtr& node, Access access,
     if (function.inline_) {
         switch (place) {
         case Place::Header:
-            write_function_bdy(out, node, access, wrote_any);
+            write_function_bdy(out, node, access, wrote_any, api_prefix);
             write_function_define(out, node, access, wrote_any);
             break;
         default:
@@ -609,11 +633,11 @@ bool write_function(fmt::ostream& out, const NodePtr& node, Access access,
     } else {
         switch (place) {
         case Place::Header:
-            write_function_dcl(out, node, access, wrote_any);
+            write_function_dcl(out, node, access, wrote_any, api_prefix);
             write_function_define(out, node, access, wrote_any);
             break;
         case Place::Source:
-            write_function_bdy(out, node, access, wrote_any);
+            write_function_bdy(out, node, access, wrote_any, api_prefix);
             break;
         default:
             break;
@@ -648,10 +672,11 @@ void write_source_includes(fmt::ostream& out, const TranslationUnit& tu) {
 }
 
 //------------------------------------------------------------------------------
-void write_private_header(const TranslationUnit& tu, fs::path base_dir) {
+void write_private_header(const TranslationUnit& tu, fs::path base_dir,
+                          const std::string& api_prefix) {
     std::string basename, ext;
     pystring::os::path::splitext(basename, ext, tu.filename);
-    fs::path filename = base_dir / "src" / (basename + "_private.h");
+    fs::path filename = base_dir / "private" / (basename + "_private.h");
     fs::create_directories(filename.parent_path());
     auto out = fmt::output_file(filename.string());
 
@@ -671,7 +696,7 @@ void write_private_header(const TranslationUnit& tu, fs::path base_dir) {
     for (const auto& node : tu.decls) {
         if (node->kind == NodeKind::Record) {
             if (node->private_) {
-                write_record(out, node);
+                write_record(out, node, api_prefix);
             }
         }
     }
@@ -681,7 +706,8 @@ void write_private_header(const TranslationUnit& tu, fs::path base_dir) {
     // Then all the private functions
     for (const auto& node : tu.decls) {
         if (node->kind == NodeKind::Function) {
-            if (write_function(out, node, Access::Private, Place::Header)) {
+            if (write_function(out, node, Access::Private, Place::Header,
+                               api_prefix)) {
                 out.print("\n");
             }
         }
@@ -689,10 +715,61 @@ void write_private_header(const TranslationUnit& tu, fs::path base_dir) {
 }
 
 //------------------------------------------------------------------------------
-void write_header(const TranslationUnit& tu, fs::path base_dir) {
+void write_abi_generator_for_tu(const TranslationUnit& tu, fs::path base_dir) {
     std::string basename, ext;
     pystring::os::path::splitext(basename, ext, tu.filename);
-    fs::path filename = base_dir / "include" / (basename + ".h");
+    std::string safename = pystring::replace(basename, "-", "_");
+    safename = pystring::replace(safename, "\\", "_");
+    safename = pystring::replace(safename, "/", "_");
+
+    fs::path filename = base_dir / "abigen" / (basename + ".cpp");
+    fs::create_directories(filename.parent_path());
+    auto out = fmt::output_file(filename.string());
+
+    // Write all the includes needed in the header file
+    for (const auto& i: tu.cpp_includes) {
+        out.print("{}\n", i);
+    }
+
+    out.print("#include <abigen/{}.hpp>\n\n", basename);
+
+    out.print("void abi_gen_{}(std::ostream& os) {{\n", safename);
+
+    for (const auto& node : tu.decls) {
+        if (node->kind == NodeKind::Record) {
+            if (!node->private_) {
+                const NodeRecord& record = *static_cast<const NodeRecord*>(node.get());
+                if (bind_type(record) != BindType::OpaquePtr) {
+                    out.print("\tos << \"{0}\" << \"|\" << sizeof({0}) << \"|\" << alignof({0}) << \"\\n\";\n", record.cpp_name);
+                }
+            }
+        }
+    }
+
+    out.print("}}\n");
+    
+    out.close();
+
+    // now write the header... sigh
+    filename = base_dir / "abigen" / (basename + ".hpp");
+    fs::create_directories(filename.parent_path());
+    auto header_out = fmt::output_file(filename.string());
+
+    header_out.print("#pragma once\n#include <ostream>\n\n");
+
+    header_out.print("void abi_gen_{}(std::ostream& os);\n", safename);
+
+    header_out.close();
+}
+
+//------------------------------------------------------------------------------
+void write_header(const TranslationUnit& tu, fs::path base_dir,
+                  const std::string& api_prefix) {
+    std::string basename, ext;
+    pystring::os::path::splitext(basename, ext, tu.filename);
+    // we first write the header to an input folder, which will be read later 
+    // in the build to fill out the ABI information for the current compiler
+    fs::path filename = base_dir / "include.in" / (basename + ".h");
     fs::create_directories(filename.parent_path());
     auto out = fmt::output_file(filename.string());
 
@@ -746,7 +823,7 @@ void write_header(const TranslationUnit& tu, fs::path base_dir) {
     for (const auto& node : tu.decls) {
         if (node->kind == NodeKind::Record) {
             if (!node->private_) {
-                write_record(out, node);
+                write_record(out, node, api_prefix);
                 wrote_any = true;
             }
         }
@@ -759,7 +836,8 @@ void write_header(const TranslationUnit& tu, fs::path base_dir) {
     // Then all the public functions
     for (const auto& node : tu.decls) {
         if (node->kind == NodeKind::Function) {
-            if (write_function(out, node, Access::Public, Place::Header)) {
+            if (write_function(out, node, Access::Public, Place::Header,
+                               api_prefix)) {
                 out.print("\n");
             }
         }
@@ -770,7 +848,8 @@ void write_header(const TranslationUnit& tu, fs::path base_dir) {
 }
 
 //------------------------------------------------------------------------------
-void write_source(const TranslationUnit& tu, fs::path base_dir) {
+void write_source(const TranslationUnit& tu, fs::path base_dir,
+                  const std::string& api_prefix) {
     fs::path filename = base_dir / "src" / tu.filename;
     fs::create_directories(filename.parent_path());
     auto out = fmt::output_file(filename.string());
@@ -783,7 +862,8 @@ void write_source(const TranslationUnit& tu, fs::path base_dir) {
     // Write out the function definitions
     for (const auto& node : tu.decls) {
         if (node->kind == NodeKind::Function) {
-            if (write_function(out, node, Access::Public, Place::Source)) {
+            if (write_function(out, node, Access::Public, Place::Source,
+                               api_prefix)) {
                 out.print("\n");
             }
         }
@@ -791,15 +871,17 @@ void write_source(const TranslationUnit& tu, fs::path base_dir) {
 }
 
 //------------------------------------------------------------------------------
-void write_translation_unit(const TranslationUnit& tu, fs::path base_dir) {
-    write_header(tu, base_dir);
-    write_private_header(tu, base_dir);
-    write_source(tu, base_dir);
+void write_translation_unit(const TranslationUnit& tu, fs::path base_dir,
+                            const std::string& api_prefix) {
+    write_header(tu, base_dir, api_prefix);
+    write_private_header(tu, base_dir, api_prefix);
+    write_source(tu, base_dir, api_prefix);
+    write_abi_generator_for_tu(tu, base_dir);
 }
 
 //------------------------------------------------------------------------------
 void c(const char* project_name, const Root& root, size_t starting_point,
-       const char* output_dir) {
+       const char* output_dir, const std::string& api_prefix) {
     expect(starting_point < root.tus.size(),
            "starting point ({}) is out of range ({})", starting_point,
            root.tus.size());
@@ -808,31 +890,68 @@ void c(const char* project_name, const Root& root, size_t starting_point,
     const auto size = root.tus.size();
     for (size_t i = starting_point; i < size; ++i) {
         const auto& tu = root.tus[i];
-        write_translation_unit(*tu, base_dir);
+        write_translation_unit(*tu, base_dir, api_prefix);
     }
+
+    // write abi generator main
+    fs::path filename = base_dir / "abigen" / "abigen.cpp";
+    fs::create_directories(filename.parent_path());
+    auto out = fmt::output_file(filename.string());
+
+    out.print("#include <fstream>\n\n");
+
+    for (size_t i = starting_point; i < size; ++i) {
+        const auto& tu = root.tus[i];
+        std::string basename, ext;
+        pystring::os::path::splitext(basename, ext, tu->filename);
+        out.print("#include \"{}.hpp\"\n", basename);
+    }
+
+    out.print("\n");
+
+    out.print("int main() {{\n");
+    out.print("    std::ofstream os(\"abigen.txt\");\n\n");
+    
+    for (size_t i = starting_point; i < size; ++i) {
+        const auto& tu = root.tus[i];
+        std::string basename, ext;
+        pystring::os::path::splitext(basename, ext, tu->filename);
+        basename = pystring::replace(basename, "-", "_");
+        basename = pystring::replace(basename, "\\", "_");
+        basename = pystring::replace(basename, "/", "_");
+        out.print("    abi_gen_{}(os);\n", basename);
+    }
+
+    out.print("}}\n");
+    out.close();
 }
 
 //------------------------------------------------------------------------------
-void write_error_header(const char* filename, const char* project_name) {
+void write_error_header(const char* filename, const char* project_name,
+                        const std::string& api_prefix) {
     auto out = fmt::output_file(filename);
 
     out.print(R"(#pragma once
+
+#include "{1}-api-export.h"
+
 #ifdef __cplusplus
 extern "C" {{
 #endif
 
-const char* {}_get_exception_string();
+{0}_CPPMM_API const char* {1}_get_exception_string();
 
 #ifdef __cplusplus
 }}
 #endif
 )",
-              project_name);
+              api_prefix, project_name);
 }
 
 //------------------------------------------------------------------------------
 void write_error_header_private(const char* filename,
                                 const char* project_name) {
+    fs::create_directories(fs::path(filename).parent_path());
     auto out = fmt::output_file(filename);
 
     out.print(R"(#pragma once
@@ -844,7 +963,8 @@ extern thread_local std::string TLG_EXCEPTION_STRING;
 
 //------------------------------------------------------------------------------
 void write_error_source(const char* filename, const char* public_header,
-                        const char* private_header, const char* project_name) {
+                        const char* private_header, const char* project_name,
+                        const std::string& api_prefix) {
     auto out = fmt::output_file(filename);
 
     out.print(R"(#include "{0}"
@@ -852,17 +972,17 @@ void write_error_source(const char* filename, const char* public_header,
 
 thread_local std::string TLG_EXCEPTION_STRING;
 
-const char* {2}_get_exception_string() {{
+{3}_CPPMM_API const char* {2}_get_exception_string() {{
     return TLG_EXCEPTION_STRING.c_str();
 }}
 
 )",
-              public_header, private_header, project_name);
+              public_header, private_header, project_name, api_prefix);
 }
 
 //------------------------------------------------------------------------------
 void cerrors(const char* output_dir, Root& root, size_t starting_point,
-             const char* project_name) {
+             const char* project_name, const std::string& api_prefix) {
     auto basename = fmt::format("{}-errors", project_name);
     auto header_fn = fs::path(basename).replace_extension(".h");
     auto private_header_fn =
@@ -870,13 +990,13 @@ void cerrors(const char* output_dir, Root& root, size_t starting_point,
     auto source_fn = fs::path(basename).replace_extension(".cpp");
 
     auto header_path = fs::path(output_dir) / "include" / header_fn;
-    auto private_header_path = fs::path(output_dir) / "src" / private_header_fn;
+    auto private_header_path = fs::path(output_dir) / "private" / private_header_fn;
     auto source_path = fs::path(output_dir) / "src" / source_fn;
 
-    write_error_header(header_path.c_str(), project_name);
+    write_error_header(header_path.c_str(), project_name, api_prefix);
     write_error_header_private(private_header_path.c_str(), project_name);
     write_error_source(source_path.c_str(), header_fn.c_str(),
-                       private_header_fn.c_str(), project_name);
+                       private_header_fn.c_str(), project_name, api_prefix);
 
     expect(starting_point < root.tus.size(),
            "starting point ({}) is out of range ({})", starting_point,
@@ -888,6 +1008,85 @@ void cerrors(const char* output_dir, Root& root, size_t starting_point,
         tu->private_includes.insert(
             fmt::format("#include \"{}\"\n", private_header_fn.string()));
     }
+}
+
+//------------------------------------------------------------------------------
+std::string write_apiexport_header(const char* filename,
+                                   const char* project_name) {
+    auto out = fmt::output_file(filename);
+
+    std::string prefix(project_name);
+    for (auto& c : prefix) {
+        c = toupper(c);
+        switch (c) {
+        case '-':
+            c = '_';
+            break;
+        default:
+            break;
+        }
+    }
+
+    out.print(R"(#pragma once
+
+// Stolen this setup from OIIO
+#if defined(_WIN32) || defined(__CYGWIN__)
+#    ifdef {0}_STATIC_DEFINE
+#        define {0}_CPPMM_IMPORT
+#        define {0}_CPPMM_EXPORT
+#    else
+#        define {0}_CPPMM_IMPORT __declspec(dllimport)
+#        define {0}_CPPMM_EXPORT __declspec(dllexport)
+#    endif
+#    define {0}_LOCAL
+#else
+#    define {0}_CPPMM_IMPORT __attribute__((visibility("default")))
+#    define {0}_CPPMM_EXPORT __attribute__((visibility("default")))
+#    define {0}_CPPMM_LOCAL __attribute__((visibility("hidden")))
+#endif
+
+#if defined({0}_CPPMM_BUILD_EXPORT)
+#    define {0}_CPPMM_API {0}_CPPMM_EXPORT
+#else
+#    define {0}_CPPMM_API {0}_CPPMM_IMPORT
+#endif
+
+// Alignment
+#if defined(_WIN32) || defined(__CYGWIN__)
+    #define {0}_CPPMM_ALIGN(x) __declspec(align(x))
+#else
+    #define {0}_CPPMM_ALIGN(x) __attribute__((aligned(x)))
+#endif
+
+
+)",
+              prefix);
+
+    return prefix;
+}
+
+//------------------------------------------------------------------------------
+std::string capiexport(const char* output_dir, Root& root,
+                       size_t starting_point, const char* project_name) {
+    auto basename = fmt::format("{}-api-export", project_name);
+    auto header_fn = fs::path(basename).replace_extension(".h");
+
+    auto header_path = fs::path(output_dir) / "include" / header_fn;
+
+    auto prefix = write_apiexport_header(header_path.c_str(), project_name);
+
+    expect(starting_point < root.tus.size(),
+           "starting point ({}) is out of range ({})", starting_point,
+           root.tus.size());
+
+    const auto size = root.tus.size();
+    for (size_t i = starting_point; i < size; ++i) {
+        auto& tu = root.tus[i];
+        tu->header_includes.insert(
+            fmt::format("#include \"{}\"\n", header_fn.string()));
+    }
+
+    return prefix;
 }
 
 } // namespace write

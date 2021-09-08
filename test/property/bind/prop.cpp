@@ -12,7 +12,10 @@ struct Bar {
 
 struct Foo {
     using BoundType = ::prop::Foo;
-} CPPMM_PROPERTIES(a; b; bar);
+    static void bum();
+} CPPMM_PROPERTIES(a; b; bar; u);
+
+uint64_t fuz(uint64_t& a, uint64_t* b, uint64_t c);
 
 } // namespace prop
 

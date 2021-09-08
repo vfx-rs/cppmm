@@ -206,6 +206,7 @@ int main(int argc_, const char** argv_) {
 #define CPPMM_TRIVIALLY_COPYABLE __attribute__((annotate("cppmm|trivially_copyable")))
 #define CPPMM_TRIVIALLY_MOVABLE __attribute__((annotate("cppmm|trivially_movable")))
 #define CPPMM_PROPERTIES(x) __attribute__((annotate("cppmm|properties|" #x)))
+#define CPPMM_MANUAL __attribute__((annotate("cppmm|manual")))
 
 #define CPPMM_THROWS(EX, VAR) __attribute__((annotate("cppmm|throws|" #EX "|" #VAR)))
 #define CPPMM_NOEXCEPT __attribute__((annotate("cppmm|noexcept")))
@@ -214,6 +215,7 @@ int main(int argc_, const char** argv_) {
 #define CPPMM_ENUM_PREFIX(x) __attribute__((annotate("cppmm|enum_prefix|" #x)))
 #define CPPMM_ENUM_SUFFIX(x) __attribute__((annotate("cppmm|enum_suffix|" #x)))
 #define CPPMM_RUSTIFY_ENUM __attribute__((annotate("cppmm|rustify_enum")))
+#define CPPMM_DERIVE(x) __attribute__((annotate("cppmm|derive|" #x)))
 
 #define CPPMM_COPY(NS, CLASS) CLASS(const NS::CLASS& rhs) CPPMM_RENAME(copy); NS::CLASS& operator=(const NS::CLASS& rhs);
 #define CPPMM_MOVE(NS, CLASS) CLASS(NS::CLASS&& rhs) CPPMM_IGNORE; NS::CLASS& operator=(NS::CLASS&& rhs) CPPMM_IGNORE;

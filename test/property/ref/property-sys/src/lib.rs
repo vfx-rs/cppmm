@@ -44,12 +44,17 @@ extern {
 pub use prop::prop__Bar_t as prop_Bar_t;
 pub use prop::prop__Foo_t as prop_Foo_t;
 
+pub use prop::prop__Foo_bum as prop_Foo_bum;
 pub use prop::prop__Foo_get_a as prop_Foo_get_a;
 pub use prop::prop__Foo_set_a as prop_Foo_set_a;
 pub use prop::prop__Foo_get_b as prop_Foo_get_b;
 pub use prop::prop__Foo_set_b as prop_Foo_set_b;
 pub use prop::prop__Foo_get_bar as prop_Foo_get_bar;
 pub use prop::prop__Foo_set_bar as prop_Foo_set_bar;
+pub use prop::prop__Foo_get_u as prop_Foo_get_u;
+pub use prop::prop__Foo_set_u as prop_Foo_set_u;
+pub use prop::prop_fuz as prop_fuz;
+pub mod cppmmabi;
 pub mod prop;
 
 

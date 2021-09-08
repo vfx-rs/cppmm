@@ -39,8 +39,8 @@ class Foo {
     using BoundType = ::rustify::Foo;
 
 public:
-    CPPMM_RUSTIFY_ENUM
-    enum Bar {
+    
+    enum CPPMM_RUSTIFY_ENUM Bar {
         Baz = 0,
         Qux = 1,
     };

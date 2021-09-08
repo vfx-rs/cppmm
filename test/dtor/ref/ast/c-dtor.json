@@ -45,8 +45,8 @@
                     "name": "a",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 6,
-                        "type": "unsigned long",
+                        "id": 37,
+                        "type": "uint64_t",
                         "const": false
                     },
                     "attributes": []
@@ -56,8 +56,8 @@
                     "name": "b",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 6,
-                        "type": "unsigned long",
+                        "id": 37,
+                        "type": "uint64_t",
                         "const": false
                     },
                     "attributes": []

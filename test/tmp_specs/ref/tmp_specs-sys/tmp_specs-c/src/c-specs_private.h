@@ -125,6 +125,65 @@ inline void to_c_copy(
         memcpy(lhs, &(rhs), sizeof(*(lhs)));
 }
 
+inline specs::Attribute<std::string> const & to_cpp_ref(
+    specs_StringAttribute_t const * rhs)
+{
+        return *(reinterpret_cast<specs::Attribute<std::string> const * >(rhs));
+}
+
+inline specs::Attribute<std::string> & to_cpp_ref(
+    specs_StringAttribute_t * rhs)
+{
+        return *(reinterpret_cast<specs::Attribute<std::string> * >(rhs));
+}
+
+inline specs::Attribute<std::string> const * to_cpp(
+    specs_StringAttribute_t const * rhs)
+{
+        return reinterpret_cast<specs::Attribute<std::string> const * >(rhs);
+}
+
+inline specs::Attribute<std::string> * to_cpp(
+    specs_StringAttribute_t * rhs)
+{
+        return reinterpret_cast<specs::Attribute<std::string> * >(rhs);
+}
+
+inline void to_c(
+    specs_StringAttribute_t const * * lhs
+    , specs::Attribute<std::string> const & rhs)
+{
+        *(lhs) = reinterpret_cast<specs_StringAttribute_t const * >(&(rhs));
+}
+
+inline void to_c(
+    specs_StringAttribute_t const * * lhs
+    , specs::Attribute<std::string> const * rhs)
+{
+        *(lhs) = reinterpret_cast<specs_StringAttribute_t const * >(rhs);
+}
+
+inline void to_c(
+    specs_StringAttribute_t * * lhs
+    , specs::Attribute<std::string> & rhs)
+{
+        *(lhs) = reinterpret_cast<specs_StringAttribute_t * >(&(rhs));
+}
+
+inline void to_c(
+    specs_StringAttribute_t * * lhs
+    , specs::Attribute<std::string> * rhs)
+{
+        *(lhs) = reinterpret_cast<specs_StringAttribute_t * >(rhs);
+}
+
+inline void to_c_move(
+    specs_StringAttribute_t * lhs
+    , specs::Attribute<std::string> rhs)
+{
+        new (lhs) specs::Attribute<std::string>(std::move(rhs));
+}
+
 inline specs::Specs const & to_cpp_ref(
     specs_Specs_t const * rhs)
 {

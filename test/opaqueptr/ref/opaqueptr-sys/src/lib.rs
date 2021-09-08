@@ -50,6 +50,7 @@ pub use c_optr::optr__PubCtor_ctor as optr_PubCtor_ctor;
 pub use c_optr::optr__PubCtor_dtor as optr_PubCtor_dtor;
 pub use c_optr::optr__PubCtor_doit as optr_PubCtor_doit;
 pub use c_optr::optr__PrvCtor_doit as optr_PrvCtor_doit;
+pub mod cppmmabi;
 pub mod c_optr;
 
 

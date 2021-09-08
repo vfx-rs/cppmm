@@ -107,22 +107,24 @@ void generate(const char* input, const char* project_name, const char* output,
 
     // Save out only the c translation units
     std::string c_project_name = fmt::format("{}-c", project_name);
+    std::string api_prefix = cppmm::write::capiexport(
+        output_directory.c_str(), cpp_ast, starting_point, project_name);
     cppmm::write::cerrors(output_directory.c_str(), cpp_ast, starting_point,
-                          project_name);
+                          project_name, api_prefix);
     cppmm::write::c(c_project_name.c_str(), cpp_ast, starting_point,
-                    output_directory.c_str());
+                    output_directory.c_str(), api_prefix);
 
     // Create a cmake file as well
     if (find_packages.empty() && target_link_libraries.empty()) {
         cppmm::write::cmake(c_project_name.c_str(), cpp_ast, starting_point,
                             libs, lib_dirs, version_major, version_minor,
                             version_patch, project_name,
-                            output_directory.c_str());
+                            output_directory.c_str(), api_prefix);
     } else {
         cppmm::write::cmake_modern(
             c_project_name.c_str(), cpp_ast, starting_point, find_packages,
             target_link_libraries, version_major, version_minor, version_patch,
-            project_name, output_directory.c_str());
+            project_name, output_directory.c_str(), api_prefix);
     }
 
     std::string cwd = fs::current_path().string();

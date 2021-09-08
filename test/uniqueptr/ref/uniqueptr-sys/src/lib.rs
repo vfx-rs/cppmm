@@ -51,6 +51,7 @@ pub use uptr::std__unique_ptr_foo__Foo__t as std_FooPtr_t;
 pub use uptr::std__unique_ptr_foo__Foo__ctor as std_FooPtr_ctor;
 pub use uptr::std__unique_ptr_foo__Foo__dtor as std_FooPtr_dtor;
 pub use uptr::std__unique_ptr_foo__Foo__get as std_FooPtr_get;
+pub mod cppmmabi;
 pub mod uptr;
 pub mod foo;
 

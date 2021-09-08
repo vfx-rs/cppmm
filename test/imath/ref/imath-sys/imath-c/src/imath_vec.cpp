@@ -4,7 +4,7 @@
 
 #include <stdexcept>
 
-unsigned int Imath_2_5__Vec3_float__ctor(
+IMATH_CPPMM_API unsigned int Imath_2_5__Vec3_float__ctor(
     Imath_V3f_t * this_)
 {
     try {
@@ -16,7 +16,7 @@ unsigned int Imath_2_5__Vec3_float__ctor(
     }
 }
 
-unsigned int Imath_2_5__Vec3_float__ctor_1(
+IMATH_CPPMM_API unsigned int Imath_2_5__Vec3_float__ctor_1(
     Imath_V3f_t * this_
     , Imath_V3f_t const * rhs)
 {
@@ -29,7 +29,7 @@ unsigned int Imath_2_5__Vec3_float__ctor_1(
     }
 }
 
-unsigned int Imath_2_5__Vec3_float__setValue(
+IMATH_CPPMM_API unsigned int Imath_2_5__Vec3_float__setValue(
     Imath_V3f_t * this_
     , float a
     , float b
@@ -44,7 +44,7 @@ unsigned int Imath_2_5__Vec3_float__setValue(
     }
 }
 
-unsigned int Imath_2_5__Vec3_float__dot(
+IMATH_CPPMM_API unsigned int Imath_2_5__Vec3_float__dot(
     Imath_V3f_t const * this_
     , float * return_
     , Imath_V3f_t const * v)
@@ -58,7 +58,7 @@ unsigned int Imath_2_5__Vec3_float__dot(
     }
 }
 
-unsigned int Imath_2_5__Vec3_float__cross(
+IMATH_CPPMM_API unsigned int Imath_2_5__Vec3_float__cross(
     Imath_V3f_t const * this_
     , Imath_V3f_t * return_
     , Imath_V3f_t const * v)
@@ -72,7 +72,7 @@ unsigned int Imath_2_5__Vec3_float__cross(
     }
 }
 
-unsigned int Imath_2_5__Vec3_float__op_iadd(
+IMATH_CPPMM_API unsigned int Imath_2_5__Vec3_float__op_iadd(
     Imath_V3f_t * this_
     , Imath_V3f_t const * * return_
     , Imath_V3f_t const * v)
@@ -86,7 +86,7 @@ unsigned int Imath_2_5__Vec3_float__op_iadd(
     }
 }
 
-unsigned int Imath_2_5__Vec3_float__length(
+IMATH_CPPMM_API unsigned int Imath_2_5__Vec3_float__length(
     Imath_V3f_t const * this_
     , float * return_)
 {
@@ -99,7 +99,7 @@ unsigned int Imath_2_5__Vec3_float__length(
     }
 }
 
-unsigned int Imath_2_5__Vec3_float__length2(
+IMATH_CPPMM_API unsigned int Imath_2_5__Vec3_float__length2(
     Imath_V3f_t const * this_
     , float * return_)
 {
@@ -112,7 +112,7 @@ unsigned int Imath_2_5__Vec3_float__length2(
     }
 }
 
-unsigned int Imath_2_5__Vec3_float__normalize(
+IMATH_CPPMM_API unsigned int Imath_2_5__Vec3_float__normalize(
     Imath_V3f_t * this_
     , Imath_V3f_t const * * return_)
 {
@@ -125,7 +125,7 @@ unsigned int Imath_2_5__Vec3_float__normalize(
     }
 }
 
-unsigned int Imath_2_5__Vec3_float__normalized(
+IMATH_CPPMM_API unsigned int Imath_2_5__Vec3_float__normalized(
     Imath_V3f_t const * this_
     , Imath_V3f_t * return_)
 {
@@ -138,7 +138,7 @@ unsigned int Imath_2_5__Vec3_float__normalized(
     }
 }
 
-unsigned int Imath_2_5__Vec3_int__ctor(
+IMATH_CPPMM_API unsigned int Imath_2_5__Vec3_int__ctor(
     Imath_V3i_t * this_)
 {
     try {
@@ -150,7 +150,7 @@ unsigned int Imath_2_5__Vec3_int__ctor(
     }
 }
 
-unsigned int Imath_2_5__Vec3_int__ctor_1(
+IMATH_CPPMM_API unsigned int Imath_2_5__Vec3_int__ctor_1(
     Imath_V3i_t * this_
     , Imath_V3i_t const * rhs)
 {
@@ -163,7 +163,7 @@ unsigned int Imath_2_5__Vec3_int__ctor_1(
     }
 }
 
-unsigned int Imath_2_5__Vec3_int__dot(
+IMATH_CPPMM_API unsigned int Imath_2_5__Vec3_int__dot(
     Imath_V3i_t const * this_
     , int * return_
     , Imath_V3i_t const * v)
@@ -177,7 +177,7 @@ unsigned int Imath_2_5__Vec3_int__dot(
     }
 }
 
-unsigned int Imath_2_5__Vec3_int__cross(
+IMATH_CPPMM_API unsigned int Imath_2_5__Vec3_int__cross(
     Imath_V3i_t const * this_
     , Imath_V3i_t * return_
     , Imath_V3i_t const * v)
@@ -191,7 +191,7 @@ unsigned int Imath_2_5__Vec3_int__cross(
     }
 }
 
-unsigned int Imath_2_5__Vec3_int__op_iadd(
+IMATH_CPPMM_API unsigned int Imath_2_5__Vec3_int__op_iadd(
     Imath_V3i_t * this_
     , Imath_V3i_t const * * return_
     , Imath_V3i_t const * v)
@@ -205,7 +205,7 @@ unsigned int Imath_2_5__Vec3_int__op_iadd(
     }
 }
 
-unsigned int Imath_2_5__Vec3_int__length(
+IMATH_CPPMM_API unsigned int Imath_2_5__Vec3_int__length(
     Imath_V3i_t const * this_
     , int * return_)
 {
@@ -218,7 +218,7 @@ unsigned int Imath_2_5__Vec3_int__length(
     }
 }
 
-unsigned int Imath_2_5__Vec3_int__length2(
+IMATH_CPPMM_API unsigned int Imath_2_5__Vec3_int__length2(
     Imath_V3i_t const * this_
     , int * return_)
 {
@@ -231,7 +231,7 @@ unsigned int Imath_2_5__Vec3_int__length2(
     }
 }
 
-unsigned int Imath_2_5__Vec3_int__normalize(
+IMATH_CPPMM_API unsigned int Imath_2_5__Vec3_int__normalize(
     Imath_V3i_t * this_
     , Imath_V3i_t const * * return_)
 {
@@ -244,7 +244,7 @@ unsigned int Imath_2_5__Vec3_int__normalize(
     }
 }
 
-unsigned int Imath_2_5__Vec3_int__normalized(
+IMATH_CPPMM_API unsigned int Imath_2_5__Vec3_int__normalized(
     Imath_V3i_t const * this_
     , Imath_V3i_t * return_)
 {

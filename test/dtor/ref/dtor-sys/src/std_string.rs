@@ -3,19 +3,9 @@
 #![allow(non_upper_case_globals)]
 #![allow(unused_imports)]
 use crate::*;
+pub use crate::cppmmabi::*;
 use std::os::raw::*;
 
-#[repr(C, align(8))]
-#[derive(Clone)]
-pub struct std____cxx11__basic_string_char__t {
-    _inner: [u8; 32]
-}
-
-impl Default for std____cxx11__basic_string_char__t {
-    fn default() -> Self {
-        Self { _inner: [0u8; 32] }
-    }
-}
 
 impl std____cxx11__basic_string_char__t {
     pub fn layout() -> std::alloc::Layout {
@@ -42,7 +32,7 @@ pub fn std____cxx11__basic_string_char__copy(this_: *mut std___cxx11_string_t, r
 
 pub fn std____cxx11__basic_string_char__dtor(this_: *mut std___cxx11_string_t) -> Exception;
 
-pub fn std____cxx11__basic_string_char__assign(this_: *mut std___cxx11_string_t, return_: *mut *mut std___cxx11_string_t, s: *const c_char, count: c_ulong) -> Exception;
+pub fn std____cxx11__basic_string_char__assign(this_: *mut std___cxx11_string_t, return_: *mut *mut std___cxx11_string_t, s: *const c_char, count: usize) -> Exception;
 
 pub fn std____cxx11__basic_string_char__c_str(this_: *const std___cxx11_string_t, return_: *mut *const c_char) -> Exception;
 

@@ -157,13 +157,14 @@ QType process_qtype(const QualType& qt) {
         const std::string pointer_type_name =
             qt.getCanonicalType().getAsString();
         const std::string pointer_type_node_name = "TYPE:" + pointer_type_name;
-
+        
         auto it = NODE_MAP.find(pointer_type_name);
         NodeId id;
         if (it == NODE_MAP.end()) {
             // need to create the pointer type, create the pointee type first
             QType pointee_qtype =
-                process_qtype(qt->getPointeeType().getCanonicalType());
+                process_qtype(qt->getPointeeType());
+
             // now create the pointer type
             id = NODES.size();
             auto node_pointer_type = std::make_unique<NodePointerType>(
@@ -200,6 +201,39 @@ QType process_qtype(const QualType& qt) {
             // std::string mangled_name = os.str();
             std::string mangled_name = mangle_decl(crd);
             type_node_name = "TYPE:" + mangled_name;
+        }
+
+        // FIXME: hack to work around unsigned long being different sizes on 
+        // windows and *nix
+        if (qt->isBuiltinType() && type_name == "unsigned long") {
+            const auto* tdt = qt->getAs<TypedefType>();
+            if (tdt && tdt->getDecl()->getNameAsString() == "uint64_t") {
+                type_name = "uint64_t";
+                type_node_name = "TYPE:uint64_t";
+            } else if (tdt && tdt->getDecl()->getNameAsString() == "size_t") {
+                type_name = "size_t";
+                type_node_name = "TYPE:size_t";
+            } else if (tdt && tdt->getDecl()->getNameAsString() == "size_type") {
+                // FIXME: Nasty hack here to get e.g. std::string::size_type
+                // will this bite us?
+                type_name = "size_t";
+                type_node_name = "TYPE:size_t";
+            } else if (tdt) {
+                /* SPDLOG_WARN("Unhandled unsigned long typedef {}", tdt->getDecl()->getNameAsString()); */
+                // If we're some other typedef of unsigned long, try desugaring
+                // recursively until we get to a typedef we can handle
+                QualType ds_type = tdt->desugar();
+                return process_qtype(ds_type);
+            }
+        } else if (qt->isBuiltinType() && type_name == "long") {
+            const auto* tdt = qt->getAs<TypedefType>();
+            if (tdt && tdt->getDecl()->getNameAsString() == "int64_t") {
+                type_name = "int64_t";
+                type_node_name = "TYPE:int64_t";
+            } else if (tdt && tdt->getDecl()->getNameAsString() == "ptrdiff_t") {
+                type_name = "ptrdiff_t";
+                type_node_name = "TYPE:ptrdiff_t";
+            }
         }
 
         // see if we've proessed this type already
@@ -413,6 +447,11 @@ std::vector<Exception> get_exceptions(const std::vector<std::string>& attrs) {
 
 bool has_noexcept_attr(const std::vector<std::string>& attrs) {
     return std::find(attrs.begin(), attrs.end(), "cppmm|noexcept") !=
+           attrs.end();
+}
+
+bool has_manual_attr(const std::vector<std::string>& attrs) {
+    return std::find(attrs.begin(), attrs.end(), "cppmm|manual") !=
            attrs.end();
 }
 
@@ -1148,6 +1187,22 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
             node_record_ptr->methods.push_back(id);
         }
 
+        // now iterate over the binding methods and see if there's any manual
+        // ones we want to stick in
+        for (NodePtr& method : binding_methods) {
+            NodeMethod* mptr = (NodeMethod*)method.get();
+            if (has_manual_attr(mptr->attrs)) {
+                mptr->in_binding = true;           
+                mptr->is_noexcept |= has_noexcept_attr(mptr->attrs);
+                function_map[mptr->_function_id] = mptr;
+
+                NodeId id = NODES.size();
+                NODE_MAP[method->qualified_name] = id;
+                NODES.emplace_back(std::move(method));
+                node_record_ptr->methods.push_back(id);
+            }
+        }
+
         if (WARN_UNMATCHED && !ignore_unbound) {
             for (const auto& n : methods) {
                 const auto* m = (NodeMethod*)n.get();
@@ -1162,7 +1217,7 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
             for (const auto& n : binding_methods) {
                 const auto* m = (NodeMethod*)n.get();
                 if (m && m->is_user_provided && !m->in_library &&
-                    !m->is_deleted) {
+                    !m->is_deleted && !has_manual_attr(m->attrs)) {
                     SPDLOG_WARN("[{}]({}) - \n"
                                 "{} is declared in the binding but not present "
                                 "in the library",

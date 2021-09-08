@@ -46,7 +46,8 @@
             "align": 64,
             "alias": "string",
             "attributes": [
-                "cppmm|opaquebytes"
+                "cppmm|opaquebytes",
+                "cppmm|force_name|\"std::string\""
             ],
             "comment": "",
             "fields": null,
@@ -103,7 +104,7 @@
                             "type": {
                                 "kind": "BuiltinType",
                                 "id": 3,
-                                "type": "unsigned long",
+                                "type": "size_t",
                                 "const": false
                             },
                             "attrs": []
@@ -191,7 +192,7 @@
                             "type": {
                                 "kind": "BuiltinType",
                                 "id": 3,
-                                "type": "unsigned long",
+                                "type": "size_t",
                                 "const": false
                             },
                             "attrs": []

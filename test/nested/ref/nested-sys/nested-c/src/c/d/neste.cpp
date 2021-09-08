@@ -3,7 +3,7 @@
 
 #include <stdexcept>
 
-unsigned int nest__NestCDE_do_something(
+NESTED_CPPMM_API unsigned int nest__NestCDE_do_something(
     nest_NestCDE_t * this_)
 {
     try {

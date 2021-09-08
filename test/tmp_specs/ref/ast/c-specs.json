@@ -8,12 +8,12 @@
     "include_paths": [
         "/home/anders/code/cppmm/test/tmp_specs/include"
     ],
-    "id": 2,
+    "id": 48,
     "decls": [
         {
             "kind": "Namespace",
             "name": "specs",
-            "id": 3,
+            "id": 49,
             "short_name": "specs",
             "alias": "specs",
             "collapse": false
@@ -23,9 +23,9 @@
             "name": "specs::Attribute<int>",
             "short_name": "Attribute",
             "namespaces": [
-                3
+                49
             ],
-            "id": 4,
+            "id": 50,
             "abstract": false,
             "trivially_copyable": true,
             "trivially_movable": true,
@@ -35,7 +35,9 @@
             "size": 32,
             "align": 32,
             "alias": "IntAttribute",
-            "attributes": null,
+            "attributes": [
+                "cppmm|opaqueptr"
+            ],
             "comment": "",
             "fields": [
                 {
@@ -43,7 +45,7 @@
                     "name": "t",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 0,
+                        "id": 23,
                         "type": "int",
                         "const": false
                     },
@@ -75,14 +77,96 @@
                     "comment": "",
                     "return": {
                         "kind": "Reference",
-                        "id": 1,
+                        "id": 46,
                         "type": "const int &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 0,
+                            "id": 23,
                             "type": "int",
                             "const": true
                         },
+                        "const": false
+                    },
+                    "params": null,
+                    "template_args": null,
+                    "exceptions": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "do_something",
+                    "qualified_name": "specs::Attribute<int>::do_something",
+                    "in_binding": true,
+                    "in_library": false,
+                    "noexcept": false,
+                    "static": true,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "comment": "",
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 0,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "v",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 47,
+                                "type": "int &",
+                                "pointee": {
+                                    "kind": "BuiltinType",
+                                    "id": 23,
+                                    "type": "int",
+                                    "const": false
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ],
+                    "template_args": null,
+                    "exceptions": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "Attribute",
+                    "qualified_name": "specs::Attribute<int>::Attribute",
+                    "in_binding": true,
+                    "in_library": false,
+                    "noexcept": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": true,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "comment": "",
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 0,
+                        "type": "void",
                         "const": false
                     },
                     "params": null,
@@ -96,9 +180,9 @@
             "name": "specs::Attribute<float>",
             "short_name": "Attribute",
             "namespaces": [
-                3
+                49
             ],
-            "id": 8,
+            "id": 57,
             "abstract": false,
             "trivially_copyable": true,
             "trivially_movable": true,
@@ -108,7 +192,9 @@
             "size": 32,
             "align": 32,
             "alias": "FloatAttribute",
-            "attributes": null,
+            "attributes": [
+                "cppmm|opaqueptr"
+            ],
             "comment": "",
             "fields": [
                 {
@@ -116,7 +202,7 @@
                     "name": "t",
                     "type": {
                         "kind": "BuiltinType",
-                        "id": 6,
+                        "id": 54,
                         "type": "float",
                         "const": false
                     },
@@ -148,14 +234,288 @@
                     "comment": "",
                     "return": {
                         "kind": "Reference",
-                        "id": 7,
+                        "id": 55,
                         "type": "const float &",
                         "pointee": {
                             "kind": "BuiltinType",
-                            "id": 6,
+                            "id": 54,
                             "type": "float",
                             "const": true
                         },
+                        "const": false
+                    },
+                    "params": null,
+                    "template_args": null,
+                    "exceptions": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "do_something",
+                    "qualified_name": "specs::Attribute<float>::do_something",
+                    "in_binding": true,
+                    "in_library": false,
+                    "noexcept": false,
+                    "static": true,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "comment": "",
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 0,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "v",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 56,
+                                "type": "float &",
+                                "pointee": {
+                                    "kind": "BuiltinType",
+                                    "id": 54,
+                                    "type": "float",
+                                    "const": false
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ],
+                    "template_args": null,
+                    "exceptions": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "Attribute",
+                    "qualified_name": "specs::Attribute<float>::Attribute",
+                    "in_binding": true,
+                    "in_library": false,
+                    "noexcept": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": true,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "comment": "",
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 0,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": null,
+                    "template_args": null,
+                    "exceptions": null
+                }
+            ]
+        },
+        {
+            "kind": "Record",
+            "name": "specs::Attribute<std::string>",
+            "short_name": "Attribute",
+            "namespaces": [
+                49
+            ],
+            "id": 65,
+            "abstract": false,
+            "trivially_copyable": false,
+            "trivially_movable": false,
+            "has_public_copy_ctor": true,
+            "has_public_move_ctor": true,
+            "opaque_type": false,
+            "size": 256,
+            "align": 64,
+            "alias": "StringAttribute",
+            "attributes": [
+                "cppmm|opaqueptr"
+            ],
+            "comment": "",
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "t",
+                    "type": {
+                        "kind": "RecordType",
+                        "id": 6,
+                        "type": "std::__cxx11::basic_string<char>",
+                        "record": 11,
+                        "const": false
+                    },
+                    "attributes": []
+                }
+            ],
+            "methods": [
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "value",
+                    "qualified_name": "specs::Attribute<std::__cxx11::basic_string<char>>::value",
+                    "in_binding": true,
+                    "in_library": false,
+                    "noexcept": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "comment": "",
+                    "return": {
+                        "kind": "Reference",
+                        "id": 12,
+                        "type": "const class std::__cxx11::basic_string<char> &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 6,
+                            "type": "std::__cxx11::basic_string<char>",
+                            "record": 11,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "params": null,
+                    "template_args": null,
+                    "exceptions": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "do_something",
+                    "qualified_name": "specs::Attribute<std::__cxx11::basic_string<char>>::do_something",
+                    "in_binding": true,
+                    "in_library": false,
+                    "noexcept": false,
+                    "static": true,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "comment": "",
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 0,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": [
+                        {
+                            "index": 0,
+                            "name": "v",
+                            "type": {
+                                "kind": "Reference",
+                                "id": 7,
+                                "type": "class std::__cxx11::basic_string<char> &",
+                                "pointee": {
+                                    "kind": "RecordType",
+                                    "id": 6,
+                                    "type": "std::__cxx11::basic_string<char>",
+                                    "record": 11,
+                                    "const": false
+                                },
+                                "const": false
+                            },
+                            "attrs": []
+                        }
+                    ],
+                    "template_args": null,
+                    "exceptions": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "Attribute",
+                    "qualified_name": "specs::Attribute<std::__cxx11::basic_string<char>>::Attribute",
+                    "in_binding": true,
+                    "in_library": false,
+                    "noexcept": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": true,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "comment": "",
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 0,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": null,
+                    "template_args": null,
+                    "exceptions": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "~Attribute",
+                    "qualified_name": "specs::Attribute<std::__cxx11::basic_string<char>>::~Attribute",
+                    "in_binding": true,
+                    "in_library": false,
+                    "noexcept": false,
+                    "static": false,
+                    "user_provided": false,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": true,
+                    "attributes": null,
+                    "comment": "",
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 0,
+                        "type": "void",
                         "const": false
                     },
                     "params": null,
@@ -169,9 +529,9 @@
             "name": "specs::Specs",
             "short_name": "Specs",
             "namespaces": [
-                3
+                49
             ],
-            "id": 19,
+            "id": 80,
             "abstract": false,
             "trivially_copyable": true,
             "trivially_movable": true,
@@ -211,13 +571,13 @@
                     "comment": "",
                     "return": {
                         "kind": "Pointer",
-                        "id": 12,
+                        "id": 75,
                         "type": "struct specs::Attribute<int> *",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 11,
+                            "id": 74,
                             "type": "specs::Attribute<int>",
-                            "record": 4,
+                            "record": 50,
                             "const": false
                         },
                         "const": false
@@ -228,11 +588,11 @@
                             "name": "name",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 14,
+                                "id": 2,
                                 "type": "const char *",
                                 "pointee": {
                                     "kind": "BuiltinType",
-                                    "id": 13,
+                                    "id": 1,
                                     "type": "char",
                                     "const": true
                                 },
@@ -246,9 +606,9 @@
                             "index": 0,
                             "type": {
                                 "kind": "RecordType",
-                                "id": 11,
+                                "id": 74,
                                 "type": "specs::Attribute<int>",
-                                "record": 4,
+                                "record": 50,
                                 "const": false
                             }
                         }
@@ -281,13 +641,13 @@
                     "comment": "",
                     "return": {
                         "kind": "Pointer",
-                        "id": 16,
+                        "id": 77,
                         "type": "struct specs::Attribute<float> *",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 15,
+                            "id": 76,
                             "type": "specs::Attribute<float>",
-                            "record": 8,
+                            "record": 57,
                             "const": false
                         },
                         "const": false
@@ -298,11 +658,11 @@
                             "name": "name",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 14,
+                                "id": 2,
                                 "type": "const char *",
                                 "pointee": {
                                     "kind": "BuiltinType",
-                                    "id": 13,
+                                    "id": 1,
                                     "type": "char",
                                     "const": true
                                 },
@@ -316,9 +676,9 @@
                             "index": 0,
                             "type": {
                                 "kind": "RecordType",
-                                "id": 15,
+                                "id": 76,
                                 "type": "specs::Attribute<float>",
-                                "record": 8,
+                                "record": 57,
                                 "const": false
                             }
                         }
@@ -351,13 +711,13 @@
                     "comment": "",
                     "return": {
                         "kind": "Pointer",
-                        "id": 17,
+                        "id": 78,
                         "type": "const struct specs::Attribute<int> *",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 11,
+                            "id": 74,
                             "type": "specs::Attribute<int>",
-                            "record": 4,
+                            "record": 50,
                             "const": true
                         },
                         "const": false
@@ -368,11 +728,11 @@
                             "name": "name",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 14,
+                                "id": 2,
                                 "type": "const char *",
                                 "pointee": {
                                     "kind": "BuiltinType",
-                                    "id": 13,
+                                    "id": 1,
                                     "type": "char",
                                     "const": true
                                 },
@@ -386,9 +746,9 @@
                             "index": 0,
                             "type": {
                                 "kind": "RecordType",
-                                "id": 11,
+                                "id": 74,
                                 "type": "specs::Attribute<int>",
-                                "record": 4,
+                                "record": 50,
                                 "const": false
                             }
                         }
@@ -421,13 +781,13 @@
                     "comment": "",
                     "return": {
                         "kind": "Pointer",
-                        "id": 18,
+                        "id": 79,
                         "type": "const struct specs::Attribute<float> *",
                         "pointee": {
                             "kind": "RecordType",
-                            "id": 15,
+                            "id": 76,
                             "type": "specs::Attribute<float>",
-                            "record": 8,
+                            "record": 57,
                             "const": true
                         },
                         "const": false
@@ -438,11 +798,11 @@
                             "name": "name",
                             "type": {
                                 "kind": "Pointer",
-                                "id": 14,
+                                "id": 2,
                                 "type": "const char *",
                                 "pointee": {
                                     "kind": "BuiltinType",
-                                    "id": 13,
+                                    "id": 1,
                                     "type": "char",
                                     "const": true
                                 },
@@ -456,9 +816,9 @@
                             "index": 0,
                             "type": {
                                 "kind": "RecordType",
-                                "id": 15,
+                                "id": 76,
                                 "type": "specs::Attribute<float>",
-                                "record": 8,
+                                "record": 57,
                                 "const": false
                             }
                         }
