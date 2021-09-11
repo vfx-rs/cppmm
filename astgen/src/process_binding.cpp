@@ -131,7 +131,7 @@ QType process_qtype(const QualType& qt) {
         NodeId id;
         if (it == NODE_MAP.end()) {
             const ConstantArrayType* cat =
-                dyn_cast<ConstantArrayType>(qt.getTypePtr());
+                dyn_cast<ConstantArrayType>(qt.getCanonicalType().getTypePtr());
             QType element_type = process_qtype(cat->getElementType());
             id = NODES.size();
             auto node_type = std::make_unique<NodeConstantArrayType>(
@@ -1213,16 +1213,17 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
                                 record_name, node_tu->qualified_name, *m);
                 }
             }
+        }
 
-            for (const auto& n : binding_methods) {
-                const auto* m = (NodeMethod*)n.get();
-                if (m && m->is_user_provided && !m->in_library &&
-                    !m->is_deleted && !has_manual_attr(m->attrs)) {
-                    SPDLOG_WARN("[{}]({}) - \n"
-                                "{} is declared in the binding but not present "
-                                "in the library",
-                                record_name, node_tu->qualified_name, *m);
-                }
+
+        for (const auto& n : binding_methods) {
+            const auto* m = (NodeMethod*)n.get();
+            if (m && m->is_user_provided && !m->in_library &&
+                !m->is_deleted && !has_manual_attr(m->attrs)) {
+                SPDLOG_WARN("[{}]({}) - \n"
+                            "{} is declared in the binding but not present "
+                            "in the library",
+                            record_name, node_tu->qualified_name, *m);
             }
         }
 

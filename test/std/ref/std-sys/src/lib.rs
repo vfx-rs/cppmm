@@ -44,6 +44,13 @@ extern {
 
 pub use c_usestd::usestd_takes_string as usestd_takes_string;
 pub use c_usestd::usestd_takes_vector_string as usestd_takes_vector_string;
+pub use std_list::std__list_std__string__t as std_list_string_t;
+pub use std_list::std__list_std__string___iterator_t as std_list_string_iterator_t;
+
+pub use std_list::std__list_std__string__ctor as std_list_string_ctor;
+pub use std_list::std__list_std__string___iterator_op_inc as std_list_string_iterator_op_inc;
+pub use std_list::std__list_std__string___iterator_deref as std_list_string_iterator_deref;
+pub use std_list::std__list_std__string___iterator_deref_mut as std_list_string_iterator_deref_mut;
 pub use std_set::std___Rb_tree_node_base_t as std__Rb_tree_node_base_t;
 pub use std_set::std__set_std__string__t as std_set_string_t;
 pub use std_set::std__set_std__string___const_iterator_t as std_set_string_iterator_t;
@@ -69,6 +76,7 @@ pub use std_string::std__vector_std__string__sizeof as std_vector_string_sizeof;
 pub use std_string::std__vector_std__string__alignof as std_vector_string_alignof;
 pub use std_string::std__vector_std__string__ctor as std_vector_string_ctor;
 pub use std_string::std__vector_std__string__dtor as std_vector_string_dtor;
+pub mod std_list;
 pub mod cppmmabi;
 pub mod std_set;
 pub mod std_string;

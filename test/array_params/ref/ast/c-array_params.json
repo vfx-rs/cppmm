@@ -45,12 +45,12 @@
                     "name": "data",
                     "type": {
                         "kind": "ConstantArrayType",
-                        "id": 9,
+                        "id": 8,
                         "type": "float [4][4]",
                         "size": 4,
                         "element_type": {
                             "kind": "ConstantArrayType",
-                            "id": 8,
+                            "id": 2,
                             "type": "float [4]",
                             "size": 4,
                             "element_type": {
@@ -109,15 +109,15 @@
                                 "element_type": {
                                     "kind": "ConstantArrayType",
                                     "id": 2,
-                                    "type": "float const[4]",
+                                    "type": "float [4]",
                                     "size": 4,
                                     "element_type": {
                                         "kind": "BuiltinType",
                                         "id": 1,
                                         "type": "float",
-                                        "const": true
+                                        "const": false
                                     },
-                                    "const": true
+                                    "const": false
                                 },
                                 "const": true
                             },

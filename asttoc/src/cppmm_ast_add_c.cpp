@@ -414,12 +414,21 @@ void add_record_declaration(TranslationUnit& c_tu, const NodePtr& node_ptr,
     const auto& record = *static_cast<const NodeRecord*>(node_ptr.get());
     if (auto r_tu = record.tu.lock()) {
         if (r_tu.get() != &c_tu) {
+            /*
             if (in_reference) // Forward declaration
             {
                 c_tu.forward_decls.insert(node_ptr);
             } else // Header file
             {
                 c_tu.header_includes.insert(r_tu->header_filename);
+            }
+            */
+            if (bind_type(record) == BindType::ValueType) {
+                // insert header for value type
+                c_tu.header_includes.insert(r_tu->header_filename);
+            } else {
+                // otherwise fwd decl
+                c_tu.forward_decls.insert(node_ptr);
             }
             c_tu.source_includes.insert(r_tu->private_header_filename);
         }

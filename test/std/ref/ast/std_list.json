@@ -1,0 +1,260 @@
+{
+    "kind": "TranslationUnit",
+    "filename": "std_list.cpp",
+    "source_includes": [
+        "#include <string>",
+        "#include <list>",
+        "#include <cppmm_bind.hpp>"
+    ],
+    "include_paths": [
+        "/home/anders/code/cppmm/test/std/include"
+    ],
+    "id": 96,
+    "decls": [
+        {
+            "kind": "Namespace",
+            "name": "std::__cxx11",
+            "id": 9,
+            "short_name": "__cxx11",
+            "alias": "std",
+            "collapse": true
+        },
+        {
+            "kind": "Namespace",
+            "name": "std",
+            "id": 10,
+            "short_name": "std",
+            "alias": "std",
+            "collapse": false
+        },
+        {
+            "kind": "Record",
+            "name": "std::__cxx11::list<std::string>",
+            "short_name": "list",
+            "namespaces": [
+                10,
+                9
+            ],
+            "id": 97,
+            "abstract": false,
+            "trivially_copyable": false,
+            "trivially_movable": false,
+            "has_public_copy_ctor": true,
+            "has_public_move_ctor": true,
+            "opaque_type": false,
+            "size": 192,
+            "align": 64,
+            "alias": "list_string",
+            "attributes": [
+                "cppmm|opaqueptr",
+                "cppmm|force_name|\"std::list<std::string>\""
+            ],
+            "comment": "",
+            "fields": null,
+            "methods": [
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "list",
+                    "qualified_name": "std::__cxx11::list<std::__cxx11::basic_string<char>, std::allocator<std::__cxx11::basic_string<char>>>::list",
+                    "in_binding": true,
+                    "in_library": false,
+                    "noexcept": false,
+                    "static": false,
+                    "user_provided": false,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": true,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "comment": "",
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 0,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": null,
+                    "template_args": null,
+                    "exceptions": null
+                }
+            ]
+        },
+        {
+            "kind": "Record",
+            "name": "std::_List_iterator<std::__cxx11::basic_string<char> >",
+            "short_name": "_List_iterator",
+            "namespaces": [
+                10
+            ],
+            "id": 114,
+            "abstract": false,
+            "trivially_copyable": true,
+            "trivially_movable": true,
+            "has_public_copy_ctor": true,
+            "has_public_move_ctor": true,
+            "opaque_type": false,
+            "size": 64,
+            "align": 64,
+            "alias": "list_string_iterator",
+            "attributes": [
+                "cppmm|opaqueptr",
+                "cppmm|force_name|\"std::list<std::string>::iterator\""
+            ],
+            "comment": "",
+            "fields": [
+                {
+                    "kind": "Field",
+                    "name": "_M_node",
+                    "type": {
+                        "kind": "Pointer",
+                        "id": 116,
+                        "type": "struct std::__detail::_List_node_base *",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 115,
+                            "type": "std::__detail::_List_node_base",
+                            "record": -1,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "attributes": []
+                }
+            ],
+            "methods": [
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "operator++",
+                    "qualified_name": "std::_List_iterator<std::__cxx11::basic_string<char>>::operator++",
+                    "in_binding": true,
+                    "in_library": false,
+                    "noexcept": true,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": true,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm|rename|op_inc"
+                    ],
+                    "comment": "",
+                    "return": {
+                        "kind": "Reference",
+                        "id": 113,
+                        "type": "struct std::_List_iterator<class std::__cxx11::basic_string<char> > &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 109,
+                            "type": "std::_List_iterator<std::__cxx11::basic_string<char> >",
+                            "record": 114,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "params": null,
+                    "template_args": null,
+                    "exceptions": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "operator*",
+                    "qualified_name": "cppmm_bind::std::list<std::__cxx11::basic_string<char>>::iterator::operator*",
+                    "in_binding": true,
+                    "in_library": false,
+                    "noexcept": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": true,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm|rename|deref",
+                        "cppmm|manual"
+                    ],
+                    "comment": "",
+                    "return": {
+                        "kind": "Reference",
+                        "id": 12,
+                        "type": "const class std::__cxx11::basic_string<char> &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 6,
+                            "type": "std::__cxx11::basic_string<char>",
+                            "record": 11,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "params": null,
+                    "template_args": null,
+                    "exceptions": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "operator*",
+                    "qualified_name": "cppmm_bind::std::list<std::__cxx11::basic_string<char>>::iterator::operator*",
+                    "in_binding": true,
+                    "in_library": false,
+                    "noexcept": false,
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": true,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": [
+                        "cppmm|rename|deref_mut",
+                        "cppmm|manual"
+                    ],
+                    "comment": "",
+                    "return": {
+                        "kind": "Reference",
+                        "id": 7,
+                        "type": "class std::__cxx11::basic_string<char> &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 6,
+                            "type": "std::__cxx11::basic_string<char>",
+                            "record": 11,
+                            "const": false
+                        },
+                        "const": false
+                    },
+                    "params": null,
+                    "template_args": null,
+                    "exceptions": null
+                }
+            ]
+        }
+    ]
+}
