@@ -2,6 +2,7 @@
 #include "pystring.h"
 #include "clang/AST/ASTContext.h"
 #include "clang/AST/Decl.h"
+#include "clang/AST/PrettyPrinter.h"
 #include "clang/AST/DeclCXX.h"
 #include "clang/AST/DeclTemplate.h"
 #include "clang/AST/GlobalDecl.h"
@@ -10,6 +11,7 @@
 #include "clang/ASTMatchers/ASTMatchers.h"
 #include "clang/Basic/LLVM.h"
 #include "llvm/Support/Casting.h"
+#include "llvm/Support/raw_ostream.h"
 #include <cassert>
 #include <cstdint>
 #include <memory>
@@ -1291,7 +1293,14 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
 void handle_cxx_record_decl(const CXXRecordDecl* crd) {
     ASTContext& ctx = crd->getASTContext();
     SourceManager& sm = ctx.getSourceManager();
-    const auto& loc = crd->getLocation();
+    auto loc = crd->getLocation();
+
+    // we don't care about locations in macros, we always want their expansions
+    // if we're using macros to generate functions
+    if (loc.isMacroID()) {
+        auto range = sm.getExpansionRange(loc);
+        loc = range.getBegin();
+    }
 
     const auto mng_ctx = ctx.createMangleContext();
 
@@ -1421,7 +1430,13 @@ void handle_binding_function(const FunctionDecl* fd) {
 
     ASTContext& ctx = fd->getASTContext();
     SourceManager& sm = ctx.getSourceManager();
-    const auto& loc = fd->getLocation();
+    auto loc = fd->getLocation();
+    // we don't care about locations in macros, we always want their expansions
+    // if we're using macros to generate functions
+    if (loc.isMacroID()) {
+        auto range = sm.getExpansionRange(loc);
+        loc = range.getBegin();
+    }
     std::string filename = sm.getFilename(loc).str();
 
     // Get the translation unit node we're going to add this Function to
@@ -1442,22 +1457,14 @@ void handle_binding_function(const FunctionDecl* fd) {
     std::string body;
     if (has_impl_attr(attrs)) {
         if (fd->isThisDeclarationADefinition()) {
-            auto range = fd->getSourceRange();
-            auto begin = sm.getCharacterData(range.getBegin());
-            // end points to the last char so we increment to get an iterator
-            // end
-            auto end = sm.getCharacterData(range.getEnd()) + 1;
+            std::string s;
+            llvm::raw_string_ostream sos(s);
+            fd->print(sos);
 
-            if (begin && end) {
-                auto function_spelling = std::string(begin, end);
-                auto remove_macro = ps::replace(function_spelling, "CPPMM_IMPL", "");
-                auto rename_function = ps::replace(remove_macro, function_short_name + "(", function_short_name + "_impl(");
-
-                body = base64::base64_encode(rename_function);
-            } else {
-                SPDLOG_ERROR("Function {} body iterator are invalid",
-                             fd->getQualifiedNameAsString());
-            }
+            auto function_spelling = s;
+            auto remove_macro = ps::replace(function_spelling, "__attribute__((annotate(\"cppmm|impl\")))", "");
+            auto rename_function = ps::replace(remove_macro, function_short_name + "(", function_short_name + "_impl(");
+            body = base64::base64_encode(rename_function);
 
         } else {
             SPDLOG_ERROR("Function {} marked as impl but could not get body",
@@ -1498,8 +1505,8 @@ void handle_binding_function(const FunctionDecl* fd) {
             (NodeTranslationUnit*)NODES.at(node_function.context).get();
         // process the namespaces again to make sure we've got the
         // namespaces in the TU
-        // const std::vector<NodeId> namespaces =
-        //     get_namespaces(fd->getParent(), node_tu);
+        const std::vector<NodeId> namespaces =
+            get_namespaces(fd->getParent(), node_tu);
         fnptr->context = node_tu->id;
         node_tu->children.push_back(id);
         NODES.emplace_back(std::move(fnptr));

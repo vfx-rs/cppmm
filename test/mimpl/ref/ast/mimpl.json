@@ -117,7 +117,7 @@
             "in_binding": false,
             "in_library": false,
             "noexcept": false,
-            "definition": "aW50IE51bWJlcl9kb19nZXRfbnVtYmVyX2ltcGwoY29uc3QgOjptaW1wbDo6TnVtYmVyJiBzZWxmKSAgewogICAgcmV0dXJuIHNlbGYuZ2V0X251bWJlcigpOwp9",
+            "definition": "aW50IE51bWJlcl9kb19nZXRfbnVtYmVyX2ltcGwoY29uc3QgOjptaW1wbDo6TnVtYmVyICZzZWxmKSAgewogICAgcmV0dXJuIHNlbGYuZ2V0X251bWJlcigpOwp9Cg==",
             "attributes": [
                 "cppmm|impl",
                 "cppmm|rename|Number_do_get_number"

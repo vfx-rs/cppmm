@@ -29,9 +29,10 @@ MIMPL_CPPMM_API unsigned int mimpl__Number_get_number(
     }
 }
 
-inline int Number_do_get_number_impl(const ::mimpl::Number& self)  {
+inline int Number_do_get_number_impl(const ::mimpl::Number &self)  {
     return self.get_number();
 }
+
 
 MIMPL_CPPMM_API unsigned int Number_do_get_number(
     int * return_
