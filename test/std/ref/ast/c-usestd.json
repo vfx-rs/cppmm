@@ -33,6 +33,7 @@
             "in_binding": false,
             "in_library": false,
             "noexcept": false,
+            "definition": "",
             "attributes": null,
             "comment": "",
             "namespaces": [
@@ -75,6 +76,7 @@
             "in_binding": false,
             "in_library": false,
             "noexcept": false,
+            "definition": "",
             "attributes": null,
             "comment": "",
             "namespaces": [

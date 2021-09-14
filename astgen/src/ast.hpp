@@ -308,6 +308,8 @@ struct NodeFunction : public NodeAttributeHolder {
     std::vector<QType> template_args;
     /// The set of exceptions this function might throw
     std::vector<Exception> exceptions;
+    // Function definition
+    std::string definition;
 
     uint64_t _function_id;
 

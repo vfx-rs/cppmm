@@ -207,6 +207,7 @@ int main(int argc_, const char** argv_) {
 #define CPPMM_TRIVIALLY_MOVABLE __attribute__((annotate("cppmm|trivially_movable")))
 #define CPPMM_PROPERTIES(x) __attribute__((annotate("cppmm|properties|" #x)))
 #define CPPMM_MANUAL __attribute__((annotate("cppmm|manual")))
+#define CPPMM_IMPL __attribute__((annotate("cppmm|impl")))
 
 #define CPPMM_THROWS(EX, VAR) __attribute__((annotate("cppmm|throws|" #EX "|" #VAR)))
 #define CPPMM_NOEXCEPT __attribute__((annotate("cppmm|noexcept")))

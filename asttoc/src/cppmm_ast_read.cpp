@@ -86,6 +86,7 @@ const char* OPAQUE_TYPE = "opaque_type";
 const char* NOEXCEPT = "noexcept";
 const char* HAS_PUBLIC_COPY_CTOR = "has_public_copy_ctor";
 const char* HAS_PUBLIC_MOVE_CTOR = "has_public_move_ctor";
+const char* DEFINITION = "definition";
 } // namespace
 
 //------------------------------------------------------------------------------
@@ -220,6 +221,17 @@ std::string read_comment(const nln::json& json) {
 }
 
 //------------------------------------------------------------------------------
+std::string read_definition(const nln::json& json) {
+    std::string definition;
+    auto definition_ = json.find(DEFINITION);
+    if (definition_ != json.end()) {
+        definition = base64::decode(definition_->get<std::string>());
+    }
+
+    return definition;
+}
+
+//------------------------------------------------------------------------------
 NodeTypePtr read_type_function_proto(const nln::json& json) {
     auto return_type = read_type(json[RETURN]);
 
@@ -268,11 +280,13 @@ NodePtr read_function(const TranslationUnit::Ptr& tu, const nln::json& json) {
     }
 
     auto comment = read_comment(json);
+    auto definition = read_definition(json);
 
     auto result = NodeFunction::n(
         qualified_name, id, attrs, short_name, std::move(return_type),
         std::move(params), qualified_name, std::move(comment),
-        std::move(template_args), std::move(exceptions), is_noexcept);
+        std::move(definition), std::move(template_args), std::move(exceptions),
+        is_noexcept);
     result->namespaces = namespaces;
 
     return result;
@@ -314,7 +328,7 @@ NodeMethod read_method(const nln::json& json) {
         qualified_name, id, attrs, short_name, std::move(return_type),
         std::move(params), static_, constructor, copy_constructor,
         move_constructor, destructor, const_, false, false, std::move(comment),
-        std::move(template_args), std::move(exceptions), is_noexcept);
+        "", std::move(template_args), std::move(exceptions), is_noexcept);
 }
 
 //------------------------------------------------------------------------------

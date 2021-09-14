@@ -1,0 +1,157 @@
+{
+    "kind": "TranslationUnit",
+    "filename": "mimpl.cpp",
+    "source_includes": [
+        "#include <mimpl.hpp>",
+        "#include <cppmm_bind.hpp>"
+    ],
+    "include_paths": [
+        "/home/anders/code/cppmm/test/mimpl/include"
+    ],
+    "id": 2,
+    "decls": [
+        {
+            "kind": "Namespace",
+            "name": "mimpl",
+            "id": 3,
+            "short_name": "mimpl",
+            "alias": "mimpl",
+            "collapse": false
+        },
+        {
+            "kind": "Record",
+            "name": "mimpl::Number",
+            "short_name": "Number",
+            "namespaces": [
+                3
+            ],
+            "id": 4,
+            "abstract": false,
+            "trivially_copyable": true,
+            "trivially_movable": true,
+            "has_public_copy_ctor": false,
+            "has_public_move_ctor": false,
+            "opaque_type": false,
+            "size": 32,
+            "align": 32,
+            "alias": "Number",
+            "attributes": [
+                "cppmm|opaqueptr"
+            ],
+            "comment": "",
+            "fields": null,
+            "methods": [
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "Number",
+                    "qualified_name": "mimpl::Number::Number",
+                    "in_binding": true,
+                    "in_library": false,
+                    "noexcept": false,
+                    "definition": "",
+                    "static": false,
+                    "user_provided": true,
+                    "const": false,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": true,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "comment": "",
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 0,
+                        "type": "void",
+                        "const": false
+                    },
+                    "params": null,
+                    "template_args": null,
+                    "exceptions": null
+                },
+                {
+                    "kind": "Method",
+                    "id": 0,
+                    "short_name": "get_number",
+                    "qualified_name": "mimpl::Number::get_number",
+                    "in_binding": true,
+                    "in_library": false,
+                    "noexcept": false,
+                    "definition": "",
+                    "static": false,
+                    "user_provided": true,
+                    "const": true,
+                    "virtual": false,
+                    "overloaded_operator": false,
+                    "copy_assignment_operator": false,
+                    "move_assignment_operator": false,
+                    "constructor": false,
+                    "copy_constructor": false,
+                    "move_constructor": false,
+                    "conversion_decl": false,
+                    "destructor": false,
+                    "attributes": null,
+                    "comment": "",
+                    "return": {
+                        "kind": "BuiltinType",
+                        "id": 1,
+                        "type": "int",
+                        "const": false
+                    },
+                    "params": null,
+                    "template_args": null,
+                    "exceptions": null
+                }
+            ]
+        },
+        {
+            "kind": "Function",
+            "id": 9,
+            "short_name": "Number_do_get_number_impl",
+            "qualified_name": "Number_do_get_number_impl",
+            "in_binding": false,
+            "in_library": false,
+            "noexcept": false,
+            "definition": "aW50IE51bWJlcl9kb19nZXRfbnVtYmVyX2ltcGwoY29uc3QgOjptaW1wbDo6TnVtYmVyJiBzZWxmKSAgewogICAgcmV0dXJuIHNlbGYuZ2V0X251bWJlcigpOwp9",
+            "attributes": [
+                "cppmm|impl",
+                "cppmm|rename|Number_do_get_number"
+            ],
+            "comment": "",
+            "namespaces": [],
+            "return": {
+                "kind": "BuiltinType",
+                "id": 1,
+                "type": "int",
+                "const": false
+            },
+            "params": [
+                {
+                    "index": 0,
+                    "name": "self",
+                    "type": {
+                        "kind": "Reference",
+                        "id": 8,
+                        "type": "const class mimpl::Number &",
+                        "pointee": {
+                            "kind": "RecordType",
+                            "id": 7,
+                            "type": "mimpl::Number",
+                            "record": 4,
+                            "const": true
+                        },
+                        "const": false
+                    },
+                    "attrs": []
+                }
+            ],
+            "template_args": null,
+            "exceptions": null
+        }
+    ]
+}
