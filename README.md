@@ -145,7 +145,7 @@ extern "C" {
 
 
 ## Quick start
-You must have LLVM and clang installed. I've tested it with llvm 10.0.1 and 11.0.0. To run the tests you'll need USD 20.05, OIIO 2.2.8 and OpenEXR 2.5.5 installed. Other versions may work but the tests will fail as they rely on diffing the output, which will have the version numbers baked into the type names.
+You must have LLVM and clang 11.0.0 and available on your $PATH. To run the tests you'll need OpenEXR 2.5.5 installed. Other versions may work but the tests will fail as they rely on diffing the output, which will have the version numbers baked into the type names.
 
 ### Checkout
 The repository includes spdlog and nlohmann::json as submodules, so clone with `--recursive`:
@@ -174,11 +174,9 @@ make
 ```
 
 ### Test
-Some basic integration tests are in place using CTest. To run them you'll need to set the environment variables `OIIO_ROOT`, `OPENEXR_ROOT` and `USD_ROOT` to point to the relevant installations. Since the tests diff the output against reference you'll need the same versions (at least to minor versions) in order to not get spurious errors. Those versions are:
+Some basic integration tests are in place using CTest. To run them you'll need to set the environment variables `OPENEXR_ROOT` to point to the relevant installations. Since the tests diff the output against reference you'll need the same versions (at least to minor versions) in order to not get spurious errors. Those versions are:
 ```
-OpenImageIO: 2.2.8
 OpenEXR: 2.5.5
-USD: 20.05
 ```
 
 Then just run `make test` from the build directory.
