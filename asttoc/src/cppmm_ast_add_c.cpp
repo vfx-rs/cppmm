@@ -1866,8 +1866,8 @@ void to_c_copy__trivial(TranslationUnit& c_tu,
         Param("rhs", rhs, 1)};
     auto c_function = NodeFunction::n(
         function_name, PLACEHOLDER_ID, attrs, "",
-        NodeBuiltinType::n("void", 0, "void", false), std::move(params), "", "", "",
-        std::vector<NodeTypePtr>{}, std::vector<Exception>{}, false);
+        NodeBuiltinType::n("void", 0, "void", false), std::move(params), "", "",
+        "", std::vector<NodeTypePtr>{}, std::vector<Exception>{}, false);
 
     c_function->body = c_function_body;
     c_function->private_ = true;
@@ -2167,7 +2167,10 @@ void to_c_copy__constructor(TranslationUnit& c_tu, const NodeRecord& cpp_record,
 //------------------------------------------------------------------------------
 void to_c_move(TranslationUnit& c_tu, const NodeRecord& cpp_record,
                const NodeRecord& c_record) {
-    auto rhs = NodeRecordType::n("", 0, cpp_record.name, cpp_record.id, false);
+    auto rhs_inner =
+        NodeRecordType::n("", 0, cpp_record.name, cpp_record.id, false);
+    auto rhs =
+        NodePointerType::n(PointerKind::Pointer, std::move(rhs_inner), false);
 
     auto c_return =
         NodeRecordType::n("", 0, c_record.nice_name, c_record.id, false);
@@ -2176,12 +2179,13 @@ void to_c_move(TranslationUnit& c_tu, const NodeRecord& cpp_record,
         NodeBlockExpr::n(std::vector<NodeExprPtr>{NodePlacementNewExpr::n(
             NodeVarRefExpr::n("lhs"),
 
-            NodeFunctionCallExpr::n(cpp_record.name,
-                                    std::vector<NodeExprPtr>{NodeMoveExpr::n(
-                                        NodeVarRefExpr::n("rhs"))},
-                                    std::vector<NodeTypePtr>{}
+            NodeFunctionCallExpr::n(
+                cpp_record.name,
+                std::vector<NodeExprPtr>{
+                    NodeMoveExpr::n(NodeDerefExpr::n(NodeVarRefExpr::n("rhs")))},
+                std::vector<NodeTypePtr>{}
 
-                                    ))});
+                ))});
 
     auto lhs =
         NodePointerType::n(PointerKind::Pointer, std::move(c_return), false);

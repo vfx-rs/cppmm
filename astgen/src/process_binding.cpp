@@ -1024,6 +1024,24 @@ bool is_public_copy_ctor(const Decl* cmd) {
     }
 }
 
+bool is_inaccessible_copy_ctor(const Decl* cmd) {
+    if (const CXXConstructorDecl* cd = dyn_cast<CXXConstructorDecl>(cmd)) {
+        return cd->isCopyConstructor() && (cd->getAccess() != AS_public ||
+               cd->isDeleted());
+    } else {
+        return false;
+    }
+}
+
+bool is_inaccessible_move_ctor(const Decl* cmd) {
+    if (const CXXConstructorDecl* cd = dyn_cast<CXXConstructorDecl>(cmd)) {
+        return cd->isMoveConstructor() && (cd->getAccess() != AS_public ||
+               cd->isDeleted());
+    } else {
+        return false;
+    }
+}
+
 bool is_public_move_ctor(const Decl* cmd) {
     if (const CXXConstructorDecl* cd = dyn_cast<CXXConstructorDecl>(cmd)) {
         SPDLOG_DEBUG("ctor {}", cd->getQualifiedNameAsString());
@@ -1041,9 +1059,13 @@ void has_public_copy_move_ctor(const CXXRecordDecl* crd,
                                bool& has_public_copy_ctor,
                                bool& has_public_move_ctor) {
     for (const Decl* d : crd->decls()) {
-        has_public_copy_ctor |= is_public_copy_ctor(d);
-        has_public_move_ctor |= is_public_move_ctor(d);
+        // has_public_copy_ctor |= is_public_copy_ctor(d);
+        // has_public_move_ctor |= is_public_move_ctor(d);
+        has_public_copy_ctor |= is_inaccessible_copy_ctor(d);
+        has_public_move_ctor |= is_inaccessible_move_ctor(d);
     }
+    has_public_copy_ctor = !has_public_copy_ctor;
+    has_public_move_ctor = !has_public_move_ctor;
 }
 
 std::vector<std::string> get_properties(const std::vector<std::string>& attrs) {

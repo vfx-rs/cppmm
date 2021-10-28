@@ -1,13 +1,13 @@
 #pragma once
 
 #define CPPMM_MAJOR_VERSION 0
-#define CPPMM_MINOR_VERSION 9
+#define CPPMM_MINOR_VERSION 10
 #define CPPMM_PATCH_VERSION 0
 
 namespace cppmm {
 
 inline const char* version() {
-    return "0.9.0";
+    return "0.10.0";
 }
 
 }
