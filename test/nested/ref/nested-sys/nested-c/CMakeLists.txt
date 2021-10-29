@@ -38,6 +38,8 @@ target_include_directories(${LIBNAME} PRIVATE /home/anders/code/cppmm/test/neste
 target_include_directories(${LIBNAME}-shared PRIVATE /home/anders/code/cppmm/test/nested/include)
 target_include_directories(${LIBNAME} PRIVATE include)
 target_include_directories(${LIBNAME}-shared PRIVATE include)
+target_include_directories(${LIBNAME} PRIVATE private)
+target_include_directories(${LIBNAME}-shared PRIVATE private)
 target_include_directories(${LIBNAME} PRIVATE src)
 target_include_directories(${LIBNAME}-shared PRIVATE src)
 install(TARGETS ${LIBNAME} DESTINATION ${CMAKE_INSTALL_PREFIX})

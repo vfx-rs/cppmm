@@ -2,6 +2,7 @@
 #include "pystring.h"
 #include "clang/AST/ASTContext.h"
 #include "clang/AST/Decl.h"
+#include "clang/AST/PrettyPrinter.h"
 #include "clang/AST/DeclCXX.h"
 #include "clang/AST/DeclTemplate.h"
 #include "clang/AST/GlobalDecl.h"
@@ -10,6 +11,7 @@
 #include "clang/ASTMatchers/ASTMatchers.h"
 #include "clang/Basic/LLVM.h"
 #include "llvm/Support/Casting.h"
+#include "llvm/Support/raw_ostream.h"
 #include <cassert>
 #include <cstdint>
 #include <memory>
@@ -28,6 +30,7 @@ namespace fs = ghc::filesystem;
 
 #include "ast.hpp"
 #include "ast_utils.hpp"
+#include "base64.hpp"
 
 using namespace clang;
 using namespace clang::ast_matchers;
@@ -131,7 +134,7 @@ QType process_qtype(const QualType& qt) {
         NodeId id;
         if (it == NODE_MAP.end()) {
             const ConstantArrayType* cat =
-                dyn_cast<ConstantArrayType>(qt.getTypePtr());
+                dyn_cast<ConstantArrayType>(qt.getCanonicalType().getTypePtr());
             QType element_type = process_qtype(cat->getElementType());
             id = NODES.size();
             auto node_type = std::make_unique<NodeConstantArrayType>(
@@ -157,13 +160,12 @@ QType process_qtype(const QualType& qt) {
         const std::string pointer_type_name =
             qt.getCanonicalType().getAsString();
         const std::string pointer_type_node_name = "TYPE:" + pointer_type_name;
-        
+
         auto it = NODE_MAP.find(pointer_type_name);
         NodeId id;
         if (it == NODE_MAP.end()) {
             // need to create the pointer type, create the pointee type first
-            QType pointee_qtype =
-                process_qtype(qt->getPointeeType());
+            QType pointee_qtype = process_qtype(qt->getPointeeType());
 
             // now create the pointer type
             id = NODES.size();
@@ -203,7 +205,7 @@ QType process_qtype(const QualType& qt) {
             type_node_name = "TYPE:" + mangled_name;
         }
 
-        // FIXME: hack to work around unsigned long being different sizes on 
+        // FIXME: hack to work around unsigned long being different sizes on
         // windows and *nix
         if (qt->isBuiltinType() && type_name == "unsigned long") {
             const auto* tdt = qt->getAs<TypedefType>();
@@ -213,13 +215,15 @@ QType process_qtype(const QualType& qt) {
             } else if (tdt && tdt->getDecl()->getNameAsString() == "size_t") {
                 type_name = "size_t";
                 type_node_name = "TYPE:size_t";
-            } else if (tdt && tdt->getDecl()->getNameAsString() == "size_type") {
+            } else if (tdt &&
+                       tdt->getDecl()->getNameAsString() == "size_type") {
                 // FIXME: Nasty hack here to get e.g. std::string::size_type
                 // will this bite us?
                 type_name = "size_t";
                 type_node_name = "TYPE:size_t";
             } else if (tdt) {
-                /* SPDLOG_WARN("Unhandled unsigned long typedef {}", tdt->getDecl()->getNameAsString()); */
+                /* SPDLOG_WARN("Unhandled unsigned long typedef {}",
+                 * tdt->getDecl()->getNameAsString()); */
                 // If we're some other typedef of unsigned long, try desugaring
                 // recursively until we get to a typedef we can handle
                 QualType ds_type = tdt->desugar();
@@ -230,7 +234,8 @@ QType process_qtype(const QualType& qt) {
             if (tdt && tdt->getDecl()->getNameAsString() == "int64_t") {
                 type_name = "int64_t";
                 type_node_name = "TYPE:int64_t";
-            } else if (tdt && tdt->getDecl()->getNameAsString() == "ptrdiff_t") {
+            } else if (tdt &&
+                       tdt->getDecl()->getNameAsString() == "ptrdiff_t") {
                 type_name = "ptrdiff_t";
                 type_node_name = "TYPE:ptrdiff_t";
             }
@@ -450,9 +455,18 @@ bool has_noexcept_attr(const std::vector<std::string>& attrs) {
            attrs.end();
 }
 
-bool has_manual_attr(const std::vector<std::string>& attrs) {
-    return std::find(attrs.begin(), attrs.end(), "cppmm|manual") !=
+bool has_copy_ctor_attr(const std::vector<std::string>& attrs) {
+    return std::find(attrs.begin(), attrs.end(), "cppmm|copy_constructor") !=
            attrs.end();
+}
+
+bool has_move_ctor_attr(const std::vector<std::string>& attrs) {
+    return std::find(attrs.begin(), attrs.end(), "cppmm|move_constructor") !=
+           attrs.end();
+}
+
+bool has_manual_attr(const std::vector<std::string>& attrs) {
+    return std::find(attrs.begin(), attrs.end(), "cppmm|manual") != attrs.end();
 }
 
 /// Create a new node for the given method decl and return it
@@ -1003,6 +1017,10 @@ bool has_opaquebytes_attr(const std::vector<std::string>& attrs) {
            attrs.end();
 }
 
+bool has_impl_attr(const std::vector<std::string>& attrs) {
+    return std::find(attrs.begin(), attrs.end(), "cppmm|impl") != attrs.end();
+}
+
 bool is_public_copy_ctor(const Decl* cmd) {
     if (const CXXConstructorDecl* cd = dyn_cast<CXXConstructorDecl>(cmd)) {
         SPDLOG_DEBUG("ctor {}", cd->getQualifiedNameAsString());
@@ -1011,6 +1029,24 @@ bool is_public_copy_ctor(const Decl* cmd) {
         SPDLOG_DEBUG("    is deleted: {}", cd->isDeleted());
         return cd->isCopyConstructor() && cd->getAccess() == AS_public &&
                !cd->isDeleted();
+    } else {
+        return false;
+    }
+}
+
+bool is_inaccessible_copy_ctor(const Decl* cmd) {
+    if (const CXXConstructorDecl* cd = dyn_cast<CXXConstructorDecl>(cmd)) {
+        return cd->isCopyConstructor() && (cd->getAccess() != AS_public ||
+               cd->isDeleted());
+    } else {
+        return false;
+    }
+}
+
+bool is_inaccessible_move_ctor(const Decl* cmd) {
+    if (const CXXConstructorDecl* cd = dyn_cast<CXXConstructorDecl>(cmd)) {
+        return cd->isMoveConstructor() && (cd->getAccess() != AS_public ||
+               cd->isDeleted());
     } else {
         return false;
     }
@@ -1029,13 +1065,63 @@ bool is_public_move_ctor(const Decl* cmd) {
     }
 }
 
+bool has_forbidden_copy_ctor(const CXXRecordDecl* crd) {
+    for (const Decl* d: crd->decls()) {
+        if (is_inaccessible_copy_ctor(d)) {
+            return true;
+        }
+    }
+
+
+    for (const auto base : crd->bases()) {
+        if (const CXXRecordDecl* base_crd =
+                base.getType()->getAsCXXRecordDecl()) {
+            if (has_forbidden_copy_ctor(base_crd)) {
+                return true;
+            }
+        }
+    }
+    
+    return false;
+}
+
+bool has_forbidden_move_ctor(const CXXRecordDecl* crd) {
+    for (const Decl* d: crd->decls()) {
+        if (is_inaccessible_move_ctor(d)) {
+            return true;
+        }
+    }
+
+
+    for (const auto base : crd->bases()) {
+        if (const CXXRecordDecl* base_crd =
+                base.getType()->getAsCXXRecordDecl()) {
+            if (has_forbidden_move_ctor(base_crd)) {
+                return true;
+            }
+        }
+    }
+    
+    return false;
+}
+
 void has_public_copy_move_ctor(const CXXRecordDecl* crd,
                                bool& has_public_copy_ctor,
                                bool& has_public_move_ctor) {
-    for (const Decl* d : crd->decls()) {
-        has_public_copy_ctor |= is_public_copy_ctor(d);
-        has_public_move_ctor |= is_public_move_ctor(d);
-    }
+    // for (const Decl* d : crd->decls()) {
+    //     // has_public_copy_ctor |= is_public_copy_ctor(d);
+    //     // has_public_move_ctor |= is_public_move_ctor(d);
+    //     has_public_copy_ctor |= is_inaccessible_copy_ctor(d);
+    //     has_public_move_ctor |= is_inaccessible_move_ctor(d);
+    // }
+    // has_public_copy_ctor = !has_public_copy_ctor;
+    // has_public_move_ctor = !has_public_move_ctor;
+
+    // has_public_copy_ctor = crd->hasTrivialCopyConstructor() || crd->hasNonTrivialCopyConstructor();
+    has_public_move_ctor = (crd->hasTrivialMoveConstructor() || crd->hasNonTrivialMoveConstructor()) && !has_forbidden_move_ctor(crd);
+
+    has_public_copy_ctor = !has_forbidden_copy_ctor(crd);
+    // has_public_move_ctor = !has_forbidden_move_ctor(crd);
 }
 
 std::vector<std::string> get_properties(const std::vector<std::string>& attrs) {
@@ -1192,9 +1278,12 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
         for (NodePtr& method : binding_methods) {
             NodeMethod* mptr = (NodeMethod*)method.get();
             if (has_manual_attr(mptr->attrs)) {
-                mptr->in_binding = true;           
+                mptr->in_binding = true;
                 mptr->is_noexcept |= has_noexcept_attr(mptr->attrs);
                 function_map[mptr->_function_id] = mptr;
+
+                mptr->is_copy_constructor = has_copy_ctor_attr(mptr->attrs);
+                mptr->is_move_constructor = has_move_ctor_attr(mptr->attrs);
 
                 NodeId id = NODES.size();
                 NODE_MAP[method->qualified_name] = id;
@@ -1213,16 +1302,16 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
                                 record_name, node_tu->qualified_name, *m);
                 }
             }
+        }
 
-            for (const auto& n : binding_methods) {
-                const auto* m = (NodeMethod*)n.get();
-                if (m && m->is_user_provided && !m->in_library &&
-                    !m->is_deleted && !has_manual_attr(m->attrs)) {
-                    SPDLOG_WARN("[{}]({}) - \n"
-                                "{} is declared in the binding but not present "
-                                "in the library",
-                                record_name, node_tu->qualified_name, *m);
-                }
+        for (const auto& n : binding_methods) {
+            const auto* m = (NodeMethod*)n.get();
+            if (m && m->is_user_provided && !m->in_library && !m->is_deleted &&
+                !has_manual_attr(m->attrs)) {
+                SPDLOG_WARN("[{}]({}) - \n"
+                            "{} is declared in the binding but not present "
+                            "in the library",
+                            record_name, node_tu->qualified_name, *m);
             }
         }
 
@@ -1285,7 +1374,14 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
 void handle_cxx_record_decl(const CXXRecordDecl* crd) {
     ASTContext& ctx = crd->getASTContext();
     SourceManager& sm = ctx.getSourceManager();
-    const auto& loc = crd->getLocation();
+    auto loc = crd->getLocation();
+
+    // we don't care about locations in macros, we always want their expansions
+    // if we're using macros to generate functions
+    if (loc.isMacroID()) {
+        auto range = sm.getExpansionRange(loc);
+        loc = range.getBegin();
+    }
 
     const auto mng_ctx = ctx.createMangleContext();
 
@@ -1415,7 +1511,13 @@ void handle_binding_function(const FunctionDecl* fd) {
 
     ASTContext& ctx = fd->getASTContext();
     SourceManager& sm = ctx.getSourceManager();
-    const auto& loc = fd->getLocation();
+    auto loc = fd->getLocation();
+    // we don't care about locations in macros, we always want their expansions
+    // if we're using macros to generate functions
+    if (loc.isMacroID()) {
+        auto range = sm.getExpansionRange(loc);
+        loc = range.getBegin();
+    }
     std::string filename = sm.getFilename(loc).str();
 
     // Get the translation unit node we're going to add this Function to
@@ -1428,6 +1530,29 @@ void handle_binding_function(const FunctionDecl* fd) {
     process_function_parameters(fd, return_qtype, params);
     auto exceptions = get_exceptions(attrs);
 
+    // If we've marked the function as being an implementation with CPPMM_IMPL,
+    // and it has a valid function body, grab the entire function definition,
+    // base64-encode it and bung it into NodeFunction, then add the node to the
+    // translation unit. It will then be picked up in asttoc, and the function
+    // body spat out as an inline function that asttoc will wrap.
+    std::string body;
+    if (has_impl_attr(attrs)) {
+        if (fd->isThisDeclarationADefinition()) {
+            std::string s;
+            llvm::raw_string_ostream sos(s);
+            fd->print(sos);
+
+            auto function_spelling = s;
+            auto remove_macro = ps::replace(function_spelling, "__attribute__((annotate(\"cppmm|impl\")))", "");
+            auto rename_function = ps::replace(remove_macro, function_short_name + "(", function_short_name + "_impl(");
+            body = base64::base64_encode(rename_function);
+
+        } else {
+            SPDLOG_ERROR("Function {} marked as impl but could not get body",
+                         fd->getQualifiedNameAsString());
+        }
+    }
+
     const std::vector<NodeId> namespaces =
         get_namespaces(fd->getParent(), node_tu);
 
@@ -1437,12 +1562,35 @@ void handle_binding_function(const FunctionDecl* fd) {
         function_short_name, return_qtype, std::move(params),
         std::move(namespaces), get_comment_base64(fd), std::move(exceptions));
 
-    SPDLOG_DEBUG("Adding binding function {}", node_function);
+    node_function.definition = body;
 
-    if (it != binding_functions.end()) {
-        it->second.emplace_back(std::move(node_function));
+    if (body.empty()) {
+        if (it != binding_functions.end()) {
+            it->second.emplace_back(std::move(node_function));
+        } else {
+            binding_functions[function_qual_name] = {node_function};
+        }
     } else {
-        binding_functions[function_qual_name] = {node_function};
+        // Rename our function to _impl and give the original name to the C 
+        // function as an alias
+        node_function.attrs.push_back("cppmm|rename|" + node_function.short_name);
+        node_function.short_name = node_function.short_name + "_impl";
+        node_function.qualified_name = node_function.qualified_name + "_impl";
+
+        auto fnptr =
+            std::make_unique<NodeFunction>(std::move(node_function));
+        NodeId id = NODES.size();
+        fnptr->id = id;
+        // add the function to its TU
+        auto* node_tu =
+            (NodeTranslationUnit*)NODES.at(node_function.context).get();
+        // process the namespaces again to make sure we've got the
+        // namespaces in the TU
+        const std::vector<NodeId> namespaces =
+            get_namespaces(fd->getParent(), node_tu);
+        fnptr->context = node_tu->id;
+        node_tu->children.push_back(id);
+        NODES.emplace_back(std::move(fnptr));
     }
 }
 

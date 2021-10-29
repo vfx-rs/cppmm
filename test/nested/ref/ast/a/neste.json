@@ -61,6 +61,7 @@
                     "in_binding": true,
                     "in_library": false,
                     "noexcept": false,
+                    "definition": "",
                     "static": false,
                     "user_provided": true,
                     "const": false,

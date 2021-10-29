@@ -1,11 +1,13 @@
 #pragma once
 #include "uniqueptr-api-export.h"
 
-#include <uptr.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+typedef struct std__unique_ptr_foo__Foo__t_s std__unique_ptr_foo__Foo__t;
+typedef std__unique_ptr_foo__Foo__t std_FooPtr_t;
 
 typedef struct foo__Foo_t_s {
     char _unused;

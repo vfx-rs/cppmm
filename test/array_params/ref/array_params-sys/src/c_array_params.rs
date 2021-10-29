@@ -16,7 +16,7 @@ pub struct imath__Matrix44_float__t {
 
 extern "C" {
 
-pub fn imath__Matrix44_float__from_array(this_: *mut imath_M44f_t, a: *const c_float) -> Exception;
+pub fn imath__Matrix44_float__from_array(this_: *mut imath_M44f_t, a: *mut c_float) -> Exception;
 
 
 } // extern "C"

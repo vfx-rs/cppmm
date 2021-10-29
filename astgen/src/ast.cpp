@@ -256,6 +256,7 @@ void NodeFunction::write_json_attrs(json& o) const {
     o["in_binding"] = in_binding;
     o["in_library"] = in_library;
     o["noexcept"] = is_noexcept;
+    o["definition"] = definition;
 }
 
 void NodeFunction::write_parameters_json(json& o) const {

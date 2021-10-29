@@ -7,11 +7,6 @@
 extern "C" {
 #endif
 
-typedef struct Imath_2_5__Vec3_float__t_s Imath_2_5__Vec3_float__t;
-typedef Imath_2_5__Vec3_float__t Imath_V3f_t;
-typedef struct Imath_2_5__Vec3_int__t_s Imath_2_5__Vec3_int__t;
-typedef Imath_2_5__Vec3_int__t Imath_V3i_t;
-
 typedef struct Imath_2_5__Box_Imath__Vec3_float___t_s {
     Imath_V3f_t min;
     Imath_V3f_t max;

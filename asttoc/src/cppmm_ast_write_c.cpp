@@ -564,6 +564,10 @@ void write_function_bdy(fmt::ostream& out, const NodePtr& node, Access access,
     if (private_ == function.private_) {
         wrote_anything = true;
 
+        if (!function.definition.empty()) {
+            out.print("inline {}\n\n", function.definition);
+        }
+
         if (function.inline_) {
             out.print("inline ");
         }
