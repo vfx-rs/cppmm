@@ -5,9 +5,14 @@ namespace cppmm_bind {
 
 namespace foo {
 
-class PublicDerived { using BoundType = ::foo::PublicDerived; };
-class PrivateDerived { using BoundType = ::foo::PrivateDerived; };
-class DeletedDerived { using BoundType = ::foo::DeletedDerived; };
+struct PublicDerived { 
+    using BoundType = ::foo::PublicDerived; 
+
+    PublicDerived(const ::foo::PublicDerived&) CPPMM_MANUAL CPPMM_COPY_CTOR;
+};
+
+// class PrivateDerived { using BoundType = ::foo::PrivateDerived; };
+// class DeletedDerived { using BoundType = ::foo::DeletedDerived; };
 
 }
 

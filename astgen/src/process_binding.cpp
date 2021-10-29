@@ -455,6 +455,16 @@ bool has_noexcept_attr(const std::vector<std::string>& attrs) {
            attrs.end();
 }
 
+bool has_copy_ctor_attr(const std::vector<std::string>& attrs) {
+    return std::find(attrs.begin(), attrs.end(), "cppmm|copy_constructor") !=
+           attrs.end();
+}
+
+bool has_move_ctor_attr(const std::vector<std::string>& attrs) {
+    return std::find(attrs.begin(), attrs.end(), "cppmm|move_constructor") !=
+           attrs.end();
+}
+
 bool has_manual_attr(const std::vector<std::string>& attrs) {
     return std::find(attrs.begin(), attrs.end(), "cppmm|manual") != attrs.end();
 }
@@ -1055,17 +1065,63 @@ bool is_public_move_ctor(const Decl* cmd) {
     }
 }
 
+bool has_forbidden_copy_ctor(const CXXRecordDecl* crd) {
+    for (const Decl* d: crd->decls()) {
+        if (is_inaccessible_copy_ctor(d)) {
+            return true;
+        }
+    }
+
+
+    for (const auto base : crd->bases()) {
+        if (const CXXRecordDecl* base_crd =
+                base.getType()->getAsCXXRecordDecl()) {
+            if (has_forbidden_copy_ctor(base_crd)) {
+                return true;
+            }
+        }
+    }
+    
+    return false;
+}
+
+bool has_forbidden_move_ctor(const CXXRecordDecl* crd) {
+    for (const Decl* d: crd->decls()) {
+        if (is_inaccessible_move_ctor(d)) {
+            return true;
+        }
+    }
+
+
+    for (const auto base : crd->bases()) {
+        if (const CXXRecordDecl* base_crd =
+                base.getType()->getAsCXXRecordDecl()) {
+            if (has_forbidden_move_ctor(base_crd)) {
+                return true;
+            }
+        }
+    }
+    
+    return false;
+}
+
 void has_public_copy_move_ctor(const CXXRecordDecl* crd,
                                bool& has_public_copy_ctor,
                                bool& has_public_move_ctor) {
-    for (const Decl* d : crd->decls()) {
-        // has_public_copy_ctor |= is_public_copy_ctor(d);
-        // has_public_move_ctor |= is_public_move_ctor(d);
-        has_public_copy_ctor |= is_inaccessible_copy_ctor(d);
-        has_public_move_ctor |= is_inaccessible_move_ctor(d);
-    }
-    has_public_copy_ctor = !has_public_copy_ctor;
-    has_public_move_ctor = !has_public_move_ctor;
+    // for (const Decl* d : crd->decls()) {
+    //     // has_public_copy_ctor |= is_public_copy_ctor(d);
+    //     // has_public_move_ctor |= is_public_move_ctor(d);
+    //     has_public_copy_ctor |= is_inaccessible_copy_ctor(d);
+    //     has_public_move_ctor |= is_inaccessible_move_ctor(d);
+    // }
+    // has_public_copy_ctor = !has_public_copy_ctor;
+    // has_public_move_ctor = !has_public_move_ctor;
+
+    // has_public_copy_ctor = crd->hasTrivialCopyConstructor() || crd->hasNonTrivialCopyConstructor();
+    has_public_move_ctor = (crd->hasTrivialMoveConstructor() || crd->hasNonTrivialMoveConstructor()) && !has_forbidden_move_ctor(crd);
+
+    has_public_copy_ctor = !has_forbidden_copy_ctor(crd);
+    // has_public_move_ctor = !has_forbidden_move_ctor(crd);
 }
 
 std::vector<std::string> get_properties(const std::vector<std::string>& attrs) {
@@ -1225,6 +1281,9 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
                 mptr->in_binding = true;
                 mptr->is_noexcept |= has_noexcept_attr(mptr->attrs);
                 function_map[mptr->_function_id] = mptr;
+
+                mptr->is_copy_constructor = has_copy_ctor_attr(mptr->attrs);
+                mptr->is_move_constructor = has_move_ctor_attr(mptr->attrs);
 
                 NodeId id = NODES.size();
                 NODE_MAP[method->qualified_name] = id;

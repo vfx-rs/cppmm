@@ -4,9 +4,9 @@ namespace foo {
 
 class PublicBase {
 public:
-    PublicBase(){}
-    PublicBase(const PublicBase&){};
-    PublicBase(PublicBase&&){};
+    // PublicBase(){}
+    // PublicBase(const PublicBase&){};
+    // PublicBase(PublicBase&&){};
 };
 
 class PrivateBase {
