@@ -423,7 +423,9 @@ void add_record_declaration(TranslationUnit& c_tu, const NodePtr& node_ptr,
                 c_tu.header_includes.insert(r_tu->header_filename);
             }
             */
-            if (bind_type(record) == BindType::ValueType) {
+            auto record_bind_type = bind_type(record);
+            if (record_bind_type == BindType::ValueType ||
+                record_bind_type == BindType::OpaqueBytes) {
                 // insert header for value type
                 c_tu.header_includes.insert(r_tu->header_filename);
             } else {
