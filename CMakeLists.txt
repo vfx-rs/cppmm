@@ -21,7 +21,7 @@ set(CMAKE_INSTALL_MESSAGE LAZY)
 
 # LLVM is normally built without RTTI. Be consistent with that.
 if(NOT LLVM_ENABLE_RTTI)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-rtti")
+  add_compile_options(-fno-rtti)
 endif()
 
 # Configure version header and rez package manifest
