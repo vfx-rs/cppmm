@@ -8,8 +8,11 @@ set(CPPMM_MINOR_VERSION 11)
 set(CPPMM_PATCH_VERSION 0)
 set(CPPMM_VERSION "${CPPMM_MAJOR_VERSION}.${CPPMM_MINOR_VERSION}.${CPPMM_PATCH_VERSION}")
 
-set(LLVM_ROOT $ENV{LLVM_ROOT})
-set(CMAKE_PREFIX_PATH "${LLVM_ROOT}/lib/cmake/clang")
+# Allow find_package to use <package>_ROOT variables when finding packages.
+if (POLICY CMP0074)
+    cmake_policy(SET CMP0074 NEW)
+endif()
+
 find_package(Clang REQUIRED CONFIG)
 
 # Use the same C++ standard as LLVM does
