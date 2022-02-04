@@ -880,6 +880,7 @@ struct NodeTypedefNameDecl : public NodeAttributeHolder {
 };
 
 void NodeTranslationUnit::write(std::ostream& os, int depth) const {
+    os << "#if 0\n";
     os << "#include <" << source_includes[0] << ">\n";
     os << "#include <cppmm_bind.hpp>\n\n";
     os << "namespace cppmm_bind {\n\n";
@@ -905,6 +906,7 @@ void NodeTranslationUnit::write(std::ostream& os, int depth) const {
                << ">;\n";
         }
     }
+    os << "#endif\n";
 }
 
 std::string get_comment(const clang::Decl* decl) {
