@@ -1194,6 +1194,9 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
     bool is_abstract = false;
     bool ignore_unbound = has_ignore_unbound_attr(attrs);
 
+    bool has_public_copy_ctor = false;
+    bool has_public_move_ctor = false;
+
     if (!is_opaquetype) {
         // We can only get the detailed info here for a non-opaque type
         // Get the size and alignment of the Record
@@ -1220,11 +1223,9 @@ void process_concrete_record(const CXXRecordDecl* crd, std::string filename,
             }
             is_abstract = crd->isAbstract();
         }
-    }
 
-    bool has_public_copy_ctor = false;
-    bool has_public_move_ctor = false;
-    has_public_copy_move_ctor(crd, has_public_copy_ctor, has_public_move_ctor);
+        has_public_copy_move_ctor(crd, has_public_copy_ctor, has_public_move_ctor);
+    }
 
     // Add the new Record node
     NodeId new_id = NODES.size();
