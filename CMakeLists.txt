@@ -28,10 +28,13 @@ if(NOT LLVM_ENABLE_RTTI)
 endif()
 
 # Configure version header and rez package manifest
-configure_file(include/cppmm_config.hpp.in ${CMAKE_SOURCE_DIR}/include/cppmm_config.hpp)
-configure_file(package.py.in ${CMAKE_SOURCE_DIR}/package.py)
-install(FILES package.py DESTINATION ${CMAKE_INSTALL_PREFIX})
-
+option(CPPMM_INCLUDE_REZ "Install package.py for rez" OFF)
+set(CPPMM_REZ_DIR ${CMAKE_INSTALL_PREFIX} CACHE STRING "Install path for package.py")
+if (CPPMM_INCLUDE_REZ)
+    configure_file(include/cppmm_config.hpp.in ${CMAKE_SOURCE_DIR}/include/cppmm_config.hpp)
+    configure_file(package.py.in ${CMAKE_SOURCE_DIR}/package.py)
+    install(FILES package.py DESTINATION ${CPPMM_REZ_DIR})
+endif()
 
 add_subdirectory(spdlog)
 add_subdirectory(json)
