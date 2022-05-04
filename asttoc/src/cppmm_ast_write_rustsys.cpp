@@ -660,6 +660,10 @@ regex = "^1.5"
 quick-xml = "0.22"
 
 [dependencies]
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+
 )",
                     project_name, version_major, version_minor, version_patch);
 
