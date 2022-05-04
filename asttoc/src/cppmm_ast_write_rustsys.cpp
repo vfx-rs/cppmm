@@ -669,6 +669,11 @@ quick-xml = "0.22"
     auto build_rs = fmt::output_file((fs::path(out_dir) / "build.rs").string());
     build_rs.print(R"#(
 fn main() {{
+    // Skip linking on docs.rs: https://docs.rs/about/builds#detecting-docsrs
+    let building_docs = std::env::var("DOCS_RS").is_ok();
+    if building_docs {{
+        return;
+    }}
     let dst = cmake::Config::new("{0}").build();
     println!("cargo:rustc-link-search=native={{}}", dst.display());
     println!("cargo:rustc-link-lib=dylib={1}-c-{2}_{3}");
