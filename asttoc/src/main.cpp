@@ -44,6 +44,9 @@ static cl::opt<std::string> opt_c_cmake_dir(
              "Defaults to <out-dir>/<lib>-sys/<lib>-c."));
 
 static cl::list<std::string>
+    opt_author("author", cl::desc("Specify authors for Cargo.toml."), cl::ZeroOrMore);
+
+static cl::list<std::string>
     opt_lib("l", cl::desc("Library that bindings link to."), cl::ZeroOrMore);
 
 static cl::list<std::string>
@@ -86,6 +89,7 @@ void generate(const char* input, const char* project_name,
               const cppmm::LibDirs& lib_dirs,
               const std::vector<std::string>& find_packages,
               const std::vector<std::string>& target_link_libraries,
+              const std::vector<std::string>& authors,
               int version_major, int version_minor, int version_patch) {
     const std::string input_directory = input;
     const std::string output_directory = output;
@@ -137,8 +141,8 @@ void generate(const char* input, const char* project_name,
     std::string c_dir = pystring::os::path::abspath(output_directory, cwd);
 
     cppmm::rust_sys::write(rust_output, project_name, c_dir.c_str(), c_cmake_dir,
-                           cpp_ast, starting_point, libs, lib_dirs, version_major,
-                           version_minor, version_patch);
+                           cpp_ast, starting_point, libs, lib_dirs,
+                           authors, version_major, version_minor, version_patch);
 }
 
 int main(int argc, char** argv) {
@@ -226,10 +230,15 @@ int main(int argc, char** argv) {
     auto lib_dirs = to_vector(opt_lib_dir);
     auto find_packages = to_vector(opt_find_package);
     auto target_link_libraries = to_vector(opt_target_link_libraries);
+
+    std::vector<std::string> authors = to_vector(opt_author);
+    if (authors.empty()) {
+        authors.emplace_back(std::string("Anders Langlands <anderslanglands@gmail.com>"));
+    }
+
     generate(opt_in_dir.c_str(), project_name.c_str(), c_dir.c_str(), c_cmake_dir,
-             rust_dir.c_str(), libs, lib_dirs, find_packages,
-             target_link_libraries, opt_version_major, opt_version_minor,
-             opt_version_patch);
+             rust_dir.c_str(), libs, lib_dirs, find_packages, target_link_libraries,
+             authors, opt_version_major, opt_version_minor, opt_version_patch);
 
     return 0;
 }

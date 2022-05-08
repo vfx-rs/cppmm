@@ -491,7 +491,9 @@ void write(const char* out_dir, const char* project_name,
            const char* c_dir, const std::string& c_cmake_dir,
            const Root& root, size_t starting_point,
            const std::vector<std::string>& libs,
-           const std::vector<std::string>& lib_dirs, int version_major,
+           const std::vector<std::string>& lib_dirs,
+           const std::vector<std::string>& authors,
+           int version_major,
            int version_minor, int version_patch) {
 
     expect(starting_point < root.tus.size(),
@@ -647,12 +649,23 @@ fn it_works() {{
 mod test;
 )#");
 
+    // Generate the quoted interior of the "authors = [...]" string list.
+    std::string authors_list_str;
+    for (const auto& author : authors) {
+        if (!authors_list_str.empty()) {
+            authors_list_str += ", ";
+        }
+        authors_list_str += '"';
+        authors_list_str += author;
+        authors_list_str += '"';
+    }
+
     std::string cargo_toml =
         fmt::format(R"(
 [package]
 name = "{}-sys"
 version = "{}.{}.{}"
-authors = ["Anders Langlands <anderslanglands@gmail.com>"]
+authors = [{}]
 edition = "2018"
 
 [build-dependencies]
@@ -666,7 +679,8 @@ quick-xml = "0.22"
 targets = ["x86_64-unknown-linux-gnu"]
 
 )",
-                    project_name, version_major, version_minor, version_patch);
+                    project_name, version_major, version_minor, version_patch,
+                    authors_list_str);
 
     auto out_cargo_toml = fmt::output_file(p_cargo_toml.string());
     out_cargo_toml.print(cargo_toml);
