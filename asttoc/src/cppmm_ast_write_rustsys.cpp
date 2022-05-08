@@ -487,7 +487,8 @@ void write_modules(fs::path dir) {
     }
 }
 
-void write(const char* out_dir, const char* project_name, const char* c_dir,
+void write(const char* out_dir, const char* project_name,
+           const char* c_dir, const std::string& c_cmake_dir,
            const Root& root, size_t starting_point,
            const std::vector<std::string>& libs,
            const std::vector<std::string>& lib_dirs, int version_major,
@@ -699,7 +700,7 @@ fn main() {{
 
 
 )#",
-                   c_dir, project_name, version_major, version_minor);
+                   c_cmake_dir.c_str(), project_name, version_major, version_minor);
 
     for (const auto& d : lib_dirs) {
         build_rs.print("    println!(\"cargo:rustc-link-search=native={}\");\n",

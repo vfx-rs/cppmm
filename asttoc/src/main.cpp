@@ -38,6 +38,11 @@ static cl::opt<std::string> opt_project_name(
     "p", cl::desc("Name for the project. This will determine the name of the "
                   "generated C library and the rust crate"));
 
+static cl::opt<std::string> opt_c_cmake_dir(
+    "cmake",
+    cl::desc("Relative  path to lib-sys/lib-c to write into build.rs. "
+             "Defaults to <out-dir>/<lib>-sys/<lib>-c."));
+
 static cl::list<std::string>
     opt_lib("l", cl::desc("Library that bindings link to."), cl::ZeroOrMore);
 
@@ -75,7 +80,8 @@ template <typename T> std::vector<std::string> to_vector(const T& t) {
     return result;
 }
 
-void generate(const char* input, const char* project_name, const char* output,
+void generate(const char* input, const char* project_name,
+              const char* output, const std::string& c_cmake_dir,
               const char* rust_output, const cppmm::Libs& libs,
               const cppmm::LibDirs& lib_dirs,
               const std::vector<std::string>& find_packages,
@@ -130,8 +136,8 @@ void generate(const char* input, const char* project_name, const char* output,
     std::string cwd = fs::current_path().string();
     std::string c_dir = pystring::os::path::abspath(output_directory, cwd);
 
-    cppmm::rust_sys::write(rust_output, project_name, c_dir.c_str(), cpp_ast,
-                           starting_point, libs, lib_dirs, version_major,
+    cppmm::rust_sys::write(rust_output, project_name, c_dir.c_str(), c_cmake_dir,
+                           cpp_ast, starting_point, libs, lib_dirs, version_major,
                            version_minor, version_patch);
 }
 
@@ -177,11 +183,18 @@ int main(int argc, char** argv) {
 
     // must supply a project name
     std::string project_name;
-    if (opt_project_name != "") {
+    if (!opt_project_name.empty()) {
         project_name = opt_project_name;
     } else {
         SPDLOG_CRITICAL("Must supply a project name with the -p flag");
         return -3;
+    }
+
+    std::string c_cmake_dir;
+    if (!opt_c_cmake_dir.empty()) {
+        c_cmake_dir = opt_c_cmake_dir;
+    } else {
+        c_cmake_dir = fmt::format("{}-c", project_name);
     }
 
     // create the c and rust directories
@@ -213,7 +226,7 @@ int main(int argc, char** argv) {
     auto lib_dirs = to_vector(opt_lib_dir);
     auto find_packages = to_vector(opt_find_package);
     auto target_link_libraries = to_vector(opt_target_link_libraries);
-    generate(opt_in_dir.c_str(), project_name.c_str(), c_dir.c_str(),
+    generate(opt_in_dir.c_str(), project_name.c_str(), c_dir.c_str(), c_cmake_dir,
              rust_dir.c_str(), libs, lib_dirs, find_packages,
              target_link_libraries, opt_version_major, opt_version_minor,
              opt_version_patch);
