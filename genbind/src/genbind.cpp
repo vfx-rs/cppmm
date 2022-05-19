@@ -124,6 +124,12 @@ std::ostream& operator<<(std::ostream& os, NodeKind k) {
     case NodeKind::TemplateTypeParmType:
         os << "TemplateTypeParmType";
         break;
+    case NodeKind::TypedefNameDecl:
+        os << "TypedefNameDecl";
+        break;
+    case NodeKind::TypedefType:
+        os << "TypedefType";
+        break;
     }
     return os;
 }

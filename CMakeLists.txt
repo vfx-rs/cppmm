@@ -8,8 +8,11 @@ set(CPPMM_MINOR_VERSION 11)
 set(CPPMM_PATCH_VERSION 0)
 set(CPPMM_VERSION "${CPPMM_MAJOR_VERSION}.${CPPMM_MINOR_VERSION}.${CPPMM_PATCH_VERSION}")
 
-set(LLVM_ROOT $ENV{LLVM_ROOT})
-set(CMAKE_PREFIX_PATH "${LLVM_ROOT}/lib/cmake/clang")
+# Allow find_package to use <package>_ROOT variables when finding packages.
+if (POLICY CMP0074)
+    cmake_policy(SET CMP0074 NEW)
+endif()
+
 find_package(Clang REQUIRED CONFIG)
 
 # Use the same C++ standard as LLVM does
@@ -21,14 +24,18 @@ set(CMAKE_INSTALL_MESSAGE LAZY)
 
 # LLVM is normally built without RTTI. Be consistent with that.
 if(NOT LLVM_ENABLE_RTTI)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-rtti")
+  add_compile_options(-fno-rtti)
 endif()
 
 # Configure version header and rez package manifest
-configure_file(include/cppmm_config.hpp.in ${CMAKE_SOURCE_DIR}/include/cppmm_config.hpp)
-configure_file(package.py.in ${CMAKE_SOURCE_DIR}/package.py)
-install(FILES package.py DESTINATION ${CMAKE_INSTALL_PREFIX})
-
+option(CPPMM_INCLUDE_REZ "Install package.py for rez" OFF)
+set(CPPMM_REZ_DIR "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/rez"
+    CACHE STRING "Install path for package.py")
+if (CPPMM_INCLUDE_REZ)
+    configure_file(include/cppmm_config.hpp.in ${CMAKE_SOURCE_DIR}/include/cppmm_config.hpp)
+    configure_file(package.py.in ${CMAKE_SOURCE_DIR}/package.py)
+    install(FILES package.py DESTINATION ${CPPMM_REZ_DIR})
+endif()
 
 add_subdirectory(spdlog)
 add_subdirectory(json)
