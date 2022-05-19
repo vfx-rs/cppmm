@@ -23,6 +23,8 @@ class basic_string {
 public:
     using BoundType = std::basic_string<char>;
 
+    basic_string() = default;
+
     // We can't match against the constructor without specifying an allocator
     // parameter, but we definitely don't want to be passing that from C so
     // we could use CPPMM_IGNORE here to indicate that we allow this
