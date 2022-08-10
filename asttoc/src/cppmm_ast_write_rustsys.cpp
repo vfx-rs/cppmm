@@ -487,7 +487,7 @@ void write_modules(fs::path dir) {
     }
 }
 
-void write(const char* out_dir, const char* project_name,
+void write(const char* out_dir, const char* project_name, const char* license,
            const char* c_dir, const std::string& c_cmake_dir,
            const Root& root, size_t starting_point,
            const std::vector<std::string>& libs,
@@ -675,9 +675,11 @@ mod test;
         fmt::format(R"(
 [package]
 name = "{}-sys"
+description = "cppmm sys bindings for {}"
 version = "{}.{}.{}"
 authors = [{}]
 edition = "2021"
+license = "{}"
 
 [build-dependencies]
 cmake = "0.1"
@@ -691,8 +693,9 @@ targets = ["x86_64-unknown-linux-gnu"]
 rustc-args = ["--cfg", "docsrs"]
 
 )",
-                    project_name, version_major, version_minor, version_patch,
-                    authors_list_str);
+                    project_name, project_name,
+                    version_major, version_minor, version_patch,
+                    authors_list_str, license);
 
     auto out_cargo_toml = fmt::output_file(p_cargo_toml.string());
     out_cargo_toml.print(cargo_toml);

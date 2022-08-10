@@ -11,7 +11,7 @@ namespace cppmm {
 class Root;
 
 namespace rust_sys {
-void write(const char* out_dir, const char* project_name,
+void write(const char* out_dir, const char* project_name, const char* license,
            const char* c_dir, const std::string& c_cmake_dir,
            const Root& root, size_t starting_point,
            const std::vector<std::string>& libs,

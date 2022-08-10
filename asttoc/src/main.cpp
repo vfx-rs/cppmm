@@ -38,6 +38,11 @@ static cl::opt<std::string> opt_project_name(
     "p", cl::desc("Name for the project. This will determine the name of the "
                   "generated C library and the rust crate"));
 
+static cl::opt<std::string> opt_license(
+    "license",
+    cl::desc("License for the project. This will be written into the "
+             "generated Cargo.toml for the sys rust crate"));
+
 static cl::opt<std::string> opt_c_cmake_dir(
     "cmake",
     cl::desc("Relative  path to lib-sys/lib-c to write into build.rs. "
@@ -83,7 +88,7 @@ template <typename T> std::vector<std::string> to_vector(const T& t) {
     return result;
 }
 
-void generate(const char* input, const char* project_name,
+void generate(const char* input, const char* project_name, const char* license,
               const char* output, const std::string& c_cmake_dir,
               const char* rust_output, const cppmm::Libs& libs,
               const cppmm::LibDirs& lib_dirs,
@@ -140,7 +145,8 @@ void generate(const char* input, const char* project_name,
     std::string cwd = fs::current_path().string();
     std::string c_dir = pystring::os::path::abspath(output_directory, cwd);
 
-    cppmm::rust_sys::write(rust_output, project_name, c_dir.c_str(), c_cmake_dir,
+    cppmm::rust_sys::write(rust_output, project_name, license,
+                           c_dir.c_str(), c_cmake_dir,
                            cpp_ast, starting_point, libs, lib_dirs,
                            authors, version_major, version_minor, version_patch);
 }
@@ -194,6 +200,12 @@ int main(int argc, char** argv) {
         return -3;
     }
 
+    // license is optional and defaults to "MIT".
+    std::string license("MIT");
+    if (!opt_license.empty()) {
+        license = opt_license;
+    }
+
     std::string c_cmake_dir;
     if (!opt_c_cmake_dir.empty()) {
         c_cmake_dir = opt_c_cmake_dir;
@@ -236,7 +248,8 @@ int main(int argc, char** argv) {
         authors.emplace_back(std::string("Anders Langlands <anderslanglands@gmail.com>"));
     }
 
-    generate(opt_in_dir.c_str(), project_name.c_str(), c_dir.c_str(), c_cmake_dir,
+    generate(opt_in_dir.c_str(), project_name.c_str(), license.c_str(),
+             c_dir.c_str(), c_cmake_dir,
              rust_dir.c_str(), libs, lib_dirs, find_packages, target_link_libraries,
              authors, opt_version_major, opt_version_minor, opt_version_patch);
 
