@@ -619,6 +619,8 @@ include!(concat!(env!("OUT_DIR"), "/cppmm_abi_out/", "cppmmabi.rs"));
     for (const auto& entry : fs::directory_iterator(rust_src)) {
         if (entry.is_regular_file() &&
             entry.path().filename().extension() == ".rs" &&
+            entry.path().filename() != "cppmmabi.rs" &&
+            entry.path().filename() != "cppmmabi_generated.rs" &&
             entry.path().filename() != "lib.rs" &&
             entry.path().filename() != "test.rs") {
             // SPDLOG_DEBUG("got regular file {}", entry.path().string());
@@ -630,6 +632,16 @@ include!(concat!(env!("OUT_DIR"), "/cppmm_abi_out/", "cppmmabi.rs"));
             write_modules(entry.path());
         }
     }
+
+    out_lib.print(
+            R"(
+// cppmmabi.rs has an include! statement that reads the generated bindings.
+// cppmmabi_generated.rs contains pre-generated bindings for the x86_64 architecure
+// and is used when building under docs.rs.
+#[cfg_attr(docsrs, path = "cppmmabi_generated.rs")]
+pub mod cppmmabi;
+)"
+    );
 
     // write the test import and an empty test file
     auto p_test = rust_src / "test.rs";
@@ -644,7 +656,6 @@ fn it_works() {{
 }})");
 
     out_lib.print(R"#(
-
 #[cfg(test)]
 mod test;
 )#");
@@ -677,6 +688,7 @@ quick-xml = "0.22"
 
 [package.metadata.docs.rs]
 targets = ["x86_64-unknown-linux-gnu"]
+rustc-args = ["--cfg", "docsrs"]
 
 )",
                     project_name, version_major, version_minor, version_patch,
@@ -691,6 +703,7 @@ fn main() {{
     // Skip linking on docs.rs: https://docs.rs/about/builds#detecting-docsrs
     let building_docs = std::env::var("DOCS_RS").is_ok();
     if building_docs {{
+        println!("cargo:rustc-cfg=docsrs");
         return;
     }}
     let dst = cmake::Config::new("{0}").build();
@@ -712,6 +725,13 @@ fn main() {{
         panic!("failed");
     }}
 
+    // Copy the generated bindings to src/cppmm_generated.rs.
+    let cppmmabi_rs_str = format!("{{}}/cppmm_abi_out/cppmmabi.rs", out_dir);
+    let cppmmabi_rs = std::path::PathBuf::from(cppmmabi_rs_str);
+    let cppmmabi_generated = std::path::PathBuf::from("src/cppmmabi_generated.rs");
+    std::fs::copy(cppmmabi_rs.clone(), cppmmabi_generated.clone()).unwrap_or_else(|_| {{
+        panic!("build.rs: std::fs::copy failed");
+    }});
 
 )#",
                    c_cmake_dir.c_str(), project_name, version_major, version_minor);
@@ -726,7 +746,6 @@ fn main() {{
     }
 
     build_rs.print(R"(
-
     #[cfg(target_os = "linux")]
     println!("cargo:rustc-link-lib=dylib=stdc++");
     #[cfg(target_os = "macos")]
