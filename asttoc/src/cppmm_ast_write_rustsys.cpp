@@ -666,7 +666,7 @@ mod test;
 name = "{}-sys"
 version = "{}.{}.{}"
 authors = [{}]
-edition = "2018"
+edition = "2021"
 
 [build-dependencies]
 cmake = "0.1"
