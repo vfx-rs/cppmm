@@ -736,7 +736,7 @@ fn main() {{
             "cppmm_abi_in", 
             &format!("{{}}/cppmm_abi_out", out_dir), 
             &format!("{{}}/build/abigen.txt", out_dir)])
-        .output().expect("couldn't do the thing");
+        .output().expect("insert_abi.py failed to generate cppmm_abi_out");
 
     if !output.status.success() {{
         for line in std::str::from_utf8(&output.stderr).unwrap().lines() {{
