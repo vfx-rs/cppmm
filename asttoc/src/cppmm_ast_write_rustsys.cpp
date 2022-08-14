@@ -615,8 +615,22 @@ include!(concat!(env!("OUT_DIR"), "/cppmm_abi_out/", "cppmmabi.rs"));
         write_translation_unit(out_dir, out_lib, *tu, out_cppmmabi_in);
     }
 
+    // Generate rerun-if directives to avoid unnecessary rebuilds.
+    std::string change_detection;
+    change_detection += "    println!(\"cargo:rerun-if-env-changed=CMAKE_PREFIX_PATH\");\n";
+    change_detection += "    println!(\"cargo:rerun-if-changed=cppmm_abi_in/cppmmabi.rs\");\n";
+
     // now recurse through the src directory and write the mod files
     for (const auto& entry : fs::directory_iterator(rust_src)) {
+        if (entry.is_regular_file() &&
+            entry.path().filename().extension() == ".rs" &&
+            entry.path().filename() != "cppmmabi_generated.rs") {
+
+            change_detection += fmt::format(
+                "    println!(\"cargo:rerun-if-changed=src/{}\");\n",
+                entry.path().filename().string());
+        }
+
         if (entry.is_regular_file() &&
             entry.path().filename().extension() == ".rs" &&
             entry.path().filename() != "cppmmabi.rs" &&
@@ -703,6 +717,9 @@ rustc-args = ["--cfg", "docsrs"]
     auto build_rs = fmt::output_file((fs::path(out_dir) / "build.rs").string());
     build_rs.print(R"#(
 fn main() {{
+    // Change detection.
+    // https://doc.rust-lang.org/cargo/reference/build-scripts.html#change-detection
+{4}
     // Skip linking on docs.rs: https://docs.rs/about/builds#detecting-docsrs
     let building_docs = std::env::var("DOCS_RS").is_ok();
     if building_docs {{
@@ -737,7 +754,8 @@ fn main() {{
     }});
 
 )#",
-                   c_cmake_dir.c_str(), project_name, version_major, version_minor);
+        c_cmake_dir.c_str(), project_name, version_major, version_minor,
+        change_detection.c_str());
 
     for (const auto& d : lib_dirs) {
         build_rs.print("    println!(\"cargo:rustc-link-search=native={}\");\n",
@@ -753,8 +771,7 @@ fn main() {{
     println!("cargo:rustc-link-lib=dylib=stdc++");
     #[cfg(target_os = "macos")]
     println!("cargo:rustc-link-lib=dylib=c++");
-}}
-    )");
+}})");
 
 } // namespace rust_sys
 
