@@ -562,19 +562,22 @@ impl std::error::Error for Error {{
 }}
 
 use std::fmt;
-impl fmt::Display for Error {{
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {{
-)");
+
+impl fmt::Display for Error {{)");
 
     if (EXCEPTION_MAP.empty()) {
         out_lib.print(R"(
+    fn fmt(&self, _f: &mut fmt::Formatter<'_>) -> fmt::Result {{
         Ok(())
     }}
 }}
+
 )");
+
     } else {
 
         out_lib.print(R"(
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {{
         match self {{
     )");
 
@@ -588,6 +591,7 @@ impl fmt::Display for Error {{
         }}
     }}
 }}
+
 )");
     }
 
