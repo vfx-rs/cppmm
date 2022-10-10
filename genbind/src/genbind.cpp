@@ -2026,7 +2026,7 @@ void process_enum_decl(const EnumDecl* ed, std::string filename) {
     for (const auto& ecd : ed->enumerators()) {
         SPDLOG_DEBUG("        {}", ecd->getNameAsString());
         variants.push_back(std::make_pair(ecd->getNameAsString(),
-                                          ecd->getInitVal().toString(10)));
+                                          std::to_string(ecd->getInitVal().getExtValue())));
     }
 
     NodeId new_id = NODES.size();
@@ -2402,7 +2402,8 @@ int main(int argc_, const char** argv_) {
 
     project_includes = parse_project_includes(argc, argv);
 
-    CommonOptionsParser OptionsParser(argc, argv, CppmmCategory);
+    ExitOnError eoe;
+    CommonOptionsParser OptionsParser = eoe(CommonOptionsParser::create(argc, argv, CppmmCategory));
 
     switch (opt_verbosity) {
     case 0:

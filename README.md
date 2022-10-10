@@ -145,7 +145,7 @@ extern "C" {
 
 
 ## Quick start
-You must have LLVM and clang 11.0.0 installed. To run the tests you'll need OpenEXR 2.5.5 installed. Other versions may work but the tests will fail as they rely on diffing the output, which will have the version numbers baked into the type names.
+You must have LLVM and clang 14.0.0 installed. To run the tests you'll need OpenEXR 2.5.5 installed. Other versions may work but the tests will fail as they rely on diffing the output, which will have the version numbers baked into the type names.
 
 ### Checkout
 The repository includes spdlog and nlohmann::json as submodules, so clone with `--recursive`:

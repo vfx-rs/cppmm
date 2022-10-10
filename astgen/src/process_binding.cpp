@@ -811,7 +811,7 @@ void process_enum_decl(const EnumDecl* ed, std::string filename) {
     for (const auto& ecd : ed->enumerators()) {
         SPDLOG_DEBUG("        {}", ecd->getNameAsString());
         variants.push_back(std::make_pair(ecd->getNameAsString(),
-                                          ecd->getInitVal().toString(10)));
+                                          std::to_string(ecd->getInitVal().getExtValue())));
     }
 
     std::vector<std::string> attrs = get_attrs(ed);
@@ -860,7 +860,7 @@ void process_library_enum_decl(const EnumDecl* ed, std::string filename,
     for (const auto& ecd : ed->enumerators()) {
         SPDLOG_DEBUG("        {}", ecd->getNameAsString());
         variants.push_back(std::make_pair(ecd->getNameAsString(),
-                                          ecd->getInitVal().toString(10)));
+                                          std::to_string(ecd->getInitVal().getExtValue())));
     }
 
     NodeId new_id = NODES.size();

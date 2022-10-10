@@ -129,7 +129,7 @@ mangle_template_args(const TemplateArgumentList& args) {
             result.push_back("NullPtr");
         } else if (arg.getKind() == TemplateArgument::ArgKind::Integral) {
             result.push_back(
-                ps::replace(arg.getAsIntegral().toString(10), "-", "neg"));
+                ps::replace(std::to_string(arg.getAsIntegral().getExtValue()), "-", "neg"));
         } else if (arg.getKind() == TemplateArgument::ArgKind::Template) {
             result.push_back("Template");
         } else if (arg.getKind() ==
