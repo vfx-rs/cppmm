@@ -102,7 +102,7 @@ static cl::list<std::string>
 int main(int argc_, const char** argv_) {
     // set up logging
     auto _console = spdlog::stdout_color_mt("console");
-    std::string cwd = fs::current_path();
+    const char* cwd = fs::current_path().c_str();
 
     // FIXME: there's got to be a more sensible way of doing this but I can't
     // figure it out...
@@ -143,7 +143,8 @@ int main(int argc_, const char** argv_) {
     // grab any user-specified include directories from the command line
     cppmm::PROJECT_INCLUDES = parse_project_includes(argc, argv, cwd);
 
-    CommonOptionsParser OptionsParser(argc, argv, CppmmCategory);
+    ExitOnError eoe;
+    CommonOptionsParser OptionsParser = eoe(CommonOptionsParser::create(argc, argv, CppmmCategory));
 
     // Set up logging
     switch (opt_verbosity) {
